@@ -6,7 +6,7 @@
   <title>Worldwright | Witnessed R&amp;D Workspace</title>
   <meta
     name="description"
-    content="Worldwright is a witnessed R&amp;D workspace for small teams turning complex scientific evidence into trusted decisions."
+    content="Worldwright is a witnessed R&amp;D workspace for growing teams turning complex scientific evidence into trusted decisions."
   >
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,6 +26,8 @@
       <nav class="site-nav" aria-label="Primary">
         <a href="#story">Problem</a>
         <a href="#product">Product</a>
+        <a href="#example">Example</a>
+        <a href="#live-world">Live World</a>
         <a href="#difference">Difference</a>
         <a href="#audience">Audience</a>
       </nav>
@@ -38,7 +40,7 @@
           <p class="eyebrow">Witnessed R&amp;D workspace</p>
           <h1>Turn complex scientific evidence into decisions others can trust.</h1>
           <p class="lede">
-            Worldwright gives small R&amp;D teams one inspectable workspace for simulations,
+            Worldwright gives R&amp;D teams one inspectable workspace for simulations,
             measurements, disagreements, policy, provenance, and decision history.
           </p>
           <div class="hero__actions">
@@ -48,12 +50,43 @@
           <ul class="signal-list">
             <li>One shared world for claims, evidence, and decisions.</li>
             <li>Simulations and measurements stay linked to their witness trail.</li>
-            <li>Trusted decisions can travel beyond the room that made them.</li>
+            <li>Trusted decisions can travel across the team and beyond the room that made them.</li>
           </ul>
         </div>
 
         <div class="hero__visual" aria-hidden="true">
           <div class="graph-stage">
+            <svg class="hero-diagram" viewBox="0 0 760 620" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="heroPathPrimary" x1="52" y1="96" x2="638" y2="454" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#8AB4FF" stop-opacity="0.18"/>
+                  <stop offset="0.48" stop-color="#86C3B0" stop-opacity="0.48"/>
+                  <stop offset="1" stop-color="#F4BC74" stop-opacity="0.22"/>
+                </linearGradient>
+                <linearGradient id="heroPathSecondary" x1="124" y1="180" x2="582" y2="332" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#86C3B0" stop-opacity="0.06"/>
+                  <stop offset="0.5" stop-color="#86C3B0" stop-opacity="0.34"/>
+                  <stop offset="1" stop-color="#8AB4FF" stop-opacity="0.08"/>
+                </linearGradient>
+                <radialGradient id="heroHalo" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(386 286) rotate(90) scale(204 260)">
+                  <stop stop-color="#86C3B0" stop-opacity="0.12"/>
+                  <stop offset="1" stop-color="#86C3B0" stop-opacity="0"/>
+                </radialGradient>
+              </defs>
+              <ellipse cx="386" cy="286" rx="260" ry="204" fill="url(#heroHalo)"/>
+              <path class="hero-diagram__path hero-diagram__path--primary" d="M88 126C128 110 208 110 270 154C338 202 360 250 430 262C502 276 584 244 652 278"/>
+              <path class="hero-diagram__path hero-diagram__path--secondary" d="M146 388C214 350 278 332 350 356C430 384 482 446 596 432"/>
+              <path class="hero-diagram__path hero-diagram__path--secondary" d="M154 236C202 246 246 274 286 316C334 364 414 396 474 370"/>
+              <g class="hero-diagram__rings">
+                <circle cx="120" cy="122" r="12"/>
+                <circle cx="274" cy="156" r="10"/>
+                <circle cx="430" cy="262" r="14"/>
+                <circle cx="650" cy="278" r="12"/>
+                <circle cx="148" cy="388" r="11"/>
+                <circle cx="352" cy="356" r="12"/>
+                <circle cx="596" cy="432" r="13"/>
+              </g>
+            </svg>
             <span class="graph-line graph-line--one"></span>
             <span class="graph-line graph-line--two"></span>
             <span class="graph-line graph-line--three"></span>
@@ -111,10 +144,223 @@
         <p>Decisions linked to evidence</p>
       </section>
 
+      <section class="section example" id="example">
+        <div class="section-heading">
+          <p class="eyebrow">A real example</p>
+          <h2>A biotech R&amp;D team is deciding whether to trust a temperature-growth hypothesis.</h2>
+          <p class="section-copy">
+            One paper suggests heat stress reduces sustained growth above 34C. The team runs
+            a simulation, ingests a lab measurement, sees a disagreement, and has to decide
+            whether the hypothesis can still be promoted.
+          </p>
+        </div>
+
+        <div class="example-grid">
+          <ol class="example-track">
+            <li class="example-step">
+              <span class="example-step__label">Source claim</span>
+              <h3>Paper sets the expectation</h3>
+              <p>
+                The claim enters the world with its source: heat stress appears to reduce
+                sustained growth above 34C.
+              </p>
+            </li>
+            <li class="example-step">
+              <span class="example-step__label">Simulation witness</span>
+              <h3>The model predicts a path</h3>
+              <p>
+                The team runs a witnessed simulation of the temperature-growth scenario and
+                records a predicted final OD600 of <strong>0.79</strong>.
+              </p>
+            </li>
+            <li class="example-step">
+              <span class="example-step__label">Observed measurement</span>
+              <h3>The lab reports what actually happened</h3>
+              <p>
+                A Week 1 flask measurement arrives with provenance note and context. The
+                observed final OD600 comes in at <strong>0.72</strong>.
+              </p>
+            </li>
+            <li class="example-step">
+              <span class="example-step__label">Disagreement</span>
+              <h3>The gap becomes explicit</h3>
+              <p>
+                Worldwright opens a disagreement record instead of hiding the mismatch in
+                commentary or email.
+              </p>
+            </li>
+            <li class="example-step">
+              <span class="example-step__label">Governed decision</span>
+              <h3>The team can repair before it promotes</h3>
+              <p>
+                Repair, policy, authority, and acceptance stay attached, so the final
+                decision can be defended later by anyone who inherits it.
+              </p>
+            </li>
+          </ol>
+
+          <aside class="example-panel">
+            <p class="world-console__eyebrow">Why this helps</p>
+            <h3>The decision is not just yes or no.</h3>
+            <p>
+              In Worldwright, the decision carries the paper, the simulation run, the
+              measurement, the disagreement, the repair path, and the final accepted state.
+            </p>
+
+            <dl class="example-stats">
+              <div>
+                <dt>Prediction</dt>
+                <dd>0.79 OD600</dd>
+              </div>
+              <div>
+                <dt>Observation</dt>
+                <dd>0.72 OD600</dd>
+              </div>
+              <div>
+                <dt>Decision mode</dt>
+                <dd>Review before promotion</dd>
+              </div>
+            </dl>
+
+            <div class="example-note">
+              <p class="example-note__title">Who this clarifies things for</p>
+              <p>
+                A scientist can inspect the method, a founder can defend the call, a partner
+                can see the evidence, and a funder can see the discipline behind the answer.
+              </p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="section live-world" id="live-world">
+        <div class="section-heading live-world__heading">
+          <p class="eyebrow">The spirit of the platform</p>
+          <h2>Witness, error, and healing should live on the surface.</h2>
+          <p class="section-copy">
+            Worldwright is not only a place to present clean conclusions. It is a place
+            where drift can appear, witness can activate, error can become explicit, and
+            healing can happen without deleting what happened before. The interactive world
+            below is a simplified version of that same kind of decision loop.
+          </p>
+        </div>
+
+        <div class="live-world-shell" data-world-mode="stable">
+          <div class="world-stage" aria-hidden="true">
+            <span class="world-link world-link--one"></span>
+            <span class="world-link world-link--two"></span>
+            <span class="world-link world-link--three"></span>
+            <span class="world-link world-link--four"></span>
+            <span class="world-link world-link--five"></span>
+
+            <article class="world-node world-node--claim" data-node="claim">
+              <span class="world-node__eyebrow">Claim</span>
+              <h3>Peak remains promotable</h3>
+              <p>The hypothesis keeps its context while the state evolves.</p>
+              <span class="world-chip" data-chip="claim">stable</span>
+            </article>
+
+            <article class="world-node world-node--simulation" data-node="simulation">
+              <span class="world-node__eyebrow">Simulation witness</span>
+              <h3>Predicted final OD600</h3>
+              <p><strong data-field="simulation">0.79</strong> in accepted context.</p>
+              <span class="world-chip" data-chip="simulation">witnessed</span>
+            </article>
+
+            <article class="world-node world-node--observation" data-node="observation">
+              <span class="world-node__eyebrow">Observed measurement</span>
+              <h3>Lab result with provenance</h3>
+              <p><strong data-field="observation">0.79</strong> attached to the notebook entry.</p>
+              <span class="world-chip" data-chip="observation">aligned</span>
+            </article>
+
+            <article class="world-node world-node--disagreement" data-node="disagreement">
+              <span class="world-node__eyebrow">Disagreement record</span>
+              <h3>Current delta</h3>
+              <p><strong data-field="delta">No active gap</strong> across model and observation.</p>
+              <span class="world-chip" data-chip="disagreement">dormant</span>
+            </article>
+
+            <article class="world-node world-node--repair" data-node="repair">
+              <span class="world-node__eyebrow">Repair cycle</span>
+              <h3>Healing path</h3>
+              <p><strong data-field="repair">Standby</strong> until the team proposes a governed response.</p>
+              <span class="world-chip" data-chip="repair">standby</span>
+            </article>
+
+            <article class="world-node world-node--decision" data-node="decision">
+              <span class="world-node__eyebrow">Decision state</span>
+              <h3>Promotion status</h3>
+              <p><strong data-field="decision">Trusted</strong> because evidence is still aligned.</p>
+              <span class="world-chip" data-chip="decision">trusted</span>
+            </article>
+          </div>
+
+          <aside class="world-console">
+            <div class="world-console__status">
+              <p class="world-console__eyebrow">Live world</p>
+              <h3 id="world-state-title">Aligned and inspectable</h3>
+              <p id="world-state-copy">
+                The workspace begins in a calm accepted state with claim, simulation,
+                observation, and decision linked inside one world.
+              </p>
+            </div>
+
+            <div class="world-controls" role="group" aria-label="Worldwright interactive sequence">
+              <button class="world-button" type="button" data-action="introduce-error">Introduce drift</button>
+              <button class="world-button" type="button" data-action="inspect-witness">Inspect witness</button>
+              <button class="world-button" type="button" data-action="propose-healing">Propose healing</button>
+              <button class="world-button" type="button" data-action="accept-healing">Accept healing</button>
+              <button class="world-button world-button--ghost" type="button" data-action="reset">Replay sequence</button>
+            </div>
+
+            <div class="world-trail">
+              <div class="world-trail__header">
+                <p class="world-console__eyebrow">Witness trail</p>
+                <span class="world-trail__state" id="world-trail-state">accepted world</span>
+              </div>
+              <ol class="witness-list" id="witness-list">
+                <li data-entry="alignment">Accepted world: simulation and observation are aligned.</li>
+                <li data-entry="error">No active disagreement record.</li>
+                <li data-entry="repair">No repair cycle is open.</li>
+                <li data-entry="decision">Decision remains promotable and trusted.</li>
+              </ol>
+            </div>
+          </aside>
+        </div>
+      </section>
+
       <section class="story section" id="story">
         <div class="section-heading">
           <p class="eyebrow">The problem</p>
-          <h2>Small teams rarely lack evidence. They lack a shared world for it.</h2>
+          <h2>R&amp;D teams rarely lack evidence. They lack a shared world for it.</h2>
+        </div>
+        <div class="story-graphic" aria-hidden="true">
+          <svg viewBox="0 0 1120 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="storyFlow" x1="274" y1="92" x2="850" y2="92" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#8AB4FF" stop-opacity="0"/>
+                <stop offset="0.5" stop-color="#86C3B0" stop-opacity="0.62"/>
+                <stop offset="1" stop-color="#F4BC74" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <rect x="0.5" y="0.5" width="1119" height="179" rx="28" class="story-graphic__frame"/>
+            <g class="story-graphic__fragments">
+              <rect x="52" y="44" width="160" height="88" rx="18"/>
+              <rect x="244" y="30" width="132" height="72" rx="18"/>
+              <rect x="246" y="114" width="148" height="34" rx="17"/>
+            </g>
+            <path class="story-graphic__flow" d="M418 92H790"/>
+            <circle class="story-graphic__pulse" cx="604" cy="92" r="28"/>
+            <g class="story-graphic__world">
+              <rect x="818" y="34" width="248" height="112" rx="22"/>
+              <path d="M852 66H930"/>
+              <path d="M852 92H1018"/>
+              <path d="M852 118H972"/>
+              <circle cx="1008" cy="72" r="12"/>
+              <circle cx="1042" cy="104" r="16"/>
+            </g>
+          </svg>
         </div>
         <div class="story__grid">
           <article class="story-card">
@@ -214,9 +460,29 @@
 
           <aside class="workflow-note">
             <p class="workflow-note__eyebrow">For real teams</p>
+            <svg class="workflow-diagram" viewBox="0 0 320 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <defs>
+                <linearGradient id="workflowOrbit" x1="52" y1="98" x2="270" y2="160" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#8AB4FF" stop-opacity="0.3"/>
+                  <stop offset="0.5" stop-color="#86C3B0" stop-opacity="0.56"/>
+                  <stop offset="1" stop-color="#F4BC74" stop-opacity="0.32"/>
+                </linearGradient>
+              </defs>
+              <rect x="0.5" y="0.5" width="319" height="219" rx="24" class="workflow-diagram__frame"/>
+              <path class="workflow-diagram__orbit" d="M58 136C82 76 134 54 184 54C236 54 270 82 270 122C270 160 238 182 194 182C134 182 92 160 58 136Z"/>
+              <circle class="workflow-diagram__node workflow-diagram__node--a" cx="86" cy="120" r="14"/>
+              <circle class="workflow-diagram__node workflow-diagram__node--b" cx="148" cy="72" r="14"/>
+              <circle class="workflow-diagram__node workflow-diagram__node--c" cx="228" cy="106" r="14"/>
+              <circle class="workflow-diagram__node workflow-diagram__node--d" cx="184" cy="170" r="14"/>
+              <path class="workflow-diagram__mark" d="M176 168L182 174L194 160"/>
+              <path class="workflow-diagram__tick" d="M81 120H91"/>
+              <path class="workflow-diagram__tick" d="M143 72H153"/>
+              <path class="workflow-diagram__tick" d="M223 106H233"/>
+            </svg>
             <p>
               Scientists, data scientists, engineers, managers, and founders can work from
-              the same decision surface without flattening their different roles.
+              the same decision surface as coordination gets denser, without flattening
+              their different roles.
             </p>
           </aside>
         </div>
@@ -244,10 +510,11 @@
             </p>
           </article>
           <article class="difference-card">
-            <h3>Not built only for large orgs</h3>
+            <h3>Built to scale with the team</h3>
             <p>
-              It is designed for small R&amp;D teams that still need rigor when the people,
-              money, and evidence are tightly coupled.
+              It is designed for growing R&amp;D teams, including medium-sized groups, where
+              more people, more evidence, and more downstream consequence require stronger
+              shared trust instead of heavier fragmentation.
             </p>
           </article>
         </div>
@@ -258,8 +525,9 @@
           <p class="eyebrow">Who it is for</p>
           <h2>The people who have to live with the decision.</h2>
           <p class="section-copy">
-            Worldwright is built for small-company R&amp;D teams and the people around them who
-            need to understand not just the answer, but why the answer deserves trust.
+            Worldwright is built for R&amp;D teams as they grow, from compact groups to
+            medium-sized organizations, and for the people around them who need to understand
+            not just the answer, but why the answer deserves trust.
           </p>
         </div>
 
@@ -280,7 +548,7 @@
           <p class="eyebrow">worldwright.io</p>
           <h2>Build decisions that can stand up outside the room.</h2>
           <p>
-            Worldwright is a witnessed R&amp;D workspace for small teams turning complex
+            Worldwright is a witnessed R&amp;D workspace for growing teams turning complex
             scientific evidence into trusted decisions.
           </p>
           <div class="hero__actions">
@@ -291,5 +559,6 @@
       </section>
     </main>
   </div>
+  <script src="script.js"></script>
 </body>
 </html>
