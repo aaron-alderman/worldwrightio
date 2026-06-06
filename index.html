@@ -24,10 +24,11 @@
         <span class="brand__text">Worldwright</span>
       </a>
       <nav class="site-nav" aria-label="Primary">
+        <a href="how-it-works.html">How it works</a>
         <a href="#story">Problem</a>
         <a href="#product">Product</a>
         <a href="#example">Example</a>
-        <a href="#live-world">Live World</a>
+        <a href="live-world.html">Live World</a>
         <a href="#difference">Difference</a>
         <a href="#audience">Audience</a>
       </nav>
@@ -44,7 +45,7 @@
             measurements, disagreements, policy, provenance, and decision history.
           </p>
           <div class="hero__actions">
-            <a class="button" href="#product">See how it works</a>
+            <a class="button" href="how-it-works.html">See how it works</a>
             <a class="text-link" href="#difference">Why this is different</a>
           </div>
           <ul class="signal-list">
@@ -233,100 +234,18 @@
         </div>
       </section>
 
-      <section class="section live-world" id="live-world">
-        <div class="section-heading live-world__heading">
-          <p class="eyebrow">The spirit of the platform</p>
-          <h2>Witness, error, and healing should live on the surface.</h2>
-          <p class="section-copy">
-            Worldwright is not only a place to present clean conclusions. It is a place
-            where drift can appear, witness can activate, error can become explicit, and
-            healing can happen without deleting what happened before. The interactive world
-            below is a simplified version of that same kind of decision loop.
+      <section class="section">
+        <div class="closing__panel">
+          <p class="eyebrow">Live World</p>
+          <h2>See one scientific world drift, witness itself, repair, and heal.</h2>
+          <p>
+            We moved the interactive world onto its own page so it has room to explain
+            the scenario, slow down the transitions, and show the full witness-to-healing sequence.
           </p>
-        </div>
-
-        <div class="live-world-shell" data-world-mode="stable">
-          <div class="world-stage" aria-hidden="true">
-            <span class="world-link world-link--one"></span>
-            <span class="world-link world-link--two"></span>
-            <span class="world-link world-link--three"></span>
-            <span class="world-link world-link--four"></span>
-            <span class="world-link world-link--five"></span>
-
-            <article class="world-node world-node--claim" data-node="claim">
-              <span class="world-node__eyebrow">Claim</span>
-              <h3>Peak remains promotable</h3>
-              <p>The hypothesis keeps its context while the state evolves.</p>
-              <span class="world-chip" data-chip="claim">stable</span>
-            </article>
-
-            <article class="world-node world-node--simulation" data-node="simulation">
-              <span class="world-node__eyebrow">Simulation witness</span>
-              <h3>Predicted final OD600</h3>
-              <p><strong data-field="simulation">0.79</strong> in accepted context.</p>
-              <span class="world-chip" data-chip="simulation">witnessed</span>
-            </article>
-
-            <article class="world-node world-node--observation" data-node="observation">
-              <span class="world-node__eyebrow">Observed measurement</span>
-              <h3>Lab result with provenance</h3>
-              <p><strong data-field="observation">0.79</strong> attached to the notebook entry.</p>
-              <span class="world-chip" data-chip="observation">aligned</span>
-            </article>
-
-            <article class="world-node world-node--disagreement" data-node="disagreement">
-              <span class="world-node__eyebrow">Disagreement record</span>
-              <h3>Current delta</h3>
-              <p><strong data-field="delta">No active gap</strong> across model and observation.</p>
-              <span class="world-chip" data-chip="disagreement">dormant</span>
-            </article>
-
-            <article class="world-node world-node--repair" data-node="repair">
-              <span class="world-node__eyebrow">Repair cycle</span>
-              <h3>Healing path</h3>
-              <p><strong data-field="repair">Standby</strong> until the team proposes a governed response.</p>
-              <span class="world-chip" data-chip="repair">standby</span>
-            </article>
-
-            <article class="world-node world-node--decision" data-node="decision">
-              <span class="world-node__eyebrow">Decision state</span>
-              <h3>Promotion status</h3>
-              <p><strong data-field="decision">Trusted</strong> because evidence is still aligned.</p>
-              <span class="world-chip" data-chip="decision">trusted</span>
-            </article>
+          <div class="hero__actions">
+            <a class="button" href="live-world.html">Open the live world</a>
+            <a class="text-link" href="how-it-works.html">Read the platform model</a>
           </div>
-
-          <aside class="world-console">
-            <div class="world-console__status">
-              <p class="world-console__eyebrow">Live world</p>
-              <h3 id="world-state-title">Aligned and inspectable</h3>
-              <p id="world-state-copy">
-                The workspace begins in a calm accepted state with claim, simulation,
-                observation, and decision linked inside one world.
-              </p>
-            </div>
-
-            <div class="world-controls" role="group" aria-label="Worldwright interactive sequence">
-              <button class="world-button" type="button" data-action="introduce-error">Introduce drift</button>
-              <button class="world-button" type="button" data-action="inspect-witness">Inspect witness</button>
-              <button class="world-button" type="button" data-action="propose-healing">Propose healing</button>
-              <button class="world-button" type="button" data-action="accept-healing">Accept healing</button>
-              <button class="world-button world-button--ghost" type="button" data-action="reset">Replay sequence</button>
-            </div>
-
-            <div class="world-trail">
-              <div class="world-trail__header">
-                <p class="world-console__eyebrow">Witness trail</p>
-                <span class="world-trail__state" id="world-trail-state">accepted world</span>
-              </div>
-              <ol class="witness-list" id="witness-list">
-                <li data-entry="alignment">Accepted world: simulation and observation are aligned.</li>
-                <li data-entry="error">No active disagreement record.</li>
-                <li data-entry="repair">No repair cycle is open.</li>
-                <li data-entry="decision">Decision remains promotable and trusted.</li>
-              </ol>
-            </div>
-          </aside>
         </div>
       </section>
 
@@ -553,7 +472,7 @@
           </p>
           <div class="hero__actions">
             <a class="button" href="#top">Back to top</a>
-            <a class="text-link" href="#story">Read the problem</a>
+            <a class="text-link" href="how-it-works.html">Read how it works</a>
           </div>
         </div>
       </section>

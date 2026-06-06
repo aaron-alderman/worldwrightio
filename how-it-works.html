@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How Worldwright Works</title>
+  <meta
+    name="description"
+    content="How Worldwright works: the philosophy, DESIRE language, the Relational Virtual Machine, role-specific views, and example platform surfaces."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .detail-page .site-shell {
+      width: min(calc(100% - 40px), 1240px);
+    }
+
+    .detail-hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
+      gap: 24px;
+      align-items: start;
+      padding: 34px 0 26px;
+    }
+
+    .detail-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0 -3% 10%;
+      z-index: -1;
+      border-radius: 40px;
+      background:
+        radial-gradient(circle at 18% 24%, rgba(138, 180, 255, 0.12), transparent 24%),
+        radial-gradient(circle at 78% 38%, rgba(134, 195, 176, 0.1), transparent 24%),
+        radial-gradient(circle at 68% 82%, rgba(244, 188, 116, 0.08), transparent 20%);
+    }
+
+    .detail-hero__copy {
+      max-width: 820px;
+    }
+
+    .detail-hero__copy h1 {
+      max-width: 11ch;
+      font-size: clamp(3rem, 6vw, 5rem);
+    }
+
+    .detail-hero__summary {
+      display: grid;
+      gap: 14px;
+      padding: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 28px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03)),
+        rgba(10, 20, 30, 0.84);
+      box-shadow: var(--shadow);
+    }
+
+    .detail-hero__summary ul {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+    }
+
+    .detail-section {
+      position: relative;
+      padding: 44px 0;
+      isolation: isolate;
+    }
+
+    .detail-section::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      border-radius: 34px;
+      pointer-events: none;
+    }
+
+    .detail-section--philosophy::before {
+      background:
+        radial-gradient(circle at 14% 18%, rgba(138, 180, 255, 0.08), transparent 22%),
+        radial-gradient(circle at 82% 78%, rgba(134, 195, 176, 0.06), transparent 24%);
+    }
+
+    .detail-section--stack::before {
+      background:
+        radial-gradient(circle at 82% 18%, rgba(244, 188, 116, 0.08), transparent 22%),
+        radial-gradient(circle at 20% 72%, rgba(216, 140, 164, 0.05), transparent 22%);
+    }
+
+    .detail-section--views::before {
+      background:
+        radial-gradient(circle at 12% 72%, rgba(134, 195, 176, 0.06), transparent 22%),
+        radial-gradient(circle at 84% 24%, rgba(138, 180, 255, 0.06), transparent 24%);
+    }
+
+    .detail-section--platforms::before {
+      background:
+        radial-gradient(circle at 18% 16%, rgba(244, 188, 116, 0.08), transparent 24%),
+        radial-gradient(circle at 78% 86%, rgba(216, 140, 164, 0.06), transparent 22%);
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .card,
+    .quote-panel,
+    .stack-panel,
+    .screen-card,
+    .view-card {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.03)),
+        rgba(10, 20, 30, 0.84);
+      box-shadow: var(--shadow);
+    }
+
+    .quote-panel,
+    .stack-panel {
+      padding: 24px;
+    }
+
+    .quote-panel blockquote {
+      margin: 0;
+      color: var(--text);
+      font-family: "Fraunces", Georgia, serif;
+      font-size: 1.6rem;
+      line-height: 1.12;
+    }
+
+    .quote-panel p {
+      margin: 14px 0 0;
+    }
+
+    .principle-grid,
+    .view-grid,
+    .screen-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .principle-grid,
+    .view-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .screen-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .card,
+    .view-card,
+    .screen-card {
+      position: relative;
+      overflow: hidden;
+      padding: 22px;
+    }
+
+    .card::before,
+    .view-card::before,
+    .screen-card::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, rgba(138, 180, 255, 0.9), rgba(134, 195, 176, 0.8), rgba(244, 188, 116, 0.7));
+    }
+
+    .card:nth-child(2)::before,
+    .card:nth-child(4)::before,
+    .view-card:nth-child(2)::before,
+    .view-card:nth-child(5)::before,
+    .screen-card:nth-child(2)::before,
+    .screen-card:nth-child(4)::before {
+      background: linear-gradient(90deg, rgba(244, 188, 116, 0.88), rgba(216, 140, 164, 0.74));
+    }
+
+    .card:nth-child(3)::before,
+    .view-card:nth-child(3)::before,
+    .screen-card:nth-child(3)::before,
+    .screen-card:nth-child(5)::before {
+      background: linear-gradient(90deg, rgba(134, 195, 176, 0.88), rgba(138, 180, 255, 0.74));
+    }
+
+    .micro-label {
+      display: inline-flex;
+      margin-bottom: 10px;
+      color: var(--accent-strong);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stack-flow {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .layer-card {
+      padding: 18px 18px 18px 22px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.04);
+      box-shadow: inset 4px 0 0 rgba(134, 195, 176, 0.24);
+    }
+
+    .layer-card:nth-child(1) { box-shadow: inset 4px 0 0 rgba(138, 180, 255, 0.28); }
+    .layer-card:nth-child(2) { box-shadow: inset 4px 0 0 rgba(134, 195, 176, 0.28); }
+    .layer-card:nth-child(3) { box-shadow: inset 4px 0 0 rgba(244, 188, 116, 0.28); }
+    .layer-card:nth-child(4) { box-shadow: inset 4px 0 0 rgba(216, 140, 164, 0.28); }
+
+    .layer-card h3,
+    .card h3,
+    .view-card h3,
+    .screen-card h3 {
+      margin-bottom: 8px;
+    }
+
+    .code-panel {
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(7, 17, 27, 0.66);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .code-panel pre {
+      margin: 0;
+      overflow-x: auto;
+      color: var(--text);
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .code-note {
+      margin-top: 12px;
+      font-size: 0.96rem;
+    }
+
+    .view-card ul {
+      margin: 12px 0 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .screen-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .screen-dot-row {
+      display: inline-flex;
+      gap: 8px;
+    }
+
+    .screen-dot-row span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.16);
+    }
+
+    .screen-dot-row span:nth-child(1) { background: rgba(138, 180, 255, 0.5); }
+    .screen-dot-row span:nth-child(2) { background: rgba(134, 195, 176, 0.5); }
+    .screen-dot-row span:nth-child(3) { background: rgba(244, 188, 116, 0.5); }
+
+    .screen-layout {
+      display: grid;
+      gap: 10px;
+    }
+
+    .screen-bar,
+    .screen-pill,
+    .screen-block,
+    .screen-row {
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .screen-bar {
+      height: 14px;
+      width: 54%;
+    }
+
+    .screen-row {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 10px;
+      background: transparent;
+    }
+
+    .screen-block {
+      min-height: 72px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .screen-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 12px;
+      width: fit-content;
+      font-family: "IBM Plex Mono", "Courier New", monospace;
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+
+    .screen-card--workspace .screen-pill { background: rgba(138, 180, 255, 0.14); }
+    .screen-card--witness .screen-pill { background: rgba(134, 195, 176, 0.14); }
+    .screen-card--decision .screen-pill { background: rgba(244, 188, 116, 0.14); }
+    .screen-card--external .screen-pill { background: rgba(216, 140, 164, 0.14); }
+    .screen-card--platform .screen-pill { background: rgba(134, 195, 176, 0.14); }
+
+    .platform-demo {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+      padding: 18px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(7, 17, 27, 0.58);
+    }
+
+    .platform-demo ol {
+      margin: 0;
+      padding-left: 18px;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+    }
+
+    .section-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 1080px) {
+      .detail-hero,
+      .section-grid,
+      .example-grid,
+      .screen-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .detail-page .site-shell {
+        width: min(calc(100% - 24px), 1240px);
+      }
+
+      .detail-hero__copy h1 {
+        max-width: none;
+        font-size: clamp(2.7rem, 12.5vw, 4.2rem);
+      }
+
+      .principle-grid,
+      .view-grid,
+      .screen-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .example-track,
+      .stack-flow {
+        gap: 14px;
+      }
+
+      .example-step,
+      .layer-card {
+        padding-left: 22px;
+      }
+    }
+  </style>
+</head>
+<body class="detail-page">
+  <div class="site-shell">
+    <header class="site-header">
+      <a class="brand" href="index.html" aria-label="Worldwright home">
+        <span class="brand__mark"></span>
+        <span class="brand__text">Worldwright</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href="#philosophy">Philosophy</a>
+        <a href="#desire">DESIRE</a>
+        <a href="#rvm">RVM</a>
+        <a href="#views">Views</a>
+        <a href="#platforms">Platforms</a>
+      </nav>
+      <a class="button button--ghost" href="live-world.html">Live World</a>
+    </header>
+
+    <main>
+      <section class="detail-hero">
+        <div class="detail-hero__copy">
+          <p class="eyebrow">How Worldwright works</p>
+          <h1>One platform, one world, many ways to inspect it.</h1>
+          <p class="lede">
+            Worldwright combines a collaboration philosophy, an authored language stack,
+            a replayable runtime substrate, and multiple projections for different people
+            working on the same decision.
+          </p>
+          <div class="section-actions">
+            <a class="button" href="#philosophy">Start with the philosophy</a>
+            <a class="text-link" href="index.html">Back to the main page</a>
+          </div>
+        </div>
+
+        <aside class="detail-hero__summary">
+          <p class="micro-label">This page covers</p>
+          <ul>
+            <li>Why Worldwright treats the workspace as a living world, not a dashboard.</li>
+            <li>How DESIRE, the declarative world language, relates to the Relational Virtual Machine.</li>
+            <li>Why replay, witness, and lowering matter.</li>
+            <li>How scientists, engineers, founders, partners, and funders see different views of the same world.</li>
+            <li>What platform surfaces can look like in practice.</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="detail-section detail-section--philosophy" id="philosophy">
+        <div class="section-heading">
+          <p class="eyebrow">The philosophy</p>
+          <h2>The workspace is not outside the world. It is part of the world.</h2>
+          <p class="section-copy">
+            In the narrative foundation for Worldwright, the system begins with a context,
+            not with a pile of tools. Atoms exist, maps transform them, and witnesses make
+            process holdable over time. That is why error, policy, simulation, repair, and
+            acceptance can all live in the same inspectable place.
+          </p>
+        </div>
+
+        <div class="section-grid">
+          <div class="principle-grid">
+            <article class="card">
+              <p class="micro-label">World first</p>
+              <h3>Start from context, not from disconnected software pieces.</h3>
+              <p>A world is the bounded place where evidence can exist, change, be witnessed, and be remembered.</p>
+            </article>
+            <article class="card">
+              <p class="micro-label">Witness first</p>
+              <h3>Process matters as much as state.</h3>
+              <p>A witness is how the platform preserves what happened, under which conditions, with which inputs and outputs.</p>
+            </article>
+            <article class="card">
+              <p class="micro-label">Error first-class</p>
+              <h3>Failure is not side noise.</h3>
+              <p>Disagreement, failed process, and unsafe promotion are part of the world model, so they can be inspected instead of hidden.</p>
+            </article>
+            <article class="card">
+              <p class="micro-label">Healing without erasure</p>
+              <h3>Repair should preserve the path.</h3>
+              <p>The platform is designed so a world can heal, learn, and continue while keeping witness of the break.</p>
+            </article>
+          </div>
+
+          <aside class="quote-panel">
+            <p class="micro-label">Operational consequence</p>
+            <blockquote>
+              A decision is not just an answer. It is a witnessed path through evidence,
+              disagreement, policy, repair, and acceptance.
+            </blockquote>
+            <p>
+              That is why Worldwright can feel like a scientific workspace, a runtime, and
+              a governance surface at the same time: they are all views over one evolving world.
+            </p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="detail-section detail-section--stack" id="desire">
+        <div class="section-heading">
+          <p class="eyebrow">DESIRE language</p>
+          <h2>DESIRE is the authored language for declaring how the world behaves.</h2>
+          <p class="section-copy">
+            DESIRE is the syntax of the declarative world. It is where workflows, views,
+            policies, adapters, and domain meaning can be written in authored form instead
+            of being buried in hidden runtime glue. The goal is to keep more of the world's
+            meaning visible, inspectable, and explainable.
+          </p>
+        </div>
+
+        <div class="section-grid">
+          <div class="stack-panel">
+            <div class="stack-flow">
+              <article class="layer-card">
+                <p class="micro-label">Layer 0</p>
+                <h3>Execution kernel</h3>
+                <p>Small replayable substrate for bounded operations. No business or UI semantics.</p>
+              </article>
+              <article class="layer-card">
+                <p class="micro-label">Layer 1</p>
+                <h3>Relational Virtual Machine core</h3>
+                <p>The durable authored substrate: contexts, atoms, maps, witnesses, and machines.</p>
+              </article>
+              <article class="layer-card">
+                <p class="micro-label">Layer 2</p>
+                <h3>Contracts and lowering</h3>
+                <p>Where authored semantics become explicit lowering and orchestration policy.</p>
+              </article>
+              <article class="layer-card">
+                <p class="micro-label">Layer 3</p>
+                <h3>Application language</h3>
+                <p>The richer human-facing language for workflows, views, policies, adapters, and domains.</p>
+              </article>
+            </div>
+            <p>
+              The important boundary is simple: if something is product meaning, workflow
+              meaning, or world meaning, it should increasingly live in DESIRE. Host code
+              should stay limited to transport, filesystem, project persistence, environment,
+              and process boundaries.
+            </p>
+          </div>
+
+          <div class="code-panel">
+            <p class="micro-label">Illustrative DESIRE-style workflow</p>
+            <pre><code>module TemperatureGrowthDecision
+
+process TemperatureReview {
+  states {
+    SimulationState
+    MeasurementState
+    DecisionState
+  }
+}
+
+command RunSimulation
+command IngestMeasurement
+
+policy PromotionGate {
+  requires simulation_witness
+  requires observed_measurement
+}
+
+view DecisionSurface {
+  show simulation_witness
+  show observed_measurement
+  show disagreement_record
+  show decision_state
+}</code></pre>
+            <p class="code-note">
+              This is the core idea: declare the workflow, the policy gate, and the view in
+              the language itself so the world can explain how the decision was meant to work.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="detail-section detail-section--stack" id="rvm">
+        <div class="section-heading">
+          <p class="eyebrow">RVM</p>
+          <h2>RVM is the Relational Virtual Machine beneath the language.</h2>
+          <p class="section-copy">
+            Today’s RVM forms still matter because they provide the minimal graph model that
+            can be parsed, validated, lowered, replayed, and inspected. This is the layer
+            that helps keep the substrate portable and trustworthy.
+          </p>
+        </div>
+
+        <div class="section-grid">
+          <div class="code-panel">
+            <p class="micro-label">Core ideas in authored form</p>
+            <pre><code>context Lab
+atom Hypothesis
+map CompareSimulatedToObserved
+witness DisagreementOpened
+machine PromotionReview</code></pre>
+            <p class="code-note">
+              These forms are not the whole application language. They are the stable
+              authored substrate that richer semantics can lower into.
+            </p>
+          </div>
+
+          <aside class="stack-panel">
+            <p class="micro-label">Why it matters</p>
+            <h3>Replay and reflection depend on keeping this core small.</h3>
+            <p>
+              The Relational Virtual Machine holds the minimal authored model that lets the platform preserve accepted
+              history, compare states, inspect witness trails, and keep one world coherent
+              as it changes. DESIRE gives teams a richer surface; RVM keeps that surface
+              grounded in something replayable and durable.
+            </p>
+            <ul class="signal-list">
+              <li>Small enough to port and trust.</li>
+              <li>Rich enough to replay live scientific loops.</li>
+              <li>Durable enough to survive higher-layer language evolution.</li>
+            </ul>
+          </aside>
+        </div>
+      </section>
+
+      <section class="detail-section detail-section--views" id="views">
+        <div class="section-heading">
+          <p class="eyebrow">Different views for different people</p>
+          <h2>One world does not mean one flat interface.</h2>
+          <p class="section-copy">
+            Different roles need different projections. The important constraint is that
+            they should still be looking at the same underlying world, not separate shadow systems.
+          </p>
+        </div>
+
+        <div class="view-grid">
+          <article class="view-card">
+            <p class="micro-label">Scientist</p>
+            <h3>Evidence and provenance view</h3>
+            <ul>
+              <li>Papers, notebook entries, external observations, measurement provenance.</li>
+              <li>Comparison between observed and expected behavior.</li>
+              <li>Confidence grounded in method, not just summary.</li>
+            </ul>
+          </article>
+          <article class="view-card">
+            <p class="micro-label">Data scientist</p>
+            <h3>Simulation and disagreement view</h3>
+            <ul>
+              <li>Simulation contexts, run witnesses, deltas, and disagreement records.</li>
+              <li>Scenario branching without losing context.</li>
+              <li>Direct trace from model output to later decision state.</li>
+            </ul>
+          </article>
+          <article class="view-card">
+            <p class="micro-label">Engineer / platform</p>
+            <h3>Replay and runtime view</h3>
+            <ul>
+              <li>Authored structure, lowering boundaries, adapters, and runtime seams.</li>
+              <li>Accepted history, replay path, transport, persistence, and execution context.</li>
+              <li>Enough visibility to trust how the system moved.</li>
+            </ul>
+          </article>
+          <article class="view-card">
+            <p class="micro-label">R&amp;D lead / founder</p>
+            <h3>Decision and policy view</h3>
+            <ul>
+              <li>Current readiness, open disagreement, repair status, and policy gates.</li>
+              <li>What changed, why it changed, and what still blocks promotion.</li>
+              <li>A defensible surface for real go/no-go calls.</li>
+            </ul>
+          </article>
+          <article class="view-card">
+            <p class="micro-label">Partner / funder / customer</p>
+            <h3>External proof view</h3>
+            <ul>
+              <li>Simplified but trustworthy evidence-linked decision surface.</li>
+              <li>Enough witness to verify discipline without exposing internal chaos.</li>
+              <li>Confidence that the answer has a visible path behind it.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="detail-section detail-section--platforms" id="platforms">
+        <div class="section-heading">
+          <p class="eyebrow">Example screens and platform demos</p>
+          <h2>Different platform surfaces can project the same world.</h2>
+          <p class="section-copy">
+            These are not final product screenshots. They are examples of the kinds of
+            surfaces the platform can support when one world is projected for different jobs.
+          </p>
+        </div>
+
+        <div class="screen-grid">
+          <article class="screen-card screen-card--workspace">
+            <div class="screen-top">
+              <p class="micro-label">Scientific workspace</p>
+              <span class="screen-pill">claim + evidence + measurement</span>
+            </div>
+            <div class="screen-layout">
+              <div class="screen-bar"></div>
+              <div class="screen-row">
+                <div class="screen-block"></div>
+                <div class="screen-block"></div>
+              </div>
+              <div class="screen-block"></div>
+            </div>
+            <h3>Research view</h3>
+            <p>The place where papers, hypotheses, measurements, and comparisons stay connected.</p>
+          </article>
+
+          <article class="screen-card screen-card--witness">
+            <div class="screen-top">
+              <p class="micro-label">Replay + witness trail</p>
+              <span class="screen-pill">history + causality</span>
+            </div>
+            <div class="screen-layout">
+              <div class="screen-dot-row"><span></span><span></span><span></span></div>
+              <div class="screen-block"></div>
+              <div class="screen-block"></div>
+            </div>
+            <h3>Inspection view</h3>
+            <p>The path from simulation to disagreement to repair to acceptance can be replayed and explained.</p>
+          </article>
+
+          <article class="screen-card screen-card--decision">
+            <div class="screen-top">
+              <p class="micro-label">Decision governance</p>
+              <span class="screen-pill">policy + authority</span>
+            </div>
+            <div class="screen-layout">
+              <div class="screen-row">
+                <div class="screen-block"></div>
+                <div class="screen-block"></div>
+              </div>
+              <div class="screen-bar"></div>
+            </div>
+            <h3>Promotion gate</h3>
+            <p>The surface for deciding whether the world has enough witness to move forward.</p>
+          </article>
+
+          <article class="screen-card screen-card--external">
+            <div class="screen-top">
+              <p class="micro-label">External proof</p>
+              <span class="screen-pill">shareable trust</span>
+            </div>
+            <div class="screen-layout">
+              <div class="screen-bar"></div>
+              <div class="screen-block"></div>
+              <div class="screen-bar" style="width: 72%;"></div>
+            </div>
+            <h3>Partner / funder view</h3>
+            <p>A cleaner projection for outsiders who need trust and traceability, not every internal detail.</p>
+          </article>
+
+          <article class="screen-card screen-card--platform">
+            <div class="screen-top">
+              <p class="micro-label">Platform / runtime</p>
+              <span class="screen-pill">lowering + execution</span>
+            </div>
+            <div class="screen-layout">
+              <div class="screen-dot-row"><span></span><span></span><span></span></div>
+              <div class="screen-row">
+                <div class="screen-block"></div>
+                <div class="screen-block"></div>
+              </div>
+            </div>
+            <h3>Runtime-facing view</h3>
+            <p>The authored world, replay core, and host boundaries stay inspectable for the people who operate the substrate.</p>
+          </article>
+        </div>
+
+        <div class="platform-demo">
+          <p class="micro-label">Example demo sequence</p>
+          <ol>
+            <li>Load the scientific workspace for one hypothesis and one temperature-growth scenario.</li>
+            <li>Run a witnessed simulation and compare it to a lab measurement with provenance.</li>
+            <li>Open the disagreement record, inspect the witness trail, and propose a repair.</li>
+            <li>Accept or reject promotion through a governed decision surface, then replay why that outcome changed.</li>
+          </ol>
+        </div>
+
+        <div class="section-actions">
+          <a class="button" href="index.html#example">See the concrete example</a>
+          <a class="text-link" href="live-world.html">See the interactive live world</a>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

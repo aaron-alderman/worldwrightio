@@ -56,7 +56,7 @@
         repair: "Standby",
         decision: "Trusted"
       },
-      enabled: ["introduce-error", "reset"]
+      enabled: ["introduce-error", "reset", "play-sequence"]
     },
     error: {
       title: "Reality has diverged",
@@ -84,7 +84,7 @@
         repair: "Awaiting response",
         decision: "Cautioned"
       },
-      enabled: ["inspect-witness", "reset"]
+      enabled: ["inspect-witness", "reset", "play-sequence"]
     },
     witness: {
       title: "The witness trail is active",
@@ -112,7 +112,7 @@
         repair: "Context visible",
         decision: "Held"
       },
-      enabled: ["propose-healing", "reset"]
+      enabled: ["propose-healing", "reset", "play-sequence"]
     },
     repair: {
       title: "Healing is in progress",
@@ -140,7 +140,7 @@
         repair: "Repair proposal active",
         decision: "Held for review"
       },
-      enabled: ["accept-healing", "reset"]
+      enabled: ["accept-healing", "reset", "play-sequence"]
     },
     healed: {
       title: "The world heals without forgetting",
@@ -168,7 +168,7 @@
         repair: "Healing accepted",
         decision: "Trusted again"
       },
-      enabled: ["reset", "introduce-error"]
+      enabled: ["reset", "introduce-error", "play-sequence"]
     }
   };
 
@@ -181,6 +181,14 @@
   };
 
   let currentMode = "stable";
+  let playing = false;
+  let playbackTimers = [];
+
+  function clearPlayback() {
+    playbackTimers.forEach((timer) => clearTimeout(timer));
+    playbackTimers = [];
+    playing = false;
+  }
 
   function retriggerUpdate(element, delay) {
     if (!element) return;
@@ -204,7 +212,7 @@
       const after = next.chips[key].join("|");
       if (before !== after) {
         changedNodeKeys.add(key);
-        retriggerUpdate(chips[key], delayIndex * 120);
+        retriggerUpdate(chips[key], delayIndex * 140);
         delayIndex += 1;
       }
     });
@@ -218,26 +226,37 @@
           key;
 
         changedNodeKeys.add(relatedNode);
-        retriggerUpdate(fields[key], delayIndex * 120);
+        retriggerUpdate(fields[key], delayIndex * 140);
         delayIndex += 1;
       }
     });
 
     Object.keys(next.entries).forEach((key) => {
       if (previous.entries[key] !== next.entries[key]) {
-        retriggerUpdate(entries[key], delayIndex * 120);
+        retriggerUpdate(entries[key], delayIndex * 140);
         delayIndex += 1;
       }
     });
 
     changedNodeKeys.forEach((key) => {
       const node = shell.querySelector(`[data-node="${key}"]`);
-      retriggerUpdate(node, delayIndex * 90);
+      retriggerUpdate(node, delayIndex * 110);
       delayIndex += 1;
     });
 
-    retriggerUpdate(trailState, Math.max(0, delayIndex - 1) * 90);
-    retriggerUpdate(statusPanel, Math.max(0, delayIndex - 1) * 90);
+    retriggerUpdate(trailState, Math.max(0, delayIndex - 1) * 110);
+    retriggerUpdate(statusPanel, Math.max(0, delayIndex - 1) * 110);
+  }
+
+  function setButtonsForMode(state) {
+    buttons.forEach((button) => {
+      if (playing) {
+        button.disabled = true;
+        return;
+      }
+
+      button.disabled = !state.enabled.includes(button.dataset.action);
+    });
   }
 
   function render(mode, animate) {
@@ -264,20 +283,57 @@
       chip.dataset.tone = tone;
     });
 
-    buttons.forEach((button) => {
-      button.disabled = !state.enabled.includes(button.dataset.action);
-    });
-
     if (animate) {
       markChanges(mode);
     }
 
     currentMode = mode;
+    setButtonsForMode(state);
+  }
+
+  function playSequence() {
+    clearPlayback();
+    playing = true;
+    setButtonsForMode(states[currentMode]);
+
+    if (currentMode !== "stable") {
+      render("stable", false);
+    }
+
+    const sequence = [
+      { mode: "error", at: 450 },
+      { mode: "witness", at: 2550 },
+      { mode: "repair", at: 4800 },
+      { mode: "healed", at: 7050 }
+    ];
+
+    sequence.forEach((step) => {
+      playbackTimers.push(
+        setTimeout(() => {
+          render(step.mode, true);
+        }, step.at)
+      );
+    });
+
+    playbackTimers.push(
+      setTimeout(() => {
+        playing = false;
+        setButtonsForMode(states[currentMode]);
+      }, 8600)
+    );
   }
 
   buttons.forEach((button) => {
     button.addEventListener("click", function () {
-      render(nextModeByAction[this.dataset.action], true);
+      const action = this.dataset.action;
+
+      if (action === "play-sequence") {
+        playSequence();
+        return;
+      }
+
+      clearPlayback();
+      render(nextModeByAction[action], true);
     });
   });
 
