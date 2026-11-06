@@ -1,0 +1,403 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "atlas.view": [
+      {
+        "let": "result",
+        "value": {
+          "tag": "section",
+          "attrs": {
+            "id": "atlas-mount"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "p",
+              "attrs": {
+                "class": "eyebrow"
+              },
+              "children": [
+                "list",
+                "A map of questions"
+              ]
+            },
+            {
+              "tag": "h2",
+              "attrs": {},
+              "children": [
+                "list",
+                "Choose a bearing"
+              ]
+            },
+            {
+              "tag": "svg",
+              "attrs": {
+                "viewBox": "0 0 800 300",
+                "role": "img",
+                "aria-label": "A schematic atlas of places"
+              },
+              "children": [
+                "append",
+                [
+                  "list",
+                  {
+                    "tag": "path",
+                    "attrs": {
+                      "d": "M 40 150 Q 200 30 400 150 T 760 150",
+                      "fill": "none",
+                      "stroke": "currentColor",
+                      "stroke-width": "2"
+                    },
+                    "children": [
+                      "list"
+                    ]
+                  }
+                ],
+                [
+                  "map",
+                  [
+                    "subjects",
+                    "isa",
+                    "Place"
+                  ],
+                  "place",
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": [
+                        "concat",
+                        "places/",
+                        "$place",
+                        ".html"
+                      ],
+                      "class": "atlas-pin card",
+                      "data-atlas-id": "$place"
+                    },
+                    "children": [
+                      "list",
+                      {
+                        "tag": "circle",
+                        "attrs": {
+                          "cx": [
+                            "if",
+                            [
+                              "optional",
+                              "$place",
+                              "x"
+                            ],
+                            [
+                              "optional",
+                              "$place",
+                              "x"
+                            ],
+                            400
+                          ],
+                          "cy": [
+                            "if",
+                            [
+                              "optional",
+                              "$place",
+                              "y"
+                            ],
+                            [
+                              "optional",
+                              "$place",
+                              "y"
+                            ],
+                            150
+                          ],
+                          "r": 12,
+                          "fill": "currentColor"
+                        },
+                        "children": [
+                          "list"
+                        ]
+                      },
+                      {
+                        "tag": "title",
+                        "attrs": {},
+                        "children": [
+                          "list",
+                          [
+                            "one",
+                            "$place",
+                            "title"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "grid"
+              },
+              "children": [
+                "map",
+                [
+                  "subjects",
+                  "isa",
+                  "Place"
+                ],
+                "place",
+                {
+                  "tag": "a",
+                  "attrs": {
+                    "href": [
+                      "concat",
+                      "places/",
+                      "$place",
+                      ".html"
+                    ],
+                    "class": "atlas-pin card",
+                    "data-atlas-id": "$place"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h3",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "question"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {
+                "class": "muted"
+              },
+              "children": [
+                "list",
+                "The map is schematic. Coordinates describe the authored layout, not a geographic measurement."
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "id": "atlas-memory",
+                "hidden": true
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "id": "atlas-progress",
+                    "aria-live": "polite"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "id": "atlas-storage-note"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "atlas-reset",
+                    "type": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Clear my visits"
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "aside",
+              "attrs": {
+                "class": "card"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "h3",
+                  "attrs": {
+                    "id": "atlas-preview-title"
+                  },
+                  "children": [
+                    "list",
+                    "Preview a place"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "id": "atlas-preview-question"
+                  },
+                  "children": [
+                    "list",
+                    "Focus or touch a point to preview its question."
+                  ]
+                },
+                {
+                  "tag": "a",
+                  "attrs": {
+                    "id": "atlas-preview-link",
+                    "hidden": true
+                  },
+                  "children": [
+                    "list",
+                    "Open this place"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "atlas.build": [
+      {
+        "let": "route",
+        "value": "atlas.html"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Atlas"
+      },
+      {
+        "call": "atlas.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "record.fromEntries",
+        "args": {
+          "entries": [
+            "map",
+            [
+              "subjects",
+              "isa",
+              "Place"
+            ],
+            "place",
+            [
+              "list",
+              "$place",
+              [
+                "one",
+                "$place",
+                "title"
+              ]
+            ]
+          ]
+        },
+        "into": "labels"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "atlas.journey.boot",
+          "mode": "browser",
+          "queries": [
+            "list",
+            "atlas.seen.clean",
+            "atlas.seen.load",
+            "atlas.seen.save",
+            "atlas.seen.mark",
+            "atlas.seen.paint",
+            "atlas.seen.refresh",
+            "atlas.seen.reset",
+            "atlas.pin.dismiss",
+            "atlas.pin.reveal",
+            "atlas.journey.boot",
+            "atlas.pin.preview",
+            "atlas.pin.mode",
+            "atlas.journey.resume"
+          ],
+          "factSubjects": [
+            "list"
+          ],
+          "data": {
+            "ids": [
+              "subjects",
+              "isa",
+              "Place"
+            ],
+            "labels": "$labels",
+            "places": [
+              "map",
+              [
+                "subjects",
+                "isa",
+                "Place"
+              ],
+              "place",
+              {
+                "id": "$place",
+                "name": [
+                  "one",
+                  "$place",
+                  "title"
+                ],
+                "question": [
+                  "one",
+                  "$place",
+                  "question"
+                ]
+              }
+            ],
+            "storageKey": [
+              "concat",
+              "worldwright.atlas.",
+              [
+                "one",
+                "world",
+                "title"
+              ]
+            ]
+          },
+          "budget": 2000000,
+          "grantProfile": "atlasBrowser"
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "atlas-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ]
+  }
+}

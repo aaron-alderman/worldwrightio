@@ -1,0 +1,347 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "microsites.view": [
+      {
+        "let": "result",
+        "value": {
+          "tag": "section",
+          "attrs": {
+            "id": "microsites-mount"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "h2",
+              "attrs": {},
+              "children": [
+                "list",
+                "Other windows into this world"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "grid"
+              },
+              "children": [
+                "map",
+                [
+                  "subjects",
+                  "isa",
+                  "Microsite"
+                ],
+                "site",
+                {
+                  "tag": "a",
+                  "attrs": {
+                    "href": [
+                      "one",
+                      "$site",
+                      "route"
+                    ],
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h3",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$site",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$site",
+                          "description"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "microsites.build": [
+      {
+        "let": "route",
+        "value": "microsites.html"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Windows"
+      },
+      {
+        "call": "microsites.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "Microsite"
+        ],
+        "as": "site",
+        "steps": [
+          {
+            "port": "text.matches",
+            "args": {
+              "value": [
+                "one",
+                "$site",
+                "route"
+              ],
+              "pattern": "^[a-z][a-z0-9-]*\\.html$"
+            },
+            "into": "validRoute"
+          },
+          {
+            "assert": "$validRoute",
+            "message": "MICROSITE-ROUTE: Use a safe unique HTML filename."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "includes",
+                [
+                  "list",
+                  "index.html",
+                  "microsites.html"
+                ],
+                [
+                  "one",
+                  "$site",
+                  "route"
+                ]
+              ]
+            ],
+            "message": "MICROSITE-OWNER: Route collides with a foundation output."
+          },
+          {
+            "let": "route",
+            "value": [
+              "one",
+              "$site",
+              "route"
+            ]
+          },
+          {
+            "let": "pageTitle",
+            "value": [
+              "one",
+              "$site",
+              "title"
+            ]
+          },
+          {
+            "let": "body",
+            "value": [
+              "list",
+              {
+                "tag": "article",
+                "attrs": {
+                  "class": "prose"
+                },
+                "children": [
+                  "list",
+                  {
+                    "tag": "p",
+                    "attrs": {
+                      "class": "eyebrow"
+                    },
+                    "children": [
+                      "list",
+                      "A window into this world"
+                    ]
+                  },
+                  {
+                    "tag": "h1",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      [
+                        "one",
+                        "$site",
+                        "title"
+                      ]
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "attrs": {
+                      "class": "lead"
+                    },
+                    "children": [
+                      "list",
+                      [
+                        "one",
+                        "$site",
+                        "description"
+                      ]
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      [
+                        "one",
+                        "$site",
+                        "reading"
+                      ]
+                    ]
+                  },
+                  {
+                    "tag": "nav",
+                    "attrs": {},
+                    "children": [
+                      "map",
+                      [
+                        "objects",
+                        "$site",
+                        "place"
+                      ],
+                      "place",
+                      [
+                        "if",
+                        [
+                          "includes",
+                          [
+                            "subjects",
+                            "isa",
+                            "PackNavigation"
+                          ],
+                          "pack.reader"
+                        ],
+                        {
+                          "tag": "a",
+                          "attrs": {
+                            "href": [
+                              "concat",
+                              "places/",
+                              "$place",
+                              ".html"
+                            ]
+                          },
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$place",
+                              "title"
+                            ]
+                          ]
+                        },
+                        {
+                          "tag": "span",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$place",
+                              "title"
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "call": "shell.document"
+          },
+          {
+            "when": [
+              "optional",
+              "$site",
+              "markup"
+            ],
+            "then": [
+              {
+                "let": "msDocument",
+                "value": "$site"
+              },
+              {
+                "let": "input",
+                "value": [
+                  "one",
+                  "$site",
+                  "markup"
+                ]
+              },
+              {
+                "call": "source.markup"
+              },
+              {
+                "port": "file.write",
+                "args": {
+                  "path": "$route",
+                  "text": "$result"
+                },
+                "into": "_"
+              }
+            ]
+          },
+          {
+            "when": [
+              "optional",
+              "$site",
+              "stylesheet"
+            ],
+            "then": [
+              {
+                "let": "input",
+                "value": [
+                  "one",
+                  "$site",
+                  "stylesheet"
+                ]
+              },
+              {
+                "call": "source.css"
+              },
+              {
+                "port": "file.write",
+                "args": {
+                  "path": [
+                    "one",
+                    "$site",
+                    "stylesheetRoute"
+                  ],
+                  "text": "$result"
+                },
+                "into": "_"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

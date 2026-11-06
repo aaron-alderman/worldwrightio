@@ -1,0 +1,2477 @@
+{
+  "protocol": "worldwright/composition-consumer-qualification/1",
+  "evidenceFamily": "worldwright-composition-2026-11-06",
+  "checks": [
+    {
+      "id": "reader",
+      "directory": ".build/composition-qa/matrix-WVcJPE/reader",
+      "options": {
+        "features": [
+          "reader"
+        ],
+        "profile": null
+      },
+      "protocol": "worldwright/composition-verification/1",
+      "selected": [
+        "core",
+        "reader"
+      ],
+      "sourceFiles": 37,
+      "authoredFilesScanned": 7,
+      "localResourcesChecked": 18,
+      "originalPlacesChecked": 40,
+      "originalProsePassagesChecked": 106,
+      "seed": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+      "executionBudget": 20000000,
+      "scope": "structural-source-and-corpus; no browser visual or playback claim",
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "stdoutSha256": "6df1c72fac9bbddab9fc6a4678daec68ffffc19306f6ac4728097c782bbd76ac",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runtimeActions": [
+        {
+          "file": "reader-runtime.js",
+          "query": "reader.search",
+          "assertion": "own-world search filters absent input and restores its scene cards"
+        }
+      ],
+      "compositionReceiptSha256": "70e957377dbd317ff30c72588c65dd96d1c0392f14fe9f96c31d6874e12a72de",
+      "inputs": [
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitattributes",
+          "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitignore",
+          "sha256": "4e1e7f88440533261ad6622642ebb6fd1a6ff981f07c7881fb2b304ba6b485fb"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "AGENTS.md",
+          "sha256": "324f52739bbb4d1b38236410c08496a5f38a8515a4a0faf94ed2d8367f88d8e1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/admission.process.json",
+          "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/css.process.json",
+          "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/fact-index.process.json",
+          "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/html.process.json",
+          "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/language.process.json",
+          "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/lowering.process.json",
+          "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/operators.expression.json",
+          "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/hosts/runtime.cjs",
+          "sha256": "9188a315df4386da4ebcb440c50062605f7e1afe6cf8dcb8d126e11883d7313e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/kernel-profile.json",
+          "sha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/native.json",
+          "sha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/algebra-lower.cjs",
+          "sha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser-effects.cjs",
+          "sha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser.cjs",
+          "sha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/fact-index.cjs",
+          "sha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/kernel.cjs",
+          "sha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/node.cjs",
+          "sha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/programme.cjs",
+          "sha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/register.cjs",
+          "sha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/rel-codec.cjs",
+          "sha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/value.cjs",
+          "sha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/worker.cjs",
+          "sha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/run.cjs",
+          "sha256": "3872294af862035869b93c4f723c42b35fdb04ce13df3386ac3afdcfb9b27835"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/temple-seed.cjs",
+          "sha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.mjs",
+          "sha256": "3f2fedf69e8b129e65de27136adc435cbd49bd88b1b294e618e2421c9a066e6f"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.test.mjs",
+          "sha256": "bb67f4378fe36d82ad7fda7e4a7cb3c7901c7b67b8222c040f7cdc03181fdf43"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "package.json",
+          "sha256": "284704210c8cd867fc99f74c9af4c3ae9a99d156ad972a014228fbcabe8bcb5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "README.md",
+          "sha256": "663b085dd7b24ed5e14e7d2daf72dc9ad39f966fcc066bf388335a52d3504fc2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "serve.mjs",
+          "sha256": "2487834457b4e6ad79de0a22d3eb4a3c2abe7a232d0d6b89e45d628e44235a6b"
+        },
+        {
+          "owner": "core",
+          "kind": "module",
+          "target": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/world.rel",
+          "sha256": "a3e712b9b3833dacc47f0e65a35d7b7354eef405c15648d4ca809f35206fea20"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/presentation.rel",
+          "sha256": "fd6ab3bea2bd7f8f007c853ac5315d3f8034a22a490010738d8feeb346eb5586"
+        },
+        {
+          "owner": "core",
+          "kind": "file",
+          "target": "docs/packs/core.md",
+          "sha256": "85dbf53b0648b34295743c857010f89a00b23d7d58462c58b9bef5fb52b9d801"
+        },
+        {
+          "owner": "reader",
+          "kind": "module",
+          "target": "algebra/reader.process.json",
+          "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26"
+        },
+        {
+          "owner": "reader",
+          "kind": "file",
+          "target": "docs/packs/reader.md",
+          "sha256": "13f4e85fbf0409fe6c063be58763d0574d713f88fbd0aa590eb77ed011ece91f"
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "build-receipt.json",
+          "sha256": "d75feb4f0f43cfe9f3498caecd14ca707aa5f62197b479b9cd0ddb6c96e3ec3f"
+        },
+        {
+          "file": "index.html",
+          "sha256": "bd1361ece92a5c43f0ea15ad9c8af69e9a9468417853476a813ca8a923b88e79"
+        },
+        {
+          "file": "places/arrival.html",
+          "sha256": "2501bc7a45c7cdbb9ac8b4105423f13f13d9f06c2f47138d20aac7fc572fea9e"
+        },
+        {
+          "file": "reader-runtime.js",
+          "sha256": "ebe03e2fe0b342ab2257a12697e3f16005e776f93ab1a2cddd93b1fd9b9db39a"
+        },
+        {
+          "file": "reader.html",
+          "sha256": "3324550dcd7dfd962200a54c98d7d77c2128c23ecdb37768f3ff560e03aa3352"
+        },
+        {
+          "file": "styles.css",
+          "sha256": "c0d01954115e40b93b6d464c45b28e5437de5e1e837d1f3945b66e5787b8b238"
+        }
+      ]
+    },
+    {
+      "id": "atlas-subset",
+      "directory": ".build/composition-qa/matrix-WVcJPE/atlas-subset",
+      "options": {
+        "features": [
+          "atlas",
+          "sources"
+        ],
+        "profile": null
+      },
+      "protocol": "worldwright/composition-verification/1",
+      "selected": [
+        "core",
+        "reader",
+        "atlas",
+        "sources"
+      ],
+      "sourceFiles": 42,
+      "authoredFilesScanned": 9,
+      "localResourcesChecked": 54,
+      "originalPlacesChecked": 40,
+      "originalProsePassagesChecked": 106,
+      "seed": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+      "executionBudget": 20000000,
+      "scope": "structural-source-and-corpus; no browser visual or playback claim",
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "stdoutSha256": "6df1c72fac9bbddab9fc6a4678daec68ffffc19306f6ac4728097c782bbd76ac",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runtimeActions": [
+        {
+          "file": "atlas-runtime.js",
+          "query": "atlas.seen.load",
+          "assertion": "actual world identities filter duplicate and foreign persisted visits"
+        },
+        {
+          "file": "reader-runtime.js",
+          "query": "reader.search",
+          "assertion": "own-world search filters absent input and restores its scene cards"
+        }
+      ],
+      "compositionReceiptSha256": "9db7a0e206a9a788c49a5b681580cf22a3689fcae00df656e649bb14a3a85078",
+      "inputs": [
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitattributes",
+          "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitignore",
+          "sha256": "4e1e7f88440533261ad6622642ebb6fd1a6ff981f07c7881fb2b304ba6b485fb"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "AGENTS.md",
+          "sha256": "324f52739bbb4d1b38236410c08496a5f38a8515a4a0faf94ed2d8367f88d8e1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/admission.process.json",
+          "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/css.process.json",
+          "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/fact-index.process.json",
+          "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/html.process.json",
+          "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/language.process.json",
+          "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/lowering.process.json",
+          "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/operators.expression.json",
+          "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/hosts/runtime.cjs",
+          "sha256": "9188a315df4386da4ebcb440c50062605f7e1afe6cf8dcb8d126e11883d7313e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/kernel-profile.json",
+          "sha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/native.json",
+          "sha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/algebra-lower.cjs",
+          "sha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser-effects.cjs",
+          "sha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser.cjs",
+          "sha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/fact-index.cjs",
+          "sha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/kernel.cjs",
+          "sha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/node.cjs",
+          "sha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/programme.cjs",
+          "sha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/register.cjs",
+          "sha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/rel-codec.cjs",
+          "sha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/value.cjs",
+          "sha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/worker.cjs",
+          "sha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/run.cjs",
+          "sha256": "3872294af862035869b93c4f723c42b35fdb04ce13df3386ac3afdcfb9b27835"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/temple-seed.cjs",
+          "sha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.mjs",
+          "sha256": "3f2fedf69e8b129e65de27136adc435cbd49bd88b1b294e618e2421c9a066e6f"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.test.mjs",
+          "sha256": "bb67f4378fe36d82ad7fda7e4a7cb3c7901c7b67b8222c040f7cdc03181fdf43"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "package.json",
+          "sha256": "284704210c8cd867fc99f74c9af4c3ae9a99d156ad972a014228fbcabe8bcb5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "README.md",
+          "sha256": "663b085dd7b24ed5e14e7d2daf72dc9ad39f966fcc066bf388335a52d3504fc2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "serve.mjs",
+          "sha256": "2487834457b4e6ad79de0a22d3eb4a3c2abe7a232d0d6b89e45d628e44235a6b"
+        },
+        {
+          "owner": "core",
+          "kind": "module",
+          "target": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/world.rel",
+          "sha256": "a3e712b9b3833dacc47f0e65a35d7b7354eef405c15648d4ca809f35206fea20"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/presentation.rel",
+          "sha256": "fd6ab3bea2bd7f8f007c853ac5315d3f8034a22a490010738d8feeb346eb5586"
+        },
+        {
+          "owner": "core",
+          "kind": "file",
+          "target": "docs/packs/core.md",
+          "sha256": "85dbf53b0648b34295743c857010f89a00b23d7d58462c58b9bef5fb52b9d801"
+        },
+        {
+          "owner": "reader",
+          "kind": "module",
+          "target": "algebra/reader.process.json",
+          "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26"
+        },
+        {
+          "owner": "reader",
+          "kind": "file",
+          "target": "docs/packs/reader.md",
+          "sha256": "13f4e85fbf0409fe6c063be58763d0574d713f88fbd0aa590eb77ed011ece91f"
+        },
+        {
+          "owner": "atlas",
+          "kind": "module",
+          "target": "algebra/atlas.process.json",
+          "sha256": "e9af945ed1ea06cdced4bd07f8f34d9189679a8001606b6b25a1f156fa7d5fb7"
+        },
+        {
+          "owner": "atlas",
+          "kind": "module",
+          "target": "algebra/atlas-journey.process.json",
+          "sha256": "e77b9af200c4336632051eb226eb767cab499dc6a40adda06805fecc98d6a6c4"
+        },
+        {
+          "owner": "atlas",
+          "kind": "file",
+          "target": "docs/packs/atlas.md",
+          "sha256": "a67b79e90b86db338bba6a4db635acda06ea9787d5984f333d3c0505601f03c0"
+        },
+        {
+          "owner": "sources",
+          "kind": "module",
+          "target": "algebra/sources.process.json",
+          "sha256": "10b79ab6f1c6dfede4f6c638df04b1e449e901b6de2e128ce5e102b77b4ee32c"
+        },
+        {
+          "owner": "sources",
+          "kind": "file",
+          "target": "docs/packs/sources.md",
+          "sha256": "4a69bee0f1b3ee17dfba1e1c6b93e3277d9f3d1a13c71e9527d5713894e25451"
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "algebra/atlas-journey.process.json",
+          "sha256": "e77b9af200c4336632051eb226eb767cab499dc6a40adda06805fecc98d6a6c4"
+        },
+        {
+          "file": "algebra/atlas.process.json",
+          "sha256": "e9af945ed1ea06cdced4bd07f8f34d9189679a8001606b6b25a1f156fa7d5fb7"
+        },
+        {
+          "file": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "file": "algebra/reader.process.json",
+          "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26"
+        },
+        {
+          "file": "algebra/sources.process.json",
+          "sha256": "10b79ab6f1c6dfede4f6c638df04b1e449e901b6de2e128ce5e102b77b4ee32c"
+        },
+        {
+          "file": "atlas-runtime.js",
+          "sha256": "cd9f47873176c3eb1d1e1b7866be602a7e2fecc45ca6a7129cb82deb0b0897e6"
+        },
+        {
+          "file": "atlas.html",
+          "sha256": "bcd4e772825ef7fb38243012facfd4fdd99e100027e3bcb9fabecf4b63c42270"
+        },
+        {
+          "file": "build-receipt.json",
+          "sha256": "f434b14852415ed2fae123bd5d6a401f9c4ef71536e248e5debfd0b2d0a29ab2"
+        },
+        {
+          "file": "composition-receipt.json",
+          "sha256": "9db7a0e206a9a788c49a5b681580cf22a3689fcae00df656e649bb14a3a85078"
+        },
+        {
+          "file": "index.html",
+          "sha256": "f0ed7da6e872a52324a1d9c472cba975354309fb3e3634bb3a07d2cb8a5d48b7"
+        },
+        {
+          "file": "places/arrival.html",
+          "sha256": "0a7b05324f3df24bace4102ac871d3b21b1e5ecd595fa681a5a81cbc1040b4b8"
+        },
+        {
+          "file": "reader-runtime.js",
+          "sha256": "ebe03e2fe0b342ab2257a12697e3f16005e776f93ab1a2cddd93b1fd9b9db39a"
+        },
+        {
+          "file": "reader.html",
+          "sha256": "2a39b13e81523bbab66a4430a78780a0a08ac33d404b9fa73499d86cade5de93"
+        },
+        {
+          "file": "source/composition.json",
+          "sha256": "9db7a0e206a9a788c49a5b681580cf22a3689fcae00df656e649bb14a3a85078"
+        },
+        {
+          "file": "source/presentation.rel",
+          "sha256": "fd6ab3bea2bd7f8f007c853ac5315d3f8034a22a490010738d8feeb346eb5586"
+        },
+        {
+          "file": "source/world.rel",
+          "sha256": "a3e712b9b3833dacc47f0e65a35d7b7354eef405c15648d4ca809f35206fea20"
+        },
+        {
+          "file": "sources.html",
+          "sha256": "6b005f8edcb1ec4f4a95eb687a4f07f7f8dd5bf4cb2995c788d6ebca3dd6a946"
+        },
+        {
+          "file": "styles.css",
+          "sha256": "c0d01954115e40b93b6d464c45b28e5437de5e1e837d1f3945b66e5787b8b238"
+        }
+      ]
+    },
+    {
+      "id": "interactive",
+      "directory": ".build/composition-qa/matrix-WVcJPE/interactive",
+      "options": {
+        "features": [
+          "workshop",
+          "claims"
+        ],
+        "profile": null
+      },
+      "protocol": "worldwright/composition-verification/1",
+      "selected": [
+        "core",
+        "inspector",
+        "workshop",
+        "claims"
+      ],
+      "sourceFiles": 51,
+      "authoredFilesScanned": 11,
+      "localResourcesChecked": 39,
+      "originalPlacesChecked": 40,
+      "originalProsePassagesChecked": 106,
+      "seed": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+      "executionBudget": 20000000,
+      "scope": "structural-source-and-corpus; no browser visual or playback claim",
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "stdoutSha256": "6df1c72fac9bbddab9fc6a4678daec68ffffc19306f6ac4728097c782bbd76ac",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runtimeActions": [
+        {
+          "file": "claims-runtime.js",
+          "query": "claims.evaluate",
+          "assertion": "empty own evidence selection remains Undecided"
+        },
+        {
+          "file": "inspector-runtime.js",
+          "query": "inspector.present",
+          "assertion": "exact own source digest"
+        },
+        {
+          "file": "workshop-runtime.js",
+          "query": "ec.prepare,ec.run,workshop.change",
+          "assertion": "own typed candidate compiles/renders; number title refuses"
+        }
+      ],
+      "compositionReceiptSha256": "04f362391d8a405d917a82980199ab00e7963cd7e31a53c537cfe9c977e3bed3",
+      "inputs": [
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitattributes",
+          "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitignore",
+          "sha256": "4e1e7f88440533261ad6622642ebb6fd1a6ff981f07c7881fb2b304ba6b485fb"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "AGENTS.md",
+          "sha256": "324f52739bbb4d1b38236410c08496a5f38a8515a4a0faf94ed2d8367f88d8e1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/admission.process.json",
+          "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/css.process.json",
+          "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/fact-index.process.json",
+          "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/html.process.json",
+          "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/language.process.json",
+          "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/lowering.process.json",
+          "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/operators.expression.json",
+          "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/hosts/runtime.cjs",
+          "sha256": "9188a315df4386da4ebcb440c50062605f7e1afe6cf8dcb8d126e11883d7313e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/kernel-profile.json",
+          "sha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/native.json",
+          "sha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/algebra-lower.cjs",
+          "sha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser-effects.cjs",
+          "sha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser.cjs",
+          "sha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/fact-index.cjs",
+          "sha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/kernel.cjs",
+          "sha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/node.cjs",
+          "sha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/programme.cjs",
+          "sha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/register.cjs",
+          "sha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/rel-codec.cjs",
+          "sha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/value.cjs",
+          "sha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/worker.cjs",
+          "sha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/run.cjs",
+          "sha256": "3872294af862035869b93c4f723c42b35fdb04ce13df3386ac3afdcfb9b27835"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/temple-seed.cjs",
+          "sha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.mjs",
+          "sha256": "3f2fedf69e8b129e65de27136adc435cbd49bd88b1b294e618e2421c9a066e6f"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.test.mjs",
+          "sha256": "bb67f4378fe36d82ad7fda7e4a7cb3c7901c7b67b8222c040f7cdc03181fdf43"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "package.json",
+          "sha256": "284704210c8cd867fc99f74c9af4c3ae9a99d156ad972a014228fbcabe8bcb5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "README.md",
+          "sha256": "663b085dd7b24ed5e14e7d2daf72dc9ad39f966fcc066bf388335a52d3504fc2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "serve.mjs",
+          "sha256": "2487834457b4e6ad79de0a22d3eb4a3c2abe7a232d0d6b89e45d628e44235a6b"
+        },
+        {
+          "owner": "core",
+          "kind": "module",
+          "target": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/world.rel",
+          "sha256": "a3e712b9b3833dacc47f0e65a35d7b7354eef405c15648d4ca809f35206fea20"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/presentation.rel",
+          "sha256": "fd6ab3bea2bd7f8f007c853ac5315d3f8034a22a490010738d8feeb346eb5586"
+        },
+        {
+          "owner": "core",
+          "kind": "file",
+          "target": "docs/packs/core.md",
+          "sha256": "85dbf53b0648b34295743c857010f89a00b23d7d58462c58b9bef5fb52b9d801"
+        },
+        {
+          "owner": "inspector",
+          "kind": "module",
+          "target": "algebra/encounter-source.process.json",
+          "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3"
+        },
+        {
+          "owner": "inspector",
+          "kind": "module",
+          "target": "algebra/source.process.json",
+          "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246"
+        },
+        {
+          "owner": "inspector",
+          "kind": "module",
+          "target": "algebra/inspector.process.json",
+          "sha256": "9598890f0b0789e4e09c292003217672024685836f0ad305ccf15767ffd34c8d"
+        },
+        {
+          "owner": "inspector",
+          "kind": "facts",
+          "target": "source/inspector.rel",
+          "sha256": "69e14e648e594499a10ab1ff45e0d0ac566519cc3af25db9a0dd873636ee3fe4"
+        },
+        {
+          "owner": "inspector",
+          "kind": "file",
+          "target": "docs/packs/inspector.md",
+          "sha256": "d24460175f3ae03b5edbf92c5fd7ff1b388dfe9886ce565d215c707be79fbe9a"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/encounter-code-types.process.json",
+          "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/encounter-code-compiler.process.json",
+          "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/encounter-code-runtime.process.json",
+          "sha256": "9153aa1c340e3c5015307c8792785d11e7d1bfdd21cbec1c2f6ce476fe5fd572"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/workshop.process.json",
+          "sha256": "bdbfa32189622feacbd5d150659addfade86f2af8c733f11d0f8012041b6dd97"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/workshop-lab.process.json",
+          "sha256": "b54679b6dd650e060d3ae2e91fd1cb5dc198c235bc04e9f15a77f9027b1001c4"
+        },
+        {
+          "owner": "workshop",
+          "kind": "facts",
+          "target": "source/workshop.rel",
+          "sha256": "da97d8922899a99f68ce3f3cf6653dafee460a13834dac3dcad614c1893e325e"
+        },
+        {
+          "owner": "workshop",
+          "kind": "file",
+          "target": "docs/packs/workshop.md",
+          "sha256": "be8db7488f0fb9d868177fb8bd389f684e450253bd1fe6c1cfd2029a88b92e6a"
+        },
+        {
+          "owner": "claims",
+          "kind": "module",
+          "target": "algebra/claim-review.process.json",
+          "sha256": "203346fa03b42936162505279bc27a5826b623a087e4185e35db39c5d2d67c17"
+        },
+        {
+          "owner": "claims",
+          "kind": "module",
+          "target": "algebra/claims.process.json",
+          "sha256": "cf7c5c635ded4dd1a49c3abecc9fa7aa8315a2409abefcc646b782bc844211e7"
+        },
+        {
+          "owner": "claims",
+          "kind": "facts",
+          "target": "source/claims.rel",
+          "sha256": "9b2d969455f92ac0e643de9c5811906afa8277d5c634024dccc317018f0f4aa9"
+        },
+        {
+          "owner": "claims",
+          "kind": "file",
+          "target": "docs/packs/claims.md",
+          "sha256": "03f52be82cb9f08942512fb1586f51baa50bd1bf7969cda0046c270ee0d0759f"
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "algebra/workshop.process.json",
+          "sha256": "bdbfa32189622feacbd5d150659addfade86f2af8c733f11d0f8012041b6dd97"
+        },
+        {
+          "file": "build-receipt.json",
+          "sha256": "e9ea04eb463401a10b0eabeaf3317e723df5958aef6e2dc59d78429934e4265e"
+        },
+        {
+          "file": "claims-runtime.js",
+          "sha256": "65d65939fbcad271ea775dc7de5cd4afc0ab5eae6f6809cc19e41e512acbfeef"
+        },
+        {
+          "file": "claims.html",
+          "sha256": "303d883f6465475b91d799d1680801f0734dfae3e03158f2eea94cd911253ada"
+        },
+        {
+          "file": "index.html",
+          "sha256": "f073c3d57cdb20059892c79c0502c5bb2a2e41204206296596a578be741f49d9"
+        },
+        {
+          "file": "inspector-runtime.js",
+          "sha256": "0a6257d60d541c904ca4d24e1dc9db72ca4072ea1f6f65e8f250cf6a3ddcf23e"
+        },
+        {
+          "file": "inspector.html",
+          "sha256": "b40f3558347c72dfae4aa0a5a60ad47a0beae937952c847fab0ae83a0018a057"
+        },
+        {
+          "file": "styles.css",
+          "sha256": "c0d01954115e40b93b6d464c45b28e5437de5e1e837d1f3945b66e5787b8b238"
+        },
+        {
+          "file": "workshop-runtime.js",
+          "sha256": "1579f62cdf967218d97dc1e1a0a798be7eb63ce6969943c1009ef73e329d9a0a"
+        },
+        {
+          "file": "workshop.html",
+          "sha256": "562ce500eeb69d7e3edca0de8aee3eea7c12f8ab8270409e5d0f9597c57b6eaa"
+        }
+      ]
+    },
+    {
+      "id": "kitchen-sink",
+      "directory": ".build/composition-qa/matrix-WVcJPE/kitchen-sink",
+      "options": {
+        "features": null,
+        "profile": "examples/tidepool/profile.json"
+      },
+      "protocol": "worldwright/composition-verification/1",
+      "selected": [
+        "core",
+        "reader",
+        "sources",
+        "atlas",
+        "microsites",
+        "authoring",
+        "claims",
+        "inspector",
+        "workshop",
+        "programmes",
+        "models",
+        "media",
+        "motion",
+        "activities"
+      ],
+      "sourceFiles": 92,
+      "authoredFilesScanned": 36,
+      "localResourcesChecked": 709,
+      "originalPlacesChecked": 40,
+      "originalProsePassagesChecked": 106,
+      "seed": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+      "executionBudget": 20000000,
+      "scope": "structural-source-and-corpus; no browser visual or playback claim",
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "stdoutSha256": "6df1c72fac9bbddab9fc6a4678daec68ffffc19306f6ac4728097c782bbd76ac",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runtimeActions": [
+        {
+          "file": "atlas-runtime.js",
+          "query": "atlas.seen.load",
+          "assertion": "actual world identities filter duplicate and foreign persisted visits"
+        },
+        {
+          "file": "claims-runtime.js",
+          "query": "claims.evaluate",
+          "assertion": "empty own evidence selection remains Undecided"
+        },
+        {
+          "file": "inspector-runtime.js",
+          "query": "inspector.present",
+          "assertion": "exact own source digest"
+        },
+        {
+          "file": "media-runtime.js",
+          "query": "media.stream.seek.contains",
+          "assertion": "emitted advanced range root includes endpoint and rejects outside"
+        },
+        {
+          "file": "models-runtime.js",
+          "query": "models.evaluate",
+          "assertion": "new repetition-code input evaluates"
+        },
+        {
+          "file": "motion-runtime.js",
+          "query": "motion.flood.wave",
+          "assertion": "emitted advanced graphic root returns an SVG path"
+        },
+        {
+          "file": "programmes-runtime.js",
+          "query": "programmes.initial,programmes.witness",
+          "assertion": "own world genesis and witness execute"
+        },
+        {
+          "file": "reader-runtime.js",
+          "query": "reader.search",
+          "assertion": "own-world search filters absent input and restores its scene cards"
+        },
+        {
+          "file": "workshop-runtime.js",
+          "query": "ec.prepare,ec.run,workshop.change",
+          "assertion": "own typed candidate compiles/renders; number title refuses"
+        }
+      ],
+      "compositionReceiptSha256": "0c4c9c0e5c0305cb20520c2673a7fbb077701e7b65c2817fb85a5a751e418dcc",
+      "inputs": [
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitattributes",
+          "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitignore",
+          "sha256": "4e1e7f88440533261ad6622642ebb6fd1a6ff981f07c7881fb2b304ba6b485fb"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "AGENTS.md",
+          "sha256": "324f52739bbb4d1b38236410c08496a5f38a8515a4a0faf94ed2d8367f88d8e1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/admission.process.json",
+          "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/css.process.json",
+          "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/fact-index.process.json",
+          "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/html.process.json",
+          "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/language.process.json",
+          "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/lowering.process.json",
+          "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/operators.expression.json",
+          "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/hosts/runtime.cjs",
+          "sha256": "9188a315df4386da4ebcb440c50062605f7e1afe6cf8dcb8d126e11883d7313e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/kernel-profile.json",
+          "sha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/native.json",
+          "sha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/algebra-lower.cjs",
+          "sha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser-effects.cjs",
+          "sha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser.cjs",
+          "sha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/fact-index.cjs",
+          "sha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/kernel.cjs",
+          "sha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/node.cjs",
+          "sha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/programme.cjs",
+          "sha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/register.cjs",
+          "sha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/rel-codec.cjs",
+          "sha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/value.cjs",
+          "sha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/worker.cjs",
+          "sha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/run.cjs",
+          "sha256": "3872294af862035869b93c4f723c42b35fdb04ce13df3386ac3afdcfb9b27835"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/temple-seed.cjs",
+          "sha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.mjs",
+          "sha256": "3f2fedf69e8b129e65de27136adc435cbd49bd88b1b294e618e2421c9a066e6f"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.test.mjs",
+          "sha256": "bb67f4378fe36d82ad7fda7e4a7cb3c7901c7b67b8222c040f7cdc03181fdf43"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "package.json",
+          "sha256": "d664e70e3fe06fe2363ed08b655564b020a1343f49519b1fe316c93fdc67cd88"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "README.md",
+          "sha256": "663b085dd7b24ed5e14e7d2daf72dc9ad39f966fcc066bf388335a52d3504fc2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "serve.mjs",
+          "sha256": "2487834457b4e6ad79de0a22d3eb4a3c2abe7a232d0d6b89e45d628e44235a6b"
+        },
+        {
+          "owner": "core",
+          "kind": "module",
+          "target": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "owner": "core",
+          "kind": "file",
+          "target": "docs/packs/core.md",
+          "sha256": "85dbf53b0648b34295743c857010f89a00b23d7d58462c58b9bef5fb52b9d801"
+        },
+        {
+          "owner": "reader",
+          "kind": "module",
+          "target": "algebra/reader.process.json",
+          "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26"
+        },
+        {
+          "owner": "reader",
+          "kind": "file",
+          "target": "docs/packs/reader.md",
+          "sha256": "13f4e85fbf0409fe6c063be58763d0574d713f88fbd0aa590eb77ed011ece91f"
+        },
+        {
+          "owner": "sources",
+          "kind": "module",
+          "target": "algebra/sources.process.json",
+          "sha256": "10b79ab6f1c6dfede4f6c638df04b1e449e901b6de2e128ce5e102b77b4ee32c"
+        },
+        {
+          "owner": "sources",
+          "kind": "file",
+          "target": "docs/packs/sources.md",
+          "sha256": "4a69bee0f1b3ee17dfba1e1c6b93e3277d9f3d1a13c71e9527d5713894e25451"
+        },
+        {
+          "owner": "atlas",
+          "kind": "module",
+          "target": "algebra/atlas.process.json",
+          "sha256": "e9af945ed1ea06cdced4bd07f8f34d9189679a8001606b6b25a1f156fa7d5fb7"
+        },
+        {
+          "owner": "atlas",
+          "kind": "module",
+          "target": "algebra/atlas-journey.process.json",
+          "sha256": "e77b9af200c4336632051eb226eb767cab499dc6a40adda06805fecc98d6a6c4"
+        },
+        {
+          "owner": "atlas",
+          "kind": "file",
+          "target": "docs/packs/atlas.md",
+          "sha256": "a67b79e90b86db338bba6a4db635acda06ea9787d5984f333d3c0505601f03c0"
+        },
+        {
+          "owner": "microsites",
+          "kind": "module",
+          "target": "algebra/microsites.process.json",
+          "sha256": "c982659ae8ce2c0cc35690b91469848af03f3b06a100220024c66667f4735e32"
+        },
+        {
+          "owner": "microsites",
+          "kind": "module",
+          "target": "algebra/microsite-projection.process.json",
+          "sha256": "164c77ef3500e7530ce361fa80432d26ff1e1592d23c459156fe2468ad97783e"
+        },
+        {
+          "owner": "microsites",
+          "kind": "facts",
+          "target": "source/microsites.rel",
+          "sha256": "31d047453db3d38f84bad1ca39b4755595618bc64d008c58282e60d43fad800b"
+        },
+        {
+          "owner": "microsites",
+          "kind": "file",
+          "target": "docs/packs/microsites.md",
+          "sha256": "c5cc4326ff52b4ad0e4f5beae57717d1023c39788c3c94c2dbd51a1a789ddc22"
+        },
+        {
+          "owner": "authoring",
+          "kind": "module",
+          "target": "algebra/authoring-page.process.json",
+          "sha256": "85b40c046bcf926da6479a0d1753408b40d6b03a55430e93f0fa13eeaca1f64a"
+        },
+        {
+          "owner": "authoring",
+          "kind": "file",
+          "target": "algebra/authoring.process.json",
+          "sha256": "9e85b26aeb6b734527f7f305160bbd6b3cf5825992eb1a6cd10c4e9e6d9fce1f"
+        },
+        {
+          "owner": "authoring",
+          "kind": "file",
+          "target": "tooling/author.mjs",
+          "sha256": "be566b202f218b1b2c04f96f5dca20938a9750be37d0a67e4e4273ce6d012849"
+        },
+        {
+          "owner": "authoring",
+          "kind": "file",
+          "target": "docs/packs/authoring.md",
+          "sha256": "025a38ee7b3cf0cea7acdd05141248535a08b7bf19e3f856d6bd5e3a5227b085"
+        },
+        {
+          "owner": "claims",
+          "kind": "module",
+          "target": "algebra/claim-review.process.json",
+          "sha256": "203346fa03b42936162505279bc27a5826b623a087e4185e35db39c5d2d67c17"
+        },
+        {
+          "owner": "claims",
+          "kind": "module",
+          "target": "algebra/claims.process.json",
+          "sha256": "cf7c5c635ded4dd1a49c3abecc9fa7aa8315a2409abefcc646b782bc844211e7"
+        },
+        {
+          "owner": "claims",
+          "kind": "file",
+          "target": "docs/packs/claims.md",
+          "sha256": "03f52be82cb9f08942512fb1586f51baa50bd1bf7969cda0046c270ee0d0759f"
+        },
+        {
+          "owner": "inspector",
+          "kind": "module",
+          "target": "algebra/encounter-source.process.json",
+          "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3"
+        },
+        {
+          "owner": "inspector",
+          "kind": "module",
+          "target": "algebra/source.process.json",
+          "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246"
+        },
+        {
+          "owner": "inspector",
+          "kind": "module",
+          "target": "algebra/inspector.process.json",
+          "sha256": "9598890f0b0789e4e09c292003217672024685836f0ad305ccf15767ffd34c8d"
+        },
+        {
+          "owner": "inspector",
+          "kind": "file",
+          "target": "docs/packs/inspector.md",
+          "sha256": "d24460175f3ae03b5edbf92c5fd7ff1b388dfe9886ce565d215c707be79fbe9a"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/encounter-code-types.process.json",
+          "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/encounter-code-compiler.process.json",
+          "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/encounter-code-runtime.process.json",
+          "sha256": "9153aa1c340e3c5015307c8792785d11e7d1bfdd21cbec1c2f6ce476fe5fd572"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/workshop.process.json",
+          "sha256": "bdbfa32189622feacbd5d150659addfade86f2af8c733f11d0f8012041b6dd97"
+        },
+        {
+          "owner": "workshop",
+          "kind": "module",
+          "target": "algebra/workshop-lab.process.json",
+          "sha256": "b54679b6dd650e060d3ae2e91fd1cb5dc198c235bc04e9f15a77f9027b1001c4"
+        },
+        {
+          "owner": "workshop",
+          "kind": "file",
+          "target": "docs/packs/workshop.md",
+          "sha256": "be8db7488f0fb9d868177fb8bd389f684e450253bd1fe6c1cfd2029a88b92e6a"
+        },
+        {
+          "owner": "programmes",
+          "kind": "module",
+          "target": "algebra/canonical.process.json",
+          "sha256": "76e09c6be4a353ca86adae31dcf2e9b347384f6ee4b2cdb7bede2695a1a81233"
+        },
+        {
+          "owner": "programmes",
+          "kind": "module",
+          "target": "algebra/programmes.process.json",
+          "sha256": "5f95305b77527a7a320bc6d5a809953c312b122b99f0970900ea79fe7eff056e"
+        },
+        {
+          "owner": "programmes",
+          "kind": "module",
+          "target": "algebra/cell-values.process.json",
+          "sha256": "f6a141e5d58720607fc6bbff706667cc264ac9fadb142efcc880b150e40d6a4b"
+        },
+        {
+          "owner": "programmes",
+          "kind": "module",
+          "target": "algebra/cell-proposals.process.json",
+          "sha256": "d16e33beb1646bd46e6bdb10ed3c1ea9e989f225867a10f50145a78ffd49cb82"
+        },
+        {
+          "owner": "programmes",
+          "kind": "module",
+          "target": "algebra/cell-drafts.process.json",
+          "sha256": "0a68f575394a20bcba7fb0d35d2f996f0bb9faf50c94a2178d302121b43b74aa"
+        },
+        {
+          "owner": "programmes",
+          "kind": "module",
+          "target": "algebra/cell-tree.process.json",
+          "sha256": "fae7bf7ce27bdc350e77919fe4f1f6f839ae5c554baf9e301f516c075c5a24e3"
+        },
+        {
+          "owner": "programmes",
+          "kind": "asset",
+          "target": "assets/programmes.css",
+          "sha256": "f7769c050fe1d11e69a39f41edb08bf48a78375b0fed738703a42267013282e4"
+        },
+        {
+          "owner": "programmes",
+          "kind": "file",
+          "target": "docs/packs/programmes.md",
+          "sha256": "118277913dc5db6930f0433dd60e805f0ec818fbf35c0ef74aa120fa4c4856db"
+        },
+        {
+          "owner": "models",
+          "kind": "module",
+          "target": "algebra/reader-models.process.json",
+          "sha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b"
+        },
+        {
+          "owner": "models",
+          "kind": "module",
+          "target": "algebra/models.process.json",
+          "sha256": "57f5b89efcc245b6fe35047354e799df97c26c5257beb9c27810637ab4b3ff66"
+        },
+        {
+          "owner": "models",
+          "kind": "file",
+          "target": "docs/packs/models.md",
+          "sha256": "80dc4abb1adb7eb3c6893cd96ad8ef3bad0ad5abed5aefe6522344134593139b"
+        },
+        {
+          "owner": "media",
+          "kind": "module",
+          "target": "algebra/media.process.json",
+          "sha256": "389c0df75454816726da1f025b9777319b45e2789f532500a4d54de01ddf2ef2"
+        },
+        {
+          "owner": "media",
+          "kind": "module",
+          "target": "algebra/media-stream.process.json",
+          "sha256": "8f0dc23ee1afcc9681ce4a22806555b5c8872283039dca1757fe06a2155a2a98"
+        },
+        {
+          "owner": "media",
+          "kind": "asset",
+          "target": "assets/tide-study.mp4",
+          "sha256": "7c533ee4ceb7395992148c4b42ee619585b3857fb8ab2a3bd6170631c6e7e3da"
+        },
+        {
+          "owner": "media",
+          "kind": "asset",
+          "target": "assets/coast-chart.svg",
+          "sha256": "25579867ef17e5161938847462128388be88f8cdafcf23771a097b6b07ad1b25"
+        },
+        {
+          "owner": "motion",
+          "kind": "module",
+          "target": "algebra/motion.process.json",
+          "sha256": "c988067decad71aedf7ac7a49fe42bfaba3a0f8826078950499770179bb6077f"
+        },
+        {
+          "owner": "motion",
+          "kind": "module",
+          "target": "algebra/motion-graphics.process.json",
+          "sha256": "e4249891283667e9c61378048a663df94d82b77a6c53fc4efdae583985f1f95d"
+        },
+        {
+          "owner": "activities",
+          "kind": "module",
+          "target": "algebra/activities.process.json",
+          "sha256": "a386baf600e1373a687e13a19e41b66626cb8032b8c27983564d40f1348a2d36"
+        },
+        {
+          "owner": "activities",
+          "kind": "asset",
+          "target": "assets/activities.css",
+          "sha256": "74309ed0cd6490919b04e1cd46d430aafa8842031f7fc2c3c34b53d6cc8e94da"
+        },
+        {
+          "owner": "activities",
+          "kind": "file",
+          "target": "docs/packs/activities.md",
+          "sha256": "17e67373c64c3d247d369fdec4db0d495142d8816a2abdd0d648e3b8141102da"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/world.rel",
+          "sha256": "bca2775853f390cc58c03bd92ede54e0b362e47d306fd40bb9d369dd2d8ad089"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/presentation.rel",
+          "sha256": "e0ef9407c17ba27c017ec1640a8b8361e8bcb256e553870529e820c94e6f19f6"
+        },
+        {
+          "owner": "core",
+          "kind": "asset",
+          "target": "assets/tidepool-chart.svg",
+          "sha256": "25579867ef17e5161938847462128388be88f8cdafcf23771a097b6b07ad1b25"
+        },
+        {
+          "owner": "media",
+          "kind": "facts",
+          "target": "source/media.rel",
+          "sha256": "d2bf4fda5e331fdff57539b6d23e45388e267de943db2aa4a82a25709e9ce903"
+        },
+        {
+          "owner": "motion",
+          "kind": "facts",
+          "target": "source/motion.rel",
+          "sha256": "ed85871d4311f76a0c400d55ac1ced5ad8624b840d418cb104f92cd84c37480e"
+        },
+        {
+          "owner": "models",
+          "kind": "facts",
+          "target": "source/models.rel",
+          "sha256": "167a74f955af17828660761c4f8c674a584c9ffb9a74132d81474150783ad4f9"
+        },
+        {
+          "owner": "claims",
+          "kind": "facts",
+          "target": "source/claims.rel",
+          "sha256": "e41dade697803de4a651afc600dc444993c882d084b15db8b2eb735e2144a274"
+        },
+        {
+          "owner": "inspector",
+          "kind": "facts",
+          "target": "source/inspector.rel",
+          "sha256": "4ae13253fba12b6f8163692f5fa9e7d8403fe397ba5fb7369cebcaaa619e3981"
+        },
+        {
+          "owner": "workshop",
+          "kind": "facts",
+          "target": "source/workshop.rel",
+          "sha256": "8f799e26ba633d8bdc212c04a79c26771a5c87dfd08a73e8b29e7ce3eeb4c1db"
+        },
+        {
+          "owner": "programmes",
+          "kind": "facts",
+          "target": "source/programmes.rel",
+          "sha256": "2ace4a97c3f5729b6cf6f9926f2da9dd8fb958a646f60503db56638e3e0e2d52"
+        },
+        {
+          "owner": "activities",
+          "kind": "facts",
+          "target": "source/activities.rel",
+          "sha256": "80908a27c3bf38948f04ce939dced14e131125278a37a6a381587f33107936ca"
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "activities-runtime.js",
+          "sha256": "ff93b6041e5844fddd8fb9060a5a0f898828b5a9538c57b0e16732163b41d821"
+        },
+        {
+          "file": "activities.html",
+          "sha256": "7bdd9adb696560c398174f2bf891beae3b64a23a457995e3d6fba399c3d2fd26"
+        },
+        {
+          "file": "algebra/activities.process.json",
+          "sha256": "a386baf600e1373a687e13a19e41b66626cb8032b8c27983564d40f1348a2d36"
+        },
+        {
+          "file": "algebra/atlas-journey.process.json",
+          "sha256": "e77b9af200c4336632051eb226eb767cab499dc6a40adda06805fecc98d6a6c4"
+        },
+        {
+          "file": "algebra/atlas.process.json",
+          "sha256": "e9af945ed1ea06cdced4bd07f8f34d9189679a8001606b6b25a1f156fa7d5fb7"
+        },
+        {
+          "file": "algebra/authoring-page.process.json",
+          "sha256": "85b40c046bcf926da6479a0d1753408b40d6b03a55430e93f0fa13eeaca1f64a"
+        },
+        {
+          "file": "algebra/canonical.process.json",
+          "sha256": "76e09c6be4a353ca86adae31dcf2e9b347384f6ee4b2cdb7bede2695a1a81233"
+        },
+        {
+          "file": "algebra/cell-drafts.process.json",
+          "sha256": "0a68f575394a20bcba7fb0d35d2f996f0bb9faf50c94a2178d302121b43b74aa"
+        },
+        {
+          "file": "algebra/cell-proposals.process.json",
+          "sha256": "d16e33beb1646bd46e6bdb10ed3c1ea9e989f225867a10f50145a78ffd49cb82"
+        },
+        {
+          "file": "algebra/cell-tree.process.json",
+          "sha256": "fae7bf7ce27bdc350e77919fe4f1f6f839ae5c554baf9e301f516c075c5a24e3"
+        },
+        {
+          "file": "algebra/cell-values.process.json",
+          "sha256": "f6a141e5d58720607fc6bbff706667cc264ac9fadb142efcc880b150e40d6a4b"
+        },
+        {
+          "file": "algebra/claim-review.process.json",
+          "sha256": "203346fa03b42936162505279bc27a5826b623a087e4185e35db39c5d2d67c17"
+        },
+        {
+          "file": "algebra/claims.process.json",
+          "sha256": "cf7c5c635ded4dd1a49c3abecc9fa7aa8315a2409abefcc646b782bc844211e7"
+        },
+        {
+          "file": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "file": "algebra/encounter-code-compiler.process.json",
+          "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9"
+        },
+        {
+          "file": "algebra/encounter-code-runtime.process.json",
+          "sha256": "9153aa1c340e3c5015307c8792785d11e7d1bfdd21cbec1c2f6ce476fe5fd572"
+        },
+        {
+          "file": "algebra/encounter-code-types.process.json",
+          "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05"
+        },
+        {
+          "file": "algebra/encounter-source.process.json",
+          "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3"
+        },
+        {
+          "file": "algebra/inspector.process.json",
+          "sha256": "9598890f0b0789e4e09c292003217672024685836f0ad305ccf15767ffd34c8d"
+        },
+        {
+          "file": "algebra/media-stream.process.json",
+          "sha256": "8f0dc23ee1afcc9681ce4a22806555b5c8872283039dca1757fe06a2155a2a98"
+        },
+        {
+          "file": "algebra/media.process.json",
+          "sha256": "389c0df75454816726da1f025b9777319b45e2789f532500a4d54de01ddf2ef2"
+        },
+        {
+          "file": "algebra/microsite-projection.process.json",
+          "sha256": "164c77ef3500e7530ce361fa80432d26ff1e1592d23c459156fe2468ad97783e"
+        },
+        {
+          "file": "algebra/microsites.process.json",
+          "sha256": "c982659ae8ce2c0cc35690b91469848af03f3b06a100220024c66667f4735e32"
+        },
+        {
+          "file": "algebra/models.process.json",
+          "sha256": "57f5b89efcc245b6fe35047354e799df97c26c5257beb9c27810637ab4b3ff66"
+        },
+        {
+          "file": "algebra/motion-graphics.process.json",
+          "sha256": "e4249891283667e9c61378048a663df94d82b77a6c53fc4efdae583985f1f95d"
+        },
+        {
+          "file": "algebra/motion.process.json",
+          "sha256": "c988067decad71aedf7ac7a49fe42bfaba3a0f8826078950499770179bb6077f"
+        },
+        {
+          "file": "algebra/programmes.process.json",
+          "sha256": "5f95305b77527a7a320bc6d5a809953c312b122b99f0970900ea79fe7eff056e"
+        },
+        {
+          "file": "algebra/reader-models.process.json",
+          "sha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b"
+        },
+        {
+          "file": "algebra/reader.process.json",
+          "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26"
+        },
+        {
+          "file": "algebra/source.process.json",
+          "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246"
+        },
+        {
+          "file": "algebra/sources.process.json",
+          "sha256": "10b79ab6f1c6dfede4f6c638df04b1e449e901b6de2e128ce5e102b77b4ee32c"
+        },
+        {
+          "file": "algebra/workshop-lab.process.json",
+          "sha256": "b54679b6dd650e060d3ae2e91fd1cb5dc198c235bc04e9f15a77f9027b1001c4"
+        },
+        {
+          "file": "algebra/workshop.process.json",
+          "sha256": "bdbfa32189622feacbd5d150659addfade86f2af8c733f11d0f8012041b6dd97"
+        },
+        {
+          "file": "assets/activities.css",
+          "sha256": "74309ed0cd6490919b04e1cd46d430aafa8842031f7fc2c3c34b53d6cc8e94da"
+        },
+        {
+          "file": "assets/coast-chart.svg",
+          "sha256": "25579867ef17e5161938847462128388be88f8cdafcf23771a097b6b07ad1b25"
+        },
+        {
+          "file": "assets/programmes.css",
+          "sha256": "f7769c050fe1d11e69a39f41edb08bf48a78375b0fed738703a42267013282e4"
+        },
+        {
+          "file": "assets/tide-study.mp4",
+          "sha256": "7c533ee4ceb7395992148c4b42ee619585b3857fb8ab2a3bd6170631c6e7e3da"
+        },
+        {
+          "file": "assets/tidepool-chart.svg",
+          "sha256": "25579867ef17e5161938847462128388be88f8cdafcf23771a097b6b07ad1b25"
+        },
+        {
+          "file": "atlas-runtime.js",
+          "sha256": "9c18458793dd5b1f4207b0ba03ec0da8f0be358cbea166d264e7de3fc748bb5b"
+        },
+        {
+          "file": "atlas.html",
+          "sha256": "a7f50c0a984d0759e44d368f6163c11b70b9b78261ee20967129c8e0ab0fbda2"
+        },
+        {
+          "file": "authoring.html",
+          "sha256": "8013809f2f7f6658a4f5a696369a817957d56bf48c10e726b11313b141ac05c8"
+        },
+        {
+          "file": "build-receipt.json",
+          "sha256": "ee6c7b9627aed2bc982ab0453b41fe9227cb40a7468dc4c3c55d397771af6c53"
+        },
+        {
+          "file": "claims-runtime.js",
+          "sha256": "18c6c7f4c23167120b36f73848c1cd0a8f770f2fc5baca6f01b543d37be4b0be"
+        },
+        {
+          "file": "claims.html",
+          "sha256": "1bb2cf77d2dbbca6bd9e9331c2235c7984f3116cbe2ef452c8fc02ce1b684936"
+        },
+        {
+          "file": "composition-receipt.json",
+          "sha256": "0c4c9c0e5c0305cb20520c2673a7fbb077701e7b65c2817fb85a5a751e418dcc"
+        },
+        {
+          "file": "index.html",
+          "sha256": "d4f32e84af300bedc4f735f38573cc7328a59866ebcde996412d764f0325ca38"
+        },
+        {
+          "file": "inspector-runtime.js",
+          "sha256": "c104751aee0a4633ef34b07fcccb332475383afe4612c236f3d2d52d329a5232"
+        },
+        {
+          "file": "inspector.html",
+          "sha256": "777a9f486d0c18508fd34baf62492aa2a71627022e5340848e8cfa57884a0d94"
+        },
+        {
+          "file": "media-runtime.js",
+          "sha256": "cec00e2dbf32c9c139fbf934f7e9dc7b2a4e6606b52dea4614692576ef559435"
+        },
+        {
+          "file": "media.html",
+          "sha256": "060f04000d0f3d66f349d5cab44d1269e3743f7fc22feddb3cf0fa7ffbbaac7b"
+        },
+        {
+          "file": "microsites.html",
+          "sha256": "9994260395dabf1e468492edcd69d273bc5c7b1abaa6ec4bf22ecec5576e07bb"
+        },
+        {
+          "file": "models-runtime.js",
+          "sha256": "78078edae3a678abdae58769bec83d15c6779ef03e3b69ac1e306503ef828577"
+        },
+        {
+          "file": "models.html",
+          "sha256": "5c6ee976cf4fceabad75ec36ccf2270e47d0f2b2dff751a397fcece52950be04"
+        },
+        {
+          "file": "motion-runtime.js",
+          "sha256": "ebeba08529305737fda8b42b502b23ac16b1938b284fb20671b5afd3759d6a41"
+        },
+        {
+          "file": "motion.html",
+          "sha256": "2ee071a38cfe10da88ecf7d2ed8f18144277740be12631dbe1bd352558788689"
+        },
+        {
+          "file": "places/arrival.html",
+          "sha256": "a16d29807cf5b64998261b4e48f9a81a60b39c5fea3aedc5ed033cafa44e414d"
+        },
+        {
+          "file": "places/commons.html",
+          "sha256": "d9e1238c8b267ba9174a7435efaf42d2fd797a06f80760c65718bf054736aea3"
+        },
+        {
+          "file": "places/hypotheses.html",
+          "sha256": "d2267700c8f51f7da33321d51799e2c1e5dca0f26428322c87d579ba9c34b3ff"
+        },
+        {
+          "file": "places/notebook.html",
+          "sha256": "fd7f88531cfb429475fbd855ee8d1f8a168e7f4025925004a31d857012c43886"
+        },
+        {
+          "file": "places/quadrat.html",
+          "sha256": "b3bdf83ca0c56beb08b213c059d8a2d86df3eff283e35419083d6476a92de1ce"
+        },
+        {
+          "file": "places/signals.html",
+          "sha256": "23f6e5f77f09da1818af8ab960ae0d22372bcd9158b94a04b4ba6d74c03a8228"
+        },
+        {
+          "file": "places/transect.html",
+          "sha256": "3a8836e6f3f5510436cbadb0d9571031980c72744ebf226d902b115a38acaaee"
+        },
+        {
+          "file": "programmes-runtime.js",
+          "sha256": "17c82603c0e75190c58db31cabac51c0005244090ad1a3c863488374f7ba8f1c"
+        },
+        {
+          "file": "programmes.html",
+          "sha256": "e71e3ab74ca0146cdafa74aeec4ace251e1b2cf07075762a3d29c376a0f2ff49"
+        },
+        {
+          "file": "reader-runtime.js",
+          "sha256": "02530c38efc5a1d33e022770719aeffa696df1fa9580c5dbfa615dada907f921"
+        },
+        {
+          "file": "reader.html",
+          "sha256": "288c8dba32e9dae2d105af24384f782ed4e245a5f5b757fe12ca7db1a62eb461"
+        },
+        {
+          "file": "shoreline.html",
+          "sha256": "3988f175c4c9500eea1b1403fbdaa672e86b566786a236c2ffeb5877ab95553a"
+        },
+        {
+          "file": "source/activities.rel",
+          "sha256": "80908a27c3bf38948f04ce939dced14e131125278a37a6a381587f33107936ca"
+        },
+        {
+          "file": "source/authoring-contract.json",
+          "sha256": "1c38f7dadaa264b805f759cca400ac06af1137714b6270ca1f49ba40e282e90a"
+        },
+        {
+          "file": "source/claims.rel",
+          "sha256": "e41dade697803de4a651afc600dc444993c882d084b15db8b2eb735e2144a274"
+        },
+        {
+          "file": "source/composition.json",
+          "sha256": "0c4c9c0e5c0305cb20520c2673a7fbb077701e7b65c2817fb85a5a751e418dcc"
+        },
+        {
+          "file": "source/inspector.rel",
+          "sha256": "4ae13253fba12b6f8163692f5fa9e7d8403fe397ba5fb7369cebcaaa619e3981"
+        },
+        {
+          "file": "source/media.rel",
+          "sha256": "d2bf4fda5e331fdff57539b6d23e45388e267de943db2aa4a82a25709e9ce903"
+        },
+        {
+          "file": "source/microsites.rel",
+          "sha256": "31d047453db3d38f84bad1ca39b4755595618bc64d008c58282e60d43fad800b"
+        },
+        {
+          "file": "source/models.rel",
+          "sha256": "167a74f955af17828660761c4f8c674a584c9ffb9a74132d81474150783ad4f9"
+        },
+        {
+          "file": "source/motion.rel",
+          "sha256": "ed85871d4311f76a0c400d55ac1ced5ad8624b840d418cb104f92cd84c37480e"
+        },
+        {
+          "file": "source/presentation.rel",
+          "sha256": "e0ef9407c17ba27c017ec1640a8b8361e8bcb256e553870529e820c94e6f19f6"
+        },
+        {
+          "file": "source/programmes.rel",
+          "sha256": "2ace4a97c3f5729b6cf6f9926f2da9dd8fb958a646f60503db56638e3e0e2d52"
+        },
+        {
+          "file": "source/workshop.rel",
+          "sha256": "8f799e26ba633d8bdc212c04a79c26771a5c87dfd08a73e8b29e7ce3eeb4c1db"
+        },
+        {
+          "file": "source/world.rel",
+          "sha256": "bca2775853f390cc58c03bd92ede54e0b362e47d306fd40bb9d369dd2d8ad089"
+        },
+        {
+          "file": "sources.html",
+          "sha256": "7f67b3f6c43246e24e2e27ecc3190564d5087b8f461e9a675322ca455ead1040"
+        },
+        {
+          "file": "styles.css",
+          "sha256": "cbaa6d8f766b9abf5ee776fc9473d970a9fe278ad7e52aee3ba99c3bef3950c2"
+        },
+        {
+          "file": "workshop-runtime.js",
+          "sha256": "dd4cee7ab7618bb6a707626800dad14ecb3bb5e4b0a9e5cef21b2022b430490a"
+        },
+        {
+          "file": "workshop.html",
+          "sha256": "00f87841f41e5d65db93617bb48370547ed7634a17bc2e05476773f3f34a31c6"
+        }
+      ]
+    },
+    {
+      "id": "independent-agent",
+      "directory": ".build/composition-qa/matrix-WVcJPE/independent-agent",
+      "options": {
+        "features": null,
+        "profile": "examples/seed-library/profile.json"
+      },
+      "protocol": "worldwright/composition-verification/1",
+      "selected": [
+        "core",
+        "reader",
+        "sources",
+        "claims"
+      ],
+      "sourceFiles": 44,
+      "authoredFilesScanned": 11,
+      "localResourcesChecked": 62,
+      "originalPlacesChecked": 40,
+      "originalProsePassagesChecked": 106,
+      "seed": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+      "executionBudget": 20000000,
+      "scope": "structural-source-and-corpus; no browser visual or playback claim",
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "stdoutSha256": "6df1c72fac9bbddab9fc6a4678daec68ffffc19306f6ac4728097c782bbd76ac",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "runtimeActions": [
+        {
+          "file": "claims-runtime.js",
+          "query": "claims.evaluate",
+          "assertion": "empty own evidence selection remains Undecided"
+        },
+        {
+          "file": "reader-runtime.js",
+          "query": "reader.search",
+          "assertion": "own-world search filters absent input and restores its scene cards"
+        }
+      ],
+      "compositionReceiptSha256": "9d29c9f7b5a01e6dc21f4dd044a2d4d90488be34a33ce48ae43e313cf1761d51",
+      "inputs": [
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitattributes",
+          "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": ".gitignore",
+          "sha256": "4e1e7f88440533261ad6622642ebb6fd1a6ff981f07c7881fb2b304ba6b485fb"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "AGENTS.md",
+          "sha256": "324f52739bbb4d1b38236410c08496a5f38a8515a4a0faf94ed2d8367f88d8e1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/admission.process.json",
+          "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/css.process.json",
+          "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/fact-index.process.json",
+          "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/html.process.json",
+          "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/language.process.json",
+          "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/lowering.process.json",
+          "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "algebra/operators.expression.json",
+          "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/hosts/runtime.cjs",
+          "sha256": "9188a315df4386da4ebcb440c50062605f7e1afe6cf8dcb8d126e11883d7313e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/kernel-profile.json",
+          "sha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/native.json",
+          "sha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/algebra-lower.cjs",
+          "sha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser-effects.cjs",
+          "sha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/browser.cjs",
+          "sha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/fact-index.cjs",
+          "sha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/kernel.cjs",
+          "sha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/node.cjs",
+          "sha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/programme.cjs",
+          "sha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/register.cjs",
+          "sha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/rel-codec.cjs",
+          "sha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/value.cjs",
+          "sha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/ports/worker.cjs",
+          "sha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/run.cjs",
+          "sha256": "3872294af862035869b93c4f723c42b35fdb04ce13df3386ac3afdcfb9b27835"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "bootstrap/temple-seed.cjs",
+          "sha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.mjs",
+          "sha256": "3f2fedf69e8b129e65de27136adc435cbd49bd88b1b294e618e2421c9a066e6f"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "build.test.mjs",
+          "sha256": "bb67f4378fe36d82ad7fda7e4a7cb3c7901c7b67b8222c040f7cdc03181fdf43"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "package.json",
+          "sha256": "284704210c8cd867fc99f74c9af4c3ae9a99d156ad972a014228fbcabe8bcb5c"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "README.md",
+          "sha256": "663b085dd7b24ed5e14e7d2daf72dc9ad39f966fcc066bf388335a52d3504fc2"
+        },
+        {
+          "owner": "foundation",
+          "kind": "file",
+          "target": "serve.mjs",
+          "sha256": "2487834457b4e6ad79de0a22d3eb4a3c2abe7a232d0d6b89e45d628e44235a6b"
+        },
+        {
+          "owner": "core",
+          "kind": "module",
+          "target": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "owner": "core",
+          "kind": "file",
+          "target": "docs/packs/core.md",
+          "sha256": "85dbf53b0648b34295743c857010f89a00b23d7d58462c58b9bef5fb52b9d801"
+        },
+        {
+          "owner": "reader",
+          "kind": "module",
+          "target": "algebra/reader.process.json",
+          "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26"
+        },
+        {
+          "owner": "reader",
+          "kind": "file",
+          "target": "docs/packs/reader.md",
+          "sha256": "13f4e85fbf0409fe6c063be58763d0574d713f88fbd0aa590eb77ed011ece91f"
+        },
+        {
+          "owner": "sources",
+          "kind": "module",
+          "target": "algebra/sources.process.json",
+          "sha256": "10b79ab6f1c6dfede4f6c638df04b1e449e901b6de2e128ce5e102b77b4ee32c"
+        },
+        {
+          "owner": "sources",
+          "kind": "file",
+          "target": "docs/packs/sources.md",
+          "sha256": "4a69bee0f1b3ee17dfba1e1c6b93e3277d9f3d1a13c71e9527d5713894e25451"
+        },
+        {
+          "owner": "claims",
+          "kind": "module",
+          "target": "algebra/claim-review.process.json",
+          "sha256": "203346fa03b42936162505279bc27a5826b623a087e4185e35db39c5d2d67c17"
+        },
+        {
+          "owner": "claims",
+          "kind": "module",
+          "target": "algebra/claims.process.json",
+          "sha256": "cf7c5c635ded4dd1a49c3abecc9fa7aa8315a2409abefcc646b782bc844211e7"
+        },
+        {
+          "owner": "claims",
+          "kind": "file",
+          "target": "docs/packs/claims.md",
+          "sha256": "03f52be82cb9f08942512fb1586f51baa50bd1bf7969cda0046c270ee0d0759f"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/world.rel",
+          "sha256": "72e3c1a3460030cdeade99f099ed2f982059aee7f024a742b3faf93113054ae0"
+        },
+        {
+          "owner": "core",
+          "kind": "facts",
+          "target": "source/presentation.rel",
+          "sha256": "435dcc5daf68addbae621ee5a947efcb2c545cc77a8aea1dc9f97fa33a49ad0c"
+        },
+        {
+          "owner": "claims",
+          "kind": "facts",
+          "target": "source/claims.rel",
+          "sha256": "cdcd56dd68f47112a22a1f3faee20d25cc8458385325a717c852ef1f710bafb2"
+        },
+        {
+          "owner": "core",
+          "kind": "asset",
+          "target": "assets/seed-drawer.svg",
+          "sha256": "eac36ff2d23066beef6a46f83c70449e0b673281bbf8f4f6bfc7dd4da562a150"
+        }
+      ],
+      "artifacts": [
+        {
+          "file": "algebra/claim-review.process.json",
+          "sha256": "203346fa03b42936162505279bc27a5826b623a087e4185e35db39c5d2d67c17"
+        },
+        {
+          "file": "algebra/claims.process.json",
+          "sha256": "cf7c5c635ded4dd1a49c3abecc9fa7aa8315a2409abefcc646b782bc844211e7"
+        },
+        {
+          "file": "algebra/core.process.json",
+          "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f"
+        },
+        {
+          "file": "algebra/reader.process.json",
+          "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26"
+        },
+        {
+          "file": "algebra/sources.process.json",
+          "sha256": "10b79ab6f1c6dfede4f6c638df04b1e449e901b6de2e128ce5e102b77b4ee32c"
+        },
+        {
+          "file": "assets/seed-drawer.svg",
+          "sha256": "eac36ff2d23066beef6a46f83c70449e0b673281bbf8f4f6bfc7dd4da562a150"
+        },
+        {
+          "file": "build-receipt.json",
+          "sha256": "1dfc4b565b09d0ff6a24d8fb0bb5458cf0705ebd3be650277a115ea35ccf15c6"
+        },
+        {
+          "file": "claims-runtime.js",
+          "sha256": "72753be6a25836b1f28806254f2abe286329d750bfcc5be000ded63b06e8778e"
+        },
+        {
+          "file": "claims.html",
+          "sha256": "8ec04fa58199f2736e70d5535cc02ca5b54e7a2876ef3e19001d1b1afc494609"
+        },
+        {
+          "file": "composition-receipt.json",
+          "sha256": "9d29c9f7b5a01e6dc21f4dd044a2d4d90488be34a33ce48ae43e313cf1761d51"
+        },
+        {
+          "file": "index.html",
+          "sha256": "bde4456762d3fa2c1566034eff3c14587f1afa550b52edb3f563cc9a87037c04"
+        },
+        {
+          "file": "places/drawer.html",
+          "sha256": "8ba1e68ea6d2f5d7355fabcf5d9ea234089a5bbd91366509063e6a615d943e90"
+        },
+        {
+          "file": "places/roof.html",
+          "sha256": "ed2b6f22f064f3e079897abd390599a1d99004b2dafbe21e3fbcaee6698a8e25"
+        },
+        {
+          "file": "reader-runtime.js",
+          "sha256": "9c518904b37b45c694b8e2d3b6060ddc84e30d74ab2e73e40868bf4e3157789d"
+        },
+        {
+          "file": "reader.html",
+          "sha256": "6c676774c08ba2764f96a7ac68290a1fe8444d213c9346814d405e4a52fc6c94"
+        },
+        {
+          "file": "source/claims.rel",
+          "sha256": "cdcd56dd68f47112a22a1f3faee20d25cc8458385325a717c852ef1f710bafb2"
+        },
+        {
+          "file": "source/composition.json",
+          "sha256": "9d29c9f7b5a01e6dc21f4dd044a2d4d90488be34a33ce48ae43e313cf1761d51"
+        },
+        {
+          "file": "source/presentation.rel",
+          "sha256": "435dcc5daf68addbae621ee5a947efcb2c545cc77a8aea1dc9f97fa33a49ad0c"
+        },
+        {
+          "file": "source/world.rel",
+          "sha256": "72e3c1a3460030cdeade99f099ed2f982059aee7f024a742b3faf93113054ae0"
+        },
+        {
+          "file": "sources.html",
+          "sha256": "5e9991d973d1e0a19aec48054853388f459bd591193f7ed779bb5d25f0320b74"
+        },
+        {
+          "file": "styles.css",
+          "sha256": "1151daed85d904ea7f28cf06c85809d0b41815f73debfea8918871eb30281bbe"
+        }
+      ]
+    },
+    {
+      "id": "removal-preserves-owned-content",
+      "preservedFiles": [
+        {
+          "target": "source/world.rel",
+          "sha256": "bca2775853f390cc58c03bd92ede54e0b362e47d306fd40bb9d369dd2d8ad089"
+        },
+        {
+          "target": "source/presentation.rel",
+          "sha256": "e0ef9407c17ba27c017ec1640a8b8361e8bcb256e553870529e820c94e6f19f6"
+        },
+        {
+          "target": "assets/tidepool-chart.svg",
+          "sha256": "25579867ef17e5161938847462128388be88f8cdafcf23771a097b6b07ad1b25"
+        }
+      ],
+      "protocol": "worldwright/composition-verification/1",
+      "selected": [
+        "core",
+        "reader",
+        "sources"
+      ],
+      "sourceFiles": 40,
+      "authoredFilesScanned": 14,
+      "localResourcesChecked": 83,
+      "originalPlacesChecked": 40,
+      "originalProsePassagesChecked": 106,
+      "seed": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+      "executionBudget": 20000000,
+      "scope": "structural-source-and-corpus; no browser visual or playback claim",
+      "command": [
+        "node",
+        "build.mjs"
+      ],
+      "stdoutSha256": "6df1c72fac9bbddab9fc6a4678daec68ffffc19306f6ac4728097c782bbd76ac",
+      "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "scope": "Actual source-only generated consumer native builds and structural/corpus checks; one local software evidence family, no independent human or browser playback claim."
+}

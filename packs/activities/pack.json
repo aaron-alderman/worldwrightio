@@ -1,0 +1,82 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "activities",
+  "title": "Coastal interactions",
+  "requires": [
+    "core",
+    "models"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/activities.process.json"
+  ],
+  "sources": [
+    "source/activities.rel"
+  ],
+  "assets": [
+    "assets/activities.css"
+  ],
+  "build": "activities.build",
+  "render": "activities.view",
+  "navigation": {
+    "label": "Interactions",
+    "route": "activities.html"
+  },
+  "grants": {
+    "build": [
+      "json.parse",
+      "file.write",
+      "runtime.bundle"
+    ],
+    "browser": [
+      "browser.attribute",
+      "browser.class",
+      "browser.content",
+      "browser.dialog",
+      "browser.environment",
+      "browser.frame",
+      "browser.on",
+      "browser.relative",
+      "browser.select",
+      "browser.style",
+      "browser.write",
+      "clock.read",
+      "dom.exists",
+      "json.parse",
+      "kernel.invoke",
+      "number.calculate",
+      "number.format",
+      "number.parse",
+      "record.entries",
+      "record.get",
+      "state.get",
+      "state.set",
+      "storage.write",
+      "text.matches",
+      "text.replaceAll",
+      "value.describe",
+      "value.string"
+    ]
+  },
+  "runtime": {
+    "entry": "activities.boot",
+    "queries": [
+      "activities.boot"
+    ],
+    "profile": "activitiesBrowser",
+    "allPages": true
+  },
+  "outputs": [
+    "activities.html",
+    "activities-runtime.js"
+  ],
+  "stylesheets": [
+    "assets/activities.css"
+  ],
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/activities.md"
+    }
+  ]
+}

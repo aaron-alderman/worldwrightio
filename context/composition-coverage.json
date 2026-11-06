@@ -1,0 +1,2527 @@
+{
+  "protocol": "worldwright/composition-coverage/1",
+  "scope": "All 36 predecessor modules are explicitly mapped. Present queries are literal source/API inventory, not automatic proof of equivalent behavior; replaced entry points remain visible. New presentation is intentional and excludes prior authored demos.",
+  "evidenceFamily": "worldwright-composition-2026-11-06",
+  "features": [
+    {
+      "originalModule": "admission",
+      "originalSha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 7,
+      "originalQueryCount": 7,
+      "presentQueries": [
+        {
+          "original": "admit.binding",
+          "target": "admit.binding"
+        },
+        {
+          "original": "admit.expression",
+          "target": "admit.expression"
+        },
+        {
+          "original": "admit.programme",
+          "target": "admit.programme"
+        },
+        {
+          "original": "admit.model",
+          "target": "admit.model"
+        },
+        {
+          "original": "admit.effects.programme",
+          "target": "admit.effects.programme"
+        },
+        {
+          "original": "admit.effects",
+          "target": "admit.effects"
+        },
+        {
+          "original": "admit.ownership",
+          "target": "admit.ownership"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "atlas-journey",
+      "originalSha256": "6bb32792386552e8fed084e6be5e9d7c2d25f9d755bd93f1a159f9d663ed0817",
+      "pack": "atlas",
+      "preservedOrRenamedQueryCount": 13,
+      "originalQueryCount": 14,
+      "presentQueries": [
+        {
+          "original": "atlas.seen.clean",
+          "target": "atlas.seen.clean"
+        },
+        {
+          "original": "atlas.seen.load",
+          "target": "atlas.seen.load"
+        },
+        {
+          "original": "atlas.seen.save",
+          "target": "atlas.seen.save"
+        },
+        {
+          "original": "atlas.seen.mark",
+          "target": "atlas.seen.mark"
+        },
+        {
+          "original": "atlas.seen.paint",
+          "target": "atlas.seen.paint"
+        },
+        {
+          "original": "atlas.seen.refresh",
+          "target": "atlas.seen.refresh"
+        },
+        {
+          "original": "atlas.seen.reset",
+          "target": "atlas.seen.reset"
+        },
+        {
+          "original": "atlas.pin.dismiss",
+          "target": "atlas.pin.dismiss"
+        },
+        {
+          "original": "atlas.pin.reveal",
+          "target": "atlas.pin.reveal"
+        },
+        {
+          "original": "atlas.journey.boot",
+          "target": "atlas.journey.boot"
+        },
+        {
+          "original": "atlas.pin.preview",
+          "target": "atlas.pin.preview"
+        },
+        {
+          "original": "atlas.pin.mode",
+          "target": "atlas.pin.mode"
+        },
+        {
+          "original": "atlas.journey.resume",
+          "target": "atlas.journey.resume"
+        }
+      ],
+      "replacedEntryPoints": [
+        {
+          "original": "atlas.runtime.build",
+          "target": "atlas.runtime.build"
+        }
+      ],
+      "note": "Actual reusable visit storage/reset, pin preview, history resume and reduced layout; new world supplies place identities.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "atlas",
+      "originalSha256": "b2a33febd6a0983086584ef0ea944a26eddfab78493882625a1ceb99b0644cbd",
+      "pack": "atlas",
+      "preservedOrRenamedQueryCount": 1,
+      "originalQueryCount": 1,
+      "presentQueries": [
+        {
+          "original": "atlas.build",
+          "target": "atlas.build"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "authoring",
+      "originalSha256": "6f90e04fb48885def927bfa799b358be85000892a2667e0ea81bc70108e92bf4",
+      "pack": "authoring",
+      "preservedOrRenamedQueryCount": 2,
+      "originalQueryCount": 2,
+      "presentQueries": [
+        {
+          "original": "author.prepare",
+          "target": "author.prepare"
+        },
+        {
+          "original": "author.run",
+          "target": "author.run"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "claimipedia-review",
+      "originalSha256": "c356e4691f2788337b251cebec2cbc08f1857ec45e797e9c3eacc471a13d2a17",
+      "pack": "claims",
+      "preservedOrRenamedQueryCount": 3,
+      "originalQueryCount": 8,
+      "presentQueries": [
+        {
+          "original": "claim.review.item",
+          "target": "claim.review.item"
+        },
+        {
+          "original": "claim.review.method",
+          "target": "claim.review.method"
+        },
+        {
+          "original": "claim.review.compare",
+          "target": "claim.review.compare"
+        }
+      ],
+      "replacedEntryPoints": [
+        {
+          "original": "claim.review.html",
+          "target": "claim.review.html"
+        },
+        {
+          "original": "claim.review.boot",
+          "target": "claim.review.boot"
+        },
+        {
+          "original": "claim.review.change",
+          "target": "claim.review.change"
+        },
+        {
+          "original": "claim.review.reset",
+          "target": "claim.review.reset"
+        },
+        {
+          "original": "claim.review.render",
+          "target": "claim.review.render"
+        }
+      ],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "claimipedia",
+      "originalSha256": "dc74ccf8e8e81b15cd05178dd33b140999e28a4398130959f54a8f3f1f6ff173",
+      "pack": "claims",
+      "preservedOrRenamedQueryCount": 0,
+      "originalQueryCount": 1,
+      "presentQueries": [],
+      "replacedEntryPoints": [
+        {
+          "original": "claimipedia.build",
+          "target": "claimipedia.build"
+        }
+      ],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "css",
+      "originalSha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 4,
+      "originalQueryCount": 4,
+      "presentQueries": [
+        {
+          "original": "css.build",
+          "target": "css.build"
+        },
+        {
+          "original": "css.render",
+          "target": "css.render"
+        },
+        {
+          "original": "css.plan",
+          "target": "css.plan"
+        },
+        {
+          "original": "css.renderPlan",
+          "target": "css.renderPlan"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "encounter-code-compiler",
+      "originalSha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9",
+      "pack": "workshop",
+      "preservedOrRenamedQueryCount": 18,
+      "originalQueryCount": 18,
+      "presentQueries": [
+        {
+          "original": "ec.lex",
+          "target": "ec.lex"
+        },
+        {
+          "original": "ec.header",
+          "target": "ec.header"
+        },
+        {
+          "original": "ec.expression",
+          "target": "ec.expression"
+        },
+        {
+          "original": "ec.fields",
+          "target": "ec.fields"
+        },
+        {
+          "original": "ec.data",
+          "target": "ec.data"
+        },
+        {
+          "original": "ec.record",
+          "target": "ec.record"
+        },
+        {
+          "original": "ec.representation",
+          "target": "ec.representation"
+        },
+        {
+          "original": "ec.view",
+          "target": "ec.view"
+        },
+        {
+          "original": "ec.edits",
+          "target": "ec.edits"
+        },
+        {
+          "original": "ec.show",
+          "target": "ec.show"
+        },
+        {
+          "original": "ec.emitView",
+          "target": "ec.emitView"
+        },
+        {
+          "original": "ec.emitRepresentation",
+          "target": "ec.emitRepresentation"
+        },
+        {
+          "original": "ec.compile",
+          "target": "ec.compile"
+        },
+        {
+          "original": "ec.attempt",
+          "target": "ec.attempt"
+        },
+        {
+          "original": "ec.complete",
+          "target": "ec.complete"
+        },
+        {
+          "original": "ec.verifyShow",
+          "target": "ec.verifyShow"
+        },
+        {
+          "original": "ec.verify",
+          "target": "ec.verify"
+        },
+        {
+          "original": "ec.oneField",
+          "target": "ec.oneField"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "encounter-code-runtime",
+      "originalSha256": "4c7f7e56e0eb303b1419970f7895903b2e0581a3a27d3bb180a56424bdb64ffc",
+      "pack": "workshop",
+      "preservedOrRenamedQueryCount": 7,
+      "originalQueryCount": 7,
+      "presentQueries": [
+        {
+          "original": "ec.prepare",
+          "target": "ec.prepare"
+        },
+        {
+          "original": "ec.resolve",
+          "target": "ec.resolve"
+        },
+        {
+          "original": "ec.safeTree",
+          "target": "ec.safeTree"
+        },
+        {
+          "original": "ec.events",
+          "target": "ec.events"
+        },
+        {
+          "original": "ec.run",
+          "target": "ec.run"
+        },
+        {
+          "original": "ec.patch",
+          "target": "ec.patch"
+        },
+        {
+          "original": "ec.findElement",
+          "target": "ec.findElement"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "encounter-code-types",
+      "originalSha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05",
+      "pack": "workshop",
+      "preservedOrRenamedQueryCount": 8,
+      "originalQueryCount": 8,
+      "presentQueries": [
+        {
+          "original": "ec.schema",
+          "target": "ec.schema"
+        },
+        {
+          "original": "ec.slot",
+          "target": "ec.slot"
+        },
+        {
+          "original": "ec.scalar",
+          "target": "ec.scalar"
+        },
+        {
+          "original": "ec.check",
+          "target": "ec.check"
+        },
+        {
+          "original": "ec.referenceType",
+          "target": "ec.referenceType"
+        },
+        {
+          "original": "ec.fact",
+          "target": "ec.fact"
+        },
+        {
+          "original": "ec.reference",
+          "target": "ec.reference"
+        },
+        {
+          "original": "ec.argument",
+          "target": "ec.argument"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "encounter-demo",
+      "originalSha256": "b14e862f2dc33d91ab8395c2151cba62148f4cef57cf66fce36cf9016862634c",
+      "pack": "workshop",
+      "preservedOrRenamedQueryCount": 9,
+      "originalQueryCount": 9,
+      "presentQueries": [
+        {
+          "original": "encounter.demo.boot",
+          "target": "workshop.boot"
+        },
+        {
+          "original": "encounter.demo.change",
+          "target": "workshop.change"
+        },
+        {
+          "original": "encounter.demo.apply",
+          "target": "workshop.apply"
+        },
+        {
+          "original": "encounter.demo.reset",
+          "target": "workshop.reset"
+        },
+        {
+          "original": "encounter.demo.select",
+          "target": "workshop.select"
+        },
+        {
+          "original": "encounter.demo.html",
+          "target": "workshop.html"
+        },
+        {
+          "original": "encounter.demo.render",
+          "target": "workshop.render"
+        },
+        {
+          "original": "encounter.demo.source",
+          "target": "workshop.source"
+        },
+        {
+          "original": "encounter.demo.inspect",
+          "target": "workshop.inspect"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Own typed notebook workshop source/edit/reset/select and DOM event dispatch replace old story demonstration.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "encounter-source",
+      "originalSha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3",
+      "pack": "inspector",
+      "preservedOrRenamedQueryCount": 18,
+      "originalQueryCount": 18,
+      "presentQueries": [
+        {
+          "original": "sp.role",
+          "target": "sp.role"
+        },
+        {
+          "original": "sp.scan",
+          "target": "sp.scan"
+        },
+        {
+          "original": "sp.observed",
+          "target": "sp.observed"
+        },
+        {
+          "original": "sp.clip",
+          "target": "sp.clip"
+        },
+        {
+          "original": "sp.line",
+          "target": "sp.line"
+        },
+        {
+          "original": "sp.render",
+          "target": "sp.render"
+        },
+        {
+          "original": "sp.present",
+          "target": "sp.present"
+        },
+        {
+          "original": "sp.expression",
+          "target": "sp.expression"
+        },
+        {
+          "original": "sp.programme",
+          "target": "sp.programme"
+        },
+        {
+          "original": "sp.statement",
+          "target": "sp.statement"
+        },
+        {
+          "original": "sp.listing",
+          "target": "sp.listing"
+        },
+        {
+          "original": "sp.style",
+          "target": "sp.style"
+        },
+        {
+          "original": "sp.outline",
+          "target": "sp.outline"
+        },
+        {
+          "original": "sp.metadata",
+          "target": "sp.metadata"
+        },
+        {
+          "original": "sp.stylePlan",
+          "target": "sp.stylePlan"
+        },
+        {
+          "original": "source.split",
+          "target": "source.split"
+        },
+        {
+          "original": "source.lex",
+          "target": "source.lex"
+        },
+        {
+          "original": "s01.portable",
+          "target": "s01.portable"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "encounter",
+      "originalSha256": "c536702195b172350470ac26baf53b3ef7a2cb09e87c4e4865522bb585fa005a",
+      "pack": "workshop",
+      "preservedOrRenamedQueryCount": 0,
+      "originalQueryCount": 1,
+      "presentQueries": [],
+      "replacedEntryPoints": [
+        {
+          "original": "encounter.build",
+          "target": "encounter.build"
+        }
+      ],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "fact-index",
+      "originalSha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 1,
+      "originalQueryCount": 1,
+      "presentQueries": [
+        {
+          "original": "facts.index",
+          "target": "facts.index"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "front-doors",
+      "originalSha256": "1194b3695eb34ef7404858220ad626c216ee3a2be2d12d30d3c24213409959bc",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 0,
+      "originalQueryCount": 4,
+      "presentQueries": [],
+      "replacedEntryPoints": [
+        {
+          "original": "frontdoors.home",
+          "target": "frontdoors.home"
+        },
+        {
+          "original": "frontdoors.claimipedia",
+          "target": "frontdoors.claimipedia"
+        },
+        {
+          "original": "frontdoors.worldwright",
+          "target": "frontdoors.worldwright"
+        },
+        {
+          "original": "frontdoors.capabilities",
+          "target": "frontdoors.capabilities"
+        }
+      ],
+      "note": "Configured pack navigation and home/scene blocks replace original branded project front doors.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "gateway",
+      "originalSha256": "b6d685106717a80f4e443ae86a83e57a149a6f67782610f774ebcbf493e89e4f",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 0,
+      "originalQueryCount": 2,
+      "presentQueries": [],
+      "replacedEntryPoints": [
+        {
+          "original": "gateway.build",
+          "target": "gateway.build"
+        },
+        {
+          "original": "gateway.view",
+          "target": "gateway.view"
+        }
+      ],
+      "note": "Selected-feature shell and source navigation replace the seven-door editorial gateway.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "html",
+      "originalSha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 5,
+      "originalQueryCount": 5,
+      "presentQueries": [
+        {
+          "original": "html.escape",
+          "target": "html.escape"
+        },
+        {
+          "original": "html.serialize",
+          "target": "html.serialize"
+        },
+        {
+          "original": "html.observe",
+          "target": "html.observe"
+        },
+        {
+          "original": "html.inspect",
+          "target": "html.inspect"
+        },
+        {
+          "original": "html.cssText",
+          "target": "html.cssText"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "language",
+      "originalSha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 6,
+      "originalQueryCount": 6,
+      "presentQueries": [
+        {
+          "original": "language.refuse",
+          "target": "language.refuse"
+        },
+        {
+          "original": "language.line",
+          "target": "language.line"
+        },
+        {
+          "original": "language.module",
+          "target": "language.module"
+        },
+        {
+          "original": "language.entity",
+          "target": "language.entity"
+        },
+        {
+          "original": "language.property",
+          "target": "language.property"
+        },
+        {
+          "original": "language.compile",
+          "target": "language.compile"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "lowering",
+      "originalSha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 7,
+      "originalQueryCount": 7,
+      "presentQueries": [
+        {
+          "original": "lower.scan",
+          "target": "lower.scan"
+        },
+        {
+          "original": "lower.fresh",
+          "target": "lower.fresh"
+        },
+        {
+          "original": "lower.template",
+          "target": "lower.template"
+        },
+        {
+          "original": "lower.expression",
+          "target": "lower.expression"
+        },
+        {
+          "original": "lower.programme",
+          "target": "lower.programme"
+        },
+        {
+          "original": "lower.model",
+          "target": "lower.model"
+        },
+        {
+          "original": "lower.start",
+          "target": "lower.start"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-lamp",
+      "originalSha256": "fc4d07d31f82924b36fb9a921229c0b2f5f93b84727b52b4884b58144feecd5b",
+      "pack": "programmes",
+      "preservedOrRenamedQueryCount": 12,
+      "originalQueryCount": 12,
+      "presentQueries": [
+        {
+          "original": "lamp.availability",
+          "target": "cells.availability"
+        },
+        {
+          "original": "lamp.applyUnchecked",
+          "target": "cells.applyUnchecked"
+        },
+        {
+          "original": "address.flip",
+          "target": "address.flip"
+        },
+        {
+          "original": "lamp.buildProposal",
+          "target": "cells.buildProposal"
+        },
+        {
+          "original": "lamp.checkCanonical",
+          "target": "cells.checkCanonical"
+        },
+        {
+          "original": "lamp.judge",
+          "target": "cells.judge"
+        },
+        {
+          "original": "lamp.namedCells",
+          "target": "cells.namedCells"
+        },
+        {
+          "original": "lamp.commit",
+          "target": "cells.commit"
+        },
+        {
+          "original": "lamp.propose",
+          "target": "cells.propose"
+        },
+        {
+          "original": "lamp.freshTemple",
+          "target": "cells.freshHub"
+        },
+        {
+          "original": "lamp.replay",
+          "target": "cells.replay"
+        },
+        {
+          "original": "lamp.forge",
+          "target": "cells.forge"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-media",
+      "originalSha256": "a8581be25a23c46ad8eaae9cb178f3055d74f8b1f759cde17b7550e08e13629b",
+      "pack": "media",
+      "preservedOrRenamedQueryCount": 11,
+      "originalQueryCount": 11,
+      "presentQueries": [
+        {
+          "original": "media.screens.init",
+          "target": "media.stream.screens.init"
+        },
+        {
+          "original": "media.sound.sync",
+          "target": "media.stream.sound.sync"
+        },
+        {
+          "original": "media.sound.toggle",
+          "target": "media.stream.sound.toggle"
+        },
+        {
+          "original": "media.screens.intersection",
+          "target": "media.stream.screens.intersection"
+        },
+        {
+          "original": "media.seek.click",
+          "target": "media.stream.seek.click"
+        },
+        {
+          "original": "media.seek.loaded",
+          "target": "media.stream.seek.loaded"
+        },
+        {
+          "original": "media.seek.contains",
+          "target": "media.stream.seek.contains"
+        },
+        {
+          "original": "media.seek.prepare",
+          "target": "media.stream.seek.prepare"
+        },
+        {
+          "original": "media.seek.finish",
+          "target": "media.stream.seek.finish"
+        },
+        {
+          "original": "media.provenance",
+          "target": "media.stream.provenance"
+        },
+        {
+          "original": "media.provenance.view",
+          "target": "media.stream.provenance.view"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-motion",
+      "originalSha256": "ca994deeca7d4dd565b5ce0777d863e37f60d81b1a6316431101068debc4f357",
+      "pack": "motion",
+      "preservedOrRenamedQueryCount": 23,
+      "originalQueryCount": 23,
+      "presentQueries": [
+        {
+          "original": "motion.sourcery.init",
+          "target": "motion.scroll.init"
+        },
+        {
+          "original": "motion.sourcery.scenes",
+          "target": "motion.scroll.scenes"
+        },
+        {
+          "original": "motion.sourcery.reduced",
+          "target": "motion.scroll.reduced"
+        },
+        {
+          "original": "motion.sourcery.tocToggle",
+          "target": "motion.scroll.tocToggle"
+        },
+        {
+          "original": "motion.sourcery.tocClose",
+          "target": "motion.scroll.tocClose"
+        },
+        {
+          "original": "motion.sourcery.escape",
+          "target": "motion.scroll.escape"
+        },
+        {
+          "original": "motion.sourcery.chapters",
+          "target": "motion.scroll.chapters"
+        },
+        {
+          "original": "motion.sourcery.stone",
+          "target": "motion.scroll.stone"
+        },
+        {
+          "original": "motion.sourcery.cta",
+          "target": "motion.scroll.cta"
+        },
+        {
+          "original": "motion.flood.rand",
+          "target": "motion.flood.rand"
+        },
+        {
+          "original": "motion.flood.scatter",
+          "target": "motion.flood.scatter"
+        },
+        {
+          "original": "motion.flood.init",
+          "target": "motion.flood.init"
+        },
+        {
+          "original": "motion.flood.intersection",
+          "target": "motion.flood.intersection"
+        },
+        {
+          "original": "motion.flood.scroll",
+          "target": "motion.flood.scroll"
+        },
+        {
+          "original": "motion.flood.running",
+          "target": "motion.flood.running"
+        },
+        {
+          "original": "motion.flood.frame",
+          "target": "motion.flood.frame"
+        },
+        {
+          "original": "motion.flood.wave",
+          "target": "motion.flood.wave"
+        },
+        {
+          "original": "motion.flood.pose",
+          "target": "motion.flood.pose"
+        },
+        {
+          "original": "motion.flood.render",
+          "target": "motion.flood.render"
+        },
+        {
+          "original": "motion.autoplay.init",
+          "target": "motion.autoplay.init"
+        },
+        {
+          "original": "motion.autoplay.toggle",
+          "target": "motion.autoplay.toggle"
+        },
+        {
+          "original": "motion.autoplay.label",
+          "target": "motion.autoplay.label"
+        },
+        {
+          "original": "motion.autoplay.intersection",
+          "target": "motion.autoplay.intersection"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-projection",
+      "originalSha256": "b9448dd1a2425f1a937dbb38669718aa0ce3e0c9cc34b9baed138d80a5b9422f",
+      "pack": "microsites",
+      "preservedOrRenamedQueryCount": 3,
+      "originalQueryCount": 3,
+      "presentQueries": [
+        {
+          "original": "source.markup",
+          "target": "source.markup"
+        },
+        {
+          "original": "source.css",
+          "target": "source.css"
+        },
+        {
+          "original": "source.metadata",
+          "target": "source.metadata"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-sourcery",
+      "originalSha256": "4e1c5995c7dc334043cc345ee9684139ac705d3772ad34f70c79ea79dcd3323c",
+      "pack": "programmes",
+      "preservedOrRenamedQueryCount": 7,
+      "originalQueryCount": 7,
+      "presentQueries": [
+        {
+          "original": "sourcery.subject",
+          "target": "draft.subject"
+        },
+        {
+          "original": "sourcery.format",
+          "target": "draft.format"
+        },
+        {
+          "original": "sourcery.draft",
+          "target": "draft.draft"
+        },
+        {
+          "original": "sourcery.proposal",
+          "target": "draft.proposal"
+        },
+        {
+          "original": "sourcery.decide",
+          "target": "draft.decide"
+        },
+        {
+          "original": "sourcery.verify",
+          "target": "draft.verify"
+        },
+        {
+          "original": "sourcery.tamper",
+          "target": "draft.tamper"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-temple-motion",
+      "originalSha256": "16197e683130c5cab6cc6ba7112fd74354fd1126d0bc461553b426f75d73c864",
+      "pack": "motion",
+      "preservedOrRenamedQueryCount": 28,
+      "originalQueryCount": 28,
+      "presentQueries": [
+        {
+          "original": "motion.temple.init",
+          "target": "motion.chapter.init"
+        },
+        {
+          "original": "motion.temple.follow",
+          "target": "motion.chapter.follow"
+        },
+        {
+          "original": "motion.temple.reveal",
+          "target": "motion.chapter.reveal"
+        },
+        {
+          "original": "motion.temple.scroll",
+          "target": "motion.chapter.scroll"
+        },
+        {
+          "original": "motion.temple.mode",
+          "target": "motion.chapter.mode"
+        },
+        {
+          "original": "motion.temple.scenes",
+          "target": "motion.chapter.scenes"
+        },
+        {
+          "original": "motion.sky.star",
+          "target": "motion.sky.star"
+        },
+        {
+          "original": "motion.sky.mote",
+          "target": "motion.sky.mote"
+        },
+        {
+          "original": "motion.sky.seed",
+          "target": "motion.sky.seed"
+        },
+        {
+          "original": "motion.sky.plan",
+          "target": "motion.sky.plan"
+        },
+        {
+          "original": "motion.sky.draw",
+          "target": "motion.sky.draw"
+        },
+        {
+          "original": "motion.sky.start",
+          "target": "motion.sky.start"
+        },
+        {
+          "original": "motion.sky.frame",
+          "target": "motion.sky.frame"
+        },
+        {
+          "original": "motion.sky.resize",
+          "target": "motion.sky.resize"
+        },
+        {
+          "original": "motion.sky.reseed",
+          "target": "motion.sky.reseed"
+        },
+        {
+          "original": "motion.sky.scroll",
+          "target": "motion.sky.scroll"
+        },
+        {
+          "original": "motion.stone.row",
+          "target": "motion.stone.row"
+        },
+        {
+          "original": "motion.stone",
+          "target": "motion.stone"
+        },
+        {
+          "original": "motion.constellation.pos",
+          "target": "motion.constellation.pos"
+        },
+        {
+          "original": "motion.constellation.temple",
+          "target": "motion.constellation.marker"
+        },
+        {
+          "original": "motion.constellation.plan",
+          "target": "motion.constellation.plan"
+        },
+        {
+          "original": "motion.constellation.init",
+          "target": "motion.constellation.init"
+        },
+        {
+          "original": "motion.constellation.size",
+          "target": "motion.constellation.size"
+        },
+        {
+          "original": "motion.constellation.draw",
+          "target": "motion.constellation.draw"
+        },
+        {
+          "original": "motion.constellation.start",
+          "target": "motion.constellation.start"
+        },
+        {
+          "original": "motion.constellation.frame",
+          "target": "motion.constellation.frame"
+        },
+        {
+          "original": "motion.constellation.intersection",
+          "target": "motion.constellation.intersection"
+        },
+        {
+          "original": "motion.constellation.resize",
+          "target": "motion.constellation.resize"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-temple-ui",
+      "originalSha256": "5268456e95c933922ab842b4c5512b0d2d5824b6ff82384ba279fa20e61d501e",
+      "pack": "programmes",
+      "preservedOrRenamedQueryCount": 2,
+      "originalQueryCount": 20,
+      "presentQueries": [
+        {
+          "original": "ui.temple.tree",
+          "target": "ui.cells.tree"
+        },
+        {
+          "original": "ui.temple.treeY",
+          "target": "ui.cells.treeY"
+        }
+      ],
+      "replacedEntryPoints": [
+        {
+          "original": "ui.temple.recipe",
+          "target": "ui.cells.recipe"
+        },
+        {
+          "original": "ui.temple.init",
+          "target": "ui.cells.init"
+        },
+        {
+          "original": "ui.temple.stages",
+          "target": "ui.cells.stages"
+        },
+        {
+          "original": "ui.temple.preview",
+          "target": "ui.cells.preview"
+        },
+        {
+          "original": "ui.temple.render",
+          "target": "ui.cells.render"
+        },
+        {
+          "original": "ui.temple.covenant",
+          "target": "ui.cells.covenant"
+        },
+        {
+          "original": "ui.temple.lesson",
+          "target": "ui.cells.lesson"
+        },
+        {
+          "original": "ui.temple.propose",
+          "target": "ui.cells.propose"
+        },
+        {
+          "original": "ui.temple.animateStage",
+          "target": "ui.cells.animateStage"
+        },
+        {
+          "original": "ui.temple.finishStage",
+          "target": "ui.cells.finishStage"
+        },
+        {
+          "original": "ui.temple.finishProposal",
+          "target": "ui.cells.finishProposal"
+        },
+        {
+          "original": "ui.temple.label",
+          "target": "ui.cells.label"
+        },
+        {
+          "original": "ui.temple.journal",
+          "target": "ui.cells.journal"
+        },
+        {
+          "original": "ui.temple.restore",
+          "target": "ui.cells.restore"
+        },
+        {
+          "original": "ui.temple.replayBusy",
+          "target": "ui.cells.replayBusy"
+        },
+        {
+          "original": "ui.temple.replay",
+          "target": "ui.cells.replay"
+        },
+        {
+          "original": "ui.temple.replayLine",
+          "target": "ui.cells.replayLine"
+        },
+        {
+          "original": "ui.temple.chain",
+          "target": "ui.cells.chain"
+        }
+      ],
+      "note": "New source-owned equipment-cell workflow and tree projection replace the original editorial sequence and screen. No exact prior screen/timing parity claim.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-ui",
+      "originalSha256": "4b5e098df13bcc4c1fffabd354a79ec0db2681fdaf801c0c7249342619c041d2",
+      "pack": "programmes",
+      "preservedOrRenamedQueryCount": 0,
+      "originalQueryCount": 14,
+      "presentQueries": [],
+      "replacedEntryPoints": [
+        {
+          "original": "ui.html",
+          "target": "ui.html"
+        },
+        {
+          "original": "ui.short",
+          "target": "ui.short"
+        },
+        {
+          "original": "ui.sourcery.init",
+          "target": "ui.sourcery.init"
+        },
+        {
+          "original": "ui.sourcery.example",
+          "target": "ui.sourcery.example"
+        },
+        {
+          "original": "ui.sourcery.summon",
+          "target": "ui.sourcery.summon"
+        },
+        {
+          "original": "ui.sourcery.focus",
+          "target": "ui.sourcery.focus"
+        },
+        {
+          "original": "ui.sourcery.proposal",
+          "target": "ui.sourcery.proposal"
+        },
+        {
+          "original": "ui.sourcery.actions",
+          "target": "ui.sourcery.actions"
+        },
+        {
+          "original": "ui.sourcery.askWhy",
+          "target": "ui.sourcery.askWhy"
+        },
+        {
+          "original": "ui.sourcery.enter",
+          "target": "ui.sourcery.enter"
+        },
+        {
+          "original": "ui.sourcery.decide",
+          "target": "ui.sourcery.decide"
+        },
+        {
+          "original": "ui.sourcery.ledger",
+          "target": "ui.sourcery.ledger"
+        },
+        {
+          "original": "ui.sourcery.verify",
+          "target": "ui.sourcery.verify"
+        },
+        {
+          "original": "ui.sourcery.tamper",
+          "target": "ui.sourcery.tamper"
+        }
+      ],
+      "note": "New source-owned draft/proposal/witness/ledger controls replace the original authored project demonstration.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsite-values",
+      "originalSha256": "1f995db6a7b6855aab6d80f279488345988c90997e6dfaaea75e304dfe036069",
+      "pack": "programmes",
+      "preservedOrRenamedQueryCount": 19,
+      "originalQueryCount": 19,
+      "presentQueries": [
+        {
+          "original": "canonical.encode",
+          "target": "canonical.encode"
+        },
+        {
+          "original": "canonical.identify",
+          "target": "canonical.identify"
+        },
+        {
+          "original": "canonical.is",
+          "target": "canonical.is"
+        },
+        {
+          "original": "address.digest",
+          "target": "address.digest"
+        },
+        {
+          "original": "address.short",
+          "target": "address.short"
+        },
+        {
+          "original": "record.remove",
+          "target": "record.remove"
+        },
+        {
+          "original": "record.clone",
+          "target": "record.clone"
+        },
+        {
+          "original": "lamp.measure",
+          "target": "cells.measure"
+        },
+        {
+          "original": "lamp.readPath",
+          "target": "cells.readPath"
+        },
+        {
+          "original": "lamp.evaluateNode",
+          "target": "cells.evaluateNode"
+        },
+        {
+          "original": "lamp.evaluate",
+          "target": "cells.evaluate"
+        },
+        {
+          "original": "lamp.render",
+          "target": "cells.render"
+        },
+        {
+          "original": "lamp.cellId",
+          "target": "cells.cellId"
+        },
+        {
+          "original": "lamp.merkle",
+          "target": "cells.merkle"
+        },
+        {
+          "original": "lamp.merkleLevel",
+          "target": "cells.merkleLevel"
+        },
+        {
+          "original": "lamp.stateRoot",
+          "target": "cells.stateRoot"
+        },
+        {
+          "original": "lamp.cellsByKey",
+          "target": "cells.cellsByKey"
+        },
+        {
+          "original": "lamp.findCell",
+          "target": "cells.findCell"
+        },
+        {
+          "original": "lamp.createWorld",
+          "target": "cells.createWorld"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "microsites",
+      "originalSha256": "a52c7d3ad4aff5a26a8fdd93969b049be7b5e8c02f54555f72a57ede7a873375",
+      "pack": "microsites",
+      "preservedOrRenamedQueryCount": 1,
+      "originalQueryCount": 5,
+      "presentQueries": [
+        {
+          "original": "microsites.build",
+          "target": "microsites.build"
+        }
+      ],
+      "replacedEntryPoints": [
+        {
+          "original": "microsites.preview",
+          "target": "microsites.preview"
+        },
+        {
+          "original": "microsites.project",
+          "target": "microsites.project"
+        },
+        {
+          "original": "microsite.early",
+          "target": "microsite.early"
+        },
+        {
+          "original": "microsite.boot",
+          "target": "microsite.boot"
+        }
+      ],
+      "note": "Variable source-defined windows and actual markup/CSS/metadata projection libraries; original authored project sites are excluded.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "operators",
+      "originalSha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 0,
+      "originalQueryCount": 0,
+      "presentQueries": [],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "publication",
+      "originalSha256": "877d2bf0ab5ce3555b4022a2dc428c9c5cc3a38b70c7bbc9bbef97b19415cae3",
+      "pack": "core",
+      "preservedOrRenamedQueryCount": 0,
+      "originalQueryCount": 7,
+      "presentQueries": [],
+      "replacedEntryPoints": [
+        {
+          "original": "publication.build",
+          "target": "publication.build"
+        },
+        {
+          "original": "publication.styles",
+          "target": "publication.styles"
+        },
+        {
+          "original": "publication.document",
+          "target": "publication.document"
+        },
+        {
+          "original": "publication.home",
+          "target": "publication.home"
+        },
+        {
+          "original": "publication.place",
+          "target": "publication.place"
+        },
+        {
+          "original": "publication.motion",
+          "target": "publication.motion"
+        },
+        {
+          "original": "publication.icon",
+          "target": "publication.icon"
+        }
+      ],
+      "note": "New source-defined shell, scenes, metadata, styles and resource publication replace the old expedition layout.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "reader-activities",
+      "originalSha256": "0654a2112ec4805844b7affe22bbbf0a818507ac3ebbeee3f632cf3d35477e83",
+      "pack": "activities",
+      "preservedOrRenamedQueryCount": 33,
+      "originalQueryCount": 33,
+      "presentQueries": [
+        {
+          "original": "activity.boot",
+          "target": "activities.boot"
+        },
+        {
+          "original": "activity.motion",
+          "target": "activity.motion"
+        },
+        {
+          "original": "activity.calculations",
+          "target": "activity.calculations"
+        },
+        {
+          "original": "activity.click",
+          "target": "activity.click"
+        },
+        {
+          "original": "activity.input",
+          "target": "activity.input"
+        },
+        {
+          "original": "activity.action.reply",
+          "target": "activity.action.reply"
+        },
+        {
+          "original": "activity.action.door",
+          "target": "activity.action.door"
+        },
+        {
+          "original": "activity.action.quiet",
+          "target": "activity.action.quiet"
+        },
+        {
+          "original": "activity.action.cabinet",
+          "target": "activity.action.cabinet"
+        },
+        {
+          "original": "activity.action.layer",
+          "target": "activity.action.layer"
+        },
+        {
+          "original": "activity.action.revision",
+          "target": "activity.action.revision"
+        },
+        {
+          "original": "activity.action.deck",
+          "target": "activity.action.deck"
+        },
+        {
+          "original": "activity.action.garden-mode",
+          "target": "activity.action.garden-mode"
+        },
+        {
+          "original": "activity.garden",
+          "target": "activity.garden"
+        },
+        {
+          "original": "activity.action.gate",
+          "target": "activity.action.gate"
+        },
+        {
+          "original": "activity.action.hide-memory",
+          "target": "activity.action.hide-memory"
+        },
+        {
+          "original": "activity.action.couple-memory",
+          "target": "activity.action.couple-memory"
+        },
+        {
+          "original": "activity.action.origin",
+          "target": "activity.action.origin"
+        },
+        {
+          "original": "activity.action.enrich",
+          "target": "activity.action.enrich"
+        },
+        {
+          "original": "activity.erasure",
+          "target": "activity.erasure"
+        },
+        {
+          "original": "activity.action.attention",
+          "target": "activity.action.attention"
+        },
+        {
+          "original": "activity.action.inflate",
+          "target": "activity.action.inflate"
+        },
+        {
+          "original": "activity.action.reset-pattern",
+          "target": "activity.action.reset-pattern"
+        },
+        {
+          "original": "activity.action.original-bit",
+          "target": "activity.action.original-bit"
+        },
+        {
+          "original": "activity.action.flip-bit",
+          "target": "activity.action.flip-bit"
+        },
+        {
+          "original": "activity.code",
+          "target": "activity.code"
+        },
+        {
+          "original": "activity.action.rate",
+          "target": "activity.action.rate"
+        },
+        {
+          "original": "activity.action.scale",
+          "target": "activity.action.scale"
+        },
+        {
+          "original": "activity.action.amplitude",
+          "target": "activity.action.amplitude"
+        },
+        {
+          "original": "activity.action.phase",
+          "target": "activity.action.phase"
+        },
+        {
+          "original": "activity.action.loop-reset",
+          "target": "activity.action.loop-reset"
+        },
+        {
+          "original": "activity.action.loop",
+          "target": "activity.action.loop"
+        },
+        {
+          "original": "activity.loop.frame",
+          "target": "activity.loop.frame"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "reader-models",
+      "originalSha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b",
+      "pack": "models",
+      "preservedOrRenamedQueryCount": 8,
+      "originalQueryCount": 8,
+      "presentQueries": [
+        {
+          "original": "reader.model.calibration",
+          "target": "reader.model.calibration"
+        },
+        {
+          "original": "reader.model.pairs",
+          "target": "reader.model.pairs"
+        },
+        {
+          "original": "reader.model.inflate",
+          "target": "reader.model.inflate"
+        },
+        {
+          "original": "reader.model.decode",
+          "target": "reader.model.decode"
+        },
+        {
+          "original": "reader.model.weights",
+          "target": "reader.model.weights"
+        },
+        {
+          "original": "reader.model.memory",
+          "target": "reader.model.memory"
+        },
+        {
+          "original": "reader.model.line",
+          "target": "reader.model.line"
+        },
+        {
+          "original": "reader.model.coarse",
+          "target": "reader.model.coarse"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "reader-navigation",
+      "originalSha256": "7d5a103cdafb65e08e2383d27028264ea8d649219c364460c1dc246eb786ca9e",
+      "pack": "reader",
+      "preservedOrRenamedQueryCount": 2,
+      "originalQueryCount": 7,
+      "presentQueries": [
+        {
+          "original": "reader.boot",
+          "target": "reader.boot"
+        },
+        {
+          "original": "reader.search",
+          "target": "reader.search"
+        }
+      ],
+      "replacedEntryPoints": [
+        {
+          "original": "reader.motion.sync",
+          "target": "reader.motion.sync"
+        },
+        {
+          "original": "reader.route",
+          "target": "reader.route"
+        },
+        {
+          "original": "reader.click",
+          "target": "reader.click"
+        },
+        {
+          "original": "reader.atlas",
+          "target": "reader.atlas"
+        },
+        {
+          "original": "reader.notes",
+          "target": "reader.notes"
+        }
+      ],
+      "note": "New reader search, per-place private notes, visit trail, clear trail and history focus. Native separate-page routes replace old hash reader routing.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "source",
+      "originalSha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246",
+      "pack": "inspector",
+      "preservedOrRenamedQueryCount": 5,
+      "originalQueryCount": 5,
+      "presentQueries": [
+        {
+          "original": "source.rel",
+          "target": "source.rel"
+        },
+        {
+          "original": "source.compile",
+          "target": "source.compile"
+        },
+        {
+          "original": "source.encode",
+          "target": "source.encode"
+        },
+        {
+          "original": "source.patch",
+          "target": "source.patch"
+        },
+        {
+          "original": "source.jsonSpan",
+          "target": "source.jsonSpan"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    },
+    {
+      "originalModule": "workshop-lab",
+      "originalSha256": "9e3049811c1325c840711a8aa091f44b3f670480fa376421a47e5f69399cd037",
+      "pack": "workshop",
+      "preservedOrRenamedQueryCount": 2,
+      "originalQueryCount": 2,
+      "presentQueries": [
+        {
+          "original": "lab.snapshot",
+          "target": "lab.snapshot"
+        },
+        {
+          "original": "lab.edit",
+          "target": "lab.edit"
+        }
+      ],
+      "replacedEntryPoints": [],
+      "note": "Source-owned reusable engine; literal query presence is recorded separately from executed behavior.",
+      "behaviorEvidence": [
+        "tooling/composition.test.mjs",
+        "tooling/interactive-packs.test.mjs",
+        "evidence/composition/consumers.json"
+      ]
+    }
+  ],
+  "libraries": [
+    {
+      "file": "templates/composable/algebra/admission.process.json",
+      "owner": "core",
+      "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b",
+      "queries": [
+        "admit.binding",
+        "admit.expression",
+        "admit.programme",
+        "admit.model",
+        "admit.effects.programme",
+        "admit.effects",
+        "admit.ownership"
+      ]
+    },
+    {
+      "file": "templates/composable/algebra/css.process.json",
+      "owner": "core",
+      "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1",
+      "queries": [
+        "css.build",
+        "css.render",
+        "css.plan",
+        "css.renderPlan"
+      ]
+    },
+    {
+      "file": "templates/composable/algebra/fact-index.process.json",
+      "owner": "core",
+      "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9",
+      "queries": [
+        "facts.index"
+      ]
+    },
+    {
+      "file": "templates/composable/algebra/html.process.json",
+      "owner": "core",
+      "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef",
+      "queries": [
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText"
+      ]
+    },
+    {
+      "file": "templates/composable/algebra/language.process.json",
+      "owner": "core",
+      "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda",
+      "queries": [
+        "language.refuse",
+        "language.line",
+        "language.module",
+        "language.entity",
+        "language.property",
+        "language.compile"
+      ]
+    },
+    {
+      "file": "templates/composable/algebra/lowering.process.json",
+      "owner": "core",
+      "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8",
+      "queries": [
+        "lower.scan",
+        "lower.fresh",
+        "lower.template",
+        "lower.expression",
+        "lower.programme",
+        "lower.model",
+        "lower.start"
+      ]
+    },
+    {
+      "file": "templates/composable/algebra/operators.expression.json",
+      "owner": "core",
+      "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2",
+      "queries": []
+    },
+    {
+      "file": "packs/activities/algebra/activities.process.json",
+      "owner": "activities",
+      "sha256": "a386baf600e1373a687e13a19e41b66626cb8032b8c27983564d40f1348a2d36",
+      "queries": [
+        "activity.motion",
+        "activity.calculations",
+        "activity.click",
+        "activity.input",
+        "activity.action.reply",
+        "activity.action.door",
+        "activity.action.quiet",
+        "activity.action.cabinet",
+        "activity.action.layer",
+        "activity.action.revision",
+        "activity.action.deck",
+        "activity.action.garden-mode",
+        "activity.garden",
+        "activity.action.gate",
+        "activity.action.hide-memory",
+        "activity.action.couple-memory",
+        "activity.action.origin",
+        "activity.action.enrich",
+        "activity.erasure",
+        "activity.action.attention",
+        "activity.action.inflate",
+        "activity.action.reset-pattern",
+        "activity.action.original-bit",
+        "activity.action.flip-bit",
+        "activity.code",
+        "activity.action.rate",
+        "activity.action.scale",
+        "activity.action.amplitude",
+        "activity.action.phase",
+        "activity.action.loop-reset",
+        "activity.action.loop",
+        "activity.loop.frame",
+        "activity.source",
+        "activity.source.close",
+        "activities.boot",
+        "activities.view",
+        "activities.build"
+      ]
+    },
+    {
+      "file": "packs/atlas/algebra/atlas-journey.process.json",
+      "owner": "atlas",
+      "sha256": "e77b9af200c4336632051eb226eb767cab499dc6a40adda06805fecc98d6a6c4",
+      "queries": [
+        "atlas.seen.clean",
+        "atlas.seen.load",
+        "atlas.seen.save",
+        "atlas.seen.mark",
+        "atlas.seen.paint",
+        "atlas.seen.refresh",
+        "atlas.seen.reset",
+        "atlas.pin.dismiss",
+        "atlas.pin.reveal",
+        "atlas.journey.boot",
+        "atlas.pin.preview",
+        "atlas.pin.mode",
+        "atlas.journey.resume"
+      ]
+    },
+    {
+      "file": "packs/atlas/algebra/atlas.process.json",
+      "owner": "atlas",
+      "sha256": "e9af945ed1ea06cdced4bd07f8f34d9189679a8001606b6b25a1f156fa7d5fb7",
+      "queries": [
+        "atlas.view",
+        "atlas.build"
+      ]
+    },
+    {
+      "file": "packs/authoring/algebra/authoring-page.process.json",
+      "owner": "authoring",
+      "sha256": "85b40c046bcf926da6479a0d1753408b40d6b03a55430e93f0fa13eeaca1f64a",
+      "queries": [
+        "authoring.view",
+        "authoring.build"
+      ]
+    },
+    {
+      "file": "packs/authoring/algebra/authoring.process.json",
+      "owner": "authoring",
+      "sha256": "9e85b26aeb6b734527f7f305160bbd6b3cf5825992eb1a6cd10c4e9e6d9fce1f",
+      "queries": [
+        "author.prepare",
+        "author.run"
+      ]
+    },
+    {
+      "file": "packs/claims/algebra/claim-review.process.json",
+      "owner": "claims",
+      "sha256": "203346fa03b42936162505279bc27a5826b623a087e4185e35db39c5d2d67c17",
+      "queries": [
+        "claim.review.item",
+        "claim.review.method",
+        "claim.review.compare"
+      ]
+    },
+    {
+      "file": "packs/claims/algebra/claims.process.json",
+      "owner": "claims",
+      "sha256": "cf7c5c635ded4dd1a49c3abecc9fa7aa8315a2409abefcc646b782bc844211e7",
+      "queries": [
+        "claims.boot",
+        "claims.change",
+        "claims.evaluate",
+        "claims.render",
+        "claims.build",
+        "claims.view"
+      ]
+    },
+    {
+      "file": "packs/core/algebra/core.process.json",
+      "owner": "core",
+      "sha256": "729ae78568f5615923ebfa9f236b5d531f1095ef1aaf251844c1ada77fc8b80f",
+      "queries": [
+        "shell.validate",
+        "shell.assets",
+        "shell.blocks",
+        "shell.document",
+        "core.build",
+        "shell.validateOutputs"
+      ]
+    },
+    {
+      "file": "packs/inspector/algebra/encounter-source.process.json",
+      "owner": "inspector",
+      "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3",
+      "queries": [
+        "sp.role",
+        "sp.scan",
+        "sp.observed",
+        "sp.clip",
+        "sp.line",
+        "sp.render",
+        "sp.present",
+        "sp.expression",
+        "sp.programme",
+        "sp.statement",
+        "sp.listing",
+        "sp.style",
+        "sp.outline",
+        "sp.metadata",
+        "sp.stylePlan",
+        "source.split",
+        "source.lex",
+        "s01.portable"
+      ]
+    },
+    {
+      "file": "packs/inspector/algebra/inspector.process.json",
+      "owner": "inspector",
+      "sha256": "9598890f0b0789e4e09c292003217672024685836f0ad305ccf15767ffd34c8d",
+      "queries": [
+        "inspector.boot",
+        "inspector.change",
+        "inspector.present",
+        "inspector.build",
+        "inspector.view"
+      ]
+    },
+    {
+      "file": "packs/inspector/algebra/source.process.json",
+      "owner": "inspector",
+      "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246",
+      "queries": [
+        "source.rel",
+        "source.compile",
+        "source.encode",
+        "source.patch",
+        "source.jsonSpan"
+      ]
+    },
+    {
+      "file": "packs/media/algebra/media-stream.process.json",
+      "owner": "media",
+      "sha256": "8f0dc23ee1afcc9681ce4a22806555b5c8872283039dca1757fe06a2155a2a98",
+      "queries": [
+        "media.stream.screens.init",
+        "media.stream.sound.sync",
+        "media.stream.sound.toggle",
+        "media.stream.screens.intersection",
+        "media.stream.seek.click",
+        "media.stream.seek.loaded",
+        "media.stream.seek.contains",
+        "media.stream.seek.prepare",
+        "media.stream.seek.finish",
+        "media.stream.provenance",
+        "media.stream.provenance.view",
+        "media.stream.html"
+      ]
+    },
+    {
+      "file": "packs/media/algebra/media.process.json",
+      "owner": "media",
+      "sha256": "389c0df75454816726da1f025b9777319b45e2789f532500a4d54de01ddf2ef2",
+      "queries": [
+        "media.boot",
+        "media.action",
+        "media.seek",
+        "media.paint",
+        "media.error",
+        "media.view",
+        "media.build"
+      ]
+    },
+    {
+      "file": "packs/microsites/algebra/microsite-projection.process.json",
+      "owner": "microsites",
+      "sha256": "164c77ef3500e7530ce361fa80432d26ff1e1592d23c459156fe2468ad97783e",
+      "queries": [
+        "source.markup",
+        "source.css",
+        "source.metadata"
+      ]
+    },
+    {
+      "file": "packs/microsites/algebra/microsites.process.json",
+      "owner": "microsites",
+      "sha256": "c982659ae8ce2c0cc35690b91469848af03f3b06a100220024c66667f4735e32",
+      "queries": [
+        "microsites.view",
+        "microsites.build"
+      ]
+    },
+    {
+      "file": "packs/models/algebra/models.process.json",
+      "owner": "models",
+      "sha256": "57f5b89efcc245b6fe35047354e799df97c26c5257beb9c27810637ab4b3ff66",
+      "queries": [
+        "models.boot",
+        "models.evaluate",
+        "models.change",
+        "models.build",
+        "models.view",
+        "models.select"
+      ]
+    },
+    {
+      "file": "packs/models/algebra/reader-models.process.json",
+      "owner": "models",
+      "sha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b",
+      "queries": [
+        "reader.model.calibration",
+        "reader.model.pairs",
+        "reader.model.inflate",
+        "reader.model.decode",
+        "reader.model.weights",
+        "reader.model.memory",
+        "reader.model.line",
+        "reader.model.coarse"
+      ]
+    },
+    {
+      "file": "packs/motion/algebra/motion-graphics.process.json",
+      "owner": "motion",
+      "sha256": "e4249891283667e9c61378048a663df94d82b77a6c53fc4efdae583985f1f95d",
+      "queries": [
+        "motion.scroll.init",
+        "motion.scroll.scenes",
+        "motion.scroll.reduced",
+        "motion.scroll.tocToggle",
+        "motion.scroll.tocClose",
+        "motion.scroll.escape",
+        "motion.scroll.chapters",
+        "motion.scroll.stone",
+        "motion.scroll.cta",
+        "motion.flood.rand",
+        "motion.flood.scatter",
+        "motion.flood.init",
+        "motion.flood.intersection",
+        "motion.flood.scroll",
+        "motion.flood.running",
+        "motion.flood.frame",
+        "motion.flood.wave",
+        "motion.flood.pose",
+        "motion.flood.render",
+        "motion.autoplay.init",
+        "motion.autoplay.toggle",
+        "motion.autoplay.label",
+        "motion.autoplay.intersection",
+        "motion.chapter.init",
+        "motion.chapter.follow",
+        "motion.chapter.reveal",
+        "motion.chapter.scroll",
+        "motion.chapter.mode",
+        "motion.chapter.scenes",
+        "motion.sky.star",
+        "motion.sky.mote",
+        "motion.sky.seed",
+        "motion.sky.plan",
+        "motion.sky.draw",
+        "motion.sky.start",
+        "motion.sky.frame",
+        "motion.sky.resize",
+        "motion.sky.reseed",
+        "motion.sky.scroll",
+        "motion.stone.row",
+        "motion.stone",
+        "motion.constellation.pos",
+        "motion.constellation.marker",
+        "motion.constellation.plan",
+        "motion.constellation.init",
+        "motion.constellation.size",
+        "motion.constellation.draw",
+        "motion.constellation.start",
+        "motion.constellation.frame",
+        "motion.constellation.intersection",
+        "motion.constellation.resize",
+        "motion.graphics.html"
+      ]
+    },
+    {
+      "file": "packs/motion/algebra/motion.process.json",
+      "owner": "motion",
+      "sha256": "c988067decad71aedf7ac7a49fe42bfaba3a0f8826078950499770179bb6077f",
+      "queries": [
+        "motion.boot",
+        "motion.toggle",
+        "motion.visibility",
+        "motion.schedule",
+        "motion.tick",
+        "motion.draw",
+        "motion.view",
+        "motion.build"
+      ]
+    },
+    {
+      "file": "packs/programmes/algebra/canonical.process.json",
+      "owner": "programmes",
+      "sha256": "76e09c6be4a353ca86adae31dcf2e9b347384f6ee4b2cdb7bede2695a1a81233",
+      "queries": [
+        "canonical.encode",
+        "canonical.identify",
+        "canonical.is",
+        "address.digest",
+        "address.short",
+        "record.remove",
+        "record.clone"
+      ]
+    },
+    {
+      "file": "packs/programmes/algebra/cell-drafts.process.json",
+      "owner": "programmes",
+      "sha256": "0a68f575394a20bcba7fb0d35d2f996f0bb9faf50c94a2178d302121b43b74aa",
+      "queries": [
+        "draft.subject",
+        "draft.format",
+        "draft.draft",
+        "draft.proposal",
+        "draft.decide",
+        "draft.verify",
+        "draft.tamper"
+      ]
+    },
+    {
+      "file": "packs/programmes/algebra/cell-proposals.process.json",
+      "owner": "programmes",
+      "sha256": "d16e33beb1646bd46e6bdb10ed3c1ea9e989f225867a10f50145a78ffd49cb82",
+      "queries": [
+        "cells.availability",
+        "cells.applyUnchecked",
+        "address.flip",
+        "cells.buildProposal",
+        "cells.checkCanonical",
+        "cells.judge",
+        "cells.namedCells",
+        "cells.commit",
+        "cells.propose",
+        "cells.freshHub",
+        "cells.replay",
+        "cells.forge"
+      ]
+    },
+    {
+      "file": "packs/programmes/algebra/cell-tree.process.json",
+      "owner": "programmes",
+      "sha256": "fae7bf7ce27bdc350e77919fe4f1f6f839ae5c554baf9e301f516c075c5a24e3",
+      "queries": [
+        "ui.cells.tree",
+        "ui.cells.treeY"
+      ]
+    },
+    {
+      "file": "packs/programmes/algebra/cell-values.process.json",
+      "owner": "programmes",
+      "sha256": "f6a141e5d58720607fc6bbff706667cc264ac9fadb142efcc880b150e40d6a4b",
+      "queries": [
+        "cells.measure",
+        "cells.readPath",
+        "cells.evaluateNode",
+        "cells.evaluate",
+        "cells.render",
+        "cells.cellId",
+        "cells.merkle",
+        "cells.merkleLevel",
+        "cells.stateRoot",
+        "cells.cellsByKey",
+        "cells.findCell",
+        "cells.createWorld"
+      ]
+    },
+    {
+      "file": "packs/programmes/algebra/programmes.process.json",
+      "owner": "programmes",
+      "sha256": "5f95305b77527a7a320bc6d5a809953c312b122b99f0970900ea79fe7eff056e",
+      "queries": [
+        "programmes.hash",
+        "programmes.initial",
+        "programmes.propose",
+        "programmes.witness",
+        "programmes.boot",
+        "programmes.reset",
+        "programmes.apply",
+        "programmes.replay",
+        "programmes.tamper",
+        "programmes.render",
+        "programmes.build",
+        "programmes.view",
+        "programmes.merkle",
+        "programmes.cellInitial",
+        "programmes.cellPropose",
+        "programmes.cellReplay",
+        "programmes.cellForge",
+        "programmes.cellsBoot",
+        "programmes.cellsAction",
+        "programmes.cellsRender",
+        "programmes.draft",
+        "programmes.draftBoot",
+        "programmes.draftAction",
+        "programmes.cellPreview",
+        "programmes.admissionView",
+        "programmes.cellsPreview"
+      ]
+    },
+    {
+      "file": "packs/reader/algebra/reader.process.json",
+      "owner": "reader",
+      "sha256": "e8cd7d408837e9da3564660dcc3bdd9872d25fefb2bc8fb015bb0fa8f9b3ac26",
+      "queries": [
+        "reader.validate",
+        "reader.view",
+        "reader.boot",
+        "reader.search",
+        "reader.build",
+        "reader.memory.boot",
+        "reader.memory.paint",
+        "reader.memory.note",
+        "reader.memory.clear",
+        "reader.memory.focus"
+      ]
+    },
+    {
+      "file": "packs/sources/algebra/sources.process.json",
+      "owner": "sources",
+      "sha256": "10b79ab6f1c6dfede4f6c638df04b1e449e901b6de2e128ce5e102b77b4ee32c",
+      "queries": [
+        "sources.view",
+        "sources.build"
+      ]
+    },
+    {
+      "file": "packs/workshop/algebra/encounter-code-compiler.process.json",
+      "owner": "workshop",
+      "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9",
+      "queries": [
+        "ec.lex",
+        "ec.header",
+        "ec.expression",
+        "ec.fields",
+        "ec.data",
+        "ec.record",
+        "ec.representation",
+        "ec.view",
+        "ec.edits",
+        "ec.show",
+        "ec.emitView",
+        "ec.emitRepresentation",
+        "ec.compile",
+        "ec.attempt",
+        "ec.complete",
+        "ec.verifyShow",
+        "ec.verify",
+        "ec.oneField"
+      ]
+    },
+    {
+      "file": "packs/workshop/algebra/encounter-code-runtime.process.json",
+      "owner": "workshop",
+      "sha256": "9153aa1c340e3c5015307c8792785d11e7d1bfdd21cbec1c2f6ce476fe5fd572",
+      "queries": [
+        "ec.prepare",
+        "ec.resolve",
+        "ec.safeTree",
+        "ec.events",
+        "ec.run",
+        "ec.patch",
+        "ec.findElement"
+      ]
+    },
+    {
+      "file": "packs/workshop/algebra/encounter-code-types.process.json",
+      "owner": "workshop",
+      "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05",
+      "queries": [
+        "ec.schema",
+        "ec.slot",
+        "ec.scalar",
+        "ec.check",
+        "ec.referenceType",
+        "ec.fact",
+        "ec.reference",
+        "ec.argument"
+      ]
+    },
+    {
+      "file": "packs/workshop/algebra/workshop-lab.process.json",
+      "owner": "workshop",
+      "sha256": "b54679b6dd650e060d3ae2e91fd1cb5dc198c235bc04e9f15a77f9027b1001c4",
+      "queries": [
+        "session.snapshot",
+        "session.change",
+        "session.diff",
+        "lab.snapshot",
+        "lab.edit"
+      ]
+    },
+    {
+      "file": "packs/workshop/algebra/workshop.process.json",
+      "owner": "workshop",
+      "sha256": "bdbfa32189622feacbd5d150659addfade86f2af8c733f11d0f8012041b6dd97",
+      "queries": [
+        "workshop.boot",
+        "workshop.change",
+        "workshop.apply",
+        "workshop.reset",
+        "workshop.select",
+        "workshop.html",
+        "workshop.render",
+        "workshop.source",
+        "workshop.inspect",
+        "workshop.build",
+        "workshop.view",
+        "workshop.dispatch",
+        "workshop.activate",
+        "workshop.labInitial",
+        "workshop.labApply"
+      ]
+    }
+  ]
+}

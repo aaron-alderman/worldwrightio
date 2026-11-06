@@ -1,36 +1,16 @@
 # Build a world with Worldwright
 
-Read README.md, docs/start.md, docs/templates.md, docs/architecture.md and context/features.json.
-Start with the person's purpose and content. Aaron's expedition is the initial
-implementation, not another person's identity, evidence or required subject matter.
+Read README.md, docs/composition.md, docs/start.md and the selected packs' pack.json and README.md.
 
-- Create the full template: `npm run new -- worlds/my-world --template expedition`.
-  Omit --template expedition for the small reader. Node-only equivalent:
-  `node tooling/create-world.mjs worlds/my-world --template expedition`.
-- In that directory: `npm run build`, `npm test`, `npm run dev`.
-- Read the selected template's README and AGENTS for its canonical source schema.
-  The full expedition owns identity in source/world.rel, places/readings in
-  source/expedition.rel, atlas in source/atlas.rel and doors in source/gateway.rel.
-- Read templates/feature.json before adding a feature. Name its types, owners,
-  dependencies, effects, projection, correction path and decisive refusal test.
-- The unchanged Temple seed supplies execution. Native adapters supply mechanisms;
-  semantic and presentation policy belongs in process modules and facts.
-- Never edit generated dist or turn output into a second authoring source.
-- Keep the existing 20,000,000-step execution limit and admission checks.
-- reference/algebra is the immutable initial snapshot. Runnable implementations
-  and their complete input/native closure are in templates/expedition. Concrete
-  recipes in templates/features map each initial feature to its actual owners,
-  types, dependencies, grants, outputs and tests. The full expedition is the
-  supported composition unit; individual JSON modules require their closure.
-- No universal inverse editing is promised. A readable source copy is not an
-  execution trace. A successful build is not scientific or independent validation.
-- Keep claims, examples, personal accounts and evidence separate. Preserve source
-  attribution and alternatives when a lightning link fails.
-- Before publishing a fork, choose its own origin, identity and host configuration.
-  The generated starter contains no CNAME, hosting ID, Git history or credentials.
+- Start with the person's purpose and content. Do not inherit Aaron's corpus or identity.
+- Use node tooling/compose-world.mjs DEST --features reader,sources,atlas. Omit --features for reader and sources. Use --profile examples/tidepool/profile.json to reproduce the kitchen sink.
+- Compose views through FeatureBlock facts in source/world.rel. Dependencies, admission, ownership and explicit effects must remain checked.
+- Source profiles declare owners; unselected owners contribute no files. Generated worlds include a composition receipt.
+- Run npm run build in the generated world. Check the relevant substantive operations and refusal paths; a navigation card is not feature coverage.
+- Semantic and presentation policy belongs in process algebra and facts. Native adapters supply mechanisms only. Keep the existing Temple seed and 20,000,000-step limit.
+- Never edit generated dist or make it an authoring source. Preserve exact source/digest inspection and attribution.
+- Historical whole-template code and reference snapshots are retained for provenance. They are not the default creation path.
+- No universal inverse editing, human usability or scientific validation is implied by software checks. Record failures and evidence-family boundaries.
+- Forks choose their own origin, identity and host configuration. The generated base contains no CNAME, Git history, hosting account or credentials.
 
-The hub is built by `npm run build`; `npm test` checks reproducibility, refusals,
-standalone creation, source fidelity and the bounded lightning contract.
-The extraction verifier and a separately assigned agent trial supply additional
-feature and onboarding evidence, with exact scope recorded in context/.
-GitHub Pages publishes only dist after those checks pass.
+The hub is built by npm run build and qualified by npm test. GitHub Pages publishes dist after checks pass.

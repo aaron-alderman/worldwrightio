@@ -1,0 +1,760 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "media.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#media-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "json.parse",
+            "args": {
+              "text": [
+                "one",
+                "media",
+                "configuration"
+              ]
+            },
+            "into": "configuration"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-play",
+              "event": "click",
+              "query": "media.action",
+              "input": {
+                "action": "play"
+              }
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-pause",
+              "event": "click",
+              "query": "media.action",
+              "input": {
+                "action": "pause"
+              }
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-mute",
+              "event": "click",
+              "query": "media.action",
+              "input": {
+                "action": "mute"
+              }
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-restart",
+              "event": "click",
+              "query": "media.action",
+              "input": {
+                "action": "restart"
+              }
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-seek",
+              "event": "input",
+              "query": "media.seek",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-element",
+              "event": "timeupdate",
+              "query": "media.paint",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-element",
+              "event": "loadedmetadata",
+              "query": "media.paint",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#media-element",
+              "event": "error",
+              "query": "media.error",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "call": "media.paint"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$mounted"
+        ],
+        "then": [
+          {
+            "let": "result",
+            "value": false
+          }
+        ]
+      }
+    ],
+    "media.action": [
+      {
+        "port": "media.read",
+        "args": {
+          "ref": "#media-element"
+        },
+        "into": "status"
+      },
+      {
+        "when": [
+          "eq",
+          "$eventInput.action",
+          "play"
+        ],
+        "then": [
+          {
+            "port": "media.play",
+            "args": {
+              "ref": "#media-element"
+            },
+            "into": "played"
+          },
+          {
+            "when": "$played.ok",
+            "then": [
+              {
+                "port": "browser.write",
+                "args": {
+                  "ref": "#media-status",
+                  "name": "textContent",
+                  "value": "Playing the schematic."
+                },
+                "into": "_"
+              }
+            ]
+          },
+          {
+            "when": [
+              "not",
+              "$played.ok"
+            ],
+            "then": [
+              {
+                "port": "browser.write",
+                "args": {
+                  "ref": "#media-status",
+                  "name": "textContent",
+                  "value": "Playback was refused. Try the native controls or download the source clip."
+                },
+                "into": "_"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          [
+            "eq",
+            "$eventInput.action",
+            "play"
+          ]
+        ],
+        "then": []
+      },
+      {
+        "when": [
+          "eq",
+          "$eventInput.action",
+          "pause"
+        ],
+        "then": [
+          {
+            "port": "media.pause",
+            "args": {
+              "ref": "#media-element"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#media-status",
+              "name": "textContent",
+              "value": "Paused."
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          [
+            "eq",
+            "$eventInput.action",
+            "pause"
+          ]
+        ],
+        "then": []
+      },
+      {
+        "when": [
+          "eq",
+          "$eventInput.action",
+          "mute"
+        ],
+        "then": [
+          {
+            "port": "media.write",
+            "args": {
+              "ref": "#media-element",
+              "name": "muted",
+              "value": [
+                "not",
+                "$status.muted"
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          [
+            "eq",
+            "$eventInput.action",
+            "mute"
+          ]
+        ],
+        "then": []
+      },
+      {
+        "when": [
+          "eq",
+          "$eventInput.action",
+          "restart"
+        ],
+        "then": [
+          {
+            "port": "media.write",
+            "args": {
+              "ref": "#media-element",
+              "name": "currentTime",
+              "value": 0
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          [
+            "eq",
+            "$eventInput.action",
+            "restart"
+          ]
+        ],
+        "then": []
+      },
+      {
+        "call": "media.paint"
+      }
+    ],
+    "media.seek": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "media",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#media-seek",
+          "name": "value"
+        },
+        "into": "value"
+      },
+      {
+        "port": "number.parse",
+        "args": {
+          "value": "$value"
+        },
+        "into": "seconds"
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            "$seconds",
+            null
+          ]
+        ],
+        "message": "MEDIA_SEEK: finite time required."
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "max",
+          "values": [
+            "list",
+            0,
+            "$seconds"
+          ]
+        },
+        "into": "seconds"
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "min",
+          "values": [
+            "list",
+            "$configuration.duration",
+            "$seconds"
+          ]
+        },
+        "into": "seconds"
+      },
+      {
+        "port": "media.read",
+        "args": {
+          "ref": "#media-element"
+        },
+        "into": "status"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "media.stream.seek.contains",
+          "input": {
+            "ranges": "$status.seekable",
+            "time": "$seconds"
+          }
+        },
+        "into": "seekable"
+      },
+      {
+        "port": "text.matches",
+        "args": {
+          "value": "$status.currentSrc",
+          "pattern": "^blob:"
+        },
+        "into": "blob"
+      },
+      {
+        "when": [
+          "and",
+          [
+            "not",
+            "$seekable"
+          ],
+          [
+            "not",
+            "$blob"
+          ],
+          "$status.currentSrc"
+        ],
+        "then": [
+          {
+            "port": "asset.blobURL",
+            "args": {
+              "url": "$status.currentSrc"
+            },
+            "into": "url"
+          },
+          {
+            "port": "media.write",
+            "args": {
+              "ref": "#media-element",
+              "name": "src",
+              "value": "$url"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.once",
+            "args": {
+              "ref": "#media-element",
+              "event": "loadedmetadata"
+            },
+            "into": "metadata"
+          }
+        ]
+      },
+      {
+        "port": "media.write",
+        "args": {
+          "ref": "#media-element",
+          "name": "currentTime",
+          "value": "$seconds"
+        },
+        "into": "_"
+      },
+      {
+        "call": "media.paint"
+      }
+    ],
+    "media.paint": [
+      {
+        "port": "media.read",
+        "args": {
+          "ref": "#media-element"
+        },
+        "into": "status"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#media-seek",
+          "name": "value",
+          "value": "$status.currentTime"
+        },
+        "into": "_"
+      },
+      {
+        "port": "number.format",
+        "args": {
+          "value": "$status.currentTime",
+          "digits": 1
+        },
+        "into": "clock"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#media-status",
+          "name": "textContent",
+          "value": [
+            "concat",
+            [
+              "if",
+              "$status.paused",
+              "Paused · ",
+              "Playing · "
+            ],
+            "$clock",
+            " s",
+            [
+              "if",
+              "$status.muted",
+              " · muted",
+              ""
+            ]
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "let": "result",
+        "value": "$status"
+      }
+    ],
+    "media.error": [
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#media-status",
+          "name": "textContent",
+          "value": "The clip could not load. The caption and source attribution remain available."
+        },
+        "into": "_"
+      },
+      {
+        "let": "result",
+        "value": false
+      }
+    ],
+    "media.view": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "media",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "result",
+        "value": {
+          "tag": "section",
+          "attrs": {
+            "id": "media-mount",
+            "class": "feature-block media-card"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "p",
+              "attrs": {
+                "class": "eyebrow"
+              },
+              "children": [
+                "list",
+                "FIELD RECORD / 04"
+              ]
+            },
+            {
+              "tag": "h2",
+              "attrs": {},
+              "children": [
+                "list",
+                "$configuration.title"
+              ]
+            },
+            {
+              "tag": "video",
+              "attrs": {
+                "id": "media-element",
+                "src": "$configuration.src",
+                "poster": "$configuration.poster",
+                "preload": "metadata",
+                "controls": true,
+                "playsinline": true,
+                "aria-label": "$configuration.title"
+              },
+              "children": [
+                "list"
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {},
+              "children": [
+                "list",
+                "$configuration.caption"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "toolbar"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "media-play",
+                    "class": "button",
+                    "type": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Play"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "media-pause",
+                    "class": "button",
+                    "type": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Pause"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "media-mute",
+                    "class": "button",
+                    "type": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Mute / unmute"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "media-restart",
+                    "class": "button",
+                    "type": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Restart"
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "label",
+              "attrs": {
+                "for": "media-seek"
+              },
+              "children": [
+                "list",
+                "Playback position"
+              ]
+            },
+            {
+              "tag": "input",
+              "attrs": {
+                "id": "media-seek",
+                "type": "range",
+                "min": "0",
+                "max": "$configuration.duration",
+                "step": "0.1",
+                "value": "0"
+              },
+              "children": [
+                "list"
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {
+                "id": "media-status",
+                "role": "status",
+                "class": "status"
+              },
+              "children": [
+                "list",
+                "Ready. Native media controls remain available."
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {
+                "class": "muted"
+              },
+              "children": [
+                "list",
+                "$configuration.attribution"
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "media.build": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "media",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Field recording"
+      },
+      {
+        "let": "route",
+        "value": "media.html"
+      },
+      {
+        "call": "media.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "media.boot",
+          "mode": "browser",
+          "grantProfile": "mediaBrowser",
+          "queries": [
+            "list",
+            "media.boot",
+            "media.action",
+            "media.seek",
+            "media.paint",
+            "media.error",
+            "media.stream.screens.init",
+            "media.stream.sound.sync",
+            "media.stream.sound.toggle",
+            "media.stream.screens.intersection",
+            "media.stream.seek.click",
+            "media.stream.seek.loaded",
+            "media.stream.seek.contains",
+            "media.stream.seek.prepare",
+            "media.stream.seek.finish",
+            "media.stream.provenance",
+            "media.stream.provenance.view",
+            "media.stream.html",
+            "html.escape",
+            "html.serialize",
+            "html.observe",
+            "html.inspect",
+            "html.cssText"
+          ],
+          "factSubjects": [
+            "list",
+            "media"
+          ],
+          "data": "$configuration",
+          "budget": 20000000
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "media-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ]
+  }
+}

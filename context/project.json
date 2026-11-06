@@ -1,5 +1,5 @@
 {
-  "protocol": "worldwright/project-context/2",
+  "protocol": "worldwright/project-context/3",
   "name": "Worldwright",
   "purpose": "Help people and their agents compose inspectable worlds from their own purpose, content and sources.",
   "repository": "https://github.com/aaron-alderman/worldwrightio",
@@ -7,15 +7,16 @@
   "initialWorld": "https://aaronalderman.com",
   "readFirst": [
     "AGENTS.md",
+    "docs/composition.md",
     "docs/start.md",
     "docs/templates.md",
     "docs/architecture.md",
     "docs/lightning.md"
   ],
-  "starter": "templates/expedition",
+  "starter": "templates/composable",
   "featureContract": "templates/feature.json",
-  "catalogue": "context/features.json",
-  "create": "npm run new -- worlds/my-world --template expedition",
+  "catalogue": "packs/*/pack.json",
+  "create": "npm run new -- worlds/my-world --features reader,sources,atlas",
   "hubChecks": [
     "npm run build",
     "npm test"
@@ -25,15 +26,12 @@
     "npm test"
   ],
   "owners": {
-    "identity": "source/world.rel",
-    "meaning": "source/expedition.rel",
-    "atlas": "source/atlas.rel",
-    "doors": "source/gateway.rel",
-    "assets": "source/assets.rel",
+    "meaning": "source/world.rel",
     "presentation": "source/presentation.rel",
-    "policy": "algebra/publication.process.json",
+    "configuration": "selected pack source/*.rel",
+    "policy": "selected pack algebra/*.process.json",
     "manifest": "bootstrap/site.json",
-    "schema": "source/world-schema.json"
+    "selection": "composition-receipt.json"
   },
   "open": [
     "Independent human usability study",
@@ -41,21 +39,26 @@
     "Complete humane authoring language",
     "Algebraic self-hosting of the documentation hub"
   ],
-  "evidenceFamily": "worldwright-template-extraction-2026-11-06",
-  "fullStarter": "templates/expedition",
-  "templates": {
-    "world": "Minimal reading world",
-    "expedition": "Full feature composition with local source, assets, effects and checks"
-  },
-  "nodeCreate": "node tooling/create-world.mjs worlds/my-world --template expedition",
+  "evidenceFamily": "worldwright-composition-2026-11-06",
+  "fullStarter": "examples/tidepool/profile.json",
+  "nodeCreate": "node tooling/compose-world.mjs worlds/my-world --features reader,sources,atlas",
   "featureRecipes": "templates/features",
   "extraction": "context/extraction.json",
   "trialProtocol": "context/agent-trial-protocol.json",
-  "minimalStarter": "templates/world",
+  "minimalStarter": "templates/composable",
   "minimalOwners": {
     "meaning": "source/world.rel",
     "presentation": "source/presentation.rel",
     "policy": "algebra/world.process.json"
   },
-  "trialReport": "evidence/onboarding/trial-report.json"
+  "trialReport": "evidence/composition/consumers.json",
+  "packRegistry": "packs",
+  "compositionAlgebra": "packs/composition.process.json",
+  "compositionGuide": "docs/composition.md",
+  "compositionCoverage": "context/composition-coverage.json",
+  "historicalTemplates": {
+    "world": "Minimal reading world",
+    "expedition": "Full feature composition with local source, assets, effects and checks"
+  },
+  "agentAuthoredWorld": "examples/seed-library/profile.json"
 }

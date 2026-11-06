@@ -1,0 +1,211 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "sources.view": [
+      {
+        "let": "result",
+        "value": {
+          "tag": "section",
+          "attrs": {
+            "id": "sources-mount"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "h2",
+              "attrs": {},
+              "children": [
+                "list",
+                "Sources and scope"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "grid"
+              },
+              "children": [
+                "map",
+                [
+                  "subjects",
+                  "isa",
+                  "Source"
+                ],
+                "source",
+                {
+                  "tag": "article",
+                  "attrs": {
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h3",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$source",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$source",
+                          "attribution"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$source",
+                          "scope"
+                        ]
+                      ]
+                    },
+                    [
+                      "if",
+                      [
+                        "optional",
+                        "$source",
+                        "href"
+                      ],
+                      {
+                        "tag": "a",
+                        "attrs": {
+                          "href": [
+                            "optional",
+                            "$source",
+                            "href"
+                          ]
+                        },
+                        "children": [
+                          "list",
+                          "Open source"
+                        ]
+                      },
+                      null
+                    ]
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "h3",
+              "attrs": {},
+              "children": [
+                "list",
+                "Executable source files"
+              ]
+            },
+            {
+              "tag": "ul",
+              "attrs": {},
+              "children": [
+                "map",
+                [
+                  "subjects",
+                  "isa",
+                  "SourceFile"
+                ],
+                "file",
+                {
+                  "tag": "li",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "href": [
+                          "one",
+                          "$file",
+                          "path"
+                        ]
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$file",
+                          "path"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "sources.build": [
+      {
+        "let": "pageTitle",
+        "value": "Sources"
+      },
+      {
+        "let": "route",
+        "value": "sources.html"
+      },
+      {
+        "call": "sources.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "SourceFile"
+        ],
+        "as": "file",
+        "steps": [
+          {
+            "port": "file.copy",
+            "args": {
+              "path": [
+                "one",
+                "$file",
+                "path"
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "port": "file.copy",
+        "args": {
+          "path": "source/composition.json"
+        },
+        "into": "_"
+      },
+      {
+        "port": "file.copy",
+        "args": {
+          "path": "composition-receipt.json"
+        },
+        "into": "_"
+      }
+    ]
+  }
+}

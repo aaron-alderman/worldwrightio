@@ -9,7 +9,9 @@ const env={...process.env};delete env.NODE_TEST_CONTEXT;
 const groups=[
  ['hub-and-extraction',['--test','--test-reporter=tap','tooling/worldwright.test.mjs','tooling/feature-extraction.test.mjs']],
  ['full-expedition',['--test','--test-reporter=tap','template.test.mjs','authoring-native.test.mjs'],'templates/expedition'],
- ['feature-closure',['tooling/verify-features.mjs','--check']]
+ ['feature-closure',['tooling/verify-features.mjs','--check']],
+ ['composition-behavior',['--test','--test-reporter=tap','tooling/composition.test.mjs','tooling/interactive-packs.test.mjs']],
+ ['composition-consumers',['tooling/verify-composition.mjs']]
 ];
 const checks=[];let failed=false;
 for(const [name,args,directory='.']of groups){

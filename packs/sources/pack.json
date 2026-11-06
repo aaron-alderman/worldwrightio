@@ -1,0 +1,35 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "sources",
+  "title": "Sources",
+  "requires": [
+    "core"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/sources.process.json"
+  ],
+  "sources": [],
+  "assets": [],
+  "build": "sources.build",
+  "navigation": {
+    "label": "Sources",
+    "route": "sources.html"
+  },
+  "grants": {
+    "build": [],
+    "browser": []
+  },
+  "outputs": [
+    "sources.html",
+    "source/composition.json",
+    "composition-receipt.json"
+  ],
+  "render": "sources.view",
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/sources.md"
+    }
+  ]
+}

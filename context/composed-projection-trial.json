@@ -1,0 +1,31 @@
+{
+  "protocol": "worldwright/composed-projection-trial/1",
+  "consumer": ".build/microsite-projection-trial",
+  "selected": [
+    "core",
+    "microsites"
+  ],
+  "command": [
+    "node",
+    "build.mjs"
+  ],
+  "sourceSha256": "f54c7d838ca3441c581b835e576a39a6f954e93ef8445d7cd87ea0202e233937",
+  "outputs": [
+    {
+      "file": "projection.html",
+      "sha256": "69f55f1bfb19671ea08d28da0b03f5320d864be12e3ac4d6ed22da63f56e3178",
+      "text": "<main>Independent tree projection &lt;safe&gt;</main>"
+    },
+    {
+      "file": "projection.css",
+      "sha256": "291f413fe16f9d569a09219d5ca586ee6af1de5be9ddde7bc817ceb9e06fa295",
+      "text": ".independent { color: green; }"
+    }
+  ],
+  "assertions": [
+    "Own REL-declared markup tree projects an escaped text node.",
+    "Own CSS source tree projects its declared stylesheet.",
+    "No legacy content or art used."
+  ],
+  "scope": "Actual generated standalone native build of optional source.markup/source.css projection; no browser styling claim."
+}

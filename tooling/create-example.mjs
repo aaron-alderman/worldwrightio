@@ -4,11 +4,14 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {fileURLToPath} from 'node:url';
 import {createWorld} from './create-world.mjs';
+import {composeWorld} from './compose-world.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 function inside(base,relative){if(typeof relative!=='string'||relative.includes('\\'))throw Error('Example paths must use repository-relative slashes.');const target=path.resolve(base,relative),rest=path.relative(base,target);if(!rest||rest.startsWith('..')||path.isAbsolute(rest))throw Error('Example path escapes its owner.');let cursor=base;for(const part of rest.split(path.sep)){cursor=path.join(cursor,part);if(fs.existsSync(cursor)&&fs.lstatSync(cursor).isSymbolicLink())throw Error('Example refuses symlinks.');}return target;}
 export function createExample(name,destination){
  if(!/^[a-z][a-z0-9-]*$/.test(name??''))throw Error('Usage: node tooling/create-example.mjs EXAMPLE NEW_DIRECTORY');
+ const profile=path.join(root,'examples',name,'profile.json');
+ if(fs.existsSync(profile))return composeWorld(destination,{profile});
  const example=path.join(root,'examples',name),recipe=JSON.parse(fs.readFileSync(path.join(example,'example.json'),'utf8'));
  if(recipe.protocol!=='worldwright/example-overlay/1')throw Error('Unknown example protocol.');
  const template=path.join(root,'templates',recipe.template);if(!['world','expedition'].includes(recipe.template))throw Error('Unknown example template.');
@@ -24,4 +27,4 @@ export function createExample(name,destination){
  for(const change of changes){const file=inside(target,change.file);fs.mkdirSync(path.dirname(file),{recursive:true});fs.writeFileSync(file,change.bytes);}
  console.log(`Applied ${name}: ${changes.length} checked source replacements.`);return target;
 }
-if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))createExample(process.argv[2],process.argv[3]);
+if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url))await createExample(process.argv[2],process.argv[3]);

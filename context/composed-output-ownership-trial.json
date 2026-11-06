@@ -1,0 +1,23 @@
+{
+  "protocol": "worldwright/composed-output-ownership-trial/1",
+  "consumer": ".build/output-guard-proof",
+  "checks": [
+    {
+      "id": "route",
+      "compositionRefusal": "PACK-OUTPUT-COLLISION: Two selected features produce the same output.",
+      "standaloneBuildExit": 1,
+      "standaloneRefusal": "WORLD-OUTPUT-COLLISION",
+      "previousOutputIntact": true,
+      "readerOutputSha256": "fa6a0043b51118340678e864a1b5c4cabc076b5ce4963ee21b087df9b4be86f1"
+    },
+    {
+      "id": "stylesheet",
+      "compositionRefusal": "PACK-OUTPUT-COLLISION: Two selected features produce the same output.",
+      "standaloneBuildExit": 1,
+      "standaloneRefusal": "WORLD-OUTPUT-COLLISION",
+      "previousOutputIntact": true,
+      "readerOutputSha256": "fa6a0043b51118340678e864a1b5c4cabc076b5ce4963ee21b087df9b4be86f1"
+    }
+  ],
+  "scope": "Actual planner and standalone source-edit refusals before output replacement."
+}

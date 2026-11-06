@@ -1,0 +1,544 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "claims.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#claims-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "then": [
+          {
+            "port": "state.set",
+            "args": {
+              "key": "claims.selected",
+              "value": [
+                "map",
+                "$data.evidence",
+                "e",
+                "$e.id"
+              ]
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#claims-options",
+              "event": "change",
+              "query": "claims.change",
+              "input": {},
+              "delegate": "input"
+            },
+            "into": "_"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "claims.render",
+              "input": {}
+            },
+            "into": "result"
+          }
+        ],
+        "when": "$mounted"
+      }
+    ],
+    "claims.change": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "claims.selected"
+        },
+        "into": "selected"
+      },
+      {
+        "let": "id",
+        "value": [
+          "at",
+          "$eventInput.event.target.attributes",
+          "data-evidence"
+        ]
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "$eventInput.event.target.ref",
+          "name": "checked"
+        },
+        "into": "checked"
+      },
+      {
+        "let": "selected",
+        "value": [
+          "if",
+          "$checked",
+          [
+            "append",
+            [
+              "filter",
+              "$selected",
+              "x",
+              [
+                "not",
+                [
+                  "eq",
+                  "$x",
+                  "$id"
+                ]
+              ]
+            ],
+            [
+              "list",
+              "$id"
+            ]
+          ],
+          [
+            "filter",
+            "$selected",
+            "x",
+            [
+              "not",
+              [
+                "eq",
+                "$x",
+                "$id"
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "port": "state.set",
+        "args": {
+          "key": "claims.selected",
+          "value": "$selected"
+        },
+        "into": "_"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "claims.render",
+          "input": {}
+        },
+        "into": "result"
+      }
+    ],
+    "claims.evaluate": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "claim.review.compare",
+          "input": {
+            "configuration": "$data",
+            "selected": "$eventInput.selected"
+          }
+        },
+        "into": "result"
+      }
+    ],
+    "claims.render": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "claims.selected"
+        },
+        "into": "selected"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "claims.evaluate",
+          "input": {
+            "selected": "$selected"
+          }
+        },
+        "into": "results"
+      },
+      {
+        "let": "input",
+        "value": [
+          "map",
+          "$results",
+          "review",
+          {
+            "tag": "article",
+            "attrs": {
+              "class": "card"
+            },
+            "children": [
+              "list",
+              {
+                "tag": "p",
+                "attrs": {
+                  "class": "eyebrow"
+                },
+                "children": [
+                  "list",
+                  [
+                    "at",
+                    [
+                      "at",
+                      [
+                        "filter",
+                        "$data.methods",
+                        "m",
+                        [
+                          "eq",
+                          "$m.id",
+                          "$review.method"
+                        ]
+                      ],
+                      0
+                    ],
+                    "name"
+                  ]
+                ]
+              },
+              {
+                "tag": "h2",
+                "attrs": {},
+                "children": [
+                  "list",
+                  "$review.result"
+                ]
+              },
+              {
+                "tag": "p",
+                "attrs": {},
+                "children": [
+                  "list",
+                  "$review.reason"
+                ]
+              },
+              {
+                "tag": "p",
+                "attrs": {
+                  "class": "status"
+                },
+                "children": [
+                  "list",
+                  [
+                    "concat",
+                    "Support ",
+                    "$review.support",
+                    " · Challenge ",
+                    "$review.challenge",
+                    " · Independent sources ",
+                    "$review.independentSources"
+                  ]
+                ]
+              },
+              {
+                "tag": "details",
+                "attrs": {},
+                "children": [
+                  "list",
+                  {
+                    "tag": "summary",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      "Why each observation counted"
+                    ]
+                  },
+                  {
+                    "tag": "ul",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      [
+                        "map",
+                        "$review.rows",
+                        "row",
+                        {
+                          "tag": "li",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            {
+                              "tag": "strong",
+                              "attrs": {},
+                              "children": [
+                                "list",
+                                "$row.name"
+                              ]
+                            },
+                            [
+                              "concat",
+                              " — ",
+                              "$row.reason"
+                            ]
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "call": "html.serialize"
+      },
+      {
+        "port": "browser.content",
+        "args": {
+          "ref": "#claims-results",
+          "html": "$result"
+        },
+        "into": "_"
+      },
+      {
+        "port": "json.stringify",
+        "args": {
+          "value": "$results",
+          "space": 2
+        },
+        "into": "text"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#claims-receipt",
+          "name": "textContent",
+          "value": "$text"
+        },
+        "into": "_"
+      }
+    ],
+    "claims.build": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "claims",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Evidence review"
+      },
+      {
+        "let": "route",
+        "value": "claims.html"
+      },
+      {
+        "call": "claims.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "claims.boot",
+          "mode": "browser",
+          "grantProfile": "claimsBrowser",
+          "queries": [
+            "list",
+            "claims.boot",
+            "claims.change",
+            "claims.evaluate",
+            "claims.render",
+            "claim.review.item",
+            "claim.review.method",
+            "claim.review.compare",
+            "html.escape",
+            "html.serialize",
+            "html.observe",
+            "html.inspect",
+            "html.cssText",
+            "facts.index",
+            "lower.scan",
+            "lower.fresh",
+            "lower.template",
+            "lower.expression",
+            "lower.programme",
+            "lower.model",
+            "lower.start",
+            "admit.binding",
+            "admit.expression",
+            "admit.programme",
+            "admit.model",
+            "admit.effects.programme",
+            "admit.effects",
+            "admit.ownership",
+            "css.render",
+            "css.plan",
+            "css.renderPlan",
+            "language.refuse",
+            "language.line",
+            "language.module",
+            "language.entity",
+            "language.property",
+            "language.compile"
+          ],
+          "factSubjects": [
+            "list",
+            "claims"
+          ],
+          "data": "$configuration",
+          "budget": 20000000
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "claims-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ],
+    "claims.view": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "claims",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "result",
+        "value": {
+          "tag": "div",
+          "attrs": {
+            "id": "claims-mount",
+            "class": "feature-workbench"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "section",
+              "attrs": {
+                "class": "prose"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "h1",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "$configuration.claim"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "class": "lead"
+                  },
+                  "children": [
+                    "list",
+                    "$configuration.scope"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "id": "claims-options",
+                    "class": "grid"
+                  },
+                  "children": [
+                    "map",
+                    "$configuration.evidence",
+                    "e",
+                    {
+                      "tag": "label",
+                      "attrs": {
+                        "class": "card"
+                      },
+                      "children": [
+                        "list",
+                        {
+                          "tag": "input",
+                          "attrs": {
+                            "type": "checkbox",
+                            "checked": true,
+                            "data-evidence": "$e.id"
+                          },
+                          "children": [
+                            "list"
+                          ]
+                        },
+                        [
+                          "concat",
+                          "$e.name",
+                          " · ",
+                          "$e.direction"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "h2",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Method outcomes and admission reasons"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "id": "claims-results",
+                    "aria-live": "polite",
+                    "class": "grid"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "details",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "summary",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Inspect the full review receipt"
+                      ]
+                    },
+                    {
+                      "tag": "pre",
+                      "attrs": {
+                        "id": "claims-receipt"
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

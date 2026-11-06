@@ -1,0 +1,80 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "media",
+  "title": "Field recording",
+  "requires": [
+    "core"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/media.process.json",
+    "algebra/media-stream.process.json"
+  ],
+  "sources": [
+    "source/media.rel"
+  ],
+  "assets": [
+    "assets/tide-study.mp4",
+    "assets/coast-chart.svg"
+  ],
+  "build": "media.build",
+  "render": "media.view",
+  "navigation": {
+    "label": "Field recording",
+    "route": "media.html"
+  },
+  "grants": {
+    "build": [
+      "json.parse",
+      "file.write",
+      "runtime.bundle"
+    ],
+    "browser": [
+      "asset.blobURL",
+      "asset.json",
+      "browser.attribute",
+      "browser.content",
+      "browser.environment",
+      "browser.focus",
+      "browser.intersection",
+      "browser.on",
+      "browser.property",
+      "browser.relative",
+      "browser.select",
+      "browser.write",
+      "dom.exists",
+      "json.parse",
+      "kernel.invoke",
+      "media.load",
+      "media.pause",
+      "media.play",
+      "media.read",
+      "media.write",
+      "number.calculate",
+      "number.format",
+      "number.parse",
+      "state.get",
+      "state.set",
+      "text.matches",
+      "text.replace",
+      "text.slice",
+      "browser.once"
+    ]
+  },
+  "runtime": {
+    "entry": "media.boot",
+    "queries": [
+      "media.boot",
+      "media.action",
+      "media.seek",
+      "media.paint",
+      "media.error"
+    ],
+    "profile": "mediaBrowser",
+    "allPages": true
+  },
+  "outputs": [
+    "media.html",
+    "media-runtime.js"
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "programmes",
+  "title": "Instrument lending",
+  "requires": [
+    "core"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/canonical.process.json",
+    "algebra/programmes.process.json",
+    "algebra/cell-values.process.json",
+    "algebra/cell-proposals.process.json",
+    "algebra/cell-drafts.process.json",
+    "algebra/cell-tree.process.json"
+  ],
+  "sources": [
+    "source/programmes.rel"
+  ],
+  "assets": [
+    "assets/programmes.css"
+  ],
+  "build": "programmes.build",
+  "navigation": {
+    "label": "Instrument lending",
+    "route": "programmes.html"
+  },
+  "grants": {
+    "build": [
+      "json.parse",
+      "file.write",
+      "runtime.bundle"
+    ],
+    "browser": [
+      "browser.content",
+      "browser.on",
+      "browser.property",
+      "browser.write",
+      "digest.sha256",
+      "dom.exists",
+      "json.parse",
+      "json.stringify",
+      "kernel.invoke",
+      "number.calculate",
+      "number.parse",
+      "record.entries",
+      "record.fromEntries",
+      "record.get",
+      "record.put",
+      "state.get",
+      "state.set",
+      "text.indexOf",
+      "text.join",
+      "text.lowerCase",
+      "text.match",
+      "text.matchAll",
+      "text.matches",
+      "text.replace",
+      "text.replaceAll",
+      "text.slice",
+      "text.split",
+      "text.trim",
+      "text.upperCase",
+      "text.utf8Length",
+      "value.describe",
+      "value.freeze",
+      "value.sort",
+      "value.string",
+      "value.type"
+    ]
+  },
+  "runtime": {
+    "entry": "programmes.boot",
+    "queries": [
+      "programmes.boot"
+    ],
+    "profile": "programmesBrowser",
+    "allPages": true
+  },
+  "outputs": [
+    "programmes.html",
+    "programmes-runtime.js"
+  ],
+  "render": "programmes.view",
+  "sharedModules": [
+    "algebra/language.process.json",
+    "algebra/fact-index.process.json",
+    "algebra/lowering.process.json",
+    "algebra/admission.process.json"
+  ],
+  "stylesheets": [
+    "assets/programmes.css"
+  ],
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/programmes.md"
+    }
+  ]
+}

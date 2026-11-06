@@ -1,0 +1,1160 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "reader.validate": [
+      {
+        "assert": [
+          "includes",
+          [
+            "subjects",
+            "isa",
+            "Place"
+          ],
+          [
+            "one",
+            "world",
+            "entry"
+          ]
+        ],
+        "message": "READER-ENTRY: Entry must reference a Place."
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "Place"
+        ],
+        "as": "place",
+        "steps": [
+          {
+            "port": "text.matches",
+            "args": {
+              "value": "$place",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            },
+            "into": "safe"
+          },
+          {
+            "assert": "$safe",
+            "message": "READER-ID: Place identifiers must be safe route names."
+          },
+          {
+            "each": [
+              "list",
+              "title",
+              "question",
+              "reading"
+            ],
+            "as": "field",
+            "steps": [
+              {
+                "assert": [
+                  "not",
+                  [
+                    "eq",
+                    [
+                      "one",
+                      "$place",
+                      "$field"
+                    ],
+                    null
+                  ]
+                ],
+                "message": "READER-FIELD: Places need title, question and reading."
+              }
+            ]
+          },
+          {
+            "each": [
+              "objects",
+              "$place",
+              "choice"
+            ],
+            "as": "choice",
+            "steps": [
+              {
+                "assert": [
+                  "includes",
+                  [
+                    "subjects",
+                    "isa",
+                    "Choice"
+                  ],
+                  "$choice"
+                ],
+                "message": "READER-CHOICE: Choice must be declared."
+              },
+              {
+                "assert": [
+                  "includes",
+                  [
+                    "subjects",
+                    "isa",
+                    "Place"
+                  ],
+                  [
+                    "one",
+                    "$choice",
+                    "target"
+                  ]
+                ],
+                "message": "READER-TARGET: Choice target must be a Place."
+              }
+            ]
+          },
+          {
+            "each": [
+              "objects",
+              "$place",
+              "source"
+            ],
+            "as": "source",
+            "steps": [
+              {
+                "assert": [
+                  "includes",
+                  [
+                    "subjects",
+                    "isa",
+                    "Source"
+                  ],
+                  "$source"
+                ],
+                "message": "READER-SOURCE: Source must be declared."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "reader.view": [
+      {
+        "let": "result",
+        "value": {
+          "tag": "section",
+          "attrs": {
+            "id": "reader-mount"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "h2",
+              "attrs": {},
+              "children": [
+                "list",
+                "Explore the fieldbook"
+              ]
+            },
+            {
+              "tag": "label",
+              "attrs": {
+                "for": "reader-search"
+              },
+              "children": [
+                "list",
+                "Find a place"
+              ]
+            },
+            {
+              "tag": "input",
+              "attrs": {
+                "id": "reader-search",
+                "type": "search",
+                "placeholder": "Search titles and questions"
+              },
+              "children": [
+                "list"
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "id": "reader-results",
+                "class": "grid"
+              },
+              "children": [
+                "map",
+                [
+                  "subjects",
+                  "isa",
+                  "Place"
+                ],
+                "place",
+                {
+                  "tag": "a",
+                  "attrs": {
+                    "href": [
+                      "concat",
+                      "places/",
+                      "$place",
+                      ".html"
+                    ],
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h3",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "question"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "aside",
+              "attrs": {
+                "id": "reader-notebook",
+                "class": "card"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "h2",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Your field notes"
+                  ]
+                },
+                {
+                  "tag": "label",
+                  "attrs": {
+                    "for": "reader-note"
+                  },
+                  "children": [
+                    "list",
+                    "Private note for this page"
+                  ]
+                },
+                {
+                  "tag": "textarea",
+                  "attrs": {
+                    "id": "reader-note",
+                    "rows": 4,
+                    "maxlength": 20000
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "id": "reader-note-status",
+                    "aria-live": "polite"
+                  },
+                  "children": [
+                    "list",
+                    "Saved in this browser when storage is available."
+                  ]
+                },
+                {
+                  "tag": "h3",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Your trail"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "id": "reader-trail"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "reader-clear",
+                    "type": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Clear my trail"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "reader.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#reader-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "dom.on",
+            "args": {
+              "selector": "#reader-search",
+              "event": "input",
+              "query": "reader.search"
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "call": "reader.memory.boot"
+      }
+    ],
+    "reader.search": [
+      {
+        "port": "dom.value",
+        "args": {
+          "selector": "#reader-search"
+        },
+        "into": "term"
+      },
+      {
+        "port": "text.lowerCase",
+        "args": {
+          "value": "$term"
+        },
+        "into": "term"
+      },
+      {
+        "fold": [
+          "subjects",
+          "isa",
+          "Place"
+        ],
+        "as": "place",
+        "accumulator": "matches",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "port": "text.lowerCase",
+            "args": {
+              "value": [
+                "concat",
+                [
+                  "one",
+                  "$place",
+                  "title"
+                ],
+                " ",
+                [
+                  "one",
+                  "$place",
+                  "question"
+                ]
+              ]
+            },
+            "into": "haystack"
+          }
+        ],
+        "yield": [
+          "if",
+          [
+            "includes",
+            "$haystack",
+            "$term"
+          ],
+          [
+            "append",
+            "$matches",
+            [
+              "list",
+              {
+                "tag": "a",
+                "attrs": {
+                  "href": [
+                    "concat",
+                    "places/",
+                    "$place",
+                    ".html"
+                  ],
+                  "class": "card"
+                },
+                "children": [
+                  "list",
+                  {
+                    "tag": "h3",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      [
+                        "one",
+                        "$place",
+                        "title"
+                      ]
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      [
+                        "one",
+                        "$place",
+                        "question"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          ],
+          "$matches"
+        ],
+        "into": "input"
+      },
+      {
+        "call": "html.serialize"
+      },
+      {
+        "port": "dom.content",
+        "args": {
+          "selector": "#reader-results",
+          "html": "$result"
+        },
+        "into": "_"
+      }
+    ],
+    "reader.build": [
+      {
+        "call": "reader.validate"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Fieldbook"
+      },
+      {
+        "let": "route",
+        "value": "reader.html"
+      },
+      {
+        "call": "reader.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "Place"
+        ],
+        "as": "place",
+        "steps": [
+          {
+            "let": "placement",
+            "value": "$place"
+          },
+          {
+            "call": "shell.blocks"
+          },
+          {
+            "let": "blocks",
+            "value": "$result"
+          },
+          {
+            "let": "route",
+            "value": [
+              "concat",
+              "places/",
+              "$place",
+              ".html"
+            ]
+          },
+          {
+            "let": "pageTitle",
+            "value": [
+              "one",
+              "$place",
+              "title"
+            ]
+          },
+          {
+            "let": "body",
+            "value": [
+              "append",
+              [
+                "list",
+                {
+                  "tag": "article",
+                  "attrs": {
+                    "class": "prose",
+                    "data-place-id": "$place",
+                    "data-atlas-current": "$place"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "class": "eyebrow"
+                      },
+                      "children": [
+                        "list",
+                        "Fieldbook"
+                      ]
+                    },
+                    {
+                      "tag": "h1",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "class": "lead"
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "question"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "reading"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "nav",
+                      "attrs": {},
+                      "children": [
+                        "map",
+                        [
+                          "objects",
+                          "$place",
+                          "choice"
+                        ],
+                        "choice",
+                        {
+                          "tag": "a",
+                          "attrs": {
+                            "href": [
+                              "concat",
+                              "places/",
+                              [
+                                "one",
+                                "$choice",
+                                "target"
+                              ],
+                              ".html"
+                            ],
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$choice",
+                              "label"
+                            ]
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "id": "atlas-visit-note",
+                        "hidden": true
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "aside",
+                  "attrs": {
+                    "class": "sources"
+                  },
+                  "children": [
+                    "map",
+                    [
+                      "objects",
+                      "$place",
+                      "source"
+                    ],
+                    "source",
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        {
+                          "tag": "strong",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$source",
+                              "title"
+                            ]
+                          ]
+                        },
+                        " · ",
+                        [
+                          "one",
+                          "$source",
+                          "attribution"
+                        ],
+                        " · ",
+                        [
+                          "one",
+                          "$source",
+                          "scope"
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "aside",
+                  "attrs": {
+                    "id": "reader-notebook",
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h2",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Your field notes"
+                      ]
+                    },
+                    {
+                      "tag": "label",
+                      "attrs": {
+                        "for": "reader-note"
+                      },
+                      "children": [
+                        "list",
+                        "Private note for this page"
+                      ]
+                    },
+                    {
+                      "tag": "textarea",
+                      "attrs": {
+                        "id": "reader-note",
+                        "rows": 4,
+                        "maxlength": 20000
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "id": "reader-note-status",
+                        "aria-live": "polite"
+                      },
+                      "children": [
+                        "list",
+                        "Saved in this browser when storage is available."
+                      ]
+                    },
+                    {
+                      "tag": "h3",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Your trail"
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "attrs": {
+                        "id": "reader-trail"
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    },
+                    {
+                      "tag": "button",
+                      "attrs": {
+                        "id": "reader-clear",
+                        "type": "button"
+                      },
+                      "children": [
+                        "list",
+                        "Clear my trail"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "$blocks"
+            ]
+          },
+          {
+            "call": "shell.document"
+          }
+        ]
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "reader.boot",
+          "mode": "browser",
+          "queries": [
+            "list",
+            "reader.boot",
+            "reader.search",
+            "reader.memory.boot",
+            "reader.memory.paint",
+            "reader.memory.note",
+            "reader.memory.clear",
+            "reader.memory.focus",
+            "html.escape",
+            "html.serialize",
+            "html.observe",
+            "html.inspect",
+            "html.cssText"
+          ],
+          "factSubjects": [
+            "append",
+            [
+              "subjects",
+              "isa",
+              "Place"
+            ],
+            [
+              "list"
+            ]
+          ],
+          "data": {
+            "ids": [
+              "subjects",
+              "isa",
+              "Place"
+            ],
+            "memoryKey": [
+              "concat",
+              "worldwright.reader.",
+              [
+                "one",
+                "world",
+                "title"
+              ]
+            ]
+          },
+          "budget": 2000000,
+          "grantProfile": "readerBrowser"
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "reader-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ],
+    "reader.memory.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#reader-notebook"
+        },
+        "into": "notebook"
+      },
+      {
+        "when": "$notebook",
+        "then": [
+          {
+            "port": "dom.exists",
+            "args": {
+              "selector": "[data-place-id]"
+            },
+            "into": "atPlace"
+          },
+          {
+            "let": "current",
+            "value": "home"
+          },
+          {
+            "when": "$atPlace",
+            "then": [
+              {
+                "port": "dom.attribute",
+                "args": {
+                  "selector": "[data-place-id]",
+                  "name": "data-place-id"
+                },
+                "into": "current"
+              }
+            ]
+          },
+          {
+            "port": "state.set",
+            "args": {
+              "key": "reader.current",
+              "value": "$current"
+            },
+            "into": "_"
+          },
+          {
+            "port": "storage.read",
+            "args": {
+              "key": [
+                "concat",
+                "$data.memoryKey",
+                ".trail"
+              ],
+              "maxLength": 4096
+            },
+            "into": "stored"
+          },
+          {
+            "port": "text.split",
+            "args": {
+              "value": [
+                "if",
+                "$stored.value",
+                "$stored.value",
+                ""
+              ],
+              "pattern": "\\n"
+            },
+            "into": "candidate"
+          },
+          {
+            "let": "visited",
+            "value": [
+              "distinct",
+              [
+                "filter",
+                [
+                  "append",
+                  "$candidate",
+                  [
+                    "if",
+                    [
+                      "includes",
+                      "$data.ids",
+                      "$current"
+                    ],
+                    [
+                      "list",
+                      "$current"
+                    ],
+                    [
+                      "list"
+                    ]
+                  ]
+                ],
+                "id",
+                [
+                  "includes",
+                  "$data.ids",
+                  "$id"
+                ]
+              ]
+            ]
+          },
+          {
+            "port": "state.set",
+            "args": {
+              "key": "reader.visited",
+              "value": "$visited"
+            },
+            "into": "_"
+          },
+          {
+            "call": "reader.memory.paint"
+          },
+          {
+            "port": "storage.read",
+            "args": {
+              "key": [
+                "concat",
+                "$data.memoryKey",
+                ".note.",
+                "$current"
+              ],
+              "maxLength": 20000
+            },
+            "into": "note"
+          },
+          {
+            "port": "dom.setValue",
+            "args": {
+              "selector": "#reader-note",
+              "value": [
+                "if",
+                "$note.value",
+                "$note.value",
+                ""
+              ]
+            },
+            "into": "_"
+          },
+          {
+            "port": "dom.on",
+            "args": {
+              "selector": "#reader-note",
+              "event": "input",
+              "query": "reader.memory.note"
+            },
+            "into": "_"
+          },
+          {
+            "port": "dom.on",
+            "args": {
+              "selector": "#reader-clear",
+              "event": "click",
+              "query": "reader.memory.clear"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "window",
+              "event": "pageshow",
+              "query": "reader.memory.focus"
+            },
+            "into": "_"
+          }
+        ]
+      }
+    ],
+    "reader.memory.paint": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "reader.visited"
+        },
+        "into": "visited"
+      },
+      {
+        "port": "text.join",
+        "args": {
+          "values": "$visited",
+          "separator": "\n"
+        },
+        "into": "trailText"
+      },
+      {
+        "port": "storage.write",
+        "args": {
+          "key": [
+            "concat",
+            "$data.memoryKey",
+            ".trail"
+          ],
+          "value": "$trailText"
+        },
+        "into": "saved"
+      },
+      {
+        "let": "input",
+        "value": {
+          "tag": "ul",
+          "attrs": {},
+          "children": [
+            "list"
+          ]
+        }
+      },
+      {
+        "let": "input",
+        "value": {
+          "tag": "ul",
+          "attrs": {},
+          "children": [
+            "map",
+            "$visited",
+            "place",
+            {
+              "tag": "li",
+              "attrs": {},
+              "children": [
+                "list",
+                {
+                  "tag": "a",
+                  "attrs": {
+                    "href": [
+                      "concat",
+                      "places/",
+                      "$place",
+                      ".html"
+                    ]
+                  },
+                  "children": [
+                    "list",
+                    [
+                      "one",
+                      "$place",
+                      "title"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "call": "html.serialize"
+      },
+      {
+        "port": "dom.content",
+        "args": {
+          "selector": "#reader-trail",
+          "html": "$result"
+        },
+        "into": "_"
+      }
+    ],
+    "reader.memory.note": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "reader.current"
+        },
+        "into": "current"
+      },
+      {
+        "port": "dom.value",
+        "args": {
+          "selector": "#reader-note"
+        },
+        "into": "note"
+      },
+      {
+        "port": "storage.write",
+        "args": {
+          "key": [
+            "concat",
+            "$data.memoryKey",
+            ".note.",
+            "$current"
+          ],
+          "value": "$note"
+        },
+        "into": "saved"
+      },
+      {
+        "port": "dom.text",
+        "args": {
+          "selector": "#reader-note-status",
+          "text": [
+            "if",
+            "$saved.ok",
+            "Saved only in this browser.",
+            "Storage is unavailable; this note will be lost when you leave this page."
+          ]
+        },
+        "into": "_"
+      }
+    ],
+    "reader.memory.clear": [
+      {
+        "port": "storage.remove",
+        "args": {
+          "key": [
+            "concat",
+            "$data.memoryKey",
+            ".trail"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "port": "state.set",
+        "args": {
+          "key": "reader.visited",
+          "value": [
+            "list"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "call": "reader.memory.paint"
+      }
+    ],
+    "reader.memory.focus": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#reader-notebook"
+        },
+        "into": "mounted"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "dom.focus",
+            "args": {
+              "selector": "#main"
+            },
+            "into": "_"
+          }
+        ]
+      }
+    ]
+  }
+}

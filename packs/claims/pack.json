@@ -1,0 +1,79 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "claims",
+  "title": "Evidence review",
+  "requires": [
+    "core"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/claim-review.process.json",
+    "algebra/claims.process.json"
+  ],
+  "sources": [
+    "source/claims.rel"
+  ],
+  "assets": [],
+  "build": "claims.build",
+  "navigation": {
+    "label": "Evidence review",
+    "route": "claims.html"
+  },
+  "grants": {
+    "build": [
+      "json.parse",
+      "file.write",
+      "runtime.bundle"
+    ],
+    "browser": [
+      "browser.content",
+      "browser.on",
+      "browser.property",
+      "browser.write",
+      "dom.exists",
+      "json.parse",
+      "json.stringify",
+      "kernel.invoke",
+      "number.calculate",
+      "record.entries",
+      "record.fromEntries",
+      "record.put",
+      "state.get",
+      "state.set",
+      "text.join",
+      "text.matches",
+      "text.replaceAll",
+      "text.split",
+      "text.trim",
+      "value.describe",
+      "value.freeze",
+      "value.string",
+      "value.type"
+    ]
+  },
+  "runtime": {
+    "entry": "claims.boot",
+    "queries": [
+      "claims.boot"
+    ],
+    "profile": "claimsBrowser",
+    "allPages": true
+  },
+  "outputs": [
+    "claims.html",
+    "claims-runtime.js"
+  ],
+  "render": "claims.view",
+  "sharedModules": [
+    "algebra/language.process.json",
+    "algebra/fact-index.process.json",
+    "algebra/lowering.process.json",
+    "algebra/admission.process.json"
+  ],
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/claims.md"
+    }
+  ]
+}

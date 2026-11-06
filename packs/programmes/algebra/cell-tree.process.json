@@ -1,0 +1,1175 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "ui.cells.tree": [
+      {
+        "let": "levels",
+        "value": [
+          "at",
+          [
+            "at",
+            "$eventInput",
+            "tree"
+          ],
+          "levels"
+        ]
+      },
+      {
+        "let": "leaves",
+        "value": [
+          "at",
+          "$levels",
+          0
+        ]
+      },
+      {
+        "let": "L",
+        "value": [
+          "count",
+          "$levels"
+        ]
+      },
+      {
+        "let": "positions",
+        "value": [
+          "list"
+        ]
+      },
+      {
+        "fold": [
+          "range",
+          "$L"
+        ],
+        "as": "levelNumber",
+        "accumulator": "positions",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "let": "level",
+            "value": [
+              "add",
+              "$levelNumber",
+              -1
+            ]
+          },
+          {
+            "let": "values",
+            "value": [
+              "at",
+              "$levels",
+              "$level"
+            ]
+          },
+          {
+            "let": "last",
+            "value": [
+              "at",
+              "$positions",
+              [
+                "add",
+                "$level",
+                -1
+              ]
+            ]
+          },
+          {
+            "fold": [
+              "range",
+              [
+                "count",
+                "$values"
+              ]
+            ],
+            "as": "itemNumber",
+            "accumulator": "row",
+            "initial": [
+              "list"
+            ],
+            "steps": [
+              {
+                "let": "index",
+                "value": [
+                  "add",
+                  "$itemNumber",
+                  -1
+                ]
+              },
+              {
+                "let": "x",
+                "value": 180
+              },
+              {
+                "when": [
+                  "eq",
+                  "$level",
+                  0
+                ],
+                "then": [
+                  {
+                    "when": [
+                      "not",
+                      [
+                        "eq",
+                        [
+                          "count",
+                          "$leaves"
+                        ],
+                        1
+                      ]
+                    ],
+                    "then": [
+                      {
+                        "port": "number.calculate",
+                        "args": {
+                          "operation": "multiply",
+                          "values": [
+                            "list",
+                            "$index",
+                            292
+                          ]
+                        },
+                        "into": "arithmetic2"
+                      },
+                      {
+                        "port": "number.calculate",
+                        "args": {
+                          "operation": "subtract",
+                          "values": [
+                            "list",
+                            [
+                              "count",
+                              "$leaves"
+                            ],
+                            1
+                          ]
+                        },
+                        "into": "arithmetic3"
+                      },
+                      {
+                        "port": "number.calculate",
+                        "args": {
+                          "operation": "divide",
+                          "values": [
+                            "list",
+                            "$arithmetic2",
+                            "$arithmetic3"
+                          ]
+                        },
+                        "into": "arithmetic4"
+                      },
+                      {
+                        "port": "number.calculate",
+                        "args": {
+                          "operation": "add",
+                          "values": [
+                            "list",
+                            34,
+                            "$arithmetic4"
+                          ]
+                        },
+                        "into": "arithmetic5"
+                      },
+                      {
+                        "let": "x",
+                        "value": "$arithmetic5"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "not",
+                  [
+                    "eq",
+                    "$level",
+                    0
+                  ]
+                ],
+                "then": [
+                  {
+                    "port": "number.calculate",
+                    "args": {
+                      "operation": "multiply",
+                      "values": [
+                        "list",
+                        "$index",
+                        2
+                      ]
+                    },
+                    "into": "arithmetic6"
+                  },
+                  {
+                    "let": "firstIndex",
+                    "value": "$arithmetic6"
+                  },
+                  {
+                    "let": "a",
+                    "value": [
+                      "at",
+                      "$last",
+                      "$firstIndex"
+                    ]
+                  },
+                  {
+                    "let": "b",
+                    "value": [
+                      "at",
+                      "$last",
+                      [
+                        "add",
+                        "$firstIndex",
+                        1
+                      ]
+                    ]
+                  },
+                  {
+                    "let": "x",
+                    "value": "$a"
+                  },
+                  {
+                    "when": [
+                      "not",
+                      [
+                        "or",
+                        [
+                          "eq",
+                          "$b",
+                          null
+                        ],
+                        [
+                          "eq",
+                          "$b",
+                          [
+                            "at",
+                            {},
+                            "absent"
+                          ]
+                        ]
+                      ]
+                    ],
+                    "then": [
+                      {
+                        "port": "number.calculate",
+                        "args": {
+                          "operation": "add",
+                          "values": [
+                            "list",
+                            "$a",
+                            "$b"
+                          ]
+                        },
+                        "into": "arithmetic7"
+                      },
+                      {
+                        "port": "number.calculate",
+                        "args": {
+                          "operation": "divide",
+                          "values": [
+                            "list",
+                            "$arithmetic7",
+                            2
+                          ]
+                        },
+                        "into": "arithmetic8"
+                      },
+                      {
+                        "let": "x",
+                        "value": "$arithmetic8"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "yield": [
+              "append",
+              "$row",
+              [
+                "list",
+                "$x"
+              ]
+            ],
+            "into": "row"
+          }
+        ],
+        "yield": [
+          "append",
+          "$positions",
+          [
+            "list",
+            "$row"
+          ]
+        ],
+        "into": "positions"
+      },
+      {
+        "let": "nodes",
+        "value": [
+          "list"
+        ]
+      },
+      {
+        "fold": [
+          "range",
+          "$L"
+        ],
+        "as": "levelNumber",
+        "accumulator": "nodes",
+        "initial": "$nodes",
+        "steps": [
+          {
+            "let": "level",
+            "value": [
+              "add",
+              "$levelNumber",
+              -1
+            ]
+          },
+          {
+            "let": "values",
+            "value": [
+              "at",
+              "$levels",
+              "$level"
+            ]
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "ui.cells.treeY",
+              "input": {
+                "level": "$level",
+                "count": "$L"
+              }
+            },
+            "into": "y"
+          },
+          {
+            "when": [
+              "not",
+              [
+                "eq",
+                "$level",
+                0
+              ]
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "ui.cells.treeY",
+                  "input": {
+                    "level": [
+                      "add",
+                      "$level",
+                      -1
+                    ],
+                    "count": "$L"
+                  }
+                },
+                "into": "childY"
+              },
+              {
+                "fold": [
+                  "range",
+                  [
+                    "count",
+                    "$values"
+                  ]
+                ],
+                "as": "itemNumber",
+                "accumulator": "nodes",
+                "initial": "$nodes",
+                "steps": [
+                  {
+                    "let": "index",
+                    "value": [
+                      "add",
+                      "$itemNumber",
+                      -1
+                    ]
+                  },
+                  {
+                    "let": "d",
+                    "value": [
+                      "at",
+                      "$values",
+                      "$index"
+                    ]
+                  },
+                  {
+                    "port": "number.calculate",
+                    "args": {
+                      "operation": "multiply",
+                      "values": [
+                        "list",
+                        "$index",
+                        2
+                      ]
+                    },
+                    "into": "arithmetic9"
+                  },
+                  {
+                    "let": "firstIndex",
+                    "value": "$arithmetic9"
+                  },
+                  {
+                    "fold": [
+                      "list",
+                      "$firstIndex",
+                      [
+                        "add",
+                        "$firstIndex",
+                        1
+                      ]
+                    ],
+                    "as": "child",
+                    "accumulator": "nodes",
+                    "initial": "$nodes",
+                    "steps": [
+                      {
+                        "let": "x",
+                        "value": [
+                          "at",
+                          [
+                            "at",
+                            "$positions",
+                            [
+                              "add",
+                              "$level",
+                              -1
+                            ]
+                          ],
+                          "$child"
+                        ]
+                      },
+                      {
+                        "when": [
+                          "not",
+                          [
+                            "or",
+                            [
+                              "eq",
+                              "$x",
+                              null
+                            ],
+                            [
+                              "eq",
+                              "$x",
+                              [
+                                "at",
+                                {},
+                                "absent"
+                              ]
+                            ]
+                          ]
+                        ],
+                        "then": [
+                          {
+                            "let": "nodes",
+                            "value": [
+                              "append",
+                              "$nodes",
+                              [
+                                "list",
+                                {
+                                  "tag": "line",
+                                  "attrs": {
+                                    "class": [
+                                      "concat",
+                                      "edge",
+                                      [
+                                        "if",
+                                        [
+                                          "and",
+                                          [
+                                            "and",
+                                            [
+                                              "at",
+                                              "$eventInput",
+                                              "fresh"
+                                            ],
+                                            [
+                                              "not",
+                                              [
+                                                "includes",
+                                                [
+                                                  "at",
+                                                  "$eventInput",
+                                                  "seen"
+                                                ],
+                                                "$d"
+                                              ]
+                                            ]
+                                          ],
+                                          [
+                                            "and",
+                                            [
+                                              "at",
+                                              "$eventInput",
+                                              "fresh"
+                                            ],
+                                            [
+                                              "not",
+                                              [
+                                                "includes",
+                                                [
+                                                  "at",
+                                                  "$eventInput",
+                                                  "seen"
+                                                ],
+                                                [
+                                                  "at",
+                                                  [
+                                                    "at",
+                                                    "$levels",
+                                                    [
+                                                      "add",
+                                                      "$level",
+                                                      -1
+                                                    ]
+                                                  ],
+                                                  "$child"
+                                                ]
+                                              ]
+                                            ]
+                                          ]
+                                        ],
+                                        " hot",
+                                        ""
+                                      ]
+                                    ],
+                                    "x1": "$x",
+                                    "y1": "$childY",
+                                    "x2": [
+                                      "at",
+                                      [
+                                        "at",
+                                        "$positions",
+                                        "$level"
+                                      ],
+                                      "$index"
+                                    ],
+                                    "y2": "$y"
+                                  },
+                                  "children": [
+                                    "list"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "yield": "$nodes",
+                    "into": "nodes"
+                  }
+                ],
+                "yield": "$nodes",
+                "into": "nodes"
+              }
+            ]
+          }
+        ],
+        "yield": "$nodes",
+        "into": "nodes"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "address.digest",
+          "input": {
+            "id": [
+              "at",
+              "$eventInput",
+              "predicateId"
+            ]
+          }
+        },
+        "into": "predicate"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "address.digest",
+          "input": {
+            "id": [
+              "at",
+              "$eventInput",
+              "root"
+            ]
+          }
+        },
+        "into": "root"
+      },
+      {
+        "let": "cellRoot",
+        "value": [
+          "at",
+          [
+            "at",
+            "$levels",
+            [
+              "add",
+              "$L",
+              -1
+            ]
+          ],
+          0
+        ]
+      },
+      {
+        "let": "nodes",
+        "value": [
+          "append",
+          "$nodes",
+          [
+            "list",
+            {
+              "tag": "line",
+              "attrs": {
+                "class": [
+                  "concat",
+                  "edge",
+                  [
+                    "if",
+                    [
+                      "and",
+                      [
+                        "at",
+                        "$eventInput",
+                        "fresh"
+                      ],
+                      [
+                        "not",
+                        [
+                          "includes",
+                          [
+                            "at",
+                            "$eventInput",
+                            "seen"
+                          ],
+                          "$cellRoot"
+                        ]
+                      ]
+                    ],
+                    " hot",
+                    ""
+                  ]
+                ],
+                "x1": [
+                  "at",
+                  [
+                    "at",
+                    "$positions",
+                    [
+                      "add",
+                      "$L",
+                      -1
+                    ]
+                  ],
+                  0
+                ],
+                "y1": 66,
+                "x2": 180,
+                "y2": 30
+              },
+              "children": [
+                "list"
+              ]
+            },
+            {
+              "tag": "line",
+              "attrs": {
+                "class": [
+                  "concat",
+                  "edge",
+                  [
+                    "if",
+                    [
+                      "and",
+                      [
+                        "at",
+                        "$eventInput",
+                        "fresh"
+                      ],
+                      [
+                        "not",
+                        [
+                          "includes",
+                          [
+                            "at",
+                            "$eventInput",
+                            "seen"
+                          ],
+                          "$predicate"
+                        ]
+                      ]
+                    ],
+                    " hot",
+                    ""
+                  ]
+                ],
+                "x1": 300,
+                "y1": 66,
+                "x2": 200,
+                "y2": 30
+              },
+              "children": [
+                "list"
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "fold": [
+          "range",
+          "$L"
+        ],
+        "as": "levelNumber",
+        "accumulator": "nodes",
+        "initial": "$nodes",
+        "steps": [
+          {
+            "let": "level",
+            "value": [
+              "add",
+              "$levelNumber",
+              -1
+            ]
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "ui.cells.treeY",
+              "input": {
+                "level": "$level",
+                "count": "$L"
+              }
+            },
+            "into": "y"
+          },
+          {
+            "fold": [
+              "range",
+              [
+                "count",
+                [
+                  "at",
+                  "$levels",
+                  "$level"
+                ]
+              ]
+            ],
+            "as": "itemNumber",
+            "accumulator": "nodes",
+            "initial": "$nodes",
+            "steps": [
+              {
+                "let": "index",
+                "value": [
+                  "add",
+                  "$itemNumber",
+                  -1
+                ]
+              },
+              {
+                "let": "d",
+                "value": [
+                  "at",
+                  [
+                    "at",
+                    "$levels",
+                    "$level"
+                  ],
+                  "$index"
+                ]
+              },
+              {
+                "let": "x",
+                "value": [
+                  "at",
+                  [
+                    "at",
+                    "$positions",
+                    "$level"
+                  ],
+                  "$index"
+                ]
+              },
+              {
+                "let": "nodes",
+                "value": [
+                  "append",
+                  "$nodes",
+                  [
+                    "list",
+                    {
+                      "tag": "circle",
+                      "attrs": {
+                        "class": [
+                          "concat",
+                          "node",
+                          [
+                            "if",
+                            [
+                              "and",
+                              [
+                                "at",
+                                "$eventInput",
+                                "fresh"
+                              ],
+                              [
+                                "not",
+                                [
+                                  "includes",
+                                  [
+                                    "at",
+                                    "$eventInput",
+                                    "seen"
+                                  ],
+                                  "$d"
+                                ]
+                              ]
+                            ],
+                            " hot",
+                            ""
+                          ]
+                        ],
+                        "cx": "$x",
+                        "cy": "$y",
+                        "r": [
+                          "if",
+                          [
+                            "eq",
+                            "$level",
+                            0
+                          ],
+                          5,
+                          4
+                        ]
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                ]
+              },
+              {
+                "when": [
+                  "eq",
+                  "$level",
+                  0
+                ],
+                "then": [
+                  {
+                    "port": "number.calculate",
+                    "args": {
+                      "operation": "remainder",
+                      "values": [
+                        "list",
+                        "$index",
+                        2
+                      ]
+                    },
+                    "into": "odd"
+                  },
+                  {
+                    "port": "text.slice",
+                    "args": {
+                      "value": "$d",
+                      "start": 0,
+                      "end": 5
+                    },
+                    "into": "label"
+                  },
+                  {
+                    "let": "nodes",
+                    "value": [
+                      "append",
+                      "$nodes",
+                      [
+                        "list",
+                        {
+                          "tag": "text",
+                          "attrs": {
+                            "class": "leaf-label",
+                            "x": "$x",
+                            "y": [
+                              "if",
+                              "$odd",
+                              158,
+                              148
+                            ],
+                            "text-anchor": "middle"
+                          },
+                          "children": [
+                            "list",
+                            "$label"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ],
+            "yield": "$nodes",
+            "into": "nodes"
+          }
+        ],
+        "yield": "$nodes",
+        "into": "nodes"
+      },
+      {
+        "port": "text.slice",
+        "args": {
+          "value": "$root",
+          "start": 0,
+          "end": 8
+        },
+        "into": "label"
+      },
+      {
+        "let": "nodes",
+        "value": [
+          "append",
+          "$nodes",
+          [
+            "list",
+            {
+              "tag": "rect",
+              "attrs": {
+                "class": [
+                  "concat",
+                  "node",
+                  [
+                    "if",
+                    [
+                      "and",
+                      [
+                        "at",
+                        "$eventInput",
+                        "fresh"
+                      ],
+                      [
+                        "not",
+                        [
+                          "includes",
+                          [
+                            "at",
+                            "$eventInput",
+                            "seen"
+                          ],
+                          "$predicate"
+                        ]
+                      ]
+                    ],
+                    " hot",
+                    ""
+                  ]
+                ],
+                "x": 295,
+                "y": 61,
+                "width": 10,
+                "height": 10,
+                "transform": "rotate(45 300 66)"
+              },
+              "children": [
+                "list"
+              ]
+            },
+            {
+              "tag": "text",
+              "attrs": {
+                "class": "leaf-label",
+                "x": 312,
+                "y": 69
+              },
+              "children": [
+                "list",
+                "covenant"
+              ]
+            },
+            {
+              "tag": "path",
+              "attrs": {
+                "class": [
+                  "concat",
+                  "keystone",
+                  [
+                    "if",
+                    [
+                      "and",
+                      [
+                        "at",
+                        "$eventInput",
+                        "fresh"
+                      ],
+                      [
+                        "not",
+                        [
+                          "includes",
+                          [
+                            "at",
+                            "$eventInput",
+                            "seen"
+                          ],
+                          "$root"
+                        ]
+                      ]
+                    ],
+                    " hot",
+                    ""
+                  ]
+                ],
+                "d": "M138 6 H222 L214 30 H146 Z"
+              },
+              "children": [
+                "list"
+              ]
+            },
+            {
+              "tag": "text",
+              "attrs": {
+                "class": "root-label",
+                "x": 180,
+                "y": 21,
+                "text-anchor": "middle"
+              },
+              "children": [
+                "list",
+                [
+                  "concat",
+                  "root ",
+                  "$label"
+                ]
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "let": "seen",
+        "value": [
+          "list",
+          "$root",
+          "$predicate"
+        ]
+      },
+      {
+        "fold": "$levels",
+        "as": "row",
+        "accumulator": "seen",
+        "initial": "$seen",
+        "steps": [
+          {
+            "let": "seen",
+            "value": [
+              "append",
+              "$seen",
+              "$row"
+            ]
+          }
+        ],
+        "yield": "$seen",
+        "into": "seen"
+      },
+      {
+        "let": "result",
+        "value": {
+          "nodes": "$nodes",
+          "seen": "$seen"
+        }
+      }
+    ],
+    "ui.cells.treeY": [
+      {
+        "let": "result",
+        "value": 66
+      },
+      {
+        "when": [
+          "not",
+          [
+            "eq",
+            [
+              "at",
+              "$eventInput",
+              "count"
+            ],
+            1
+          ]
+        ],
+        "then": [
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "multiply",
+              "values": [
+                "list",
+                [
+                  "at",
+                  "$eventInput",
+                  "level"
+                ],
+                66
+              ]
+            },
+            "into": "arithmetic10"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "subtract",
+              "values": [
+                "list",
+                [
+                  "at",
+                  "$eventInput",
+                  "count"
+                ],
+                1
+              ]
+            },
+            "into": "arithmetic11"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "divide",
+              "values": [
+                "list",
+                "$arithmetic10",
+                "$arithmetic11"
+              ]
+            },
+            "into": "arithmetic12"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "subtract",
+              "values": [
+                "list",
+                132,
+                "$arithmetic12"
+              ]
+            },
+            "into": "arithmetic13"
+          },
+          {
+            "let": "result",
+            "value": "$arithmetic13"
+          }
+        ]
+      }
+    ]
+  }
+}
