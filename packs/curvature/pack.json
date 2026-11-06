@@ -1,0 +1,78 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "curvature",
+  "title": "Experiential curvature",
+  "requires": [
+    "core"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/curvature.process.json"
+  ],
+  "sources": [
+    "source/curvature.rel"
+  ],
+  "assets": [
+    "assets/curvature.css"
+  ],
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/curvature.md"
+    }
+  ],
+  "build": "curvature.build",
+  "render": "curvature.view",
+  "navigation": {
+    "label": "A different light",
+    "route": "curvature.html"
+  },
+  "grants": {
+    "build": [
+      "json.parse",
+      "text.matches",
+      "file.write",
+      "runtime.bundle",
+      "text.split"
+    ],
+    "browser": [
+      "browser.attribute",
+      "browser.environment",
+      "browser.on",
+      "browser.style",
+      "browser.write",
+      "dom.exists",
+      "json.parse",
+      "json.stringify",
+      "state.get",
+      "state.set",
+      "storage.read",
+      "storage.write",
+      "text.matches"
+    ]
+  },
+  "runtime": {
+    "entry": "curvature.boot",
+    "queries": [
+      "curvature.check",
+      "curvature.resolve",
+      "curvature.defaults",
+      "curvature.boot",
+      "curvature.change",
+      "curvature.preset",
+      "curvature.reset",
+      "curvature.commit",
+      "curvature.environment",
+      "curvature.pause"
+    ],
+    "profile": "curvatureBrowser",
+    "allPages": true
+  },
+  "outputs": [
+    "curvature.html",
+    "curvature-runtime.js"
+  ],
+  "stylesheets": [
+    "assets/curvature.css"
+  ]
+}

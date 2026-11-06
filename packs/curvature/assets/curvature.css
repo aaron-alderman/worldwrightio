@@ -1,0 +1,56 @@
+/* Presentation policy for the optional source-owned curvature vocabulary. */
+body[data-ww-colours] { color:var(--ww-ink); background:var(--ww-paper); transition:background-color .4s,color .4s; }
+body[data-ww-colours] :is(h1,h2,h3) { color:var(--ww-ink); }
+body[data-ww-mood] :is(h1,h2,h3) { font-family:var(--ww-heading-font); letter-spacing:var(--ww-tracking); }
+body[data-ww-colours] a { color:var(--ww-accent); }
+body[data-ww-colours] :is(.card,.feature-block,.feature-workbench) { background:var(--ww-surface); }
+body[data-ww-chrome] :is(.card,.feature-block,.feature-workbench) { border:var(--ww-border); box-shadow:var(--ww-shadow); }
+body[data-ww-shapes] :is(.card,.feature-block,.feature-workbench,button,.button,select,input,textarea) { border-radius:var(--ww-radius); }
+body[data-ww-colours] :is(button,.button,select,input,textarea) { color:var(--ww-ink); background:var(--ww-surface); border-color:var(--ww-line); }
+body[data-ww-colours] :is(pre,th,td,header,footer) { border-color:var(--ww-line); }
+body[data-ww-colours] pre { color:var(--ww-ink); background:var(--ww-surface); }
+body[data-ww-colours] .muted,body[data-ww-colours] footer { color:var(--ww-muted); }
+body[data-ww-curvature] header nav { flex-wrap:nowrap; overflow-x:auto; max-width:100%; padding-block:.6rem; white-space:nowrap; }
+body[data-ww-curvature] header nav a { flex-shrink:0; }
+body[data-ww-curvature] main:has(>.hero) { display:flex; flex-direction:column; }
+body[data-ww-curvature] main:has(>.hero) >.hero { order:-2; padding-block:1.5rem; }
+body[data-ww-curvature] main:has(>.hero) >#curvature-mount { order:-1; }
+/* The scene supplies the main artwork; preserve the chart elsewhere in the atlas. */
+body[data-ww-images]:has(#curvature-mount) .hero img { display:none; }
+body[data-ww-curvature]:has(#curvature-mount) .hero .world-title { font-size:clamp(3.5rem,10vw,6rem); margin-block:.25rem; }
+body[data-ww-curvature]:has(#curvature-mount) .hero>p:not(.eyebrow) { max-width:48rem; margin-block:.6rem; }
+body[data-ww-curvature]:has(#curvature-mount) .hero>p:not(.lead):not(.eyebrow) { font-size:.9rem; }
+.curvature { color:var(--ww-ink,#163c3c); margin-block:1.5rem 3rem; width:100%; min-width:0; }
+.curvature-scene { position:relative; isolation:isolate; overflow:hidden; min-height:36rem; background:#123c47; border:var(--ww-border,3px double #739b91); border-radius:var(--ww-radius,2.4rem .6rem); clip-path:var(--ww-cut,none); box-shadow:var(--ww-shadow); }
+.curvature-scene::after { content:""; position:absolute; z-index:-1; inset:0; background:var(--ww-scene-scrim,linear-gradient(90deg,#082327dd,#0823272e)); }
+.curvature-scene #curvature-image,.curvature-scene .curvature-fallback-image { position:absolute; inset:0; z-index:-2; width:100%; height:100%; max-width:none; object-fit:cover; border:0; border-radius:0; margin:0; }
+.curvature-scene::before { content:""; position:absolute; pointer-events:none; inset:0 0 auto; height:9px; background-image:var(--ww-texture,none); opacity:.7; }
+.curvature [hidden] { display:none!important; }
+.curvature-story { padding:var(--ww-air,clamp(1.6rem,5vw,4rem)); max-width:43rem; position:relative; }
+.curvature .curvature-story :is(h2,p,a) { color:var(--ww-scene-ink,#fff8e8); }
+.curvature .curvature-story h2 { font-family:var(--ww-heading-font,Georgia,serif); letter-spacing:var(--ww-tracking,-.04em); font-size:clamp(2.7rem,5.8vw,5.6rem); line-height:1.04; margin-block:1.6rem; text-wrap:balance; }
+.curvature-story>p:not(.eyebrow) { max-width:30rem; font-size:1.15rem; line-height:1.7; }
+.curvature .curvature-story .button { display:inline-block; background:#0b252ee8; border:1px solid currentColor; border-radius:var(--ww-radius); margin-top:1rem; padding:.85rem 1.1rem; text-decoration:none; font-weight:600; transition:transform .2s; }
+.curvature .curvature-story .button:is(:hover,:focus-visible) { transform:translateX(4px); }
+.curvature .curvature-small { font-size:.85rem!important; line-height:1.65; }
+.curvature-caption { font-size:.75rem; line-height:1.6; color:var(--ww-muted,#496969); margin:.75rem 0 1.5rem; }
+.curvature-composer { display:flex; flex-wrap:wrap; gap:.8rem; align-items:center; border-block:1px solid var(--ww-line,#739b91); padding-block:1rem; }
+.curvature :is(select,button) { font:inherit; padding:.65rem .8rem; max-width:100%; min-height:44px; cursor:pointer; }
+.curvature-composer>label { font-family:Georgia,serif; font-style:italic; font-size:1.3rem; margin-right:auto; }
+.curvature details { margin-top:1rem; background:var(--ww-surface,#fffcf3); border:var(--ww-border,1px solid #739b91); border-radius:var(--ww-radius,.5rem); padding:1rem; }
+.curvature summary { cursor:pointer; font-weight:600; min-height:28px; }
+.curvature-dimensions { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1.2rem; margin-block:1.5rem; }
+.curvature-dimensions label { display:flex; flex-direction:column; gap:.45rem; font-size:.85rem; font-weight:600; }
+.curvature #curvature-status { font-size:.8rem; color:var(--ww-muted,#496969); min-height:2em; }
+.curvature-horizon { position:absolute; pointer-events:none; inset:0; overflow:hidden; z-index:-1; }
+.curvature-horizon span { position:absolute; width:120%; height:45%; left:-10%; bottom:-32%; border:1px solid #d8fff77a; border-radius:50%; animation:ww-tidal-drift var(--ww-duration,18s) ease-in-out infinite alternate; animation-play-state:var(--ww-play,paused); }
+.curvature-horizon span:nth-child(2) { bottom:-28%; animation-delay:-6s; }
+.curvature-horizon span:nth-child(3) { bottom:-24%; animation-delay:-12s; }
+@keyframes ww-tidal-drift { from { transform:translate3d(-1%,0,0) rotate(-2deg); } to { transform:translate3d(1%,calc(-1 * var(--ww-travel,18px)),0) rotate(2deg); } }
+body:is([data-ww-reduced=true],[data-ww-hidden=true]) .curvature-horizon span { animation-play-state:paused; }
+body[data-ww-reduced=true] .curvature-horizon span { animation:none; }
+.curvature :focus-visible { outline:3px solid var(--ww-accent,#005c60); outline-offset:4px; }
+.curvature .curvature-story :focus-visible { outline-color:var(--ww-scene-ink,#fff8e8); }
+@media (max-width:600px) { .curvature-scene { min-height:36rem; } .curvature-story { padding:2rem 1.4rem; } .curvature-composer>label { flex-basis:100%; } .curvature-composer select { flex:1; } .curvature-dimensions { grid-template-columns:1fr; } }
+@media (prefers-reduced-motion:reduce) { .curvature *, .curvature *::after,body[data-ww-curvature] { animation:none!important; transition:none!important; scroll-behavior:auto!important; } .curvature .button { transform:none!important; } }
+@media (forced-colors:active) { .curvature-scene { background:Canvas; } .curvature-scene::after,.curvature-horizon,.curvature-scene img { display:none; } .curvature .curvature-story :is(h2,p,a) { color:CanvasText; } .curvature .curvature-story .button { background:Canvas; border:1px solid ButtonText; } }

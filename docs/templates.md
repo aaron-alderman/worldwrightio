@@ -9,7 +9,7 @@ node tooling/compose-world.mjs worlds/lab --features workshop,inspector
 node tooling/compose-world.mjs worlds/tidepool --profile examples/tidepool/profile.json
 ```
 
-Tidepool selects all available packs. It supplies original fictional field notes, a coastal chart, a synthetic film and a paper-and-ink presentation. Its claims and programme scenarios concern observations and shared survey equipment. The examples do not reuse Aaron's personal corpus or expedition art.
+Tidepool selects all available packs. It supplies original fictional field notes, a coastal chart, a synthetic film and independent experiential layers: colours, shapes, mood, chrome, HD scene imagery, motion and invitations. Try the three compositions or mix their individual layers. Its claims and programme scenarios concern observations and shared survey equipment. The examples do not reuse Aaron's personal corpus or expedition art. Generated scene illustrations are labelled separately from evidence, with prompts in `examples/tidepool/artwork-provenance.json`.
 
 Each pack descriptor declares owned modules, source files, assets, dependencies, permissions and outputs. A profile replaces canonical files by owner; selecting fewer features skips other owners. FeatureBlock facts assemble selected views in page order. Unknown features, dependency cycles, conflicting owners and invalid mounts refuse before publication.
 

@@ -4,7 +4,7 @@ Build a world from your own meaning and content. The introduction lives at [worl
 
 Worldwright is a storytelling application in the wider Temple/Sourcery family. [Aaron's current personal world](https://aaronalderman.com/index.html) has entrances through Questions, Threads and Atlas, alongside project microsites. This repository supplies working reusable construction pieces; the wider authoring application remains in development. See [the architecture and current boundaries](docs/architecture.md).
 
-Our [operating model](docs/operating-model.md): free software, content and learning material under the applicable licenses; paid hands-on setup and installation; paid in-person training; and voluntary contributions of what people believe is reasonable and fair. We help people learn to bring and manage their own agent, gain independence and reduce their costs. This records direction, with no new features at this stage. [Machine-readable agent context](context/operating-model.json).
+Our [operating model](docs/operating-model.md): free software, content and learning material under the applicable licenses; paid hands-on setup and installation; paid in-person training; and voluntary contributions of what people believe is reasonable and fair. We help people learn to bring and manage their own agent, gain independence and reduce their costs. This defines support and stewardship; it introduces no billing or booking system. [Machine-readable agent context](context/operating-model.json).
 
 Select individually reusable packs instead of copying the historical expedition:
 
@@ -19,7 +19,7 @@ Start with [the composition guide](docs/composition.md). Each pack owns its proc
 
 The free [Bring your own agent guide](docs/bring-your-own-agent.md) covers exploring the corpus, building and maintaining your own world, reusable prompts and ways to keep costs down.
 
-[Explore Tidepool](https://worldwright.io/examples/tidepool/index.html): an original fictional field-station notebook exercising all packs, with original diagrams and observations. [Explore the pocket example](https://worldwright.io/examples/pocket/index.html) for reader and sources alone.
+[Explore Tidepool](https://worldwright.io/examples/tidepool/index.html): an original fictional field-station notebook exercising all packs, with original diagrams and observations. Its optional [curvature pack](packs/curvature/README.md) composes colours, shapes, mood, chrome, HD imagery, motion and local journey invitations independently. [Explore the pocket example](https://worldwright.io/examples/pocket/index.html) for reader and sources alone.
 
 ```sh
 node tooling/compose-world.mjs worlds/tidepool --profile examples/tidepool/profile.json

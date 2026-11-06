@@ -38,6 +38,8 @@ The current composition unit is a pack. packs/composition.process.json resolves 
 
 FeatureBlock facts select a pack view, a home or Place placement and an explicit numeric order. The shell invokes those views through process algebra. Pack boot queries guard absent mounts, so a world can compose interactive features inside readings as well as give them separate routes. Profiles override canonical source by owner; unselected owners are skipped. See docs/composition.md and each pack descriptor for the current source contract.
 
+Experiential curvature is an optional source-defined pack. Independently owned presentation tokens, named options and checked preset selections compose colours, shapes, mood, chrome, imagery, motion and invitations. Runtime effects use existing generic ports; no native application logic or new seed is introduced. Curvature guards absent controls while applying the chosen tokens across pages. It does not imply a universal mathematical curvature calculus or full equivalence with the initial world.
+
 ## Reading and changing are different
 
 Source snapshots expose definitions. Receipts record hashes and execution use. Neither is a live trace. A checked editing feature must declare its owner and route, check the source version, validate the candidate and compare its forward projection before acceptance. Never infer a universal inverse from a rendered string.

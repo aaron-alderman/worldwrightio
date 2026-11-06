@@ -1,0 +1,2335 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "curvature.check": [
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "count",
+              "$data.dimensions"
+            ],
+            0
+          ]
+        ],
+        "message": "CURVATURE-DIMENSIONS: Select at least one dimension."
+      },
+      {
+        "each": [
+          "list",
+          "image",
+          "mood",
+          "action",
+          "motion"
+        ],
+        "as": "kind",
+        "steps": [
+          {
+            "assert": [
+              "includes",
+              [
+                "list",
+                0,
+                1
+              ],
+              [
+                "count",
+                [
+                  "filter",
+                  "$data.dimensions",
+                  "dimension",
+                  [
+                    "eq",
+                    "$dimension.kind",
+                    "$kind"
+                  ]
+                ]
+              ]
+            ],
+            "message": "CURVATURE-KIND: Include at most one dimension for each specialised mechanism."
+          }
+        ]
+      },
+      {
+        "each": "$data.dimensions",
+        "as": "dimension",
+        "steps": [
+          {
+            "port": "text.matches",
+            "args": {
+              "value": "$dimension.id",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            },
+            "into": "safe"
+          },
+          {
+            "assert": "$safe",
+            "message": "CURVATURE-ID: Use safe dimension identifiers."
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                [
+                  "filter",
+                  "$data.dimensions",
+                  "other",
+                  [
+                    "eq",
+                    "$other.id",
+                    "$dimension.id"
+                  ]
+                ]
+              ],
+              1
+            ],
+            "message": "CURVATURE-DUPLICATE: Dimension identifiers must be unique."
+          },
+          {
+            "assert": [
+              "includes",
+              [
+                "list",
+                "tokens",
+                "image",
+                "mood",
+                "action",
+                "motion"
+              ],
+              "$dimension.kind"
+            ],
+            "message": "CURVATURE-KIND: Unknown dimension mechanism."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "count",
+                  "$dimension.options"
+                ],
+                0
+              ]
+            ],
+            "message": "CURVATURE-OPTIONS: Each selected dimension needs an option."
+          },
+          {
+            "each": "$dimension.options",
+            "as": "option",
+            "steps": [
+              {
+                "port": "text.matches",
+                "args": {
+                  "value": "$option.id",
+                  "pattern": "^[a-z][a-z0-9-]*$"
+                },
+                "into": "safe"
+              },
+              {
+                "assert": "$safe",
+                "message": "CURVATURE-ID: Use safe option identifiers."
+              },
+              {
+                "assert": [
+                  "eq",
+                  [
+                    "count",
+                    [
+                      "filter",
+                      "$dimension.options",
+                      "other",
+                      [
+                        "eq",
+                        "$other.id",
+                        "$option.id"
+                      ]
+                    ]
+                  ],
+                  1
+                ],
+                "message": "CURVATURE-DUPLICATE: Options must be unique within their dimension."
+              },
+              {
+                "each": "$option.tokens",
+                "as": "token",
+                "steps": [
+                  {
+                    "port": "text.matches",
+                    "args": {
+                      "value": "$token.name",
+                      "pattern": "^--ww-[a-z][a-z0-9-]*$"
+                    },
+                    "into": "safe"
+                  },
+                  {
+                    "assert": "$safe",
+                    "message": "CURVATURE-TOKEN: Presentation tokens must be namespaced."
+                  },
+                  {
+                    "assert": [
+                      "eq",
+                      [
+                        "count",
+                        [
+                          "filter",
+                          "$option.tokens",
+                          "other",
+                          [
+                            "eq",
+                            "$other.name",
+                            "$token.name"
+                          ]
+                        ]
+                      ],
+                      1
+                    ],
+                    "message": "CURVATURE-TOKEN: An option cannot write a token twice."
+                  },
+                  {
+                    "each": [
+                      "filter",
+                      "$data.dimensions",
+                      "other",
+                      [
+                        "not",
+                        [
+                          "eq",
+                          "$other.id",
+                          "$dimension.id"
+                        ]
+                      ]
+                    ],
+                    "as": "other",
+                    "steps": [
+                      {
+                        "each": "$other.options",
+                        "as": "otherOption",
+                        "steps": [
+                          {
+                            "assert": [
+                              "eq",
+                              [
+                                "count",
+                                [
+                                  "filter",
+                                  "$otherOption.tokens",
+                                  "foreignToken",
+                                  [
+                                    "eq",
+                                    "$foreignToken.name",
+                                    "$token.name"
+                                  ]
+                                ]
+                              ],
+                              0
+                            ],
+                            "message": "CURVATURE-OWNERSHIP: Dimensions cannot overwrite one another’s tokens."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "each": "$dimension.options",
+                    "as": "sibling",
+                    "steps": [
+                      {
+                        "assert": [
+                          "eq",
+                          [
+                            "count",
+                            [
+                              "filter",
+                              "$sibling.tokens",
+                              "siblingToken",
+                              [
+                                "eq",
+                                "$siblingToken.name",
+                                "$token.name"
+                              ]
+                            ]
+                          ],
+                          1
+                        ],
+                        "message": "CURVATURE-TOKEN: Every option in a dimension must declare the same token names."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "eq",
+                  "$dimension.kind",
+                  "image"
+                ],
+                "then": [
+                  {
+                    "when": [
+                      "not",
+                      [
+                        "eq",
+                        "$option.src",
+                        ""
+                      ]
+                    ],
+                    "then": [
+                      {
+                        "port": "text.matches",
+                        "args": {
+                          "value": "$option.src",
+                          "pattern": "^assets/[a-zA-Z0-9_/-]+\\.(png|jpg|jpeg|webp|svg)$"
+                        },
+                        "into": "safe"
+                      },
+                      {
+                        "assert": "$safe",
+                        "message": "CURVATURE-IMAGE: Use a declared local asset."
+                      },
+                      {
+                        "assert": [
+                          "not",
+                          [
+                            "eq",
+                            "$option.alt",
+                            ""
+                          ]
+                        ],
+                        "message": "CURVATURE-IMAGE: Describe illustrative imagery."
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "eq",
+                  "$dimension.kind",
+                  "action"
+                ],
+                "then": [
+                  {
+                    "port": "text.matches",
+                    "args": {
+                      "value": "$option.href",
+                      "pattern": "^(#[a-zA-Z0-9_-]+|[a-zA-Z0-9_/-]+\\.html(#[a-zA-Z0-9_-]+)?)$"
+                    },
+                    "into": "safe"
+                  },
+                  {
+                    "assert": "$safe",
+                    "message": "CURVATURE-ACTION: Use a local declared reading destination."
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "eq",
+                  "$dimension.kind",
+                  "motion"
+                ],
+                "then": [
+                  {
+                    "assert": [
+                      "includes",
+                      [
+                        "list",
+                        true,
+                        false
+                      ],
+                      "$option.moving"
+                    ],
+                    "message": "CURVATURE-MOTION: Declare whether this option moves."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "each": "$data.presets",
+        "as": "preset",
+        "steps": [
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                [
+                  "filter",
+                  "$data.presets",
+                  "other",
+                  [
+                    "eq",
+                    "$other.id",
+                    "$preset.id"
+                  ]
+                ]
+              ],
+              1
+            ],
+            "message": "CURVATURE-PRESET: Preset identifiers must be unique."
+          },
+          {
+            "let": "selections",
+            "value": "$preset.selections"
+          },
+          {
+            "call": "curvature.resolve"
+          }
+        ]
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            [
+              "filter",
+              "$data.presets",
+              "other",
+              [
+                "eq",
+                "$other.id",
+                "$data.defaultPreset"
+              ]
+            ]
+          ],
+          1
+        ],
+        "message": "CURVATURE-PRESET: Declare exactly one default preset."
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ],
+    "curvature.resolve": [
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            "$selections"
+          ],
+          [
+            "count",
+            "$data.dimensions"
+          ]
+        ],
+        "message": "CURVATURE-SELECTION: Choose exactly one option per selected dimension."
+      },
+      {
+        "each": "$data.dimensions",
+        "as": "dimension",
+        "steps": [
+          {
+            "let": "choices",
+            "value": [
+              "filter",
+              "$selections",
+              "choice",
+              [
+                "eq",
+                "$choice.dimension",
+                "$dimension.id"
+              ]
+            ]
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                "$choices"
+              ],
+              1
+            ],
+            "message": "CURVATURE-SELECTION: Missing or duplicated dimension."
+          },
+          {
+            "let": "choice",
+            "value": [
+              "at",
+              "$choices",
+              0
+            ]
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                [
+                  "filter",
+                  "$dimension.options",
+                  "other",
+                  [
+                    "eq",
+                    "$other.id",
+                    "$choice.option"
+                  ]
+                ]
+              ],
+              1
+            ],
+            "message": "CURVATURE-OPTION: The requested option is not declared."
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": "$selections"
+      }
+    ],
+    "curvature.defaults": [
+      {
+        "let": "preset",
+        "value": [
+          "at",
+          [
+            "filter",
+            "$data.presets",
+            "preset",
+            [
+              "eq",
+              "$preset.id",
+              "$data.defaultPreset"
+            ]
+          ],
+          0
+        ]
+      },
+      {
+        "let": "result",
+        "value": "$preset.selections"
+      }
+    ],
+    "curvature.boot": [
+      {
+        "call": "curvature.check"
+      },
+      {
+        "call": "curvature.defaults"
+      },
+      {
+        "let": "selections",
+        "value": "$result"
+      },
+      {
+        "port": "storage.read",
+        "args": {
+          "key": "$data.storageKey"
+        },
+        "into": "stored"
+      },
+      {
+        "when": "$stored.ok",
+        "then": [
+          {
+            "when": "$stored.value",
+            "then": [
+              {
+                "try": [
+                  {
+                    "port": "json.parse",
+                    "args": {
+                      "text": "$stored.value"
+                    },
+                    "into": "saved"
+                  },
+                  {
+                    "let": "selections",
+                    "value": "$saved"
+                  },
+                  {
+                    "call": "curvature.resolve"
+                  }
+                ],
+                "catch": [
+                  {
+                    "call": "curvature.defaults"
+                  },
+                  {
+                    "let": "selections",
+                    "value": "$result"
+                  }
+                ],
+                "error": "restoreError"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "call": "curvature.commit"
+      },
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#curvature-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#curvature-mount",
+              "event": "change",
+              "delegate": "select[data-dimension]",
+              "query": "curvature.change",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#curvature-preset",
+              "event": "change",
+              "query": "curvature.preset",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#curvature-reset",
+              "event": "click",
+              "query": "curvature.reset",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#curvature-motion-toggle",
+              "event": "click",
+              "query": "curvature.pause",
+              "input": {}
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "document",
+          "event": "visibilitychange",
+          "query": "curvature.environment",
+          "input": {}
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": {
+            "media": "(prefers-reduced-motion: reduce)"
+          },
+          "event": "change",
+          "query": "curvature.environment",
+          "input": {}
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "window",
+          "event": "pageshow",
+          "query": "curvature.environment",
+          "input": {}
+        },
+        "into": "_"
+      }
+    ],
+    "curvature.change": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "curvature.selections"
+        },
+        "into": "current"
+      },
+      {
+        "let": "dimensionId",
+        "value": "$eventInput.matched.attributes.data-dimension"
+      },
+      {
+        "let": "optionId",
+        "value": "$eventInput.matched.value"
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            [
+              "filter",
+              "$data.dimensions",
+              "other",
+              [
+                "eq",
+                "$other.id",
+                "$dimensionId"
+              ]
+            ]
+          ],
+          1
+        ],
+        "message": "CURVATURE-SELECTION: Unknown dimension."
+      },
+      {
+        "let": "selections",
+        "value": [
+          "map",
+          "$current",
+          "choice",
+          [
+            "if",
+            [
+              "eq",
+              "$choice.dimension",
+              "$dimensionId"
+            ],
+            {
+              "dimension": "$dimensionId",
+              "option": "$optionId"
+            },
+            "$choice"
+          ]
+        ]
+      },
+      {
+        "call": "curvature.commit"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#curvature-preset",
+          "name": "value",
+          "value": "custom"
+        },
+        "into": "_"
+      }
+    ],
+    "curvature.preset": [
+      {
+        "let": "presetId",
+        "value": "$eventInput.event.target.value"
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            [
+              "filter",
+              "$data.presets",
+              "other",
+              [
+                "eq",
+                "$other.id",
+                "$presetId"
+              ]
+            ]
+          ],
+          1
+        ],
+        "message": "CURVATURE-PRESET: Unknown preset."
+      },
+      {
+        "let": "preset",
+        "value": [
+          "at",
+          [
+            "filter",
+            "$data.presets",
+            "preset",
+            [
+              "eq",
+              "$preset.id",
+              "$presetId"
+            ]
+          ],
+          0
+        ]
+      },
+      {
+        "let": "selections",
+        "value": "$preset.selections"
+      },
+      {
+        "call": "curvature.commit"
+      },
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#curvature-status"
+        },
+        "into": "mounted"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#curvature-status",
+              "name": "textContent",
+              "value": "$preset.description"
+            },
+            "into": "_"
+          }
+        ]
+      }
+    ],
+    "curvature.reset": [
+      {
+        "call": "curvature.defaults"
+      },
+      {
+        "let": "selections",
+        "value": "$result"
+      },
+      {
+        "call": "curvature.commit"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#curvature-preset",
+          "name": "value",
+          "value": "$data.defaultPreset"
+        },
+        "into": "_"
+      }
+    ],
+    "curvature.commit": [
+      {
+        "call": "curvature.resolve"
+      },
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#curvature-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "port": "state.set",
+        "args": {
+          "key": "curvature.selections",
+          "value": "$selections"
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.attribute",
+        "args": {
+          "ref": "body",
+          "name": "data-ww-curvature",
+          "value": "true"
+        },
+        "into": "_"
+      },
+      {
+        "each": "$data.dimensions",
+        "as": "dimension",
+        "steps": [
+          {
+            "let": "choice",
+            "value": [
+              "at",
+              [
+                "filter",
+                "$selections",
+                "choice",
+                [
+                  "eq",
+                  "$choice.dimension",
+                  "$dimension.id"
+                ]
+              ],
+              0
+            ]
+          },
+          {
+            "let": "option",
+            "value": [
+              "at",
+              [
+                "filter",
+                "$dimension.options",
+                "option",
+                [
+                  "eq",
+                  "$option.id",
+                  "$choice.option"
+                ]
+              ],
+              0
+            ]
+          },
+          {
+            "port": "browser.attribute",
+            "args": {
+              "ref": "body",
+              "name": [
+                "concat",
+                "data-ww-",
+                "$dimension.id"
+              ],
+              "value": "$option.id"
+            },
+            "into": "_"
+          },
+          {
+            "each": "$option.tokens",
+            "as": "token",
+            "steps": [
+              {
+                "port": "browser.style",
+                "args": {
+                  "ref": "body",
+                  "name": "$token.name",
+                  "value": "$token.value"
+                },
+                "into": "_"
+              }
+            ]
+          },
+          {
+            "when": "$mounted",
+            "then": [
+              {
+                "port": "browser.write",
+                "args": {
+                  "ref": [
+                    "concat",
+                    "#curvature-",
+                    "$dimension.id"
+                  ],
+                  "name": "value",
+                  "value": "$option.id"
+                },
+                "into": "_"
+              },
+              {
+                "when": [
+                  "eq",
+                  "$dimension.kind",
+                  "image"
+                ],
+                "then": [
+                  {
+                    "port": "browser.attribute",
+                    "args": {
+                      "ref": "#curvature-image",
+                      "name": "src",
+                      "value": [
+                        "if",
+                        [
+                          "eq",
+                          "$option.src",
+                          ""
+                        ],
+                        null,
+                        "$option.src"
+                      ]
+                    },
+                    "into": "_"
+                  },
+                  {
+                    "port": "browser.attribute",
+                    "args": {
+                      "ref": "#curvature-image",
+                      "name": "alt",
+                      "value": "$option.alt"
+                    },
+                    "into": "_"
+                  },
+                  {
+                    "port": "browser.write",
+                    "args": {
+                      "ref": "#curvature-image",
+                      "name": "hidden",
+                      "value": [
+                        "eq",
+                        "$option.src",
+                        ""
+                      ]
+                    },
+                    "into": "_"
+                  },
+                  {
+                    "port": "browser.write",
+                    "args": {
+                      "ref": "#curvature-caption",
+                      "name": "textContent",
+                      "value": "$option.caption"
+                    },
+                    "into": "_"
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "eq",
+                  "$dimension.kind",
+                  "mood"
+                ],
+                "then": [
+                  {
+                    "port": "browser.write",
+                    "args": {
+                      "ref": "#curvature-heading",
+                      "name": "textContent",
+                      "value": "$option.heading"
+                    },
+                    "into": "_"
+                  },
+                  {
+                    "port": "browser.write",
+                    "args": {
+                      "ref": "#curvature-description",
+                      "name": "textContent",
+                      "value": "$option.description"
+                    },
+                    "into": "_"
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "eq",
+                  "$dimension.kind",
+                  "action"
+                ],
+                "then": [
+                  {
+                    "port": "browser.attribute",
+                    "args": {
+                      "ref": "#curvature-action",
+                      "name": "href",
+                      "value": "$option.href"
+                    },
+                    "into": "_"
+                  },
+                  {
+                    "port": "browser.write",
+                    "args": {
+                      "ref": "#curvature-action",
+                      "name": "textContent",
+                      "value": "$option.label"
+                    },
+                    "into": "_"
+                  },
+                  {
+                    "port": "browser.write",
+                    "args": {
+                      "ref": "#curvature-action-description",
+                      "name": "textContent",
+                      "value": "$option.description"
+                    },
+                    "into": "_"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "let": "matchedPresets",
+        "value": [
+          "filter",
+          "$data.presets",
+          "preset",
+          [
+            "eq",
+            [
+              "count",
+              [
+                "filter",
+                "$preset.selections",
+                "expected",
+                [
+                  "eq",
+                  [
+                    "count",
+                    [
+                      "filter",
+                      "$selections",
+                      "actual",
+                      [
+                        "and",
+                        [
+                          "eq",
+                          "$actual.dimension",
+                          "$expected.dimension"
+                        ],
+                        [
+                          "eq",
+                          "$actual.option",
+                          "$expected.option"
+                        ]
+                      ]
+                    ]
+                  ],
+                  1
+                ]
+              ]
+            ],
+            [
+              "count",
+              "$selections"
+            ]
+          ]
+        ]
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#curvature-preset",
+              "name": "value",
+              "value": [
+                "if",
+                [
+                  "eq",
+                  [
+                    "count",
+                    "$matchedPresets"
+                  ],
+                  1
+                ],
+                [
+                  "at",
+                  [
+                    "at",
+                    "$matchedPresets",
+                    0
+                  ],
+                  "id"
+                ],
+                "custom"
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "port": "json.stringify",
+        "args": {
+          "value": "$selections"
+        },
+        "into": "serialized"
+      },
+      {
+        "port": "storage.write",
+        "args": {
+          "key": "$data.storageKey",
+          "value": "$serialized"
+        },
+        "into": "saved"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#curvature-status",
+              "name": "textContent",
+              "value": [
+                "if",
+                "$saved.ok",
+                "Your choices are saved in this browser. Reset restores the authored composition.",
+                "Your choices apply for this page; browser storage is unavailable."
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "call": "curvature.environment"
+      }
+    ],
+    "curvature.environment": [
+      {
+        "port": "browser.environment",
+        "args": {},
+        "into": "environment"
+      },
+      {
+        "port": "state.get",
+        "args": {
+          "key": "curvature.paused"
+        },
+        "into": "paused"
+      },
+      {
+        "port": "state.get",
+        "args": {
+          "key": "curvature.selections"
+        },
+        "into": "selections"
+      },
+      {
+        "let": "motions",
+        "value": [
+          "filter",
+          "$data.dimensions",
+          "dimension",
+          [
+            "eq",
+            "$dimension.kind",
+            "motion"
+          ]
+        ]
+      },
+      {
+        "let": "moving",
+        "value": [
+          "if",
+          [
+            "eq",
+            [
+              "count",
+              "$motions"
+            ],
+            0
+          ],
+          false,
+          [
+            "at",
+            [
+              "at",
+              [
+                "filter",
+                [
+                  "at",
+                  [
+                    "at",
+                    "$motions",
+                    0
+                  ],
+                  "options"
+                ],
+                "option",
+                [
+                  "eq",
+                  "$option.id",
+                  [
+                    "at",
+                    [
+                      "at",
+                      [
+                        "filter",
+                        "$selections",
+                        "choice",
+                        [
+                          "eq",
+                          "$choice.dimension",
+                          [
+                            "at",
+                            [
+                              "at",
+                              "$motions",
+                              0
+                            ],
+                            "id"
+                          ]
+                        ]
+                      ],
+                      0
+                    ],
+                    "option"
+                  ]
+                ]
+              ],
+              0
+            ],
+            "moving"
+          ]
+        ]
+      },
+      {
+        "let": "still",
+        "value": [
+          "or",
+          "$environment.reduced",
+          "$paused",
+          [
+            "not",
+            "$moving"
+          ]
+        ]
+      },
+      {
+        "port": "browser.attribute",
+        "args": {
+          "ref": "body",
+          "name": "data-ww-reduced",
+          "value": [
+            "if",
+            "$still",
+            "true",
+            "false"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.attribute",
+        "args": {
+          "ref": "body",
+          "name": "data-ww-hidden",
+          "value": [
+            "if",
+            "$environment.hidden",
+            "true",
+            "false"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#curvature-motion-toggle"
+        },
+        "into": "mounted"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#curvature-motion-toggle",
+              "name": "disabled",
+              "value": [
+                "or",
+                "$environment.reduced",
+                [
+                  "not",
+                  "$moving"
+                ]
+              ]
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.attribute",
+            "args": {
+              "ref": "#curvature-motion-toggle",
+              "name": "aria-pressed",
+              "value": [
+                "if",
+                "$still",
+                "true",
+                "false"
+              ]
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#curvature-motion-toggle",
+              "name": "textContent",
+              "value": [
+                "if",
+                "$environment.reduced",
+                "Motion follows reduced-motion preference",
+                [
+                  "if",
+                  [
+                    "not",
+                    "$moving"
+                  ],
+                  "Still composition",
+                  [
+                    "if",
+                    "$paused",
+                    "Resume scene motion",
+                    "Pause scene motion"
+                  ]
+                ]
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      }
+    ],
+    "curvature.pause": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "curvature.paused"
+        },
+        "into": "paused"
+      },
+      {
+        "port": "state.set",
+        "args": {
+          "key": "curvature.paused",
+          "value": [
+            "not",
+            "$paused"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "call": "curvature.environment"
+      }
+    ],
+    "curvature.view": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "curvature",
+            "configuration"
+          ]
+        },
+        "into": "data"
+      },
+      {
+        "call": "curvature.check"
+      },
+      {
+        "call": "curvature.defaults"
+      },
+      {
+        "let": "selections",
+        "value": "$result"
+      },
+      {
+        "let": "moods",
+        "value": [
+          "filter",
+          "$data.dimensions",
+          "dimension",
+          [
+            "eq",
+            "$dimension.kind",
+            "mood"
+          ]
+        ]
+      },
+      {
+        "let": "images",
+        "value": [
+          "filter",
+          "$data.dimensions",
+          "dimension",
+          [
+            "eq",
+            "$dimension.kind",
+            "image"
+          ]
+        ]
+      },
+      {
+        "let": "actions",
+        "value": [
+          "filter",
+          "$data.dimensions",
+          "dimension",
+          [
+            "eq",
+            "$dimension.kind",
+            "action"
+          ]
+        ]
+      },
+      {
+        "let": "mood",
+        "value": [
+          "if",
+          [
+            "not",
+            [
+              "eq",
+              [
+                "count",
+                "$moods"
+              ],
+              0
+            ]
+          ],
+          [
+            "at",
+            [
+              "filter",
+              [
+                "at",
+                [
+                  "at",
+                  "$moods",
+                  0
+                ],
+                "options"
+              ],
+              "option",
+              [
+                "eq",
+                "$option.id",
+                [
+                  "at",
+                  [
+                    "at",
+                    [
+                      "filter",
+                      "$selections",
+                      "choice",
+                      [
+                        "eq",
+                        "$choice.dimension",
+                        [
+                          "at",
+                          [
+                            "at",
+                            "$moods",
+                            0
+                          ],
+                          "id"
+                        ]
+                      ]
+                    ],
+                    0
+                  ],
+                  "option"
+                ]
+              ]
+            ],
+            0
+          ],
+          null
+        ]
+      },
+      {
+        "let": "image",
+        "value": [
+          "if",
+          [
+            "not",
+            [
+              "eq",
+              [
+                "count",
+                "$images"
+              ],
+              0
+            ]
+          ],
+          [
+            "at",
+            [
+              "filter",
+              [
+                "at",
+                [
+                  "at",
+                  "$images",
+                  0
+                ],
+                "options"
+              ],
+              "option",
+              [
+                "eq",
+                "$option.id",
+                [
+                  "at",
+                  [
+                    "at",
+                    [
+                      "filter",
+                      "$selections",
+                      "choice",
+                      [
+                        "eq",
+                        "$choice.dimension",
+                        [
+                          "at",
+                          [
+                            "at",
+                            "$images",
+                            0
+                          ],
+                          "id"
+                        ]
+                      ]
+                    ],
+                    0
+                  ],
+                  "option"
+                ]
+              ]
+            ],
+            0
+          ],
+          null
+        ]
+      },
+      {
+        "let": "action",
+        "value": [
+          "if",
+          [
+            "not",
+            [
+              "eq",
+              [
+                "count",
+                "$actions"
+              ],
+              0
+            ]
+          ],
+          [
+            "at",
+            [
+              "filter",
+              [
+                "at",
+                [
+                  "at",
+                  "$actions",
+                  0
+                ],
+                "options"
+              ],
+              "option",
+              [
+                "eq",
+                "$option.id",
+                [
+                  "at",
+                  [
+                    "at",
+                    [
+                      "filter",
+                      "$selections",
+                      "choice",
+                      [
+                        "eq",
+                        "$choice.dimension",
+                        [
+                          "at",
+                          [
+                            "at",
+                            "$actions",
+                            0
+                          ],
+                          "id"
+                        ]
+                      ]
+                    ],
+                    0
+                  ],
+                  "option"
+                ]
+              ]
+            ],
+            0
+          ],
+          null
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "tag": "section",
+          "attrs": {
+            "id": "curvature-mount",
+            "class": "curvature",
+            "aria-label": "$data.title"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "curvature-scene"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "img",
+                  "attrs": {
+                    "id": "curvature-image",
+                    "alt": [
+                      "if",
+                      "$image",
+                      "$image.alt",
+                      ""
+                    ],
+                    "hidden": [
+                      "if",
+                      "$image",
+                      [
+                        "eq",
+                        "$image.src",
+                        ""
+                      ],
+                      true
+                    ],
+                    "width": "1672",
+                    "height": "941",
+                    "fetchpriority": "high",
+                    "loading": "eager"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "curvature-horizon",
+                    "aria-hidden": "true"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "span",
+                      "attrs": {},
+                      "children": [
+                        "list"
+                      ]
+                    },
+                    {
+                      "tag": "span",
+                      "attrs": {},
+                      "children": [
+                        "list"
+                      ]
+                    },
+                    {
+                      "tag": "span",
+                      "attrs": {},
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "curvature-story"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "class": "eyebrow"
+                      },
+                      "children": [
+                        "list",
+                        "$data.kicker"
+                      ]
+                    },
+                    {
+                      "tag": "h2",
+                      "attrs": {
+                        "id": "curvature-heading"
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "if",
+                          "$mood",
+                          "$mood.heading",
+                          "$data.title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "id": "curvature-description"
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "if",
+                          "$mood",
+                          "$mood.description",
+                          "$data.intro"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "id": "curvature-action",
+                        "class": "button primary",
+                        "href": [
+                          "if",
+                          "$action",
+                          "$action.href",
+                          "#curvature-detail"
+                        ]
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "if",
+                          "$action",
+                          "$action.label",
+                          "Explore the layers ↓"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "id": "curvature-action-description",
+                        "class": "curvature-small"
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "if",
+                          "$action",
+                          "$action.description",
+                          "Choose the layers that suit this world."
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "noscript",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "img",
+                      "attrs": {
+                        "src": [
+                          "if",
+                          "$image",
+                          [
+                            "if",
+                            [
+                              "eq",
+                              "$image.src",
+                              ""
+                            ],
+                            null,
+                            "$image.src"
+                          ],
+                          null
+                        ],
+                        "alt": [
+                          "if",
+                          "$image",
+                          "$image.alt",
+                          ""
+                        ],
+                        "hidden": [
+                          "if",
+                          "$image",
+                          [
+                            "eq",
+                            "$image.src",
+                            ""
+                          ],
+                          true
+                        ],
+                        "width": "1672",
+                        "height": "941",
+                        "fetchpriority": "high",
+                        "class": "curvature-fallback-image"
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {
+                "id": "curvature-caption",
+                "class": "curvature-caption"
+              },
+              "children": [
+                "list",
+                [
+                  "if",
+                  "$image",
+                  "$image.caption",
+                  "No illustrative image selected."
+                ]
+              ]
+            },
+            {
+              "tag": "div",
+              "attrs": {
+                "class": "curvature-composer"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "label",
+                  "attrs": {
+                    "for": "curvature-preset"
+                  },
+                  "children": [
+                    "list",
+                    "A different light"
+                  ]
+                },
+                {
+                  "tag": "select",
+                  "attrs": {
+                    "id": "curvature-preset"
+                  },
+                  "children": [
+                    "append",
+                    [
+                      "list",
+                      {
+                        "tag": "option",
+                        "attrs": {
+                          "value": "custom",
+                          "disabled": true
+                        },
+                        "children": [
+                          "list",
+                          "Your composition"
+                        ]
+                      }
+                    ],
+                    [
+                      "map",
+                      "$data.presets",
+                      "preset",
+                      {
+                        "tag": "option",
+                        "attrs": {
+                          "value": "$preset.id",
+                          "selected": [
+                            "eq",
+                            "$preset.id",
+                            "$data.defaultPreset"
+                          ]
+                        },
+                        "children": [
+                          "list",
+                          "$preset.label"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "curvature-motion-toggle",
+                    "type": "button",
+                    "aria-pressed": "false",
+                    "hidden": [
+                      "eq",
+                      [
+                        "count",
+                        [
+                          "filter",
+                          "$data.dimensions",
+                          "dimension",
+                          [
+                            "eq",
+                            "$dimension.kind",
+                            "motion"
+                          ]
+                        ]
+                      ],
+                      0
+                    ]
+                  },
+                  "children": [
+                    "list",
+                    "Pause scene motion"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "curvature-reset",
+                    "type": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Reset composition"
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "details",
+              "attrs": {
+                "id": "curvature-detail"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "summary",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Compose the individual layers"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "curvature-dimensions"
+                  },
+                  "children": [
+                    "map",
+                    "$data.dimensions",
+                    "dimension",
+                    {
+                      "tag": "label",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "$dimension.label",
+                        {
+                          "tag": "select",
+                          "attrs": {
+                            "id": [
+                              "concat",
+                              "curvature-",
+                              "$dimension.id"
+                            ],
+                            "data-dimension": "$dimension.id"
+                          },
+                          "children": [
+                            "map",
+                            "$dimension.options",
+                            "option",
+                            {
+                              "tag": "option",
+                              "attrs": {
+                                "value": "$option.id",
+                                "selected": [
+                                  "eq",
+                                  "$option.id",
+                                  [
+                                    "at",
+                                    [
+                                      "at",
+                                      [
+                                        "filter",
+                                        "$selections",
+                                        "choice",
+                                        [
+                                          "eq",
+                                          "$choice.dimension",
+                                          "$dimension.id"
+                                        ]
+                                      ],
+                                      0
+                                    ],
+                                    "option"
+                                  ]
+                                ]
+                              },
+                              "children": [
+                                "list",
+                                "$option.label"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "class": "curvature-small"
+                  },
+                  "children": [
+                    "list",
+                    "$data.intro"
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {
+                "id": "curvature-status",
+                "role": "status",
+                "aria-live": "polite"
+              },
+              "children": [
+                "list",
+                "These layers belong to this world. Content and source attribution stay attached."
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "curvature.build": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "curvature",
+            "configuration"
+          ]
+        },
+        "into": "data"
+      },
+      {
+        "call": "curvature.check"
+      },
+      {
+        "each": "$data.dimensions",
+        "as": "dimension",
+        "steps": [
+          {
+            "when": [
+              "eq",
+              "$dimension.kind",
+              "action"
+            ],
+            "then": [
+              {
+                "each": "$dimension.options",
+                "as": "option",
+                "steps": [
+                  {
+                    "port": "text.split",
+                    "args": {
+                      "value": "$option.href",
+                      "pattern": "#"
+                    },
+                    "into": "parts"
+                  },
+                  {
+                    "let": "destination",
+                    "value": [
+                      "at",
+                      "$parts",
+                      0
+                    ]
+                  },
+                  {
+                    "assert": [
+                      "or",
+                      [
+                        "eq",
+                        "$option.href",
+                        "#curvature-detail"
+                      ],
+                      [
+                        "eq",
+                        "$destination",
+                        "index.html"
+                      ],
+                      [
+                        "includes",
+                        [
+                          "map",
+                          [
+                            "subjects",
+                            "isa",
+                            "PackNavigation"
+                          ],
+                          "nav",
+                          [
+                            "one",
+                            "$nav",
+                            "route"
+                          ]
+                        ],
+                        "$destination"
+                      ],
+                      [
+                        "and",
+                        [
+                          "includes",
+                          [
+                            "subjects",
+                            "isa",
+                            "PackNavigation"
+                          ],
+                          "pack.reader"
+                        ],
+                        [
+                          "includes",
+                          [
+                            "map",
+                            [
+                              "subjects",
+                              "isa",
+                              "Place"
+                            ],
+                            "place",
+                            [
+                              "concat",
+                              "places/",
+                              "$place",
+                              ".html"
+                            ]
+                          ],
+                          "$destination"
+                        ]
+                      ]
+                    ],
+                    "message": "CURVATURE-ACTION: Destination is not supplied by the selected world."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "each": "$data.dimensions",
+        "as": "dimension",
+        "steps": [
+          {
+            "when": [
+              "eq",
+              "$dimension.kind",
+              "image"
+            ],
+            "then": [
+              {
+                "each": "$dimension.options",
+                "as": "option",
+                "steps": [
+                  {
+                    "when": [
+                      "not",
+                      [
+                        "eq",
+                        "$option.src",
+                        ""
+                      ]
+                    ],
+                    "then": [
+                      {
+                        "assert": [
+                          "includes",
+                          [
+                            "map",
+                            [
+                              "subjects",
+                              "isa",
+                              "PackAsset"
+                            ],
+                            "asset",
+                            [
+                              "one",
+                              "$asset",
+                              "path"
+                            ]
+                          ],
+                          "$option.src"
+                        ],
+                        "message": "CURVATURE-IMAGE: Image is not owned by this composition."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "let": "pageTitle",
+        "value": "$data.title"
+      },
+      {
+        "let": "route",
+        "value": "curvature.html"
+      },
+      {
+        "call": "curvature.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "curvature.boot",
+          "mode": "browser",
+          "grantProfile": "curvatureBrowser",
+          "queries": [
+            "list",
+            "curvature.check",
+            "curvature.resolve",
+            "curvature.defaults",
+            "curvature.boot",
+            "curvature.change",
+            "curvature.preset",
+            "curvature.reset",
+            "curvature.commit",
+            "curvature.environment",
+            "curvature.pause"
+          ],
+          "factSubjects": [
+            "list",
+            "curvature"
+          ],
+          "data": "$data",
+          "budget": 20000000
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "curvature-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ]
+  }
+}
