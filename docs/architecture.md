@@ -2,6 +2,12 @@
 
 The person’s purpose leads. Worldwright gives that purpose explicit meaning, relations, composition and projection, with context for a person or agent to inspect and change it.
 
+## Place in the wider work
+
+The [current Aaron Alderman homepage](https://aaronalderman.com/index.html) distinguishes foundations and platform, applications and programmes, work taking shape, and tools and workbenches. Temple concerns accountable execution. Sourcery concerns authoring meaning and composing systems. Worldwright is the storytelling application: a world supplies material, a composition arranges encounters and passages, and a journey is the route a reader actually takes.
+
+As observed on 6 November 2026, that homepage places Worldwright under “Taking shape”, and its [introductory microsite](https://aaronalderman.com/worldwright/) remains in preparation. This repository has working reusable templates and a documentation hub; that does not establish completion of the wider authoring environment. The [Worldwright inspection page](https://aaronalderman.com/inspection/worldwright.html) also distinguishes source bindings from declared shared-capability identities. Editorial placement in the family does not prove an admitted dependency or equivalent behavior.
+
 ```text
 Human purpose and attributed content
   → REL facts: identity, places, choices and sources
@@ -40,7 +46,7 @@ The full expedition includes checked filesystem authoring, Encounter session edi
 
 ## The hub and the world
 
-Worldwright.io begins with the introduction and continues into docs, the example, the catalogue and machine-readable context. Aaron’s site remains the initial personal world. The hub’s Markdown renderer is an explicit native publishing tool; the example is generated through Temple algebra. Full algebraic self-hosting of the hub remains open.
+Worldwright.io begins with the introduction and continues into docs, examples, the catalogue and machine-readable context. Aaron’s site remains the initial personal world, with distinct entrances through [Questions](https://aaronalderman.com/questions.html), [Threads](https://aaronalderman.com/gate.html) and [Atlas / Map](https://aaronalderman.com/atlas.html). Its project microsites are reached from the homepage; Threads follows the collected corpus. The hub’s Markdown renderer is an explicit native publishing tool; the examples are generated through Temple algebra. Full algebraic self-hosting of the hub remains open.
 
 ## Evidence boundaries
 

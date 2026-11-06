@@ -2,6 +2,8 @@
 
 Build a world from your own meaning and content. The introduction lives at [worldwright.io](https://worldwright.io); the repository is the documentation and agent context hub.
 
+Worldwright is a storytelling application in the wider Temple/Sourcery family. [Aaron's current personal world](https://aaronalderman.com/index.html) has entrances through Questions, Threads and Atlas, alongside project microsites. This repository supplies working reusable construction pieces; the wider authoring application remains in development. See [the architecture and current boundaries](docs/architecture.md).
+
 Our [operating model](docs/operating-model.md): free software, content and learning material under the applicable licenses; paid hands-on setup and installation; paid in-person training; and voluntary contributions of what people believe is reasonable and fair. We help people learn to bring and manage their own agent, gain independence and reduce their costs. This records direction, with no new features at this stage. [Machine-readable agent context](context/operating-model.json).
 
 Select individually reusable packs instead of copying the historical expedition:

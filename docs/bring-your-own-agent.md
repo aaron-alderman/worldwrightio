@@ -20,7 +20,9 @@ For an optional Codex route, follow the [official setup guide](https://learn.cha
 
 ## Explore the corpus with a question
 
-Start with [Aaron's initial world](https://aaronalderman.com/) or [Tidepool](../examples/tidepool/index.html). Pick one question, reading or interaction that catches your attention. Follow the available source and inspection links, then ask your agent to investigate that bounded question.
+Start with [Aaron's current homepage](https://aaronalderman.com/index.html) or [Tidepool](../examples/tidepool/index.html). Aaron's site offers three distinct entrances: [Questions](https://aaronalderman.com/questions.html) begins with the questions he is living and building with, including his Christian starting point; [Threads](https://aaronalderman.com/gate.html) follows ideas across the collected work; [Atlas / Map](https://aaronalderman.com/atlas.html) offers places and connections. Choose the entrance that serves your own question. Aaron's personal commitments remain his attributed starting point, rather than a required identity for your world.
+
+Project microsites are a separate layer on the homepage. Threads links to the [published corpus library](https://aaron-alderman.github.io/spin23-relational-geometry/edition-3/library/corpus/index.html). Its directory structure helps navigation; directory placement does not establish scientific status. Pick a relevant question, passage or document and its source/inspection links, then ask your agent to investigate that bounded question. Keep the published edition and source basis explicit rather than assuming every linked site is the same live checkout.
 
 The [Worldwright repository](https://github.com/aaron-alderman/worldwrightio) is the framework and documentation hub. It includes attributed reference material; it is not a promise that the entire wider research corpus is present in that checkout. Tidepool is an original fictional example. Follow the actual source links for a claim, and keep unavailable or private material marked as unavailable.
 

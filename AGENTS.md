@@ -4,6 +4,8 @@ Read README.md, docs/operating-model.md, context/operating-model.json, docs/comp
 
 For user onboarding, read docs/bring-your-own-agent.md. Keep guidance tool-neutral, distinguish read-only access from coding permissions, explain canonical source and backup/recomposition boundaries, and use bounded tasks and real usage measurements to help users control costs. This is free documentation, not a managed-service or new-feature launch.
 
+Align public descriptions with the current initial world, not only the archived expedition. Aaron's homepage offers Questions, Threads and Atlas, with project microsites as a separate layer. Worldwright is the storytelling application in the Temple/Sourcery family, currently described there as taking shape. Preserve the distinction between working templates and a completed general authoring environment. Read context/project.json and docs/architecture.md for current route references and boundaries; editorial relationships are not capability-admission evidence.
+
 Worldwright's operating model is free software and content under the applicable licenses, paid hands-on setup/installation and in-person training, and voluntary fair contributions (including suggested tithing). Training material remains free. Help people learn to bring and manage their own agent and reduce their costs. Contributions are voluntary and separate from fees for agreed human work. This model does not authorize paywalls, subscriptions, compulsory tithing, unlimited subsidized compute, or a hosted-service launch. No new features are requested at this stage; preserve that boundary until a subsequent request.
 
 - Start with the person's purpose and content. Do not inherit Aaron's corpus or identity.
