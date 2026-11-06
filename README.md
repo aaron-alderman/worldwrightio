@@ -15,6 +15,8 @@ npm run dev
 
 Start with [the composition guide](docs/composition.md). Each pack owns its process algebra, configuration, assets, dependencies, output paths and explicit effect grants. FeatureBlock facts mount selected views inside readings or on the introduction. The composer resolves dependencies, refuses conflicts and produces a source receipt. Generated worlds are standalone.
 
+The free [Bring your own agent guide](docs/bring-your-own-agent.md) covers exploring the corpus, building and maintaining your own world, reusable prompts and ways to keep costs down.
+
 [Explore Tidepool](https://worldwright.io/examples/tidepool/index.html): an original fictional field-station notebook exercising all packs, with original diagrams and observations. [Explore the pocket example](https://worldwright.io/examples/pocket/index.html) for reader and sources alone.
 
 ```sh

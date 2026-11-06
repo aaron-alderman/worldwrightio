@@ -10,6 +10,8 @@ The aim is to help people become capable and independent. A successful engagemen
 
 The experience gives people a reason to connect an LLM and explore what matters to them. Public source supports read-only exploration through the person's existing tools. Those with a suitable coding agent can bring and manage their own agent. Setup and training help people learn to do this for themselves.
 
+The free [Bring your own agent guide](bring-your-own-agent.html) explains how to explore sources, build and maintain a world, and manage costs with your own tools.
+
 ## What is free
 
 The software, project-owned content, documentation and training material remain freely available under the [repository's applicable licenses](https://github.com/aaron-alderman/worldwrightio/blob/master/LICENSE.md). Paying for assistance or making a contribution is not a condition of access to that material. Existing third-party rights and per-file notices remain controlling.

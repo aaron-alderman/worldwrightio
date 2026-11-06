@@ -2,6 +2,8 @@
 
 Read README.md, docs/operating-model.md, context/operating-model.json, docs/composition.md, docs/start.md and the selected packs' pack.json and README.md.
 
+For user onboarding, read docs/bring-your-own-agent.md. Keep guidance tool-neutral, distinguish read-only access from coding permissions, explain canonical source and backup/recomposition boundaries, and use bounded tasks and real usage measurements to help users control costs. This is free documentation, not a managed-service or new-feature launch.
+
 Worldwright's operating model is free software and content under the applicable licenses, paid hands-on setup/installation and in-person training, and voluntary fair contributions (including suggested tithing). Training material remains free. Help people learn to bring and manage their own agent and reduce their costs. Contributions are voluntary and separate from fees for agreed human work. This model does not authorize paywalls, subscriptions, compulsory tithing, unlimited subsidized compute, or a hosted-service launch. No new features are requested at this stage; preserve that boundary until a subsequent request.
 
 - Start with the person's purpose and content. Do not inherit Aaron's corpus or identity.

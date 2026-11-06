@@ -1,5 +1,7 @@
 # Make your world
 
+New to working with an agent? Start with the free [Bring your own agent guide](bring-your-own-agent.html) for exploration prompts, first-build commands, maintenance and cost management.
+
 Tell your agent the purpose, audience, material and the few experiences that will help a reader. Point it at this repository and AGENTS.md. Choose packs from the composition guide.
 
 ```sh

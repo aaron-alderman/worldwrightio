@@ -1,5 +1,7 @@
 # Agent context
 
+The free [Bring your own agent guide](bring-your-own-agent.html) gives users read-only exploration, build and maintenance briefs, source ownership guidance and cost controls. Adapt its prompts to the person's tools and permissions; do not assume a particular provider or paid plan.
+
 Read AGENTS.md, README.md, [the operating model](operating-model.html), docs/composition.md and the pack descriptors and READMEs you select. Start from the person's purpose and source material. Use the repository composer; avoid copying the historical expedition.
 
 The operating model is free software and content under the applicable licenses, paid hands-on setup/installation and in-person training, and voluntary fair contributions. Teaching material stays free; contributions are optional. Encourage user independence and learning to bring and manage an agent. Help users understand and reduce their costs; free material does not promise unlimited free inference or hosting. The current decision is documentation and context only, with no new features. Read context/operating-model.json before making commercial or managed-service assumptions.
