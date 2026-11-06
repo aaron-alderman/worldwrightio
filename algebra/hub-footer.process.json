@@ -1,0 +1,260 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "imports": [
+    {
+      "file": "templates/world/algebra/html.process.json",
+      "queries": [
+        "html.escape",
+        "html.serialize",
+        "html.cssText"
+      ]
+    },
+    {
+      "file": "templates/world/algebra/css.process.json",
+      "queries": [
+        "css.renderPlan"
+      ]
+    }
+  ],
+  "queries": {
+    "hub.footer.links": [
+      {
+        "let": "input",
+        "value": {
+          "tag": "nav",
+          "attrs": {
+            "class": "stewardship-links",
+            "aria-label": "Licensing and stewardship"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "a",
+              "attrs": {
+                "href": "https://github.com/aaron-alderman/worldwrightio/blob/master/LICENSE.md"
+              },
+              "children": [
+                "list",
+                "Licence ↗"
+              ]
+            },
+            {
+              "tag": "a",
+              "attrs": {
+                "href": "https://github.com/aaron-alderman/worldwrightio/blob/master/CHRISTIAN_STEWARDSHIP_COVENANT.md"
+              },
+              "children": [
+                "list",
+                "Christian stewardship covenant ↗"
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "call": "html.serialize"
+      }
+    ],
+    "hub.footer.style": [
+      {
+        "let": "cssPlan",
+        "value": {
+          "imports": [
+            "list"
+          ],
+          "tokens": [
+            "list"
+          ],
+          "rules": [
+            "list",
+            {
+              "id": "footer:has(>.stewardship-links)",
+              "selector": "footer:has(>.stewardship-links)",
+              "context": null,
+              "declarations": [
+                "list",
+                {
+                  "property": "flex-wrap",
+                  "value": "wrap"
+                }
+              ]
+            },
+            {
+              "id": "nav.stewardship-links",
+              "selector": "nav.stewardship-links",
+              "context": null,
+              "declarations": [
+                "list",
+                {
+                  "property": "display",
+                  "value": "flex"
+                },
+                {
+                  "property": "flex-wrap",
+                  "value": "wrap"
+                },
+                {
+                  "property": "gap",
+                  "value": "8px 24px"
+                },
+                {
+                  "property": "flex-basis",
+                  "value": "100%"
+                },
+                {
+                  "property": "font-size",
+                  "value": "12px"
+                },
+                {
+                  "property": "width",
+                  "value": "100%"
+                },
+                {
+                  "property": "box-sizing",
+                  "value": "border-box"
+                }
+              ]
+            },
+            {
+              "id": "nav.stewardship-links a",
+              "selector": "nav.stewardship-links a",
+              "context": null,
+              "declarations": [
+                "list",
+                {
+                  "property": "display",
+                  "value": "inline-flex"
+                },
+                {
+                  "property": "align-items",
+                  "value": "center"
+                },
+                {
+                  "property": "min-height",
+                  "value": "44px"
+                },
+                {
+                  "property": "max-width",
+                  "value": "100%"
+                }
+              ]
+            },
+            {
+              "id": "stewardship.focus",
+              "selector": "nav.stewardship-links a:focus-visible",
+              "context": null,
+              "declarations": [
+                "list",
+                {
+                  "property": "outline",
+                  "value": "2px solid currentColor"
+                },
+                {
+                  "property": "outline-offset",
+                  "value": "4px"
+                }
+              ]
+            },
+            {
+              "id": "stewardship.mobile",
+              "selector": "footer:has(>.stewardship-links)",
+              "context": "(max-width: 650px)",
+              "declarations": [
+                "list",
+                {
+                  "property": "grid-template-columns",
+                  "value": "minmax(0,1fr)"
+                },
+                {
+                  "property": "justify-content",
+                  "value": "stretch"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "call": "css.renderPlan"
+      },
+      {
+        "let": "input",
+        "value": {
+          "tag": "style",
+          "attrs": {
+            "data-owner": "hub.footer"
+          },
+          "children": [
+            "list",
+            "$result"
+          ]
+        }
+      },
+      {
+        "call": "html.serialize"
+      }
+    ],
+    "hub.footer.project": [
+      {
+        "let": "markup",
+        "value": "$input.markup"
+      },
+      {
+        "let": "result",
+        "value": "$markup"
+      },
+      {
+        "when": [
+          "not",
+          [
+            "includes",
+            "$markup",
+            "class=\"stewardship-links\""
+          ]
+        ],
+        "then": [
+          {
+            "assert": [
+              "includes",
+              "$markup",
+              "</footer>"
+            ],
+            "message": "The declared hub document must have a footer."
+          },
+          {
+            "call": "hub.footer.links"
+          },
+          {
+            "port": "text.replaceAll",
+            "args": {
+              "value": "$markup",
+              "search": "</footer>",
+              "replacement": [
+                "concat",
+                "$result",
+                "</footer>"
+              ]
+            },
+            "into": "markup"
+          },
+          {
+            "call": "hub.footer.style"
+          },
+          {
+            "port": "text.replaceAll",
+            "args": {
+              "value": "$markup",
+              "search": "</head>",
+              "replacement": [
+                "concat",
+                "$result",
+                "</head>"
+              ]
+            },
+            "into": "result"
+          }
+        ]
+      }
+    ]
+  }
+}

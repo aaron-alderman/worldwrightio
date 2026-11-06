@@ -51,3 +51,5 @@ family. Human usability, full hub self-hosting and capabilities beyond the
 bounded initial feature set remain separate questions.
 
 Repository care: [licensing](LICENSE.md), [Christian stewardship covenant](CHRISTIAN_STEWARDSHIP_COVENANT.md), and [source/evidence hygiene](STEWARDSHIP.md).
+
+The hub’s licence and voluntary Christian stewardship links are projected by algebra/hub-footer.process.json using the retained HTML/CSS algebra. tooling/project-algebra.mjs supplies generic loading, lowering, admission and invocation; the native hub publisher transports the documents. This footer projection does not claim that the entire documentation publisher is algebraic.

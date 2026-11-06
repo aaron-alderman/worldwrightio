@@ -3,6 +3,7 @@ import path from 'node:path';
 import crypto from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
+import {projectAlgebra} from './project-algebra.mjs';
 import {createExample} from './create-example.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url));
 const output=path.join(root,'dist');
@@ -83,10 +84,15 @@ export async function build(){
     finally{if(!path.resolve(parent).startsWith(workspace+path.sep))throw Error('Unexpected example cleanup target');fs.rmSync(parent,{recursive:true,force:true});}
     fs.cpSync(path.join(root,'examples/tidepool'),path.join(output,'example-sources/tidepool'),{recursive:true});
   }
+  // The native publisher transports documents; footer selection, markup and style belong to algebra.
+  for(const file of ['index.html',...pages.map(([id])=>'docs/'+id+'.html')]){
+    const target=path.join(output,file);
+    fs.writeFileSync(target,await projectAlgebra('algebra/hub-footer.process.json','hub.footer.project',{markup:fs.readFileSync(target,'utf8')}));
+  }
   const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
   const inputs={};
   function scan(directory){for(const entry of fs.readdirSync(path.join(root,directory),{withFileTypes:true})){if(['dist','.build','.git','node_modules'].includes(entry.name))continue;const file=path.posix.join(directory,entry.name);if(entry.isDirectory())scan(file);else inputs[file]=sha(fs.readFileSync(path.join(root,file)));}}
-  for(const dir of ['docs','context','templates','reference','tooling'])scan(dir);
+  for(const dir of ['docs','context','templates','reference','tooling','algebra'])scan(dir);
   if(fs.existsSync(path.join(root,'examples')))scan('examples');
   if(fs.existsSync(path.join(root,'evidence')))scan('evidence');
   for(const file of ['index.html','landing.css','hub.css','AGENTS.md','README.md','package.json'])inputs[file]=sha(fs.readFileSync(path.join(root,file)));

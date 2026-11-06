@@ -23,7 +23,9 @@ test('the documented command creates a standalone world and refuses overwrites',
  }finally{if(!parent.startsWith(base+path.sep))throw Error('Unexpected cleanup target');fs.rmSync(parent,{recursive:true,force:true});}
 });
 test('built hub has valid local links and preserves the introduction and legacy URLs',()=>{
- assert.equal(fs.readFileSync(path.join(root,'index.html'),'utf8'),fs.readFileSync(path.join(root,'dist/index.html'),'utf8'));
+ const landing=fs.readFileSync(path.join(root,'dist/index.html'),'utf8');
+ assert.equal(landing.replace(/<style data-owner="hub.footer">[\s\S]*?<\/style>/,'').replace(/<nav class="stewardship-links"[\s\S]*?<\/nav>/,''),fs.readFileSync(path.join(root,'index.html'),'utf8'));
+ for(const file of ['index.html','docs/index.html','docs/start.html']){const html=fs.readFileSync(path.join(root,'dist',file),'utf8');assert.equal((html.match(/class="stewardship-links"/g)||[]).length,1);for(const name of ['LICENSE.md','CHRISTIAN_STEWARDSHIP_COVENANT.md'])assert.ok(html.includes('https://github.com/aaron-alderman/worldwrightio/blob/master/'+name));}
  for(const file of ['how-it-works.html','live-world.html','styles.css','script.js'])assert.equal(fs.readFileSync(path.join(root,file),'utf8'),fs.readFileSync(path.join(root,'dist',file),'utf8'));
  const files=['index.html',...['index','start','architecture','lightning','features','templates','trial','context'].map(x=>'docs/'+x+'.html')];
  for(const file of files){const text=fs.readFileSync(path.join(root,'dist',file),'utf8');for(const match of text.matchAll(/(?:href|src)="([^"]+)"/g)){
@@ -31,4 +33,14 @@ test('built hub has valid local links and preserves the introduction and legacy 
    const target=path.resolve(root,'dist',path.dirname(file),href.split('#')[0]);assert.ok(fs.existsSync(target),file+' → '+href);
  }}
  assert.ok(fs.readFileSync(path.join(root,'dist/docs/features.html'),'utf8').includes('reference/algebra/authoring.process.json'));
+});
+
+test('the admitted algebra owns footer insertion, preserves existing markup and refuses missing footers',async()=>{
+ const {projectAlgebra}=await import('./project-algebra.mjs');
+ const project=markup=>projectAlgebra('algebra/hub-footer.process.json','hub.footer.project',{markup});
+ const before='<!doctype html><head><title>Fixture</title></head><body><footer><p>Existing credit</p></footer></body>';
+ const after=await project(before);
+ assert.equal(after.replace(/<style data-owner="hub.footer">[\s\S]*?<\/style>/,'').replace(/<nav class="stewardship-links"[\s\S]*?<\/nav>/,''),before);
+ assert.equal(await project(after),after);
+ await assert.rejects(project('<head></head><body>No footer</body>'),/must have a footer/);
 });
