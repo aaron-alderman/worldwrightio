@@ -1,0 +1,434 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "canonical.encode": [
+      {
+        "let": "value",
+        "value": "$eventInput.value"
+      },
+      {
+        "port": "value.describe",
+        "args": {
+          "value": "$value"
+        },
+        "into": "kind"
+      },
+      {
+        "let": "result",
+        "value": ""
+      },
+      {
+        "when": [
+          "or",
+          "$kind.null",
+          [
+            "eq",
+            "$kind.type",
+            "string"
+          ],
+          [
+            "eq",
+            "$kind.type",
+            "boolean"
+          ],
+          [
+            "and",
+            [
+              "eq",
+              "$kind.type",
+              "number"
+            ],
+            "$eventInput.numbers"
+          ]
+        ],
+        "then": [
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$value"
+            },
+            "into": "result"
+          }
+        ]
+      },
+      {
+        "when": "$kind.array",
+        "then": [
+          {
+            "fold": "$value",
+            "as": "item",
+            "accumulator": "parts",
+            "initial": [
+              "list"
+            ],
+            "steps": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "canonical.encode",
+                  "input": {
+                    "value": "$item",
+                    "numbers": "$eventInput.numbers"
+                  }
+                },
+                "into": "part"
+              }
+            ],
+            "yield": [
+              "append",
+              "$parts",
+              [
+                "list",
+                "$part"
+              ]
+            ],
+            "into": "parts"
+          },
+          {
+            "port": "text.join",
+            "args": {
+              "values": "$parts",
+              "separator": ","
+            },
+            "into": "joined"
+          },
+          {
+            "let": "result",
+            "value": [
+              "concat",
+              "[",
+              "$joined",
+              "]"
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "and",
+          [
+            "eq",
+            "$kind.type",
+            "object"
+          ],
+          [
+            "not",
+            "$kind.null"
+          ],
+          [
+            "not",
+            "$kind.array"
+          ]
+        ],
+        "then": [
+          {
+            "port": "record.entries",
+            "args": {
+              "value": "$value"
+            },
+            "into": "entries"
+          },
+          {
+            "port": "value.sort",
+            "args": {
+              "values": [
+                "map",
+                "$entries",
+                "entry",
+                [
+                  "at",
+                  "$entry",
+                  0
+                ]
+              ],
+              "mode": "lexical"
+            },
+            "into": "keys"
+          },
+          {
+            "fold": "$keys",
+            "as": "key",
+            "accumulator": "parts",
+            "initial": [
+              "list"
+            ],
+            "steps": [
+              {
+                "port": "json.stringify",
+                "args": {
+                  "value": "$key"
+                },
+                "into": "keyJSON"
+              },
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "canonical.encode",
+                  "input": {
+                    "value": [
+                      "at",
+                      "$value",
+                      "$key"
+                    ],
+                    "numbers": "$eventInput.numbers"
+                  }
+                },
+                "into": "part"
+              }
+            ],
+            "yield": [
+              "append",
+              "$parts",
+              [
+                "list",
+                [
+                  "concat",
+                  "$keyJSON",
+                  ":",
+                  "$part"
+                ]
+              ]
+            ],
+            "into": "parts"
+          },
+          {
+            "port": "text.join",
+            "args": {
+              "values": "$parts",
+              "separator": ","
+            },
+            "into": "joined"
+          },
+          {
+            "let": "result",
+            "value": [
+              "concat",
+              "{",
+              "$joined",
+              "}"
+            ]
+          }
+        ]
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            "$result",
+            ""
+          ]
+        ],
+        "message": "Non-canonical value type"
+      }
+    ],
+    "canonical.identify": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "canonical.encode",
+          "input": {
+            "value": {
+              "kind": "$eventInput.kind",
+              "value": "$eventInput.value"
+            },
+            "numbers": false
+          }
+        },
+        "into": "bytes"
+      },
+      {
+        "port": "digest.sha256",
+        "args": {
+          "text": "$bytes"
+        },
+        "into": "digest"
+      },
+      {
+        "let": "result",
+        "value": [
+          "concat",
+          "$eventInput.kind",
+          ":sha256:",
+          "$digest"
+        ]
+      }
+    ],
+    "canonical.is": [
+      {
+        "let": "result",
+        "value": true
+      },
+      {
+        "try": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "canonical.encode",
+              "input": {
+                "value": "$eventInput.value",
+                "numbers": false
+              }
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error",
+        "catch": [
+          {
+            "let": "result",
+            "value": false
+          }
+        ]
+      }
+    ],
+    "address.digest": [
+      {
+        "port": "text.split",
+        "args": {
+          "value": "$eventInput.id",
+          "pattern": ":"
+        },
+        "into": "parts"
+      },
+      {
+        "let": "result",
+        "value": [
+          "at",
+          "$parts",
+          [
+            "add",
+            [
+              "count",
+              "$parts"
+            ],
+            -1
+          ]
+        ]
+      }
+    ],
+    "address.short": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "address.digest",
+          "input": {
+            "id": "$eventInput.id"
+          }
+        },
+        "into": "digest"
+      },
+      {
+        "port": "text.slice",
+        "args": {
+          "value": "$digest",
+          "start": 0,
+          "end": "$eventInput.head"
+        },
+        "into": "first"
+      },
+      {
+        "let": "result",
+        "value": [
+          "concat",
+          "$first",
+          "…"
+        ]
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "greater",
+          "values": [
+            "list",
+            "$eventInput.tail",
+            0
+          ]
+        },
+        "into": "tailExists"
+      },
+      {
+        "when": "$tailExists",
+        "then": [
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "multiply",
+              "values": [
+                "list",
+                "$eventInput.tail",
+                -1
+              ]
+            },
+            "into": "tailStart"
+          },
+          {
+            "port": "text.slice",
+            "args": {
+              "value": "$digest",
+              "start": "$tailStart"
+            },
+            "into": "last"
+          },
+          {
+            "let": "result",
+            "value": [
+              "concat",
+              "$first",
+              "…",
+              "$last"
+            ]
+          }
+        ]
+      }
+    ],
+    "record.remove": [
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$eventInput.record"
+        },
+        "into": "entries"
+      },
+      {
+        "port": "record.fromEntries",
+        "args": {
+          "entries": [
+            "filter",
+            "$entries",
+            "entry",
+            [
+              "not",
+              [
+                "eq",
+                [
+                  "at",
+                  "$entry",
+                  0
+                ],
+                "$eventInput.key"
+              ]
+            ]
+          ]
+        },
+        "into": "result"
+      }
+    ],
+    "record.clone": [
+      {
+        "port": "json.stringify",
+        "args": {
+          "value": "$eventInput.value"
+        },
+        "into": "text"
+      },
+      {
+        "port": "json.parse",
+        "args": {
+          "text": "$text"
+        },
+        "into": "result"
+      }
+    ]
+  }
+}

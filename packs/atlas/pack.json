@@ -1,0 +1,62 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "atlas",
+  "title": "Atlas",
+  "requires": [
+    "reader"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/atlas.process.json",
+    "algebra/atlas-journey.process.json"
+  ],
+  "sources": [],
+  "assets": [],
+  "build": "atlas.build",
+  "navigation": {
+    "label": "Atlas",
+    "route": "atlas.html"
+  },
+  "grants": {
+    "build": [
+      "runtime.bundle"
+    ],
+    "browser": [
+      "storage.read",
+      "state.get",
+      "text.split",
+      "state.set",
+      "text.join",
+      "storage.write",
+      "browser.select",
+      "browser.attribute",
+      "dom.exists",
+      "dom.hidden",
+      "dom.text",
+      "storage.remove",
+      "browser.class",
+      "dom.on",
+      "browser.on",
+      "browser.cancel",
+      "browser.mediaQuery",
+      "dom.attribute"
+    ]
+  },
+  "outputs": [
+    "atlas.html",
+    "atlas-runtime.js"
+  ],
+  "render": "atlas.view",
+  "runtime": {
+    "entry": "atlas.journey.boot",
+    "profile": "atlasBrowser",
+    "output": "atlas-runtime.js",
+    "allPages": true
+  },
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/atlas.md"
+    }
+  ]
+}

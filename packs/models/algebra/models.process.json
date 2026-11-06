@@ -1,0 +1,454 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "models.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#models-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "then": [
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#models-run",
+              "event": "click",
+              "query": "models.change",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#models-choice",
+              "event": "change",
+              "query": "models.select",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "models.select",
+              "input": {}
+            },
+            "into": "result"
+          }
+        ],
+        "when": "$mounted"
+      }
+    ],
+    "models.evaluate": [
+      {
+        "let": "id",
+        "value": "$eventInput.id"
+      },
+      {
+        "assert": [
+          "includes",
+          [
+            "list",
+            "calibration",
+            "pairs",
+            "inflate",
+            "decode",
+            "weights",
+            "memory",
+            "line",
+            "coarse"
+          ],
+          "$id"
+        ],
+        "message": "MODEL_UNKNOWN: select a declared model."
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": [
+            "concat",
+            "reader.model.",
+            "$id"
+          ],
+          "input": "$eventInput.input"
+        },
+        "into": "result"
+      }
+    ],
+    "models.change": [
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#models-choice",
+          "name": "value"
+        },
+        "into": "id"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#models-input",
+          "name": "value"
+        },
+        "into": "text"
+      },
+      {
+        "try": [
+          {
+            "port": "json.parse",
+            "args": {
+              "text": "$text"
+            },
+            "into": "input"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "models.evaluate",
+              "input": {
+                "id": "$id",
+                "input": "$input"
+              }
+            },
+            "into": "answer"
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$answer",
+              "space": 2
+            },
+            "into": "text"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#models-result",
+              "name": "textContent",
+              "value": "$text"
+            },
+            "into": "_"
+          }
+        ],
+        "catch": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#models-result",
+              "name": "textContent",
+              "value": [
+                "concat",
+                "Refused: ",
+                "$error.message"
+              ]
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error"
+      }
+    ],
+    "models.build": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "models",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Coastal model bench"
+      },
+      {
+        "let": "route",
+        "value": "models.html"
+      },
+      {
+        "call": "models.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "models.boot",
+          "mode": "browser",
+          "grantProfile": "modelsBrowser",
+          "queries": [
+            "list",
+            "models.boot",
+            "models.evaluate",
+            "models.change",
+            "reader.model.calibration",
+            "reader.model.pairs",
+            "reader.model.inflate",
+            "reader.model.decode",
+            "reader.model.weights",
+            "reader.model.memory",
+            "reader.model.line",
+            "reader.model.coarse",
+            "html.escape",
+            "html.serialize",
+            "html.observe",
+            "html.inspect",
+            "html.cssText",
+            "facts.index",
+            "lower.scan",
+            "lower.fresh",
+            "lower.template",
+            "lower.expression",
+            "lower.programme",
+            "lower.model",
+            "lower.start",
+            "admit.binding",
+            "admit.expression",
+            "admit.programme",
+            "admit.model",
+            "admit.effects.programme",
+            "admit.effects",
+            "admit.ownership",
+            "css.render",
+            "css.plan",
+            "css.renderPlan",
+            "language.refuse",
+            "language.line",
+            "language.module",
+            "language.entity",
+            "language.property",
+            "language.compile",
+            "models.select"
+          ],
+          "factSubjects": [
+            "list",
+            "models"
+          ],
+          "data": "$configuration",
+          "budget": 20000000
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "models-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ],
+    "models.view": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "models",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "result",
+        "value": {
+          "tag": "div",
+          "attrs": {
+            "id": "models-mount",
+            "class": "feature-workbench"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "section",
+              "attrs": {
+                "class": "prose"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "h1",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Coastal model bench"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "$configuration.scope"
+                  ]
+                },
+                {
+                  "tag": "label",
+                  "attrs": {
+                    "for": "models-choice"
+                  },
+                  "children": [
+                    "list",
+                    "Mathematical mechanism"
+                  ]
+                },
+                {
+                  "tag": "select",
+                  "attrs": {
+                    "id": "models-choice",
+                    "class": "field"
+                  },
+                  "children": [
+                    "map",
+                    "$configuration.scenarios",
+                    "s",
+                    {
+                      "tag": "option",
+                      "attrs": {
+                        "value": "$s.id"
+                      },
+                      "children": [
+                        "list",
+                        "$s.title"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "label",
+                  "attrs": {
+                    "for": "models-input"
+                  },
+                  "children": [
+                    "list",
+                    "Model input (JSON)"
+                  ]
+                },
+                {
+                  "tag": "textarea",
+                  "attrs": {
+                    "id": "models-input",
+                    "rows": "5",
+                    "class": "field"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "button",
+                  "attrs": {
+                    "id": "models-run",
+                    "class": "button"
+                  },
+                  "children": [
+                    "list",
+                    "Run model"
+                  ]
+                },
+                {
+                  "tag": "pre",
+                  "attrs": {
+                    "id": "models-result",
+                    "aria-live": "polite"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "details",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "summary",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Input recipes"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Selecting a mechanism fills its input recipe from source. Edit that JSON and run the selected model."
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "models.select": [
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#models-choice",
+          "name": "value"
+        },
+        "into": "id"
+      },
+      {
+        "let": "scenario",
+        "value": [
+          "at",
+          [
+            "filter",
+            "$data.scenarios",
+            "s",
+            [
+              "eq",
+              "$s.id",
+              "$id"
+            ]
+          ],
+          0
+        ]
+      },
+      {
+        "port": "json.stringify",
+        "args": {
+          "value": "$scenario.input",
+          "space": 2
+        },
+        "into": "text"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#models-input",
+          "name": "value",
+          "value": "$text"
+        },
+        "into": "_"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "models.change",
+          "input": {}
+        },
+        "into": "result"
+      }
+    ]
+  }
+}

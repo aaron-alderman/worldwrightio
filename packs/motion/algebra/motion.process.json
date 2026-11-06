@@ -1,0 +1,738 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "motion.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#motion-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "when": "$mounted",
+        "then": [
+          {
+            "port": "browser.environment",
+            "args": {},
+            "into": "environment"
+          },
+          {
+            "port": "state.set",
+            "args": {
+              "key": "motion.active",
+              "value": [
+                "not",
+                "$environment.reduced"
+              ]
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#motion-toggle",
+              "event": "click",
+              "query": "motion.toggle",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "document",
+              "event": "visibilitychange",
+              "query": "motion.visibility",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "state.set",
+            "args": {
+              "key": "motion.time",
+              "value": 0
+            },
+            "into": "_"
+          },
+          {
+            "call": "motion.draw"
+          },
+          {
+            "call": "motion.schedule"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$mounted"
+        ],
+        "then": [
+          {
+            "let": "result",
+            "value": false
+          }
+        ]
+      }
+    ],
+    "motion.toggle": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "motion.active"
+        },
+        "into": "active"
+      },
+      {
+        "port": "state.set",
+        "args": {
+          "key": "motion.active",
+          "value": [
+            "not",
+            "$active"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "port": "state.get",
+        "args": {
+          "key": "motion.frame"
+        },
+        "into": "frame"
+      },
+      {
+        "when": "$frame",
+        "then": [
+          {
+            "port": "browser.cancel",
+            "args": {
+              "id": "$frame"
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$frame"
+        ],
+        "then": []
+      },
+      {
+        "call": "motion.draw"
+      },
+      {
+        "call": "motion.schedule"
+      }
+    ],
+    "motion.visibility": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "motion.frame"
+        },
+        "into": "frame"
+      },
+      {
+        "when": "$frame",
+        "then": [
+          {
+            "port": "browser.cancel",
+            "args": {
+              "id": "$frame"
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$frame"
+        ],
+        "then": []
+      },
+      {
+        "call": "motion.schedule"
+      }
+    ],
+    "motion.schedule": [
+      {
+        "port": "browser.environment",
+        "args": {},
+        "into": "environment"
+      },
+      {
+        "port": "state.get",
+        "args": {
+          "key": "motion.active"
+        },
+        "into": "active"
+      },
+      {
+        "when": [
+          "and",
+          "$active",
+          [
+            "not",
+            "$environment.hidden"
+          ]
+        ],
+        "then": [
+          {
+            "port": "browser.frame",
+            "args": {
+              "query": "motion.tick",
+              "input": {}
+            },
+            "into": "frame"
+          },
+          {
+            "port": "state.set",
+            "args": {
+              "key": "motion.frame",
+              "value": "$frame"
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          [
+            "and",
+            "$active",
+            [
+              "not",
+              "$environment.hidden"
+            ]
+          ]
+        ],
+        "then": [
+          {
+            "let": "result",
+            "value": false
+          }
+        ]
+      }
+    ],
+    "motion.tick": [
+      {
+        "port": "state.set",
+        "args": {
+          "key": "motion.time",
+          "value": "$eventInput.time"
+        },
+        "into": "_"
+      },
+      {
+        "call": "motion.draw"
+      },
+      {
+        "call": "motion.schedule"
+      }
+    ],
+    "motion.draw": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "motion",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "port": "state.get",
+        "args": {
+          "key": "motion.time"
+        },
+        "into": "time"
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "divide",
+          "values": [
+            "list",
+            "$time",
+            "$configuration.speed"
+          ]
+        },
+        "into": "phase"
+      },
+      {
+        "let": "commands",
+        "value": [
+          "list",
+          {
+            "kind": "set",
+            "name": "fillStyle",
+            "value": "$configuration.paper"
+          },
+          {
+            "name": "fillRect",
+            "args": [
+              "list",
+              0,
+              0,
+              800,
+              240
+            ]
+          },
+          {
+            "kind": "set",
+            "name": "strokeStyle",
+            "value": "$configuration.coral"
+          },
+          {
+            "kind": "set",
+            "name": "lineWidth",
+            "value": 1
+          },
+          {
+            "name": "beginPath",
+            "args": [
+              "list"
+            ]
+          },
+          {
+            "name": "moveTo",
+            "args": [
+              "list",
+              0,
+              120
+            ]
+          },
+          {
+            "name": "lineTo",
+            "args": [
+              "list",
+              800,
+              120
+            ]
+          },
+          {
+            "name": "stroke",
+            "args": [
+              "list"
+            ]
+          },
+          {
+            "kind": "set",
+            "name": "strokeStyle",
+            "value": "$configuration.ink"
+          },
+          {
+            "kind": "set",
+            "name": "lineWidth",
+            "value": 3
+          },
+          {
+            "name": "beginPath",
+            "args": [
+              "list"
+            ]
+          }
+        ]
+      },
+      {
+        "fold": [
+          "range",
+          81
+        ],
+        "as": "n",
+        "accumulator": "commands",
+        "initial": "$commands",
+        "steps": [
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "subtract",
+              "values": [
+                "list",
+                "$n",
+                1
+              ]
+            },
+            "into": "index"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "multiply",
+              "values": [
+                "list",
+                "$index",
+                10
+              ]
+            },
+            "into": "x"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "divide",
+              "values": [
+                "list",
+                "$x",
+                100
+              ]
+            },
+            "into": "position"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "add",
+              "values": [
+                "list",
+                "$position",
+                "$phase"
+              ]
+            },
+            "into": "angle"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "sin",
+              "values": [
+                "list",
+                "$angle"
+              ]
+            },
+            "into": "wave"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "multiply",
+              "values": [
+                "list",
+                "$wave",
+                "$configuration.amplitude"
+              ]
+            },
+            "into": "offset"
+          },
+          {
+            "port": "number.calculate",
+            "args": {
+              "operation": "add",
+              "values": [
+                "list",
+                120,
+                "$offset"
+              ]
+            },
+            "into": "y"
+          },
+          {
+            "let": "commands",
+            "value": [
+              "append",
+              "$commands",
+              [
+                "list",
+                {
+                  "name": [
+                    "if",
+                    [
+                      "eq",
+                      "$index",
+                      0
+                    ],
+                    "moveTo",
+                    "lineTo"
+                  ],
+                  "args": [
+                    "list",
+                    "$x",
+                    "$y"
+                  ]
+                }
+              ]
+            ]
+          }
+        ],
+        "into": "commands",
+        "yield": "$commands"
+      },
+      {
+        "let": "commands",
+        "value": [
+          "append",
+          "$commands",
+          [
+            "list",
+            {
+              "name": "stroke",
+              "args": [
+                "list"
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "port": "canvas.draw",
+        "args": {
+          "ref": "#motion-canvas",
+          "width": 800,
+          "height": 240,
+          "dpr": 1,
+          "commands": "$commands"
+        },
+        "into": "_"
+      },
+      {
+        "port": "state.get",
+        "args": {
+          "key": "motion.active"
+        },
+        "into": "active"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#motion-status",
+          "name": "textContent",
+          "value": [
+            "if",
+            "$active",
+            "Live schematic · pause to inspect",
+            "Still schematic · resume when ready"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ],
+    "motion.view": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "motion",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "result",
+        "value": {
+          "tag": "section",
+          "attrs": {
+            "id": "motion-mount",
+            "class": "feature-block"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "p",
+              "attrs": {
+                "class": "eyebrow"
+              },
+              "children": [
+                "list",
+                "INSTRUMENT / 05"
+              ]
+            },
+            {
+              "tag": "h2",
+              "attrs": {},
+              "children": [
+                "list",
+                "$configuration.title"
+              ]
+            },
+            {
+              "tag": "canvas",
+              "attrs": {
+                "id": "motion-canvas",
+                "width": "800",
+                "height": "240",
+                "role": "img",
+                "aria-label": "Synthetic tidal signal; a still view is shown when reduced motion is enabled."
+              },
+              "children": [
+                "list",
+                "A schematic moving waterline over fixed survey marks."
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {},
+              "children": [
+                "list",
+                "$configuration.caption"
+              ]
+            },
+            {
+              "tag": "button",
+              "attrs": {
+                "id": "motion-toggle",
+                "type": "button",
+                "class": "button"
+              },
+              "children": [
+                "list",
+                "Pause / resume"
+              ]
+            },
+            {
+              "tag": "p",
+              "attrs": {
+                "id": "motion-status",
+                "role": "status"
+              },
+              "children": [
+                "list",
+                "Preparing a still frame."
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "motion.build": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "motion",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Tide instrument"
+      },
+      {
+        "let": "route",
+        "value": "motion.html"
+      },
+      {
+        "call": "motion.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "motion.boot",
+          "mode": "browser",
+          "grantProfile": "motionBrowser",
+          "queries": [
+            "append",
+            [
+              "list",
+              "motion.boot",
+              "motion.toggle",
+              "motion.visibility",
+              "motion.schedule",
+              "motion.tick",
+              "motion.draw",
+              "motion.scroll.init",
+              "motion.scroll.scenes",
+              "motion.scroll.reduced",
+              "motion.scroll.tocToggle",
+              "motion.scroll.tocClose",
+              "motion.scroll.escape",
+              "motion.scroll.chapters",
+              "motion.scroll.stone",
+              "motion.scroll.cta",
+              "motion.flood.rand",
+              "motion.flood.scatter",
+              "motion.flood.init",
+              "motion.flood.intersection",
+              "motion.flood.scroll",
+              "motion.flood.running",
+              "motion.flood.frame",
+              "motion.flood.wave",
+              "motion.flood.pose",
+              "motion.flood.render",
+              "motion.autoplay.init",
+              "motion.autoplay.toggle",
+              "motion.autoplay.label",
+              "motion.autoplay.intersection",
+              "motion.chapter.init",
+              "motion.chapter.follow",
+              "motion.chapter.reveal",
+              "motion.chapter.scroll",
+              "motion.chapter.mode",
+              "motion.chapter.scenes",
+              "motion.sky.star",
+              "motion.sky.mote",
+              "motion.sky.seed",
+              "motion.sky.plan",
+              "motion.sky.draw"
+            ],
+            [
+              "list",
+              "motion.sky.start",
+              "motion.sky.frame",
+              "motion.sky.resize",
+              "motion.sky.reseed",
+              "motion.sky.scroll",
+              "motion.stone.row",
+              "motion.stone",
+              "motion.constellation.pos",
+              "motion.constellation.marker",
+              "motion.constellation.plan",
+              "motion.constellation.init",
+              "motion.constellation.size",
+              "motion.constellation.draw",
+              "motion.constellation.start",
+              "motion.constellation.frame",
+              "motion.constellation.intersection",
+              "motion.constellation.resize",
+              "motion.graphics.html",
+              "html.escape",
+              "html.serialize",
+              "html.observe",
+              "html.inspect",
+              "html.cssText"
+            ]
+          ],
+          "factSubjects": [
+            "list",
+            "motion"
+          ],
+          "data": "$configuration",
+          "budget": 20000000
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "motion-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ]
+  }
+}

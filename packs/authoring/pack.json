@@ -1,0 +1,36 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "authoring",
+  "title": "Authoring",
+  "requires": [
+    "sources"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/authoring-page.process.json"
+  ],
+  "sources": [],
+  "assets": [],
+  "build": "authoring.build",
+  "navigation": {
+    "label": "Authoring",
+    "route": "authoring.html"
+  },
+  "grants": {
+    "build": [],
+    "browser": []
+  },
+  "outputs": [
+    "authoring.html",
+    "source/authoring-contract.json"
+  ],
+  "render": "authoring.view",
+  "files": [
+    "algebra/authoring.process.json",
+    "tooling/author.mjs",
+    {
+      "source": "README.md",
+      "target": "docs/packs/authoring.md"
+    }
+  ]
+}

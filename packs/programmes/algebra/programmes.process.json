@@ -1,0 +1,2800 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "programmes.hash": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "canonical.encode",
+          "input": {
+            "value": {
+              "kind": "programme",
+              "value": "$eventInput.value"
+            },
+            "numbers": true
+          }
+        },
+        "into": "bytes"
+      },
+      {
+        "port": "digest.sha256",
+        "args": {
+          "text": "$bytes"
+        },
+        "into": "digest"
+      },
+      {
+        "let": "result",
+        "value": [
+          "concat",
+          "programme:sha256:",
+          "$digest"
+        ]
+      }
+    ],
+    "programmes.initial": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.hash",
+          "input": {
+            "value": "$data.initial"
+          }
+        },
+        "into": "root"
+      },
+      {
+        "let": "result",
+        "value": {
+          "state": "$data.initial",
+          "root": "$root",
+          "ledger": [
+            "list"
+          ],
+          "requests": [
+            "list"
+          ]
+        }
+      }
+    ],
+    "programmes.propose": [
+      {
+        "let": "current",
+        "value": "$eventInput.current"
+      },
+      {
+        "let": "proposal",
+        "value": "$eventInput.proposal"
+      },
+      {
+        "assert": [
+          "eq",
+          "$proposal.actor",
+          "$data.member"
+        ],
+        "message": "PROPOSAL_AUTHORITY: only the declared member may lend instruments."
+      },
+      {
+        "assert": [
+          "eq",
+          "$proposal.basis",
+          "$current.root"
+        ],
+        "message": "PROPOSAL_STALE: the proposal basis must match the accepted root."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "includes",
+            "$current.requests",
+            "$proposal.requestId"
+          ]
+        ],
+        "message": "PROPOSAL_DUPLICATE: request already accepted."
+      },
+      {
+        "port": "value.type",
+        "args": {
+          "value": "$proposal.requestId"
+        },
+        "into": "idType"
+      },
+      {
+        "assert": [
+          "and",
+          [
+            "eq",
+            "$idType",
+            "string"
+          ],
+          [
+            "not",
+            [
+              "eq",
+              "$proposal.requestId",
+              ""
+            ]
+          ]
+        ],
+        "message": "PROPOSAL_ID: request identity required."
+      },
+      {
+        "assert": [
+          "includes",
+          [
+            "list",
+            "lend",
+            "return"
+          ],
+          "$proposal.action"
+        ],
+        "message": "PROPOSAL_ACTION: unknown action."
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "add",
+          "values": [
+            "list",
+            "$current.state.available",
+            [
+              "if",
+              [
+                "eq",
+                "$proposal.action",
+                "lend"
+              ],
+              -1,
+              1
+            ]
+          ]
+        },
+        "into": "available"
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "greaterEqual",
+          "values": [
+            "list",
+            "$available",
+            0
+          ]
+        },
+        "into": "above"
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "lessEqual",
+          "values": [
+            "list",
+            "$available",
+            "$data.initial.available"
+          ]
+        },
+        "into": "below"
+      },
+      {
+        "assert": [
+          "and",
+          "$above",
+          "$below"
+        ],
+        "message": "PROPOSAL_CAPACITY: availability must stay between zero and three."
+      },
+      {
+        "port": "number.calculate",
+        "args": {
+          "operation": "add",
+          "values": [
+            "list",
+            "$current.state.revision",
+            1
+          ]
+        },
+        "into": "revision"
+      },
+      {
+        "let": "next",
+        "value": {
+          "available": "$available",
+          "revision": "$revision"
+        }
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.hash",
+          "input": {
+            "value": "$next"
+          }
+        },
+        "into": "root"
+      },
+      {
+        "let": "receipt",
+        "value": {
+          "before": "$current.root",
+          "after": "$root",
+          "proposal": "$proposal",
+          "state": "$next"
+        }
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.hash",
+          "input": {
+            "value": "$receipt"
+          }
+        },
+        "into": "digest"
+      },
+      {
+        "let": "result",
+        "value": {
+          "state": "$next",
+          "root": "$root",
+          "ledger": [
+            "append",
+            "$current.ledger",
+            [
+              "list",
+              {
+                "receipt": "$receipt",
+                "digest": "$digest"
+              }
+            ]
+          ],
+          "requests": [
+            "append",
+            "$current.requests",
+            [
+              "list",
+              "$proposal.requestId"
+            ]
+          ]
+        }
+      }
+    ],
+    "programmes.witness": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.initial",
+          "input": {}
+        },
+        "into": "initial"
+      },
+      {
+        "fold": "$eventInput.current.ledger",
+        "as": "item",
+        "accumulator": "replayed",
+        "initial": "$initial",
+        "steps": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.hash",
+              "input": {
+                "value": "$item.receipt"
+              }
+            },
+            "into": "actual"
+          },
+          {
+            "assert": [
+              "eq",
+              "$actual",
+              "$item.digest"
+            ],
+            "message": "WITNESS_TAMPER: receipt bytes differ from their address."
+          },
+          {
+            "assert": [
+              "eq",
+              "$item.receipt.before",
+              "$replayed.root"
+            ],
+            "message": "WITNESS_CHAIN: receipt basis is not the preceding accepted state."
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.propose",
+              "input": {
+                "current": "$replayed",
+                "proposal": "$item.receipt.proposal"
+              }
+            },
+            "into": "next"
+          },
+          {
+            "assert": [
+              "eq",
+              "$next.root",
+              "$item.receipt.after"
+            ],
+            "message": "WITNESS_REPLAY: receipt result differs from replay."
+          }
+        ],
+        "yield": "$next",
+        "into": "replayed"
+      },
+      {
+        "assert": [
+          "eq",
+          "$replayed.root",
+          "$eventInput.current.root"
+        ],
+        "message": "WITNESS_HEAD: accepted root differs from replay."
+      },
+      {
+        "assert": [
+          "eq",
+          "$replayed.state",
+          "$eventInput.current.state"
+        ],
+        "message": "WITNESS_STATE: accepted state differs from replay."
+      },
+      {
+        "assert": [
+          "eq",
+          "$replayed.requests",
+          "$eventInput.current.requests"
+        ],
+        "message": "WITNESS_REQUESTS: request history differs from replay."
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.merkle",
+          "input": {
+            "digests": [
+              "map",
+              "$eventInput.current.ledger",
+              "item",
+              "$item.digest"
+            ]
+          }
+        },
+        "into": "witnessRoot"
+      },
+      {
+        "let": "result",
+        "value": {
+          "ok": true,
+          "root": "$replayed.root",
+          "witnessRoot": "$witnessRoot",
+          "receipts": [
+            "count",
+            "$eventInput.current.ledger"
+          ],
+          "state": "$replayed.state"
+        }
+      }
+    ],
+    "programmes.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#programmes-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.initial",
+              "input": {}
+            },
+            "into": "current"
+          },
+          {
+            "port": "state.set",
+            "args": {
+              "key": "programmes.current",
+              "value": "$current"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#programmes-apply",
+              "event": "click",
+              "query": "programmes.apply",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#programmes-reset",
+              "event": "click",
+              "query": "programmes.reset",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#programmes-replay",
+              "event": "click",
+              "query": "programmes.replay",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#programmes-tamper",
+              "event": "click",
+              "query": "programmes.tamper",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.render",
+              "input": {}
+            },
+            "into": "result"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.cellsBoot",
+              "input": {}
+            },
+            "into": "result"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.draftBoot",
+              "input": {}
+            },
+            "into": "result"
+          }
+        ],
+        "when": "$mounted"
+      }
+    ],
+    "programmes.reset": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.initial",
+          "input": {}
+        },
+        "into": "current"
+      },
+      {
+        "port": "state.set",
+        "args": {
+          "key": "programmes.current",
+          "value": "$current"
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#programmes-notice",
+          "name": "textContent",
+          "value": "Session reset."
+        },
+        "into": "_"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.render",
+          "input": {}
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.apply": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.current"
+        },
+        "into": "current"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#programmes-action",
+          "name": "value"
+        },
+        "into": "action"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#programmes-actor",
+          "name": "value"
+        },
+        "into": "actor"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#programmes-request",
+          "name": "value"
+        },
+        "into": "requestId"
+      },
+      {
+        "try": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.propose",
+              "input": {
+                "current": "$current",
+                "proposal": {
+                  "actor": "$actor",
+                  "action": "$action",
+                  "requestId": "$requestId",
+                  "basis": "$current.root"
+                }
+              }
+            },
+            "into": "next"
+          },
+          {
+            "port": "state.set",
+            "args": {
+              "key": "programmes.current",
+              "value": "$next"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#programmes-notice",
+              "name": "textContent",
+              "value": "Accepted: new content-addressed receipt."
+            },
+            "into": "_"
+          }
+        ],
+        "catch": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#programmes-notice",
+              "name": "textContent",
+              "value": [
+                "concat",
+                "Refused; accepted state preserved. ",
+                "$error.message"
+              ]
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.render",
+          "input": {}
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.replay": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.current"
+        },
+        "into": "current"
+      },
+      {
+        "try": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.witness",
+              "input": {
+                "current": "$current"
+              }
+            },
+            "into": "report"
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$report",
+              "space": 2
+            },
+            "into": "text"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#programmes-notice",
+              "name": "textContent",
+              "value": "$text"
+            },
+            "into": "_"
+          }
+        ],
+        "catch": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#programmes-notice",
+              "name": "textContent",
+              "value": [
+                "concat",
+                "Witness refused: ",
+                "$error.message"
+              ]
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error"
+      }
+    ],
+    "programmes.tamper": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.current"
+        },
+        "into": "current"
+      },
+      {
+        "port": "record.put",
+        "args": {
+          "record": "$current",
+          "key": "root",
+          "value": "programme:sha256:tampered"
+        },
+        "into": "tampered"
+      },
+      {
+        "try": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.witness",
+              "input": {
+                "current": "$tampered"
+              }
+            },
+            "into": "report"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#programmes-notice",
+              "name": "textContent",
+              "value": "Unexpected witness acceptance."
+            },
+            "into": "_"
+          }
+        ],
+        "catch": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#programmes-notice",
+              "name": "textContent",
+              "value": [
+                "concat",
+                "Tamper detected; accepted state preserved. ",
+                "$error.message"
+              ]
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error"
+      }
+    ],
+    "programmes.render": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.current"
+        },
+        "into": "current"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#programmes-summary",
+          "name": "textContent",
+          "value": [
+            "concat",
+            "$current.state.available",
+            " of ",
+            "$data.initial.available",
+            " instruments available · revision ",
+            "$current.state.revision",
+            " · ",
+            [
+              "count",
+              "$current.ledger"
+            ],
+            " accepted receipts."
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "port": "json.stringify",
+        "args": {
+          "value": "$current",
+          "space": 2
+        },
+        "into": "text"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#programmes-ledger",
+          "name": "textContent",
+          "value": "$text"
+        },
+        "into": "_"
+      }
+    ],
+    "programmes.build": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "programmes",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Instrument lending"
+      },
+      {
+        "let": "route",
+        "value": "programmes.html"
+      },
+      {
+        "call": "programmes.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "programmes.boot",
+          "mode": "browser",
+          "grantProfile": "programmesBrowser",
+          "queries": [
+            "append",
+            [
+              "append",
+              [
+                "append",
+                [
+                  "list",
+                  "programmes.hash",
+                  "programmes.initial",
+                  "programmes.propose",
+                  "programmes.witness",
+                  "programmes.boot",
+                  "programmes.reset",
+                  "programmes.apply",
+                  "programmes.replay",
+                  "programmes.tamper",
+                  "programmes.render",
+                  "canonical.encode",
+                  "canonical.identify",
+                  "canonical.is",
+                  "address.digest",
+                  "address.short",
+                  "record.remove",
+                  "record.clone",
+                  "html.escape",
+                  "html.serialize",
+                  "html.observe",
+                  "html.inspect",
+                  "html.cssText",
+                  "facts.index",
+                  "lower.scan",
+                  "lower.fresh",
+                  "lower.template",
+                  "lower.expression",
+                  "lower.programme",
+                  "lower.model",
+                  "lower.start",
+                  "admit.binding",
+                  "admit.expression",
+                  "admit.programme",
+                  "admit.model",
+                  "admit.effects.programme",
+                  "admit.effects",
+                  "admit.ownership",
+                  "css.render",
+                  "css.plan",
+                  "css.renderPlan",
+                  "language.refuse",
+                  "language.line",
+                  "language.module",
+                  "language.entity",
+                  "language.property",
+                  "language.compile",
+                  "programmes.merkle",
+                  "cells.measure"
+                ],
+                [
+                  "list",
+                  "cells.readPath",
+                  "cells.evaluateNode",
+                  "cells.evaluate",
+                  "cells.render",
+                  "cells.cellId",
+                  "cells.merkle",
+                  "cells.merkleLevel",
+                  "cells.stateRoot",
+                  "cells.cellsByKey",
+                  "cells.findCell",
+                  "cells.createWorld",
+                  "cells.availability",
+                  "cells.applyUnchecked",
+                  "address.flip",
+                  "cells.buildProposal",
+                  "cells.checkCanonical",
+                  "cells.judge",
+                  "cells.namedCells",
+                  "cells.commit",
+                  "cells.propose",
+                  "cells.freshHub",
+                  "cells.replay",
+                  "cells.forge",
+                  "draft.subject",
+                  "draft.format",
+                  "draft.draft",
+                  "draft.proposal",
+                  "draft.decide",
+                  "draft.verify",
+                  "draft.tamper",
+                  "programmes.cellInitial",
+                  "programmes.cellPropose",
+                  "programmes.cellReplay",
+                  "programmes.cellForge",
+                  "programmes.cellsBoot",
+                  "programmes.cellsAction",
+                  "programmes.cellsRender",
+                  "programmes.draft",
+                  "programmes.draftBoot",
+                  "programmes.draftAction"
+                ]
+              ],
+              [
+                "list",
+                "ui.cells.tree",
+                "ui.cells.treeY"
+              ]
+            ],
+            [
+              "list",
+              "programmes.cellPreview",
+              "programmes.admissionView",
+              "programmes.cellsPreview"
+            ]
+          ],
+          "factSubjects": [
+            "list",
+            "programmes"
+          ],
+          "data": "$configuration",
+          "budget": 20000000
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "programmes-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ],
+    "programmes.view": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "programmes",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "result",
+        "value": {
+          "tag": "div",
+          "attrs": {
+            "id": "programmes-mount",
+            "class": "feature-workbench"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "section",
+              "attrs": {
+                "class": "prose"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "h1",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "$configuration.title"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "$configuration.scope"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "id": "programmes-summary",
+                    "class": "status",
+                    "aria-live": "polite"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "grid"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "label",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Actor",
+                        {
+                          "tag": "select",
+                          "attrs": {
+                            "id": "programmes-actor",
+                            "class": "field"
+                          },
+                          "children": [
+                            "list",
+                            {
+                              "tag": "option",
+                              "attrs": {
+                                "value": "$configuration.member"
+                              },
+                              "children": [
+                                "list",
+                                "Station member"
+                              ]
+                            },
+                            {
+                              "tag": "option",
+                              "attrs": {
+                                "value": "visitor"
+                              },
+                              "children": [
+                                "list",
+                                "Visitor (no lending authority)"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "label",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Proposal",
+                        {
+                          "tag": "select",
+                          "attrs": {
+                            "id": "programmes-action",
+                            "class": "field"
+                          },
+                          "children": [
+                            "list",
+                            {
+                              "tag": "option",
+                              "attrs": {
+                                "value": "lend"
+                              },
+                              "children": [
+                                "list",
+                                "Lend one instrument"
+                              ]
+                            },
+                            {
+                              "tag": "option",
+                              "attrs": {
+                                "value": "return"
+                              },
+                              "children": [
+                                "list",
+                                "Return one instrument"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "label",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Unique request id",
+                        {
+                          "tag": "input",
+                          "attrs": {
+                            "id": "programmes-request",
+                            "value": "request-1",
+                            "class": "field"
+                          },
+                          "children": [
+                            "list"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "class": "toolbar"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "button",
+                      "attrs": {
+                        "id": "programmes-apply",
+                        "class": "button"
+                      },
+                      "children": [
+                        "list",
+                        "apply"
+                      ]
+                    },
+                    {
+                      "tag": "button",
+                      "attrs": {
+                        "id": "programmes-replay",
+                        "class": "button"
+                      },
+                      "children": [
+                        "list",
+                        "replay"
+                      ]
+                    },
+                    {
+                      "tag": "button",
+                      "attrs": {
+                        "id": "programmes-tamper",
+                        "class": "button"
+                      },
+                      "children": [
+                        "list",
+                        "tamper"
+                      ]
+                    },
+                    {
+                      "tag": "button",
+                      "attrs": {
+                        "id": "programmes-reset",
+                        "class": "button"
+                      },
+                      "children": [
+                        "list",
+                        "reset"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "pre",
+                  "attrs": {
+                    "id": "programmes-notice",
+                    "aria-live": "polite",
+                    "class": "status"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "details",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "summary",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Inspect technical receipt"
+                      ]
+                    },
+                    {
+                      "tag": "pre",
+                      "attrs": {
+                        "id": "programmes-ledger",
+                        "class": "card",
+                        "disclosed": true
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "section",
+                  "attrs": {
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h2",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Content-addressed equipment cells"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "A separate reusable cell-world engine: explicit read context, consume/create proposals, bounded covenant evaluation, Merkle roots, witnesses and replay."
+                      ]
+                    },
+                    {
+                      "tag": "label",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Actor",
+                        {
+                          "tag": "select",
+                          "attrs": {
+                            "id": "cells-actor",
+                            "class": "field"
+                          },
+                          "children": [
+                            "map",
+                            "$configuration.cellConfiguration.identities",
+                            "i",
+                            {
+                              "tag": "option",
+                              "attrs": {
+                                "value": "$i.id"
+                              },
+                              "children": [
+                                "list",
+                                "$i.label"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "label",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Cell proposal",
+                        {
+                          "tag": "select",
+                          "attrs": {
+                            "id": "cells-preset",
+                            "class": "field"
+                          },
+                          "children": [
+                            "map",
+                            "$configuration.cellConfiguration.presets",
+                            "p",
+                            {
+                              "tag": "option",
+                              "attrs": {
+                                "value": "$p.id"
+                              },
+                              "children": [
+                                "list",
+                                "$p.title"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "attrs": {
+                        "class": "toolbar"
+                      },
+                      "children": [
+                        "list",
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "cells-apply",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "Propose cell change"
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "cells-replay",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "Replay witnesses"
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "cells-forge",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "Try forged witness"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "details",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        {
+                          "tag": "summary",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            "Inspect technical receipt"
+                          ]
+                        },
+                        {
+                          "tag": "pre",
+                          "attrs": {
+                            "id": "cells-report",
+                            "aria-live": "polite",
+                            "disclosed": true
+                          },
+                          "children": [
+                            "list"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "details",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        {
+                          "tag": "summary",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            "Inspect technical receipt"
+                          ]
+                        },
+                        {
+                          "tag": "pre",
+                          "attrs": {
+                            "id": "cells-ledger",
+                            "disclosed": true
+                          },
+                          "children": [
+                            "list"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "id": "cells-summary",
+                        "class": "status"
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {
+                        "id": "cells-decision",
+                        "aria-live": "polite"
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "section",
+                  "attrs": {
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h2",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Draft and witness a station procedure"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Source-owned language patterns propose a record. A person explicitly accepts or refuses; a separate verifier checks the resulting witness chain."
+                      ]
+                    },
+                    {
+                      "tag": "textarea",
+                      "attrs": {
+                        "id": "draft-intent",
+                        "class": "field",
+                        "rows": "3"
+                      },
+                      "children": [
+                        "list",
+                        "Track the inlet instrument without publishing"
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "attrs": {
+                        "class": "toolbar"
+                      },
+                      "children": [
+                        "list",
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "draft-draft",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "draft"
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "draft-accept",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "accept"
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "draft-refuse",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "refuse"
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "draft-verify",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "verify"
+                          ]
+                        },
+                        {
+                          "tag": "button",
+                          "attrs": {
+                            "id": "draft-tamper",
+                            "class": "button"
+                          },
+                          "children": [
+                            "list",
+                            "tamper"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "tag": "details",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        {
+                          "tag": "summary",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            "Inspect draft and witness details"
+                          ]
+                        },
+                        {
+                          "tag": "pre",
+                          "attrs": {
+                            "id": "draft-report",
+                            "aria-live": "polite",
+                            "disclosed": true
+                          },
+                          "children": [
+                            "list"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "id": "draft-summary",
+                    "class": "status",
+                    "aria-live": "polite"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "section",
+                  "attrs": {
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h2",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Equipment cell commitment"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Leaves identify cell content. Their parent hashes and the active covenant contribute to the root commitment."
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "attrs": {
+                        "id": "cells-tree"
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "section",
+                  "attrs": {
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h2",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Cell proposal admission"
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        "Preview judges the declared proposal against the accepted state without committing it. A refused proposal preserves the existing cell state."
+                      ]
+                    },
+                    {
+                      "tag": "button",
+                      "attrs": {
+                        "id": "cells-preview",
+                        "class": "button"
+                      },
+                      "children": [
+                        "list",
+                        "Preview selected cell proposal"
+                      ]
+                    },
+                    {
+                      "tag": "div",
+                      "attrs": {
+                        "id": "cells-stages",
+                        "aria-live": "polite"
+                      },
+                      "children": [
+                        "list"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "programmes.merkle": [
+      {
+        "let": "digests",
+        "value": "$eventInput.digests"
+      },
+      {
+        "when": [
+          "eq",
+          [
+            "count",
+            "$digests"
+          ],
+          0
+        ],
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.hash",
+              "input": {
+                "value": [
+                  "list"
+                ]
+              }
+            },
+            "into": "result"
+          }
+        ]
+      },
+      {
+        "when": [
+          "eq",
+          [
+            "count",
+            "$digests"
+          ],
+          1
+        ],
+        "then": [
+          {
+            "let": "result",
+            "value": [
+              "at",
+              "$digests",
+              0
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          [
+            "includes",
+            [
+              "list",
+              0,
+              1
+            ],
+            [
+              "count",
+              "$digests"
+            ]
+          ]
+        ],
+        "then": [
+          {
+            "fold": "$digests",
+            "as": "digest",
+            "accumulator": "pairs",
+            "initial": {
+              "pending": null,
+              "nodes": [
+                "list"
+              ]
+            },
+            "steps": [
+              {
+                "let": "paired",
+                "value": [
+                  "not",
+                  [
+                    "eq",
+                    "$pairs.pending",
+                    null
+                  ]
+                ]
+              },
+              {
+                "when": "$paired",
+                "then": [
+                  {
+                    "port": "kernel.invoke",
+                    "args": {
+                      "query": "programmes.hash",
+                      "input": {
+                        "value": [
+                          "list",
+                          "$pairs.pending",
+                          "$digest"
+                        ]
+                      }
+                    },
+                    "into": "node"
+                  }
+                ]
+              }
+            ],
+            "yield": [
+              "if",
+              "$paired",
+              {
+                "pending": null,
+                "nodes": [
+                  "append",
+                  "$pairs.nodes",
+                  [
+                    "list",
+                    "$node"
+                  ]
+                ]
+              },
+              {
+                "pending": "$digest",
+                "nodes": "$pairs.nodes"
+              }
+            ],
+            "into": "pairs"
+          },
+          {
+            "when": [
+              "not",
+              [
+                "eq",
+                "$pairs.pending",
+                null
+              ]
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "programmes.hash",
+                  "input": {
+                    "value": [
+                      "list",
+                      "$pairs.pending",
+                      "$pairs.pending"
+                    ]
+                  }
+                },
+                "into": "node"
+              },
+              {
+                "let": "pairs",
+                "value": {
+                  "pending": null,
+                  "nodes": [
+                    "append",
+                    "$pairs.nodes",
+                    [
+                      "list",
+                      "$node"
+                    ]
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.merkle",
+              "input": {
+                "digests": "$pairs.nodes"
+              }
+            },
+            "into": "result"
+          }
+        ]
+      }
+    ],
+    "programmes.cellInitial": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "cells.createWorld",
+          "input": {
+            "configuration": "$data.cellConfiguration"
+          }
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.cellPropose": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "cells.propose",
+          "input": {
+            "world": "$eventInput.world",
+            "recipe": "$eventInput.recipe",
+            "configuration": "$data.cellConfiguration"
+          }
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.cellReplay": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "cells.replay",
+          "input": {
+            "world": "$eventInput.world",
+            "configuration": "$data.cellConfiguration",
+            "journal": "$eventInput.world.journal",
+            "publishedHead": "$eventInput.world.hub.root"
+          }
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.cellForge": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "cells.forge",
+          "input": {
+            "world": "$eventInput.world",
+            "mode": "$eventInput.mode",
+            "configuration": "$data.cellConfiguration"
+          }
+        },
+        "into": "forged"
+      },
+      {
+        "assert": "$forged",
+        "message": "FORGE_HISTORY: accept a cell proposal before trying a forged-history exercise."
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "cells.replay",
+          "input": {
+            "world": "$eventInput.world",
+            "journal": "$forged.journal",
+            "publishedHead": "$eventInput.world.hub.root",
+            "configuration": "$data.cellConfiguration"
+          }
+        },
+        "into": "verification"
+      },
+      {
+        "let": "result",
+        "value": {
+          "forged": "$forged",
+          "verification": "$verification"
+        }
+      }
+    ],
+    "programmes.cellsBoot": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.cellInitial",
+          "input": {}
+        },
+        "into": "world"
+      },
+      {
+        "port": "state.set",
+        "args": {
+          "key": "programmes.cells",
+          "value": "$world"
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#cells-apply",
+          "event": "click",
+          "query": "programmes.cellsAction",
+          "input": {
+            "action": "apply"
+          }
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#cells-replay",
+          "event": "click",
+          "query": "programmes.cellsAction",
+          "input": {
+            "action": "replay"
+          }
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#cells-forge",
+          "event": "click",
+          "query": "programmes.cellsAction",
+          "input": {
+            "action": "forge"
+          }
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#cells-preview",
+          "event": "click",
+          "query": "programmes.cellsPreview",
+          "input": {}
+        },
+        "into": "_"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.cellsRender",
+          "input": {}
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.cellsAction": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.cells"
+        },
+        "into": "world"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#cells-preset",
+          "name": "value"
+        },
+        "into": "preset"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#cells-actor",
+          "name": "value"
+        },
+        "into": "actor"
+      },
+      {
+        "try": [
+          {
+            "when": [
+              "eq",
+              "$eventInput.action",
+              "apply"
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "programmes.cellPropose",
+                  "input": {
+                    "world": "$world",
+                    "recipe": {
+                      "preset": "$preset",
+                      "identity": "$actor",
+                      "stale": false,
+                      "falseClaim": false,
+                      "note": "An instrument check at the inlet"
+                    }
+                  }
+                },
+                "into": "decision"
+              },
+              {
+                "port": "state.set",
+                "args": {
+                  "key": "programmes.cells",
+                  "value": "$decision.world"
+                },
+                "into": "_"
+              },
+              {
+                "let": "report",
+                "value": "$decision.result"
+              },
+              {
+                "port": "browser.write",
+                "args": {
+                  "ref": "#cells-decision",
+                  "name": "textContent",
+                  "value": [
+                    "if",
+                    "$decision.result.accepted",
+                    "Cell proposal accepted. Its witness records the consumed cells, explicit read context and new Merkle root.",
+                    "Cell proposal refused. The accepted cell state and root are preserved; inspect the admission stages below."
+                  ]
+                },
+                "into": "_"
+              },
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "programmes.admissionView",
+                  "input": {
+                    "judgment": "$decision.result"
+                  }
+                },
+                "into": "tree"
+              },
+              {
+                "let": "input",
+                "value": "$tree"
+              },
+              {
+                "call": "html.serialize"
+              },
+              {
+                "port": "browser.content",
+                "args": {
+                  "ref": "#cells-stages",
+                  "html": "$result"
+                },
+                "into": "_"
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$eventInput.action",
+              "replay"
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "programmes.cellReplay",
+                  "input": {
+                    "world": "$world"
+                  }
+                },
+                "into": "report"
+              },
+              {
+                "port": "browser.write",
+                "args": {
+                  "ref": "#cells-decision",
+                  "name": "textContent",
+                  "value": [
+                    "if",
+                    "$report.ok",
+                    "Replay reproduced the accepted head from genesis.",
+                    "Replay failed; inspect the first failing witness below."
+                  ]
+                },
+                "into": "_"
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$eventInput.action",
+              "forge"
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "programmes.cellForge",
+                  "input": {
+                    "world": "$world",
+                    "mode": "edit"
+                  }
+                },
+                "into": "report"
+              },
+              {
+                "port": "browser.write",
+                "args": {
+                  "ref": "#cells-decision",
+                  "name": "textContent",
+                  "value": "A copy of the witness history was forged. The accepted history remains unchanged; inspect verification below."
+                },
+                "into": "_"
+              }
+            ]
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$report",
+              "space": 2
+            },
+            "into": "text"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#cells-report",
+              "name": "textContent",
+              "value": "$text"
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error",
+        "catch": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#cells-report",
+              "name": "textContent",
+              "value": [
+                "concat",
+                "Refused: ",
+                "$error.message"
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "programmes.cellsRender",
+          "input": {}
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.cellsRender": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.cells"
+        },
+        "into": "world"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#cells-summary",
+          "name": "textContent",
+          "value": [
+            "concat",
+            "Cell world: ",
+            [
+              "count",
+              "$world.journal"
+            ],
+            " witnessed proposals. Current state is content-addressed; inspect its Merkle root below."
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "port": "json.stringify",
+        "args": {
+          "value": {
+            "root": "$world.hub.root",
+            "state": "$world.hub.state",
+            "journal": "$world.journal"
+          },
+          "space": 2
+        },
+        "into": "text"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#cells-ledger",
+          "name": "textContent",
+          "value": "$text"
+        },
+        "into": "_"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "ui.cells.tree",
+          "input": {
+            "tree": "$world.hub.tree",
+            "root": "$world.hub.root",
+            "predicate": "$world.hub.state.predicateId",
+            "fresh": false,
+            "seen": [
+              "list"
+            ]
+          }
+        },
+        "into": "layout"
+      },
+      {
+        "let": "input",
+        "value": {
+          "tag": "svg",
+          "attrs": {
+            "viewBox": "0 0 360 175",
+            "role": "img",
+            "aria-label": "Content-addressed equipment cells and their Merkle root"
+          },
+          "children": [
+            "list",
+            "$layout.nodes"
+          ]
+        }
+      },
+      {
+        "call": "html.serialize"
+      },
+      {
+        "port": "browser.content",
+        "args": {
+          "ref": "#cells-tree",
+          "html": "$result"
+        },
+        "into": "_"
+      }
+    ],
+    "programmes.draft": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "draft.proposal",
+          "input": {
+            "text": "$eventInput.text",
+            "configuration": "$data.draftConfiguration",
+            "previous": "$eventInput.previous"
+          }
+        },
+        "into": "result"
+      }
+    ],
+    "programmes.draftBoot": [
+      {
+        "port": "state.set",
+        "args": {
+          "key": "programmes.drafts",
+          "value": [
+            "list"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#draft-draft",
+          "event": "click",
+          "query": "programmes.draftAction",
+          "input": {
+            "action": "draft"
+          }
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#draft-accept",
+          "event": "click",
+          "query": "programmes.draftAction",
+          "input": {
+            "action": "accept"
+          }
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#draft-refuse",
+          "event": "click",
+          "query": "programmes.draftAction",
+          "input": {
+            "action": "refuse"
+          }
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#draft-verify",
+          "event": "click",
+          "query": "programmes.draftAction",
+          "input": {
+            "action": "verify"
+          }
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.on",
+        "args": {
+          "ref": "#draft-tamper",
+          "event": "click",
+          "query": "programmes.draftAction",
+          "input": {
+            "action": "tamper"
+          }
+        },
+        "into": "_"
+      }
+    ],
+    "programmes.draftAction": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.drafts"
+        },
+        "into": "ledger"
+      },
+      {
+        "let": "action",
+        "value": "$eventInput.action"
+      },
+      {
+        "try": [
+          {
+            "when": [
+              "eq",
+              "$action",
+              "draft"
+            ],
+            "then": [
+              {
+                "port": "browser.property",
+                "args": {
+                  "ref": "#draft-intent",
+                  "name": "value"
+                },
+                "into": "intent"
+              },
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "programmes.draft",
+                  "input": {
+                    "text": "$intent",
+                    "previous": [
+                      "if",
+                      [
+                        "eq",
+                        [
+                          "count",
+                          "$ledger"
+                        ],
+                        0
+                      ],
+                      "genesis",
+                      [
+                        "at",
+                        [
+                          "at",
+                          "$ledger",
+                          [
+                            "add",
+                            [
+                              "count",
+                              "$ledger"
+                            ],
+                            -1
+                          ]
+                        ],
+                        "witness"
+                      ]
+                    ]
+                  }
+                },
+                "into": "report"
+              },
+              {
+                "port": "state.set",
+                "args": {
+                  "key": "programmes.draftCurrent",
+                  "value": "$report"
+                },
+                "into": "_"
+              }
+            ]
+          },
+          {
+            "when": [
+              "includes",
+              [
+                "list",
+                "accept",
+                "refuse"
+              ],
+              "$action"
+            ],
+            "then": [
+              {
+                "port": "state.get",
+                "args": {
+                  "key": "programmes.draftCurrent"
+                },
+                "into": "current"
+              },
+              {
+                "assert": "$current",
+                "message": "DRAFT_REQUIRED: create a proposal before deciding."
+              },
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "draft.decide",
+                  "input": {
+                    "ledger": "$ledger",
+                    "current": "$current",
+                    "verdict": "$action",
+                    "note": "Local fictional station review",
+                    "at": "local-session"
+                  }
+                },
+                "into": "decision"
+              },
+              {
+                "port": "state.set",
+                "args": {
+                  "key": "programmes.drafts",
+                  "value": "$decision.ledger"
+                },
+                "into": "_"
+              },
+              {
+                "let": "report",
+                "value": "$decision"
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$action",
+              "verify"
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "draft.verify",
+                  "input": {
+                    "ledger": "$ledger"
+                  }
+                },
+                "into": "report"
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$action",
+              "tamper"
+            ],
+            "then": [
+              {
+                "assert": [
+                  "not",
+                  [
+                    "eq",
+                    [
+                      "count",
+                      "$ledger"
+                    ],
+                    0
+                  ]
+                ],
+                "message": "DRAFT_WITNESS_REQUIRED: record one decision first."
+              },
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "draft.tamper",
+                  "input": {
+                    "ledger": "$ledger",
+                    "originalRecord": [
+                      "at",
+                      [
+                        "at",
+                        "$ledger",
+                        0
+                      ],
+                      "record"
+                    ]
+                  }
+                },
+                "into": "report"
+              }
+            ]
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#draft-summary",
+              "name": "textContent",
+              "value": [
+                "if",
+                [
+                  "eq",
+                  "$action",
+                  "draft"
+                ],
+                "Draft prepared for review. It has no authority to make a real booking.",
+                [
+                  "if",
+                  [
+                    "includes",
+                    [
+                      "list",
+                      "accept",
+                      "refuse"
+                    ],
+                    "$action"
+                  ],
+                  [
+                    "concat",
+                    "Decision recorded: ",
+                    "$action",
+                    ". The witness links to its predecessor."
+                  ],
+                  [
+                    "if",
+                    [
+                      "eq",
+                      "$action",
+                      "verify"
+                    ],
+                    "Witness verification completed; inspect the result for any failing link.",
+                    "Tamper test completed on a copy; accepted history is preserved."
+                  ]
+                ]
+              ]
+            },
+            "into": "_"
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$report",
+              "space": 2
+            },
+            "into": "text"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#draft-report",
+              "name": "textContent",
+              "value": "$text"
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error",
+        "catch": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#draft-report",
+              "name": "textContent",
+              "value": [
+                "concat",
+                "Refused; accepted history preserved. ",
+                "$error.message"
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      }
+    ],
+    "programmes.cellPreview": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "cells.buildProposal",
+          "input": {
+            "hub": "$eventInput.world.hub",
+            "registry": "$eventInput.world.registry",
+            "recipe": "$eventInput.recipe",
+            "configuration": "$data.cellConfiguration"
+          }
+        },
+        "into": "proposal"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "cells.judge",
+          "input": {
+            "hub": "$eventInput.world.hub",
+            "proposal": "$proposal",
+            "configuration": "$data.cellConfiguration"
+          }
+        },
+        "into": "judgment"
+      },
+      {
+        "let": "result",
+        "value": {
+          "proposal": "$proposal",
+          "judgment": "$judgment"
+        }
+      }
+    ],
+    "programmes.admissionView": [
+      {
+        "let": "result",
+        "value": {
+          "tag": "ol",
+          "attrs": {
+            "class": "admission-stages"
+          },
+          "children": [
+            "list",
+            [
+              "map",
+              "$eventInput.judgment.stages",
+              "stage",
+              {
+                "tag": "li",
+                "attrs": {
+                  "class": [
+                    "if",
+                    "$stage.ok",
+                    "stage-held",
+                    "stage-refused"
+                  ]
+                },
+                "children": [
+                  "list",
+                  {
+                    "tag": "strong",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      [
+                        "concat",
+                        [
+                          "at",
+                          [
+                            "list",
+                            "Canonical form and bounds",
+                            "Current basis",
+                            "Read, consume and create context",
+                            "Computed state root",
+                            "Active covenant",
+                            "Successor bounds"
+                          ],
+                          [
+                            "add",
+                            "$stage.n",
+                            -1
+                          ]
+                        ],
+                        ": ",
+                        [
+                          "if",
+                          "$stage.ok",
+                          "passed",
+                          "refused"
+                        ]
+                      ]
+                    ]
+                  },
+                  {
+                    "tag": "p",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      "$stage.detail"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    ],
+    "programmes.cellsPreview": [
+      {
+        "port": "state.get",
+        "args": {
+          "key": "programmes.cells"
+        },
+        "into": "world"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#cells-preset",
+          "name": "value"
+        },
+        "into": "preset"
+      },
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#cells-actor",
+          "name": "value"
+        },
+        "into": "actor"
+      },
+      {
+        "try": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.cellPreview",
+              "input": {
+                "world": "$world",
+                "recipe": {
+                  "preset": "$preset",
+                  "identity": "$actor",
+                  "stale": false,
+                  "falseClaim": false,
+                  "note": "An instrument check at the inlet"
+                }
+              }
+            },
+            "into": "preview"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "programmes.admissionView",
+              "input": {
+                "judgment": "$preview.judgment"
+              }
+            },
+            "into": "tree"
+          },
+          {
+            "let": "input",
+            "value": "$tree"
+          },
+          {
+            "call": "html.serialize"
+          },
+          {
+            "port": "browser.content",
+            "args": {
+              "ref": "#cells-stages",
+              "html": "$result"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#cells-decision",
+              "name": "textContent",
+              "value": [
+                "if",
+                "$preview.judgment.accepted",
+                "Preview passes admission. The accepted cell state is unchanged until you propose the change.",
+                "Preview refuses admission. The accepted cell state remains unchanged."
+              ]
+            },
+            "into": "_"
+          }
+        ],
+        "error": "error",
+        "catch": [
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#cells-decision",
+              "name": "textContent",
+              "value": [
+                "concat",
+                "Preview refused: ",
+                "$error.message"
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      }
+    ]
+  }
+}

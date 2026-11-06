@@ -1,31 +1,16 @@
-# Template recipes
+# Reusable compositions
 
-Choose the composition that fits the work. Both templates are standalone directories with owned sources, a build, tests and a preview. Neither inherits the project hub's hosting configuration.
-
-## A small reading world
+Use the pack composer for a new world. Features are individually selected, their dependencies resolved and their views optionally mounted inside the world's pages. The default is reader and sources. Read [the composition guide](composition.html).
 
 ```sh
-node tooling/create-world.mjs worlds/my-reader --template world
+node tooling/compose-world.mjs worlds/guide --features reader,sources
+node tooling/compose-world.mjs worlds/map --features reader,atlas
+node tooling/compose-world.mjs worlds/lab --features workshop,inspector
+node tooling/compose-world.mjs worlds/tidepool --profile examples/tidepool/profile.json
 ```
 
-The small world demonstrates places, choices, attributed sources, ordered presentation, source snapshots and build receipts. Edit source/world.rel, source/presentation.rel and algebra/world.process.json. It is useful when the work needs a clear reading path without the larger interactive environment.
+Tidepool selects all available packs. It supplies original fictional field notes, a coastal chart, a synthetic film and a paper-and-ink presentation. Its claims and programme scenarios concern observations and shared survey equipment. The examples do not reuse Aaron's personal corpus or expedition art.
 
-## A full expedition
+Each pack descriptor declares owned modules, source files, assets, dependencies, permissions and outputs. A profile replaces canonical files by owner; selecting fewer features skips other owners. FeatureBlock facts assemble selected views in page order. Unknown features, dependency cycles, conflicting owners and invalid mounts refuse before publication.
 
-```sh
-node tooling/create-world.mjs worlds/my-expedition --template expedition
-```
-
-The full expedition includes the current reader and workshop, atlas and remembered visits, microsite composition, media and motion, claim review, source presentation, Encounter contracts and checked edits, and repository source authoring. Read its README and the concrete feature contracts before changing its source facts.
-
-The initial world was a forty-place personal expedition. Its place count and personal framing are not universal requirements. A new author supplies their own identity, purpose, regions, places, routes, readings, source notes and atlas positions. Required resources live in source/assets.rel rather than the replaceable world graph. An explicit optional Place.activity reference selects a declared exercise. Reused demonstration content stays attributed and separate from the new author's claims.
-
-## A feature recipe is more than its module
-
-Each recipe identifies the actual implementation, required facts, call closure, dynamic dispatch, granted effects, output surfaces, correction ownership and checks. The complete expedition is the runnable installation unit; the recipe explains a feature within that composition. It does not suggest that copying an isolated process file supplies its host or dependencies.
-
-## Verify your changes
-
-Run the created world's build and template suite. Use its source-proposal workflow for coordinated canonical edits. Test both an accepted change and a refusal, then check that unrelated content and native mechanisms remain stable. Browser behavior requires browser observation in addition to a successful build or headless effect fixture.
-
-The project-level extraction verifier checks the recipe and dependency correspondence. The separate-agent trial exercises whether the repository instructions are sufficient to create a different world.
+The old small reader and full-expedition templates remain in Git for historical compatibility. The original 36 source-module recipes describe that earlier extraction. They are attributed references rather than independently installable packs.

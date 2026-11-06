@@ -1,0 +1,38 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "microsites",
+  "title": "Windows",
+  "requires": [
+    "core"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/microsites.process.json",
+    "algebra/microsite-projection.process.json"
+  ],
+  "sources": [
+    "source/microsites.rel"
+  ],
+  "assets": [],
+  "build": "microsites.build",
+  "navigation": {
+    "label": "Windows",
+    "route": "microsites.html"
+  },
+  "grants": {
+    "build": [
+      "json.parse"
+    ],
+    "browser": []
+  },
+  "outputs": [
+    "microsites.html"
+  ],
+  "render": "microsites.view",
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/microsites.md"
+    }
+  ]
+}

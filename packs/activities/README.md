@@ -1,0 +1,3 @@
+# Coastal interactions
+
+Select `activities` to compose finite interaction mechanisms and their `models` dependency. The REL configuration owns a fictional coastal UI tree and training inputs. `activities.view` mounts on home or a Place through FeatureBlock; one instance per page. Controls exercise source policy for correction seams, finite decks, gates, pair admission, memory coupling, erasure, coding, pattern expansion, rate comparisons, aggregation, projection, and closed-route frames. Reduced-motion preference completes the final frame without intermediate animation. No field validation is implied.

@@ -1,0 +1,9 @@
+# Composition evidence
+
+`consumers.json` records actual locally generated worlds, native build commands, artifact SHA-256 values, selected closures, 20,000,000 execution budgets, unchanged trusted seed hashes and actions executed against the emitted runtime models. Its five cases cover reader-only, reader/atlas/source closure, selected interactive tools, Tidepool kitchen sink and a separate agent's Night Seed Library. A sixth check removes packs and rebuilds while preserving the surviving owners' authored files.
+
+`original-corpus-fingerprints.json` contains only hashes and lengths of 106 predecessor prose passages across all 40 places, plus the source-version hash. The verifier rejects those passages in authored facts, old corpus paths/branding, and copied predecessor media/art hashes. It does not include the predecessor's prose in generated worlds.
+
+Reproduce with `node tooling/verify-composition.mjs`. Behavioral and negative controls are `node --test tooling/composition.test.mjs tooling/interactive-packs.test.mjs`. The coverage inventory is `context/composition-coverage.json`; it maps all 36 predecessor modules and keeps replaced entry points explicit. Query presence is source inventory, not proof that every possible input is behaviorally equivalent.
+
+The separate QA agent authored `examples/seed-library` from the repository's composition contract. Its original two-scene cabinet world selects only reader, sources and claims, with original graphics, styling and synthetic evidence. This is a distinct agent implementation within the same session and model lineage. All reports here are one local software evidence family; headless effect fixtures do not certify browser layout, media playback, external scientific validity or independent human evaluation. The root task performs browser verification separately.

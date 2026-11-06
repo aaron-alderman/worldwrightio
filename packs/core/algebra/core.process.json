@@ -1,0 +1,1055 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "shell.validate": [
+      {
+        "each": [
+          "list",
+          "title",
+          "description",
+          "purpose"
+        ],
+        "as": "field",
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "world",
+                  "$field"
+                ],
+                null
+              ]
+            ],
+            "message": "WORLD-FIELD: A world needs title, description and purpose."
+          }
+        ]
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "FeatureBlock"
+        ],
+        "as": "block",
+        "steps": [
+          {
+            "let": "placement",
+            "value": [
+              "one",
+              "$block",
+              "placement"
+            ]
+          },
+          {
+            "let": "same",
+            "value": [
+              "filter",
+              [
+                "subjects",
+                "isa",
+                "FeatureBlock"
+              ],
+              "other",
+              [
+                "eq",
+                [
+                  "one",
+                  "$other",
+                  "placement"
+                ],
+                "$placement"
+              ]
+            ]
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$block",
+                  "order"
+                ],
+                null
+              ]
+            ],
+            "message": "PACK-MOUNT-ORDER: Every block needs an order."
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                [
+                  "filter",
+                  "$same",
+                  "other",
+                  [
+                    "eq",
+                    [
+                      "one",
+                      "$other",
+                      "feature"
+                    ],
+                    [
+                      "one",
+                      "$block",
+                      "feature"
+                    ]
+                  ]
+                ]
+              ],
+              1
+            ],
+            "message": "PACK-MOUNT-DUPLICATE: Mount each feature only once per placement."
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                [
+                  "filter",
+                  "$same",
+                  "other",
+                  [
+                    "eq",
+                    [
+                      "one",
+                      "$other",
+                      "order"
+                    ],
+                    [
+                      "one",
+                      "$block",
+                      "order"
+                    ]
+                  ]
+                ]
+              ],
+              1
+            ],
+            "message": "PACK-MOUNT-ORDER: Block order must be unique."
+          }
+        ]
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "FeatureBlock"
+        ],
+        "as": "block",
+        "steps": [
+          {
+            "port": "text.matches",
+            "args": {
+              "value": [
+                "one",
+                "$block",
+                "order"
+              ],
+              "pattern": "^[1-9][0-9]*$"
+            },
+            "into": "validOrder"
+          },
+          {
+            "assert": "$validOrder",
+            "message": "PACK-MOUNT-ORDER: Orders must be positive integers."
+          }
+        ]
+      },
+      {
+        "call": "shell.validateOutputs"
+      }
+    ],
+    "shell.assets": [
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "PackAsset"
+        ],
+        "as": "asset",
+        "steps": [
+          {
+            "port": "file.copy",
+            "args": {
+              "path": [
+                "one",
+                "$asset",
+                "path"
+              ]
+            },
+            "into": "_"
+          }
+        ]
+      }
+    ],
+    "shell.blocks": [
+      {
+        "let": "blocks",
+        "value": [
+          "filter",
+          [
+            "subjects",
+            "isa",
+            "FeatureBlock"
+          ],
+          "candidate",
+          [
+            "eq",
+            [
+              "one",
+              "$candidate",
+              "placement"
+            ],
+            "$placement"
+          ]
+        ]
+      },
+      {
+        "port": "value.sort",
+        "args": {
+          "values": [
+            "map",
+            "$blocks",
+            "candidate",
+            [
+              "one",
+              "$candidate",
+              "order"
+            ]
+          ],
+          "mode": "numeric"
+        },
+        "into": "orders"
+      },
+      {
+        "fold": "$orders",
+        "as": "ordinal",
+        "accumulator": "trees",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "let": "matches",
+            "value": [
+              "filter",
+              "$blocks",
+              "candidate",
+              [
+                "eq",
+                [
+                  "one",
+                  "$candidate",
+                  "order"
+                ],
+                "$ordinal"
+              ]
+            ]
+          },
+          {
+            "let": "block",
+            "value": [
+              "at",
+              "$matches",
+              0
+            ]
+          },
+          {
+            "call": "shell.block"
+          }
+        ],
+        "yield": [
+          "append",
+          "$trees",
+          [
+            "list",
+            "$result"
+          ]
+        ],
+        "into": "result"
+      }
+    ],
+    "shell.document": [
+      {
+        "let": "prefix",
+        "value": [
+          "if",
+          [
+            "includes",
+            "$route",
+            "/"
+          ],
+          "../",
+          ""
+        ]
+      },
+      {
+        "let": "input",
+        "value": {
+          "tag": "html",
+          "attrs": {
+            "lang": "en"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "head",
+              "attrs": {},
+              "children": [
+                "append",
+                [
+                  "list",
+                  {
+                    "tag": "meta",
+                    "attrs": {
+                      "charset": "utf-8"
+                    },
+                    "children": [
+                      "list"
+                    ]
+                  },
+                  {
+                    "tag": "meta",
+                    "attrs": {
+                      "name": "viewport",
+                      "content": "width=device-width, initial-scale=1"
+                    },
+                    "children": [
+                      "list"
+                    ]
+                  },
+                  {
+                    "tag": "base",
+                    "attrs": {
+                      "href": "$prefix"
+                    },
+                    "children": [
+                      "list"
+                    ]
+                  },
+                  {
+                    "tag": "title",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      [
+                        "concat",
+                        "$pageTitle",
+                        " · ",
+                        [
+                          "one",
+                          "world",
+                          "title"
+                        ]
+                      ]
+                    ]
+                  },
+                  {
+                    "tag": "link",
+                    "attrs": {
+                      "rel": "stylesheet",
+                      "href": "styles.css"
+                    },
+                    "children": [
+                      "list"
+                    ]
+                  }
+                ],
+                [
+                  "map",
+                  [
+                    "subjects",
+                    "isa",
+                    "PackStylesheet"
+                  ],
+                  "sheet",
+                  {
+                    "tag": "link",
+                    "attrs": {
+                      "rel": "stylesheet",
+                      "href": [
+                        "one",
+                        "$sheet",
+                        "path"
+                      ]
+                    },
+                    "children": [
+                      "list"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "tag": "body",
+              "attrs": {},
+              "children": [
+                "list",
+                {
+                  "tag": "header",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "href": "index.html",
+                        "class": "brand"
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "world",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "nav",
+                      "attrs": {
+                        "aria-label": "World navigation"
+                      },
+                      "children": [
+                        "map",
+                        [
+                          "subjects",
+                          "isa",
+                          "PackNavigation"
+                        ],
+                        "nav",
+                        {
+                          "tag": "a",
+                          "attrs": {
+                            "href": [
+                              "one",
+                              "$nav",
+                              "route"
+                            ]
+                          },
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$nav",
+                              "label"
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "main",
+                  "attrs": {
+                    "id": "main",
+                    "tabindex": "-1"
+                  },
+                  "children": "$body"
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "class": "status",
+                    "data-temple-errors": "",
+                    "aria-live": "polite"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "footer",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Built from selected Worldwright features. ",
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "href": "build-receipt.json"
+                      },
+                      "children": [
+                        "list",
+                        "Build receipt"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {},
+                  "children": [
+                    "map",
+                    [
+                      "subjects",
+                      "isa",
+                      "PackRuntime"
+                    ],
+                    "runtime",
+                    [
+                      "if",
+                      [
+                        "or",
+                        [
+                          "eq",
+                          [
+                            "one",
+                            "$runtime",
+                            "allPages"
+                          ],
+                          "true"
+                        ],
+                        [
+                          "eq",
+                          [
+                            "one",
+                            "$runtime",
+                            "route"
+                          ],
+                          "$route"
+                        ]
+                      ],
+                      {
+                        "tag": "script",
+                        "attrs": {
+                          "src": [
+                            "one",
+                            "$runtime",
+                            "output"
+                          ],
+                          "defer": true,
+                          "type": "module"
+                        },
+                        "children": [
+                          "list"
+                        ]
+                      },
+                      null
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "call": "html.serialize"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "$route",
+          "text": [
+            "concat",
+            "<!doctype html>\n",
+            "$result"
+          ]
+        },
+        "into": "_"
+      }
+    ],
+    "core.build": [
+      {
+        "let": "placement",
+        "value": "home"
+      },
+      {
+        "call": "shell.blocks"
+      },
+      {
+        "let": "blocks",
+        "value": "$result"
+      },
+      {
+        "let": "pageTitle",
+        "value": [
+          "one",
+          "world",
+          "title"
+        ]
+      },
+      {
+        "let": "route",
+        "value": "index.html"
+      },
+      {
+        "let": "body",
+        "value": [
+          "append",
+          [
+            "list",
+            {
+              "tag": "section",
+              "attrs": {
+                "class": "hero"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "class": "eyebrow"
+                  },
+                  "children": [
+                    "list",
+                    [
+                      "if",
+                      [
+                        "optional",
+                        "world",
+                        "kicker"
+                      ],
+                      [
+                        "optional",
+                        "world",
+                        "kicker"
+                      ],
+                      "An independent world"
+                    ]
+                  ]
+                },
+                {
+                  "tag": "h1",
+                  "attrs": {
+                    "class": "world-title"
+                  },
+                  "children": [
+                    "list",
+                    [
+                      "one",
+                      "world",
+                      "title"
+                    ]
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "class": "lead"
+                  },
+                  "children": [
+                    "list",
+                    [
+                      "one",
+                      "world",
+                      "description"
+                    ]
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    [
+                      "one",
+                      "world",
+                      "purpose"
+                    ]
+                  ]
+                },
+                [
+                  "if",
+                  [
+                    "optional",
+                    "world",
+                    "image"
+                  ],
+                  {
+                    "tag": "img",
+                    "attrs": {
+                      "src": [
+                        "optional",
+                        "world",
+                        "image"
+                      ],
+                      "alt": [
+                        "if",
+                        [
+                          "optional",
+                          "world",
+                          "imageAlt"
+                        ],
+                        [
+                          "optional",
+                          "world",
+                          "imageAlt"
+                        ],
+                        ""
+                      ]
+                    },
+                    "children": [
+                      "list"
+                    ]
+                  },
+                  null
+                ],
+                [
+                  "if",
+                  [
+                    "and",
+                    [
+                      "includes",
+                      [
+                        "subjects",
+                        "isa",
+                        "PackNavigation"
+                      ],
+                      "pack.reader"
+                    ],
+                    [
+                      "optional",
+                      "world",
+                      "entry"
+                    ]
+                  ],
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": [
+                        "concat",
+                        "places/",
+                        [
+                          "one",
+                          "world",
+                          "entry"
+                        ],
+                        ".html"
+                      ],
+                      "class": "button primary"
+                    },
+                    "children": [
+                      "list",
+                      [
+                        "if",
+                        [
+                          "optional",
+                          "world",
+                          "entryLabel"
+                        ],
+                        [
+                          "one",
+                          "world",
+                          "entryLabel"
+                        ],
+                        "Begin the field notes →"
+                      ]
+                    ]
+                  },
+                  null
+                ]
+              ]
+            },
+            {
+              "tag": "section",
+              "attrs": {
+                "class": "grid"
+              },
+              "children": [
+                "map",
+                [
+                  "subjects",
+                  "isa",
+                  "PackNavigation"
+                ],
+                "nav",
+                {
+                  "tag": "a",
+                  "attrs": {
+                    "href": [
+                      "one",
+                      "$nav",
+                      "route"
+                    ],
+                    "class": "card"
+                  },
+                  "children": [
+                    "list",
+                    {
+                      "tag": "h2",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$nav",
+                          "label"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "$blocks"
+        ]
+      },
+      {
+        "call": "shell.document"
+      }
+    ],
+    "shell.validateOutputs": [
+      {
+        "let": "outputs",
+        "value": [
+          "map",
+          [
+            "subjects",
+            "isa",
+            "PackOutput"
+          ],
+          "output",
+          {
+            "path": [
+              "one",
+              "$output",
+              "path"
+            ],
+            "owner": [
+              "one",
+              "$output",
+              "owner"
+            ]
+          }
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "map",
+            [
+              "subjects",
+              "isa",
+              "PackAsset"
+            ],
+            "asset",
+            {
+              "path": [
+                "one",
+                "$asset",
+                "path"
+              ],
+              "owner": [
+                "one",
+                "$asset",
+                "owner"
+              ]
+            }
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              [
+                "subjects",
+                "isa",
+                "PackNavigation"
+              ],
+              "pack.reader"
+            ],
+            [
+              "map",
+              [
+                "subjects",
+                "isa",
+                "Place"
+              ],
+              "place",
+              {
+                "path": [
+                  "concat",
+                  "places/",
+                  "$place",
+                  ".html"
+                ],
+                "owner": "reader"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              [
+                "subjects",
+                "isa",
+                "PackNavigation"
+              ],
+              "pack.microsites"
+            ],
+            [
+              "map",
+              [
+                "subjects",
+                "isa",
+                "Microsite"
+              ],
+              "site",
+              {
+                "path": [
+                  "one",
+                  "$site",
+                  "route"
+                ],
+                "owner": "microsites"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              [
+                "subjects",
+                "isa",
+                "PackNavigation"
+              ],
+              "pack.microsites"
+            ],
+            [
+              "map",
+              [
+                "filter",
+                [
+                  "subjects",
+                  "isa",
+                  "Microsite"
+                ],
+                "site",
+                [
+                  "optional",
+                  "$site",
+                  "stylesheet"
+                ]
+              ],
+              "site",
+              {
+                "path": [
+                  "one",
+                  "$site",
+                  "stylesheetRoute"
+                ],
+                "owner": "microsites"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              [
+                "subjects",
+                "isa",
+                "PackNavigation"
+              ],
+              "pack.sources"
+            ],
+            [
+              "map",
+              [
+                "subjects",
+                "isa",
+                "SourceFile"
+              ],
+              "file",
+              {
+                "path": [
+                  "one",
+                  "$file",
+                  "path"
+                ],
+                "owner": "sources"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "fold": "$outputs",
+        "as": "output",
+        "accumulator": "owners",
+        "initial": {},
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "at",
+                "$owners",
+                "$output.path"
+              ]
+            ],
+            "message": "WORLD-OUTPUT-COLLISION: Current source outputs must have one owner; choose a different route or stylesheet path."
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$owners",
+              "key": "$output.path",
+              "value": "$output.owner"
+            },
+            "into": "next"
+          }
+        ],
+        "yield": "$next",
+        "into": "outputOwners"
+      }
+    ]
+  }
+}

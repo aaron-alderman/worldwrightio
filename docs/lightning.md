@@ -1,5 +1,7 @@
 # The lightning path
 
+The current strike adds selective composition: an agent can choose a feature subset, author original source facts and presentation, and build a standalone world without copying the original expedition. An unused feature appearing in its modules, assets or permissions breaks that link. A required operation replaced by an inert card also breaks it. The composition suite checks successful subsets and decisive refusals; Tidepool supplies the original kitchen sink and a separate agent authors a smaller different world. See context/composition-coverage.json for current results and boundaries.
+
 The terminal promise: a person can point an agent at this repository, supply their purpose and material, and obtain a standalone world whose meaning, presentation and process can be inspected and corrected.
 
 Work backward from that promise. Every necessary link needs evidence and a failure condition. A failed link breaks the terminal claim; upstream results can remain useful. This is a software adaptation of the lightning method, not a transferred scientific proof or a claim of global minimality.

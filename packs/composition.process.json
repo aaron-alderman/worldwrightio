@@ -1,0 +1,1859 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "compose.visit": [
+      {
+        "let": "id",
+        "value": "$eventInput.id"
+      },
+      {
+        "port": "text.matches",
+        "args": {
+          "value": "$id",
+          "pattern": "^[a-z][a-z0-9-]*$"
+        },
+        "into": "safeId"
+      },
+      {
+        "assert": "$safeId",
+        "message": "PACK-ID: Feature identifiers must be safe lower-case names."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "includes",
+            "$eventInput.stack",
+            "$id"
+          ]
+        ],
+        "message": "PACK-CYCLE: A dependency cycle was found."
+      },
+      {
+        "let": "pack",
+        "value": [
+          "at",
+          "$catalogue",
+          "$id"
+        ]
+      },
+      {
+        "assert": "$pack",
+        "message": "PACK-UNKNOWN: Requested pack or dependency is not present."
+      },
+      {
+        "assert": [
+          "eq",
+          "$pack.id",
+          "$id"
+        ],
+        "message": "PACK-ID: Descriptor identity differs from its registry key."
+      },
+      {
+        "assert": [
+          "eq",
+          "$pack.protocol",
+          "worldwright/pack/1"
+        ],
+        "message": "PACK-PROTOCOL: Unknown feature descriptor."
+      },
+      {
+        "let": "selected",
+        "value": "$eventInput.selected"
+      },
+      {
+        "when": [
+          "not",
+          [
+            "includes",
+            "$selected",
+            "$id"
+          ]
+        ],
+        "then": [
+          {
+            "fold": "$pack.requires",
+            "as": "dependency",
+            "accumulator": "selection",
+            "initial": "$selected",
+            "steps": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "compose.visit",
+                  "input": {
+                    "id": "$dependency",
+                    "stack": [
+                      "append",
+                      "$eventInput.stack",
+                      [
+                        "list",
+                        "$id"
+                      ]
+                    ],
+                    "selected": "$selection"
+                  }
+                },
+                "into": "child"
+              }
+            ],
+            "yield": "$child",
+            "into": "selected"
+          },
+          {
+            "let": "selected",
+            "value": [
+              "append",
+              "$selected",
+              [
+                "list",
+                "$id"
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": "$selected"
+      }
+    ],
+    "compose.resolve": [
+      {
+        "assert": [
+          "isArray",
+          "$requested"
+        ],
+        "message": "PACK-REQUEST: Feature selection must be a list."
+      },
+      {
+        "fold": [
+          "distinct",
+          [
+            "append",
+            [
+              "list",
+              "core"
+            ],
+            "$requested"
+          ]
+        ],
+        "as": "requestedId",
+        "accumulator": "selection",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "compose.visit",
+              "input": {
+                "id": "$requestedId",
+                "stack": [
+                  "list"
+                ],
+                "selected": "$selection"
+              }
+            },
+            "into": "child"
+          }
+        ],
+        "yield": "$child",
+        "into": "selected"
+      },
+      {
+        "each": "$selected",
+        "as": "id",
+        "steps": [
+          {
+            "let": "pack",
+            "value": [
+              "at",
+              "$catalogue",
+              "$id"
+            ]
+          },
+          {
+            "each": "$pack.conflicts",
+            "as": "conflict",
+            "steps": [
+              {
+                "assert": [
+                  "not",
+                  [
+                    "includes",
+                    "$selected",
+                    "$conflict"
+                  ]
+                ],
+                "message": "PACK-CONFLICT: Selected features conflict."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": "$selected"
+      }
+    ],
+    "compose.plan": [
+      {
+        "call": "compose.resolve"
+      },
+      {
+        "let": "chosen",
+        "value": "$result"
+      },
+      {
+        "let": "selectedPacks",
+        "value": [
+          "map",
+          "$chosen",
+          "id",
+          [
+            "at",
+            "$catalogue",
+            "$id"
+          ]
+        ]
+      },
+      {
+        "each": "$selectedPacks",
+        "as": "pack",
+        "steps": [
+          {
+            "each": "$pack.sharedModules",
+            "as": "shared",
+            "steps": [
+              {
+                "assert": [
+                  "includes",
+                  "$foundation.queryModules",
+                  "$shared"
+                ],
+                "message": "PACK-SHARED: A shared module must be an observed foundation query library."
+              }
+            ]
+          },
+          {
+            "when": "$pack.runtime",
+            "then": [
+              {
+                "assert": [
+                  "not",
+                  [
+                    "includes",
+                    [
+                      "list",
+                      "build",
+                      "compilation"
+                    ],
+                    "$pack.runtime.profile"
+                  ]
+                ],
+                "message": "PACK-PROFILE: A browser profile cannot replace a build authority."
+              },
+              {
+                "assert": [
+                  "eq",
+                  [
+                    "count",
+                    [
+                      "filter",
+                      "$selectedPacks",
+                      "other",
+                      [
+                        "and",
+                        "$other.runtime",
+                        [
+                          "eq",
+                          "$other.runtime.profile",
+                          "$pack.runtime.profile"
+                        ]
+                      ]
+                    ]
+                  ],
+                  1
+                ],
+                "message": "PACK-PROFILE-COLLISION: Runtime profile owners must be unique."
+              },
+              {
+                "assert": [
+                  "includes",
+                  [
+                    "map",
+                    "$pack.outputRecords",
+                    "output",
+                    "$output.path"
+                  ],
+                  "$pack.runtime.output"
+                ],
+                "message": "PACK-RUNTIME-OUTPUT: A runtime must declare its owned output."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "fold": "$selectedPacks",
+        "as": "pack",
+        "accumulator": "collected",
+        "initial": "$foundation.files",
+        "steps": [],
+        "yield": [
+          "append",
+          "$collected",
+          "$pack.observedFiles"
+        ],
+        "into": "files"
+      },
+      {
+        "fold": "$profileFiles",
+        "as": "profileFile",
+        "accumulator": "acc",
+        "initial": {
+          "files": "$files",
+          "skipped": [
+            "list"
+          ]
+        },
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                "$profileFile.target",
+                "source/composition.rel"
+              ]
+            ],
+            "message": "PROFILE-AUTHORITY: Generated composition source is owned by the planner."
+          },
+          {
+            "assert": [
+              "at",
+              "$catalogue",
+              "$profileFile.owner"
+            ],
+            "message": "PROFILE-OWNER: Unknown feature owner."
+          },
+          {
+            "let": "active",
+            "value": [
+              "includes",
+              "$chosen",
+              "$profileFile.owner"
+            ]
+          },
+          {
+            "let": "nextFiles",
+            "value": "$acc.files"
+          },
+          {
+            "let": "skipped",
+            "value": "$acc.skipped"
+          },
+          {
+            "when": "$active",
+            "then": [
+              {
+                "assert": [
+                  "includes",
+                  [
+                    "list",
+                    "facts",
+                    "asset"
+                  ],
+                  "$profileFile.kind"
+                ],
+                "message": "PROFILE-AUTHORITY: Profiles may replace owned facts or assets only."
+              },
+              {
+                "let": "existing",
+                "value": [
+                  "filter",
+                  "$acc.files",
+                  "candidate",
+                  [
+                    "eq",
+                    "$candidate.target",
+                    "$profileFile.target"
+                  ]
+                ]
+              },
+              {
+                "when": [
+                  "not",
+                  [
+                    "eq",
+                    [
+                      "count",
+                      "$existing"
+                    ],
+                    0
+                  ]
+                ],
+                "then": [
+                  {
+                    "let": "old",
+                    "value": [
+                      "at",
+                      "$existing",
+                      0
+                    ]
+                  },
+                  {
+                    "assert": [
+                      "and",
+                      [
+                        "eq",
+                        "$old.owner",
+                        "$profileFile.owner"
+                      ],
+                      [
+                        "eq",
+                        "$old.kind",
+                        "$profileFile.kind"
+                      ]
+                    ],
+                    "message": "PROFILE-AUTHORITY: Target belongs to another owner or role."
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "eq",
+                  [
+                    "count",
+                    "$existing"
+                  ],
+                  0
+                ],
+                "then": [
+                  {
+                    "port": "text.matches",
+                    "args": {
+                      "value": "$profileFile.target",
+                      "pattern": [
+                        "if",
+                        [
+                          "eq",
+                          "$profileFile.kind",
+                          "asset"
+                        ],
+                        "^assets/[a-zA-Z0-9_./-]+$",
+                        "^source/[a-zA-Z0-9_./-]+\\.rel$"
+                      ]
+                    },
+                    "into": "safeAsset"
+                  },
+                  {
+                    "assert": "$safeAsset",
+                    "message": "PROFILE-TARGET: Added profile files must be REL under source/ or assets under assets/."
+                  }
+                ]
+              },
+              {
+                "let": "nextFiles",
+                "value": [
+                  "append",
+                  [
+                    "filter",
+                    "$acc.files",
+                    "candidate",
+                    [
+                      "not",
+                      [
+                        "eq",
+                        "$candidate.target",
+                        "$profileFile.target"
+                      ]
+                    ]
+                  ],
+                  [
+                    "list",
+                    "$profileFile"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "when": [
+              "not",
+              "$active"
+            ],
+            "then": [
+              {
+                "let": "skipped",
+                "value": [
+                  "append",
+                  "$skipped",
+                  [
+                    "list",
+                    "$profileFile.owner"
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "let": "next",
+            "value": {
+              "files": "$nextFiles",
+              "skipped": "$skipped"
+            }
+          }
+        ],
+        "yield": "$next",
+        "into": "profilePlan"
+      },
+      {
+        "let": "files",
+        "value": "$profilePlan.files"
+      },
+      {
+        "fold": "$files",
+        "as": "file",
+        "accumulator": "owners",
+        "initial": [
+          "record",
+          {}
+        ],
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "at",
+                "$owners",
+                "$file.target"
+              ]
+            ],
+            "message": "PACK-FILE-COLLISION: Two owners declare the same destination."
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$owners",
+              "key": "$file.target",
+              "value": "$file.owner"
+            },
+            "into": "next"
+          }
+        ],
+        "yield": "$next",
+        "into": "fileOwners"
+      },
+      {
+        "let": "modules",
+        "value": [
+          "distinct",
+          [
+            "append",
+            "$foundation.modules",
+            [
+              "fold",
+              "$selectedPacks",
+              "pack",
+              "flattened",
+              [
+                "list"
+              ],
+              [
+                "append",
+                "$flattened",
+                "$pack.moduleTargets"
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "sources",
+        "value": [
+          "map",
+          [
+            "filter",
+            "$files",
+            "file",
+            [
+              "eq",
+              "$file.kind",
+              "facts"
+            ]
+          ],
+          "file",
+          "$file.target"
+        ]
+      },
+      {
+        "let": "assets",
+        "value": [
+          "map",
+          [
+            "filter",
+            "$files",
+            "file",
+            [
+              "eq",
+              "$file.kind",
+              "asset"
+            ]
+          ],
+          "file",
+          "$file.target"
+        ]
+      },
+      {
+        "let": "allFacts",
+        "value": [
+          "fold",
+          [
+            "filter",
+            "$files",
+            "file",
+            [
+              "eq",
+              "$file.kind",
+              "facts"
+            ]
+          ],
+          "file",
+          "flattened",
+          [
+            "list"
+          ],
+          [
+            "append",
+            "$flattened",
+            "$file.factRows"
+          ]
+        ]
+      },
+      {
+        "let": "input",
+        "value": "$allFacts"
+      },
+      {
+        "call": "facts.index"
+      },
+      {
+        "let": "factIndex",
+        "value": "$result"
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "FeatureBlock"
+        ],
+        "as": "block",
+        "steps": [
+          {
+            "let": "feature",
+            "value": [
+              "one",
+              "$block",
+              "feature"
+            ]
+          },
+          {
+            "assert": [
+              "includes",
+              "$chosen",
+              "$feature"
+            ],
+            "message": "PACK-MOUNT: A block selects an unavailable feature."
+          },
+          {
+            "let": "pack",
+            "value": [
+              "at",
+              "$catalogue",
+              "$feature"
+            ]
+          },
+          {
+            "assert": "$pack.render",
+            "message": "PACK-MOUNT: A selected feature has no embeddable view."
+          },
+          {
+            "let": "placement",
+            "value": [
+              "one",
+              "$block",
+              "placement"
+            ]
+          },
+          {
+            "assert": [
+              "or",
+              [
+                "eq",
+                "$placement",
+                "home"
+              ],
+              [
+                "includes",
+                [
+                  "subjects",
+                  "isa",
+                  "Place"
+                ],
+                "$placement"
+              ]
+            ],
+            "message": "PACK-MOUNT: Block placement must be home or a declared Place."
+          }
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          [
+            "fold",
+            "$selectedPacks",
+            "pack",
+            "flattened",
+            [
+              "list"
+            ],
+            [
+              "append",
+              "$flattened",
+              "$pack.outputRecords"
+            ]
+          ],
+          [
+            "map",
+            [
+              "filter",
+              "$files",
+              "file",
+              [
+                "eq",
+                "$file.kind",
+                "asset"
+              ]
+            ],
+            "file",
+            {
+              "path": "$file.target",
+              "owner": "$file.owner"
+            }
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              "$chosen",
+              "reader"
+            ],
+            [
+              "map",
+              [
+                "subjects",
+                "isa",
+                "Place"
+              ],
+              "place",
+              {
+                "path": [
+                  "concat",
+                  "places/",
+                  "$place",
+                  ".html"
+                ],
+                "owner": "reader"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              "$chosen",
+              "microsites"
+            ],
+            [
+              "map",
+              [
+                "subjects",
+                "isa",
+                "Microsite"
+              ],
+              "site",
+              {
+                "path": [
+                  "one",
+                  "$site",
+                  "route"
+                ],
+                "owner": "microsites"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              "$chosen",
+              "sources"
+            ],
+            [
+              "map",
+              [
+                "filter",
+                "$files",
+                "file",
+                [
+                  "includes",
+                  [
+                    "list",
+                    "facts",
+                    "module"
+                  ],
+                  "$file.kind"
+                ]
+              ],
+              "file",
+              {
+                "path": "$file.target",
+                "owner": "$file.owner"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "outputs",
+        "value": [
+          "append",
+          "$outputs",
+          [
+            "if",
+            [
+              "includes",
+              "$chosen",
+              "microsites"
+            ],
+            [
+              "map",
+              [
+                "filter",
+                [
+                  "subjects",
+                  "isa",
+                  "Microsite"
+                ],
+                "site",
+                [
+                  "optional",
+                  "$site",
+                  "stylesheet"
+                ]
+              ],
+              "site",
+              {
+                "path": [
+                  "one",
+                  "$site",
+                  "stylesheetRoute"
+                ],
+                "owner": "microsites"
+              }
+            ],
+            [
+              "list"
+            ]
+          ]
+        ]
+      },
+      {
+        "fold": "$outputs",
+        "as": "output",
+        "accumulator": "owners",
+        "initial": [
+          "record",
+          {}
+        ],
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "at",
+                "$owners",
+                "$output.path"
+              ]
+            ],
+            "message": "PACK-OUTPUT-COLLISION: Two selected features produce the same output."
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$owners",
+              "key": "$output.path",
+              "value": "$output.owner"
+            },
+            "into": "next"
+          }
+        ],
+        "yield": "$next",
+        "into": "outputOwners"
+      },
+      {
+        "let": "buildGrants",
+        "value": [
+          "distinct",
+          [
+            "append",
+            "$foundation.buildGrants",
+            [
+              "fold",
+              "$selectedPacks",
+              "pack",
+              "flattened",
+              [
+                "list"
+              ],
+              [
+                "append",
+                "$flattened",
+                "$pack.grants.build"
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "browserProfiles",
+        "value": [
+          "map",
+          [
+            "filter",
+            "$selectedPacks",
+            "pack",
+            "$pack.runtime"
+          ],
+          "pack",
+          [
+            "list",
+            "$pack.runtime.profile",
+            [
+              "distinct",
+              [
+                "append",
+                "$foundation.valueGrants",
+                "$pack.grants.browser"
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "port": "record.fromEntries",
+        "args": {
+          "entries": "$browserProfiles"
+        },
+        "into": "browserProfiles"
+      },
+      {
+        "port": "record.put",
+        "args": {
+          "record": "$browserProfiles",
+          "key": "build",
+          "value": "$buildGrants"
+        },
+        "into": "profiles"
+      },
+      {
+        "port": "record.put",
+        "args": {
+          "record": "$profiles",
+          "key": "compilation",
+          "value": "$foundation.compilationGrants"
+        },
+        "into": "profiles"
+      },
+      {
+        "let": "navigation",
+        "value": [
+          "map",
+          [
+            "filter",
+            "$selectedPacks",
+            "pack",
+            "$pack.navigation"
+          ],
+          "pack",
+          {
+            "id": "$pack.id",
+            "label": "$pack.navigation.label",
+            "route": "$pack.navigation.route"
+          }
+        ]
+      },
+      {
+        "let": "runtimes",
+        "value": [
+          "map",
+          [
+            "filter",
+            "$selectedPacks",
+            "pack",
+            "$pack.runtime"
+          ],
+          "pack",
+          {
+            "id": "$pack.id",
+            "route": [
+              "if",
+              "$pack.navigation",
+              "$pack.navigation.route",
+              ""
+            ],
+            "output": "$pack.runtime.output",
+            "allPages": [
+              "or",
+              "$pack.runtime.allPages",
+              "$pack.render"
+            ]
+          }
+        ]
+      },
+      {
+        "let": "buildQueries",
+        "value": [
+          "map",
+          [
+            "filter",
+            "$selectedPacks",
+            "pack",
+            "$pack.build"
+          ],
+          "pack",
+          "$pack.build"
+        ]
+      },
+      {
+        "let": "plan",
+        "value": {
+          "requested": "$requested",
+          "selected": "$chosen",
+          "files": "$files",
+          "modules": "$modules",
+          "sources": "$sources",
+          "assets": "$assets",
+          "profiles": "$profiles",
+          "outputOwners": "$outputOwners",
+          "navigation": "$navigation",
+          "runtimes": "$runtimes",
+          "buildQueries": "$buildQueries",
+          "skippedProfileOwners": [
+            "distinct",
+            "$profilePlan.skipped"
+          ],
+          "renderers": [
+            "map",
+            [
+              "filter",
+              "$selectedPacks",
+              "pack",
+              "$pack.render"
+            ],
+            "pack",
+            {
+              "id": "$pack.id",
+              "query": "$pack.render"
+            }
+          ],
+          "packs": [
+            "map",
+            "$selectedPacks",
+            "pack",
+            {
+              "id": "$pack.id",
+              "title": "$pack.title",
+              "descriptorSha256": "$pack.descriptorSha256",
+              "requires": "$pack.requires",
+              "modules": "$pack.moduleTargets",
+              "sources": "$pack.sourceTargets",
+              "assets": [
+                "map",
+                [
+                  "filter",
+                  "$files",
+                  "file",
+                  [
+                    "and",
+                    [
+                      "eq",
+                      "$file.owner",
+                      "$pack.id"
+                    ],
+                    [
+                      "eq",
+                      "$file.kind",
+                      "asset"
+                    ]
+                  ]
+                ],
+                "file",
+                "$file.target"
+              ],
+              "grants": "$pack.grants",
+              "runtime": "$pack.runtime",
+              "render": "$pack.render",
+              "files": [
+                "map",
+                [
+                  "filter",
+                  "$files",
+                  "file",
+                  [
+                    "eq",
+                    "$file.owner",
+                    "$pack.id"
+                  ]
+                ],
+                "file",
+                "$file.target"
+              ],
+              "outputs": "$pack.outputRecords"
+            }
+          ],
+          "stylesheets": [
+            "fold",
+            "$selectedPacks",
+            "pack",
+            "sheets",
+            [
+              "list"
+            ],
+            [
+              "append",
+              "$sheets",
+              [
+                "map",
+                "$pack.stylesheets",
+                "sheet",
+                {
+                  "owner": "$pack.id",
+                  "path": "$sheet"
+                }
+              ]
+            ]
+          ]
+        }
+      },
+      {
+        "let": "result",
+        "value": "$plan"
+      }
+    ],
+    "compose.programme": [
+      {
+        "fold": "$eventInput.buildQueries",
+        "as": "entry",
+        "accumulator": "statements",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": {
+                "call": "$entry"
+              }
+            },
+            "into": "text"
+          }
+        ],
+        "yield": [
+          "append",
+          "$statements",
+          [
+            "list",
+            "$text"
+          ]
+        ],
+        "into": "buildStatements"
+      },
+      {
+        "port": "text.join",
+        "args": {
+          "values": "$buildStatements",
+          "separator": ","
+        },
+        "into": "buildText"
+      },
+      {
+        "fold": "$eventInput.renderers",
+        "as": "renderer",
+        "accumulator": "statements",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$renderer.id"
+            },
+            "into": "idText"
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$renderer.query"
+            },
+            "into": "queryText"
+          }
+        ],
+        "yield": [
+          "append",
+          "$statements",
+          [
+            "list",
+            [
+              "concat",
+              "{\"when\":[\"eq\",[\"one\",\"$block\",\"feature\"],",
+              "$idText",
+              "],\"then\":[{\"call\":",
+              "$queryText",
+              "}]}"
+            ]
+          ]
+        ],
+        "into": "renderStatements"
+      },
+      {
+        "port": "text.join",
+        "args": {
+          "values": "$renderStatements",
+          "separator": ","
+        },
+        "into": "renderText"
+      },
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "concat",
+            "{\"protocol\":\"temple/surface-process-module/1\",\"queries\":{\"composition.build\":[{\"call\":\"shell.validate\"},{\"call\":\"css.build\"},{\"call\":\"shell.assets\"}",
+            [
+              "if",
+              [
+                "eq",
+                [
+                  "count",
+                  "$buildStatements"
+                ],
+                0
+              ],
+              "",
+              [
+                "concat",
+                ",",
+                "$buildText"
+              ]
+            ],
+            "],\"shell.block\":[{\"let\":\"result\",\"value\":null}",
+            [
+              "if",
+              [
+                "eq",
+                [
+                  "count",
+                  "$renderStatements"
+                ],
+                0
+              ],
+              "",
+              [
+                "concat",
+                ",",
+                "$renderText"
+              ]
+            ],
+            "]}}"
+          ]
+        },
+        "into": "result"
+      }
+    ],
+    "compose.facts": [
+      {
+        "let": "plan",
+        "value": "$eventInput"
+      },
+      {
+        "let": "rows",
+        "value": [
+          "list"
+        ]
+      },
+      {
+        "fold": "$plan.navigation",
+        "as": "item",
+        "accumulator": "rows",
+        "initial": "$rows",
+        "steps": [],
+        "yield": [
+          "append",
+          "$rows",
+          [
+            "list",
+            {
+              "s": [
+                "concat",
+                "pack.",
+                "$item.id"
+              ],
+              "p": "isa",
+              "o": "PackNavigation"
+            },
+            {
+              "s": [
+                "concat",
+                "pack.",
+                "$item.id"
+              ],
+              "p": "label",
+              "o": "$item.label"
+            },
+            {
+              "s": [
+                "concat",
+                "pack.",
+                "$item.id"
+              ],
+              "p": "route",
+              "o": "$item.route"
+            }
+          ]
+        ],
+        "into": "rows"
+      },
+      {
+        "fold": "$plan.runtimes",
+        "as": "item",
+        "accumulator": "rows",
+        "initial": "$rows",
+        "steps": [],
+        "yield": [
+          "append",
+          "$rows",
+          [
+            "list",
+            {
+              "s": [
+                "concat",
+                "runtime.",
+                "$item.id"
+              ],
+              "p": "isa",
+              "o": "PackRuntime"
+            },
+            {
+              "s": [
+                "concat",
+                "runtime.",
+                "$item.id"
+              ],
+              "p": "output",
+              "o": "$item.output"
+            },
+            {
+              "s": [
+                "concat",
+                "runtime.",
+                "$item.id"
+              ],
+              "p": "route",
+              "o": "$item.route"
+            },
+            {
+              "s": [
+                "concat",
+                "runtime.",
+                "$item.id"
+              ],
+              "p": "allPages",
+              "o": [
+                "if",
+                "$item.allPages",
+                "true",
+                "false"
+              ]
+            }
+          ]
+        ],
+        "into": "rows"
+      },
+      {
+        "fold": "$plan.files",
+        "as": "item",
+        "accumulator": "rows",
+        "initial": "$rows",
+        "steps": [],
+        "yield": [
+          "append",
+          "$rows",
+          [
+            "if",
+            [
+              "eq",
+              "$item.kind",
+              "asset"
+            ],
+            [
+              "list",
+              {
+                "s": [
+                  "concat",
+                  "asset.",
+                  "$item.target"
+                ],
+                "p": "isa",
+                "o": "PackAsset"
+              },
+              {
+                "s": [
+                  "concat",
+                  "asset.",
+                  "$item.target"
+                ],
+                "p": "path",
+                "o": "$item.target"
+              }
+            ],
+            [
+              "if",
+              [
+                "includes",
+                [
+                  "list",
+                  "facts",
+                  "module"
+                ],
+                "$item.kind"
+              ],
+              [
+                "list",
+                {
+                  "s": [
+                    "concat",
+                    "source.",
+                    "$item.target"
+                  ],
+                  "p": "isa",
+                  "o": "SourceFile"
+                },
+                {
+                  "s": [
+                    "concat",
+                    "source.",
+                    "$item.target"
+                  ],
+                  "p": "path",
+                  "o": "$item.target"
+                }
+              ],
+              [
+                "list"
+              ]
+            ]
+          ]
+        ],
+        "into": "rows"
+      },
+      {
+        "fold": "$plan.stylesheets",
+        "as": "item",
+        "accumulator": "rows",
+        "initial": "$rows",
+        "steps": [],
+        "yield": [
+          "append",
+          "$rows",
+          [
+            "list",
+            {
+              "s": [
+                "concat",
+                "stylesheet.",
+                "$item.path"
+              ],
+              "p": "isa",
+              "o": "PackStylesheet"
+            },
+            {
+              "s": [
+                "concat",
+                "stylesheet.",
+                "$item.path"
+              ],
+              "p": "path",
+              "o": "$item.path"
+            }
+          ]
+        ],
+        "into": "rows"
+      },
+      {
+        "fold": "$plan.packs",
+        "as": "pack",
+        "accumulator": "rows",
+        "initial": "$rows",
+        "steps": [
+          {
+            "fold": "$pack.outputs",
+            "as": "output",
+            "accumulator": "collected",
+            "initial": "$rows",
+            "steps": [],
+            "yield": [
+              "append",
+              "$collected",
+              [
+                "list",
+                {
+                  "s": [
+                    "concat",
+                    "output.",
+                    "$output.path"
+                  ],
+                  "p": "isa",
+                  "o": "PackOutput"
+                },
+                {
+                  "s": [
+                    "concat",
+                    "output.",
+                    "$output.path"
+                  ],
+                  "p": "path",
+                  "o": "$output.path"
+                },
+                {
+                  "s": [
+                    "concat",
+                    "output.",
+                    "$output.path"
+                  ],
+                  "p": "owner",
+                  "o": "$pack.id"
+                }
+              ]
+            ],
+            "into": "packOutputRows"
+          }
+        ],
+        "yield": "$packOutputRows",
+        "into": "rows"
+      },
+      {
+        "fold": [
+          "filter",
+          "$plan.files",
+          "file",
+          [
+            "eq",
+            "$file.kind",
+            "asset"
+          ]
+        ],
+        "as": "file",
+        "accumulator": "rows",
+        "initial": "$rows",
+        "steps": [],
+        "yield": [
+          "append",
+          "$rows",
+          [
+            "list",
+            {
+              "s": [
+                "concat",
+                "asset.",
+                "$file.target"
+              ],
+              "p": "owner",
+              "o": "$file.owner"
+            }
+          ]
+        ],
+        "into": "rows"
+      },
+      {
+        "let": "result",
+        "value": "$rows"
+      }
+    ],
+    "compose.authoring": [
+      {
+        "let": "plan",
+        "value": "$eventInput"
+      },
+      {
+        "let": "result",
+        "value": {
+          "protocol": "worldwright/authoring-contract/1",
+          "process": "algebra/authoring.process.json",
+          "budget": 20000000,
+          "editable": [
+            "map",
+            [
+              "filter",
+              "$plan.files",
+              "file",
+              [
+                "includes",
+                [
+                  "list",
+                  "facts",
+                  "module"
+                ],
+                "$file.kind"
+              ]
+            ],
+            "file",
+            "$file.target"
+          ],
+          "grants": [
+            "list",
+            "value.describe",
+            "document.observe",
+            "publication.stage",
+            "publication.validate",
+            "document.commit",
+            "receipt.write"
+          ],
+          "inputDirectories": [
+            "append",
+            [
+              "list",
+              "bootstrap",
+              "algebra",
+              "source",
+              "tooling"
+            ],
+            [
+              "if",
+              [
+                "count",
+                "$plan.assets"
+              ],
+              [
+                "list",
+                "assets"
+              ],
+              [
+                "list"
+              ]
+            ]
+          ],
+          "inputFiles": [
+            "list",
+            "package.json",
+            "build.mjs",
+            "serve.mjs",
+            ".gitattributes",
+            ".gitignore",
+            "README.md",
+            "AGENTS.md",
+            "composition-receipt.json"
+          ],
+          "checks": [
+            "list",
+            "build.test.mjs"
+          ],
+          "owners": {
+            "facts": "$plan.sources",
+            "applicationProcesses": "$plan.modules",
+            "authoringPolicy": "algebra/authoring.process.json",
+            "mechanism": "tooling/author.mjs"
+          },
+          "boundary": "Source proposals use version checks, isolated build and owned-file commit; authored claims still need independent evidence."
+        }
+      }
+    ],
+    "compose.artifacts": [
+      {
+        "let": "scripts",
+        "value": {
+          "build": "node build.mjs",
+          "test": "node --test build.test.mjs",
+          "dev": "node serve.mjs"
+        }
+      },
+      {
+        "when": [
+          "includes",
+          "$eventInput.selected",
+          "authoring"
+        ],
+        "then": [
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$scripts",
+              "key": "author",
+              "value": "node tooling/author.mjs"
+            },
+            "into": "scripts"
+          }
+        ]
+      },
+      {
+        "let": "artifacts",
+        "value": [
+          "list",
+          {
+            "path": "package.json",
+            "value": {
+              "name": "my-composed-world",
+              "version": "0.1.0",
+              "private": true,
+              "type": "module",
+              "engines": {
+                "node": ">=22"
+              },
+              "scripts": "$scripts"
+            }
+          }
+        ]
+      },
+      {
+        "when": [
+          "includes",
+          "$eventInput.selected",
+          "authoring"
+        ],
+        "then": [
+          {
+            "call": "compose.authoring"
+          },
+          {
+            "let": "artifacts",
+            "value": [
+              "append",
+              "$artifacts",
+              [
+                "list",
+                {
+                  "path": "source/authoring-contract.json",
+                  "value": "$result"
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": "$artifacts"
+      }
+    ],
+    "compose.profileRequests": [
+      {
+        "each": "$profileRequests",
+        "as": "request",
+        "steps": [
+          {
+            "assert": [
+              "at",
+              "$catalogue",
+              "$request.owner"
+            ],
+            "message": "PROFILE-OWNER: Unknown feature owner."
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": [
+          "map",
+          "$profileRequests",
+          "request",
+          {
+            "owner": "$request.owner",
+            "source": "$request.source",
+            "target": "$request.target",
+            "kind": "$request.kind",
+            "observe": [
+              "includes",
+              "$selected",
+              "$request.owner"
+            ]
+          }
+        ]
+      }
+    ],
+    "compose.retain": [
+      {
+        "let": "result",
+        "value": [
+          "filter",
+          "$eventInput.prior.files",
+          "file",
+          [
+            "and",
+            "$file.exists",
+            [
+              "includes",
+              "$eventInput.plan.selected",
+              "$file.owner"
+            ],
+            [
+              "includes",
+              [
+                "list",
+                "facts",
+                "asset"
+              ],
+              "$file.kind"
+            ]
+          ]
+        ]
+      }
+    ]
+  }
+}

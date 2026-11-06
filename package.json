@@ -1,6 +1,6 @@
 {
   "name": "worldwright",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "engines": {
@@ -10,8 +10,9 @@
     "build": "node tooling/build.mjs",
     "test": "node tooling/qualify.mjs",
     "verify:features": "node tooling/verify-features.mjs --check",
-    "new": "node tooling/create-world.mjs",
-    "dev": "node tooling/serve.mjs"
+    "new": "node tooling/compose-world.mjs",
+    "dev": "node tooling/serve.mjs",
+    "compose": "node tooling/compose-world.mjs"
   },
   "license": "SEE LICENSE IN LICENSE.md"
 }

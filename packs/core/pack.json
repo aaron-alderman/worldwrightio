@@ -1,0 +1,33 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "core",
+  "title": "World foundation",
+  "requires": [],
+  "conflicts": [],
+  "modules": [
+    "algebra/core.process.json"
+  ],
+  "sources": [
+    "source/world.rel",
+    "source/presentation.rel"
+  ],
+  "assets": [],
+  "build": "core.build",
+  "navigation": null,
+  "grants": {
+    "build": [
+      "value.sort"
+    ],
+    "browser": []
+  },
+  "outputs": [
+    "index.html",
+    "styles.css"
+  ],
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/core.md"
+    }
+  ]
+}

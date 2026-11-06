@@ -1,0 +1,384 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "inspector.boot": [
+      {
+        "port": "dom.exists",
+        "args": {
+          "selector": "#inspector-mount"
+        },
+        "into": "mounted"
+      },
+      {
+        "then": [
+          {
+            "let": "spPolicy",
+            "value": "$data.presentation.spPolicy"
+          },
+          {
+            "let": "spGrammar",
+            "value": "$data.presentation.spGrammar"
+          },
+          {
+            "call": "sp.style"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#inspector-style",
+              "name": "textContent",
+              "value": "$result"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.write",
+            "args": {
+              "ref": "#inspector-input",
+              "name": "value",
+              "value": "$data.text"
+            },
+            "into": "_"
+          },
+          {
+            "port": "browser.on",
+            "args": {
+              "ref": "#inspector-input",
+              "event": "input",
+              "query": "inspector.change",
+              "input": {}
+            },
+            "into": "_"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "inspector.change",
+              "input": {}
+            },
+            "into": "result"
+          }
+        ],
+        "when": "$mounted"
+      }
+    ],
+    "inspector.change": [
+      {
+        "port": "browser.property",
+        "args": {
+          "ref": "#inspector-input",
+          "name": "value"
+        },
+        "into": "text"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "inspector.present",
+          "input": {
+            "text": "$text",
+            "file": "$data.file",
+            "language": "$data.language"
+          }
+        },
+        "into": "view"
+      },
+      {
+        "let": "input",
+        "value": "$view.tree"
+      },
+      {
+        "call": "html.serialize"
+      },
+      {
+        "port": "browser.content",
+        "args": {
+          "ref": "#inspector-output",
+          "html": "$result"
+        },
+        "into": "_"
+      },
+      {
+        "port": "browser.write",
+        "args": {
+          "ref": "#inspector-hash",
+          "name": "textContent",
+          "value": [
+            "concat",
+            "SHA-256 ",
+            "$view.hash"
+          ]
+        },
+        "into": "_"
+      }
+    ],
+    "inspector.present": [
+      {
+        "let": "spPolicy",
+        "value": "$data.presentation.spPolicy"
+      },
+      {
+        "let": "spGrammar",
+        "value": "$data.presentation.spGrammar"
+      },
+      {
+        "let": "lexPolicy",
+        "value": "$data.presentation.lexPolicy"
+      },
+      {
+        "let": "lexGrammar",
+        "value": "$data.presentation.lexGrammar"
+      },
+      {
+        "port": "digest.sha256",
+        "args": {
+          "text": "$eventInput.text"
+        },
+        "into": "hash"
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "sp.present",
+          "input": {
+            "text": "$eventInput.text",
+            "file": "$eventInput.file",
+            "language": "$eventInput.language",
+            "theme": "light",
+            "expectedHash": "$hash",
+            "lineNumbers": true,
+            "selectedLine": null,
+            "origin": {
+              "file": "$eventInput.file",
+              "sha256": "$hash",
+              "scope": "source text; not an execution trace"
+            }
+          }
+        },
+        "into": "view"
+      },
+      {
+        "port": "record.put",
+        "args": {
+          "record": "$view",
+          "key": "hash",
+          "value": "$hash"
+        },
+        "into": "result"
+      }
+    ],
+    "inspector.build": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "inspector",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Source inspector"
+      },
+      {
+        "let": "route",
+        "value": "inspector.html"
+      },
+      {
+        "call": "inspector.view"
+      },
+      {
+        "let": "body",
+        "value": "$result"
+      },
+      {
+        "call": "shell.document"
+      },
+      {
+        "port": "runtime.bundle",
+        "args": {
+          "entry": "inspector.boot",
+          "mode": "browser",
+          "grantProfile": "inspectorBrowser",
+          "queries": [
+            "list",
+            "inspector.boot",
+            "inspector.change",
+            "inspector.present",
+            "sp.role",
+            "sp.scan",
+            "sp.observed",
+            "sp.clip",
+            "sp.line",
+            "sp.render",
+            "sp.present",
+            "sp.expression",
+            "sp.programme",
+            "sp.statement",
+            "sp.listing",
+            "sp.style",
+            "sp.outline",
+            "sp.metadata",
+            "sp.stylePlan",
+            "source.split",
+            "source.lex",
+            "s01.portable",
+            "source.rel",
+            "source.compile",
+            "source.encode",
+            "source.patch",
+            "source.jsonSpan",
+            "html.escape",
+            "html.serialize",
+            "html.observe",
+            "html.inspect",
+            "html.cssText",
+            "facts.index",
+            "lower.scan",
+            "lower.fresh",
+            "lower.template",
+            "lower.expression",
+            "lower.programme",
+            "lower.model",
+            "lower.start",
+            "admit.binding",
+            "admit.expression",
+            "admit.programme",
+            "admit.model",
+            "admit.effects.programme",
+            "admit.effects",
+            "admit.ownership",
+            "css.render",
+            "css.plan",
+            "css.renderPlan",
+            "language.refuse",
+            "language.line",
+            "language.module",
+            "language.entity",
+            "language.property",
+            "language.compile"
+          ],
+          "factSubjects": [
+            "list",
+            "inspector"
+          ],
+          "data": "$configuration",
+          "budget": 20000000
+        },
+        "into": "runtime"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "inspector-runtime.js",
+          "text": "$runtime"
+        },
+        "into": "_"
+      }
+    ],
+    "inspector.view": [
+      {
+        "port": "json.parse",
+        "args": {
+          "text": [
+            "one",
+            "inspector",
+            "configuration"
+          ]
+        },
+        "into": "configuration"
+      },
+      {
+        "let": "result",
+        "value": {
+          "tag": "div",
+          "attrs": {
+            "id": "inspector-mount",
+            "class": "feature-workbench"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "section",
+              "attrs": {
+                "class": "prose"
+              },
+              "children": [
+                "list",
+                {
+                  "tag": "h1",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Source inspector"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "Edit source text to inspect its exact highlighted projection and digest. A digest identifies text; it does not validate the claim."
+                  ]
+                },
+                {
+                  "tag": "label",
+                  "attrs": {
+                    "for": "inspector-input"
+                  },
+                  "children": [
+                    "list",
+                    "Source text"
+                  ]
+                },
+                {
+                  "tag": "textarea",
+                  "attrs": {
+                    "id": "inspector-input",
+                    "rows": "8",
+                    "class": "field"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {
+                    "id": "inspector-hash",
+                    "class": "muted",
+                    "aria-live": "polite"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "div",
+                  "attrs": {
+                    "id": "inspector-output"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "style",
+              "attrs": {
+                "id": "inspector-style"
+              },
+              "children": [
+                "list"
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

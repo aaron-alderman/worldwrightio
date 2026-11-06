@@ -1,0 +1,80 @@
+{
+  "protocol": "worldwright/pack/1",
+  "id": "inspector",
+  "title": "Source inspector",
+  "requires": [
+    "core"
+  ],
+  "conflicts": [],
+  "modules": [
+    "algebra/encounter-source.process.json",
+    "algebra/source.process.json",
+    "algebra/inspector.process.json"
+  ],
+  "sources": [
+    "source/inspector.rel"
+  ],
+  "assets": [],
+  "build": "inspector.build",
+  "navigation": {
+    "label": "Source inspector",
+    "route": "inspector.html"
+  },
+  "grants": {
+    "build": [
+      "json.parse",
+      "file.write",
+      "runtime.bundle"
+    ],
+    "browser": [
+      "browser.content",
+      "browser.on",
+      "browser.property",
+      "browser.write",
+      "digest.sha256",
+      "dom.exists",
+      "json.parse",
+      "json.stringify",
+      "kernel.invoke",
+      "record.entries",
+      "record.fromEntries",
+      "record.put",
+      "text.indexOf",
+      "text.join",
+      "text.matches",
+      "text.replaceAll",
+      "text.slice",
+      "text.split",
+      "text.trim",
+      "value.describe",
+      "value.freeze",
+      "value.string",
+      "value.type"
+    ]
+  },
+  "runtime": {
+    "entry": "inspector.boot",
+    "queries": [
+      "inspector.boot"
+    ],
+    "profile": "inspectorBrowser",
+    "allPages": true
+  },
+  "outputs": [
+    "inspector.html",
+    "inspector-runtime.js"
+  ],
+  "render": "inspector.view",
+  "sharedModules": [
+    "algebra/language.process.json",
+    "algebra/fact-index.process.json",
+    "algebra/lowering.process.json",
+    "algebra/admission.process.json"
+  ],
+  "files": [
+    {
+      "source": "README.md",
+      "target": "docs/packs/inspector.md"
+    }
+  ]
+}
