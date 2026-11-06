@@ -2,6 +2,8 @@
 
 Build a world from your own meaning and content. The introduction lives at [worldwright.io](https://worldwright.io); the repository is the documentation and agent context hub.
 
+Our [operating model](docs/operating-model.md): free software, content and learning material under the applicable licenses; paid hands-on setup and installation; paid in-person training; and voluntary contributions of what people believe is reasonable and fair. We help people learn to bring and manage their own agent, gain independence and reduce their costs. This records direction, with no new features at this stage. [Machine-readable agent context](context/operating-model.json).
+
 Select individually reusable packs instead of copying the historical expedition:
 
 ```sh

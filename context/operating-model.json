@@ -1,0 +1,45 @@
+{
+  "protocol": "worldwright/operating-model/1",
+  "status": "agreed-direction",
+  "recorded": "2026-11-06",
+  "authority": "User direction in the Worldwright project conversation",
+  "document": "docs/operating-model.md",
+  "name": "The inverted startup",
+  "purpose": "Make the capability freely available, help people become independent, and sustain the work through paid human services and voluntary fair contributions.",
+  "free": {
+    "includes": ["software", "project-owned content", "documentation", "training material"],
+    "licenseAuthority": "LICENSE.md and applicable third-party/per-file notices",
+    "requiresPaymentOrContribution": false
+  },
+  "paidServices": [
+    {"id": "setup", "description": "Hands-on setup and installation"},
+    {"id": "training", "description": "In-person training and guided practice; the teaching material remains free"}
+  ],
+  "contributions": {
+    "voluntary": true,
+    "principle": "Contribute what you believe is reasonable and fair, according to your means",
+    "suggestedTithingLanguage": true,
+    "fixedPercentage": null,
+    "conditionOfFreeAccess": false,
+    "supports": ["maintenance", "research", "shared infrastructure", "access for others"]
+  },
+  "userIndependence": {
+    "encourage": "Learn to bring and manage your own agent",
+    "successfulHandover": "The person has their installation, source, agent and understanding to continue",
+    "initialCorpus": "The first example of a reusable pattern, not required subject matter for every world"
+  },
+  "costResponsibility": {
+    "principle": "Help users understand and minimize their costs while preserving useful outcomes",
+    "freeMaterialDoesNotPromiseFreeComputeOrHosting": true,
+    "futureManagedUsage": "Explicit costs, limits and funding; no unlimited subsidy promised",
+    "benchmarkBasis": ["real-world task success", "quality", "latency", "total cost including retries and corrections"]
+  },
+  "currentScope": "Documentation and agent context only; no new features at this stage",
+  "agentConstraints": [
+    "Preserve free access under the applicable licenses",
+    "Keep voluntary contributions separate from payment for agreed human work",
+    "Do not infer subscriptions, paywalls, compulsory tithing or managed-service dependency",
+    "Do not implement billing, public signup, automatic subdomains, managed API/hosting or other features without a subsequent request"
+  ],
+  "undecided": ["service rates and arrangements", "suggested contribution amounts", "managed API/hosting offer and funding"]
+}

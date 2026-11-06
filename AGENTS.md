@@ -1,6 +1,8 @@
 # Build a world with Worldwright
 
-Read README.md, docs/composition.md, docs/start.md and the selected packs' pack.json and README.md.
+Read README.md, docs/operating-model.md, context/operating-model.json, docs/composition.md, docs/start.md and the selected packs' pack.json and README.md.
+
+Worldwright's operating model is free software and content under the applicable licenses, paid hands-on setup/installation and in-person training, and voluntary fair contributions (including suggested tithing). Training material remains free. Help people learn to bring and manage their own agent and reduce their costs. Contributions are voluntary and separate from fees for agreed human work. This model does not authorize paywalls, subscriptions, compulsory tithing, unlimited subsidized compute, or a hosted-service launch. No new features are requested at this stage; preserve that boundary until a subsequent request.
 
 - Start with the person's purpose and content. Do not inherit Aaron's corpus or identity.
 - Use node tooling/compose-world.mjs DEST --features reader,sources,atlas. Omit --features for reader and sources. Use --profile examples/tidepool/profile.json to reproduce the kitchen sink.
