@@ -1,0 +1,3920 @@
+{
+  "protocol": "worldwright/feature-catalogue/1",
+  "scope": "Every JSON algebra module in the initial personal expedition snapshot; not every possible programme or capability of Temple.",
+  "evidenceFamily": "worldwright-template-extraction-2026-11-06",
+  "features": [
+    {
+      "id": "admission",
+      "source": "reference/algebra/admission.process.json",
+      "origin": "applications/aaronalderman-site/algebra/admission.process.json",
+      "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b",
+      "status": "included-core",
+      "queries": [
+        "admit.binding",
+        "admit.expression",
+        "admit.programme",
+        "admit.model",
+        "admit.effects.programme",
+        "admit.effects",
+        "admit.ownership"
+      ],
+      "operators": [],
+      "calls": [
+        "admit.binding",
+        "admit.effects.programme",
+        "admit.expression",
+        "admit.programme"
+      ],
+      "ports": [
+        "json.stringify",
+        "record.entries",
+        "record.fromEntries",
+        "text.matches",
+        "text.split",
+        "value.describe"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "admission",
+        "purpose": "Reuse the admission algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/admission.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "admit.binding",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "admit.effects.programme",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "admit.expression",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "admit.programme",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "json.stringify",
+            "record.entries",
+            "record.fromEntries",
+            "text.matches",
+            "text.split",
+            "value.describe"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/admission.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "included-core",
+        "missing": [
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "atlas-journey",
+      "source": "reference/algebra/atlas-journey.process.json",
+      "origin": "applications/aaronalderman-site/algebra/atlas-journey.process.json",
+      "sha256": "6bb32792386552e8fed084e6be5e9d7c2d25f9d755bd93f1a159f9d663ed0817",
+      "status": "reference-extraction-required",
+      "queries": [
+        "atlas.seen.clean",
+        "atlas.seen.load",
+        "atlas.seen.save",
+        "atlas.seen.mark",
+        "atlas.seen.paint",
+        "atlas.seen.refresh",
+        "atlas.seen.reset",
+        "atlas.pin.dismiss",
+        "atlas.pin.reveal",
+        "atlas.journey.boot",
+        "atlas.runtime.build",
+        "atlas.pin.preview",
+        "atlas.pin.mode",
+        "atlas.journey.resume"
+      ],
+      "operators": [],
+      "calls": [
+        "atlas.journey.resume",
+        "atlas.pin.mode",
+        "atlas.pin.preview",
+        "atlas.seen.clean",
+        "atlas.seen.load",
+        "atlas.seen.mark",
+        "atlas.seen.paint",
+        "atlas.seen.save"
+      ],
+      "ports": [
+        "browser.attribute",
+        "browser.cancel",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.on",
+        "browser.select",
+        "dom.attribute",
+        "dom.exists",
+        "dom.hidden",
+        "dom.on",
+        "dom.text",
+        "file.write",
+        "record.fromEntries",
+        "runtime.bundle",
+        "state.get",
+        "state.set",
+        "storage.read",
+        "storage.remove",
+        "storage.write",
+        "text.join",
+        "text.split"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "atlas-journey",
+        "purpose": "Reuse the atlas-journey algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/atlas-journey.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "atlas.journey.resume",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "atlas.pin.mode",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "atlas.pin.preview",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "atlas.seen.clean",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "atlas.seen.load",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "atlas.seen.mark",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "atlas.seen.paint",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "atlas.seen.save",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.attribute",
+            "browser.cancel",
+            "browser.class",
+            "browser.mediaQuery",
+            "browser.on",
+            "browser.select",
+            "dom.attribute",
+            "dom.exists",
+            "dom.hidden",
+            "dom.on",
+            "dom.text",
+            "file.write",
+            "record.fromEntries",
+            "runtime.bundle",
+            "state.get",
+            "state.set",
+            "storage.read",
+            "storage.remove",
+            "storage.write",
+            "text.join",
+            "text.split"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/atlas-journey.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "atlas",
+      "source": "reference/algebra/atlas.process.json",
+      "origin": "applications/aaronalderman-site/algebra/atlas.process.json",
+      "sha256": "b2a33febd6a0983086584ef0ea944a26eddfab78493882625a1ceb99b0644cbd",
+      "status": "reference-extraction-required",
+      "queries": [
+        "atlas.build"
+      ],
+      "operators": [],
+      "calls": [
+        "atlas.runtime.build",
+        "html.serialize"
+      ],
+      "ports": [
+        "file.write"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "atlas",
+        "purpose": "Reuse the atlas algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/atlas.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "atlas.runtime.build",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "file.write"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/atlas.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "authoring",
+      "source": "reference/algebra/authoring.process.json",
+      "origin": "applications/aaronalderman-site/algebra/authoring.process.json",
+      "sha256": "6f90e04fb48885def927bfa799b358be85000892a2667e0ea81bc70108e92bf4",
+      "status": "reference-extraction-required",
+      "queries": [
+        "author.prepare",
+        "author.run"
+      ],
+      "operators": [],
+      "calls": [
+        "author.prepare"
+      ],
+      "ports": [
+        "document.commit",
+        "document.observe",
+        "publication.stage",
+        "publication.validate",
+        "receipt.write",
+        "value.describe"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "authoring",
+        "purpose": "Reuse the authoring algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/authoring.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "author.prepare",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "document.commit",
+            "document.observe",
+            "publication.stage",
+            "publication.validate",
+            "receipt.write",
+            "value.describe"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/authoring.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "claimipedia-review",
+      "source": "reference/algebra/claimipedia-review.process.json",
+      "origin": "applications/aaronalderman-site/algebra/claimipedia-review.process.json",
+      "sha256": "c356e4691f2788337b251cebec2cbc08f1857ec45e797e9c3eacc471a13d2a17",
+      "status": "reference-extraction-required",
+      "queries": [
+        "claim.review.item",
+        "claim.review.method",
+        "claim.review.compare",
+        "claim.review.html",
+        "claim.review.boot",
+        "claim.review.change",
+        "claim.review.reset",
+        "claim.review.render"
+      ],
+      "operators": [],
+      "calls": [
+        "html.serialize"
+      ],
+      "ports": [
+        "browser.content",
+        "browser.on",
+        "browser.select",
+        "browser.write",
+        "kernel.invoke",
+        "number.calculate",
+        "state.get",
+        "state.set"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "claimipedia-review",
+        "purpose": "Reuse the claimipedia-review algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/claimipedia-review.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.content",
+            "browser.on",
+            "browser.select",
+            "browser.write",
+            "kernel.invoke",
+            "number.calculate",
+            "state.get",
+            "state.set"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/claimipedia-review.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "claimipedia",
+      "source": "reference/algebra/claimipedia.process.json",
+      "origin": "applications/aaronalderman-site/algebra/claimipedia.process.json",
+      "sha256": "dc74ccf8e8e81b15cd05178dd33b140999e28a4398130959f54a8f3f1f6ff173",
+      "status": "reference-extraction-required",
+      "queries": [
+        "claimipedia.build"
+      ],
+      "operators": [],
+      "calls": [
+        "html.serialize",
+        "publication.motion",
+        "publication.styles"
+      ],
+      "ports": [
+        "file.write",
+        "json.parse",
+        "runtime.bundle"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "claimipedia",
+        "purpose": "Reuse the claimipedia algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/claimipedia.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.motion",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.styles",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "file.write",
+            "json.parse",
+            "runtime.bundle"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/claimipedia.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "css",
+      "source": "reference/algebra/css.process.json",
+      "origin": "applications/aaronalderman-site/algebra/css.process.json",
+      "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1",
+      "status": "included-core",
+      "queries": [
+        "css.build",
+        "css.render",
+        "css.plan",
+        "css.renderPlan"
+      ],
+      "operators": [],
+      "calls": [
+        "css.plan",
+        "css.render",
+        "css.renderPlan"
+      ],
+      "ports": [
+        "file.write",
+        "record.entries",
+        "record.fromEntries"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "css",
+        "purpose": "Reuse the css algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/css.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "css.plan",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "css.render",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "css.renderPlan",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "file.write",
+            "record.entries",
+            "record.fromEntries"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/css.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "included-core",
+        "missing": [
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "encounter-code-compiler",
+      "source": "reference/algebra/encounter-code-compiler.process.json",
+      "origin": "applications/aaronalderman-site/algebra/encounter-code-compiler.process.json",
+      "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9",
+      "status": "reference-extraction-required",
+      "queries": [
+        "ec.lex",
+        "ec.header",
+        "ec.expression",
+        "ec.fields",
+        "ec.data",
+        "ec.record",
+        "ec.representation",
+        "ec.view",
+        "ec.edits",
+        "ec.show",
+        "ec.emitView",
+        "ec.emitRepresentation",
+        "ec.compile",
+        "ec.attempt",
+        "ec.complete",
+        "ec.verifyShow",
+        "ec.verify",
+        "ec.oneField"
+      ],
+      "operators": [],
+      "calls": [
+        "ec.lex",
+        "ec.verify"
+      ],
+      "ports": [
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "encounter-code-compiler",
+        "purpose": "Reuse the encounter-code-compiler algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/encounter-code-compiler.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "ec.lex",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "ec.verify",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "json.parse",
+            "json.stringify",
+            "kernel.invoke",
+            "record.entries",
+            "record.put",
+            "text.matches",
+            "text.replaceAll",
+            "text.slice",
+            "text.split",
+            "text.trim",
+            "value.describe"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/encounter-code-compiler.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "encounter-code-runtime",
+      "source": "reference/algebra/encounter-code-runtime.process.json",
+      "origin": "applications/aaronalderman-site/algebra/encounter-code-runtime.process.json",
+      "sha256": "4c7f7e56e0eb303b1419970f7895903b2e0581a3a27d3bb180a56424bdb64ffc",
+      "status": "reference-extraction-required",
+      "queries": [
+        "ec.prepare",
+        "ec.resolve",
+        "ec.safeTree",
+        "ec.events",
+        "ec.run",
+        "ec.patch",
+        "ec.findElement"
+      ],
+      "operators": [],
+      "calls": [
+        "admit.effects",
+        "admit.model",
+        "ec.compile",
+        "facts.index",
+        "lower.start",
+        "source.rel"
+      ],
+      "ports": [
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "text.indexOf",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "value.describe"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "encounter-code-runtime",
+        "purpose": "Reuse the encounter-code-runtime algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/encounter-code-runtime.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "admit.effects",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "admit.model",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "ec.compile",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "facts.index",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "lower.start",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.rel",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "json.stringify",
+            "kernel.evaluate",
+            "kernel.execute",
+            "kernel.invoke",
+            "record.entries",
+            "record.fromEntries",
+            "record.put",
+            "text.indexOf",
+            "text.matches",
+            "text.replaceAll",
+            "text.slice",
+            "value.describe"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/encounter-code-runtime.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "encounter-code-types",
+      "source": "reference/algebra/encounter-code-types.process.json",
+      "origin": "applications/aaronalderman-site/algebra/encounter-code-types.process.json",
+      "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05",
+      "status": "reference-extraction-required",
+      "queries": [
+        "ec.schema",
+        "ec.slot",
+        "ec.scalar",
+        "ec.check",
+        "ec.referenceType",
+        "ec.fact",
+        "ec.reference",
+        "ec.argument"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.split",
+        "value.describe"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "encounter-code-types",
+        "purpose": "Reuse the encounter-code-types algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/encounter-code-types.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "kernel.execute",
+            "kernel.invoke",
+            "record.entries",
+            "record.put",
+            "text.matches",
+            "text.split",
+            "value.describe"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/encounter-code-types.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "encounter-demo",
+      "source": "reference/algebra/encounter-demo.process.json",
+      "origin": "applications/aaronalderman-site/algebra/encounter-demo.process.json",
+      "sha256": "b14e862f2dc33d91ab8395c2151cba62148f4cef57cf66fce36cf9016862634c",
+      "status": "reference-extraction-required",
+      "queries": [
+        "encounter.demo.boot",
+        "encounter.demo.change",
+        "encounter.demo.apply",
+        "encounter.demo.reset",
+        "encounter.demo.select",
+        "encounter.demo.html",
+        "encounter.demo.render",
+        "encounter.demo.source",
+        "encounter.demo.inspect"
+      ],
+      "operators": [],
+      "calls": [
+        "html.serialize",
+        "sp.style"
+      ],
+      "ports": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "kernel.invoke",
+        "state.get",
+        "state.set"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "encounter-demo",
+        "purpose": "Reuse the encounter-demo algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/encounter-demo.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "sp.style",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.attribute",
+            "browser.content",
+            "browser.on",
+            "browser.property",
+            "browser.write",
+            "digest.sha256",
+            "kernel.invoke",
+            "state.get",
+            "state.set"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/encounter-demo.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "encounter-source",
+      "source": "reference/algebra/encounter-source.process.json",
+      "origin": "applications/aaronalderman-site/algebra/encounter-source.process.json",
+      "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3",
+      "status": "reference-extraction-required",
+      "queries": [
+        "sp.role",
+        "sp.scan",
+        "sp.observed",
+        "sp.clip",
+        "sp.line",
+        "sp.render",
+        "sp.present",
+        "sp.expression",
+        "sp.programme",
+        "sp.statement",
+        "sp.listing",
+        "sp.style",
+        "sp.outline",
+        "sp.metadata",
+        "sp.stylePlan",
+        "source.split",
+        "source.lex",
+        "s01.portable"
+      ],
+      "operators": [],
+      "calls": [
+        "css.renderPlan",
+        "source.encode",
+        "sp.stylePlan"
+      ],
+      "ports": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.string"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "encounter-source",
+        "purpose": "Reuse the encounter-source algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/encounter-source.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "css.renderPlan",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.encode",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "sp.stylePlan",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "digest.sha256",
+            "json.parse",
+            "json.stringify",
+            "kernel.invoke",
+            "record.entries",
+            "text.matches",
+            "text.slice",
+            "text.split",
+            "value.describe",
+            "value.string"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/encounter-source.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "encounter",
+      "source": "reference/algebra/encounter.process.json",
+      "origin": "applications/aaronalderman-site/algebra/encounter.process.json",
+      "sha256": "c536702195b172350470ac26baf53b3ef7a2cb09e87c4e4865522bb585fa005a",
+      "status": "reference-extraction-required",
+      "queries": [
+        "encounter.build"
+      ],
+      "operators": [],
+      "calls": [
+        "html.serialize",
+        "publication.styles"
+      ],
+      "ports": [
+        "file.copy",
+        "file.read",
+        "file.write",
+        "json.parse",
+        "runtime.bundle"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "encounter",
+        "purpose": "Reuse the encounter algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/encounter.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.styles",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "file.copy",
+            "file.read",
+            "file.write",
+            "json.parse",
+            "runtime.bundle"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/encounter.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "fact-index",
+      "source": "reference/algebra/fact-index.process.json",
+      "origin": "applications/aaronalderman-site/algebra/fact-index.process.json",
+      "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9",
+      "status": "included-core",
+      "queries": [
+        "facts.index"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.describe",
+        "value.freeze"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "fact-index",
+        "purpose": "Reuse the fact-index algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/fact-index.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "record.entries",
+            "record.fromEntries",
+            "record.put",
+            "value.describe",
+            "value.freeze"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/fact-index.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "included-core",
+        "missing": [
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "front-doors",
+      "source": "reference/algebra/front-doors.process.json",
+      "origin": "applications/aaronalderman-site/algebra/front-doors.process.json",
+      "sha256": "1194b3695eb34ef7404858220ad626c216ee3a2be2d12d30d3c24213409959bc",
+      "status": "reference-extraction-required",
+      "queries": [
+        "frontdoors.home",
+        "frontdoors.claimipedia",
+        "frontdoors.worldwright",
+        "frontdoors.capabilities"
+      ],
+      "operators": [],
+      "calls": [
+        "claimipedia.build",
+        "html.serialize"
+      ],
+      "ports": [
+        "file.write",
+        "json.parse"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "front-doors",
+        "purpose": "Reuse the front-doors algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/front-doors.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "claimipedia.build",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "file.write",
+            "json.parse"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/front-doors.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "gateway",
+      "source": "reference/algebra/gateway.process.json",
+      "origin": "applications/aaronalderman-site/algebra/gateway.process.json",
+      "sha256": "b6d685106717a80f4e443ae86a83e57a149a6f67782610f774ebcbf493e89e4f",
+      "status": "reference-extraction-required",
+      "queries": [
+        "gateway.build",
+        "gateway.view"
+      ],
+      "operators": [],
+      "calls": [
+        "gateway.view",
+        "publication.document"
+      ],
+      "ports": [
+        "file.write"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "gateway",
+        "purpose": "Reuse the gateway algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/gateway.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "gateway.view",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.document",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "file.write"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/gateway.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "html",
+      "source": "reference/algebra/html.process.json",
+      "origin": "applications/aaronalderman-site/algebra/html.process.json",
+      "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef",
+      "status": "included-core",
+      "queries": [
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText"
+      ],
+      "operators": [],
+      "calls": [
+        "html.cssText",
+        "html.escape",
+        "html.observe",
+        "html.serialize"
+      ],
+      "ports": [
+        "record.entries",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.string",
+        "value.type"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "html",
+        "purpose": "Reuse the html algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/html.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.cssText",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.escape",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.observe",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "record.entries",
+            "text.join",
+            "text.matches",
+            "text.replaceAll",
+            "text.split",
+            "text.trim",
+            "value.describe",
+            "value.string",
+            "value.type"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/html.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "included-core",
+        "missing": [
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "language",
+      "source": "reference/algebra/language.process.json",
+      "origin": "applications/aaronalderman-site/algebra/language.process.json",
+      "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda",
+      "status": "included-core",
+      "queries": [
+        "language.refuse",
+        "language.line",
+        "language.module",
+        "language.entity",
+        "language.property",
+        "language.compile"
+      ],
+      "operators": [],
+      "calls": [
+        "language.entity",
+        "language.line",
+        "language.module",
+        "language.property",
+        "language.refuse"
+      ],
+      "ports": [
+        "json.parse",
+        "json.stringify",
+        "text.matches",
+        "text.split",
+        "text.trim"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "language",
+        "purpose": "Reuse the language algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/language.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "language.entity",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "language.line",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "language.module",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "language.property",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "language.refuse",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "json.parse",
+            "json.stringify",
+            "text.matches",
+            "text.split",
+            "text.trim"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/language.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "included-core",
+        "missing": [
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "lowering",
+      "source": "reference/algebra/lowering.process.json",
+      "origin": "applications/aaronalderman-site/algebra/lowering.process.json",
+      "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8",
+      "status": "included-core",
+      "queries": [
+        "lower.scan",
+        "lower.fresh",
+        "lower.template",
+        "lower.expression",
+        "lower.programme",
+        "lower.model",
+        "lower.start"
+      ],
+      "operators": [],
+      "calls": [
+        "lower.expression",
+        "lower.fresh",
+        "lower.model",
+        "lower.programme",
+        "lower.scan",
+        "lower.template"
+      ],
+      "ports": [
+        "record.entries",
+        "record.fromEntries",
+        "text.split",
+        "value.describe"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "lowering",
+        "purpose": "Reuse the lowering algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/lowering.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "lower.expression",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "lower.fresh",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "lower.model",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "lower.programme",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "lower.scan",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "lower.template",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "record.entries",
+            "record.fromEntries",
+            "text.split",
+            "value.describe"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/lowering.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "included-core",
+        "missing": [
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-lamp",
+      "source": "reference/algebra/microsite-lamp.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-lamp.process.json",
+      "sha256": "fc4d07d31f82924b36fb9a921229c0b2f5f93b84727b52b4884b58144feecd5b",
+      "status": "reference-extraction-required",
+      "queries": [
+        "lamp.availability",
+        "lamp.applyUnchecked",
+        "address.flip",
+        "lamp.buildProposal",
+        "lamp.checkCanonical",
+        "lamp.judge",
+        "lamp.namedCells",
+        "lamp.commit",
+        "lamp.propose",
+        "lamp.freshTemple",
+        "lamp.replay",
+        "lamp.forge"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "json.stringify",
+        "kernel.invoke",
+        "number.calculate",
+        "number.parse",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.replace",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "text.utf8Length",
+        "value.type"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-lamp",
+        "purpose": "Reuse the microsite-lamp algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-lamp.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "json.stringify",
+            "kernel.invoke",
+            "number.calculate",
+            "number.parse",
+            "record.fromEntries",
+            "record.get",
+            "record.put",
+            "text.join",
+            "text.matches",
+            "text.replace",
+            "text.slice",
+            "text.split",
+            "text.trim",
+            "text.utf8Length",
+            "value.type"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-lamp.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-media",
+      "source": "reference/algebra/microsite-media.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-media.process.json",
+      "sha256": "a8581be25a23c46ad8eaae9cb178f3055d74f8b1f759cde17b7550e08e13629b",
+      "status": "reference-extraction-required",
+      "queries": [
+        "media.screens.init",
+        "media.sound.sync",
+        "media.sound.toggle",
+        "media.screens.intersection",
+        "media.seek.click",
+        "media.seek.loaded",
+        "media.seek.contains",
+        "media.seek.prepare",
+        "media.seek.finish",
+        "media.provenance",
+        "media.provenance.view"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "asset.blobURL",
+        "asset.json",
+        "browser.attribute",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.intersection",
+        "browser.on",
+        "browser.relative",
+        "browser.select",
+        "browser.write",
+        "kernel.invoke",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "state.get",
+        "state.set",
+        "text.matches",
+        "text.replace",
+        "text.slice"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-media",
+        "purpose": "Reuse the microsite-media algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-media.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "asset.blobURL",
+            "asset.json",
+            "browser.attribute",
+            "browser.content",
+            "browser.environment",
+            "browser.focus",
+            "browser.intersection",
+            "browser.on",
+            "browser.relative",
+            "browser.select",
+            "browser.write",
+            "kernel.invoke",
+            "media.load",
+            "media.pause",
+            "media.play",
+            "media.read",
+            "media.write",
+            "number.calculate",
+            "number.format",
+            "number.parse",
+            "state.get",
+            "state.set",
+            "text.matches",
+            "text.replace",
+            "text.slice"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-media.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-motion",
+      "source": "reference/algebra/microsite-motion.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-motion.process.json",
+      "sha256": "ca994deeca7d4dd565b5ce0777d863e37f60d81b1a6316431101068debc4f357",
+      "status": "reference-extraction-required",
+      "queries": [
+        "motion.sourcery.init",
+        "motion.sourcery.scenes",
+        "motion.sourcery.reduced",
+        "motion.sourcery.tocToggle",
+        "motion.sourcery.tocClose",
+        "motion.sourcery.escape",
+        "motion.sourcery.chapters",
+        "motion.sourcery.stone",
+        "motion.sourcery.cta",
+        "motion.flood.rand",
+        "motion.flood.scatter",
+        "motion.flood.init",
+        "motion.flood.intersection",
+        "motion.flood.scroll",
+        "motion.flood.running",
+        "motion.flood.frame",
+        "motion.flood.wave",
+        "motion.flood.pose",
+        "motion.flood.render",
+        "motion.autoplay.init",
+        "motion.autoplay.toggle",
+        "motion.autoplay.label",
+        "motion.autoplay.intersection"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "browser.attribute",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.frame",
+        "browser.intersection",
+        "browser.on",
+        "browser.read",
+        "browser.relative",
+        "browser.select",
+        "browser.style",
+        "browser.write",
+        "kernel.invoke",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "state.get",
+        "state.set",
+        "text.join",
+        "text.trim"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-motion",
+        "purpose": "Reuse the microsite-motion algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-motion.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.attribute",
+            "browser.class",
+            "browser.content",
+            "browser.environment",
+            "browser.focus",
+            "browser.frame",
+            "browser.intersection",
+            "browser.on",
+            "browser.read",
+            "browser.relative",
+            "browser.select",
+            "browser.style",
+            "browser.write",
+            "kernel.invoke",
+            "media.pause",
+            "media.play",
+            "media.read",
+            "media.write",
+            "number.calculate",
+            "number.format",
+            "number.parse",
+            "state.get",
+            "state.set",
+            "text.join",
+            "text.trim"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-motion.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-projection",
+      "source": "reference/algebra/microsite-projection.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-projection.process.json",
+      "sha256": "b9448dd1a2425f1a937dbb38669718aa0ce3e0c9cc34b9baed138d80a5b9422f",
+      "status": "reference-extraction-required",
+      "queries": [
+        "source.markup",
+        "source.css",
+        "source.metadata"
+      ],
+      "operators": [],
+      "calls": [
+        "html.escape",
+        "html.serialize",
+        "source.css",
+        "source.markup",
+        "source.metadata"
+      ],
+      "ports": [
+        "json.parse",
+        "record.put",
+        "text.replaceAll"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-projection",
+        "purpose": "Reuse the microsite-projection algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-projection.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.escape",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.css",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.markup",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.metadata",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "json.parse",
+            "record.put",
+            "text.replaceAll"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-projection.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-sourcery",
+      "source": "reference/algebra/microsite-sourcery.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-sourcery.process.json",
+      "sha256": "4e1c5995c7dc334043cc345ee9684139ac705d3772ad34f70c79ea79dcd3323c",
+      "status": "reference-extraction-required",
+      "queries": [
+        "sourcery.subject",
+        "sourcery.format",
+        "sourcery.draft",
+        "sourcery.proposal",
+        "sourcery.decide",
+        "sourcery.verify",
+        "sourcery.tamper"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "digest.sha256",
+        "kernel.invoke",
+        "number.calculate",
+        "number.parse",
+        "record.entries",
+        "record.put",
+        "text.join",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.matches",
+        "text.replace",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.upperCase",
+        "value.describe"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-sourcery",
+        "purpose": "Reuse the microsite-sourcery algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-sourcery.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "digest.sha256",
+            "kernel.invoke",
+            "number.calculate",
+            "number.parse",
+            "record.entries",
+            "record.put",
+            "text.join",
+            "text.lowerCase",
+            "text.match",
+            "text.matchAll",
+            "text.matches",
+            "text.replace",
+            "text.replaceAll",
+            "text.slice",
+            "text.split",
+            "text.upperCase",
+            "value.describe"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-sourcery.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-temple-motion",
+      "source": "reference/algebra/microsite-temple-motion.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-temple-motion.process.json",
+      "sha256": "16197e683130c5cab6cc6ba7112fd74354fd1126d0bc461553b426f75d73c864",
+      "status": "reference-extraction-required",
+      "queries": [
+        "motion.temple.init",
+        "motion.temple.follow",
+        "motion.temple.reveal",
+        "motion.temple.scroll",
+        "motion.temple.mode",
+        "motion.temple.scenes",
+        "motion.sky.star",
+        "motion.sky.mote",
+        "motion.sky.seed",
+        "motion.sky.plan",
+        "motion.sky.draw",
+        "motion.sky.start",
+        "motion.sky.frame",
+        "motion.sky.resize",
+        "motion.sky.reseed",
+        "motion.sky.scroll",
+        "motion.stone.row",
+        "motion.stone",
+        "motion.constellation.pos",
+        "motion.constellation.temple",
+        "motion.constellation.plan",
+        "motion.constellation.init",
+        "motion.constellation.size",
+        "motion.constellation.draw",
+        "motion.constellation.start",
+        "motion.constellation.frame",
+        "motion.constellation.intersection",
+        "motion.constellation.resize"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "browser.attribute",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.on",
+        "browser.read",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "browser.write",
+        "canvas.draw",
+        "image.rasterize",
+        "kernel.invoke",
+        "number.calculate",
+        "number.format",
+        "random.values",
+        "record.put",
+        "state.get",
+        "state.set"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-temple-motion",
+        "purpose": "Reuse the microsite-temple-motion algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-temple-motion.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.attribute",
+            "browser.cancel",
+            "browser.class",
+            "browser.environment",
+            "browser.fontsReady",
+            "browser.frame",
+            "browser.intersection",
+            "browser.mediaQuery",
+            "browser.on",
+            "browser.read",
+            "browser.select",
+            "browser.style",
+            "browser.timer",
+            "browser.unobserve",
+            "browser.write",
+            "canvas.draw",
+            "image.rasterize",
+            "kernel.invoke",
+            "number.calculate",
+            "number.format",
+            "random.values",
+            "record.put",
+            "state.get",
+            "state.set"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-temple-motion.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-temple-ui",
+      "source": "reference/algebra/microsite-temple-ui.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-temple-ui.process.json",
+      "sha256": "5268456e95c933922ab842b4c5512b0d2d5824b6ff82384ba279fa20e61d501e",
+      "status": "reference-extraction-required",
+      "queries": [
+        "ui.temple.recipe",
+        "ui.temple.init",
+        "ui.temple.stages",
+        "ui.temple.preview",
+        "ui.temple.render",
+        "ui.temple.tree",
+        "ui.temple.treeY",
+        "ui.temple.covenant",
+        "ui.temple.lesson",
+        "ui.temple.propose",
+        "ui.temple.animateStage",
+        "ui.temple.finishStage",
+        "ui.temple.finishProposal",
+        "ui.temple.label",
+        "ui.temple.journal",
+        "ui.temple.restore",
+        "ui.temple.replayBusy",
+        "ui.temple.replay",
+        "ui.temple.replayLine",
+        "ui.temple.chain"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "browser.attribute",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.insert",
+        "browser.on",
+        "browser.read",
+        "browser.reflow",
+        "browser.select",
+        "browser.timer",
+        "browser.write",
+        "json.stringify",
+        "kernel.invoke",
+        "number.calculate",
+        "number.parse",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "text.utf8Length",
+        "value.sort"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-temple-ui",
+        "purpose": "Reuse the microsite-temple-ui algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-temple-ui.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.attribute",
+            "browser.class",
+            "browser.content",
+            "browser.environment",
+            "browser.insert",
+            "browser.on",
+            "browser.read",
+            "browser.reflow",
+            "browser.select",
+            "browser.timer",
+            "browser.write",
+            "json.stringify",
+            "kernel.invoke",
+            "number.calculate",
+            "number.parse",
+            "record.put",
+            "state.get",
+            "state.set",
+            "text.slice",
+            "text.utf8Length",
+            "value.sort"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-temple-ui.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-ui",
+      "source": "reference/algebra/microsite-ui.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-ui.process.json",
+      "sha256": "4b5e098df13bcc4c1fffabd354a79ec0db2681fdaf801c0c7249342619c041d2",
+      "status": "reference-extraction-required",
+      "queries": [
+        "ui.html",
+        "ui.short",
+        "ui.sourcery.init",
+        "ui.sourcery.example",
+        "ui.sourcery.summon",
+        "ui.sourcery.focus",
+        "ui.sourcery.proposal",
+        "ui.sourcery.actions",
+        "ui.sourcery.askWhy",
+        "ui.sourcery.enter",
+        "ui.sourcery.decide",
+        "ui.sourcery.ledger",
+        "ui.sourcery.verify",
+        "ui.sourcery.tamper"
+      ],
+      "operators": [],
+      "calls": [
+        "html.serialize"
+      ],
+      "ports": [
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.frame",
+        "browser.insert",
+        "browser.on",
+        "browser.read",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.write",
+        "clock.read",
+        "kernel.invoke",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.replace",
+        "text.slice",
+        "text.trim"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-ui",
+        "purpose": "Reuse the microsite-ui algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-ui.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.class",
+            "browser.content",
+            "browser.environment",
+            "browser.focus",
+            "browser.frame",
+            "browser.insert",
+            "browser.on",
+            "browser.read",
+            "browser.remove",
+            "browser.replace",
+            "browser.scrollIntoView",
+            "browser.write",
+            "clock.read",
+            "kernel.invoke",
+            "record.put",
+            "state.get",
+            "state.set",
+            "text.replace",
+            "text.slice",
+            "text.trim"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-ui.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsite-values",
+      "source": "reference/algebra/microsite-values.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsite-values.process.json",
+      "sha256": "1f995db6a7b6855aab6d80f279488345988c90997e6dfaaea75e304dfe036069",
+      "status": "reference-extraction-required",
+      "queries": [
+        "canonical.encode",
+        "canonical.identify",
+        "canonical.is",
+        "address.digest",
+        "address.short",
+        "record.remove",
+        "record.clone",
+        "lamp.measure",
+        "lamp.readPath",
+        "lamp.evaluateNode",
+        "lamp.evaluate",
+        "lamp.render",
+        "lamp.cellId",
+        "lamp.merkle",
+        "lamp.merkleLevel",
+        "lamp.stateRoot",
+        "lamp.cellsByKey",
+        "lamp.findCell",
+        "lamp.createWorld"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "number.calculate",
+        "record.entries",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "text.indexOf",
+        "text.join",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.sort"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsite-values",
+        "purpose": "Reuse the microsite-values algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsite-values.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "digest.sha256",
+            "json.parse",
+            "json.stringify",
+            "kernel.invoke",
+            "number.calculate",
+            "record.entries",
+            "record.fromEntries",
+            "record.get",
+            "record.put",
+            "text.indexOf",
+            "text.join",
+            "text.slice",
+            "text.split",
+            "value.describe",
+            "value.sort"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsite-values.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "microsites",
+      "source": "reference/algebra/microsites.process.json",
+      "origin": "applications/aaronalderman-site/algebra/microsites.process.json",
+      "sha256": "a52c7d3ad4aff5a26a8fdd93969b049be7b5e8c02f54555f72a57ede7a873375",
+      "status": "reference-extraction-required",
+      "queries": [
+        "microsites.preview",
+        "microsites.build",
+        "microsites.project",
+        "microsite.early",
+        "microsite.boot"
+      ],
+      "operators": [],
+      "calls": [
+        "microsites.project",
+        "source.css",
+        "source.markup"
+      ],
+      "ports": [
+        "browser.select",
+        "dom.classToggle",
+        "file.copy",
+        "file.write",
+        "json.parse",
+        "kernel.invoke",
+        "runtime.bundle",
+        "state.set"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "microsites",
+        "purpose": "Reuse the microsites algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/microsites.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "microsites.project",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.css",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.markup",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.select",
+            "dom.classToggle",
+            "file.copy",
+            "file.write",
+            "json.parse",
+            "kernel.invoke",
+            "runtime.bundle",
+            "state.set"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/microsites.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "operators",
+      "source": "reference/algebra/operators.expression.json",
+      "origin": "applications/aaronalderman-site/algebra/operators.expression.json",
+      "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2",
+      "status": "included-core",
+      "queries": [],
+      "operators": [
+        "record",
+        "not",
+        "has",
+        "map",
+        "filter",
+        "some",
+        "every",
+        "one",
+        "optional",
+        "and",
+        "or",
+        "objects",
+        "subjects"
+      ],
+      "calls": [],
+      "ports": [],
+      "templateContract": "templates/feature.json",
+      "missing": [],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "operators",
+        "purpose": "Reuse the operators algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/operators.expression.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/operators.expression.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "included-core",
+        "missing": [
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "publication",
+      "source": "reference/algebra/publication.process.json",
+      "origin": "applications/aaronalderman-site/algebra/publication.process.json",
+      "sha256": "877d2bf0ab5ce3555b4022a2dc428c9c5cc3a38b70c7bbc9bbef97b19415cae3",
+      "status": "reference-extraction-required",
+      "queries": [
+        "publication.build",
+        "publication.styles",
+        "publication.document",
+        "publication.home",
+        "publication.place",
+        "publication.motion",
+        "publication.icon"
+      ],
+      "operators": [],
+      "calls": [
+        "atlas.build",
+        "css.renderPlan",
+        "encounter.build",
+        "frontdoors.capabilities",
+        "frontdoors.claimipedia",
+        "frontdoors.home",
+        "frontdoors.worldwright",
+        "gateway.build",
+        "html.serialize",
+        "microsites.build",
+        "publication.document",
+        "publication.home",
+        "publication.icon",
+        "publication.motion",
+        "publication.place",
+        "publication.styles"
+      ],
+      "ports": [
+        "file.copy",
+        "file.read",
+        "file.write",
+        "text.replaceAll"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "publication",
+        "purpose": "Reuse the publication algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/publication.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "atlas.build",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "css.renderPlan",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "encounter.build",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "frontdoors.capabilities",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "frontdoors.claimipedia",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "frontdoors.home",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "frontdoors.worldwright",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "gateway.build",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "microsites.build",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.document",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.home",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.icon",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.motion",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.place",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "publication.styles",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "file.copy",
+            "file.read",
+            "file.write",
+            "text.replaceAll"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/publication.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "reader-activities",
+      "source": "reference/algebra/reader-activities.process.json",
+      "origin": "applications/aaronalderman-site/algebra/reader-activities.process.json",
+      "sha256": "0654a2112ec4805844b7affe22bbbf0a818507ac3ebbeee3f632cf3d35477e83",
+      "status": "reference-extraction-required",
+      "queries": [
+        "activity.boot",
+        "activity.motion",
+        "activity.calculations",
+        "activity.click",
+        "activity.input",
+        "activity.action.reply",
+        "activity.action.door",
+        "activity.action.quiet",
+        "activity.action.cabinet",
+        "activity.action.layer",
+        "activity.action.revision",
+        "activity.action.deck",
+        "activity.action.garden-mode",
+        "activity.garden",
+        "activity.action.gate",
+        "activity.action.hide-memory",
+        "activity.action.couple-memory",
+        "activity.action.origin",
+        "activity.action.enrich",
+        "activity.erasure",
+        "activity.action.attention",
+        "activity.action.inflate",
+        "activity.action.reset-pattern",
+        "activity.action.original-bit",
+        "activity.action.flip-bit",
+        "activity.code",
+        "activity.action.rate",
+        "activity.action.scale",
+        "activity.action.amplitude",
+        "activity.action.phase",
+        "activity.action.loop-reset",
+        "activity.action.loop",
+        "activity.loop.frame"
+      ],
+      "operators": [],
+      "calls": [
+        "activity.calculations",
+        "activity.code",
+        "activity.erasure",
+        "activity.garden",
+        "html.serialize"
+      ],
+      "ports": [
+        "browser.attribute",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.frame",
+        "browser.location",
+        "browser.on",
+        "browser.property",
+        "browser.relative",
+        "browser.replace",
+        "browser.select",
+        "browser.style",
+        "browser.write",
+        "clock.read",
+        "kernel.invoke",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "record.get",
+        "state.get",
+        "state.set",
+        "text.slice"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "reader-activities",
+        "purpose": "Reuse the reader-activities algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/reader-activities.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "activity.calculations",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "activity.code",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "activity.erasure",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "activity.garden",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "browser.attribute",
+            "browser.class",
+            "browser.content",
+            "browser.environment",
+            "browser.frame",
+            "browser.location",
+            "browser.on",
+            "browser.property",
+            "browser.relative",
+            "browser.replace",
+            "browser.select",
+            "browser.style",
+            "browser.write",
+            "clock.read",
+            "kernel.invoke",
+            "number.calculate",
+            "number.format",
+            "number.parse",
+            "record.get",
+            "state.get",
+            "state.set",
+            "text.slice"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/reader-activities.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "reader-models",
+      "source": "reference/algebra/reader-models.process.json",
+      "origin": "applications/aaronalderman-site/algebra/reader-models.process.json",
+      "sha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b",
+      "status": "reference-extraction-required",
+      "queries": [
+        "reader.model.calibration",
+        "reader.model.pairs",
+        "reader.model.inflate",
+        "reader.model.decode",
+        "reader.model.weights",
+        "reader.model.memory",
+        "reader.model.line",
+        "reader.model.coarse"
+      ],
+      "operators": [],
+      "calls": [],
+      "ports": [
+        "number.calculate",
+        "number.format",
+        "number.parse"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "reader-models",
+        "purpose": "Reuse the reader-models algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/reader-models.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "number.calculate",
+            "number.format",
+            "number.parse"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/reader-models.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "reader-navigation",
+      "source": "reference/algebra/reader-navigation.process.json",
+      "origin": "applications/aaronalderman-site/algebra/reader-navigation.process.json",
+      "sha256": "7d5a103cdafb65e08e2383d27028264ea8d649219c364460c1dc246eb786ca9e",
+      "status": "reference-extraction-required",
+      "queries": [
+        "reader.boot",
+        "reader.motion.sync",
+        "reader.route",
+        "reader.click",
+        "reader.atlas",
+        "reader.search",
+        "reader.notes"
+      ],
+      "operators": [],
+      "calls": [
+        "html.serialize",
+        "reader.atlas",
+        "reader.motion.sync",
+        "reader.notes",
+        "reader.route"
+      ],
+      "ports": [
+        "asset.text",
+        "browser.attribute",
+        "browser.content",
+        "browser.dialog",
+        "browser.environment",
+        "browser.focus",
+        "browser.location",
+        "browser.navigate",
+        "browser.on",
+        "browser.scroll",
+        "browser.select",
+        "browser.title",
+        "browser.write",
+        "document.fragment",
+        "json.parse",
+        "json.stringify",
+        "record.get",
+        "state.get",
+        "state.set",
+        "storage.read",
+        "storage.remove",
+        "storage.write",
+        "text.lowerCase",
+        "text.match",
+        "text.slice",
+        "text.trim"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "reader-navigation",
+        "purpose": "Reuse the reader-navigation algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/reader-navigation.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "reader.atlas",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "reader.motion.sync",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "reader.notes",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "reader.route",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "asset.text",
+            "browser.attribute",
+            "browser.content",
+            "browser.dialog",
+            "browser.environment",
+            "browser.focus",
+            "browser.location",
+            "browser.navigate",
+            "browser.on",
+            "browser.scroll",
+            "browser.select",
+            "browser.title",
+            "browser.write",
+            "document.fragment",
+            "json.parse",
+            "json.stringify",
+            "record.get",
+            "state.get",
+            "state.set",
+            "storage.read",
+            "storage.remove",
+            "storage.write",
+            "text.lowerCase",
+            "text.match",
+            "text.slice",
+            "text.trim"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/reader-navigation.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "source",
+      "source": "reference/algebra/source.process.json",
+      "origin": "applications/aaronalderman-site/algebra/source.process.json",
+      "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246",
+      "status": "reference-extraction-required",
+      "queries": [
+        "source.rel",
+        "source.compile",
+        "source.encode",
+        "source.patch",
+        "source.jsonSpan"
+      ],
+      "operators": [],
+      "calls": [
+        "language.compile",
+        "source.encode",
+        "source.rel"
+      ],
+      "ports": [
+        "json.parse",
+        "json.stringify",
+        "record.put",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.string"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "source",
+        "purpose": "Reuse the source algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/source.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "language.compile",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.encode",
+            "bridge": "calls",
+            "required": true
+          },
+          {
+            "query": "source.rel",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "json.parse",
+            "json.stringify",
+            "record.put",
+            "text.indexOf",
+            "text.join",
+            "text.matches",
+            "text.slice",
+            "text.split",
+            "text.trim",
+            "value.describe",
+            "value.string"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/source.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    },
+    {
+      "id": "workshop-lab",
+      "source": "reference/algebra/workshop-lab.process.json",
+      "origin": "applications/aaronalderman-site/algebra/workshop-lab.process.json",
+      "sha256": "9e3049811c1325c840711a8aa091f44b3f670480fa376421a47e5f69399cd037",
+      "status": "reference-extraction-required",
+      "queries": [
+        "lab.snapshot",
+        "lab.edit"
+      ],
+      "operators": [],
+      "calls": [
+        "html.serialize"
+      ],
+      "ports": [
+        "kernel.invoke"
+      ],
+      "templateContract": "templates/feature.json",
+      "missing": [
+        "Declare and extract required facts, assets, call closure and native grants.",
+        "Supply feature-specific positive, refusal and preservation tests in the new world.",
+        "Original editorial decisions and Aaron-specific constants require review."
+      ],
+      "template": {
+        "protocol": "worldwright/feature-template/1",
+        "id": "workshop-lab",
+        "purpose": "Reuse the workshop-lab algebra with explicit owners and preserved admission boundaries.",
+        "types": [],
+        "owners": {
+          "facts": [],
+          "processes": [
+            "reference/algebra/workshop-lab.process.json"
+          ],
+          "presentation": [],
+          "native": []
+        },
+        "dependencies": [
+          {
+            "query": "html.serialize",
+            "bridge": "calls",
+            "required": true
+          }
+        ],
+        "effects": {
+          "profile": "select-for-target-host",
+          "ports": [
+            "kernel.invoke"
+          ],
+          "authority": "Declare target-world grants before admission; catalogue presence grants no effects."
+        },
+        "projections": [],
+        "correction": {
+          "owner": "reference/algebra/workshop-lab.process.json",
+          "route": "Extract to the new world; edit the canonical process or facts, rebuild and check the forward output.",
+          "preserves": [
+            "Temple seed",
+            "Execution limit",
+            "Unrelated source meaning"
+          ]
+        },
+        "verification": {
+          "command": "npm test",
+          "positive": "Supply an observable feature-specific projection in the extracted world.",
+          "negative": "Supply a feature-specific refusal with preserved accepted source."
+        },
+        "status": "reference-extraction-required",
+        "missing": [
+          "Declare and extract required facts, assets, call closure and native grants.",
+          "Supply feature-specific positive, refusal and preservation tests in the new world.",
+          "Original editorial decisions and Aaron-specific constants require review.",
+          "Fill target-world types, fact owners, projection entries and feature-specific verification before calling this feature portable."
+        ],
+        "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+      }
+    }
+  ]
+}

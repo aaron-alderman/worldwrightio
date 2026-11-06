@@ -1,0 +1,1059 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "world.validate": [
+      {
+        "let": "places",
+        "value": [
+          "subjects",
+          "isa",
+          "Place"
+        ]
+      },
+      {
+        "let": "sources",
+        "value": [
+          "subjects",
+          "isa",
+          "Source"
+        ]
+      },
+      {
+        "let": "choices",
+        "value": [
+          "subjects",
+          "isa",
+          "Choice"
+        ]
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "count",
+              "$places"
+            ],
+            0
+          ]
+        ],
+        "message": "WORLD-PLACES: At least one place is required."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "world",
+              "title"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: title must not be empty."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "world",
+              "description"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: description must not be empty."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "world",
+              "purpose"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: purpose must not be empty."
+      },
+      {
+        "assert": [
+          "includes",
+          "$places",
+          [
+            "one",
+            "world",
+            "entry"
+          ]
+        ],
+        "message": "WORLD-ENTRY: Entry must name a declared Place."
+      },
+      {
+        "each": "$places",
+        "as": "place",
+        "steps": [
+          {
+            "port": "text.matches",
+            "args": {
+              "value": "$place",
+              "pattern": "^[a-z][a-z0-9-]*$"
+            },
+            "into": "safeId"
+          },
+          {
+            "assert": "$safeId",
+            "message": "WORLD-ID: Place identities must be lowercase URL-safe slugs."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "includes",
+                [
+                  "list",
+                  "index",
+                  "sources",
+                  "world"
+                ],
+                "$place"
+              ]
+            ],
+            "message": "WORLD-ID: Reserved route identity."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "title"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: title must not be empty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "question"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: question must not be empty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "reading"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: reading must not be empty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "count",
+                  [
+                    "objects",
+                    "$place",
+                    "source"
+                  ]
+                ],
+                0
+              ]
+            ],
+            "message": "WORLD-SOURCE: Every place needs an attributed source."
+          },
+          {
+            "each": [
+              "objects",
+              "$place",
+              "source"
+            ],
+            "as": "source",
+            "steps": [
+              {
+                "assert": [
+                  "includes",
+                  "$sources",
+                  "$source"
+                ],
+                "message": "WORLD-SOURCE: Place names an unknown Source."
+              }
+            ]
+          },
+          {
+            "each": [
+              "objects",
+              "$place",
+              "choice"
+            ],
+            "as": "choice",
+            "steps": [
+              {
+                "assert": [
+                  "includes",
+                  "$choices",
+                  "$choice"
+                ],
+                "message": "WORLD-CHOICE: Place names an unknown Choice."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "each": "$choices",
+        "as": "choice",
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$choice",
+                  "label"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: label must not be empty."
+          },
+          {
+            "assert": [
+              "includes",
+              "$places",
+              [
+                "one",
+                "$choice",
+                "target"
+              ]
+            ],
+            "message": "WORLD-TARGET: Choice target must name a Place."
+          }
+        ]
+      },
+      {
+        "each": "$sources",
+        "as": "source",
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$source",
+                  "title"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: title must not be empty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$source",
+                  "attribution"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: attribution must not be empty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$source",
+                  "scope"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: scope must not be empty."
+          }
+        ]
+      }
+    ],
+    "world.document": [
+      {
+        "let": "input",
+        "value": {
+          "tag": "html",
+          "attrs": {
+            "lang": "en"
+          },
+          "children": [
+            "list",
+            {
+              "tag": "head",
+              "attrs": {},
+              "children": [
+                "list",
+                {
+                  "tag": "meta",
+                  "attrs": {
+                    "charset": "utf-8"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "meta",
+                  "attrs": {
+                    "name": "viewport",
+                    "content": "width=device-width, initial-scale=1"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "meta",
+                  "attrs": {
+                    "name": "description",
+                    "content": [
+                      "one",
+                      "world",
+                      "description"
+                    ]
+                  },
+                  "children": [
+                    "list"
+                  ]
+                },
+                {
+                  "tag": "title",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "$pageTitle"
+                  ]
+                },
+                {
+                  "tag": "link",
+                  "attrs": {
+                    "rel": "stylesheet",
+                    "href": "styles.css"
+                  },
+                  "children": [
+                    "list"
+                  ]
+                }
+              ]
+            },
+            {
+              "tag": "body",
+              "attrs": {},
+              "children": [
+                "list",
+                {
+                  "tag": "a",
+                  "attrs": {
+                    "href": "#main",
+                    "class": "skip"
+                  },
+                  "children": [
+                    "list",
+                    "Skip to content"
+                  ]
+                },
+                {
+                  "tag": "header",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "href": "index.html"
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "world",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "nav",
+                      "attrs": {
+                        "aria-label": "Main navigation"
+                      },
+                      "children": [
+                        "list",
+                        {
+                          "tag": "a",
+                          "attrs": {
+                            "href": "index.html"
+                          },
+                          "children": [
+                            "list",
+                            "Explore"
+                          ]
+                        },
+                        {
+                          "tag": "a",
+                          "attrs": {
+                            "href": "sources.html"
+                          },
+                          "children": [
+                            "list",
+                            "Sources"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "tag": "main",
+                  "attrs": {
+                    "id": "main"
+                  },
+                  "children": [
+                    "list",
+                    "$body"
+                  ]
+                },
+                {
+                  "tag": "footer",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    "An illustrative world built with Worldwright. ",
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "href": "source/world.rel"
+                      },
+                      "children": [
+                        "list",
+                        "Inspect the owned sources"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "call": "html.serialize"
+      },
+      {
+        "port": "file.write",
+        "args": {
+          "path": "$route",
+          "text": [
+            "concat",
+            "<!doctype html>\n",
+            "$result"
+          ]
+        },
+        "into": "_"
+      }
+    ],
+    "world.build": [
+      {
+        "call": "world.validate"
+      },
+      {
+        "call": "css.build"
+      },
+      {
+        "let": "route",
+        "value": "index.html"
+      },
+      {
+        "let": "pageTitle",
+        "value": [
+          "one",
+          "world",
+          "title"
+        ]
+      },
+      {
+        "let": "body",
+        "value": [
+          "list",
+          {
+            "tag": "p",
+            "attrs": {
+              "class": "eyebrow"
+            },
+            "children": [
+              "list",
+              "YOUR FIRST WORLD"
+            ]
+          },
+          {
+            "tag": "h1",
+            "attrs": {},
+            "children": [
+              "list",
+              [
+                "one",
+                "world",
+                "title"
+              ]
+            ]
+          },
+          {
+            "tag": "p",
+            "attrs": {
+              "class": "intro"
+            },
+            "children": [
+              "list",
+              [
+                "one",
+                "world",
+                "description"
+              ]
+            ]
+          },
+          {
+            "tag": "p",
+            "attrs": {},
+            "children": [
+              "list",
+              [
+                "one",
+                "world",
+                "purpose"
+              ]
+            ]
+          },
+          {
+            "tag": "a",
+            "attrs": {
+              "href": [
+                "concat",
+                [
+                  "one",
+                  "world",
+                  "entry"
+                ],
+                ".html"
+              ],
+              "class": "button"
+            },
+            "children": [
+              "list",
+              "Begin here →"
+            ]
+          },
+          {
+            "tag": "h2",
+            "attrs": {},
+            "children": [
+              "list",
+              "Follow your curiosity"
+            ]
+          },
+          {
+            "tag": "ul",
+            "attrs": {},
+            "children": [
+              "list",
+              [
+                "map",
+                [
+                  "subjects",
+                  "isa",
+                  "Place"
+                ],
+                "place",
+                {
+                  "tag": "li",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    {
+                      "tag": "a",
+                      "attrs": {
+                        "href": [
+                          "concat",
+                          "$place",
+                          ".html"
+                        ]
+                      },
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "title"
+                        ]
+                      ]
+                    },
+                    {
+                      "tag": "p",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        [
+                          "one",
+                          "$place",
+                          "question"
+                        ]
+                      ]
+                    }
+                  ]
+                }
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "call": "world.document"
+      },
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "Place"
+        ],
+        "as": "place",
+        "steps": [
+          {
+            "let": "route",
+            "value": [
+              "concat",
+              "$place",
+              ".html"
+            ]
+          },
+          {
+            "let": "pageTitle",
+            "value": [
+              "one",
+              "$place",
+              "title"
+            ]
+          },
+          {
+            "let": "body",
+            "value": [
+              "list",
+              {
+                "tag": "p",
+                "attrs": {
+                  "class": "eyebrow"
+                },
+                "children": [
+                  "list",
+                  [
+                    "one",
+                    "$place",
+                    "question"
+                  ]
+                ]
+              },
+              {
+                "tag": "h1",
+                "attrs": {},
+                "children": [
+                  "list",
+                  [
+                    "one",
+                    "$place",
+                    "title"
+                  ]
+                ]
+              },
+              {
+                "tag": "p",
+                "attrs": {
+                  "class": "intro"
+                },
+                "children": [
+                  "list",
+                  [
+                    "one",
+                    "$place",
+                    "reading"
+                  ]
+                ]
+              },
+              {
+                "tag": "h2",
+                "attrs": {},
+                "children": [
+                  "list",
+                  "Where next?"
+                ]
+              },
+              {
+                "tag": "ul",
+                "attrs": {},
+                "children": [
+                  "list",
+                  [
+                    "map",
+                    [
+                      "objects",
+                      "$place",
+                      "choice"
+                    ],
+                    "choice",
+                    {
+                      "tag": "li",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        {
+                          "tag": "a",
+                          "attrs": {
+                            "href": [
+                              "concat",
+                              [
+                                "one",
+                                "$choice",
+                                "target"
+                              ],
+                              ".html"
+                            ]
+                          },
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$choice",
+                              "label"
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              },
+              {
+                "tag": "details",
+                "attrs": {},
+                "children": [
+                  "list",
+                  {
+                    "tag": "summary",
+                    "attrs": {},
+                    "children": [
+                      "list",
+                      "Sources and scope"
+                    ]
+                  },
+                  [
+                    "map",
+                    [
+                      "objects",
+                      "$place",
+                      "source"
+                    ],
+                    "source",
+                    {
+                      "tag": "section",
+                      "attrs": {},
+                      "children": [
+                        "list",
+                        {
+                          "tag": "h3",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$source",
+                              "title"
+                            ]
+                          ]
+                        },
+                        {
+                          "tag": "p",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$source",
+                              "attribution"
+                            ]
+                          ]
+                        },
+                        {
+                          "tag": "p",
+                          "attrs": {},
+                          "children": [
+                            "list",
+                            [
+                              "one",
+                              "$source",
+                              "scope"
+                            ]
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "call": "world.document"
+          }
+        ]
+      },
+      {
+        "let": "route",
+        "value": "sources.html"
+      },
+      {
+        "let": "pageTitle",
+        "value": "Sources and scope"
+      },
+      {
+        "let": "body",
+        "value": [
+          "list",
+          {
+            "tag": "h1",
+            "attrs": {},
+            "children": [
+              "list",
+              "Sources and scope"
+            ]
+          },
+          [
+            "map",
+            [
+              "subjects",
+              "isa",
+              "Source"
+            ],
+            "source",
+            {
+              "tag": "article",
+              "attrs": {},
+              "children": [
+                "list",
+                {
+                  "tag": "h2",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    [
+                      "one",
+                      "$source",
+                      "title"
+                    ]
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    [
+                      "one",
+                      "$source",
+                      "attribution"
+                    ]
+                  ]
+                },
+                {
+                  "tag": "p",
+                  "attrs": {},
+                  "children": [
+                    "list",
+                    [
+                      "one",
+                      "$source",
+                      "scope"
+                    ]
+                  ]
+                }
+              ]
+            }
+          ],
+          {
+            "tag": "h2",
+            "attrs": {},
+            "children": [
+              "list",
+              "Owned definitions"
+            ]
+          },
+          {
+            "tag": "ul",
+            "attrs": {},
+            "children": [
+              "list",
+              {
+                "tag": "li",
+                "attrs": {},
+                "children": [
+                  "list",
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": "source/world.rel"
+                    },
+                    "children": [
+                      "list",
+                      "source/world.rel"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "li",
+                "attrs": {},
+                "children": [
+                  "list",
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": "source/presentation.rel"
+                    },
+                    "children": [
+                      "list",
+                      "source/presentation.rel"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "li",
+                "attrs": {},
+                "children": [
+                  "list",
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": "algebra/world.process.json"
+                    },
+                    "children": [
+                      "list",
+                      "algebra/world.process.json"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "li",
+                "attrs": {},
+                "children": [
+                  "list",
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": "source/upstream.json"
+                    },
+                    "children": [
+                      "list",
+                      "source/upstream.json"
+                    ]
+                  }
+                ]
+              },
+              {
+                "tag": "li",
+                "attrs": {},
+                "children": [
+                  "list",
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": "build-receipt.json"
+                    },
+                    "children": [
+                      "list",
+                      "build-receipt.json"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "call": "world.document"
+      },
+      {
+        "port": "file.copy",
+        "args": {
+          "path": "source/world.rel"
+        },
+        "into": "_"
+      },
+      {
+        "port": "file.copy",
+        "args": {
+          "path": "source/presentation.rel"
+        },
+        "into": "_"
+      },
+      {
+        "port": "file.copy",
+        "args": {
+          "path": "algebra/world.process.json"
+        },
+        "into": "_"
+      },
+      {
+        "port": "file.copy",
+        "args": {
+          "path": "source/upstream.json"
+        },
+        "into": "_"
+      }
+    ]
+  }
+}

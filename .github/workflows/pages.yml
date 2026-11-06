@@ -18,10 +18,17 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build the hub and algebraic starter
+        run: npm run build
+      - name: Verify standalone creation and refusal boundaries
+        run: npm test
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: dist
       - name: Publish
         id: deployment
         uses: actions/deploy-pages@v4

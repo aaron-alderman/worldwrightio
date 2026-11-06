@@ -1,0 +1,18 @@
+{
+  "protocol": "worldwright/project-context/1",
+  "name": "Worldwright",
+  "purpose": "Help people and their agents compose inspectable worlds from their own purpose, content and sources.",
+  "repository": "https://github.com/aaron-alderman/worldwrightio",
+  "site": "https://worldwright.io",
+  "initialWorld": "https://aaronalderman.com",
+  "readFirst": ["AGENTS.md", "docs/start.md", "docs/architecture.md", "docs/lightning.md"],
+  "starter": "templates/world",
+  "featureContract": "templates/feature.json",
+  "catalogue": "context/features.json",
+  "create": "npm run new -- worlds/my-world",
+  "hubChecks": ["npm run build", "npm test"],
+  "worldChecks": ["npm run build", "npm test"],
+  "owners": {"meaning": "source/world.rel", "presentation": "source/presentation.rel", "policy": "algebra/world.process.json", "manifest": "bootstrap/site.json"},
+  "open": ["Independent onboarding", "Extraction of richer feature closures", "Complete humane authoring language", "Algebraic self-hosting of the documentation hub"],
+  "evidenceFamily": "worldwright-template-extraction-2026-11-06"
+}

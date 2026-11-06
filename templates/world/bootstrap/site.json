@@ -1,0 +1,23 @@
+{
+  "protocol": "temple/bootstrap-site/1",
+  "entry": "world.build",
+  "operatorDefinitions": "algebra/operators.expression.json",
+  "operatorCompiler": "algebra/lowering.process.json",
+  "factIndexer": "algebra/fact-index.process.json",
+  "nativeSource": "bootstrap/native.json",
+  "hostPorts": "bootstrap/ports.json",
+  "executionBudget": 20000000,
+  "modules": [
+    "algebra/html.process.json",
+    "algebra/css.process.json",
+    "algebra/world.process.json"
+  ],
+  "sources": [
+    "source/world.rel",
+    "source/presentation.rel"
+  ],
+  "kernelProfile": "bootstrap/kernel-profile.json",
+  "admission": "algebra/admission.process.json",
+  "languageCompiler": "algebra/language.process.json",
+  "languageSources": []
+}

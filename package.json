@@ -1,0 +1,13 @@
+{
+  "name": "worldwright",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "engines": {"node": ">=22"},
+  "scripts": {
+    "build": "node tooling/build.mjs",
+    "test": "node --test tooling/worldwright.test.mjs",
+    "new": "node tooling/create-world.mjs",
+    "dev": "node tooling/serve.mjs"
+  }
+}

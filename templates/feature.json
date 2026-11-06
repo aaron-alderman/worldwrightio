@@ -1,0 +1,15 @@
+{
+  "protocol": "worldwright/feature-template/1",
+  "id": "replace-with-feature-id",
+  "purpose": "Name the human outcome and who it serves.",
+  "types": [{"name": "Example", "required": ["identity", "meaning"], "invariants": ["Name a condition which must hold."]}],
+  "owners": {"facts": [], "processes": [], "presentation": [], "native": []},
+  "dependencies": [{"feature": "replace-with-dependency", "bridge": "implements", "required": true}],
+  "effects": {"profile": "build", "ports": [], "authority": "Describe who may propose and accept changes."},
+  "projections": [{"entry": "example.project", "output": "example.html", "source": "source/example.rel"}],
+  "correction": {"owner": "source/example.rel", "route": "Explicit source edit then rebuild; no inferred inverse.", "preserves": []},
+  "verification": {"command": "npm test", "positive": "Name an observable outcome.", "negative": "Name an input that must refuse without changing accepted source."},
+  "status": "proposal",
+  "missing": ["Replace placeholders; satisfy dependencies; execute and record checks before calling this portable."],
+  "evidenceFamily": "one-local-run"
+}
