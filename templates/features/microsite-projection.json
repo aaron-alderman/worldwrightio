@@ -1,0 +1,362 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "microsite-projection",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Project the configured microsite documents and CSS through the actual source markup/style algebra.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/microsite-projection.process.json",
+    "sha256": "b9448dd1a2425f1a937dbb38669718aa0ce3e0c9cc34b9baed138d80a5b9422f"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/microsite-projection.process.json",
+    "sha256": "472156cb580be847a0fa4f849eb78072b8a4bcc2da305e09d8436335987a0c64",
+    "queries": [
+      "source.markup",
+      "source.css",
+      "source.metadata"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [
+      "source/atlas.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "one",
+        "subject": "$input",
+        "predicate": "description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "runtime",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "site",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "early",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "origin",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "canonical",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "og:type",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$msDocument",
+        "predicate": "sharing",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$msDocument",
+          "sharing"
+        ],
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "sharing",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "og:title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$msDocument",
+          "sharing"
+        ],
+        "predicate": "description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "og:description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "og:url",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$msDocument",
+          "sharing"
+        ],
+        "predicate": "image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "og:image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$msDocument",
+          "sharing"
+        ],
+        "predicate": "alt",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "og:image:alt",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "twitter:card",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "twitter:title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "twitter:description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "twitter:image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$msDocument",
+          "sharing"
+        ],
+        "predicate": "width",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$msDocument",
+          "sharing"
+        ],
+        "predicate": "height",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$msDocument",
+          "sharing"
+        ],
+        "predicate": "type",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [],
+    "configuration": [
+      {
+        "file": "source/microsites/temple/config.json",
+        "sha256": "49f449255184b60029c594f1d511a34bafa7d033b11cccbed960b736a182fc82",
+        "format": "json",
+        "topLevelKeys": [
+          "identities",
+          "presets",
+          "genesisCells",
+          "covenants",
+          "limits",
+          "operators",
+          "stages"
+        ]
+      },
+      {
+        "file": "source/microsites/sourcery/config.json",
+        "sha256": "2244e911122bfce6c40ad41b23e9ad811bd0e1f91743e55d37d13a0844e7f60c",
+        "format": "json",
+        "topLevelKeys": [
+          "stopWords",
+          "archetypes",
+          "events",
+          "templates",
+          "subjectPattern",
+          "refusalPattern",
+          "amountPattern"
+        ]
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2",
+        "format": "rel"
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "json.parse",
+      "record.put",
+      "text.replaceAll"
+    ],
+    "grantProfiles": {
+      "build": [
+        "record.put",
+        "text.replaceAll",
+        "json.parse"
+      ],
+      "compilation": [
+        "json.parse"
+      ],
+      "reflection": [
+        "text.replaceAll"
+      ],
+      "micrositesBrowser": [
+        "json.parse",
+        "record.put",
+        "text.replaceAll"
+      ],
+      "encounterBrowser": [
+        "json.parse",
+        "record.put",
+        "text.replaceAll"
+      ],
+      "readerBrowser": [
+        "json.parse",
+        "record.put",
+        "text.replaceAll"
+      ],
+      "activityBrowser": [
+        "json.parse",
+        "record.put",
+        "text.replaceAll"
+      ],
+      "workshopBrowser": [
+        "json.parse",
+        "record.put",
+        "text.replaceAll"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/microsite-projection.process.json",
+      "source/atlas.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "Project the configured microsite documents and CSS through the actual source markup/style algebra.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

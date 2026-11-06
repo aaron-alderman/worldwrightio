@@ -1,0 +1,2688 @@
+diff --git a/README.md b/README.md
+index 8132611..ca67e9b 100644
+--- a/README.md
++++ b/README.md
+@@ -23,6 +23,12 @@ the last accepted output; successful recomposition removes retired output.
+ 
+ Edit **source/world.rel** for the sole world identity and framing: name,
+ purpose, headline, description, origin, about, repository and social link.
++An optional monogram fact controls the visible brand and icon; otherwise the
++first character of the world name is used.
++Home social title, description, image and alt text use the same world facts.
++Optional imageWidth, imageHeight and imageType facts are emitted only when
++explicitly supplied; set them to match the selected image. Otherwise dimension
++and MIME hints are omitted rather than inherited from the original share card.
+ The origin must be an absolute HTTP(S) base URL ending with `/`. Browser runtime
+ bundles receive the selected site facts; they do not inherit Aaron's identity.
+ The example origin worldwright.example is a placeholder, not a deployed site.
+@@ -30,19 +36,55 @@ The example origin worldwright.example is a placeholder, not a deployed site.
+ Edit **source/expedition.rel** for places, choices, source notes and territories.
+ The template accepts any positive number of places and gateway doors. Each Place
+ has a slug, route (`places/<slug>.html`), title, lead, region, chapter, source,
+-light and mapX/mapY. It may have paragraphs, fuller paragraphs, definitions,
+-choices and an illustrative activity. Choice destinations name declared Place
+-identities. Territory membership must name declared places.
++light, mapX, mapY and **mapTipAbove**. Coordinates are percentage strings;
++mapTipAbove is the required string `"true"` or `"false"` for tooltip placement.
++It may have paragraphs, fuller paragraphs, definitions and choices. Choices
++need destination, label and kind; destinations name declared Place identities.
++Territory membership must name declared places. source/world-schema.json lists
++the required and conditional fields actually read by each selected projection.
++
++An activity is optional and explicit: `("place.example", "activity", "example-id")`
++selects an owned entry in source/reader/activities.json.activities. With no
++activity fact, the place renders as a reading without an iframe. Do not assume
++that a place slug names an exercise. Unknown selected exercise IDs refuse.
+ 
+ Edit **source/atlas.rel** for map presentation and coordinates, and
+ **source/gateway.rel** for reading-path doors. New territories need atlasSlug,
+ atlasNumber and atlasImage. Existing artwork is an imagined example geography,
+ not geographic evidence; keep attribution when reusing or replace it.
+ 
++Keep **source/assets.rel** when replacing the world graph. It owns the template's
++shared fonts, styles, artwork, retained reference files and compatibility assets;
++it is separate from the person's places and source notes. Feature-specific
++assets also stay with their feature source files. Change the registry explicitly
++when replacing artwork, rather than deleting it while changing the story.
++
++A SourceNote needs title, originalTitle, kind and note, with optional paragraphs
++and a local-source href. A Territory needs name, question, note, light,
++atlasSlug, atlasNumber and atlasImage, plus its place memberships. CorpusDoor
++needs slug, readingName, title, description, question, light, kind, href, label,
++secondaryHref and secondaryLabel. Entrances on the homepage separately declare
++destination, number, name, symbol, question and note.
++
++For example, a seven-place tools world could use Spool, Hinge, Wheel, Mirror,
++Spring, Lever and Lamp across two named territories. Give each a source note,
++explicit coordinates and mapTipAbove, join their choices to declared identities,
++and update the homepage Entrances and gateway doors to that same set. This is
++an authoring brief: the canonical REL facts remain the executable owners.
++
++When replacing places or gateway doors, review **every source-owned content
++link**, including `capability.*.links` in source/front-doors.rel, gateway book
++and library destinations, project-card links and reading choices. Those links
++belong to the author's content and must name routes/fragments in the new graph
++or intentional external sources. Replacing a graph does not infer new editorial
++destinations. The resource audit checks these links after rebuilding; no process
++patch is required to change their authored values.
++
+ **source/presentation.rel** owns presentation and styles. Process modules under
+ **algebra/** own selection, validation, composition, projection and interaction
+-policy. The `template.validate` algebra refuses invalid graph edges, duplicate
+-routes, malformed origins and missing fields before publication starts.
++policy. The `template.validate` algebra checks graph edges, duplicate routes,
++origins and core fields. Selected projections also enforce their required field
++cardinality; missing-field refusals name the exact subject and predicate.
+ 
+ The richer software/physics examples remain clearly attributed demonstrations.
+ Their domains are not claims about the new author's life or research. Replace
+diff --git a/algebra/atlas.process.json b/algebra/atlas.process.json
+index 6b5b95e..4a7ea66 100644
+--- a/algebra/atlas.process.json
++++ b/algebra/atlas.process.json
+@@ -519,7 +519,23 @@
+                               {
+                                 "tag": "a",
+                                 "attrs": {
+-                                  "href": "#unseen",
++                                  "href": [
++                                    "concat",
++                                    "#",
++                                    [
++                                      "one",
++                                      [
++                                        "at",
++                                        [
++                                          "subjects",
++                                          "isa",
++                                          "Territory"
++                                        ],
++                                        0
++                                      ],
++                                      "atlasSlug"
++                                    ]
++                                  ],
+                                   "class": "atlas-list-link"
+                                 },
+                                 "children": [
+diff --git a/algebra/claimipedia.process.json b/algebra/claimipedia.process.json
+index 4675d6f..a7051a1 100644
+--- a/algebra/claimipedia.process.json
++++ b/algebra/claimipedia.process.json
+@@ -630,7 +630,15 @@
+                         {
+                           "tag": "a",
+                           "attrs": {
+-                            "href": "../gate.html#path-claimipedia"
++                            "href": [
++                              "concat",
++                              "../",
++                              [
++                                "one",
++                                "gateway",
++                                "route"
++                              ]
++                            ]
+                           },
+                           "children": [
+                             "list",
+@@ -916,7 +924,15 @@
+                                 "tag": "a",
+                                 "attrs": {
+                                   "class": "claim-quiet-link",
+-                                  "href": "../gate.html#path-claimipedia"
++                                  "href": [
++                                    "concat",
++                                    "../",
++                                    [
++                                      "one",
++                                      "gateway",
++                                      "route"
++                                    ]
++                                  ]
+                                 },
+                                 "children": [
+                                   "list",
+@@ -1881,7 +1897,15 @@
+                             "tag": "a",
+                             "attrs": {
+                               "class": "claim-button",
+-                              "href": "../gate.html#path-claimipedia"
++                              "href": [
++                                "concat",
++                                "../",
++                                [
++                                  "one",
++                                  "gateway",
++                                  "route"
++                                ]
++                              ]
+                             },
+                             "children": [
+                               "list",
+@@ -1967,7 +1991,15 @@
+                         {
+                           "tag": "a",
+                           "attrs": {
+-                            "href": "../gate.html"
++                            "href": [
++                              "concat",
++                              "../",
++                              [
++                                "one",
++                                "gateway",
++                                "route"
++                              ]
++                            ]
+                           },
+                           "children": [
+                             "list",
+diff --git a/algebra/encounter.process.json b/algebra/encounter.process.json
+index cdedd02..11533b7 100644
+--- a/algebra/encounter.process.json
++++ b/algebra/encounter.process.json
+@@ -2018,7 +2018,7 @@
+                         "list",
+                         [
+                           "concat",
+-                          "Encounter · by ",
++                          "Encounter · within ",
+                           [
+                             "one",
+                             "site",
+@@ -2089,6 +2089,16 @@
+                           ]
+                         }
+                       ]
++                    },
++                    {
++                      "tag": "a",
++                      "attrs": {
++                        "href": "https://aaronalderman.com/"
++                      },
++                      "children": [
++                        "list",
++                        "Original demonstration · Aaron Alderman"
++                      ]
+                     }
+                   ]
+                 },
+diff --git a/algebra/front-doors.process.json b/algebra/front-doors.process.json
+index 9c90fef..445d28f 100644
+--- a/algebra/front-doors.process.json
++++ b/algebra/front-doors.process.json
+@@ -120,9 +120,22 @@
+                   "children": [
+                     "list",
+                     [
+-                      "one",
+-                      "$world",
+-                      "detail"
++                      "if",
++                      [
++                        "eq",
++                        "$world",
++                        "microsite.entry.worldwright"
++                      ],
++                      [
++                        "one",
++                        "site",
++                        "purpose"
++                      ],
++                      [
++                        "one",
++                        "$world",
++                        "detail"
++                      ]
+                     ]
+                   ]
+                 },
+@@ -760,7 +773,7 @@
+                       },
+                       "children": [
+                         "list",
+-                        "Worldwright / In preparation"
++                        "Worldwright / Reusable templates"
+                       ]
+                     },
+                     {
+@@ -794,7 +807,15 @@
+                       "attrs": {},
+                       "children": [
+                         "list",
+-                        "Its guiding idea is that an author can shape a meaningful experience while leaving readers room to choose, question and return. This personal expedition is the first composition. The wider authoring product remains in development. This is a placeholder for the Worldwright microsite."
++                        [
++                          "concat",
++                          [
++                            "one",
++                            "site",
++                            "purpose"
++                          ],
++                          " This world uses reusable Worldwright templates. Its sources and project context remain available for inspection and contribution."
++                        ]
+                       ]
+                     },
+                     {
+diff --git a/algebra/microsite-projection.process.json b/algebra/microsite-projection.process.json
+index 8912521..e663dc3 100644
+--- a/algebra/microsite-projection.process.json
++++ b/algebra/microsite-projection.process.json
+@@ -327,6 +327,26 @@
+             ]
+           }
+         ]
++      },
++      {
++        "when": [
++          "eq",
++          "$markupKind",
++          "world-context-name"
++        ],
++        "then": [
++          {
++            "let": "input",
++            "value": [
++              "one",
++              "site",
++              "name"
++            ]
++          },
++          {
++            "call": "html.escape"
++          }
++        ]
+       }
+     ],
+     "source.css": [
+diff --git a/algebra/publication.process.json b/algebra/publication.process.json
+index 23c8b3c..2e07497 100644
+--- a/algebra/publication.process.json
++++ b/algebra/publication.process.json
+@@ -5,6 +5,9 @@
+       {
+         "call": "template.validate"
+       },
++      {
++        "call": "template.activityData"
++      },
+       {
+         "assert": [
+           "not",
+@@ -609,6 +612,13 @@
+       }
+     ],
+     "publication.document": [
++      {
++        "call": "template.monogram"
++      },
++      {
++        "let": "worldMonogram",
++        "value": "$result"
++      },
+       {
+         "let": "input",
+         "value": {
+@@ -1040,60 +1050,52 @@
+                     "list"
+                   ]
+                 },
+-                {
+-                  "tag": "meta",
+-                  "attrs": {
+-                    "property": "og:image:width",
+-                    "content": [
+-                      "if",
+-                      [
+-                        "eq",
+-                        "$canonical",
+-                        [
+-                          "one",
+-                          "site",
+-                          "origin"
+-                        ]
+-                      ],
+-                      [
++                [
++                  "if",
++                  [
++                    "optional",
++                    "site",
++                    "imageWidth"
++                  ],
++                  {
++                    "tag": "meta",
++                    "attrs": {
++                      "property": "og:image:width",
++                      "content": [
+                         "one",
+-                        "sharing.home",
+-                        "width"
+-                      ],
+-                      "1672"
++                        "site",
++                        "imageWidth"
++                      ]
++                    },
++                    "children": [
++                      "list"
+                     ]
+                   },
+-                  "children": [
+-                    "list"
+-                  ]
+-                },
+-                {
+-                  "tag": "meta",
+-                  "attrs": {
+-                    "property": "og:image:height",
+-                    "content": [
+-                      "if",
+-                      [
+-                        "eq",
+-                        "$canonical",
+-                        [
+-                          "one",
+-                          "site",
+-                          "origin"
+-                        ]
+-                      ],
+-                      [
++                  null
++                ],
++                [
++                  "if",
++                  [
++                    "optional",
++                    "site",
++                    "imageHeight"
++                  ],
++                  {
++                    "tag": "meta",
++                    "attrs": {
++                      "property": "og:image:height",
++                      "content": [
+                         "one",
+-                        "sharing.home",
+-                        "height"
+-                      ],
+-                      "941"
++                        "site",
++                        "imageHeight"
++                      ]
++                    },
++                    "children": [
++                      "list"
+                     ]
+                   },
+-                  "children": [
+-                    "list"
+-                  ]
+-                },
++                  null
++                ],
+                 [
+                   "if",
+                   [
+@@ -1140,20 +1142,29 @@
+                       "origin"
+                     ]
+                   ],
+-                  {
+-                    "tag": "meta",
+-                    "attrs": {
+-                      "property": "og:image:type",
+-                      "content": [
+-                        "one",
+-                        "sharing.home",
+-                        "type"
++                  [
++                    "if",
++                    [
++                      "optional",
++                      "site",
++                      "imageType"
++                    ],
++                    {
++                      "tag": "meta",
++                      "attrs": {
++                        "property": "og:image:type",
++                        "content": [
++                          "one",
++                          "site",
++                          "imageType"
++                        ]
++                      },
++                      "children": [
++                        "list"
+                       ]
+                     },
+-                    "children": [
+-                      "list"
+-                    ]
+-                  },
++                    null
++                  ],
+                   null
+                 ]
+               ]
+@@ -1208,7 +1219,7 @@
+                               },
+                               "children": [
+                                 "list",
+-                                "A"
++                                "$worldMonogram"
+                               ]
+                             },
+                             [
+@@ -1315,7 +1326,11 @@
+                           "attrs": {},
+                           "children": [
+                             "list",
+-                            "A few things I’ve built. A few things I’m still trying to understand."
++                            [
++                              "one",
++                              "site",
++                              "about"
++                            ]
+                           ]
+                         }
+                       ]
+@@ -1338,7 +1353,15 @@
+                           },
+                           "children": [
+                             "list",
+-                            "GitHub ↗"
++                            [
++                              "or",
++                              [
++                                "optional",
++                                "site",
++                                "repositoryLabel"
++                              ],
++                              "Source repository ↗"
++                            ]
+                           ]
+                         },
+                         {
+@@ -1352,7 +1375,15 @@
+                           },
+                           "children": [
+                             "list",
+-                            "LinkedIn ↗"
++                            [
++                              "or",
++                              [
++                                "optional",
++                                "site",
++                                "socialLabel"
++                              ],
++                              "Elsewhere ↗"
++                            ]
+                           ]
+                         },
+                         {
+@@ -1438,7 +1469,7 @@
+                           "site",
+                           "name"
+                         ],
+-                        " / A personal expedition"
++                        " / A world of ideas"
+                       ]
+                     ]
+                   },
+@@ -1449,30 +1480,11 @@
+                     },
+                     "children": [
+                       "list",
+-                      {
+-                        "tag": "span",
+-                        "attrs": {},
+-                        "children": [
+-                          "list",
+-                          "Inside the mind"
+-                        ]
+-                      },
+-                      {
+-                        "tag": "span",
+-                        "attrs": {},
+-                        "children": [
+-                          "list",
+-                          "of a modern-day"
+-                        ]
+-                      },
+-                      {
+-                        "tag": "em",
+-                        "attrs": {},
+-                        "children": [
+-                          "list",
+-                          "sourcerer."
+-                        ]
+-                      }
++                      [
++                        "one",
++                        "site",
++                        "headline"
++                      ]
+                     ]
+                   },
+                   {
+@@ -1482,7 +1494,11 @@
+                     },
+                     "children": [
+                       "list",
+-                      "Physics, faith, machines, and the work of remembering care."
++                      [
++                        "one",
++                        "site",
++                        "description"
++                      ]
+                     ]
+                   },
+                   "$micrositeNav",
+@@ -1504,7 +1520,11 @@
+                     },
+                     "children": [
+                       "list",
+-                      "Sourcerer / a little wordplay, a lot of curiosity."
++                      [
++                        "one",
++                        "site",
++                        "purpose"
++                      ]
+                     ]
+                   }
+                 ]
+@@ -1517,7 +1537,11 @@
+                 },
+                 "children": [
+                   "list",
+-                  "FIELD NOTES / ALWAYS UNFOLDING"
++                  [
++                    "one",
++                    "site",
++                    "name"
++                  ]
+                 ]
+               }
+             ]
+@@ -1544,7 +1568,18 @@
+                     },
+                     "children": [
+                       "list",
+-                      "Three ways into the same world"
++                      [
++                        "concat",
++                        [
++                          "count",
++                          [
++                            "subjects",
++                            "isa",
++                            "Entrance"
++                          ]
++                        ],
++                        " ways into this world"
++                      ]
+                     ]
+                   },
+                   {
+@@ -1900,30 +1935,16 @@
+                 "children": [
+                   "list",
+                   [
+-                    "if",
++                    "or",
+                     [
+-                      "eq",
+-                      [
+-                        "one",
+-                        "$place",
+-                        "light"
+-                      ],
+-                      "unseen"
++                      "optional",
++                      "$place",
++                      "category"
+                     ],
+-                    "Finding things out",
+                     [
+-                      "if",
+-                      [
+-                        "eq",
+-                        [
+-                          "one",
+-                          "$place",
+-                          "light"
+-                        ],
+-                        "human"
+-                      ],
+-                      "Understanding people",
+-                      "Using power responsibly"
++                      "one",
++                      "$place",
++                      "region"
+                     ]
+                   ]
+                 ]
+@@ -1959,95 +1980,113 @@
+           {
+             "tag": "section",
+             "attrs": {
+-              "class": "encounter-layout",
++              "class": [
++                "if",
++                [
++                  "optional",
++                  "$place",
++                  "activity"
++                ],
++                "encounter-layout",
++                "encounter-layout reading-only"
++              ],
+               "aria-label": "Explore this question"
+             },
+             "children": [
+               "list",
+-              {
+-                "tag": "div",
+-                "attrs": {
+-                  "class": "activity-wrap"
+-                },
+-                "children": [
+-                  "list",
+-                  {
+-                    "tag": "div",
+-                    "attrs": {
+-                      "class": "activity-heading"
+-                    },
+-                    "children": [
+-                      "list",
+-                      {
+-                        "tag": "span",
+-                        "attrs": {
+-                          "class": "eyebrow"
+-                        },
+-                        "children": [
+-                          "list",
+-                          "A closer look"
+-                        ]
++              [
++                "if",
++                [
++                  "optional",
++                  "$place",
++                  "activity"
++                ],
++                {
++                  "tag": "div",
++                  "attrs": {
++                    "class": "activity-wrap"
++                  },
++                  "children": [
++                    "list",
++                    {
++                      "tag": "div",
++                      "attrs": {
++                        "class": "activity-heading"
+                       },
+-                      {
+-                        "tag": "a",
+-                        "attrs": {
+-                          "href": [
+-                            "concat",
+-                            "../reader.html#",
+-                            [
+-                              "one",
+-                              "$place",
+-                              "slug"
+-                            ]
++                      "children": [
++                        "list",
++                        {
++                          "tag": "span",
++                          "attrs": {
++                            "class": "eyebrow"
++                          },
++                          "children": [
++                            "list",
++                            "A closer look"
+                           ]
+                         },
+-                        "children": [
+-                          "list",
+-                          "Open in a larger view ↗"
+-                        ]
+-                      }
+-                    ]
+-                  },
+-                  {
+-                    "tag": "iframe",
+-                    "attrs": {
+-                      "src": [
+-                        "concat",
+-                        "../retained/activity.html?v=algebra-1#",
+-                        [
+-                          "one",
+-                          "$place",
+-                          "slug"
+-                        ]
+-                      ],
+-                      "title": [
+-                        "concat",
+-                        [
+-                          "one",
+-                          "$place",
+-                          "region"
+-                        ],
+-                        " — interactive example"
+-                      ],
+-                      "loading": "lazy",
+-                      "class": "activity-frame"
++                        {
++                          "tag": "a",
++                          "attrs": {
++                            "href": [
++                              "concat",
++                              "../retained/activity.html#",
++                              [
++                                "one",
++                                "$place",
++                                "activity"
++                              ]
++                            ]
++                          },
++                          "children": [
++                            "list",
++                            "Open in a larger view ↗"
++                          ]
++                        }
++                      ]
+                     },
+-                    "children": [
+-                      "list"
+-                    ]
+-                  },
+-                  {
+-                    "tag": "p",
+-                    "attrs": {
+-                      "class": "frame-note"
++                    {
++                      "tag": "iframe",
++                      "attrs": {
++                        "src": [
++                          "concat",
++                          "../retained/activity.html?v=algebra-1#",
++                          [
++                            "one",
++                            "$place",
++                            "activity"
++                          ]
++                        ],
++                        "title": [
++                          "concat",
++                          [
++                            "one",
++                            "$place",
++                            "region"
++                          ],
++                          " — interactive example"
++                        ],
++                        "loading": "lazy",
++                        "class": "activity-frame"
++                      },
++                      "children": [
++                        "list"
++                      ]
+                     },
+-                    "children": [
+-                      "list",
+-                      "The interactive example has its own motion control. Scroll inside it if you need more room."
+-                    ]
+-                  }
+-                ]
+-              },
++                    {
++                      "tag": "p",
++                      "attrs": {
++                        "class": "frame-note"
++                      },
++                      "children": [
++                        "list",
++                        "The interactive example has its own motion control. Scroll inside it if you need more room."
++                      ]
++                    }
++                  ]
++                },
++                null
++              ],
+               {
+                 "tag": "div",
+                 "attrs": {
+@@ -2886,6 +2925,13 @@
+       }
+     ],
+     "publication.icon": [
++      {
++        "call": "template.monogram"
++      },
++      {
++        "let": "worldMonogram",
++        "value": "$result"
++      },
+       {
+         "let": "input",
+         "value": {
+@@ -2933,7 +2979,7 @@
+               },
+               "children": [
+                 "list",
+-                "A"
++                "$worldMonogram"
+               ]
+             }
+           ]
+diff --git a/algebra/reader-navigation.process.json b/algebra/reader-navigation.process.json
+index 3f106ac..8fd9cc2 100644
+--- a/algebra/reader-navigation.process.json
++++ b/algebra/reader-navigation.process.json
+@@ -127,6 +127,18 @@
+       {
+         "call": "reader.motion.sync"
+       },
++      {
++        "port": "browser.on",
++        "args": {
++          "ref": "document",
++          "event": "click",
++          "query": "reader.follow",
++          "input": {},
++          "delegate": "a[href^=\"#\"]",
++          "preventDefault": true
++        },
++        "into": "_"
++      },
+       {
+         "call": "reader.route"
+       }
+@@ -369,7 +381,7 @@
+                         "site",
+                         "name"
+                       ],
+-                      " / A personal expedition"
++                      " / A world of ideas"
+                     ]
+                   ]
+                 },
+@@ -1426,6 +1438,15 @@
+         },
+         "into": "_"
+       },
++      {
++        "port": "browser.write",
++        "args": {
++          "ref": "#reader-search-result",
++          "name": "textContent",
++          "value": ""
++        },
++        "into": "_"
++      },
+       {
+         "let": "input",
+         "value": {
+@@ -1520,6 +1541,109 @@
+         },
+         "into": "_"
+       }
++    ],
++    "reader.follow": [
++      {
++        "let": "href",
++        "value": [
++          "at",
++          "$eventInput.matched.attributes",
++          "href"
++        ]
++      },
++      {
++        "port": "text.slice",
++        "args": {
++          "value": "$href",
++          "start": 1
++        },
++        "into": "fragment"
++      },
++      {
++        "port": "text.matches",
++        "args": {
++          "value": "$fragment",
++          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
++        },
++        "into": "safeFragment"
++      },
++      {
++        "assert": "$safeFragment",
++        "message": "READER-LINK: A reader link must name a safe route or existing document anchor."
++      },
++      {
++        "let": "isRoute",
++        "value": [
++          "or",
++          [
++            "eq",
++            "$fragment",
++            "home"
++          ],
++          [
++            "includes",
++            "$data.ids",
++            "$fragment"
++          ]
++        ]
++      },
++      {
++        "when": "$isRoute",
++        "then": [
++          {
++            "port": "browser.navigate",
++            "args": {
++              "hash": "$fragment"
++            },
++            "into": "_"
++          }
++        ]
++      },
++      {
++        "when": [
++          "not",
++          "$isRoute"
++        ],
++        "then": [
++          {
++            "port": "browser.select",
++            "args": {
++              "selector": [
++                "concat",
++                "#",
++                "$fragment"
++              ]
++            },
++            "into": "targets"
++          },
++          {
++            "assert": [
++              "not",
++              [
++                "eq",
++                [
++                  "count",
++                  "$targets"
++                ],
++                0
++              ]
++            ],
++            "message": "READER-LINK: The requested local document anchor is absent."
++          },
++          {
++            "port": "browser.focus",
++            "args": {
++              "ref": [
++                "concat",
++                "#",
++                "$fragment"
++              ],
++              "preventScroll": false
++            },
++            "into": "_"
++          }
++        ]
++      }
+     ]
+   }
+ }
+diff --git a/algebra/reader-workshop-publication.process.json b/algebra/reader-workshop-publication.process.json
+index 7d2ad74..8b1c322 100644
+--- a/algebra/reader-workshop-publication.process.json
++++ b/algebra/reader-workshop-publication.process.json
+@@ -2,13 +2,6 @@
+   "protocol": "temple/surface-process-module/1",
+   "queries": {
+     "readerworkshop.build": [
+-      {
+-        "port": "file.copy",
+-        "args": {
+-          "path": "source/reader/activities.json"
+-        },
+-        "into": "_"
+-      },
+       {
+         "port": "file.read",
+         "args": {
+@@ -160,6 +153,7 @@
+           "queries": [
+             "list",
+             "reader.boot",
++            "reader.follow",
+             "reader.motion.sync",
+             "reader.route",
+             "reader.click",
+@@ -720,7 +714,7 @@
+         "args": {
+           "value": "$document",
+           "search": "__READER_RETURN__",
+-          "replacement": "../reader.html#workshop"
++          "replacement": "../reader.html#home"
+         },
+         "into": "projectedDocument"
+       },
+@@ -737,7 +731,7 @@
+         "args": {
+           "value": "$document",
+           "search": "__READER_RETURN__",
+-          "replacement": "../../reader.html#workshop"
++          "replacement": "../../reader.html#home"
+         },
+         "into": "projectedDocument"
+       },
+diff --git a/algebra/template.process.json b/algebra/template.process.json
+index fd479c4..5791062 100644
+--- a/algebra/template.process.json
++++ b/algebra/template.process.json
+@@ -565,6 +565,115 @@
+         },
+         "into": "document"
+       }
++    ],
++    "template.activityData": [
++      {
++        "port": "file.copy",
++        "args": {
++          "path": "source/reader/activities.json"
++        },
++        "into": "_"
++      },
++      {
++        "port": "file.read",
++        "args": {
++          "path": "source/reader/activities.json"
++        },
++        "into": "activityText"
++      },
++      {
++        "port": "json.parse",
++        "args": {
++          "text": "$activityText"
++        },
++        "into": "templateActivities"
++      },
++      {
++        "call": "template.activities"
++      }
++    ],
++    "template.activities": [
++      {
++        "each": [
++          "subjects",
++          "isa",
++          "Place"
++        ],
++        "as": "activityPlace",
++        "steps": [
++          {
++            "when": [
++              "optional",
++              "$activityPlace",
++              "activity"
++            ],
++            "then": [
++              {
++                "let": "activityId",
++                "value": [
++                  "one",
++                  "$activityPlace",
++                  "activity"
++                ]
++              },
++              {
++                "port": "record.get",
++                "args": {
++                  "record": "$templateActivities.activities",
++                  "key": "$activityId"
++                },
++                "into": "activityDefinition"
++              },
++              {
++                "assert": [
++                  "not",
++                  [
++                    "eq",
++                    "$activityDefinition",
++                    null
++                  ]
++                ],
++                "message": "WORLD-ACTIVITY: Place.activity must name an owned source/reader/activities.json entry."
++              }
++            ]
++          }
++        ]
++      }
++    ],
++    "template.monogram": [
++      {
++        "let": "monogramValue",
++        "value": [
++          "optional",
++          "site",
++          "monogram"
++        ]
++      },
++      {
++        "when": [
++          "not",
++          "$monogramValue"
++        ],
++        "then": [
++          {
++            "port": "text.slice",
++            "args": {
++              "value": [
++                "one",
++                "site",
++                "name"
++              ],
++              "start": 0,
++              "end": 1
++            },
++            "into": "monogramValue"
++          }
++        ]
++      },
++      {
++        "let": "result",
++        "value": "$monogramValue"
++      }
+     ]
+   }
+ }
+diff --git a/bootstrap/site.json b/bootstrap/site.json
+index 5da13d1..7e7aa19 100644
+--- a/bootstrap/site.json
++++ b/bootstrap/site.json
+@@ -48,6 +48,7 @@
+   ],
+   "sources": [
+     "source/world.rel",
++    "source/assets.rel",
+     "source/expedition.rel",
+     "source/presentation.rel",
+     "source/gateway.rel",
+@@ -59,7 +60,8 @@
+     "source/claimipedia-example.rel",
+     "source/social-sharing.rel",
+     "source/encounter.rel",
+-    "source/atlas.rel"
++    "source/atlas.rel",
++    "source/template-presentation.rel"
+   ],
+   "kernelProfile": "bootstrap/kernel-profile.json",
+   "admission": "algebra/admission.process.json",
+diff --git a/expedition.test.mjs b/expedition.test.mjs
+index 860bdb5..de2578e 100644
+--- a/expedition.test.mjs
++++ b/expedition.test.mjs
+@@ -22,7 +22,10 @@ test('the full template projects the selected world identity, every place and it
+  assert.ok(!fs.existsSync(new URL('dist/CNAME',import.meta.url)));
+  assert.ok(!fs.existsSync(new URL('dist/retained/CNAME',import.meta.url)));
+  for(const file of ['index.html','atlas.html','gate.html','worldwright/index.html','claimipedia/index.html','encounter/index.html']){
+-  const text=read('dist/'+file);assert.ok(!text.includes('https://aaronalderman.com/'),file+' uses selected origin');
++  const text=read('dist/'+file),canonical=/<link\b[^>]*rel="canonical"[^>]*href="([^"]+)"/.exec(text)?.[1],openGraph=/<meta\b[^>]*property="og:url"[^>]*content="([^"]+)"/.exec(text)?.[1];
++  assert.ok(canonical?.startsWith(origin),file+' canonical uses selected origin');assert.ok(openGraph?.startsWith(origin),file+' Open Graph URL uses selected origin');
++  // Explicit original-author credit links have a different role from the
++  // selected world's canonical identity and must not be mistaken for it.
+  }
+ });
+ test('every loaded process and fact source is disclosed byte-identically with its receipt',()=>{
+diff --git a/reader-navigation.test.mjs b/reader-navigation.test.mjs
+index 19b34be..8b3f4c6 100644
+--- a/reader-navigation.test.mjs
++++ b/reader-navigation.test.mjs
+@@ -7,16 +7,17 @@ import {createRequire} from 'node:module';
+ const require=createRequire(import.meta.url);
+ const {valuePorts}=require('./bootstrap/ports/value.cjs');
+ const {invoke}=require('./bootstrap/ports/programme.cjs');
++const {browserEffects}=require('./bootstrap/ports/browser-effects.cjs');
+ const bundle=fs.readFileSync(new URL('dist/reader/runtime.js',import.meta.url),'utf8');
+ function snapshot(name){const marker='const '+name+'=hydrateSnapshot(',offset=bundle.indexOf(marker);assert.ok(offset>=0,name+' snapshot');const match=/^("(?:\\.|[^"\\])*")/.exec(bundle.slice(offset+marker.length));assert.ok(match,name+' encoded JSON');return JSON.parse(JSON.parse(match[1]));}
+ const model=snapshot('model'),factIndex=snapshot('factIndex');
+ const places={harbour:{region:'Harbour',title:'Listen to the tide',lead:'A sheltered inlet',light:'human'},garden:{region:'Garden',title:'Follow the shade',lead:'A tree canopy',light:'boundary'},orbit:{region:'Orbit',title:'Find a bearing',lead:'A distant signal',light:'unseen'}};
+ function session({hash='#home',visited=[],current='home'}={}){
+- const state=new Map([['visited',visited],['current',current],['previous','home']]),writes=[],contents=[],titles=[],selections=[];
++ const state=new Map([['visited',visited],['current',current],['previous','home']]),writes=[],contents=[],titles=[],selections=[],navigations=[],focused=[];
+  const data={...model.data,ids:Object.keys(places),places,notes:[{title:'A <source> & its scope',paragraphs:['Observation belongs to the field-guide author.'],note:'This is an illustrative record, not measured evidence.',kind:'Attributed example',href:'https://example.org/field-guide'}],echoes:{},trailKey:'worldwright.test.reader.trail'};
+- const ports={...valuePorts(),'state.get':({key})=>state.get(key),'state.set':({key,value})=>{state.set(key,value);return true;},'browser.select':()=>selections,'browser.write':value=>{writes.push(value);return true;},'browser.content':value=>{contents.push(value);return true;},'browser.location':()=>({hash,base:'https://example.org/'}),'browser.dialog':()=>true,'browser.title':({value})=>{titles.push(value);return true;},'browser.attribute':()=>true,'browser.scroll':()=>true,'browser.focus':()=>true,'asset.text':()=>{throw Error('Invalid route must not fetch an undeclared page.');}};
++ const ports={...valuePorts(),'state.get':({key})=>state.get(key),'state.set':({key,value})=>{state.set(key,value);return true;},'browser.select':({selector})=>selector==='[data-reader-search]'?selections:selector==='#reader-content'?[{ref:'#reader-content',attributes:{id:'reader-content'}}]:[],'browser.write':value=>{writes.push(value);return true;},'browser.content':value=>{contents.push(value);return true;},'browser.location':()=>({hash,base:'https://example.org/'}),'browser.dialog':()=>true,'browser.title':({value})=>{titles.push(value);return true;},'browser.attribute':()=>true,'browser.scroll':()=>true,'browser.focus':value=>{focused.push(value);return true;},'browser.navigate':value=>{navigations.push(value);return true;},'asset.text':()=>{throw Error('Invalid route must not fetch an undeclared page.');}};
+  const run=(entry,eventInput={})=>invoke({model,entry,input:{data,eventInput,factIndex},ports,limit:20000000});
+- return {run,state,writes,contents,titles,selections,data};
++ return {run,state,writes,contents,titles,selections,data,navigations,focused,ports};
+ }
+ test('reader search applies case-insensitive matching and empty-search reset to actual selected places',async()=>{
+  const s=session();for(const [ref,text]of [['a','Harbour birds'],['b','Garden shade'],['c','Orbit signal']])s.selections.push({ref,attributes:{'data-reader-search':text}});
+@@ -25,13 +26,37 @@ test('reader search applies case-insensitive matching and empty-search reset to
+  assert.equal(s.writes.at(-1).value,'1 matching places.');
+  s.writes.length=0;await s.run('reader.search',{event:{target:{value:''}}});assert.ok(s.writes.filter(w=>w.name==='hidden').every(w=>w.value===false));assert.equal(s.writes.at(-1).value,'');
+ });
++test('reader hash links use the declared route effect while skip links focus the existing reading',async()=>{
++ const s=session({current:'garden',visited:['garden']});
++ await s.run('reader.follow',{matched:{attributes:{href:'#harbour'}}});assert.deepEqual(s.navigations,[{hash:'harbour'}]);
++ await s.run('reader.follow',{matched:{attributes:{href:'#reader-content'}}});assert.equal(s.navigations.length,1);assert.equal(s.state.get('current'),'garden');assert.deepEqual(s.focused.at(-1),{ref:'#reader-content',preventScroll:false});
++ await assert.rejects(s.run('reader.follow',{matched:{attributes:{href:'#not-in-this-world'}}}),/READER-LINK/);assert.equal(s.navigations.length,1);
++});
++test('the actual delegated native click prevents base-URL escape and keeps skip focus in the reader',async()=>{
++ const binding=model.queries['reader.boot'].find(step=>step.port==='browser.on'&&step.args?.query==='reader.follow');assert.ok(binding,'The emitted reader must select and bind its follow process.');
++ const s=session(),listeners=new Map(),url=new URL('https://example.org/reader.html'),focused=[];let pending;
++ const reading={focus:options=>focused.push(options)},document={baseURI:'https://example.org/',addEventListener:(event,listener)=>listeners.set(event,listener),querySelectorAll:selector=>selector==='#reader-content'?[reading]:[]};
++ const location={get href(){return url.href;},get hash(){return url.hash;},set hash(value){url.hash=value;}};
++ const native=browserEffects({document,window:{location}},(query,input)=>{pending=s.run(query,input);return pending;});
++ s.ports['browser.navigate']=native['browser.navigate'];s.ports['browser.focus']=native['browser.focus'];native['browser.on'](binding.args);
++ async function click(href){
++  const anchor={nodeType:1,tagName:'A',attributes:[{name:'href',value:href}],textContent:'A reader link',getBoundingClientRect:()=>({x:0,y:0,top:0,bottom:0,left:0,right:0,width:0,height:0})};anchor.closest=()=>anchor;
++  let prevented=false;listeners.get('click')({type:'click',target:anchor,timeStamp:1,preventDefault(){prevented=true;}});assert.equal(prevented,true);await pending;
++  // A real browser would perform this navigation if the handler failed to
++  // prevent it; the emitted <base> makes that destination the wrong document.
++  assert.equal(new URL(href,document.baseURI).pathname,'/');return prevented;
++ }
++ await click('#harbour');assert.equal(url.href,'https://example.org/reader.html#harbour');
++ await click('#reader-content');assert.equal(url.href,'https://example.org/reader.html#harbour');assert.deepEqual(focused,[{preventScroll:false}]);
++});
+ test('reader notes preserve attribution and escape content through the shared serializer',async()=>{
+- const s=session();await s.run('reader.notes');const html=s.contents.at(-1).html;
+- assert.ok(html.includes('A &lt;source&gt; &amp; its scope'));assert.ok(html.includes('Observation belongs to the field-guide author.'));assert.ok(html.includes('illustrative record, not measured evidence'));assert.ok(html.includes('https://example.org/field-guide'));assert.equal(s.writes.at(-1).value,true);
++ const s=session();s.selections.push({ref:'garden',attributes:{'data-reader-search':'Garden shade'}});await s.run('reader.search',{event:{target:{value:'garden'}}});assert.equal(s.writes.at(-1).value,'1 matching places.');
++ await s.run('reader.notes');const html=s.contents.at(-1).html;
++ assert.ok(html.includes('A &lt;source&gt; &amp; its scope'));assert.ok(html.includes('Observation belongs to the field-guide author.'));assert.ok(html.includes('illustrative record, not measured evidence'));assert.ok(html.includes('https://example.org/field-guide'));assert.equal(s.writes.findLast(w=>w.ref==='#reader-search').value,true);assert.equal(s.writes.findLast(w=>w.ref==='#reader-search-result').value,'');
+ });
+ test('reader atlas and unknown-route fallback use the new world finite place set',async()=>{
+  const s=session({visited:['garden'],current:'garden',hash:'#not-a-place'});await s.run('reader.atlas');const atlas=s.contents.at(-1).html;
+  assert.ok(atlas.includes('1 of 3 places discovered.'));for(const id of Object.keys(places))assert.ok(atlas.includes('href="#'+id+'"'));
+  await s.run('reader.route');assert.equal(s.state.get('current'),'home');const home=s.contents.findLast(item=>item.ref==='#reader-content').html;
+- assert.ok(home.includes('3 places. More than one way through.'));assert.ok(!home.includes('Forty places.'));assert.deepEqual(s.state.get('visited'),['garden']);
++ assert.ok(home.includes('3 places. More than one way through.'));assert.ok(!home.includes('Forty places.'));assert.ok(home.includes(' / A world of ideas'));assert.ok(!home.includes('A personal expedition'));assert.deepEqual(s.state.get('visited'),['garden']);
+ });
+diff --git a/reader-workshop-algebra.test.mjs b/reader-workshop-algebra.test.mjs
+index 9b21049..678197c 100644
+--- a/reader-workshop-algebra.test.mjs
++++ b/reader-workshop-algebra.test.mjs
+@@ -42,6 +42,6 @@ test('algebra-owned workshop sessions reproduce source edits, overlays, generate
+  assert.equal((await run('workshop.snapshot',{candidate:await run('ec.prepare',inputs),revision:0,receipt:null})).title,'What happened');
+ });
+ test('activity source documents retain controls and contain no executable source',()=>{
+- assert.ok(Object.keys(data.activities).length>0);
++ assert.ok(data.activities&&typeof data.activities==='object'&&!Array.isArray(data.activities));
+  for(const activity of Object.values(data.activities)){assert.ok(activity.html);assert.ok(!/<script\b|\son\w+\s*=/i.test(activity.html),activity.id);}
+ });
+diff --git a/resource-audit.mjs b/resource-audit.mjs
+index f5f1756..afab855 100644
+--- a/resource-audit.mjs
++++ b/resource-audit.mjs
+@@ -1,13 +1,44 @@
+ // Read-only publication audit. No network requests and no parent dependencies.
+ import fs from 'node:fs';
+ import path from 'node:path';
+-import {fileURLToPath} from 'node:url';
++import {fileURLToPath,pathToFileURL} from 'node:url';
+ const decode=text=>text.replaceAll('&amp;','&').replaceAll('&#38;','&').replaceAll('&quot;','"').replaceAll('&#39;',"'");
+ export function auditResources(publication){
+- const root=fs.realpathSync(publication),files=[],errors=[],external=[],cache=new Map();let references=0,local=0;
++ const root=fs.realpathSync(publication),files=[],errors=[],external=[],cache=new Map(),dynamicRoutes=new Map(),hashInterception=new Map(),bases=new Map();let references=0,local=0;
+  const scan=directory=>{for(const entry of fs.readdirSync(directory,{withFileTypes:true})){const file=path.join(directory,entry.name),relative=path.relative(root,file).replaceAll('\\','/');if(entry.isSymbolicLink())throw Error('Publication audit refuses symlinks: '+relative);if(relative==='source'||relative.startsWith('source/'))continue;if(entry.isDirectory())scan(file);else if(/\.(html|css)$/.test(entry.name))files.push(file);}};
+  scan(root);
+  const text=file=>{if(!cache.has(file))cache.set(file,fs.readFileSync(file,'utf8'));return cache.get(file);};
++ function base(file){
++  if(bases.has(file))return bases.get(file);
++  let url=pathToFileURL(file);
++  if(file.endsWith('.html')){
++   const tag=/<base\b[^>]*\bhref\s*=\s*(?:"([^"]*)"|'([^']*)')/i.exec(text(file));
++   if(tag){const href=decode(tag[1]??tag[2]).trim();
++    if(/^(?:[a-z][a-z0-9+.-]*:|[\/\\])/i.test(href))errors.push(path.relative(root,file)+' has a nonportable document base '+href);
++    else {url=new URL(href,url);const relative=path.relative(root,fileURLToPath(url));if(relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative))errors.push(path.relative(root,file)+' document base leaves the publication');}
++   }
++  }
++  bases.set(file,url);return url;
++ }
++ function routes(document){
++  if(dynamicRoutes.has(document))return dynamicRoutes.get(document);
++  const ids=new Set();
++  for(const script of text(document).matchAll(/<script\b[^>]*\bsrc\s*=\s*(?:"([^"]*)"|'([^']*)')/gi)){
++   const src=decode(script[1]??script[2]).split(/[?#]/)[0];if(!src||/^(?:[a-z]+:|\/)/i.test(src))continue;
++   const file=fileURLToPath(new URL(src,base(document))),relative=path.relative(root,file);if(relative.startsWith('..')||path.isAbsolute(relative)||!fs.existsSync(file))continue;
++   const match=/const model=hydrateSnapshot\(("(?:\\.|[^"\\])*")\)/.exec(text(file));if(!match)continue;
++   const model=JSON.parse(JSON.parse(match[1]));
++   // Only actual configured routes for the known admitted routers count;
++   // arbitrary strings in a JavaScript bundle never manufacture an anchor.
++   if(model.entry==='reader.boot'&&Object.hasOwn(model.queries,'reader.route')){
++    for(const id of ['home',...(model.data?.ids??[])])ids.add(id);
++    const binding=(model.queries['reader.boot']??[]).some(step=>step.port==='browser.on'&&step.args?.event==='click'&&step.args?.delegate==='a[href^="#"]'&&step.args?.preventDefault===true&&step.args?.query==='reader.follow');
++    if(binding&&Object.hasOwn(model.queries,'reader.follow'))hashInterception.set(document,true);
++   }
++   if(model.entry==='activity.boot')for(const id of Object.keys(model.data?.activities??{}))ids.add(id);
++  }
++  dynamicRoutes.set(document,ids);return ids;
++ }
+  function check(file,href,kind){
+   references++;href=decode(href).trim();if(!href)return;
+   const context=path.relative(root,file).replaceAll('\\','/')+' ['+kind+'] '+href;
+@@ -16,26 +47,33 @@ export function auditResources(publication){
+   if(href.startsWith('/')||href.startsWith('\\')){errors.push(context+' escapes a hosted subpath');return;}
+   if(kind==='css'&&href.startsWith('#'))return;
+   local++;
++  if(kind==='href'&&href.startsWith('#')){
++   let id;try{id=decodeURIComponent(href.slice(1));}catch{}
++   const configured=routes(file),staticIds=[...text(file).matchAll(/\bid\s*=\s*(?:"([^"]*)"|'([^']*)')/g)].map(match=>decode(match[1]??match[2]));
++   // Honor only the actual generated, explicitly prevented reader handler.
++   // Merely having a hash router does not intercept base-resolved link clicks.
++   if(hashInterception.get(file)&&(configured.has(id)||staticIds.includes(id)))return;
++  }
+   const hashAt=href.indexOf('#'),fragment=hashAt<0?'':href.slice(hashAt+1),route=(hashAt<0?href:href.slice(0,hashAt)).split('?')[0];
+   let target;
+-  try{target=path.resolve(path.dirname(file),decodeURIComponent(route)||path.basename(file));}catch{errors.push(context+' has invalid URI encoding');return;}
++  try{target=fileURLToPath(new URL(route||'#',base(file)));}catch{errors.push(context+' has invalid URI encoding');return;}
+   const relative=path.relative(root,target);if(relative==='..'||relative.startsWith('..'+path.sep)||path.isAbsolute(relative)){errors.push(context+' leaves the publication');return;}
+   if(fs.existsSync(target)&&fs.statSync(target).isDirectory())target=path.join(target,'index.html');
+   if(!fs.existsSync(target)||!fs.statSync(target).isFile()){errors.push(context+' has no local target');return;}
+   if(fragment&&path.extname(target)==='.html'){
+    let id;try{id=decodeURIComponent(fragment);}catch{errors.push(context+' has invalid fragment encoding');return;}
+    const ids=[...text(target).matchAll(/\b(?:id|name)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)].map(match=>decode(match[1]??match[2]));
+-   if(!ids.includes(id))errors.push(context+' has no #'+id+' fragment');
++   if(!ids.includes(id)&&!routes(target).has(id))errors.push(context+' has no static or declared routed #'+id+' fragment');
+   }
+  }
+  for(const file of files){
+   const source=text(file);
+-  if(file.endsWith('.html'))for(const match of source.matchAll(/\b(href|src|poster)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi))check(file,match[2]??match[3],match[1]);
++  if(file.endsWith('.html')){base(file);for(const match of source.replace(/<base\b[^>]*>/gi,'').matchAll(/\b(href|src|poster)\s*=\s*(?:"([^"]*)"|'([^']*)')/gi))check(file,match[2]??match[3],match[1]);}
+   // CSS is audited relative to its own stylesheet. Inline <style> and style=
+   // URLs resolve relative to the containing HTML document, which is also here.
+   for(const match of source.matchAll(/url\(\s*(?:"([^"]*)"|'([^']*)'|([^)'"\s]+))\s*\)/gi))check(file,match[1]??match[2]??match[3],'css');
+  }
+- return {protocol:'worldwright/resource-audit/1',documents:files.filter(file=>file.endsWith('.html')).length,stylesheets:files.filter(file=>file.endsWith('.css')).length,references,localReferences:local,externalReferences:external.length,errors,boundary:'Every emitted application HTML href/src/poster and HTML/CSS url is checked locally. Canonical source/ inspection snapshots are not application documents. External links are inventoried, not network-verified.'};
++ return {protocol:'worldwright/resource-audit/1',documents:files.filter(file=>file.endsWith('.html')).length,stylesheets:files.filter(file=>file.endsWith('.css')).length,references,localReferences:local,externalReferences:external.length,errors,boundary:'Every emitted application HTML href/src/poster and HTML/CSS url is resolved using its actual document base. Fragment targets must exist as document IDs or actual configured IDs of an admitted reader/activity router. Canonical source/ inspection snapshots are not application documents. External links are inventoried, not network-verified.'};
+ }
+ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){
+  const report=auditResources(fileURLToPath(new URL('./dist/',import.meta.url)));console.log(JSON.stringify(report,null,2));if(report.errors.length)process.exitCode=1;
+diff --git a/resource-paths.test.mjs b/resource-paths.test.mjs
+index 7481714..b528f28 100644
+--- a/resource-paths.test.mjs
++++ b/resource-paths.test.mjs
+@@ -1,5 +1,7 @@
+ import test from 'node:test';
+ import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import path from 'node:path';
+ import {fileURLToPath} from 'node:url';
+ import {auditResources} from './resource-audit.mjs';
+ test('every emitted application document and stylesheet retains local resources, fragments and subpath-safe links',()=>{
+@@ -7,3 +9,19 @@ test('every emitted application document and stylesheet retains local resources,
+  assert.ok(result.documents>10);assert.ok(result.stylesheets>3);assert.ok(result.localReferences>100);
+  assert.deepEqual(result.errors,[]); // The error list includes exact source and target routes.
+ });
++test('resource checking honors a relative HTML base and still rejects subpath escapes',()=>{
++ const workspace=fileURLToPath(new URL('./.build/',import.meta.url));fs.mkdirSync(workspace,{recursive:true});const fixture=fs.mkdtempSync(path.join(workspace,'resource-audit-'));
++ try{
++  fs.mkdirSync(path.join(fixture,'retained'));fs.mkdirSync(path.join(fixture,'reader'));
++  fs.writeFileSync(path.join(fixture,'index.html'),'<main id="start">Root</main>');fs.writeFileSync(path.join(fixture,'base.css'),'body{background:url(art.svg)}');fs.writeFileSync(path.join(fixture,'art.svg'),'<svg xmlns="http://www.w3.org/2000/svg"/>');
++  const model={entry:'reader.boot',queries:{'reader.route':[]},data:{ids:['forest']}};
++  fs.writeFileSync(path.join(fixture,'reader/runtime.js'),'const model=hydrateSnapshot('+JSON.stringify(JSON.stringify(model))+');');
++  fs.writeFileSync(path.join(fixture,'reader.html'),'<script src="reader/runtime.js"></script>');
++  fs.writeFileSync(path.join(fixture,'retained/index.html'),'<head><base href="../"><link rel="stylesheet" href="base.css"><script src="reader/runtime.js"></script></head><a href="reader.html#forest">An explicitly addressed reader route</a><a href="index.html#start">A root anchor</a><img src="art.svg">');
++  assert.deepEqual(auditResources(fixture).errors,[],'The base resolves resources at the publication root and explicit links address the actual reader document.');
++  fs.appendFileSync(path.join(fixture,'retained/index.html'),'<a href="#forest">A hash incorrectly shifted by the base</a>');
++  assert.ok(auditResources(fixture).errors.some(error=>error.includes('#forest')&&error.includes('no static or declared routed')),'A router in the current document cannot excuse navigation to a different base-resolved document.');
++  fs.appendFileSync(path.join(fixture,'retained/index.html'),'<a href="/outside.html">Escape</a><a href="missing.html">Missing</a>');
++  const errors=auditResources(fixture).errors;assert.ok(errors.some(error=>error.includes('escapes a hosted subpath')));assert.ok(errors.some(error=>error.includes('missing.html')&&error.includes('no local target')));
++ }finally{if(!path.resolve(fixture).startsWith(workspace))throw Error('Unexpected resource-test cleanup target');fs.rmSync(fixture,{recursive:true,force:true});}
++});
+diff --git a/source/assets.rel b/source/assets.rel
+new file mode 100644
+index 0000000..ab953f7
+--- /dev/null
++++ b/source/assets.rel
+@@ -0,0 +1,363 @@
++// Framework resource ownership. Keep this when replacing the world graph.
++("file.retained/.nojekyll", "isa", "PublicationAsset")
++("file.retained/.nojekyll", "path", "retained/.nojekyll")
++("file.retained/app.js", "isa", "PublicationAsset")
++("file.retained/app.js", "path", "retained/app.js")
++("file.retained/assets/atlas-grid.svg", "isa", "PublicationAsset")
++("file.retained/assets/atlas-grid.svg", "path", "retained/assets/atlas-grid.svg")
++("file.retained/assets/mark.svg", "isa", "PublicationAsset")
++("file.retained/assets/mark.svg", "path", "retained/assets/mark.svg")
++("file.retained/assets/terrain.svg", "isa", "PublicationAsset")
++("file.retained/assets/terrain.svg", "path", "retained/assets/terrain.svg")
++("file.retained/coverage.json", "isa", "PublicationAsset")
++("file.retained/coverage.json", "path", "retained/coverage.json")
++("file.retained/enchantment.css", "isa", "PublicationAsset")
++("file.retained/enchantment.css", "path", "retained/enchantment.css")
++("file.retained/encounter-data.js", "isa", "PublicationAsset")
++("file.retained/encounter-data.js", "path", "retained/encounter-data.js")
++("file.retained/encounters.js", "isa", "PublicationAsset")
++("file.retained/encounters.js", "path", "retained/encounters.js")
++("file.retained/expansion.js", "isa", "PublicationAsset")
++("file.retained/expansion.js", "path", "retained/expansion.js")
++("file.retained/geography.js", "isa", "PublicationAsset")
++("file.retained/geography.js", "path", "retained/geography.js")
++("file.retained/index.html", "isa", "PublicationAsset")
++("file.retained/index.html", "path", "retained/index.html")
++("file.retained/library/codes.txt", "isa", "PublicationAsset")
++("file.retained/library/codes.txt", "path", "retained/library/codes.txt")
++("file.retained/library/contact.txt", "isa", "PublicationAsset")
++("file.retained/library/contact.txt", "path", "retained/library/contact.txt")
++("file.retained/library/contribution.txt", "isa", "PublicationAsset")
++("file.retained/library/contribution.txt", "path", "retained/library/contribution.txt")
++("file.retained/library/correction.txt", "isa", "PublicationAsset")
++("file.retained/library/correction.txt", "path", "retained/library/correction.txt")
++("file.retained/library/correspondence.txt", "isa", "PublicationAsset")
++("file.retained/library/correspondence.txt", "path", "retained/library/correspondence.txt")
++("file.retained/library/cosmos.txt", "isa", "PublicationAsset")
++("file.retained/library/cosmos.txt", "path", "retained/library/cosmos.txt")
++("file.retained/library/costs.txt", "isa", "PublicationAsset")
++("file.retained/library/costs.txt", "path", "retained/library/costs.txt")
++("file.retained/library/detector.txt", "isa", "PublicationAsset")
++("file.retained/library/detector.txt", "path", "retained/library/detector.txt")
++("file.retained/library/erasure.txt", "isa", "PublicationAsset")
++("file.retained/library/erasure.txt", "path", "retained/library/erasure.txt")
++("file.retained/library/frontier.txt", "isa", "PublicationAsset")
++("file.retained/library/frontier.txt", "path", "retained/library/frontier.txt")
++("file.retained/library/instrument.txt", "isa", "PublicationAsset")
++("file.retained/library/instrument.txt", "path", "retained/library/instrument.txt")
++("file.retained/library/invariant.txt", "isa", "PublicationAsset")
++("file.retained/library/invariant.txt", "path", "retained/library/invariant.txt")
++("file.retained/library/kenosis.txt", "isa", "PublicationAsset")
++("file.retained/library/kenosis.txt", "path", "retained/library/kenosis.txt")
++("file.retained/library/laboratory.txt", "isa", "PublicationAsset")
++("file.retained/library/laboratory.txt", "path", "retained/library/laboratory.txt")
++("file.retained/library/material.txt", "isa", "PublicationAsset")
++("file.retained/library/material.txt", "path", "retained/library/material.txt")
++("file.retained/library/meanings.txt", "isa", "PublicationAsset")
++("file.retained/library/meanings.txt", "path", "retained/library/meanings.txt")
++("file.retained/library/memory.txt", "isa", "PublicationAsset")
++("file.retained/library/memory.txt", "path", "retained/library/memory.txt")
++("file.retained/library/mind.txt", "isa", "PublicationAsset")
++("file.retained/library/mind.txt", "path", "retained/library/mind.txt")
++("file.retained/library/monster.txt", "isa", "PublicationAsset")
++("file.retained/library/monster.txt", "path", "retained/library/monster.txt")
++("file.retained/library/negatives.txt", "isa", "PublicationAsset")
++("file.retained/library/negatives.txt", "path", "retained/library/negatives.txt")
++("file.retained/library/patterns.txt", "isa", "PublicationAsset")
++("file.retained/library/patterns.txt", "path", "retained/library/patterns.txt")
++("file.retained/library/possibilities.txt", "isa", "PublicationAsset")
++("file.retained/library/possibilities.txt", "path", "retained/library/possibilities.txt")
++("file.retained/library/reflection.txt", "isa", "PublicationAsset")
++("file.retained/library/reflection.txt", "path", "retained/library/reflection.txt")
++("file.retained/library/relations.txt", "isa", "PublicationAsset")
++("file.retained/library/relations.txt", "path", "retained/library/relations.txt")
++("file.retained/library/scenarios.txt", "isa", "PublicationAsset")
++("file.retained/library/scenarios.txt", "path", "retained/library/scenarios.txt")
++("file.retained/library/sourcery.txt", "isa", "PublicationAsset")
++("file.retained/library/sourcery.txt", "path", "retained/library/sourcery.txt")
++("file.retained/library/texts.txt", "isa", "PublicationAsset")
++("file.retained/library/texts.txt", "path", "retained/library/texts.txt")
++("file.retained/reading-experience.js", "isa", "PublicationAsset")
++("file.retained/reading-experience.js", "path", "retained/reading-experience.js")
++("file.retained/reading-guide.js", "isa", "PublicationAsset")
++("file.retained/reading-guide.js", "path", "retained/reading-guide.js")
++("file.retained/reading.css", "isa", "PublicationAsset")
++("file.retained/reading.css", "path", "retained/reading.css")
++("file.retained/source-receipts.js", "isa", "PublicationAsset")
++("file.retained/source-receipts.js", "path", "retained/source-receipts.js")
++("file.retained/style.css", "isa", "PublicationAsset")
++("file.retained/style.css", "path", "retained/style.css")
++("file.retained/territories.css", "isa", "PublicationAsset")
++("file.retained/territories.css", "path", "retained/territories.css")
++("file.retained/wider-world.css", "isa", "PublicationAsset")
++("file.retained/wider-world.css", "path", "retained/wider-world.css")
++("file.retained/workshop/app.js", "isa", "PublicationAsset")
++("file.retained/workshop/app.js", "path", "retained/workshop/app.js")
++("file.retained/workshop/browser-host.js", "isa", "PublicationAsset")
++("file.retained/workshop/browser-host.js", "path", "retained/workshop/browser-host.js")
++("file.retained/workshop/encounter-story.html", "isa", "PublicationAsset")
++("file.retained/workshop/encounter-story.html", "path", "retained/workshop/encounter-story.html")
++("file.retained/workshop/engine.js", "isa", "PublicationAsset")
++("file.retained/workshop/engine.js", "path", "retained/workshop/engine.js")
++("file.retained/workshop/fixture.json", "isa", "PublicationAsset")
++("file.retained/workshop/fixture.json", "path", "retained/workshop/fixture.json")
++("file.retained/workshop/index.html", "isa", "PublicationAsset")
++("file.retained/workshop/index.html", "path", "retained/workshop/index.html")
++("file.retained/workshop/listing.js", "isa", "PublicationAsset")
++("file.retained/workshop/listing.js", "path", "retained/workshop/listing.js")
++("file.retained/workshop/package.json", "isa", "PublicationAsset")
++("file.retained/workshop/package.json", "path", "retained/workshop/package.json")
++("file.retained/workshop/README.txt", "isa", "PublicationAsset")
++("file.retained/workshop/README.txt", "path", "retained/workshop/README.txt")
++("file.retained/workshop/regenerate.cjs", "isa", "PublicationAsset")
++("file.retained/workshop/regenerate.cjs", "path", "retained/workshop/regenerate.cjs")
++("file.retained/workshop/session-worker.js", "isa", "PublicationAsset")
++("file.retained/workshop/session-worker.js", "path", "retained/workshop/session-worker.js")
++("file.retained/workshop/source-manifest.txt", "isa", "PublicationAsset")
++("file.retained/workshop/source-manifest.txt", "path", "retained/workshop/source-manifest.txt")
++("file.retained/workshop/sources/algebra/admission.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/admission.process.json", "path", "retained/workshop/sources/algebra/admission.process.json")
++("file.retained/workshop/sources/algebra/encounter-code-compiler.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/encounter-code-compiler.process.json", "path", "retained/workshop/sources/algebra/encounter-code-compiler.process.json")
++("file.retained/workshop/sources/algebra/encounter-code-runtime.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/encounter-code-runtime.process.json", "path", "retained/workshop/sources/algebra/encounter-code-runtime.process.json")
++("file.retained/workshop/sources/algebra/encounter-code-types.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/encounter-code-types.process.json", "path", "retained/workshop/sources/algebra/encounter-code-types.process.json")
++("file.retained/workshop/sources/algebra/fact-index.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/fact-index.process.json", "path", "retained/workshop/sources/algebra/fact-index.process.json")
++("file.retained/workshop/sources/algebra/html.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/html.process.json", "path", "retained/workshop/sources/algebra/html.process.json")
++("file.retained/workshop/sources/algebra/lab.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/lab.process.json", "path", "retained/workshop/sources/algebra/lab.process.json")
++("file.retained/workshop/sources/algebra/language.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/language.process.json", "path", "retained/workshop/sources/algebra/language.process.json")
++("file.retained/workshop/sources/algebra/lowering.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/lowering.process.json", "path", "retained/workshop/sources/algebra/lowering.process.json")
++("file.retained/workshop/sources/algebra/operators.expression.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/operators.expression.json", "path", "retained/workshop/sources/algebra/operators.expression.json")
++("file.retained/workshop/sources/algebra/source.process.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/algebra/source.process.json", "path", "retained/workshop/sources/algebra/source.process.json")
++("file.retained/workshop/sources/bootstrap/encounter-code-fixture.cjs", "isa", "PublicationAsset")
++("file.retained/workshop/sources/bootstrap/encounter-code-fixture.cjs", "path", "retained/workshop/sources/bootstrap/encounter-code-fixture.cjs")
++("file.retained/workshop/sources/bootstrap/kernel-profile.json", "isa", "PublicationAsset")
++("file.retained/workshop/sources/bootstrap/kernel-profile.json", "path", "retained/workshop/sources/bootstrap/kernel-profile.json")
++("file.retained/workshop/sources/bootstrap/ports/algebra-lower.cjs", "isa", "PublicationAsset")
++("file.retained/workshop/sources/bootstrap/ports/algebra-lower.cjs", "path", "retained/workshop/sources/bootstrap/ports/algebra-lower.cjs")
++("file.retained/workshop/sources/bootstrap/ports/kernel.cjs", "isa", "PublicationAsset")
++("file.retained/workshop/sources/bootstrap/ports/kernel.cjs", "path", "retained/workshop/sources/bootstrap/ports/kernel.cjs")
++("file.retained/workshop/sources/bootstrap/ports/programme.cjs", "isa", "PublicationAsset")
++("file.retained/workshop/sources/bootstrap/ports/programme.cjs", "path", "retained/workshop/sources/bootstrap/ports/programme.cjs")
++("file.retained/workshop/sources/bootstrap/ports/value.cjs", "isa", "PublicationAsset")
++("file.retained/workshop/sources/bootstrap/ports/value.cjs", "path", "retained/workshop/sources/bootstrap/ports/value.cjs")
++("file.retained/workshop/sources/bootstrap/temple-seed.cjs", "isa", "PublicationAsset")
++("file.retained/workshop/sources/bootstrap/temple-seed.cjs", "path", "retained/workshop/sources/bootstrap/temple-seed.cjs")
++("file.retained/workshop/sources/source/experiment/contracts.rel", "isa", "PublicationAsset")
++("file.retained/workshop/sources/source/experiment/contracts.rel", "path", "retained/workshop/sources/source/experiment/contracts.rel")
++("file.retained/workshop/sources/source/experiment/story.encounter", "isa", "PublicationAsset")
++("file.retained/workshop/sources/source/experiment/story.encounter", "path", "retained/workshop/sources/source/experiment/story.encounter")
++("file.retained/workshop/sources/source/experiment/story.rel", "isa", "PublicationAsset")
++("file.retained/workshop/sources/source/experiment/story.rel", "path", "retained/workshop/sources/source/experiment/story.rel")
++("file.retained/workshop/style.css", "isa", "PublicationAsset")
++("file.retained/workshop/style.css", "path", "retained/workshop/style.css")
++("file.retained/workshop/temple-native.js", "isa", "PublicationAsset")
++("file.retained/workshop/temple-native.js", "path", "retained/workshop/temple-native.js")
++("file.retained/world-encounters.js", "isa", "PublicationAsset")
++("file.retained/world-encounters.js", "path", "retained/world-encounters.js")
++("file.retained/world-models.js", "isa", "PublicationAsset")
++("file.retained/world-models.js", "path", "retained/world-models.js")
++("file.retained/world.js", "isa", "PublicationAsset")
++("file.retained/world.js", "path", "retained/world.js")
++("file.assets/sourcerer-threshold.png", "isa", "PublicationAsset")
++("file.assets/sourcerer-threshold.png", "path", "assets/sourcerer-threshold.png")
++("file.retained/.nojekyll", "legacyAlias", ".nojekyll")
++("file.retained/app.js", "legacyAlias", "app.js")
++("file.retained/assets/atlas-grid.svg", "legacyAlias", "assets/atlas-grid.svg")
++("file.retained/assets/mark.svg", "legacyAlias", "assets/mark.svg")
++("file.retained/assets/terrain.svg", "legacyAlias", "assets/terrain.svg")
++("file.retained/coverage.json", "legacyAlias", "coverage.json")
++("file.retained/enchantment.css", "legacyAlias", "enchantment.css")
++("file.retained/encounter-data.js", "legacyAlias", "encounter-data.js")
++("file.retained/encounters.js", "legacyAlias", "encounters.js")
++("file.retained/expansion.js", "legacyAlias", "expansion.js")
++("file.retained/geography.js", "legacyAlias", "geography.js")
++("file.retained/index.html", "legacyAlias", "reader.html")
++("file.retained/library/codes.txt", "legacyAlias", "library/codes.txt")
++("file.retained/library/contact.txt", "legacyAlias", "library/contact.txt")
++("file.retained/library/contribution.txt", "legacyAlias", "library/contribution.txt")
++("file.retained/library/correction.txt", "legacyAlias", "library/correction.txt")
++("file.retained/library/correspondence.txt", "legacyAlias", "library/correspondence.txt")
++("file.retained/library/cosmos.txt", "legacyAlias", "library/cosmos.txt")
++("file.retained/library/costs.txt", "legacyAlias", "library/costs.txt")
++("file.retained/library/detector.txt", "legacyAlias", "library/detector.txt")
++("file.retained/library/erasure.txt", "legacyAlias", "library/erasure.txt")
++("file.retained/library/frontier.txt", "legacyAlias", "library/frontier.txt")
++("file.retained/library/instrument.txt", "legacyAlias", "library/instrument.txt")
++("file.retained/library/invariant.txt", "legacyAlias", "library/invariant.txt")
++("file.retained/library/kenosis.txt", "legacyAlias", "library/kenosis.txt")
++("file.retained/library/laboratory.txt", "legacyAlias", "library/laboratory.txt")
++("file.retained/library/material.txt", "legacyAlias", "library/material.txt")
++("file.retained/library/meanings.txt", "legacyAlias", "library/meanings.txt")
++("file.retained/library/memory.txt", "legacyAlias", "library/memory.txt")
++("file.retained/library/mind.txt", "legacyAlias", "library/mind.txt")
++("file.retained/library/monster.txt", "legacyAlias", "library/monster.txt")
++("file.retained/library/negatives.txt", "legacyAlias", "library/negatives.txt")
++("file.retained/library/patterns.txt", "legacyAlias", "library/patterns.txt")
++("file.retained/library/possibilities.txt", "legacyAlias", "library/possibilities.txt")
++("file.retained/library/reflection.txt", "legacyAlias", "library/reflection.txt")
++("file.retained/library/relations.txt", "legacyAlias", "library/relations.txt")
++("file.retained/library/scenarios.txt", "legacyAlias", "library/scenarios.txt")
++("file.retained/library/sourcery.txt", "legacyAlias", "library/sourcery.txt")
++("file.retained/library/texts.txt", "legacyAlias", "library/texts.txt")
++("file.retained/reading-experience.js", "legacyAlias", "reading-experience.js")
++("file.retained/reading-guide.js", "legacyAlias", "reading-guide.js")
++("file.retained/reading.css", "legacyAlias", "reading.css")
++("file.retained/source-receipts.js", "legacyAlias", "source-receipts.js")
++("file.retained/style.css", "legacyAlias", "style.css")
++("file.retained/territories.css", "legacyAlias", "territories.css")
++("file.retained/wider-world.css", "legacyAlias", "wider-world.css")
++("file.retained/workshop/app.js", "legacyAlias", "workshop/app.js")
++("file.retained/workshop/browser-host.js", "legacyAlias", "workshop/browser-host.js")
++("file.retained/workshop/encounter-story.html", "legacyAlias", "workshop/encounter-story.html")
++("file.retained/workshop/engine.js", "legacyAlias", "workshop/engine.js")
++("file.retained/workshop/fixture.json", "legacyAlias", "workshop/fixture.json")
++("file.retained/workshop/index.html", "legacyAlias", "workshop/index.html")
++("file.retained/workshop/listing.js", "legacyAlias", "workshop/listing.js")
++("file.retained/workshop/package.json", "legacyAlias", "workshop/package.json")
++("file.retained/workshop/README.txt", "legacyAlias", "workshop/README.txt")
++("file.retained/workshop/regenerate.cjs", "legacyAlias", "workshop/regenerate.cjs")
++("file.retained/workshop/session-worker.js", "legacyAlias", "workshop/session-worker.js")
++("file.retained/workshop/source-manifest.txt", "legacyAlias", "workshop/source-manifest.txt")
++("file.retained/workshop/sources/algebra/admission.process.json", "legacyAlias", "workshop/sources/algebra/admission.process.json")
++("file.retained/workshop/sources/algebra/encounter-code-compiler.process.json", "legacyAlias", "workshop/sources/algebra/encounter-code-compiler.process.json")
++("file.retained/workshop/sources/algebra/encounter-code-runtime.process.json", "legacyAlias", "workshop/sources/algebra/encounter-code-runtime.process.json")
++("file.retained/workshop/sources/algebra/encounter-code-types.process.json", "legacyAlias", "workshop/sources/algebra/encounter-code-types.process.json")
++("file.retained/workshop/sources/algebra/fact-index.process.json", "legacyAlias", "workshop/sources/algebra/fact-index.process.json")
++("file.retained/workshop/sources/algebra/html.process.json", "legacyAlias", "workshop/sources/algebra/html.process.json")
++("file.retained/workshop/sources/algebra/lab.process.json", "legacyAlias", "workshop/sources/algebra/lab.process.json")
++("file.retained/workshop/sources/algebra/language.process.json", "legacyAlias", "workshop/sources/algebra/language.process.json")
++("file.retained/workshop/sources/algebra/lowering.process.json", "legacyAlias", "workshop/sources/algebra/lowering.process.json")
++("file.retained/workshop/sources/algebra/operators.expression.json", "legacyAlias", "workshop/sources/algebra/operators.expression.json")
++("file.retained/workshop/sources/algebra/source.process.json", "legacyAlias", "workshop/sources/algebra/source.process.json")
++("file.retained/workshop/sources/bootstrap/encounter-code-fixture.cjs", "legacyAlias", "workshop/sources/bootstrap/encounter-code-fixture.cjs")
++("file.retained/workshop/sources/bootstrap/kernel-profile.json", "legacyAlias", "workshop/sources/bootstrap/kernel-profile.json")
++("file.retained/workshop/sources/bootstrap/ports/algebra-lower.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/algebra-lower.cjs")
++("file.retained/workshop/sources/bootstrap/ports/kernel.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/kernel.cjs")
++("file.retained/workshop/sources/bootstrap/ports/programme.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/programme.cjs")
++("file.retained/workshop/sources/bootstrap/ports/value.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/value.cjs")
++("file.retained/workshop/sources/bootstrap/temple-seed.cjs", "legacyAlias", "workshop/sources/bootstrap/temple-seed.cjs")
++("file.retained/workshop/sources/source/experiment/contracts.rel", "legacyAlias", "workshop/sources/source/experiment/contracts.rel")
++("file.retained/workshop/sources/source/experiment/story.encounter", "legacyAlias", "workshop/sources/source/experiment/story.encounter")
++("file.retained/workshop/sources/source/experiment/story.rel", "legacyAlias", "workshop/sources/source/experiment/story.rel")
++("file.retained/workshop/style.css", "legacyAlias", "workshop/style.css")
++("file.retained/workshop/temple-native.js", "legacyAlias", "workshop/temple-native.js")
++("file.retained/world-encounters.js", "legacyAlias", "world-encounters.js")
++("file.retained/world-models.js", "legacyAlias", "world-models.js")
++("file.retained/world.js", "legacyAlias", "world.js")
++("template.source.assets", "isa", "PublicationAsset")
++("template.source.assets", "path", "source/assets.rel")
++("template.source.source/world.rel", "isa", "PublicationAsset")
++("template.source.source/world.rel", "path", "source/world.rel")
++("template.source.source/expedition.rel", "isa", "PublicationAsset")
++("template.source.source/expedition.rel", "path", "source/expedition.rel")
++("template.source.source/presentation.rel", "isa", "PublicationAsset")
++("template.source.source/presentation.rel", "path", "source/presentation.rel")
++("template.source.source/gateway.rel", "isa", "PublicationAsset")
++("template.source.source/gateway.rel", "path", "source/gateway.rel")
++("template.source.source/gateway-presentation.rel", "isa", "PublicationAsset")
++("template.source.source/gateway-presentation.rel", "path", "source/gateway-presentation.rel")
++("template.source.source/microsites/presentation.rel", "isa", "PublicationAsset")
++("template.source.source/microsites/presentation.rel", "path", "source/microsites/presentation.rel")
++("template.source.source/microsites/release.rel", "isa", "PublicationAsset")
++("template.source.source/microsites/release.rel", "path", "source/microsites/release.rel")
++("template.source.source/front-doors.rel", "isa", "PublicationAsset")
++("template.source.source/front-doors.rel", "path", "source/front-doors.rel")
++("template.source.source/claimipedia.rel", "isa", "PublicationAsset")
++("template.source.source/claimipedia.rel", "path", "source/claimipedia.rel")
++("template.source.source/claimipedia-example.rel", "isa", "PublicationAsset")
++("template.source.source/claimipedia-example.rel", "path", "source/claimipedia-example.rel")
++("template.source.source/social-sharing.rel", "isa", "PublicationAsset")
++("template.source.source/social-sharing.rel", "path", "source/social-sharing.rel")
++("template.source.source/encounter.rel", "isa", "PublicationAsset")
++("template.source.source/encounter.rel", "path", "source/encounter.rel")
++("template.source.source/atlas.rel", "isa", "PublicationAsset")
++("template.source.source/atlas.rel", "path", "source/atlas.rel")
++("template.source.algebra/html.process.json", "isa", "PublicationAsset")
++("template.source.algebra/html.process.json", "path", "algebra/html.process.json")
++("template.source.algebra/css.process.json", "isa", "PublicationAsset")
++("template.source.algebra/css.process.json", "path", "algebra/css.process.json")
++("template.source.algebra/publication.process.json", "isa", "PublicationAsset")
++("template.source.algebra/publication.process.json", "path", "algebra/publication.process.json")
++("template.source.algebra/gateway.process.json", "isa", "PublicationAsset")
++("template.source.algebra/gateway.process.json", "path", "algebra/gateway.process.json")
++("template.source.algebra/language.process.json", "isa", "PublicationAsset")
++("template.source.algebra/language.process.json", "path", "algebra/language.process.json")
++("template.source.algebra/fact-index.process.json", "isa", "PublicationAsset")
++("template.source.algebra/fact-index.process.json", "path", "algebra/fact-index.process.json")
++("template.source.algebra/source.process.json", "isa", "PublicationAsset")
++("template.source.algebra/source.process.json", "path", "algebra/source.process.json")
++("template.source.algebra/admission.process.json", "isa", "PublicationAsset")
++("template.source.algebra/admission.process.json", "path", "algebra/admission.process.json")
++("template.source.algebra/lowering.process.json", "isa", "PublicationAsset")
++("template.source.algebra/lowering.process.json", "path", "algebra/lowering.process.json")
++("template.source.algebra/microsite-projection.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-projection.process.json", "path", "algebra/microsite-projection.process.json")
++("template.source.algebra/microsites.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsites.process.json", "path", "algebra/microsites.process.json")
++("template.source.algebra/microsite-values.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-values.process.json", "path", "algebra/microsite-values.process.json")
++("template.source.algebra/microsite-lamp.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-lamp.process.json", "path", "algebra/microsite-lamp.process.json")
++("template.source.algebra/microsite-sourcery.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-sourcery.process.json", "path", "algebra/microsite-sourcery.process.json")
++("template.source.algebra/microsite-ui.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-ui.process.json", "path", "algebra/microsite-ui.process.json")
++("template.source.algebra/microsite-temple-ui.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-temple-ui.process.json", "path", "algebra/microsite-temple-ui.process.json")
++("template.source.algebra/microsite-motion.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-motion.process.json", "path", "algebra/microsite-motion.process.json")
++("template.source.algebra/microsite-temple-motion.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-temple-motion.process.json", "path", "algebra/microsite-temple-motion.process.json")
++("template.source.algebra/microsite-media.process.json", "isa", "PublicationAsset")
++("template.source.algebra/microsite-media.process.json", "path", "algebra/microsite-media.process.json")
++("template.source.algebra/front-doors.process.json", "isa", "PublicationAsset")
++("template.source.algebra/front-doors.process.json", "path", "algebra/front-doors.process.json")
++("template.source.algebra/claimipedia.process.json", "isa", "PublicationAsset")
++("template.source.algebra/claimipedia.process.json", "path", "algebra/claimipedia.process.json")
++("template.source.algebra/claimipedia-review.process.json", "isa", "PublicationAsset")
++("template.source.algebra/claimipedia-review.process.json", "path", "algebra/claimipedia-review.process.json")
++("template.source.algebra/encounter-demo.process.json", "isa", "PublicationAsset")
++("template.source.algebra/encounter-demo.process.json", "path", "algebra/encounter-demo.process.json")
++("template.source.algebra/encounter-source.process.json", "isa", "PublicationAsset")
++("template.source.algebra/encounter-source.process.json", "path", "algebra/encounter-source.process.json")
++("template.source.algebra/encounter-code-types.process.json", "isa", "PublicationAsset")
++("template.source.algebra/encounter-code-types.process.json", "path", "algebra/encounter-code-types.process.json")
++("template.source.algebra/encounter-code-compiler.process.json", "isa", "PublicationAsset")
++("template.source.algebra/encounter-code-compiler.process.json", "path", "algebra/encounter-code-compiler.process.json")
++("template.source.algebra/encounter-code-runtime.process.json", "isa", "PublicationAsset")
++("template.source.algebra/encounter-code-runtime.process.json", "path", "algebra/encounter-code-runtime.process.json")
++("template.source.algebra/encounter.process.json", "isa", "PublicationAsset")
++("template.source.algebra/encounter.process.json", "path", "algebra/encounter.process.json")
++("template.source.algebra/atlas.process.json", "isa", "PublicationAsset")
++("template.source.algebra/atlas.process.json", "path", "algebra/atlas.process.json")
++("template.source.algebra/atlas-journey.process.json", "isa", "PublicationAsset")
++("template.source.algebra/atlas-journey.process.json", "path", "algebra/atlas-journey.process.json")
++("template.source.algebra/reader-models.process.json", "isa", "PublicationAsset")
++("template.source.algebra/reader-models.process.json", "path", "algebra/reader-models.process.json")
++("template.source.algebra/reader-activities.process.json", "isa", "PublicationAsset")
++("template.source.algebra/reader-activities.process.json", "path", "algebra/reader-activities.process.json")
++("template.source.algebra/reader-navigation.process.json", "isa", "PublicationAsset")
++("template.source.algebra/reader-navigation.process.json", "path", "algebra/reader-navigation.process.json")
++("template.source.algebra/workshop-lab.process.json", "isa", "PublicationAsset")
++("template.source.algebra/workshop-lab.process.json", "path", "algebra/workshop-lab.process.json")
++("template.source.algebra/workshop-session.process.json", "isa", "PublicationAsset")
++("template.source.algebra/workshop-session.process.json", "path", "algebra/workshop-session.process.json")
++("template.source.algebra/reader-workshop-publication.process.json", "isa", "PublicationAsset")
++("template.source.algebra/reader-workshop-publication.process.json", "path", "algebra/reader-workshop-publication.process.json")
++("template.source.source/authoring-contract.json", "isa", "PublicationAsset")
++("template.source.source/authoring-contract.json", "path", "source/authoring-contract.json")
++("template.source.algebra/authoring.process.json", "isa", "PublicationAsset")
++("template.source.algebra/authoring.process.json", "path", "algebra/authoring.process.json")
++("template.source.algebra/template.process.json", "isa", "PublicationAsset")
++("template.source.algebra/template.process.json", "path", "algebra/template.process.json")
++("template.source.world-schema", "isa", "PublicationAsset")
++("template.source.world-schema", "path", "source/world-schema.json")
+diff --git a/source/authoring-contract.json b/source/authoring-contract.json
+index 1a29a87..b26cfb9 100644
+--- a/source/authoring-contract.json
++++ b/source/authoring-contract.json
+@@ -49,7 +49,9 @@
+     "source/reader/activity.html",
+     "source/reader/reader.css",
+     "source/workshop/document.html",
+-    "algebra/template.process.json"
++    "algebra/template.process.json",
++    "source/template-presentation.rel",
++    "source/assets.rel"
+   ],
+   "grants": [
+     "value.describe",
+@@ -75,7 +77,8 @@
+     ".gitattributes",
+     ".gitignore",
+     "README.md",
+-    "AGENTS.md"
++    "AGENTS.md",
++    "resource-audit.mjs"
+   ],
+   "checks": [
+     "microsite-fidelity.test.mjs",
+@@ -86,7 +89,9 @@
+     "authoring.test.mjs",
+     "expedition.test.mjs",
+     "feature-core.test.mjs",
+-    "reader-navigation.test.mjs"
++    "reader-navigation.test.mjs",
++    "world-projection.test.mjs",
++    "resource-paths.test.mjs"
+   ],
+   "owners": {
+     "facts": [
+@@ -102,7 +107,9 @@
+       "source/claimipedia-example.rel",
+       "source/social-sharing.rel",
+       "source/encounter.rel",
+-      "source/atlas.rel"
++      "source/atlas.rel",
++      "source/template-presentation.rel",
++      "source/assets.rel"
+     ],
+     "applicationProcesses": [
+       "algebra/publication.process.json",
+diff --git a/source/expedition.rel b/source/expedition.rel
+index cff5781..a8616c1 100644
+--- a/source/expedition.rel
++++ b/source/expedition.rel
+@@ -1607,176 +1607,6 @@
+ ("region.commons", "light", "boundary")
+ ("region.commons", "place", "place.commons")
+ ("region.commons", "place", "place.closedpath")
+-("file.retained/.nojekyll", "isa", "PublicationAsset")
+-("file.retained/.nojekyll", "path", "retained/.nojekyll")
+-("file.retained/app.js", "isa", "PublicationAsset")
+-("file.retained/app.js", "path", "retained/app.js")
+-("file.retained/assets/atlas-grid.svg", "isa", "PublicationAsset")
+-("file.retained/assets/atlas-grid.svg", "path", "retained/assets/atlas-grid.svg")
+-("file.retained/assets/mark.svg", "isa", "PublicationAsset")
+-("file.retained/assets/mark.svg", "path", "retained/assets/mark.svg")
+-("file.retained/assets/terrain.svg", "isa", "PublicationAsset")
+-("file.retained/assets/terrain.svg", "path", "retained/assets/terrain.svg")
+-("file.retained/coverage.json", "isa", "PublicationAsset")
+-("file.retained/coverage.json", "path", "retained/coverage.json")
+-("file.retained/enchantment.css", "isa", "PublicationAsset")
+-("file.retained/enchantment.css", "path", "retained/enchantment.css")
+-("file.retained/encounter-data.js", "isa", "PublicationAsset")
+-("file.retained/encounter-data.js", "path", "retained/encounter-data.js")
+-("file.retained/encounters.js", "isa", "PublicationAsset")
+-("file.retained/encounters.js", "path", "retained/encounters.js")
+-("file.retained/expansion.js", "isa", "PublicationAsset")
+-("file.retained/expansion.js", "path", "retained/expansion.js")
+-("file.retained/geography.js", "isa", "PublicationAsset")
+-("file.retained/geography.js", "path", "retained/geography.js")
+-("file.retained/index.html", "isa", "PublicationAsset")
+-("file.retained/index.html", "path", "retained/index.html")
+-("file.retained/library/codes.txt", "isa", "PublicationAsset")
+-("file.retained/library/codes.txt", "path", "retained/library/codes.txt")
+-("file.retained/library/contact.txt", "isa", "PublicationAsset")
+-("file.retained/library/contact.txt", "path", "retained/library/contact.txt")
+-("file.retained/library/contribution.txt", "isa", "PublicationAsset")
+-("file.retained/library/contribution.txt", "path", "retained/library/contribution.txt")
+-("file.retained/library/correction.txt", "isa", "PublicationAsset")
+-("file.retained/library/correction.txt", "path", "retained/library/correction.txt")
+-("file.retained/library/correspondence.txt", "isa", "PublicationAsset")
+-("file.retained/library/correspondence.txt", "path", "retained/library/correspondence.txt")
+-("file.retained/library/cosmos.txt", "isa", "PublicationAsset")
+-("file.retained/library/cosmos.txt", "path", "retained/library/cosmos.txt")
+-("file.retained/library/costs.txt", "isa", "PublicationAsset")
+-("file.retained/library/costs.txt", "path", "retained/library/costs.txt")
+-("file.retained/library/detector.txt", "isa", "PublicationAsset")
+-("file.retained/library/detector.txt", "path", "retained/library/detector.txt")
+-("file.retained/library/erasure.txt", "isa", "PublicationAsset")
+-("file.retained/library/erasure.txt", "path", "retained/library/erasure.txt")
+-("file.retained/library/frontier.txt", "isa", "PublicationAsset")
+-("file.retained/library/frontier.txt", "path", "retained/library/frontier.txt")
+-("file.retained/library/instrument.txt", "isa", "PublicationAsset")
+-("file.retained/library/instrument.txt", "path", "retained/library/instrument.txt")
+-("file.retained/library/invariant.txt", "isa", "PublicationAsset")
+-("file.retained/library/invariant.txt", "path", "retained/library/invariant.txt")
+-("file.retained/library/kenosis.txt", "isa", "PublicationAsset")
+-("file.retained/library/kenosis.txt", "path", "retained/library/kenosis.txt")
+-("file.retained/library/laboratory.txt", "isa", "PublicationAsset")
+-("file.retained/library/laboratory.txt", "path", "retained/library/laboratory.txt")
+-("file.retained/library/material.txt", "isa", "PublicationAsset")
+-("file.retained/library/material.txt", "path", "retained/library/material.txt")
+-("file.retained/library/meanings.txt", "isa", "PublicationAsset")
+-("file.retained/library/meanings.txt", "path", "retained/library/meanings.txt")
+-("file.retained/library/memory.txt", "isa", "PublicationAsset")
+-("file.retained/library/memory.txt", "path", "retained/library/memory.txt")
+-("file.retained/library/mind.txt", "isa", "PublicationAsset")
+-("file.retained/library/mind.txt", "path", "retained/library/mind.txt")
+-("file.retained/library/monster.txt", "isa", "PublicationAsset")
+-("file.retained/library/monster.txt", "path", "retained/library/monster.txt")
+-("file.retained/library/negatives.txt", "isa", "PublicationAsset")
+-("file.retained/library/negatives.txt", "path", "retained/library/negatives.txt")
+-("file.retained/library/patterns.txt", "isa", "PublicationAsset")
+-("file.retained/library/patterns.txt", "path", "retained/library/patterns.txt")
+-("file.retained/library/possibilities.txt", "isa", "PublicationAsset")
+-("file.retained/library/possibilities.txt", "path", "retained/library/possibilities.txt")
+-("file.retained/library/reflection.txt", "isa", "PublicationAsset")
+-("file.retained/library/reflection.txt", "path", "retained/library/reflection.txt")
+-("file.retained/library/relations.txt", "isa", "PublicationAsset")
+-("file.retained/library/relations.txt", "path", "retained/library/relations.txt")
+-("file.retained/library/scenarios.txt", "isa", "PublicationAsset")
+-("file.retained/library/scenarios.txt", "path", "retained/library/scenarios.txt")
+-("file.retained/library/sourcery.txt", "isa", "PublicationAsset")
+-("file.retained/library/sourcery.txt", "path", "retained/library/sourcery.txt")
+-("file.retained/library/texts.txt", "isa", "PublicationAsset")
+-("file.retained/library/texts.txt", "path", "retained/library/texts.txt")
+-("file.retained/reading-experience.js", "isa", "PublicationAsset")
+-("file.retained/reading-experience.js", "path", "retained/reading-experience.js")
+-("file.retained/reading-guide.js", "isa", "PublicationAsset")
+-("file.retained/reading-guide.js", "path", "retained/reading-guide.js")
+-("file.retained/reading.css", "isa", "PublicationAsset")
+-("file.retained/reading.css", "path", "retained/reading.css")
+-("file.retained/source-receipts.js", "isa", "PublicationAsset")
+-("file.retained/source-receipts.js", "path", "retained/source-receipts.js")
+-("file.retained/style.css", "isa", "PublicationAsset")
+-("file.retained/style.css", "path", "retained/style.css")
+-("file.retained/territories.css", "isa", "PublicationAsset")
+-("file.retained/territories.css", "path", "retained/territories.css")
+-("file.retained/wider-world.css", "isa", "PublicationAsset")
+-("file.retained/wider-world.css", "path", "retained/wider-world.css")
+-("file.retained/workshop/app.js", "isa", "PublicationAsset")
+-("file.retained/workshop/app.js", "path", "retained/workshop/app.js")
+-("file.retained/workshop/browser-host.js", "isa", "PublicationAsset")
+-("file.retained/workshop/browser-host.js", "path", "retained/workshop/browser-host.js")
+-("file.retained/workshop/encounter-story.html", "isa", "PublicationAsset")
+-("file.retained/workshop/encounter-story.html", "path", "retained/workshop/encounter-story.html")
+-("file.retained/workshop/engine.js", "isa", "PublicationAsset")
+-("file.retained/workshop/engine.js", "path", "retained/workshop/engine.js")
+-("file.retained/workshop/fixture.json", "isa", "PublicationAsset")
+-("file.retained/workshop/fixture.json", "path", "retained/workshop/fixture.json")
+-("file.retained/workshop/index.html", "isa", "PublicationAsset")
+-("file.retained/workshop/index.html", "path", "retained/workshop/index.html")
+-("file.retained/workshop/listing.js", "isa", "PublicationAsset")
+-("file.retained/workshop/listing.js", "path", "retained/workshop/listing.js")
+-("file.retained/workshop/package.json", "isa", "PublicationAsset")
+-("file.retained/workshop/package.json", "path", "retained/workshop/package.json")
+-("file.retained/workshop/README.txt", "isa", "PublicationAsset")
+-("file.retained/workshop/README.txt", "path", "retained/workshop/README.txt")
+-("file.retained/workshop/regenerate.cjs", "isa", "PublicationAsset")
+-("file.retained/workshop/regenerate.cjs", "path", "retained/workshop/regenerate.cjs")
+-("file.retained/workshop/session-worker.js", "isa", "PublicationAsset")
+-("file.retained/workshop/session-worker.js", "path", "retained/workshop/session-worker.js")
+-("file.retained/workshop/source-manifest.txt", "isa", "PublicationAsset")
+-("file.retained/workshop/source-manifest.txt", "path", "retained/workshop/source-manifest.txt")
+-("file.retained/workshop/sources/algebra/admission.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/admission.process.json", "path", "retained/workshop/sources/algebra/admission.process.json")
+-("file.retained/workshop/sources/algebra/encounter-code-compiler.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/encounter-code-compiler.process.json", "path", "retained/workshop/sources/algebra/encounter-code-compiler.process.json")
+-("file.retained/workshop/sources/algebra/encounter-code-runtime.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/encounter-code-runtime.process.json", "path", "retained/workshop/sources/algebra/encounter-code-runtime.process.json")
+-("file.retained/workshop/sources/algebra/encounter-code-types.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/encounter-code-types.process.json", "path", "retained/workshop/sources/algebra/encounter-code-types.process.json")
+-("file.retained/workshop/sources/algebra/fact-index.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/fact-index.process.json", "path", "retained/workshop/sources/algebra/fact-index.process.json")
+-("file.retained/workshop/sources/algebra/html.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/html.process.json", "path", "retained/workshop/sources/algebra/html.process.json")
+-("file.retained/workshop/sources/algebra/lab.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/lab.process.json", "path", "retained/workshop/sources/algebra/lab.process.json")
+-("file.retained/workshop/sources/algebra/language.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/language.process.json", "path", "retained/workshop/sources/algebra/language.process.json")
+-("file.retained/workshop/sources/algebra/lowering.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/lowering.process.json", "path", "retained/workshop/sources/algebra/lowering.process.json")
+-("file.retained/workshop/sources/algebra/operators.expression.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/operators.expression.json", "path", "retained/workshop/sources/algebra/operators.expression.json")
+-("file.retained/workshop/sources/algebra/source.process.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/algebra/source.process.json", "path", "retained/workshop/sources/algebra/source.process.json")
+-("file.retained/workshop/sources/bootstrap/encounter-code-fixture.cjs", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/bootstrap/encounter-code-fixture.cjs", "path", "retained/workshop/sources/bootstrap/encounter-code-fixture.cjs")
+-("file.retained/workshop/sources/bootstrap/kernel-profile.json", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/bootstrap/kernel-profile.json", "path", "retained/workshop/sources/bootstrap/kernel-profile.json")
+-("file.retained/workshop/sources/bootstrap/ports/algebra-lower.cjs", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/bootstrap/ports/algebra-lower.cjs", "path", "retained/workshop/sources/bootstrap/ports/algebra-lower.cjs")
+-("file.retained/workshop/sources/bootstrap/ports/kernel.cjs", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/bootstrap/ports/kernel.cjs", "path", "retained/workshop/sources/bootstrap/ports/kernel.cjs")
+-("file.retained/workshop/sources/bootstrap/ports/programme.cjs", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/bootstrap/ports/programme.cjs", "path", "retained/workshop/sources/bootstrap/ports/programme.cjs")
+-("file.retained/workshop/sources/bootstrap/ports/value.cjs", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/bootstrap/ports/value.cjs", "path", "retained/workshop/sources/bootstrap/ports/value.cjs")
+-("file.retained/workshop/sources/bootstrap/temple-seed.cjs", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/bootstrap/temple-seed.cjs", "path", "retained/workshop/sources/bootstrap/temple-seed.cjs")
+-("file.retained/workshop/sources/source/experiment/contracts.rel", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/source/experiment/contracts.rel", "path", "retained/workshop/sources/source/experiment/contracts.rel")
+-("file.retained/workshop/sources/source/experiment/story.encounter", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/source/experiment/story.encounter", "path", "retained/workshop/sources/source/experiment/story.encounter")
+-("file.retained/workshop/sources/source/experiment/story.rel", "isa", "PublicationAsset")
+-("file.retained/workshop/sources/source/experiment/story.rel", "path", "retained/workshop/sources/source/experiment/story.rel")
+-("file.retained/workshop/style.css", "isa", "PublicationAsset")
+-("file.retained/workshop/style.css", "path", "retained/workshop/style.css")
+-("file.retained/workshop/temple-native.js", "isa", "PublicationAsset")
+-("file.retained/workshop/temple-native.js", "path", "retained/workshop/temple-native.js")
+-("file.retained/world-encounters.js", "isa", "PublicationAsset")
+-("file.retained/world-encounters.js", "path", "retained/world-encounters.js")
+-("file.retained/world-models.js", "isa", "PublicationAsset")
+-("file.retained/world-models.js", "path", "retained/world-models.js")
+-("file.retained/world.js", "isa", "PublicationAsset")
+-("file.retained/world.js", "path", "retained/world.js")
+-("file.assets/sourcerer-threshold.png", "isa", "PublicationAsset")
+-("file.assets/sourcerer-threshold.png", "path", "assets/sourcerer-threshold.png")
+ ("word.phase", "label", "phase")
+ ("word.detector", "label", "detector")
+ ("word.holonomy", "label", "holonomy")
+@@ -1819,91 +1649,44 @@
+ ("word.no-go result", "label", "no-go result")
+ ("word.scope", "label", "scope")
+ ("word.totalizing", "label", "totalizing")
+-("file.retained/.nojekyll", "legacyAlias", ".nojekyll")
+-("file.retained/app.js", "legacyAlias", "app.js")
+-("file.retained/assets/atlas-grid.svg", "legacyAlias", "assets/atlas-grid.svg")
+-("file.retained/assets/mark.svg", "legacyAlias", "assets/mark.svg")
+-("file.retained/assets/terrain.svg", "legacyAlias", "assets/terrain.svg")
+-("file.retained/coverage.json", "legacyAlias", "coverage.json")
+-("file.retained/enchantment.css", "legacyAlias", "enchantment.css")
+-("file.retained/encounter-data.js", "legacyAlias", "encounter-data.js")
+-("file.retained/encounters.js", "legacyAlias", "encounters.js")
+-("file.retained/expansion.js", "legacyAlias", "expansion.js")
+-("file.retained/geography.js", "legacyAlias", "geography.js")
+-("file.retained/index.html", "legacyAlias", "reader.html")
+-("file.retained/library/codes.txt", "legacyAlias", "library/codes.txt")
+-("file.retained/library/contact.txt", "legacyAlias", "library/contact.txt")
+-("file.retained/library/contribution.txt", "legacyAlias", "library/contribution.txt")
+-("file.retained/library/correction.txt", "legacyAlias", "library/correction.txt")
+-("file.retained/library/correspondence.txt", "legacyAlias", "library/correspondence.txt")
+-("file.retained/library/cosmos.txt", "legacyAlias", "library/cosmos.txt")
+-("file.retained/library/costs.txt", "legacyAlias", "library/costs.txt")
+-("file.retained/library/detector.txt", "legacyAlias", "library/detector.txt")
+-("file.retained/library/erasure.txt", "legacyAlias", "library/erasure.txt")
+-("file.retained/library/frontier.txt", "legacyAlias", "library/frontier.txt")
+-("file.retained/library/instrument.txt", "legacyAlias", "library/instrument.txt")
+-("file.retained/library/invariant.txt", "legacyAlias", "library/invariant.txt")
+-("file.retained/library/kenosis.txt", "legacyAlias", "library/kenosis.txt")
+-("file.retained/library/laboratory.txt", "legacyAlias", "library/laboratory.txt")
+-("file.retained/library/material.txt", "legacyAlias", "library/material.txt")
+-("file.retained/library/meanings.txt", "legacyAlias", "library/meanings.txt")
+-("file.retained/library/memory.txt", "legacyAlias", "library/memory.txt")
+-("file.retained/library/mind.txt", "legacyAlias", "library/mind.txt")
+-("file.retained/library/monster.txt", "legacyAlias", "library/monster.txt")
+-("file.retained/library/negatives.txt", "legacyAlias", "library/negatives.txt")
+-("file.retained/library/patterns.txt", "legacyAlias", "library/patterns.txt")
+-("file.retained/library/possibilities.txt", "legacyAlias", "library/possibilities.txt")
+-("file.retained/library/reflection.txt", "legacyAlias", "library/reflection.txt")
+-("file.retained/library/relations.txt", "legacyAlias", "library/relations.txt")
+-("file.retained/library/scenarios.txt", "legacyAlias", "library/scenarios.txt")
+-("file.retained/library/sourcery.txt", "legacyAlias", "library/sourcery.txt")
+-("file.retained/library/texts.txt", "legacyAlias", "library/texts.txt")
+-("file.retained/reading-experience.js", "legacyAlias", "reading-experience.js")
+-("file.retained/reading-guide.js", "legacyAlias", "reading-guide.js")
+-("file.retained/reading.css", "legacyAlias", "reading.css")
+-("file.retained/source-receipts.js", "legacyAlias", "source-receipts.js")
+-("file.retained/style.css", "legacyAlias", "style.css")
+-("file.retained/territories.css", "legacyAlias", "territories.css")
+-("file.retained/wider-world.css", "legacyAlias", "wider-world.css")
+-("file.retained/workshop/app.js", "legacyAlias", "workshop/app.js")
+-("file.retained/workshop/browser-host.js", "legacyAlias", "workshop/browser-host.js")
+-("file.retained/workshop/encounter-story.html", "legacyAlias", "workshop/encounter-story.html")
+-("file.retained/workshop/engine.js", "legacyAlias", "workshop/engine.js")
+-("file.retained/workshop/fixture.json", "legacyAlias", "workshop/fixture.json")
+-("file.retained/workshop/index.html", "legacyAlias", "workshop/index.html")
+-("file.retained/workshop/listing.js", "legacyAlias", "workshop/listing.js")
+-("file.retained/workshop/package.json", "legacyAlias", "workshop/package.json")
+-("file.retained/workshop/README.txt", "legacyAlias", "workshop/README.txt")
+-("file.retained/workshop/regenerate.cjs", "legacyAlias", "workshop/regenerate.cjs")
+-("file.retained/workshop/session-worker.js", "legacyAlias", "workshop/session-worker.js")
+-("file.retained/workshop/source-manifest.txt", "legacyAlias", "workshop/source-manifest.txt")
+-("file.retained/workshop/sources/algebra/admission.process.json", "legacyAlias", "workshop/sources/algebra/admission.process.json")
+-("file.retained/workshop/sources/algebra/encounter-code-compiler.process.json", "legacyAlias", "workshop/sources/algebra/encounter-code-compiler.process.json")
+-("file.retained/workshop/sources/algebra/encounter-code-runtime.process.json", "legacyAlias", "workshop/sources/algebra/encounter-code-runtime.process.json")
+-("file.retained/workshop/sources/algebra/encounter-code-types.process.json", "legacyAlias", "workshop/sources/algebra/encounter-code-types.process.json")
+-("file.retained/workshop/sources/algebra/fact-index.process.json", "legacyAlias", "workshop/sources/algebra/fact-index.process.json")
+-("file.retained/workshop/sources/algebra/html.process.json", "legacyAlias", "workshop/sources/algebra/html.process.json")
+-("file.retained/workshop/sources/algebra/lab.process.json", "legacyAlias", "workshop/sources/algebra/lab.process.json")
+-("file.retained/workshop/sources/algebra/language.process.json", "legacyAlias", "workshop/sources/algebra/language.process.json")
+-("file.retained/workshop/sources/algebra/lowering.process.json", "legacyAlias", "workshop/sources/algebra/lowering.process.json")
+-("file.retained/workshop/sources/algebra/operators.expression.json", "legacyAlias", "workshop/sources/algebra/operators.expression.json")
+-("file.retained/workshop/sources/algebra/source.process.json", "legacyAlias", "workshop/sources/algebra/source.process.json")
+-("file.retained/workshop/sources/bootstrap/encounter-code-fixture.cjs", "legacyAlias", "workshop/sources/bootstrap/encounter-code-fixture.cjs")
+-("file.retained/workshop/sources/bootstrap/kernel-profile.json", "legacyAlias", "workshop/sources/bootstrap/kernel-profile.json")
+-("file.retained/workshop/sources/bootstrap/ports/algebra-lower.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/algebra-lower.cjs")
+-("file.retained/workshop/sources/bootstrap/ports/kernel.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/kernel.cjs")
+-("file.retained/workshop/sources/bootstrap/ports/programme.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/programme.cjs")
+-("file.retained/workshop/sources/bootstrap/ports/value.cjs", "legacyAlias", "workshop/sources/bootstrap/ports/value.cjs")
+-("file.retained/workshop/sources/bootstrap/temple-seed.cjs", "legacyAlias", "workshop/sources/bootstrap/temple-seed.cjs")
+-("file.retained/workshop/sources/source/experiment/contracts.rel", "legacyAlias", "workshop/sources/source/experiment/contracts.rel")
+-("file.retained/workshop/sources/source/experiment/story.encounter", "legacyAlias", "workshop/sources/source/experiment/story.encounter")
+-("file.retained/workshop/sources/source/experiment/story.rel", "legacyAlias", "workshop/sources/source/experiment/story.rel")
+-("file.retained/workshop/style.css", "legacyAlias", "workshop/style.css")
+-("file.retained/workshop/temple-native.js", "legacyAlias", "workshop/temple-native.js")
+-("file.retained/world-encounters.js", "legacyAlias", "world-encounters.js")
+-("file.retained/world-models.js", "legacyAlias", "world-models.js")
+-("file.retained/world.js", "legacyAlias", "world.js")
+-
+-
+ ("place.sourcery", "atlasLabel", "Machines & agency")
+-
++("place.observation", "activity", "observation")
++("place.return", "activity", "return")
++("place.instrument", "activity", "instrument")
++("place.personal", "activity", "personal")
++("place.care", "activity", "care")
++("place.contact", "activity", "contact")
++("place.kenosis", "activity", "kenosis")
++("place.sourcery", "activity", "sourcery")
++("place.monster", "activity", "monster")
++("place.calibration", "activity", "calibration")
++("place.replay", "activity", "replay")
++("place.water", "activity", "water")
++("place.discomfort", "activity", "discomfort")
++("place.listening", "activity", "listening")
++("place.restraint", "activity", "restraint")
++("place.permission", "activity", "permission")
++("place.representation", "activity", "representation")
++("place.revision", "activity", "revision")
++("place.workshop", "activity", "workshop")
++("place.possibility", "activity", "possibility")
++("place.reachable", "activity", "reachable")
++("place.memory", "activity", "memory")
++("place.erasure", "activity", "erasure")
++("place.attention", "activity", "attention")
++("place.will", "activity", "will")
++("place.stone", "activity", "stone")
++("place.preservation", "activity", "preservation")
++("place.tiling", "activity", "tiling")
++("place.code", "activity", "code")
++("place.laboratory", "activity", "laboratory")
++("place.cost", "activity", "cost")
++("place.cosmos", "activity", "cosmos")
++("place.scale", "activity", "scale")
++("place.coexistence", "activity", "coexistence")
++("place.weights", "activity", "weights")
++("place.hiddenness", "activity", "hiddenness")
++("place.hope", "activity", "hope")
++("place.texts", "activity", "texts")
++("place.commons", "activity", "commons")
++("place.closedpath", "activity", "closedpath")
+diff --git a/source/front-doors.rel b/source/front-doors.rel
+index a4ea05c..280161e 100644
+--- a/source/front-doors.rel
++++ b/source/front-doors.rel
+@@ -347,7 +347,7 @@
+ ("microsite.entry.worldwright", "light", "blue")
+ ("microsite.entry.worldwright", "note", "Compose stories people find their own way through.")
+ ("microsite.entry.worldwright", "description", "A storytelling and authoring product in development. Connect people, ideas, sources and scenes into worlds readers can explore along different paths.")
+-("microsite.entry.worldwright", "detail", "This personal expedition is its first composition.")
++("microsite.entry.worldwright", "detail", "A reusable example within the host world; its purpose and sources remain explicit.")
+ ("microsite.entry.worldwright", "statusLabel", "In preparation")
+ ("microsite.entry.worldwright", "href", "worldwright/")
+ ("microsite.entry.worldwright", "status", "placeholder")
+diff --git a/source/microsites/presentation.rel b/source/microsites/presentation.rel
+index 34b491c..faa5621 100644
+--- a/source/microsites/presentation.rel
++++ b/source/microsites/presentation.rel
+@@ -7687,9 +7687,9 @@
+ ("ms.editorial.temple/index.html.53", "description", "{\"kind\":\"text\",\"text\":\"Sourcery\"}")
+ ("ms.editorial.temple/index.html.52", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../sourcery/\"}],\"children\":[\"ms.editorial.temple/index.html.53\"]}")
+ ("ms.editorial.temple/index.html.54", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.editorial.temple/index.html.56", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.editorial.temple/index.html.56", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.editorial.temple/index.html.55", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../\"}],\"children\":[\"ms.editorial.temple/index.html.56\"]}")
+-("ms.editorial.temple/index.html.45", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.temple/index.html.46\",\"ms.editorial.temple/index.html.48\",\"ms.editorial.temple/index.html.49\",\"ms.editorial.temple/index.html.51\",\"ms.editorial.temple/index.html.52\",\"ms.editorial.temple/index.html.54\",\"ms.editorial.temple/index.html.55\"]}")
++("ms.editorial.temple/index.html.45", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.temple/index.html.46\",\"ms.editorial.temple/index.html.48\",\"ms.editorial.temple/index.html.49\",\"ms.editorial.temple/index.html.51\",\"ms.editorial.temple/index.html.52\",\"ms.editorial.temple/index.html.54\",\"ms.editorial.temple/index.html.55\",\"template.original-credit.ms.editorial.temple/index.html.56\"]}")
+ ("ms.editorial.temple/films/index.html.59", "description", "{\"kind\":\"text\",\"text\":\"Corpus gate\"}")
+ ("ms.editorial.temple/films/index.html.58", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../gate.html\"}],\"children\":[\"ms.editorial.temple/films/index.html.59\"]}")
+ ("ms.editorial.temple/films/index.html.60", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+@@ -7699,9 +7699,9 @@
+ ("ms.editorial.temple/films/index.html.65", "description", "{\"kind\":\"text\",\"text\":\"Sourcery\"}")
+ ("ms.editorial.temple/films/index.html.64", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../sourcery/\"}],\"children\":[\"ms.editorial.temple/films/index.html.65\"]}")
+ ("ms.editorial.temple/films/index.html.66", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.editorial.temple/films/index.html.68", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.editorial.temple/films/index.html.68", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.editorial.temple/films/index.html.67", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../\"}],\"children\":[\"ms.editorial.temple/films/index.html.68\"]}")
+-("ms.editorial.temple/films/index.html.57", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.temple/films/index.html.58\",\"ms.editorial.temple/films/index.html.60\",\"ms.editorial.temple/films/index.html.61\",\"ms.editorial.temple/films/index.html.63\",\"ms.editorial.temple/films/index.html.64\",\"ms.editorial.temple/films/index.html.66\",\"ms.editorial.temple/films/index.html.67\"]}")
++("ms.editorial.temple/films/index.html.57", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.temple/films/index.html.58\",\"ms.editorial.temple/films/index.html.60\",\"ms.editorial.temple/films/index.html.61\",\"ms.editorial.temple/films/index.html.63\",\"ms.editorial.temple/films/index.html.64\",\"ms.editorial.temple/films/index.html.66\",\"ms.editorial.temple/films/index.html.67\",\"template.original-credit.ms.editorial.temple/films/index.html.68\"]}")
+ ("ms.editorial.sourcery/index.html.71", "description", "{\"kind\":\"text\",\"text\":\"Corpus gate\"}")
+ ("ms.editorial.sourcery/index.html.70", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../gate.html\"}],\"children\":[\"ms.editorial.sourcery/index.html.71\"]}")
+ ("ms.editorial.sourcery/index.html.72", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+@@ -7711,9 +7711,9 @@
+ ("ms.editorial.sourcery/index.html.77", "description", "{\"kind\":\"text\",\"text\":\"Sourcery\"}")
+ ("ms.editorial.sourcery/index.html.76", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"./\"}],\"children\":[\"ms.editorial.sourcery/index.html.77\"]}")
+ ("ms.editorial.sourcery/index.html.78", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.editorial.sourcery/index.html.80", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.editorial.sourcery/index.html.80", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.editorial.sourcery/index.html.79", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../\"}],\"children\":[\"ms.editorial.sourcery/index.html.80\"]}")
+-("ms.editorial.sourcery/index.html.69", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.sourcery/index.html.70\",\"ms.editorial.sourcery/index.html.72\",\"ms.editorial.sourcery/index.html.73\",\"ms.editorial.sourcery/index.html.75\",\"ms.editorial.sourcery/index.html.76\",\"ms.editorial.sourcery/index.html.78\",\"ms.editorial.sourcery/index.html.79\"]}")
++("ms.editorial.sourcery/index.html.69", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.sourcery/index.html.70\",\"ms.editorial.sourcery/index.html.72\",\"ms.editorial.sourcery/index.html.73\",\"ms.editorial.sourcery/index.html.75\",\"ms.editorial.sourcery/index.html.76\",\"ms.editorial.sourcery/index.html.78\",\"ms.editorial.sourcery/index.html.79\",\"template.original-credit.ms.editorial.sourcery/index.html.80\"]}")
+ ("ms.editorial.sourcery/films/index.html.83", "description", "{\"kind\":\"text\",\"text\":\"Corpus gate\"}")
+ ("ms.editorial.sourcery/films/index.html.82", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../gate.html\"}],\"children\":[\"ms.editorial.sourcery/films/index.html.83\"]}")
+ ("ms.editorial.sourcery/films/index.html.84", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+@@ -7723,9 +7723,9 @@
+ ("ms.editorial.sourcery/films/index.html.89", "description", "{\"kind\":\"text\",\"text\":\"Sourcery\"}")
+ ("ms.editorial.sourcery/films/index.html.88", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../\"}],\"children\":[\"ms.editorial.sourcery/films/index.html.89\"]}")
+ ("ms.editorial.sourcery/films/index.html.90", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.editorial.sourcery/films/index.html.92", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.editorial.sourcery/films/index.html.92", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.editorial.sourcery/films/index.html.91", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../\"}],\"children\":[\"ms.editorial.sourcery/films/index.html.92\"]}")
+-("ms.editorial.sourcery/films/index.html.81", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.sourcery/films/index.html.82\",\"ms.editorial.sourcery/films/index.html.84\",\"ms.editorial.sourcery/films/index.html.85\",\"ms.editorial.sourcery/films/index.html.87\",\"ms.editorial.sourcery/films/index.html.88\",\"ms.editorial.sourcery/films/index.html.90\",\"ms.editorial.sourcery/films/index.html.91\"]}")
++("ms.editorial.sourcery/films/index.html.81", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.editorial.sourcery/films/index.html.82\",\"ms.editorial.sourcery/films/index.html.84\",\"ms.editorial.sourcery/films/index.html.85\",\"ms.editorial.sourcery/films/index.html.87\",\"ms.editorial.sourcery/films/index.html.88\",\"ms.editorial.sourcery/films/index.html.90\",\"ms.editorial.sourcery/films/index.html.91\",\"template.original-credit.ms.editorial.sourcery/films/index.html.92\"]}")
+ ("ms.ecosystem.claimipedia.temple/index.html.3", "description", "{\"kind\":\"text\",\"text\":\"Corpus gate\"}")
+ ("ms.ecosystem.claimipedia.temple/index.html.2", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../gate.html\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/index.html.3\"]}")
+ ("ms.ecosystem.claimipedia.temple/index.html.4", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+@@ -7738,9 +7738,9 @@
+ ("ms.ecosystem.claimipedia.temple/index.html.12", "description", "{\"kind\":\"text\",\"text\":\"Claimipedia\"}")
+ ("ms.ecosystem.claimipedia.temple/index.html.11", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../claimipedia/\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/index.html.12\"]}")
+ ("ms.ecosystem.claimipedia.temple/index.html.13", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.ecosystem.claimipedia.temple/index.html.15", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.ecosystem.claimipedia.temple/index.html.15", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.ecosystem.claimipedia.temple/index.html.14", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/index.html.15\"]}")
+-("ms.ecosystem.claimipedia.temple/index.html.1", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/index.html.2\",\"ms.ecosystem.claimipedia.temple/index.html.4\",\"ms.ecosystem.claimipedia.temple/index.html.5\",\"ms.ecosystem.claimipedia.temple/index.html.7\",\"ms.ecosystem.claimipedia.temple/index.html.8\",\"ms.ecosystem.claimipedia.temple/index.html.10\",\"ms.ecosystem.claimipedia.temple/index.html.11\",\"ms.ecosystem.claimipedia.temple/index.html.13\",\"ms.ecosystem.claimipedia.temple/index.html.14\"]}")
++("ms.ecosystem.claimipedia.temple/index.html.1", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/index.html.2\",\"ms.ecosystem.claimipedia.temple/index.html.4\",\"ms.ecosystem.claimipedia.temple/index.html.5\",\"ms.ecosystem.claimipedia.temple/index.html.7\",\"ms.ecosystem.claimipedia.temple/index.html.8\",\"ms.ecosystem.claimipedia.temple/index.html.10\",\"ms.ecosystem.claimipedia.temple/index.html.11\",\"ms.ecosystem.claimipedia.temple/index.html.13\",\"ms.ecosystem.claimipedia.temple/index.html.14\",\"template.original-credit.ms.ecosystem.claimipedia.temple/index.html.15\"]}")
+ ("ms.ecosystem.claimipedia.temple/films/index.html.18", "description", "{\"kind\":\"text\",\"text\":\"Corpus gate\"}")
+ ("ms.ecosystem.claimipedia.temple/films/index.html.17", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../gate.html\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/films/index.html.18\"]}")
+ ("ms.ecosystem.claimipedia.temple/films/index.html.19", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+@@ -7753,9 +7753,9 @@
+ ("ms.ecosystem.claimipedia.temple/films/index.html.27", "description", "{\"kind\":\"text\",\"text\":\"Claimipedia\"}")
+ ("ms.ecosystem.claimipedia.temple/films/index.html.26", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../claimipedia/\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/films/index.html.27\"]}")
+ ("ms.ecosystem.claimipedia.temple/films/index.html.28", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.ecosystem.claimipedia.temple/films/index.html.30", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.ecosystem.claimipedia.temple/films/index.html.30", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.ecosystem.claimipedia.temple/films/index.html.29", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/films/index.html.30\"]}")
+-("ms.ecosystem.claimipedia.temple/films/index.html.16", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/films/index.html.17\",\"ms.ecosystem.claimipedia.temple/films/index.html.19\",\"ms.ecosystem.claimipedia.temple/films/index.html.20\",\"ms.ecosystem.claimipedia.temple/films/index.html.22\",\"ms.ecosystem.claimipedia.temple/films/index.html.23\",\"ms.ecosystem.claimipedia.temple/films/index.html.25\",\"ms.ecosystem.claimipedia.temple/films/index.html.26\",\"ms.ecosystem.claimipedia.temple/films/index.html.28\",\"ms.ecosystem.claimipedia.temple/films/index.html.29\"]}")
++("ms.ecosystem.claimipedia.temple/films/index.html.16", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.temple/films/index.html.17\",\"ms.ecosystem.claimipedia.temple/films/index.html.19\",\"ms.ecosystem.claimipedia.temple/films/index.html.20\",\"ms.ecosystem.claimipedia.temple/films/index.html.22\",\"ms.ecosystem.claimipedia.temple/films/index.html.23\",\"ms.ecosystem.claimipedia.temple/films/index.html.25\",\"ms.ecosystem.claimipedia.temple/films/index.html.26\",\"ms.ecosystem.claimipedia.temple/films/index.html.28\",\"ms.ecosystem.claimipedia.temple/films/index.html.29\",\"template.original-credit.ms.ecosystem.claimipedia.temple/films/index.html.30\"]}")
+ ("ms.ecosystem.claimipedia.sourcery/index.html.33", "description", "{\"kind\":\"text\",\"text\":\"Corpus gate\"}")
+ ("ms.ecosystem.claimipedia.sourcery/index.html.32", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../gate.html\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/index.html.33\"]}")
+ ("ms.ecosystem.claimipedia.sourcery/index.html.34", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+@@ -7768,9 +7768,9 @@
+ ("ms.ecosystem.claimipedia.sourcery/index.html.42", "description", "{\"kind\":\"text\",\"text\":\"Claimipedia\"}")
+ ("ms.ecosystem.claimipedia.sourcery/index.html.41", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../claimipedia/\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/index.html.42\"]}")
+ ("ms.ecosystem.claimipedia.sourcery/index.html.43", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.ecosystem.claimipedia.sourcery/index.html.45", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.ecosystem.claimipedia.sourcery/index.html.45", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.ecosystem.claimipedia.sourcery/index.html.44", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/index.html.45\"]}")
+-("ms.ecosystem.claimipedia.sourcery/index.html.31", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/index.html.32\",\"ms.ecosystem.claimipedia.sourcery/index.html.34\",\"ms.ecosystem.claimipedia.sourcery/index.html.35\",\"ms.ecosystem.claimipedia.sourcery/index.html.37\",\"ms.ecosystem.claimipedia.sourcery/index.html.38\",\"ms.ecosystem.claimipedia.sourcery/index.html.40\",\"ms.ecosystem.claimipedia.sourcery/index.html.41\",\"ms.ecosystem.claimipedia.sourcery/index.html.43\",\"ms.ecosystem.claimipedia.sourcery/index.html.44\"]}")
++("ms.ecosystem.claimipedia.sourcery/index.html.31", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/index.html.32\",\"ms.ecosystem.claimipedia.sourcery/index.html.34\",\"ms.ecosystem.claimipedia.sourcery/index.html.35\",\"ms.ecosystem.claimipedia.sourcery/index.html.37\",\"ms.ecosystem.claimipedia.sourcery/index.html.38\",\"ms.ecosystem.claimipedia.sourcery/index.html.40\",\"ms.ecosystem.claimipedia.sourcery/index.html.41\",\"ms.ecosystem.claimipedia.sourcery/index.html.43\",\"ms.ecosystem.claimipedia.sourcery/index.html.44\",\"template.original-credit.ms.ecosystem.claimipedia.sourcery/index.html.45\"]}")
+ ("ms.ecosystem.claimipedia.sourcery/films/index.html.48", "description", "{\"kind\":\"text\",\"text\":\"Corpus gate\"}")
+ ("ms.ecosystem.claimipedia.sourcery/films/index.html.47", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../gate.html\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/films/index.html.48\"]}")
+ ("ms.ecosystem.claimipedia.sourcery/films/index.html.49", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+@@ -7783,9 +7783,9 @@
+ ("ms.ecosystem.claimipedia.sourcery/films/index.html.57", "description", "{\"kind\":\"text\",\"text\":\"Claimipedia\"}")
+ ("ms.ecosystem.claimipedia.sourcery/films/index.html.56", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../claimipedia/\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/films/index.html.57\"]}")
+ ("ms.ecosystem.claimipedia.sourcery/films/index.html.58", "description", "{\"kind\":\"text\",\"text\":\" · \"}")
+-("ms.ecosystem.claimipedia.sourcery/films/index.html.60", "description", "{\"kind\":\"text\",\"text\":\"Aaron Alderman\"}")
++("ms.ecosystem.claimipedia.sourcery/films/index.html.60", "description", "{\"kind\":\"world-context-name\"}")
+ ("ms.ecosystem.claimipedia.sourcery/films/index.html.59", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"../../\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/films/index.html.60\"]}")
+-("ms.ecosystem.claimipedia.sourcery/films/index.html.46", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/films/index.html.47\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.49\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.50\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.52\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.53\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.55\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.56\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.58\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.59\"]}")
++("ms.ecosystem.claimipedia.sourcery/films/index.html.46", "description", "{\"kind\":\"element\",\"tag\":\"p\",\"attributes\":[{\"name\":\"class\",\"value\":\"fine ecosystem-links\"}],\"children\":[\"ms.ecosystem.claimipedia.sourcery/films/index.html.47\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.49\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.50\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.52\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.53\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.55\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.56\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.58\",\"ms.ecosystem.claimipedia.sourcery/films/index.html.59\",\"template.original-credit.ms.ecosystem.claimipedia.sourcery/films/index.html.60\"]}")
+ ("ms.purpose.1", "description", "{\"kind\":\"text\",\"text\":\"A foundation for\"}")
+ ("ms.purpose.2", "description", "{\"kind\":\"element\",\"tag\":\"br\",\"attributes\":[],\"children\":[]}")
+ ("ms.purpose.4", "description", "{\"kind\":\"text\",\"text\":\"accountable change.\"}")
+@@ -7816,3 +7816,20 @@
+ ("ms.purpose.28", "description", "{\"kind\":\"text\",\"text\":\" keeps claims, evidence and review methods distinct. A claim has a stable identity and version. A method states which evidence counts, how it is weighed and what is enough to decide. The working microsite illustrates how the same evidence can produce different conclusions, with the reasons visible.\"}")
+ ("ms.purpose.29", "description", "{\"kind\":\"text\",\"text\":\"Where it stands: this edition runs the story’s bounded examples through process algebra. The wider Sourcery engineering programme is a staged migration of platform and application meaning into algebra-owned sources. The examples do not establish production readiness, an independent security audit or completion of that migration.\"}")
+ ("ms.purpose.30", "description", "{\"kind\":\"text\",\"text\":\"The wider ambition is software authored through conversation, with meaning, permission and change made explicit. Here, the broomstick exercise illustrates a proposal and decision; it does not build or deploy a real app.\"}")
++
++("template.original-credit.ms.editorial.temple/index.html.56", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.editorial.temple/index.html.56.text\"]}")
++("template.original-credit.ms.editorial.temple/index.html.56.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
++("template.original-credit.ms.editorial.temple/films/index.html.68", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.editorial.temple/films/index.html.68.text\"]}")
++("template.original-credit.ms.editorial.temple/films/index.html.68.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
++("template.original-credit.ms.editorial.sourcery/index.html.80", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.editorial.sourcery/index.html.80.text\"]}")
++("template.original-credit.ms.editorial.sourcery/index.html.80.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
++("template.original-credit.ms.editorial.sourcery/films/index.html.92", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.editorial.sourcery/films/index.html.92.text\"]}")
++("template.original-credit.ms.editorial.sourcery/films/index.html.92.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
++("template.original-credit.ms.ecosystem.claimipedia.temple/index.html.15", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.ecosystem.claimipedia.temple/index.html.15.text\"]}")
++("template.original-credit.ms.ecosystem.claimipedia.temple/index.html.15.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
++("template.original-credit.ms.ecosystem.claimipedia.temple/films/index.html.30", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.ecosystem.claimipedia.temple/films/index.html.30.text\"]}")
++("template.original-credit.ms.ecosystem.claimipedia.temple/films/index.html.30.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
++("template.original-credit.ms.ecosystem.claimipedia.sourcery/index.html.45", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.ecosystem.claimipedia.sourcery/index.html.45.text\"]}")
++("template.original-credit.ms.ecosystem.claimipedia.sourcery/index.html.45.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
++("template.original-credit.ms.ecosystem.claimipedia.sourcery/films/index.html.60", "description", "{\"kind\":\"element\",\"tag\":\"a\",\"attributes\":[{\"name\":\"href\",\"value\":\"https://aaronalderman.com/\"}],\"children\":[\"template.original-credit.ms.ecosystem.claimipedia.sourcery/films/index.html.60.text\"]}")
++("template.original-credit.ms.ecosystem.claimipedia.sourcery/films/index.html.60.text", "description", "{\"kind\":\"text\",\"text\":\"Original demonstrations · Aaron Alderman\"}")
+diff --git a/source/template-presentation.rel b/source/template-presentation.rel
+new file mode 100644
+index 0000000..2145517
+--- /dev/null
++++ b/source/template-presentation.rel
+@@ -0,0 +1,8 @@
++("template.reading-only", "isa", "StyleRule")
++("template.reading-only", "projection", "main")
++("template.reading-only", "selector", ".encounter-layout.reading-only")
++("template.reading-only", "declaration", "template.reading-only.display")
++("template.reading-only.display", "property", "display")
++("template.reading-only.display", "value", "block")
++("template.source.template-presentation", "isa", "PublicationAsset")
++("template.source.template-presentation", "path", "source/template-presentation.rel")
+diff --git a/source/template-reuse.json b/source/template-reuse.json
+index 58a0a09..1c40270 100644
+--- a/source/template-reuse.json
++++ b/source/template-reuse.json
+@@ -40,7 +40,8 @@
+     "Windows staging renames retry transient locks without changing semantics.",
+     "Native authoring validator strips inherited Node test-runner context.",
+     "Unsupported maintenance capture tools and personal deployment CNAME removed.",
+-    "Strong fixture suites retained with selected-world atlas IDs and counts."
++    "Strong fixture suites retained with selected-world atlas IDs and counts.",
++    "Cold-start repairs: visible world framing from owned facts, configured atlas list route, explicit optional Place.activity, resource registry split, source-preserving context/origin attribution, actual prevented reader hash navigation."
+   ],
+   "evidenceFamily": "worldwright-template-extraction-2026-11-06",
+   "boundary": "Initial rich subsystem examples remain attributed fixtures. A different-world agent test is local same-model engineering evidence, not independent human or scientific verification."
+diff --git a/source/world-schema.json b/source/world-schema.json
+new file mode 100644
+index 0000000..545cc68
+--- /dev/null
++++ b/source/world-schema.json
+@@ -0,0 +1,112 @@
++{
++  "protocol": "worldwright/world-authoring-schema/1",
++  "authority": "Authoring reference for fields actually consumed by the selected algebra; runtime policy remains in the process modules.",
++  "types": {
++    "Place": {
++      "required": [
++        "slug",
++        "route",
++        "title",
++        "lead",
++        "region",
++        "chapter",
++        "source",
++        "light",
++        "mapX",
++        "mapY",
++        "mapTipAbove"
++      ],
++      "optional": [
++        "activity",
++        "category",
++        "atlasLabel",
++        "instruction",
++        "pause",
++        "personal",
++        "experience"
++      ],
++      "many": [
++        "paragraph",
++        "fullParagraph",
++        "word",
++        "choice",
++        "supplement"
++      ],
++      "notes": {
++        "route": "places/<slug>.html",
++        "mapX": "String percentage coordinate",
++        "mapY": "String percentage coordinate",
++        "mapTipAbove": "Required string true or false; controls tooltip placement.",
++        "activity": "Optional key in source/reader/activities.json.activities. No reference means no activity iframe."
++      }
++    },
++    "Territory": {
++      "required": [
++        "name",
++        "question",
++        "note",
++        "light",
++        "atlasSlug",
++        "atlasNumber",
++        "atlasImage"
++      ],
++      "many": [
++        "place"
++      ]
++    },
++    "SourceNote": {
++      "required": [
++        "title",
++        "originalTitle",
++        "kind",
++        "note"
++      ],
++      "optional": [
++        "href"
++      ],
++      "many": [
++        "paragraph"
++      ]
++    },
++    "Choice": {
++      "identity": "Subject referenced by Place.choice",
++      "required": [
++        "destination",
++        "label",
++        "kind"
++      ]
++    },
++    "Word": {
++      "identity": "Subject referenced by Place.word",
++      "required": [
++        "label",
++        "meaning"
++      ]
++    },
++    "Entrance": {
++      "required": [
++        "destination",
++        "number",
++        "name",
++        "symbol",
++        "question",
++        "note"
++      ]
++    },
++    "CorpusDoor": {
++      "required": [
++        "slug",
++        "readingName",
++        "title",
++        "description",
++        "question",
++        "light",
++        "kind",
++        "href",
++        "label",
++        "secondaryHref",
++        "secondaryLabel"
++      ]
++    }
++  }
++}
+diff --git a/source/world.rel b/source/world.rel
+index ca85991..0fd2f26 100644
+--- a/source/world.rel
++++ b/source/world.rel
+@@ -1,4 +1,4 @@
+-// Canonical world identity and framing. Replace these facts for your own world.
++// Canonical world identity and framing. Resources belong to source/assets.rel.
+ ("site", "isa", "PersonalExpedition")
+ ("site", "name", "A world of questions")
+ ("site", "headline", "Follow an idea. Keep its source in reach.")
+@@ -13,110 +13,6 @@
+ ("site", "social", "https://worldwright.io/")
+ ("site", "atlasDescription", "An illustrated map of connected reading places. Choose a question and follow your own route.")
+ ("site", "accountNote", "This reading is supplied as an attributed example. It is not an account of the new world author’s life.")
+-("template.source.source/world.rel", "isa", "PublicationAsset")
+-("template.source.source/world.rel", "path", "source/world.rel")
+-("template.source.source/expedition.rel", "isa", "PublicationAsset")
+-("template.source.source/expedition.rel", "path", "source/expedition.rel")
+-("template.source.source/presentation.rel", "isa", "PublicationAsset")
+-("template.source.source/presentation.rel", "path", "source/presentation.rel")
+-("template.source.source/gateway.rel", "isa", "PublicationAsset")
+-("template.source.source/gateway.rel", "path", "source/gateway.rel")
+-("template.source.source/gateway-presentation.rel", "isa", "PublicationAsset")
+-("template.source.source/gateway-presentation.rel", "path", "source/gateway-presentation.rel")
+-("template.source.source/microsites/presentation.rel", "isa", "PublicationAsset")
+-("template.source.source/microsites/presentation.rel", "path", "source/microsites/presentation.rel")
+-("template.source.source/microsites/release.rel", "isa", "PublicationAsset")
+-("template.source.source/microsites/release.rel", "path", "source/microsites/release.rel")
+-("template.source.source/front-doors.rel", "isa", "PublicationAsset")
+-("template.source.source/front-doors.rel", "path", "source/front-doors.rel")
+-("template.source.source/claimipedia.rel", "isa", "PublicationAsset")
+-("template.source.source/claimipedia.rel", "path", "source/claimipedia.rel")
+-("template.source.source/claimipedia-example.rel", "isa", "PublicationAsset")
+-("template.source.source/claimipedia-example.rel", "path", "source/claimipedia-example.rel")
+-("template.source.source/social-sharing.rel", "isa", "PublicationAsset")
+-("template.source.source/social-sharing.rel", "path", "source/social-sharing.rel")
+-("template.source.source/encounter.rel", "isa", "PublicationAsset")
+-("template.source.source/encounter.rel", "path", "source/encounter.rel")
+-("template.source.source/atlas.rel", "isa", "PublicationAsset")
+-("template.source.source/atlas.rel", "path", "source/atlas.rel")
+-("template.source.algebra/html.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/html.process.json", "path", "algebra/html.process.json")
+-("template.source.algebra/css.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/css.process.json", "path", "algebra/css.process.json")
+-("template.source.algebra/publication.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/publication.process.json", "path", "algebra/publication.process.json")
+-("template.source.algebra/gateway.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/gateway.process.json", "path", "algebra/gateway.process.json")
+-("template.source.algebra/language.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/language.process.json", "path", "algebra/language.process.json")
+-("template.source.algebra/fact-index.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/fact-index.process.json", "path", "algebra/fact-index.process.json")
+-("template.source.algebra/source.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/source.process.json", "path", "algebra/source.process.json")
+-("template.source.algebra/admission.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/admission.process.json", "path", "algebra/admission.process.json")
+-("template.source.algebra/lowering.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/lowering.process.json", "path", "algebra/lowering.process.json")
+-("template.source.algebra/microsite-projection.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-projection.process.json", "path", "algebra/microsite-projection.process.json")
+-("template.source.algebra/microsites.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsites.process.json", "path", "algebra/microsites.process.json")
+-("template.source.algebra/microsite-values.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-values.process.json", "path", "algebra/microsite-values.process.json")
+-("template.source.algebra/microsite-lamp.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-lamp.process.json", "path", "algebra/microsite-lamp.process.json")
+-("template.source.algebra/microsite-sourcery.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-sourcery.process.json", "path", "algebra/microsite-sourcery.process.json")
+-("template.source.algebra/microsite-ui.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-ui.process.json", "path", "algebra/microsite-ui.process.json")
+-("template.source.algebra/microsite-temple-ui.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-temple-ui.process.json", "path", "algebra/microsite-temple-ui.process.json")
+-("template.source.algebra/microsite-motion.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-motion.process.json", "path", "algebra/microsite-motion.process.json")
+-("template.source.algebra/microsite-temple-motion.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-temple-motion.process.json", "path", "algebra/microsite-temple-motion.process.json")
+-("template.source.algebra/microsite-media.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/microsite-media.process.json", "path", "algebra/microsite-media.process.json")
+-("template.source.algebra/front-doors.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/front-doors.process.json", "path", "algebra/front-doors.process.json")
+-("template.source.algebra/claimipedia.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/claimipedia.process.json", "path", "algebra/claimipedia.process.json")
+-("template.source.algebra/claimipedia-review.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/claimipedia-review.process.json", "path", "algebra/claimipedia-review.process.json")
+-("template.source.algebra/encounter-demo.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/encounter-demo.process.json", "path", "algebra/encounter-demo.process.json")
+-("template.source.algebra/encounter-source.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/encounter-source.process.json", "path", "algebra/encounter-source.process.json")
+-("template.source.algebra/encounter-code-types.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/encounter-code-types.process.json", "path", "algebra/encounter-code-types.process.json")
+-("template.source.algebra/encounter-code-compiler.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/encounter-code-compiler.process.json", "path", "algebra/encounter-code-compiler.process.json")
+-("template.source.algebra/encounter-code-runtime.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/encounter-code-runtime.process.json", "path", "algebra/encounter-code-runtime.process.json")
+-("template.source.algebra/encounter.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/encounter.process.json", "path", "algebra/encounter.process.json")
+-("template.source.algebra/atlas.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/atlas.process.json", "path", "algebra/atlas.process.json")
+-("template.source.algebra/atlas-journey.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/atlas-journey.process.json", "path", "algebra/atlas-journey.process.json")
+-("template.source.algebra/reader-models.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/reader-models.process.json", "path", "algebra/reader-models.process.json")
+-("template.source.algebra/reader-activities.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/reader-activities.process.json", "path", "algebra/reader-activities.process.json")
+-("template.source.algebra/reader-navigation.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/reader-navigation.process.json", "path", "algebra/reader-navigation.process.json")
+-("template.source.algebra/workshop-lab.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/workshop-lab.process.json", "path", "algebra/workshop-lab.process.json")
+-("template.source.algebra/workshop-session.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/workshop-session.process.json", "path", "algebra/workshop-session.process.json")
+-("template.source.algebra/reader-workshop-publication.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/reader-workshop-publication.process.json", "path", "algebra/reader-workshop-publication.process.json")
+-("template.source.source/authoring-contract.json", "isa", "PublicationAsset")
+-("template.source.source/authoring-contract.json", "path", "source/authoring-contract.json")
+-("template.source.algebra/authoring.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/authoring.process.json", "path", "algebra/authoring.process.json")
+-("template.source.algebra/template.process.json", "isa", "PublicationAsset")
+-("template.source.algebra/template.process.json", "path", "algebra/template.process.json")
+ ("site", "atlasStorageKey", "worldwright.example.atlas.seen.v1")
+ ("site", "readerStorageKey", "worldwright.example.reader.trail.v1")
+ ("site", "atlasImageAlt", "An imagined landscape with connected reading places and branching trails.")
+diff --git a/template.test.mjs b/template.test.mjs
+index 0db11ba..b666ee9 100644
+--- a/template.test.mjs
++++ b/template.test.mjs
+@@ -7,3 +7,5 @@ import './authoring.test.mjs';
+ import './expedition.test.mjs';
+ import './feature-core.test.mjs';
+ import './reader-navigation.test.mjs';
++import './world-projection.test.mjs';
++import './resource-paths.test.mjs';
+diff --git a/world-projection.test.mjs b/world-projection.test.mjs
+new file mode 100644
+index 0000000..2c5bfbf
+--- /dev/null
++++ b/world-projection.test.mjs
+@@ -0,0 +1,101 @@
++// Projection regressions use different owned facts; metadata cannot satisfy them.
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import {createRequire} from 'node:module';
++const require=createRequire(import.meta.url),read=file=>fs.readFileSync(new URL(file,import.meta.url),'utf8'),json=file=>JSON.parse(read(file));
++const {parseRel}=require('./bootstrap/ports/rel-codec.cjs'),{lower}=require('./bootstrap/ports/algebra-lower.cjs'),{createKernel}=require('./bootstrap/temple-seed.cjs'),{valuePorts}=require('./bootstrap/ports/value.cjs'),{invoke}=require('./bootstrap/ports/programme.cjs');
++const manifest=json('bootstrap/site.json'),allFacts=manifest.sources.flatMap(file=>parseRel(read(file),file)),queries=Object.assign({},...manifest.modules.map(file=>json(file).queries));
++// These projection-only calls need graph/content facts, not thousands of CSS
++// declarations or unrelated microsite text nodes. Retain their exact owned
++// dependency closure; the full build and receipt tests cover all inputs.
++const types=new Set(['Place','Territory','SourceNote','Entrance','PublishedMicrosite','CapabilitySet']);
++const wanted=new Set(['site','atlas','gateway','sharing.home','sharing.claimipedia','claimipedia.example','ms.editorial.temple/index.html.55','ms.editorial.temple/index.html.56','template.original-credit.ms.editorial.temple/index.html.56','template.original-credit.ms.editorial.temple/index.html.56.text']);
++for(const f of allFacts)if(f.p==='isa'&&types.has(f.o)||f.p==='projection'&&f.o==='claimipedia')wanted.add(f.s);
++const subjects=new Set(allFacts.map(f=>f.s));let previous=-1;
++while(previous!==wanted.size){previous=wanted.size;for(const f of allFacts)if(wanted.has(f.s)&&subjects.has(f.o))wanted.add(f.o);}
++const facts=allFacts.filter(f=>wanted.has(f.s));
++const model=await lower({compiler:json(manifest.operatorCompiler),definitions:json(manifest.operatorDefinitions),primitives:createKernel.operators,input:{queries,entry:manifest.entry},mode:'model',ports:valuePorts(),limit:20000000});
++const invokeEntry=(entry,input={},ports={})=>invoke({model,entry,input,ports:{...valuePorts(),...ports},nested:['kernel.invoke','kernel.execute','kernel.evaluate'],limit:20000000});
++const indexes=new WeakMap();
++const index=rows=>{if(!indexes.has(rows))indexes.set(rows,invokeEntry('facts.index',{input:rows}).then(result=>result.value));return indexes.get(rows);};
++const run=async(entry,rows,bindings={},ports={})=>(await invokeEntry(entry,{factIndex:await index(rows),...bindings},ports)).value;
++const set=(rows,s,p,o)=>[...rows.filter(f=>f.s!==s||f.p!==p),{s,p,o,pol:'is'}];
++const one=(rows,s,p)=>rows.find(f=>f.s===s&&f.p===p&&f.pol==='is')?.o;
++const text=node=>Array.isArray(node)?node.map(text).join(''):node&&typeof node==='object'?text(node.children??[]):typeof node==='string'?node:'';
++function find(node,predicate){if(Array.isArray(node))return node.flatMap(x=>find(x,predicate));if(!node||typeof node!=='object')return [];return [...(predicate(node)?[node]:[]),...find(node.children??[],predicate)];}
++const escaped=value=>value.replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
++
++test('visible homepage headline, introduction, purpose and footer follow different world facts',async()=>{
++ for(const identity of [
++  {name:'A different <workshop>',headline:'Objects that invite a question',description:'Seven objects, two routes and attributed notes.',purpose:'Help readers notice how everyday tools shape attention.',about:'An imaginary workshop, composed as a reusable example.'},
++  {name:'The Seed Library',headline:'Keep the next season possible',description:'Stories about seeds, care and shared records.',purpose:'Let readers follow a local growing question.',about:'Fictional learning material, with sources kept in reach.'}
++ ]){
++  let rows=facts.filter(f=>f.s!=='site'||f.p!=='monogram');for(const [key,value]of Object.entries(identity))rows=set(rows,'site',key,value);
++  const body=await run('publication.home',rows),hero=find(body,node=>node.attrs?.id==='hero-title');assert.equal(hero.length,1);assert.equal(text(hero[0]),identity.headline);
++  assert.equal(text(find(body,node=>node.attrs?.class==='hero-copy')[0]),identity.description);
++  assert.equal(text(find(body,node=>node.attrs?.class==='word-note')[0]),identity.purpose);
++  const visible=text(body);assert.ok(!visible.includes('Inside the mind'));assert.ok(!visible.includes('Physics, faith, machines'));assert.ok(!visible.includes('This personal expedition is its first composition.'));
++  const html=await run('publication.document',rows,{body,prefix:'',pageTitle:'Metadata is deliberately different',description:'Metadata is not visible body evidence',canonical:'https://worldwright.example/',light:'home'});
++  const footer=/<footer\b[^>]*>([\s\S]*?)<\/footer>/.exec(html)?.[1];assert.ok(footer);assert.ok(footer.includes(escaped(identity.name)));assert.ok(footer.includes(escaped(identity.about)));assert.ok(!footer.includes('A few things I’ve built'));
++  assert.ok(html.includes('class="monogram" aria-hidden="true">'+escaped(identity.name.slice(0,1))+'</span>'));
++ }
++});
++
++test('a source-owned monogram overrides the name-derived default in both the visible brand and icon',async()=>{
++ const rows=set(set(facts,'site','name','The Seed Library'),'site','monogram','SL'),body=await run('publication.home',rows),output={};
++ const html=await run('publication.document',rows,{body,prefix:'',pageTitle:'Test',description:'Metadata',canonical:'https://worldwright.example/',light:'home'});assert.ok(html.includes('class="monogram" aria-hidden="true">SL</span>'));
++ await run('publication.icon',rows,{}, {'file.write':({path,text})=>{output[path]=text;return true;}});assert.ok(output['assets/personal-mark.svg'].includes('>SL</text>'));
++});
++
++test('atlas list navigation follows configured territory identities rather than the initial unseen anchor',async()=>{
++ const first=facts.find(f=>f.p==='isa'&&f.o==='Territory').s,rows=set(facts,first,'atlasSlug','a-different-district'),output={};
++ await run('atlas.build',rows,{}, {'runtime.bundle':()=> 'The model is not executed in this projection-only test.','file.write':({path,text})=>{output[path]=text;return true;}});
++ const anchor=/<a\b[^>]*href="([^"]+)"[^>]*class="atlas-list-link"/.exec(output['atlas.html']);assert.ok(anchor);assert.equal(anchor[1],'#a-different-district');assert.ok(output['atlas.html'].includes('id="a-different-district"'));
++});
++
++test('places without activities omit frames; explicit owned activity references project and invalid references refuse',async()=>{
++ const place=facts.find(f=>f.p==='isa'&&f.o==='Place').s,without=facts.filter(f=>f.s!==place||f.p!=='activity');
++ const reading=await run('publication.place',without,{place,prefix:'../'});assert.equal(find(reading,node=>node.tag==='iframe').length,0);assert.ok(find(reading,node=>node.attrs?.class==='encounter-layout reading-only').length);
++ const selected=set(without,place,'activity','a-different-exercise'),withActivity=await run('publication.place',selected,{place,prefix:'../'}),frame=find(withActivity,node=>node.tag==='iframe');assert.equal(frame.length,1);assert.ok(frame[0].attrs.src.endsWith('#a-different-exercise'));
++ const definitions=json('source/reader/activities.json');definitions.activities['a-different-exercise']={id:'a-different-exercise',type:'illustration',html:'<p>An explicitly selected illustrative exercise.</p>'};
++ await run('template.activities',selected,{templateActivities:definitions});
++ await assert.rejects(run('template.activities',set(without,place,'activity','unknown-exercise'),{templateActivities:definitions}),/WORLD-ACTIVITY/);
++});
++
++test('local world context and original demonstration attribution remain separate',async()=>{
++ const rows=set(facts,'site','name','A Different Host'),html=await run('source.markup',rows,{input:'ms.editorial.temple/index.html.55'});assert.ok(html.includes('A Different Host'));assert.ok(!html.includes('Aaron Alderman'));
++ const credit=await run('source.markup',rows,{input:'template.original-credit.ms.editorial.temple/index.html.56'});assert.ok(credit.includes('href="https://aaronalderman.com/"'));assert.ok(credit.includes('Original demonstrations · Aaron Alderman'));
++ const encounter=read('dist/encounter/index.html'),footer=/<footer\b[^>]*>([\s\S]*?)<\/footer>/.exec(encounter)?.[1];assert.ok(footer.includes('Encounter · within '+escaped(one(facts,'site','name'))));assert.ok(footer.includes('Original demonstration · Aaron Alderman'));assert.ok(!footer.includes('Encounter · by '+escaped(one(facts,'site','name'))));
++});
++
++test('framework resources remain selected independently of the editable identity and world graph',()=>{
++ for(const file of ['source/world.rel','source/expedition.rel'])assert.ok(!parseRel(read(file),file).some(f=>f.p==='isa'&&f.o==='PublicationAsset'),file);
++ assert.ok(manifest.sources.includes('source/assets.rel'));const assets=parseRel(read('source/assets.rel'),'source/assets.rel');assert.ok(assets.some(f=>f.p==='path'&&f.o==='retained/workshop/style.css'));assert.ok(assets.some(f=>f.p==='path'&&f.o==='source/world.rel'));
++ const schema=json('source/world-schema.json');assert.ok(schema.types.Place.required.includes('mapTipAbove'));assert.ok(schema.types.Place.optional.includes('activity'));
++});
++
++test('Claimipedia navigation follows the selected gateway route without requiring an original named door',async()=>{
++ const rows=set(facts,'gateway','route','another-reading-path.html'),output={};
++ await run('claimipedia.build',rows,{}, {'runtime.bundle':()=> 'Projection-only fixture; runtime behavior is qualified separately.','file.write':({path,text})=>{output[path]=text;return true;}});
++ const html=output['claimipedia/index.html'];assert.ok(html);assert.ok(!html.includes('#path-claimipedia'));assert.ok(!html.includes('href="../gate.html'));
++ assert.equal((html.match(/href="\.\.\/another-reading-path\.html"/g)||[]).length,4);
++ for(const file of manifest.modules){const source=json(file),links=[];const scan=node=>{if(node&&typeof node==='object'){if(typeof node.href==='string')links.push(node.href);for(const child of Object.values(node))scan(child);}};scan(source);assert.ok(!links.some(href=>/#path-|#unseen|(?:^|\/)places\/[^$]/.test(href)),file+' must not depend on initial world graph identities');}
++});
++
++test('home social metadata follows owned identity and image facts without inheriting original image dimensions',async()=>{
++ let rows=facts.filter(f=>f.s!=='site'||!['imageWidth','imageHeight','imageType'].includes(f.p));
++ const identity={name:'The Seed Library',headline:'Keep the next season possible',description:'Fictional records of a shared growing question.',origin:'https://different.example/library/',image:'assets/a-different-image.svg',imageAlt:'An explicitly selected imagined seed cabinet.'};
++ for(const [key,value]of Object.entries(identity))rows=set(rows,'site',key,value);
++ const render=async values=>run('publication.document',values,{body:[],prefix:'',pageTitle:'An unrelated title cannot supply homepage identity',description:'An unrelated description',canonical:identity.origin,light:'home'});
++ const metadata=html=>{const result=new Map();for(const tag of html.matchAll(/<meta\b[^>]*>/g)){const key=/(?:property|name)="([^"]+)"/.exec(tag[0])?.[1],value=/content="([^"]*)"/.exec(tag[0])?.[1];if(key)result.set(key,value);}return result;};
++ const actual=metadata(await render(rows));
++ for(const key of ['og:title','twitter:title'])assert.equal(actual.get(key),escaped(identity.name+' — '+identity.headline));
++ for(const key of ['og:description','twitter:description'])assert.equal(actual.get(key),escaped(identity.description));
++ for(const key of ['og:image:alt','twitter:image:alt'])assert.equal(actual.get(key),escaped(identity.imageAlt));
++ for(const key of ['og:image','twitter:image'])assert.equal(actual.get(key),identity.origin+identity.image);
++ assert.equal(actual.get('og:site_name'),identity.name);assert.equal(actual.get('og:url'),identity.origin);
++ for(const key of ['og:image:width','og:image:height','og:image:type'])assert.ok(!actual.has(key),key+' is omitted without explicit facts');
++ rows=set(set(set(rows,'site','imageWidth','320'),'site','imageHeight','200'),'site','imageType','image/svg+xml');
++ const declared=metadata(await render(rows));assert.equal(declared.get('og:image:width'),'320');assert.equal(declared.get('og:image:height'),'200');assert.equal(declared.get('og:image:type'),'image/svg+xml');
++});

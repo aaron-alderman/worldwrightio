@@ -1,0 +1,321 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "encounter",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Admit every declared event root with the explicit profile and inspect the live source-derived projections.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/encounter.process.json",
+    "sha256": "c536702195b172350470ac26baf53b3ef7a2cb09e87c4e4865522bb585fa005a"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/encounter.process.json",
+    "sha256": "d1ac4ffd131d8ba002e19682a8b76fbf2414289ec43b8d1f15309720c48a7ea2",
+    "queries": [
+      "encounter.build"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [
+      "source/atlas.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "origin",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "name",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [],
+    "configuration": [
+      {
+        "file": "source/encounter/example.json",
+        "sha256": "7a2e765e96ba7d5b2e9a8f972d3244f9db62ea8ee8ad75795a86ec21546d232d",
+        "format": "json",
+        "topLevelKeys": [
+          "codeText",
+          "factText",
+          "contractText",
+          "definitions",
+          "primitives",
+          "profile"
+        ]
+      },
+      {
+        "file": "source/encounter/presentation.json",
+        "sha256": "d65de5dc7309f9eef6fff7092ac455d04102e015dedf2bbf77df786588f1cacb",
+        "format": "json",
+        "topLevelKeys": [
+          "spPolicy",
+          "spGrammar",
+          "lexPolicy",
+          "lexGrammar"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/publication.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "file.copy",
+      "file.read",
+      "file.write",
+      "json.parse",
+      "runtime.bundle"
+    ],
+    "grantProfiles": {
+      "build": [
+        "file.write",
+        "file.read",
+        "file.copy",
+        "runtime.bundle",
+        "json.parse"
+      ],
+      "compilation": [
+        "json.parse"
+      ],
+      "micrositesBrowser": [
+        "json.parse"
+      ],
+      "encounterBrowser": [
+        "json.parse"
+      ],
+      "readerBrowser": [
+        "json.parse"
+      ],
+      "activityBrowser": [
+        "json.parse"
+      ],
+      "workshopBrowser": [
+        "json.parse"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [
+      "encounter/example.json",
+      "encounter/presentation.json",
+      "encounter/sources/encounter-demo.process.json",
+      "encounter/sources/encounter-source.process.json",
+      "encounter/sources/reuse.json",
+      "encounter/sources/story.encounter",
+      "encounter/sources/story.rel",
+      "encounter/sources/contracts.rel",
+      "encounter/runtime.js",
+      "encounter/encounter.css",
+      "encounter/mark.svg",
+      "encounter/index.html"
+    ],
+    "copyExpressions": [
+      "source/encounter/example.json",
+      "source/encounter/presentation.json",
+      "algebra/encounter-demo.process.json",
+      "algebra/encounter-source.process.json",
+      "source/encounter/reuse.json",
+      "retained/workshop/sources/source/experiment/story.encounter",
+      "retained/workshop/sources/source/experiment/story.rel",
+      "retained/workshop/sources/source/experiment/contracts.rel"
+    ],
+    "bundledRuntimes": [],
+    "declaredRuntimeSelections": [
+      {
+        "entry": "encounter.demo.boot",
+        "mode": "browser",
+        "grantProfile": "encounterBrowser",
+        "queries": [
+          "append",
+          [
+            "list",
+            "encounter.demo.boot",
+            "encounter.demo.change",
+            "encounter.demo.apply",
+            "encounter.demo.reset",
+            "encounter.demo.select",
+            "encounter.demo.html",
+            "encounter.demo.render",
+            "encounter.demo.source",
+            "encounter.demo.inspect",
+            "sp.role",
+            "sp.scan",
+            "sp.observed",
+            "sp.clip",
+            "sp.line",
+            "sp.render",
+            "sp.present",
+            "sp.expression",
+            "sp.programme",
+            "sp.statement",
+            "sp.listing",
+            "sp.style",
+            "sp.outline",
+            "sp.metadata",
+            "sp.stylePlan",
+            "source.split",
+            "source.lex",
+            "s01.portable",
+            "ec.schema",
+            "ec.slot",
+            "ec.scalar",
+            "ec.check",
+            "ec.referenceType",
+            "ec.fact",
+            "ec.reference",
+            "ec.argument",
+            "ec.lex",
+            "ec.header",
+            "ec.expression",
+            "ec.fields",
+            "ec.data",
+            "ec.record",
+            "ec.representation",
+            "ec.view",
+            "ec.edits",
+            "ec.show",
+            "ec.emitView",
+            "ec.emitRepresentation",
+            "ec.compile",
+            "ec.attempt",
+            "ec.complete"
+          ],
+          [
+            "list",
+            "ec.verifyShow",
+            "ec.verify",
+            "ec.oneField",
+            "ec.prepare",
+            "ec.resolve",
+            "ec.safeTree",
+            "ec.events",
+            "ec.run",
+            "ec.patch",
+            "ec.findElement",
+            "source.rel",
+            "source.compile",
+            "source.encode",
+            "source.patch",
+            "source.jsonSpan",
+            "html.escape",
+            "html.serialize",
+            "html.observe",
+            "html.inspect",
+            "html.cssText",
+            "facts.index",
+            "lower.scan",
+            "lower.fresh",
+            "lower.template",
+            "lower.expression",
+            "lower.programme",
+            "lower.model",
+            "lower.start",
+            "admit.binding",
+            "admit.expression",
+            "admit.programme",
+            "admit.model",
+            "admit.effects.programme",
+            "admit.effects",
+            "admit.ownership",
+            "css.render",
+            "css.plan",
+            "css.renderPlan",
+            "language.refuse",
+            "language.line",
+            "language.module",
+            "language.entity",
+            "language.property",
+            "language.compile"
+          ]
+        ],
+        "factSubjects": [
+          "append",
+          [
+            "list"
+          ],
+          [
+            "list",
+            "site"
+          ]
+        ],
+        "data": {
+          "inputs": "$inputs",
+          "presentation": "$presentation",
+          "processes": "$process.queries"
+        },
+        "budget": 20000000
+      }
+    ]
+  },
+  "correction": {
+    "owners": [
+      "algebra/encounter.process.json",
+      "source/atlas.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "encounter-microsite.test.mjs",
+        "kind": "algebra-execution",
+        "obligation": "Admit every declared event root with the explicit profile and inspect the live source-derived projections.",
+        "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+      },
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "Publish the Encounter entry, data, source snapshots and admitted runtime.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

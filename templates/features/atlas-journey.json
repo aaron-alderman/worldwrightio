@@ -1,0 +1,644 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "atlas-journey",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Execute the generated model against bounded storage and DOM fixtures: deduplicated actual visits, reset isolation, blocked storage, mobile preview and history return.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/atlas-journey.process.json",
+    "sha256": "6bb32792386552e8fed084e6be5e9d7c2d25f9d755bd93f1a159f9d663ed0817"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/atlas-journey.process.json",
+    "sha256": "00dbfe1c9212b22ff3074450150898414567afdec913f20a3041eead5ea8df18",
+    "queries": [
+      "atlas.seen.clean",
+      "atlas.seen.load",
+      "atlas.seen.save",
+      "atlas.seen.mark",
+      "atlas.seen.paint",
+      "atlas.seen.refresh",
+      "atlas.seen.reset",
+      "atlas.pin.dismiss",
+      "atlas.pin.reveal",
+      "atlas.journey.boot",
+      "atlas.runtime.build",
+      "atlas.pin.preview",
+      "atlas.pin.mode",
+      "atlas.journey.resume"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [
+    {
+      "name": "Place",
+      "instanceCount": 40,
+      "owners": [
+        "source/atlas.rel",
+        "source/expedition.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "activity",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "atlasLabel",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "chapter",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "choice",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 3,
+            "max": 5
+          }
+        },
+        {
+          "predicate": "experience",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "fullParagraph",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 4
+          }
+        },
+        {
+          "predicate": "instruction",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "lead",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "light",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapTipAbove",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapX",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapY",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "paragraph",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 3
+          }
+        },
+        {
+          "predicate": "pause",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "personal",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "region",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "route",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "slug",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "source",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "supplement",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "word",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 3
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    }
+  ],
+  "inputs": {
+    "factSources": [
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Place"
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "slug",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$p",
+        "predicate": "atlasLabel",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "region",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "atlasStorageKey",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [
+      "$data.ids",
+      "$data.labels",
+      "$data.places",
+      "$data.storageKey",
+      "$eventInput.event.key",
+      "$eventInput.matched.attributes",
+      "$eventInput.matched.ref"
+    ],
+    "configuration": [
+      {
+        "file": "source/atlas.rel",
+        "sha256": "3ba75edffb7ee4f3a61b50a576e74568717ba96f204812a09a1917cdd05eea13",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "browser.attribute",
+      "browser.cancel",
+      "browser.class",
+      "browser.mediaQuery",
+      "browser.on",
+      "browser.select",
+      "dom.attribute",
+      "dom.exists",
+      "dom.hidden",
+      "dom.on",
+      "dom.text",
+      "file.write",
+      "record.fromEntries",
+      "runtime.bundle",
+      "state.get",
+      "state.set",
+      "storage.read",
+      "storage.remove",
+      "storage.write",
+      "text.join",
+      "text.split"
+    ],
+    "grantProfiles": {
+      "build": [
+        "record.fromEntries",
+        "text.split",
+        "file.write",
+        "runtime.bundle",
+        "text.join"
+      ],
+      "browser": [
+        "dom.exists",
+        "dom.on",
+        "dom.attribute",
+        "dom.text"
+      ],
+      "compilation": [
+        "text.split"
+      ],
+      "micrositesBrowser": [
+        "browser.attribute",
+        "browser.cancel",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.on",
+        "browser.select",
+        "record.fromEntries",
+        "state.get",
+        "state.set",
+        "text.join",
+        "text.split"
+      ],
+      "encounterBrowser": [
+        "browser.attribute",
+        "browser.on",
+        "record.fromEntries",
+        "state.get",
+        "state.set",
+        "text.join",
+        "text.split"
+      ],
+      "atlasBrowser": [
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "state.get",
+        "state.set",
+        "text.split",
+        "text.join",
+        "dom.exists",
+        "dom.attribute",
+        "dom.hidden",
+        "dom.text",
+        "dom.on",
+        "browser.select",
+        "browser.attribute",
+        "browser.on",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.cancel"
+      ],
+      "readerBrowser": [
+        "browser.attribute",
+        "browser.on",
+        "record.fromEntries",
+        "state.get",
+        "state.set",
+        "text.join",
+        "text.split",
+        "browser.cancel",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.select",
+        "storage.read",
+        "storage.write",
+        "storage.remove"
+      ],
+      "activityBrowser": [
+        "browser.attribute",
+        "browser.on",
+        "record.fromEntries",
+        "state.get",
+        "state.set",
+        "text.join",
+        "text.split",
+        "browser.cancel",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.select",
+        "storage.read",
+        "storage.write",
+        "storage.remove"
+      ],
+      "workshopBrowser": [
+        "browser.attribute",
+        "browser.on",
+        "record.fromEntries",
+        "state.get",
+        "state.set",
+        "text.join",
+        "text.split",
+        "browser.cancel",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.select",
+        "storage.read",
+        "storage.write",
+        "storage.remove"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [
+      "atlas-runtime.js"
+    ],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "atlas-runtime.js",
+        "sha256": "8d77b668c9a181e1ba07855e319d4c10e36bcfb332b44d11b54214b690027f72",
+        "entry": "atlas.journey.boot",
+        "grants": [
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "state.get",
+          "state.set",
+          "text.split",
+          "text.join",
+          "dom.exists",
+          "dom.attribute",
+          "dom.hidden",
+          "dom.text",
+          "dom.on",
+          "browser.select",
+          "browser.attribute",
+          "browser.on",
+          "browser.class",
+          "browser.mediaQuery",
+          "browser.cancel"
+        ],
+        "budget": 2000000,
+        "includedQueries": [
+          "atlas.seen.clean",
+          "atlas.seen.load",
+          "atlas.seen.save",
+          "atlas.seen.mark",
+          "atlas.seen.paint",
+          "atlas.seen.refresh",
+          "atlas.seen.reset",
+          "atlas.pin.dismiss",
+          "atlas.pin.reveal",
+          "atlas.journey.boot",
+          "atlas.pin.preview",
+          "atlas.pin.mode",
+          "atlas.journey.resume"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": [
+      {
+        "entry": "atlas.journey.boot",
+        "mode": "browser",
+        "grantProfile": "atlasBrowser",
+        "queries": [
+          "list",
+          "atlas.seen.clean",
+          "atlas.seen.load",
+          "atlas.seen.save",
+          "atlas.seen.mark",
+          "atlas.seen.paint",
+          "atlas.seen.refresh",
+          "atlas.seen.reset",
+          "atlas.pin.dismiss",
+          "atlas.pin.reveal",
+          "atlas.journey.boot",
+          "atlas.pin.preview",
+          "atlas.pin.mode",
+          "atlas.journey.resume"
+        ],
+        "factSubjects": [
+          "append",
+          [
+            "list"
+          ],
+          [
+            "list",
+            "site"
+          ]
+        ],
+        "data": {
+          "ids": [
+            "map",
+            [
+              "subjects",
+              "isa",
+              "Place"
+            ],
+            "p",
+            [
+              "one",
+              "$p",
+              "slug"
+            ]
+          ],
+          "labels": "$atlasLabels",
+          "places": [
+            "map",
+            [
+              "subjects",
+              "isa",
+              "Place"
+            ],
+            "p",
+            {
+              "id": [
+                "one",
+                "$p",
+                "slug"
+              ],
+              "name": [
+                "or",
+                [
+                  "optional",
+                  "$p",
+                  "atlasLabel"
+                ],
+                [
+                  "one",
+                  "$p",
+                  "region"
+                ]
+              ],
+              "question": [
+                "one",
+                "$p",
+                "title"
+              ]
+            }
+          ],
+          "storageKey": [
+            "one",
+            "site",
+            "atlasStorageKey"
+          ]
+        },
+        "budget": 2000000
+      }
+    ]
+  },
+  "correction": {
+    "owners": [
+      "algebra/atlas-journey.process.json",
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "atlas-journey.test.mjs",
+        "kind": "headless-effect-fixture",
+        "obligation": "Execute the generated model against bounded storage and DOM fixtures: deduplicated actual visits, reset isolation, blocked storage, mobile preview and history return.",
+        "sha256": "13e034077bdfe64d907e7d75ccd8aea1d93d858a1d94d28cbd2f92365b8c3028"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

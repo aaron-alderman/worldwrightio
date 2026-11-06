@@ -1,0 +1,651 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "encounter-source",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Every inspector selection preserves exact source text and digest under the shared highlighted projection.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/encounter-source.process.json",
+    "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/encounter-source.process.json",
+    "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3",
+    "queries": [
+      "sp.role",
+      "sp.scan",
+      "sp.observed",
+      "sp.clip",
+      "sp.line",
+      "sp.render",
+      "sp.present",
+      "sp.expression",
+      "sp.programme",
+      "sp.statement",
+      "sp.listing",
+      "sp.style",
+      "sp.outline",
+      "sp.metadata",
+      "sp.stylePlan",
+      "source.split",
+      "source.lex",
+      "s01.portable"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [],
+    "configuration": [
+      {
+        "file": "source/encounter/example.json",
+        "sha256": "7a2e765e96ba7d5b2e9a8f972d3244f9db62ea8ee8ad75795a86ec21546d232d",
+        "format": "json",
+        "topLevelKeys": [
+          "codeText",
+          "factText",
+          "contractText",
+          "definitions",
+          "primitives",
+          "profile"
+        ]
+      },
+      {
+        "file": "source/encounter/presentation.json",
+        "sha256": "d65de5dc7309f9eef6fff7092ac455d04102e015dedf2bbf77df786588f1cacb",
+        "format": "json",
+        "topLevelKeys": [
+          "spPolicy",
+          "spGrammar",
+          "lexPolicy",
+          "lexGrammar"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/css.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/source.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "source.split"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.role"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.role"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.line"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.line"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "s01.portable"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.scan"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.observed"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.clip"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.statement"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.programme"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.programme"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.programme"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.expression"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.programme"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "s01.portable"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.present"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "source.split"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "s01.portable"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "digest.sha256",
+      "json.parse",
+      "json.stringify",
+      "kernel.invoke",
+      "record.entries",
+      "text.matches",
+      "text.slice",
+      "text.split",
+      "value.describe",
+      "value.string"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.describe",
+        "value.string",
+        "record.entries",
+        "text.split",
+        "text.matches",
+        "json.stringify",
+        "json.parse",
+        "text.slice"
+      ],
+      "worker": [
+        "text.matches"
+      ],
+      "compilation": [
+        "value.describe",
+        "record.entries",
+        "text.matches",
+        "text.split",
+        "json.parse",
+        "json.stringify"
+      ],
+      "reflection": [
+        "value.describe",
+        "record.entries",
+        "json.stringify"
+      ],
+      "micrositesBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.string"
+      ],
+      "encounterBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.string"
+      ],
+      "atlasBrowser": [
+        "text.split"
+      ],
+      "readerBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.string"
+      ],
+      "activityBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.string"
+      ],
+      "workshopBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.string"
+      ]
+    },
+    "authoringGrants": [
+      "value.describe"
+    ],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "encounter/runtime.js",
+        "sha256": "9baee6a7705d9fe376c11f1908eefc88de5037235631a677ff7da3bbd5dd2c75",
+        "entry": "encounter.demo.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "sp.role",
+          "sp.scan",
+          "sp.observed",
+          "sp.clip",
+          "sp.line",
+          "sp.render",
+          "sp.present",
+          "sp.expression",
+          "sp.programme",
+          "sp.statement",
+          "sp.listing",
+          "sp.style",
+          "sp.outline",
+          "sp.metadata",
+          "sp.stylePlan",
+          "source.split",
+          "source.lex",
+          "s01.portable"
+        ]
+      },
+      {
+        "path": "retained/workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "sp.role",
+          "sp.scan",
+          "sp.observed",
+          "sp.clip",
+          "sp.line",
+          "sp.render",
+          "sp.present",
+          "sp.expression",
+          "sp.programme",
+          "sp.statement",
+          "sp.listing",
+          "sp.style",
+          "sp.outline",
+          "sp.metadata",
+          "sp.stylePlan",
+          "source.split",
+          "source.lex",
+          "s01.portable"
+        ]
+      },
+      {
+        "path": "workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "sp.role",
+          "sp.scan",
+          "sp.observed",
+          "sp.clip",
+          "sp.line",
+          "sp.render",
+          "sp.present",
+          "sp.expression",
+          "sp.programme",
+          "sp.statement",
+          "sp.listing",
+          "sp.style",
+          "sp.outline",
+          "sp.metadata",
+          "sp.stylePlan",
+          "source.split",
+          "source.lex",
+          "s01.portable"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/encounter-source.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "encounter-microsite.test.mjs",
+        "kind": "algebra-execution",
+        "obligation": "Every inspector selection preserves exact source text and digest under the shared highlighted projection.",
+        "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

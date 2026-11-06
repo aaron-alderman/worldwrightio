@@ -1,0 +1,301 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "claimipedia-review",
+  "status": "portable-in-expedition-composition",
+  "purpose": "All 48 recorded reviews preserve outcomes, support/challenge counts, independence and explicit refusal conditions.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/claimipedia-review.process.json",
+    "sha256": "c356e4691f2788337b251cebec2cbc08f1857ec45e797e9c3eacc471a13d2a17"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/claimipedia-review.process.json",
+    "sha256": "c356e4691f2788337b251cebec2cbc08f1857ec45e797e9c3eacc471a13d2a17",
+    "queries": [
+      "claim.review.item",
+      "claim.review.method",
+      "claim.review.compare",
+      "claim.review.html",
+      "claim.review.boot",
+      "claim.review.change",
+      "claim.review.reset",
+      "claim.review.render"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$data.configuration",
+      "$data.configuration.evidence",
+      "$data.configuration.methods",
+      "$eventInput.configuration.evidence",
+      "$eventInput.configuration.methods",
+      "$eventInput.evidence",
+      "$eventInput.method",
+      "$eventInput.node",
+      "$eventInput.selected"
+    ],
+    "configuration": [
+      {
+        "file": "source/claimipedia-example.rel",
+        "sha256": "d95f26dcb518bc5cc9aeef306f648ab3d261429634052d7d4ec59ddec08e49e9",
+        "format": "rel"
+      },
+      {
+        "file": "source/claimipedia-example.json",
+        "sha256": "e032cab823d4364abe0939870c6342e703bbc244e14ff3d0e35b1caa97a41f5a",
+        "format": "json",
+        "topLevelKeys": [
+          "claim",
+          "scope",
+          "claimVersion",
+          "evidence",
+          "methods"
+        ]
+      },
+      {
+        "file": "source/claimipedia.rel",
+        "sha256": "d839cea6b9dd0b72bb254584be4095032fa90f71f3c40055eb6e24ac4d105879",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "claim.review.item"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "claim.review.method"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "claim.review.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "claim.review.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "claim.review.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "claim.review.compare"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "claim.review.html"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "browser.content",
+      "browser.on",
+      "browser.select",
+      "browser.write",
+      "kernel.invoke",
+      "number.calculate",
+      "state.get",
+      "state.set"
+    ],
+    "grantProfiles": {
+      "micrositesBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.select",
+        "browser.write",
+        "kernel.invoke",
+        "number.calculate",
+        "state.get",
+        "state.set"
+      ],
+      "encounterBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set"
+      ],
+      "atlasBrowser": [
+        "state.get",
+        "state.set",
+        "browser.select",
+        "browser.on"
+      ],
+      "readerBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set",
+        "browser.select",
+        "number.calculate"
+      ],
+      "activityBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set",
+        "browser.select",
+        "number.calculate"
+      ],
+      "workshopBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set",
+        "browser.select",
+        "number.calculate"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "claimipedia/runtime.js",
+        "sha256": "ca7ef6ad410ca7a204ab969292ec8589a35b787dc9b2df72eda9a95abbf49ad2",
+        "entry": "claim.review.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "claim.review.item",
+          "claim.review.method",
+          "claim.review.compare",
+          "claim.review.html",
+          "claim.review.boot",
+          "claim.review.change",
+          "claim.review.reset",
+          "claim.review.render"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/claimipedia-review.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "claimipedia-review.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "All 48 recorded reviews preserve outcomes, support/challenge counts, independence and explicit refusal conditions.",
+        "sha256": "76efa0f36ca28e7b93ecaa6ad7aa2e28088fb02a95044f373b0552f6c1060e33"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

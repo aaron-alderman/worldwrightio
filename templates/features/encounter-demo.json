@@ -1,0 +1,341 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "encounter-demo",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Boot, edit, source selection and reset share a session; failed edits preserve its accepted candidate.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/encounter-demo.process.json",
+    "sha256": "b14e862f2dc33d91ab8395c2151cba62148f4cef57cf66fce36cf9016862634c"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/encounter-demo.process.json",
+    "sha256": "b14e862f2dc33d91ab8395c2151cba62148f4cef57cf66fce36cf9016862634c",
+    "queries": [
+      "encounter.demo.boot",
+      "encounter.demo.change",
+      "encounter.demo.apply",
+      "encounter.demo.reset",
+      "encounter.demo.select",
+      "encounter.demo.html",
+      "encounter.demo.render",
+      "encounter.demo.source",
+      "encounter.demo.inspect"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$data.inputs",
+      "$data.presentation.lexGrammar",
+      "$data.presentation.lexPolicy",
+      "$data.presentation.spGrammar",
+      "$data.presentation.spPolicy",
+      "$data.processes",
+      "$eventInput.candidate",
+      "$eventInput.selection",
+      "$eventInput.tree",
+      "$eventInput.value"
+    ],
+    "configuration": [
+      {
+        "file": "source/encounter/example.json",
+        "sha256": "7a2e765e96ba7d5b2e9a8f972d3244f9db62ea8ee8ad75795a86ec21546d232d",
+        "format": "json",
+        "topLevelKeys": [
+          "codeText",
+          "factText",
+          "contractText",
+          "definitions",
+          "primitives",
+          "profile"
+        ]
+      },
+      {
+        "file": "source/encounter/presentation.json",
+        "sha256": "d65de5dc7309f9eef6fff7092ac455d04102e015dedf2bbf77df786588f1cacb",
+        "format": "json",
+        "topLevelKeys": [
+          "spPolicy",
+          "spGrammar",
+          "lexPolicy",
+          "lexGrammar"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/encounter-source.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.prepare"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.run"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.patch"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.change"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.prepare"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.inspect"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.run"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.inspect"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.listing"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.listing"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.source"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sp.present"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "encounter.demo.html"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "browser.attribute",
+      "browser.content",
+      "browser.on",
+      "browser.property",
+      "browser.write",
+      "digest.sha256",
+      "kernel.invoke",
+      "state.get",
+      "state.set"
+    ],
+    "grantProfiles": {
+      "micrositesBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "digest.sha256",
+        "kernel.invoke",
+        "state.get",
+        "state.set"
+      ],
+      "encounterBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "kernel.invoke",
+        "state.get",
+        "state.set"
+      ],
+      "atlasBrowser": [
+        "state.get",
+        "state.set",
+        "browser.attribute",
+        "browser.on"
+      ],
+      "readerBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "kernel.invoke",
+        "state.get",
+        "state.set"
+      ],
+      "activityBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "kernel.invoke",
+        "state.get",
+        "state.set"
+      ],
+      "workshopBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "kernel.invoke",
+        "state.get",
+        "state.set"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "encounter/runtime.js",
+        "sha256": "9baee6a7705d9fe376c11f1908eefc88de5037235631a677ff7da3bbd5dd2c75",
+        "entry": "encounter.demo.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "encounter.demo.boot",
+          "encounter.demo.change",
+          "encounter.demo.apply",
+          "encounter.demo.reset",
+          "encounter.demo.select",
+          "encounter.demo.html",
+          "encounter.demo.render",
+          "encounter.demo.source",
+          "encounter.demo.inspect"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/encounter-demo.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "encounter-microsite.test.mjs",
+        "kind": "headless-effect-fixture",
+        "obligation": "Boot, edit, source selection and reset share a session; failed edits preserve its accepted candidate.",
+        "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

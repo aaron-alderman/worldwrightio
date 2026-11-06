@@ -1,0 +1,475 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "microsite-sourcery",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Intent classification, proposal templates, sealing, witness verification and tamper detection match retained source cases.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/microsite-sourcery.process.json",
+    "sha256": "4e1c5995c7dc334043cc345ee9684139ac705d3772ad34f70c79ea79dcd3323c"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/microsite-sourcery.process.json",
+    "sha256": "4e1c5995c7dc334043cc345ee9684139ac705d3772ad34f70c79ea79dcd3323c",
+    "queries": [
+      "sourcery.subject",
+      "sourcery.format",
+      "sourcery.draft",
+      "sourcery.proposal",
+      "sourcery.decide",
+      "sourcery.verify",
+      "sourcery.tamper"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$eventInput.at",
+      "$eventInput.configuration",
+      "$eventInput.configuration.stopWords",
+      "$eventInput.configuration.subjectPattern",
+      "$eventInput.current",
+      "$eventInput.fallback",
+      "$eventInput.ledger",
+      "$eventInput.note",
+      "$eventInput.originalRecord",
+      "$eventInput.previous",
+      "$eventInput.text",
+      "$eventInput.value",
+      "$eventInput.variables",
+      "$eventInput.verdict"
+    ],
+    "configuration": [
+      {
+        "file": "source/microsites/temple/config.json",
+        "sha256": "49f449255184b60029c594f1d511a34bafa7d033b11cccbed960b736a182fc82",
+        "format": "json",
+        "topLevelKeys": [
+          "identities",
+          "presets",
+          "genesisCells",
+          "covenants",
+          "limits",
+          "operators",
+          "stages"
+        ]
+      },
+      {
+        "file": "source/microsites/sourcery/config.json",
+        "sha256": "2244e911122bfce6c40ad41b23e9ad811bd0e1f91743e55d37d13a0844e7f60c",
+        "format": "json",
+        "topLevelKeys": [
+          "stopWords",
+          "archetypes",
+          "events",
+          "templates",
+          "subjectPattern",
+          "refusalPattern",
+          "amountPattern"
+        ]
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2",
+        "format": "rel"
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.format"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.format"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.subject"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.format"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.draft"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "digest.sha256",
+      "kernel.invoke",
+      "number.calculate",
+      "number.parse",
+      "record.entries",
+      "record.put",
+      "text.join",
+      "text.lowerCase",
+      "text.match",
+      "text.matchAll",
+      "text.matches",
+      "text.replace",
+      "text.replaceAll",
+      "text.slice",
+      "text.split",
+      "text.upperCase",
+      "value.describe"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.describe",
+        "record.entries",
+        "record.put",
+        "text.replaceAll",
+        "text.split",
+        "text.lowerCase",
+        "text.matches",
+        "text.slice",
+        "text.join"
+      ],
+      "worker": [
+        "text.lowerCase",
+        "text.matches"
+      ],
+      "compilation": [
+        "value.describe",
+        "record.entries",
+        "text.matches",
+        "text.split"
+      ],
+      "reflection": [
+        "value.describe",
+        "record.entries",
+        "text.replaceAll"
+      ],
+      "micrositesBrowser": [
+        "digest.sha256",
+        "kernel.invoke",
+        "number.calculate",
+        "number.parse",
+        "record.entries",
+        "record.put",
+        "text.join",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.matches",
+        "text.replace",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.upperCase",
+        "value.describe"
+      ],
+      "encounterBrowser": [
+        "digest.sha256",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "value.describe"
+      ],
+      "atlasBrowser": [
+        "text.split",
+        "text.join"
+      ],
+      "readerBrowser": [
+        "digest.sha256",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "number.calculate",
+        "number.parse",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase"
+      ],
+      "activityBrowser": [
+        "digest.sha256",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "number.calculate",
+        "number.parse",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase"
+      ],
+      "workshopBrowser": [
+        "digest.sha256",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "number.calculate",
+        "number.parse",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase"
+      ]
+    },
+    "authoringGrants": [
+      "value.describe"
+    ],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "sourcery/runtime.js",
+        "sha256": "01318d46ecafc21d97aa42c63454d6cf4cb39b26f91a8a215bdb93777926e8b6",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "sourcery.subject",
+          "sourcery.format",
+          "sourcery.draft",
+          "sourcery.proposal",
+          "sourcery.decide",
+          "sourcery.verify",
+          "sourcery.tamper"
+        ]
+      },
+      {
+        "path": "temple/runtime.js",
+        "sha256": "ab2b026a95d5a734a4bd721476eeaee25e91ed4175d22cb6ab7707ec044f0ebf",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "sourcery.subject",
+          "sourcery.format",
+          "sourcery.draft",
+          "sourcery.proposal",
+          "sourcery.decide",
+          "sourcery.verify",
+          "sourcery.tamper"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/microsite-sourcery.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "microsite-fidelity.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "Intent classification, proposal templates, sealing, witness verification and tamper detection match retained source cases.",
+        "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

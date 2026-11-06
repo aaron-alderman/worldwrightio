@@ -1,0 +1,22 @@
+{
+  "protocol": "worldwright/reader-browser-regression/1",
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06",
+  "kind": "actual-browser-observation",
+  "runtimeSha256": "9afa43d40bc8d70f69338a5be0bb30e437c9585219e36e638185f7b855976334",
+  "before": {
+    "from": "http://127.0.0.1:4189/reader.html",
+    "action": "Click Observation reader link",
+    "observed": "http://127.0.0.1:4189/#observation",
+    "result": "Left reader and displayed homepage"
+  },
+  "after": {
+    "from": "http://127.0.0.1:4189/reader.html",
+    "action": "Click Observation reader link, then Skip to the reading",
+    "observed": "http://127.0.0.1:4189/reader.html#observation",
+    "heading": "What did the measurement miss?",
+    "focusedId": "reader-content",
+    "result": "Stayed in reader and retained selected reading"
+  },
+  "screenshot": ".build/reader-follow-browser.png",
+  "boundary": "One local browser regression in the same root task/model evidence family; not independent validation."
+}

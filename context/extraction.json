@@ -1,0 +1,4742 @@
+{
+  "protocol": "worldwright/extraction-closure/2",
+  "scope": "All original 36 reference algebra modules reusable within the complete expedition composition; not independent package installation for every JSON file.",
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06",
+  "originalFeatureCount": 36,
+  "sourceComposition": {
+    "manifest": "templates/expedition/bootstrap/site.json",
+    "manifestSha256": "f8ef38dcd0bad8eae101fead5b412d98576fa51a445b0ac495f9128fef69842f",
+    "entry": "publication.build",
+    "executionBudget": 20000000,
+    "factSources": [
+      {
+        "file": "source/world.rel",
+        "sha256": "7aad15927129700881aa54efcec49780d1fb98ad8c700a3433512449059e1deb",
+        "factCount": 18
+      },
+      {
+        "file": "source/assets.rel",
+        "sha256": "c25a7856b0096eda30def169f2e16fb6ed62ca7ef9f7a5127fb0a1b8436a583a",
+        "factCount": 362
+      },
+      {
+        "file": "source/expedition.rel",
+        "sha256": "fdbbebbc5b499a089d4b9cdd3c2fcf15e4988fc9d2fa7aaaacda970c447ac6ba",
+        "factCount": 1692
+      },
+      {
+        "file": "source/presentation.rel",
+        "sha256": "a7121fe9cfb4b5d50c58bde609447a83dad7a11a6ff66838208ccd70b2c26f34",
+        "factCount": 1810
+      },
+      {
+        "file": "source/gateway.rel",
+        "sha256": "4cb83ce5b2c70acb5605913924d89594fe1a33c4ddf9b142cc04f4eeb4d4b01c",
+        "factCount": 104
+      },
+      {
+        "file": "source/gateway-presentation.rel",
+        "sha256": "2bbf23f5c7d174aba22ada48b1b9fb0ed527d49259f6fde78cd2e446347d4c1d",
+        "factCount": 707
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2",
+        "factCount": 7834
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5",
+        "factCount": 281
+      },
+      {
+        "file": "source/front-doors.rel",
+        "sha256": "308168ce46479dbc07f91a6808ab4c64d5323ee9a317bdb7283b77c81034f815",
+        "factCount": 1212
+      },
+      {
+        "file": "source/claimipedia.rel",
+        "sha256": "d839cea6b9dd0b72bb254584be4095032fa90f71f3c40055eb6e24ac4d105879",
+        "factCount": 1961
+      },
+      {
+        "file": "source/claimipedia-example.rel",
+        "sha256": "d95f26dcb518bc5cc9aeef306f648ab3d261429634052d7d4ec59ddec08e49e9",
+        "factCount": 1
+      },
+      {
+        "file": "source/social-sharing.rel",
+        "sha256": "ed6dcbe8d7fb0bbdadd5ecfd9ad2fae7d3187fe91fb0e0021f25189fa11f3656",
+        "factCount": 47
+      },
+      {
+        "file": "source/encounter.rel",
+        "sha256": "d2e4d03828bf9fb206fade3a8110c321d0579dc1653b86cc23b25289643336d9",
+        "factCount": 1114
+      },
+      {
+        "file": "source/atlas.rel",
+        "sha256": "3ba75edffb7ee4f3a61b50a576e74568717ba96f204812a09a1917cdd05eea13",
+        "factCount": 1501
+      },
+      {
+        "file": "source/template-presentation.rel",
+        "sha256": "0df603c23e3f268a6706c893739dd5ed33c83d4cce885b27226cb85112e315c2",
+        "factCount": 8
+      }
+    ],
+    "types": [
+      {
+        "name": "CapabilitySet",
+        "instanceCount": 5,
+        "owners": [
+          "source/front-doors.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "description",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "detail",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "href",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "icon",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "lead",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "light",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "links",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "note",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "paragraphs",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "slug",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "status",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "statusLabel",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "CorpusDoor",
+        "instanceCount": 7,
+        "owners": [
+          "source/gateway.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "description",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "href",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "interpretationStatus",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "kind",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "label",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "light",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "question",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "readingName",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "secondaryHref",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "secondaryLabel",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "slug",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "title",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "Entrance",
+        "instanceCount": 3,
+        "owners": [
+          "source/expedition.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "destination",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "note",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "number",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "question",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "symbol",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "Microsite",
+        "instanceCount": 2,
+        "owners": [
+          "source/microsites/presentation.rel",
+          "source/microsites/release.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "configuration",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "runtimeQuery",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 140,
+              "max": 140
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "MicrositeDocument",
+        "instanceCount": 4,
+        "owners": [
+          "source/microsites/presentation.rel",
+          "source/social-sharing.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "canonical",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "early",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "og:description",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "og:image",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "og:image:alt",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "og:title",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "og:type",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "og:url",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "oracle",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "path",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "root",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "runtime",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "sharing",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "site",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "twitter:card",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "twitter:description",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "twitter:image",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "twitter:title",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "MicrositeStylesheet",
+        "instanceCount": 2,
+        "owners": [
+          "source/microsites/presentation.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "path",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "root",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "Motion",
+        "instanceCount": 2,
+        "owners": [
+          "source/atlas.rel",
+          "source/presentation.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "frame",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 2,
+              "max": 2
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "PersonalExpedition",
+        "instanceCount": 1,
+        "owners": [
+          "source/world.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "about",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "accountNote",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "atlasDescription",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "atlasImageAlt",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "atlasInvitation",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "atlasStorageKey",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "description",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "headline",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "image",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "imageAlt",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "origin",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "purpose",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "readerStorageKey",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "repository",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "social",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "stylesheetVersion",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "Place",
+        "instanceCount": 40,
+        "owners": [
+          "source/atlas.rel",
+          "source/expedition.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "activity",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "atlasLabel",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "chapter",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "choice",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 3,
+              "max": 5
+            }
+          },
+          {
+            "predicate": "experience",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "fullParagraph",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 2,
+              "max": 4
+            }
+          },
+          {
+            "predicate": "instruction",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "lead",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "light",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "mapTipAbove",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "mapX",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "mapY",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "paragraph",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 2,
+              "max": 3
+            }
+          },
+          {
+            "predicate": "pause",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "personal",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "region",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "route",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "slug",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "source",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "supplement",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "title",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "word",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 3
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "PublicationAsset",
+        "instanceCount": 177,
+        "owners": [
+          "source/assets.rel",
+          "source/atlas.rel",
+          "source/claimipedia.rel",
+          "source/front-doors.rel",
+          "source/microsites/presentation.rel",
+          "source/social-sharing.rel",
+          "source/template-presentation.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "legacyAlias",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "path",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "PublishedMicrosite",
+        "instanceCount": 4,
+        "owners": [
+          "source/front-doors.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "description",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "detail",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "href",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "icon",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "light",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "note",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "status",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "statusLabel",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "symbol",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "Region",
+        "instanceCount": 10,
+        "owners": [
+          "source/expedition.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "light",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "place",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 2,
+              "max": 3
+            }
+          },
+          {
+            "predicate": "question",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "SourceNote",
+        "instanceCount": 29,
+        "owners": [
+          "source/expedition.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "href",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "kind",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "note",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "originalTitle",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "paragraph",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 2,
+              "max": 2
+            }
+          },
+          {
+            "predicate": "title",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "StandalonePage",
+        "instanceCount": 8,
+        "owners": [
+          "source/atlas.rel",
+          "source/front-doors.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "canonical",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "StyleRule",
+        "instanceCount": 607,
+        "owners": [
+          "source/atlas.rel",
+          "source/claimipedia.rel",
+          "source/encounter.rel",
+          "source/front-doors.rel",
+          "source/gateway-presentation.rel",
+          "source/presentation.rel",
+          "source/template-presentation.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "context",
+            "valueType": "string",
+            "presentOnEveryInstance": false,
+            "observedCardinality": {
+              "min": 0,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "declaration",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 16
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "projection",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "selector",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      },
+      {
+        "name": "Territory",
+        "instanceCount": 3,
+        "owners": [
+          "source/atlas.rel",
+          "source/expedition.rel"
+        ],
+        "predicates": [
+          {
+            "predicate": "atlasImage",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "atlasNumber",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "atlasSlug",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "isa",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "light",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "name",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "note",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          },
+          {
+            "predicate": "place",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 10,
+              "max": 16
+            }
+          },
+          {
+            "predicate": "question",
+            "valueType": "string",
+            "presentOnEveryInstance": true,
+            "observedCardinality": {
+              "min": 1,
+              "max": 1
+            }
+          }
+        ],
+        "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+      }
+    ],
+    "inputClosure": [
+      {
+        "file": "bootstrap/site.json",
+        "sha256": "f8ef38dcd0bad8eae101fead5b412d98576fa51a445b0ac495f9128fef69842f"
+      },
+      {
+        "file": "bootstrap/native.json",
+        "sha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105"
+      },
+      {
+        "file": "bootstrap/run.cjs",
+        "sha256": "b90c8a76ae4100a1d1b593cd350ef9d43aff269f3cd0ab8ba94d1d4a92ccafc2"
+      },
+      {
+        "file": "bootstrap/temple-seed.cjs",
+        "sha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e"
+      },
+      {
+        "file": "bootstrap/ports/node.cjs",
+        "sha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69"
+      },
+      {
+        "file": "bootstrap/ports/rel-codec.cjs",
+        "sha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e"
+      },
+      {
+        "file": "bootstrap/ports/algebra-lower.cjs",
+        "sha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2"
+      },
+      {
+        "file": "bootstrap/ports/fact-index.cjs",
+        "sha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a"
+      },
+      {
+        "file": "bootstrap/ports/value.cjs",
+        "sha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2"
+      },
+      {
+        "file": "bootstrap/ports/register.cjs",
+        "sha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae"
+      },
+      {
+        "file": "bootstrap/ports/browser.cjs",
+        "sha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72"
+      },
+      {
+        "file": "bootstrap/ports/worker.cjs",
+        "sha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c"
+      },
+      {
+        "file": "bootstrap/hosts/runtime.cjs",
+        "sha256": "5afe01fefeafa9f4f3ea0f41c9da9ef026ad780afc2652635324a3885b297b1b"
+      },
+      {
+        "file": "bootstrap/ports/programme.cjs",
+        "sha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec"
+      },
+      {
+        "file": "bootstrap/ports/kernel.cjs",
+        "sha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c"
+      },
+      {
+        "file": "bootstrap/ports/browser-effects.cjs",
+        "sha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca"
+      },
+      {
+        "file": "bootstrap/ports.json",
+        "sha256": "a9f7b090d4eaa53da715c6f29bea65c0b9ea55f4fe826a2e5c5f86c22c8dd7f7"
+      },
+      {
+        "file": "algebra/template.process.json",
+        "sha256": "4f625ddde1f3084eeba945a23a16db3863ea089b2420537f75dc259ebc6b23c1"
+      },
+      {
+        "file": "algebra/html.process.json",
+        "sha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef"
+      },
+      {
+        "file": "algebra/css.process.json",
+        "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1"
+      },
+      {
+        "file": "algebra/publication.process.json",
+        "sha256": "1e302dc5ea1e00368e82210a3402dd149576eb15fc93ee38a919412c0ce3064f"
+      },
+      {
+        "file": "algebra/gateway.process.json",
+        "sha256": "129cc56abedd088be31e878ca05967cfc9811fac9ec562c80e3e7c1c7172a39e"
+      },
+      {
+        "file": "algebra/language.process.json",
+        "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda"
+      },
+      {
+        "file": "algebra/fact-index.process.json",
+        "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+      },
+      {
+        "file": "algebra/source.process.json",
+        "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246"
+      },
+      {
+        "file": "algebra/admission.process.json",
+        "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b"
+      },
+      {
+        "file": "algebra/lowering.process.json",
+        "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8"
+      },
+      {
+        "file": "algebra/microsite-projection.process.json",
+        "sha256": "472156cb580be847a0fa4f849eb78072b8a4bcc2da305e09d8436335987a0c64"
+      },
+      {
+        "file": "algebra/microsites.process.json",
+        "sha256": "e8a1f3a160a732d1bc9d1294312df90a3a7c9ed5e26b45253fa8a5d66f147f54"
+      },
+      {
+        "file": "algebra/microsite-values.process.json",
+        "sha256": "1f995db6a7b6855aab6d80f279488345988c90997e6dfaaea75e304dfe036069"
+      },
+      {
+        "file": "algebra/microsite-lamp.process.json",
+        "sha256": "fc4d07d31f82924b36fb9a921229c0b2f5f93b84727b52b4884b58144feecd5b"
+      },
+      {
+        "file": "algebra/microsite-sourcery.process.json",
+        "sha256": "4e1c5995c7dc334043cc345ee9684139ac705d3772ad34f70c79ea79dcd3323c"
+      },
+      {
+        "file": "algebra/microsite-ui.process.json",
+        "sha256": "4b5e098df13bcc4c1fffabd354a79ec0db2681fdaf801c0c7249342619c041d2"
+      },
+      {
+        "file": "algebra/microsite-temple-ui.process.json",
+        "sha256": "5268456e95c933922ab842b4c5512b0d2d5824b6ff82384ba279fa20e61d501e"
+      },
+      {
+        "file": "algebra/microsite-motion.process.json",
+        "sha256": "ca994deeca7d4dd565b5ce0777d863e37f60d81b1a6316431101068debc4f357"
+      },
+      {
+        "file": "algebra/microsite-temple-motion.process.json",
+        "sha256": "16197e683130c5cab6cc6ba7112fd74354fd1126d0bc461553b426f75d73c864"
+      },
+      {
+        "file": "algebra/microsite-media.process.json",
+        "sha256": "a8581be25a23c46ad8eaae9cb178f3055d74f8b1f759cde17b7550e08e13629b"
+      },
+      {
+        "file": "algebra/front-doors.process.json",
+        "sha256": "c4524fe76b0a5fcee46561b8dd694cce1decdccfcb3a64eafa031a042f076566"
+      },
+      {
+        "file": "algebra/claimipedia.process.json",
+        "sha256": "222440b6f4698b57b23a329824ae3cbc52c9c41be74da81ae8998ead1feae8a9"
+      },
+      {
+        "file": "algebra/claimipedia-review.process.json",
+        "sha256": "c356e4691f2788337b251cebec2cbc08f1857ec45e797e9c3eacc471a13d2a17"
+      },
+      {
+        "file": "algebra/encounter-demo.process.json",
+        "sha256": "b14e862f2dc33d91ab8395c2151cba62148f4cef57cf66fce36cf9016862634c"
+      },
+      {
+        "file": "algebra/encounter-source.process.json",
+        "sha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3"
+      },
+      {
+        "file": "algebra/encounter-code-types.process.json",
+        "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05"
+      },
+      {
+        "file": "algebra/encounter-code-compiler.process.json",
+        "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9"
+      },
+      {
+        "file": "algebra/encounter-code-runtime.process.json",
+        "sha256": "4c7f7e56e0eb303b1419970f7895903b2e0581a3a27d3bb180a56424bdb64ffc"
+      },
+      {
+        "file": "algebra/encounter.process.json",
+        "sha256": "d1ac4ffd131d8ba002e19682a8b76fbf2414289ec43b8d1f15309720c48a7ea2"
+      },
+      {
+        "file": "algebra/atlas.process.json",
+        "sha256": "6bbc34a9db7a058ca166f1c2fa330e627a8e87f03c690e90825038ebe66cc9c7"
+      },
+      {
+        "file": "algebra/atlas-journey.process.json",
+        "sha256": "00dbfe1c9212b22ff3074450150898414567afdec913f20a3041eead5ea8df18"
+      },
+      {
+        "file": "algebra/reader-models.process.json",
+        "sha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b"
+      },
+      {
+        "file": "algebra/reader-activities.process.json",
+        "sha256": "06cdae54f468cb2060c900f8e03e26767c4c1a2f7d2675e6ded2910ce03ede5c"
+      },
+      {
+        "file": "algebra/reader-navigation.process.json",
+        "sha256": "f21077df75470078ee9962bcc74b6cf54cadf98491df55db4a3fd1a615887e86"
+      },
+      {
+        "file": "algebra/workshop-lab.process.json",
+        "sha256": "9e3049811c1325c840711a8aa091f44b3f670480fa376421a47e5f69399cd037"
+      },
+      {
+        "file": "algebra/workshop-session.process.json",
+        "sha256": "d1b0690eac110db7fa1eb18429aab7d097bb9e11756e516e7f933101f0fce52d"
+      },
+      {
+        "file": "algebra/reader-workshop-publication.process.json",
+        "sha256": "971fac911b3cf3067dd0651db7407045d0c99d744f291b1afcbef06af6c44511"
+      },
+      {
+        "file": "algebra/operators.expression.json",
+        "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2"
+      },
+      {
+        "file": "bootstrap/kernel-profile.json",
+        "sha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875"
+      },
+      {
+        "file": "source/world.rel",
+        "sha256": "7aad15927129700881aa54efcec49780d1fb98ad8c700a3433512449059e1deb"
+      },
+      {
+        "file": "source/assets.rel",
+        "sha256": "c25a7856b0096eda30def169f2e16fb6ed62ca7ef9f7a5127fb0a1b8436a583a"
+      },
+      {
+        "file": "source/expedition.rel",
+        "sha256": "fdbbebbc5b499a089d4b9cdd3c2fcf15e4988fc9d2fa7aaaacda970c447ac6ba"
+      },
+      {
+        "file": "source/presentation.rel",
+        "sha256": "a7121fe9cfb4b5d50c58bde609447a83dad7a11a6ff66838208ccd70b2c26f34"
+      },
+      {
+        "file": "source/gateway.rel",
+        "sha256": "4cb83ce5b2c70acb5605913924d89594fe1a33c4ddf9b142cc04f4eeb4d4b01c"
+      },
+      {
+        "file": "source/gateway-presentation.rel",
+        "sha256": "2bbf23f5c7d174aba22ada48b1b9fb0ed527d49259f6fde78cd2e446347d4c1d"
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2"
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5"
+      },
+      {
+        "file": "source/front-doors.rel",
+        "sha256": "308168ce46479dbc07f91a6808ab4c64d5323ee9a317bdb7283b77c81034f815"
+      },
+      {
+        "file": "source/claimipedia.rel",
+        "sha256": "d839cea6b9dd0b72bb254584be4095032fa90f71f3c40055eb6e24ac4d105879"
+      },
+      {
+        "file": "source/claimipedia-example.rel",
+        "sha256": "d95f26dcb518bc5cc9aeef306f648ab3d261429634052d7d4ec59ddec08e49e9"
+      },
+      {
+        "file": "source/social-sharing.rel",
+        "sha256": "ed6dcbe8d7fb0bbdadd5ecfd9ad2fae7d3187fe91fb0e0021f25189fa11f3656"
+      },
+      {
+        "file": "source/encounter.rel",
+        "sha256": "d2e4d03828bf9fb206fade3a8110c321d0579dc1653b86cc23b25289643336d9"
+      },
+      {
+        "file": "source/atlas.rel",
+        "sha256": "3ba75edffb7ee4f3a61b50a576e74568717ba96f204812a09a1917cdd05eea13"
+      },
+      {
+        "file": "source/template-presentation.rel",
+        "sha256": "0df603c23e3f268a6706c893739dd5ed33c83d4cce885b27226cb85112e315c2"
+      },
+      {
+        "file": "source/reader/activities.json",
+        "sha256": "bff368d13fb955bfbdb70694527cb6f7479f58550d5e1e600896aaa25c4c9055"
+      },
+      {
+        "file": "source/encounter/example.json",
+        "sha256": "7a2e765e96ba7d5b2e9a8f972d3244f9db62ea8ee8ad75795a86ec21546d232d"
+      },
+      {
+        "file": "source/encounter/presentation.json",
+        "sha256": "d65de5dc7309f9eef6fff7092ac455d04102e015dedf2bbf77df786588f1cacb"
+      },
+      {
+        "file": "source/encounter/reuse.json",
+        "sha256": "e646d90d5eea919b4f4c69853b4e8cca8ed38eb7ccd9d1bd0226541f9e0e5079"
+      },
+      {
+        "file": "retained/workshop/sources/source/experiment/story.encounter",
+        "sha256": "ead8251a8fcc33180eb416791bbdb64d2db9d1c8c2a5a17156b11520b1811ab8"
+      },
+      {
+        "file": "retained/workshop/sources/source/experiment/story.rel",
+        "sha256": "d01fb6bf6c744a89115432ad0cf190898229494f33d67d15b3be7b68310a4b28"
+      },
+      {
+        "file": "retained/workshop/sources/source/experiment/contracts.rel",
+        "sha256": "a2ab6758f5dc709fa9ab46129115c33a1b35122e72b4ba173ddb4b5969f32b5a"
+      },
+      {
+        "file": "retained/.nojekyll",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "file": "retained/assets/atlas-grid.svg",
+        "sha256": "083e40637c96a76c26024a961a60266a17be77bbd35215634cc4f89b13cd09a1"
+      },
+      {
+        "file": "retained/assets/mark.svg",
+        "sha256": "a269679cb6e6a21610c90e3da0ee7fdeef8fcdee3ed0f7f573388208ad79e6a1"
+      },
+      {
+        "file": "retained/assets/terrain.svg",
+        "sha256": "189be6b8b9d673aab4fc354d926b2acda81df03d6145b3a846b13f1e83d800d3"
+      },
+      {
+        "file": "retained/coverage.json",
+        "sha256": "ec9a8a647971fc7064929a9943bbff3f3020bc5c2d25a1c491eadb7210399bb4"
+      },
+      {
+        "file": "retained/enchantment.css",
+        "sha256": "5516877347248946c399c21674d052126cb02b32adb9cb834cafaedf33aef69b"
+      },
+      {
+        "file": "retained/index.html",
+        "sha256": "3800c7f10ef4893e55cf983a04dd3b83fd9610c08e8351986d4696fc4e3afde1"
+      },
+      {
+        "file": "retained/library/codes.txt",
+        "sha256": "eee3476c0826c07f0032d634f0072d3a90230042d4b4d804ae5973a9ce4b0e06"
+      },
+      {
+        "file": "retained/library/contact.txt",
+        "sha256": "e2ce08ccdd68f853adf4722d4d6c43d064af6a4a6311c558abaeb0527995578b"
+      },
+      {
+        "file": "retained/library/contribution.txt",
+        "sha256": "46effabe7a620ad3a9289bca605adf26626c258569597e0b85464dfab2fb3c35"
+      },
+      {
+        "file": "retained/library/correction.txt",
+        "sha256": "ef81d04fa7313a8eb1e0242c2899f660c7951f73507a219817934dee642701fe"
+      },
+      {
+        "file": "retained/library/correspondence.txt",
+        "sha256": "7f331e44482f00c1cb668bfafce9af7628e9b87f40f5fefaf1dd1232ba8913b9"
+      },
+      {
+        "file": "retained/library/cosmos.txt",
+        "sha256": "628c4fbc5f14c1acd9ae04af84447fc45dee9b9db8507dd4bf7b7002d1839875"
+      },
+      {
+        "file": "retained/library/costs.txt",
+        "sha256": "3d3d1a7062f4f3e9fed287aa869d417f7de51418912e8e14e8800ff37651c2fb"
+      },
+      {
+        "file": "retained/library/detector.txt",
+        "sha256": "0d836e51b4ae87a8f9865cd5b2aeb25098bd93892e24fc31e88be8edc0ec6880"
+      },
+      {
+        "file": "retained/library/erasure.txt",
+        "sha256": "cf40d10b3a35df595a42c78c43b6f857cd74554e12cccfc431a92cf0afd123d6"
+      },
+      {
+        "file": "retained/library/frontier.txt",
+        "sha256": "ffd1e901f9744a9a2c1364b24b47f5bfa1cbab9a56bcfbe99cc51207f0ebcc0d"
+      },
+      {
+        "file": "retained/library/instrument.txt",
+        "sha256": "7f706d9b84bf985e67249f69323031048f7d710488e7fb790ce20e3917540e8a"
+      },
+      {
+        "file": "retained/library/invariant.txt",
+        "sha256": "d193047f24ce577e97dc171d72ba19e88cb29ad744679bf2d33b00ed776b06e3"
+      },
+      {
+        "file": "retained/library/kenosis.txt",
+        "sha256": "07dafdfa6158dbb49ccdf4771ba901f44f42ff30ec94077de5b0593e3325fb57"
+      },
+      {
+        "file": "retained/library/laboratory.txt",
+        "sha256": "3499a7e6f186fa55dcd23aad1e23758a62dcf8c4ee77a20691727b07f6be4723"
+      },
+      {
+        "file": "retained/library/material.txt",
+        "sha256": "d910a47515b103fe140bdee2434998091f1f26b792fd8fa0e6f7c35a56638262"
+      },
+      {
+        "file": "retained/library/meanings.txt",
+        "sha256": "bf9cd0e9ebebb0af91a888ecf0a43d4964d987efeef8b8503197abbc97fac6ee"
+      },
+      {
+        "file": "retained/library/memory.txt",
+        "sha256": "a1e27e9fa483d43bd5e270a0ef2d50f4e2c4a55c9eae8ea4f963873ee81fb1ca"
+      },
+      {
+        "file": "retained/library/mind.txt",
+        "sha256": "931ba6644abfd8b31f930f34721a023133a11f5d34b5583dd3b23f0ef59ab704"
+      },
+      {
+        "file": "retained/library/monster.txt",
+        "sha256": "8989508591c26f44aaae477ec64101aafad920a9a8c7855fe8d6272930359c99"
+      },
+      {
+        "file": "retained/library/negatives.txt",
+        "sha256": "e39ba2d501a9e3e17eb647c6024086a10f0d03cc748fa6ccdfe2a3303653c93a"
+      },
+      {
+        "file": "retained/library/patterns.txt",
+        "sha256": "edf4c1c5b0b578abee3b42a39463b11bcc30de779deb3e1c06f0c1a8cc2781c6"
+      },
+      {
+        "file": "retained/library/possibilities.txt",
+        "sha256": "8b5819a228a0e92a042a29597c3123ce1ac69c1763521ab7f25831f758604b2e"
+      },
+      {
+        "file": "retained/library/reflection.txt",
+        "sha256": "bd7567785584b6dbbc79a476e92862d16e90d377b002f574d5959760e4c92740"
+      },
+      {
+        "file": "retained/library/relations.txt",
+        "sha256": "ded5302045345ed80419dca987489742a630c48c1cb3ab4e36f4eabd0f285c29"
+      },
+      {
+        "file": "retained/library/scenarios.txt",
+        "sha256": "d79786b6a93fd967f8cac66e32ef18e0a7fdb096dc13db3d1042c96463161533"
+      },
+      {
+        "file": "retained/library/sourcery.txt",
+        "sha256": "ec7d121c42909bf2df60024ac9c21d7ed17c2530179b6cdfafc22edd332059a8"
+      },
+      {
+        "file": "retained/library/texts.txt",
+        "sha256": "f47ac2ea573c812e05a1a418cdb818bc6301541edda658e3493703be2a4ef467"
+      },
+      {
+        "file": "retained/reading.css",
+        "sha256": "7497f28bba84b347b13a56a0e007afcccff54e4c624ea283eaaa64c0052019a4"
+      },
+      {
+        "file": "retained/style.css",
+        "sha256": "1795e99d3af4d2f84ebcbbce1ac6a60ab5b441602f0b6720d4b77276b2513417"
+      },
+      {
+        "file": "retained/territories.css",
+        "sha256": "430e83d518aa5a54bf75ba477bffa0bee7fde52718f1d80c3137447bc649e656"
+      },
+      {
+        "file": "retained/wider-world.css",
+        "sha256": "4a4dc456efe84d8eb6eecb25cf34eeac1a38b1f4842ee1497c022d94774d088e"
+      },
+      {
+        "file": "retained/workshop/encounter-story.html",
+        "sha256": "798cb59090d3b30009a5ff73ca8a6b6d1a31cce377bc57670d3acfcb90d518d0"
+      },
+      {
+        "file": "retained/workshop/fixture.json",
+        "sha256": "07a6738bc1f09db572ec72fe59e6e4ad9628b648e11f7dbce535ca1722f95fc7"
+      },
+      {
+        "file": "retained/workshop/index.html",
+        "sha256": "2c445fbca39f4d0f0051e51a22a81fb76fc6b37f363750c2ac865de125782755"
+      },
+      {
+        "file": "retained/workshop/package.json",
+        "sha256": "a3e820bf1715afda0b535dd848a22362dbdc28296fbbbe6ffd6b7712d06194b6"
+      },
+      {
+        "file": "retained/workshop/README.txt",
+        "sha256": "051be9ed2c561a7a300ccf9f8669be1a566bf2eb32fa4039f3222f1112646901"
+      },
+      {
+        "file": "retained/workshop/source-manifest.txt",
+        "sha256": "b5fd6a7d5888174ff11236ed2632daaa71ad583721d44faed24a72aff6f9ae33"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/admission.process.json",
+        "sha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/encounter-code-compiler.process.json",
+        "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/encounter-code-runtime.process.json",
+        "sha256": "4c7f7e56e0eb303b1419970f7895903b2e0581a3a27d3bb180a56424bdb64ffc"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/encounter-code-types.process.json",
+        "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/fact-index.process.json",
+        "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/html.process.json",
+        "sha256": "b0a8dbc1d00d296e4150816a42f2d7b61d59b87b17ebdffe733f2d419e28e91b"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/lab.process.json",
+        "sha256": "41f15a41b94a87892a7010bf5ab32b2147fe83a006aad7a7ecf472f6b383f43a"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/language.process.json",
+        "sha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/lowering.process.json",
+        "sha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/operators.expression.json",
+        "sha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2"
+      },
+      {
+        "file": "retained/workshop/sources/algebra/source.process.json",
+        "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246"
+      },
+      {
+        "file": "retained/workshop/sources/bootstrap/encounter-code-fixture.cjs",
+        "sha256": "678c0324bd33c9fe3355ad35808111e47ee75ce6eea59c25905e71368b85281a"
+      },
+      {
+        "file": "retained/workshop/sources/bootstrap/kernel-profile.json",
+        "sha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875"
+      },
+      {
+        "file": "retained/workshop/sources/bootstrap/ports/algebra-lower.cjs",
+        "sha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2"
+      },
+      {
+        "file": "retained/workshop/sources/bootstrap/ports/kernel.cjs",
+        "sha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c"
+      },
+      {
+        "file": "retained/workshop/sources/bootstrap/ports/programme.cjs",
+        "sha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec"
+      },
+      {
+        "file": "retained/workshop/sources/bootstrap/ports/value.cjs",
+        "sha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2"
+      },
+      {
+        "file": "retained/workshop/sources/bootstrap/temple-seed.cjs",
+        "sha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e"
+      },
+      {
+        "file": "retained/workshop/style.css",
+        "sha256": "9a9e39a780906d737596915213a18bbb1a9595c1d5a2219f1f88da0e55411cff"
+      },
+      {
+        "file": "assets/sourcerer-threshold.png",
+        "sha256": "7096b848bfa28b6f562fdbc56abbd6b78b57b80841248843ddecee31b4156dca"
+      },
+      {
+        "file": "source/authoring-contract.json",
+        "sha256": "f35e48e7233b39caf829c1a8e159a449b62c2d909d82f5d9939af2fbb8379212"
+      },
+      {
+        "file": "algebra/authoring.process.json",
+        "sha256": "9e85b26aeb6b734527f7f305160bbd6b3cf5825992eb1a6cd10c4e9e6d9fce1f"
+      },
+      {
+        "file": "source/world-schema.json",
+        "sha256": "2668ec4606e9b5a14940123576bef554814e2bce608c82e1fc45edf79eb8356f"
+      },
+      {
+        "file": "temple/assets/favicon.svg",
+        "sha256": "11161247e352552be04bc0dab97e3260cc75be8fc33e843ec0f07e2a0a7a7a4b"
+      },
+      {
+        "file": "temple/films/manifest.json",
+        "sha256": "3639fc640c096e522e0dcda5d7934fde8c5619820f5770fb0a3098766a71cbeb"
+      },
+      {
+        "file": "temple/fonts/cormorant-garamond-latin-500-normal.woff2",
+        "sha256": "8197bf53615ddc8c423f444c7f0eec63b7fa0ba093fcfbec60dfdd28429b0fc8"
+      },
+      {
+        "file": "temple/fonts/cinzel-latin-400-normal.woff2",
+        "sha256": "b873cdd90d6bd9ca4793c805b4175abfae00b3611ee8afccf63067133dcf1217"
+      },
+      {
+        "file": "temple/films/the-film-poster.jpg",
+        "sha256": "c761a70b93d0cc33357f11f5f903ef6d5a94d955cc568f6d082e8708c7ec5b29"
+      },
+      {
+        "file": "temple/films/the-film.webm",
+        "sha256": "5cdf463f1f02b288c1033b6b687d5448ae155cf82766c4f32eaa2da1b2821bfa"
+      },
+      {
+        "file": "temple/films/the-film.mp4",
+        "sha256": "3a30987dc61c53580893ea3b11b2ab0ce42b755bb2e1e89e813982170229a8f6"
+      },
+      {
+        "file": "temple/films/the-film.en.vtt",
+        "sha256": "97b9ce723a5447844bd63872d102617fe705c7762b40fbc1a52e9ddc0d5ab3f9"
+      },
+      {
+        "file": "temple/fonts/cormorant-garamond-latin-400-normal.woff2",
+        "sha256": "8048ac209bec741e1c29cd0cfac5aac1c0c2ba8c3ddbd4a58fa9bd92ef5c63c2"
+      },
+      {
+        "file": "temple/fonts/cormorant-garamond-latin-600-normal.woff2",
+        "sha256": "ae062b6d5ae308e7edf61b28b07b9984bbb6e961b1f34d9b2c2f4389c33f21ea"
+      },
+      {
+        "file": "temple/fonts/cormorant-garamond-latin-500-italic.woff2",
+        "sha256": "4fb55a7a6d564d428061fe12c82c896264bcc8b7f0b52840bf88e0db5b91256f"
+      },
+      {
+        "file": "temple/fonts/cinzel-latin-600-normal.woff2",
+        "sha256": "61efc27ceb7d08bb841652fa8979c0b6833b92548b7f9544c07968a6c02f28e4"
+      },
+      {
+        "file": "temple/fonts/jetbrains-mono-latin-400-normal.woff2",
+        "sha256": "14425ba9c695763c1547f48a206b7aa60350a33ae23de09f0407877f3fcd89eb"
+      },
+      {
+        "file": "sourcery/assets/favicon.svg",
+        "sha256": "d30150929ca67e868d216eb0748fdee5e238cdbf5c83d0c543181a63a50023a3"
+      },
+      {
+        "file": "sourcery/assets/fonts/fraunces-latin-full-normal.woff2",
+        "sha256": "7e744849028e2219e2aa1bc467dc4032980dc4487c9c3da3010081cd72d3b103"
+      },
+      {
+        "file": "sourcery/films/media/flood-loop.jpg",
+        "sha256": "9e88616ed98ca5cfcf89b42517fbfca07348e58cf5f6ef91caa83b2dc07255bc"
+      },
+      {
+        "file": "sourcery/films/media/flood-loop.webm",
+        "sha256": "61344c160c09af626de58f4d8a3f213ff97ed8ea8ef316631259da35c0b2dcc8"
+      },
+      {
+        "file": "sourcery/films/media/flood-loop.mp4",
+        "sha256": "c4daf66616101c1052ca5c14119fd27c6c91e8dea3c48d90162dae010b00c33c"
+      },
+      {
+        "file": "sourcery/films/media/moving-picture-book.jpg",
+        "sha256": "dc1433755f478ccf60c7ae083cbc9db7ce45935aac97aa40fa8dd3901781c38f"
+      },
+      {
+        "file": "sourcery/films/media/moving-picture-book.webm",
+        "sha256": "bc3df19650e059c280236352148a1c27f734dfc831f4d1729583732404274967"
+      },
+      {
+        "file": "sourcery/films/media/moving-picture-book.mp4",
+        "sha256": "65d9f2a85cea1428da3fba43ba8d16c8740563636b869d47986ad5e37f090cb8"
+      },
+      {
+        "file": "sourcery/films/media/moving-picture-book.vtt",
+        "sha256": "9009d1d8169cf7beab46563371b6bbafd7895412c8766b3a38b161c70d37d5ff"
+      },
+      {
+        "file": "sourcery/assets/fonts/caveat-latin-wght-normal.woff2",
+        "sha256": "891951df5e8b5b0f0bc760d31375405e795c666b5add70437de12d4a6482b33f"
+      },
+      {
+        "file": "assets/world-emblems/temple-v1.png",
+        "sha256": "a8ea4acd71a6ba7ea3d7a95001360ba8ba498fd6d68424c7831779245288dc0a"
+      },
+      {
+        "file": "assets/world-emblems/sourcery-v1.png",
+        "sha256": "0c9c8147cf5c852090eb65a9a79c1a50f941ba7a41a7f535a3b4c695758a33f4"
+      },
+      {
+        "file": "assets/world-emblems/claimipedia-v1.png",
+        "sha256": "7b466e26749be1874b7ba20650e562c8af5159dc1b87dbb84feba985825bd6b4"
+      },
+      {
+        "file": "assets/world-emblems/worldwright-v1.png",
+        "sha256": "7a08b1e98fc4d8c4082dc493c5ef635aae9907afc17b3e4ddb7ad0f37d1c85f6"
+      },
+      {
+        "file": "assets/claimipedia/landscape-v1.png",
+        "sha256": "16f4435bb7319e4293b14b67579df5407aa719599c8502ad1af5151e6cab3505"
+      },
+      {
+        "file": "assets/sharing/home-purpose-v1.png",
+        "sha256": "ef17cf029b183387a52610642f8b6287327744411c0a2d0745524a97b812d8e3"
+      },
+      {
+        "file": "assets/sharing/temple-purpose-v1.png",
+        "sha256": "a987600ce5c5ce10eec8aa248316a9b10ca05eac01cf3035893925a93f606563"
+      },
+      {
+        "file": "assets/sharing/sourcery-purpose-v1.png",
+        "sha256": "92d3e0d8133e68662213389e15a7668b47b0352b72f9312b8bd494642885fcc5"
+      },
+      {
+        "file": "assets/sharing/claimipedia-purpose-v1.png",
+        "sha256": "5c4f002b9f7bb04d14d562d0a0294a55af45b2cec8c77d00239bbc58a98345a3"
+      },
+      {
+        "file": "assets/sharing/worldwright-purpose-v1.png",
+        "sha256": "d7f88a5b3be36ac3f33f0e09a780d6f9b0d46986307553105dd0b1eacee02819"
+      },
+      {
+        "file": "assets/atlas/overview-v1.png",
+        "sha256": "f093d580a7cb05652835d9ee62999129e88d0f290a26c2f751e637c481a643cf"
+      },
+      {
+        "file": "assets/atlas/unseen-v1.png",
+        "sha256": "0a85dc20751c2903fe31e1d151deddf0373c3f6500e399779c4d47221a89a495"
+      },
+      {
+        "file": "assets/atlas/human-v1.png",
+        "sha256": "13272eebfcad8feb94cfa11e8b340c03413c008c75df96339f86f14df673357c"
+      },
+      {
+        "file": "assets/atlas/boundary-v1.png",
+        "sha256": "045399eb00b41411fb1ac099249741f80cb5adc4249f383ebee39df5e363224f"
+      },
+      {
+        "file": "source/workshop/provenance.json",
+        "sha256": "04952dac5e7e95f7579f8cd2a3c4fb958acea67b0e785bbc539950849898a65f"
+      },
+      {
+        "file": "source/reader/document.html",
+        "sha256": "1ea4e431ebf0f0ca64cea322a0dbae7f586ad0502a8d91c5ec86d25ab2b8505c"
+      },
+      {
+        "file": "source/reader/activity.html",
+        "sha256": "a17a2665e57dac1e5ddd11de48dcb84c92dfc9eb834cdee5761f5bfdde23d178"
+      },
+      {
+        "file": "source/reader/reader.css",
+        "sha256": "571e6ce0dfc90e8ddadff3a66923279a5efacc4ef75d2c585cff38c69f365b7f"
+      },
+      {
+        "file": "source/workshop/document.html",
+        "sha256": "c77e00c57ec18b7b4f86f5ee0b3fbc6298c9993fbfba6e0e72e44a465ea49b90"
+      }
+    ],
+    "nativeClosure": {
+      "protocol": "temple/native-port-closure/1",
+      "entry": "bootstrap/run.cjs",
+      "files": [
+        "bootstrap/run.cjs",
+        "bootstrap/temple-seed.cjs",
+        "bootstrap/ports/node.cjs",
+        "bootstrap/ports/rel-codec.cjs",
+        "bootstrap/ports/algebra-lower.cjs",
+        "bootstrap/ports/fact-index.cjs",
+        "bootstrap/ports/value.cjs",
+        "bootstrap/ports/register.cjs",
+        "bootstrap/ports/browser.cjs",
+        "bootstrap/ports/worker.cjs",
+        "bootstrap/hosts/runtime.cjs",
+        "bootstrap/ports/programme.cjs",
+        "bootstrap/ports/kernel.cjs",
+        "bootstrap/ports/browser-effects.cjs"
+      ]
+    },
+    "portProfiles": {
+      "build": [
+        "value.describe",
+        "value.string",
+        "value.type",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.freeze",
+        "record.get",
+        "text.replaceAll",
+        "text.split",
+        "text.trim",
+        "text.lowerCase",
+        "text.matches",
+        "file.write",
+        "file.read",
+        "file.copy",
+        "url.resolve",
+        "runtime.bundle",
+        "json.stringify",
+        "json.parse",
+        "text.slice",
+        "text.join",
+        "file.remove"
+      ],
+      "browser": [
+        "dom.exists",
+        "dom.on",
+        "dom.value",
+        "dom.checked",
+        "dom.attribute",
+        "dom.setAttribute",
+        "dom.classToggle",
+        "dom.text",
+        "dom.reset",
+        "http.json"
+      ],
+      "worker": [
+        "value.type",
+        "record.get",
+        "text.trim",
+        "text.lowerCase",
+        "text.matches",
+        "http.method",
+        "http.decode",
+        "http.header",
+        "http.respond",
+        "mail.send"
+      ],
+      "compilation": [
+        "value.describe",
+        "record.entries",
+        "text.trim",
+        "text.matches",
+        "text.split",
+        "json.parse",
+        "json.stringify"
+      ],
+      "reflection": [
+        "value.describe",
+        "record.entries",
+        "json.stringify",
+        "text.replaceAll"
+      ],
+      "micrositesBrowser": [
+        "asset.blobURL",
+        "asset.json",
+        "browser.attribute",
+        "browser.cancel",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.on",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "browser.write",
+        "canvas.draw",
+        "clock.read",
+        "digest.sha256",
+        "image.rasterize",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.entries",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.matches",
+        "text.replace",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.describe",
+        "value.sort",
+        "value.string",
+        "value.type"
+      ],
+      "micrositesEarly": [
+        "dom.classToggle"
+      ],
+      "encounterBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type"
+      ],
+      "atlasBrowser": [
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "state.get",
+        "state.set",
+        "text.split",
+        "text.join",
+        "dom.exists",
+        "dom.attribute",
+        "dom.hidden",
+        "dom.text",
+        "dom.on",
+        "browser.select",
+        "browser.attribute",
+        "browser.on",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.cancel"
+      ],
+      "readerBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type",
+        "asset.blobURL",
+        "asset.json",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "canvas.draw",
+        "clock.read",
+        "image.rasterize",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.get",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.sort",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "asset.text",
+        "browser.location",
+        "browser.navigate",
+        "browser.title",
+        "browser.scroll",
+        "browser.dialog",
+        "document.fragment",
+        "browser.frameContent",
+        "text.compare"
+      ],
+      "activityBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type",
+        "asset.blobURL",
+        "asset.json",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "canvas.draw",
+        "clock.read",
+        "image.rasterize",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.get",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.sort",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "asset.text",
+        "browser.location",
+        "browser.navigate",
+        "browser.title",
+        "browser.scroll",
+        "browser.dialog",
+        "document.fragment",
+        "browser.frameContent",
+        "text.compare"
+      ],
+      "workshopBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type",
+        "asset.blobURL",
+        "asset.json",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "canvas.draw",
+        "clock.read",
+        "image.rasterize",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.get",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.sort",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "asset.text",
+        "browser.location",
+        "browser.navigate",
+        "browser.title",
+        "browser.scroll",
+        "browser.dialog",
+        "document.fragment",
+        "browser.frameContent",
+        "text.compare"
+      ]
+    },
+    "authoringContract": "templates/expedition/source/authoring-contract.json",
+    "authoringMechanism": {
+      "file": "templates/expedition/tooling/author.mjs",
+      "sha256": "be566b202f218b1b2c04f96f5dca20938a9750be37d0a67e4e4273ce6d012849"
+    }
+  },
+  "features": [
+    {
+      "id": "admission",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/admission.json",
+      "implementation": "templates/expedition/algebra/admission.process.json",
+      "implementationSha256": "c459c0aacbb5905b6aca01a6e8344b9e645f854c35244f59c1ea7ac1c1bf662b",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "atlas-journey",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/atlas-journey.json",
+      "implementation": "templates/expedition/algebra/atlas-journey.process.json",
+      "implementationSha256": "00dbfe1c9212b22ff3074450150898414567afdec913f20a3041eead5ea8df18",
+      "behavioral": [
+        {
+          "file": "atlas-journey.test.mjs",
+          "kind": "headless-effect-fixture",
+          "obligation": "Execute the generated model against bounded storage and DOM fixtures: deduplicated actual visits, reset isolation, blocked storage, mobile preview and history return.",
+          "sha256": "13e034077bdfe64d907e7d75ccd8aea1d93d858a1d94d28cbd2f92365b8c3028"
+        }
+      ]
+    },
+    {
+      "id": "atlas",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/atlas.json",
+      "implementation": "templates/expedition/algebra/atlas.process.json",
+      "implementationSha256": "6bbc34a9db7a058ca166f1c2fa330e627a8e87f03c690e90825038ebe66cc9c7",
+      "behavioral": [
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "A variable place graph projects atlas links, per-place pages and complete local resources.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "authoring",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/authoring.json",
+      "implementation": "templates/expedition/algebra/authoring.process.json",
+      "implementationSha256": "9e85b26aeb6b734527f7f305160bbd6b3cf5825992eb1a6cd10c4e9e6d9fce1f",
+      "behavioral": [
+        {
+          "file": "authoring.test.mjs",
+          "kind": "algebra-policy-fixture",
+          "obligation": "Stale source, authority, duplicate edits, no-ops and failed validation refuse before commit; preview/apply sequence is explicit.",
+          "sha256": "096b7d6c5f2ce813414be3ec92d03ca140cca598072cdc4566a505231aa3b72c"
+        },
+        {
+          "file": "authoring-native.test.mjs",
+          "kind": "native-filesystem",
+          "obligation": "Execute real isolated preview/apply, stale-source and failed-candidate refusal using actual filesystem snapshots and full candidate validation.",
+          "sha256": "9e5d9b42e83bed266e84cff5d5f3fdca1ba542f0d1f87e5e84a4d97973254bcf"
+        }
+      ]
+    },
+    {
+      "id": "claimipedia-review",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/claimipedia-review.json",
+      "implementation": "templates/expedition/algebra/claimipedia-review.process.json",
+      "implementationSha256": "c356e4691f2788337b251cebec2cbc08f1857ec45e797e9c3eacc471a13d2a17",
+      "behavioral": [
+        {
+          "file": "claimipedia-review.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "All 48 recorded reviews preserve outcomes, support/challenge counts, independence and explicit refusal conditions.",
+          "sha256": "76efa0f36ca28e7b93ecaa6ad7aa2e28088fb02a95044f373b0552f6c1060e33"
+        }
+      ]
+    },
+    {
+      "id": "claimipedia",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/claimipedia.json",
+      "implementation": "templates/expedition/algebra/claimipedia.process.json",
+      "implementationSha256": "222440b6f4698b57b23a329824ae3cbc52c9c41be74da81ae8998ead1feae8a9",
+      "behavioral": [
+        {
+          "file": "claimipedia-review.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "The compiled review semantics remain executable for distinct evidence selections.",
+          "sha256": "76efa0f36ca28e7b93ecaa6ad7aa2e28088fb02a95044f373b0552f6c1060e33"
+        },
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Project the review document, configured source data and admitted runtime.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "css",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/css.json",
+      "implementation": "templates/expedition/algebra/css.process.json",
+      "implementationSha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "encounter-code-compiler",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/encounter-code-compiler.json",
+      "implementation": "templates/expedition/algebra/encounter-code-compiler.process.json",
+      "implementationSha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9",
+      "behavioral": [
+        {
+          "file": "encounter-microsite.test.mjs",
+          "kind": "algebra-execution",
+          "obligation": "Prepare and compile the retained Encounter source; reject wrong types and undeclared inverse fields.",
+          "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+        }
+      ]
+    },
+    {
+      "id": "encounter-code-runtime",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/encounter-code-runtime.json",
+      "implementation": "templates/expedition/algebra/encounter-code-runtime.process.json",
+      "implementationSha256": "4c7f7e56e0eb303b1419970f7895903b2e0581a3a27d3bb180a56424bdb64ffc",
+      "behavioral": [
+        {
+          "file": "encounter-microsite.test.mjs",
+          "kind": "algebra-execution",
+          "obligation": "Apply title edits through the declared patch route, preserve web overlays and the unchanged candidate on refusal.",
+          "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+        }
+      ]
+    },
+    {
+      "id": "encounter-code-types",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/encounter-code-types.json",
+      "implementation": "templates/expedition/algebra/encounter-code-types.process.json",
+      "implementationSha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05",
+      "behavioral": [
+        {
+          "file": "encounter-microsite.test.mjs",
+          "kind": "algebra-execution",
+          "obligation": "Use actual closed contracts and reject invalid values and fields without edit authority.",
+          "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+        }
+      ]
+    },
+    {
+      "id": "encounter-demo",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/encounter-demo.json",
+      "implementation": "templates/expedition/algebra/encounter-demo.process.json",
+      "implementationSha256": "b14e862f2dc33d91ab8395c2151cba62148f4cef57cf66fce36cf9016862634c",
+      "behavioral": [
+        {
+          "file": "encounter-microsite.test.mjs",
+          "kind": "headless-effect-fixture",
+          "obligation": "Boot, edit, source selection and reset share a session; failed edits preserve its accepted candidate.",
+          "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+        }
+      ]
+    },
+    {
+      "id": "encounter-source",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/encounter-source.json",
+      "implementation": "templates/expedition/algebra/encounter-source.process.json",
+      "implementationSha256": "b21d25912035bf2420b0a28028c7e846a929818a75d39e9f1ea6b5d2a47b09b3",
+      "behavioral": [
+        {
+          "file": "encounter-microsite.test.mjs",
+          "kind": "algebra-execution",
+          "obligation": "Every inspector selection preserves exact source text and digest under the shared highlighted projection.",
+          "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+        }
+      ]
+    },
+    {
+      "id": "encounter",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/encounter.json",
+      "implementation": "templates/expedition/algebra/encounter.process.json",
+      "implementationSha256": "d1ac4ffd131d8ba002e19682a8b76fbf2414289ec43b8d1f15309720c48a7ea2",
+      "behavioral": [
+        {
+          "file": "encounter-microsite.test.mjs",
+          "kind": "algebra-execution",
+          "obligation": "Admit every declared event root with the explicit profile and inspect the live source-derived projections.",
+          "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+        },
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Publish the Encounter entry, data, source snapshots and admitted runtime.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "fact-index",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/fact-index.json",
+      "implementation": "templates/expedition/algebra/fact-index.process.json",
+      "implementationSha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "front-doors",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/front-doors.json",
+      "implementation": "templates/expedition/algebra/front-doors.process.json",
+      "implementationSha256": "c4524fe76b0a5fcee46561b8dd694cce1decdccfcb3a64eafa031a042f076566",
+      "behavioral": [
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Project configured project/capability front doors through declared source owners.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "gateway",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/gateway.json",
+      "implementation": "templates/expedition/algebra/gateway.process.json",
+      "implementationSha256": "129cc56abedd088be31e878ca05967cfc9811fac9ec562c80e3e7c1c7172a39e",
+      "behavioral": [
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "A variable configured door set projects into a complete gateway without requiring seven personal doors.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "html",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/html.json",
+      "implementation": "templates/expedition/algebra/html.process.json",
+      "implementationSha256": "3c0daa63fd4ca49a59d3228db2dc55f74f145c3f715bc7d365de0dfbbd6261ef",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "language",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/language.json",
+      "implementation": "templates/expedition/algebra/language.process.json",
+      "implementationSha256": "83e8fcd65685ea08bc875d92d68bef37c95bad2e1f702cd8f8ecbe0337c61cda",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "lowering",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/lowering.json",
+      "implementation": "templates/expedition/algebra/lowering.process.json",
+      "implementationSha256": "616c1c5860d0245bad4df16de9e04074e44a601a716d99b641e7fec07d43bbd8",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "microsite-lamp",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-lamp.json",
+      "implementation": "templates/expedition/algebra/microsite-lamp.process.json",
+      "implementationSha256": "fc4d07d31f82924b36fb9a921229c0b2f5f93b84727b52b4884b58144feecd5b",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Every preset, identity, stale basis, false root, amendment, replay and forgery follows the retained proposal/witness semantics.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsite-media",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-media.json",
+      "implementation": "templates/expedition/algebra/microsite-media.process.json",
+      "implementationSha256": "a8581be25a23c46ad8eaae9cb178f3055d74f8b1f759cde17b7550e08e13629b",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "headless-effect-fixture",
+          "obligation": "Seeking retains range endpoints and metadata/blob fallback sequencing; effect fixtures do not certify browser playback.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsite-motion",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-motion.json",
+      "implementation": "templates/expedition/algebra/microsite-motion.process.json",
+      "implementationSha256": "ca994deeca7d4dd565b5ce0777d863e37f60d81b1a6316431101068debc4f357",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Flood scatter, waves and poses match sampled predecessor frames; reduced motion refuses animation scheduling.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsite-projection",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-projection.json",
+      "implementation": "templates/expedition/algebra/microsite-projection.process.json",
+      "implementationSha256": "472156cb580be847a0fa4f849eb78072b8a4bcc2da305e09d8436335987a0c64",
+      "behavioral": [
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Project the configured microsite documents and CSS through the actual source markup/style algebra.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "microsite-sourcery",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-sourcery.json",
+      "implementation": "templates/expedition/algebra/microsite-sourcery.process.json",
+      "implementationSha256": "4e1c5995c7dc334043cc345ee9684139ac705d3772ad34f70c79ea79dcd3323c",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Intent classification, proposal templates, sealing, witness verification and tamper detection match retained source cases.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsite-temple-motion",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-temple-motion.json",
+      "implementation": "templates/expedition/algebra/microsite-temple-motion.process.json",
+      "implementationSha256": "16197e683130c5cab6cc6ba7112fd74354fd1126d0bc461553b426f75d73c864",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Sky and constellation geometry, parallax and drawing effects match sampled predecessor states; hidden/reduced states remain still.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsite-temple-ui",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-temple-ui.json",
+      "implementation": "templates/expedition/algebra/microsite-temple-ui.process.json",
+      "implementationSha256": "5268456e95c933922ab842b4c5512b0d2d5824b6ff82384ba279fa20e61d501e",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Merkle drawing and explanatory lessons preserve source geometry, order and verdict branches.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsite-ui",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-ui.json",
+      "implementation": "templates/expedition/algebra/microsite-ui.process.json",
+      "implementationSha256": "4b5e098df13bcc4c1fffabd354a79ec0db2681fdaf801c0c7249342619c041d2",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Sourcery proposal, witness, tamper and restoration semantics remain executable with the configured UI process.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsite-values",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsite-values.json",
+      "implementation": "templates/expedition/algebra/microsite-values.process.json",
+      "implementationSha256": "1f995db6a7b6855aab6d80f279488345988c90997e6dfaaea75e304dfe036069",
+      "behavioral": [
+        {
+          "file": "microsite-fidelity.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Canonical Unicode/padding hashes, genesis identities, roots and Merkle levels preserve actual source semantics.",
+          "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+        }
+      ]
+    },
+    {
+      "id": "microsites",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/microsites.json",
+      "implementation": "templates/expedition/algebra/microsites.process.json",
+      "implementationSha256": "e8a1f3a160a732d1bc9d1294312df90a3a7c9ed5e26b45253fa8a5d66f147f54",
+      "behavioral": [
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Build all configured microsite documents, resources and admitted browser bundles; no original app script is a runtime input.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "operators",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/operators.json",
+      "implementation": "templates/expedition/algebra/operators.expression.json",
+      "implementationSha256": "b03c2c863cab748899675ffb4afd8f7ead0979f5e992923a086d19ad89a2c7f2",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "publication",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/publication.json",
+      "implementation": "templates/expedition/algebra/publication.process.json",
+      "implementationSha256": "1e302dc5ea1e00368e82210a3402dd149576eb15fc93ee38a919412c0ce3064f",
+      "behavioral": [
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Recompose a configured world, validate local resources and metadata, preserve input identity and bounded execution.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        },
+        {
+          "file": "resource-paths.test.mjs",
+          "kind": "publication-resource-graph",
+          "obligation": "Resolve every emitted application href/src/poster and CSS resource against the actual document base; reject absent resources, invalid fragments and hosted-subpath escapes.",
+          "sha256": "e788aca3cea1612beb3de63c89a5576a060a1f0191b3c8e7f7e181afbd9d445f"
+        }
+      ]
+    },
+    {
+      "id": "reader-activities",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/reader-activities.json",
+      "implementation": "templates/expedition/algebra/reader-activities.process.json",
+      "implementationSha256": "06cdae54f468cb2060c900f8e03e26767c4c1a2f7d2675e6ded2910ce03ede5c",
+      "behavioral": [
+        {
+          "file": "reader-workshop-algebra.test.mjs",
+          "kind": "algebra-execution",
+          "obligation": "The numerical models and real session projections preserve their input/output and refusal boundaries.",
+          "sha256": "052406ff0caab96a84be6f46a944f30b2c8a9bee8e6a77560d7e26439b7b0358"
+        },
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Publish activity documents and the admitted interaction runtime from editable source owners.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "reader-models",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/reader-models.json",
+      "implementation": "templates/expedition/algebra/reader-models.process.json",
+      "implementationSha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b",
+      "behavioral": [
+        {
+          "file": "reader-workshop-algebra.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "All calibration slider settings, finite pair sets, eight bit patterns, weight settings, coarse blocks and both memory trajectories retain actual results.",
+          "sha256": "052406ff0caab96a84be6f46a944f30b2c8a9bee8e6a77560d7e26439b7b0358"
+        }
+      ]
+    },
+    {
+      "id": "reader-navigation",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/reader-navigation.json",
+      "implementation": "templates/expedition/algebra/reader-navigation.process.json",
+      "implementationSha256": "f21077df75470078ee9962bcc74b6cf54cadf98491df55db4a3fd1a615887e86",
+      "behavioral": [
+        {
+          "file": "reader-navigation.test.mjs",
+          "kind": "headless-effect-fixture",
+          "obligation": "Execute the actual compiled reader model: case-insensitive search/reset, escaped attributed notes, variable place counts and invalid-route fallback.",
+          "sha256": "15985400ecd212c91798b3b61c033e6a16d9121d2f4f666e994cb090eeb45978"
+        },
+        {
+          "file": "expedition.test.mjs",
+          "kind": "native-publication",
+          "obligation": "Publish the reader, configured source model, local navigation runtime and its exact native grants.",
+          "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+        }
+      ]
+    },
+    {
+      "id": "source",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/source.json",
+      "implementation": "templates/expedition/algebra/source.process.json",
+      "implementationSha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246",
+      "behavioral": [
+        {
+          "file": "feature-core.test.mjs",
+          "kind": "real-core-algebra",
+          "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+          "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+        }
+      ]
+    },
+    {
+      "id": "workshop-lab",
+      "status": "portable-in-expedition-composition",
+      "contract": "templates/features/workshop-lab.json",
+      "implementation": "templates/expedition/algebra/workshop-lab.process.json",
+      "implementationSha256": "9e3049811c1325c840711a8aa091f44b3f670480fa376421a47e5f69399cd037",
+      "behavioral": [
+        {
+          "file": "reader-workshop-algebra.test.mjs",
+          "kind": "bounded-oracle-correspondence",
+          "obligation": "Execute source/overlay edits through actual compiled sessions; stale revisions, invalid values and unknown edits refuse unchanged.",
+          "sha256": "052406ff0caab96a84be6f46a944f30b2c8a9bee8e6a77560d7e26439b7b0358"
+        }
+      ]
+    }
+  ],
+  "successorDependencies": [
+    {
+      "file": "templates/expedition/algebra/template.process.json",
+      "sha256": "4f625ddde1f3084eeba945a23a16db3863ea089b2420537f75dc259ebc6b23c1",
+      "queries": [
+        "template.validate",
+        "template.document",
+        "template.activityData",
+        "template.activities",
+        "template.monogram"
+      ]
+    },
+    {
+      "file": "templates/expedition/algebra/workshop-session.process.json",
+      "sha256": "d1b0690eac110db7fa1eb18429aab7d097bb9e11756e516e7f933101f0fce52d",
+      "queries": [
+        "workshop.boot",
+        "workshop.snapshot",
+        "workshop.change",
+        "workshop.diff",
+        "workshop.apply",
+        "workshop.selectTab",
+        "workshop.tab",
+        "workshop.key",
+        "workshop.source",
+        "workshop.routeFor",
+        "workshop.route",
+        "workshop.process",
+        "workshop.render",
+        "workshop.open"
+      ]
+    },
+    {
+      "file": "templates/expedition/algebra/reader-workshop-publication.process.json",
+      "sha256": "971fac911b3cf3067dd0651db7407045d0c99d744f291b1afcbef06af6c44511",
+      "queries": [
+        "readerworkshop.build"
+      ]
+    }
+  ],
+  "runtimes": [
+    {
+      "path": "atlas-runtime.js",
+      "sha256": "8d77b668c9a181e1ba07855e319d4c10e36bcfb332b44d11b54214b690027f72",
+      "entry": "atlas.journey.boot",
+      "queries": [
+        "atlas.seen.clean",
+        "atlas.seen.load",
+        "atlas.seen.save",
+        "atlas.seen.mark",
+        "atlas.seen.paint",
+        "atlas.seen.refresh",
+        "atlas.seen.reset",
+        "atlas.pin.dismiss",
+        "atlas.pin.reveal",
+        "atlas.journey.boot",
+        "atlas.pin.preview",
+        "atlas.pin.mode",
+        "atlas.journey.resume"
+      ],
+      "grants": [
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "state.get",
+        "state.set",
+        "text.split",
+        "text.join",
+        "dom.exists",
+        "dom.attribute",
+        "dom.hidden",
+        "dom.text",
+        "dom.on",
+        "browser.select",
+        "browser.attribute",
+        "browser.on",
+        "browser.class",
+        "browser.mediaQuery",
+        "browser.cancel"
+      ],
+      "budget": 2000000
+    },
+    {
+      "path": "claimipedia/runtime.js",
+      "sha256": "ca7ef6ad410ca7a204ab969292ec8589a35b787dc9b2df72eda9a95abbf49ad2",
+      "entry": "claim.review.boot",
+      "queries": [
+        "claim.review.item",
+        "claim.review.method",
+        "claim.review.compare",
+        "claim.review.html",
+        "claim.review.boot",
+        "claim.review.change",
+        "claim.review.reset",
+        "claim.review.render",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText"
+      ],
+      "grants": [
+        "asset.blobURL",
+        "asset.json",
+        "browser.attribute",
+        "browser.cancel",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.on",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "browser.write",
+        "canvas.draw",
+        "clock.read",
+        "digest.sha256",
+        "image.rasterize",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.entries",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.matches",
+        "text.replace",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.describe",
+        "value.sort",
+        "value.string",
+        "value.type"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "encounter/runtime.js",
+      "sha256": "9baee6a7705d9fe376c11f1908eefc88de5037235631a677ff7da3bbd5dd2c75",
+      "entry": "encounter.demo.boot",
+      "queries": [
+        "encounter.demo.boot",
+        "encounter.demo.change",
+        "encounter.demo.apply",
+        "encounter.demo.reset",
+        "encounter.demo.select",
+        "encounter.demo.html",
+        "encounter.demo.render",
+        "encounter.demo.source",
+        "encounter.demo.inspect",
+        "sp.role",
+        "sp.scan",
+        "sp.observed",
+        "sp.clip",
+        "sp.line",
+        "sp.render",
+        "sp.present",
+        "sp.expression",
+        "sp.programme",
+        "sp.statement",
+        "sp.listing",
+        "sp.style",
+        "sp.outline",
+        "sp.metadata",
+        "sp.stylePlan",
+        "source.split",
+        "source.lex",
+        "s01.portable",
+        "ec.schema",
+        "ec.slot",
+        "ec.scalar",
+        "ec.check",
+        "ec.referenceType",
+        "ec.fact",
+        "ec.reference",
+        "ec.argument",
+        "ec.lex",
+        "ec.header",
+        "ec.expression",
+        "ec.fields",
+        "ec.data",
+        "ec.record",
+        "ec.representation",
+        "ec.view",
+        "ec.edits",
+        "ec.show",
+        "ec.emitView",
+        "ec.emitRepresentation",
+        "ec.compile",
+        "ec.attempt",
+        "ec.complete",
+        "ec.verifyShow",
+        "ec.verify",
+        "ec.oneField",
+        "ec.prepare",
+        "ec.resolve",
+        "ec.safeTree",
+        "ec.events",
+        "ec.run",
+        "ec.patch",
+        "ec.findElement",
+        "source.rel",
+        "source.compile",
+        "source.encode",
+        "source.patch",
+        "source.jsonSpan",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText",
+        "facts.index",
+        "lower.scan",
+        "lower.fresh",
+        "lower.template",
+        "lower.expression",
+        "lower.programme",
+        "lower.model",
+        "lower.start",
+        "admit.binding",
+        "admit.expression",
+        "admit.programme",
+        "admit.model",
+        "admit.effects.programme",
+        "admit.effects",
+        "admit.ownership",
+        "css.render",
+        "css.plan",
+        "css.renderPlan",
+        "language.refuse",
+        "language.line",
+        "language.module",
+        "language.entity",
+        "language.property",
+        "language.compile"
+      ],
+      "grants": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "reader/activity-runtime.js",
+      "sha256": "7ec52681948f1ad9aad167db4bfbe63f0f3d60b62f5a03284ef8392c20e6585d",
+      "entry": "activity.boot",
+      "queries": [
+        "reader.model.calibration",
+        "reader.model.pairs",
+        "reader.model.inflate",
+        "reader.model.decode",
+        "reader.model.weights",
+        "reader.model.memory",
+        "reader.model.line",
+        "reader.model.coarse",
+        "activity.boot",
+        "activity.motion",
+        "activity.calculations",
+        "activity.click",
+        "activity.input",
+        "activity.action.reply",
+        "activity.action.door",
+        "activity.action.quiet",
+        "activity.action.cabinet",
+        "activity.action.layer",
+        "activity.action.revision",
+        "activity.action.deck",
+        "activity.action.garden-mode",
+        "activity.garden",
+        "activity.action.gate",
+        "activity.action.hide-memory",
+        "activity.action.couple-memory",
+        "activity.action.origin",
+        "activity.action.enrich",
+        "activity.erasure",
+        "activity.action.attention",
+        "activity.action.inflate",
+        "activity.action.reset-pattern",
+        "activity.action.original-bit",
+        "activity.action.flip-bit",
+        "activity.code",
+        "activity.action.rate",
+        "activity.action.scale",
+        "activity.action.amplitude",
+        "activity.action.phase",
+        "activity.action.loop-reset",
+        "activity.action.loop",
+        "activity.loop.frame",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText",
+        "activity.source",
+        "activity.source.close"
+      ],
+      "grants": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type",
+        "asset.blobURL",
+        "asset.json",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "canvas.draw",
+        "clock.read",
+        "image.rasterize",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.get",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.sort",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "asset.text",
+        "browser.location",
+        "browser.navigate",
+        "browser.title",
+        "browser.scroll",
+        "browser.dialog",
+        "document.fragment",
+        "browser.frameContent",
+        "text.compare"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "reader/runtime.js",
+      "sha256": "71d1b4bf64acb54b6bb504ce9a23c079c706ee07c7940d0560666f40825a39ba",
+      "entry": "reader.boot",
+      "queries": [
+        "reader.boot",
+        "reader.follow",
+        "reader.motion.sync",
+        "reader.route",
+        "reader.click",
+        "reader.atlas",
+        "reader.search",
+        "reader.notes",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText"
+      ],
+      "grants": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type",
+        "asset.blobURL",
+        "asset.json",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "canvas.draw",
+        "clock.read",
+        "image.rasterize",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.get",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.sort",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "asset.text",
+        "browser.location",
+        "browser.navigate",
+        "browser.title",
+        "browser.scroll",
+        "browser.dialog",
+        "document.fragment",
+        "browser.frameContent",
+        "text.compare"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "retained/workshop/runtime.js",
+      "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+      "entry": "workshop.boot",
+      "queries": [
+        "source.rel",
+        "source.compile",
+        "source.encode",
+        "source.patch",
+        "source.jsonSpan",
+        "facts.index",
+        "lower.scan",
+        "lower.fresh",
+        "lower.template",
+        "lower.expression",
+        "lower.programme",
+        "lower.model",
+        "lower.start",
+        "admit.binding",
+        "admit.expression",
+        "admit.programme",
+        "admit.model",
+        "admit.effects.programme",
+        "admit.effects",
+        "admit.ownership",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText",
+        "ec.schema",
+        "ec.slot",
+        "ec.scalar",
+        "ec.check",
+        "ec.referenceType",
+        "ec.fact",
+        "ec.reference",
+        "ec.argument",
+        "ec.lex",
+        "ec.header",
+        "ec.expression",
+        "ec.fields",
+        "ec.data",
+        "ec.record",
+        "ec.representation",
+        "ec.view",
+        "ec.edits",
+        "ec.show",
+        "ec.emitView",
+        "ec.emitRepresentation",
+        "ec.compile",
+        "ec.attempt",
+        "ec.complete",
+        "ec.verifyShow",
+        "ec.verify",
+        "ec.oneField",
+        "ec.prepare",
+        "ec.resolve",
+        "ec.safeTree",
+        "ec.events",
+        "ec.run",
+        "ec.patch",
+        "ec.findElement",
+        "language.refuse",
+        "language.line",
+        "language.module",
+        "language.entity",
+        "language.property",
+        "language.compile",
+        "lab.snapshot",
+        "lab.edit",
+        "workshop.boot",
+        "workshop.snapshot",
+        "workshop.change",
+        "workshop.diff",
+        "workshop.apply",
+        "workshop.selectTab",
+        "workshop.tab",
+        "workshop.key",
+        "workshop.source",
+        "workshop.routeFor",
+        "workshop.route",
+        "workshop.process",
+        "workshop.render",
+        "workshop.open",
+        "sp.role",
+        "sp.scan",
+        "sp.observed",
+        "sp.clip",
+        "sp.line",
+        "sp.render",
+        "sp.present",
+        "sp.expression",
+        "sp.programme",
+        "sp.statement",
+        "sp.listing",
+        "sp.style",
+        "sp.outline",
+        "sp.metadata",
+        "sp.stylePlan",
+        "source.split",
+        "source.lex",
+        "s01.portable",
+        "css.renderPlan"
+      ],
+      "grants": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type",
+        "asset.blobURL",
+        "asset.json",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "canvas.draw",
+        "clock.read",
+        "image.rasterize",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.get",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.sort",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "asset.text",
+        "browser.location",
+        "browser.navigate",
+        "browser.title",
+        "browser.scroll",
+        "browser.dialog",
+        "document.fragment",
+        "browser.frameContent",
+        "text.compare"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "sourcery/runtime.js",
+      "sha256": "01318d46ecafc21d97aa42c63454d6cf4cb39b26f91a8a215bdb93777926e8b6",
+      "entry": "microsite.boot",
+      "queries": [
+        "microsite.boot",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText",
+        "canonical.encode",
+        "canonical.identify",
+        "canonical.is",
+        "address.digest",
+        "address.short",
+        "record.remove",
+        "record.clone",
+        "lamp.measure",
+        "lamp.readPath",
+        "lamp.evaluateNode",
+        "lamp.evaluate",
+        "lamp.render",
+        "lamp.cellId",
+        "lamp.merkle",
+        "lamp.merkleLevel",
+        "lamp.stateRoot",
+        "lamp.cellsByKey",
+        "lamp.findCell",
+        "lamp.createWorld",
+        "lamp.availability",
+        "lamp.applyUnchecked",
+        "address.flip",
+        "lamp.buildProposal",
+        "lamp.checkCanonical",
+        "lamp.judge",
+        "lamp.namedCells",
+        "lamp.commit",
+        "lamp.propose",
+        "lamp.freshTemple",
+        "lamp.replay",
+        "lamp.forge",
+        "sourcery.subject",
+        "sourcery.format",
+        "sourcery.draft",
+        "sourcery.proposal",
+        "sourcery.decide",
+        "sourcery.verify",
+        "sourcery.tamper",
+        "ui.html",
+        "ui.short",
+        "ui.sourcery.init",
+        "ui.sourcery.example",
+        "ui.sourcery.summon",
+        "ui.sourcery.focus",
+        "ui.sourcery.proposal",
+        "ui.sourcery.actions",
+        "ui.sourcery.askWhy",
+        "ui.sourcery.enter",
+        "ui.sourcery.decide",
+        "ui.sourcery.ledger",
+        "ui.sourcery.verify",
+        "ui.sourcery.tamper",
+        "ui.temple.recipe",
+        "ui.temple.init",
+        "ui.temple.stages",
+        "ui.temple.preview",
+        "ui.temple.render",
+        "ui.temple.tree",
+        "ui.temple.treeY",
+        "ui.temple.covenant",
+        "ui.temple.lesson",
+        "ui.temple.propose",
+        "ui.temple.animateStage",
+        "ui.temple.finishStage",
+        "ui.temple.finishProposal",
+        "ui.temple.label",
+        "ui.temple.journal",
+        "ui.temple.restore",
+        "ui.temple.replayBusy",
+        "ui.temple.replay",
+        "ui.temple.replayLine",
+        "ui.temple.chain",
+        "motion.sourcery.init",
+        "motion.sourcery.scenes",
+        "motion.sourcery.reduced",
+        "motion.sourcery.tocToggle",
+        "motion.sourcery.tocClose",
+        "motion.sourcery.escape",
+        "motion.sourcery.chapters",
+        "motion.sourcery.stone",
+        "motion.sourcery.cta",
+        "motion.flood.rand",
+        "motion.flood.scatter",
+        "motion.flood.init",
+        "motion.flood.intersection",
+        "motion.flood.scroll",
+        "motion.flood.running",
+        "motion.flood.frame",
+        "motion.flood.wave",
+        "motion.flood.pose",
+        "motion.flood.render",
+        "motion.autoplay.init",
+        "motion.autoplay.toggle",
+        "motion.autoplay.label",
+        "motion.autoplay.intersection",
+        "motion.temple.init",
+        "motion.temple.follow",
+        "motion.temple.reveal",
+        "motion.temple.scroll",
+        "motion.temple.mode",
+        "motion.temple.scenes",
+        "motion.sky.star",
+        "motion.sky.mote",
+        "motion.sky.seed",
+        "motion.sky.plan",
+        "motion.sky.draw",
+        "motion.sky.start",
+        "motion.sky.frame",
+        "motion.sky.resize",
+        "motion.sky.reseed",
+        "motion.sky.scroll",
+        "motion.stone.row",
+        "motion.stone",
+        "motion.constellation.pos",
+        "motion.constellation.temple",
+        "motion.constellation.plan",
+        "motion.constellation.init",
+        "motion.constellation.size",
+        "motion.constellation.draw",
+        "motion.constellation.start",
+        "motion.constellation.frame",
+        "motion.constellation.intersection",
+        "motion.constellation.resize",
+        "media.screens.init",
+        "media.sound.sync",
+        "media.sound.toggle",
+        "media.screens.intersection",
+        "media.seek.click",
+        "media.seek.loaded",
+        "media.seek.contains",
+        "media.seek.prepare",
+        "media.seek.finish",
+        "media.provenance",
+        "media.provenance.view"
+      ],
+      "grants": [
+        "asset.blobURL",
+        "asset.json",
+        "browser.attribute",
+        "browser.cancel",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.on",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "browser.write",
+        "canvas.draw",
+        "clock.read",
+        "digest.sha256",
+        "image.rasterize",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.entries",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.matches",
+        "text.replace",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.describe",
+        "value.sort",
+        "value.string",
+        "value.type"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "temple/early.js",
+      "sha256": "ae74cc8fcabdb038801375daf42b1a74253a409ce95d46c12d06c98b0aff8d85",
+      "entry": "microsite.early",
+      "queries": [
+        "microsite.early"
+      ],
+      "grants": [
+        "dom.classToggle"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "temple/runtime.js",
+      "sha256": "ab2b026a95d5a734a4bd721476eeaee25e91ed4175d22cb6ab7707ec044f0ebf",
+      "entry": "microsite.boot",
+      "queries": [
+        "microsite.boot",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText",
+        "canonical.encode",
+        "canonical.identify",
+        "canonical.is",
+        "address.digest",
+        "address.short",
+        "record.remove",
+        "record.clone",
+        "lamp.measure",
+        "lamp.readPath",
+        "lamp.evaluateNode",
+        "lamp.evaluate",
+        "lamp.render",
+        "lamp.cellId",
+        "lamp.merkle",
+        "lamp.merkleLevel",
+        "lamp.stateRoot",
+        "lamp.cellsByKey",
+        "lamp.findCell",
+        "lamp.createWorld",
+        "lamp.availability",
+        "lamp.applyUnchecked",
+        "address.flip",
+        "lamp.buildProposal",
+        "lamp.checkCanonical",
+        "lamp.judge",
+        "lamp.namedCells",
+        "lamp.commit",
+        "lamp.propose",
+        "lamp.freshTemple",
+        "lamp.replay",
+        "lamp.forge",
+        "sourcery.subject",
+        "sourcery.format",
+        "sourcery.draft",
+        "sourcery.proposal",
+        "sourcery.decide",
+        "sourcery.verify",
+        "sourcery.tamper",
+        "ui.html",
+        "ui.short",
+        "ui.sourcery.init",
+        "ui.sourcery.example",
+        "ui.sourcery.summon",
+        "ui.sourcery.focus",
+        "ui.sourcery.proposal",
+        "ui.sourcery.actions",
+        "ui.sourcery.askWhy",
+        "ui.sourcery.enter",
+        "ui.sourcery.decide",
+        "ui.sourcery.ledger",
+        "ui.sourcery.verify",
+        "ui.sourcery.tamper",
+        "ui.temple.recipe",
+        "ui.temple.init",
+        "ui.temple.stages",
+        "ui.temple.preview",
+        "ui.temple.render",
+        "ui.temple.tree",
+        "ui.temple.treeY",
+        "ui.temple.covenant",
+        "ui.temple.lesson",
+        "ui.temple.propose",
+        "ui.temple.animateStage",
+        "ui.temple.finishStage",
+        "ui.temple.finishProposal",
+        "ui.temple.label",
+        "ui.temple.journal",
+        "ui.temple.restore",
+        "ui.temple.replayBusy",
+        "ui.temple.replay",
+        "ui.temple.replayLine",
+        "ui.temple.chain",
+        "motion.sourcery.init",
+        "motion.sourcery.scenes",
+        "motion.sourcery.reduced",
+        "motion.sourcery.tocToggle",
+        "motion.sourcery.tocClose",
+        "motion.sourcery.escape",
+        "motion.sourcery.chapters",
+        "motion.sourcery.stone",
+        "motion.sourcery.cta",
+        "motion.flood.rand",
+        "motion.flood.scatter",
+        "motion.flood.init",
+        "motion.flood.intersection",
+        "motion.flood.scroll",
+        "motion.flood.running",
+        "motion.flood.frame",
+        "motion.flood.wave",
+        "motion.flood.pose",
+        "motion.flood.render",
+        "motion.autoplay.init",
+        "motion.autoplay.toggle",
+        "motion.autoplay.label",
+        "motion.autoplay.intersection",
+        "motion.temple.init",
+        "motion.temple.follow",
+        "motion.temple.reveal",
+        "motion.temple.scroll",
+        "motion.temple.mode",
+        "motion.temple.scenes",
+        "motion.sky.star",
+        "motion.sky.mote",
+        "motion.sky.seed",
+        "motion.sky.plan",
+        "motion.sky.draw",
+        "motion.sky.start",
+        "motion.sky.frame",
+        "motion.sky.resize",
+        "motion.sky.reseed",
+        "motion.sky.scroll",
+        "motion.stone.row",
+        "motion.stone",
+        "motion.constellation.pos",
+        "motion.constellation.temple",
+        "motion.constellation.plan",
+        "motion.constellation.init",
+        "motion.constellation.size",
+        "motion.constellation.draw",
+        "motion.constellation.start",
+        "motion.constellation.frame",
+        "motion.constellation.intersection",
+        "motion.constellation.resize",
+        "media.screens.init",
+        "media.sound.sync",
+        "media.sound.toggle",
+        "media.screens.intersection",
+        "media.seek.click",
+        "media.seek.loaded",
+        "media.seek.contains",
+        "media.seek.prepare",
+        "media.seek.finish",
+        "media.provenance",
+        "media.provenance.view"
+      ],
+      "grants": [
+        "asset.blobURL",
+        "asset.json",
+        "browser.attribute",
+        "browser.cancel",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.on",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "browser.write",
+        "canvas.draw",
+        "clock.read",
+        "digest.sha256",
+        "image.rasterize",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.entries",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.matches",
+        "text.replace",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.describe",
+        "value.sort",
+        "value.string",
+        "value.type"
+      ],
+      "budget": 20000000
+    },
+    {
+      "path": "workshop/runtime.js",
+      "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+      "entry": "workshop.boot",
+      "queries": [
+        "source.rel",
+        "source.compile",
+        "source.encode",
+        "source.patch",
+        "source.jsonSpan",
+        "facts.index",
+        "lower.scan",
+        "lower.fresh",
+        "lower.template",
+        "lower.expression",
+        "lower.programme",
+        "lower.model",
+        "lower.start",
+        "admit.binding",
+        "admit.expression",
+        "admit.programme",
+        "admit.model",
+        "admit.effects.programme",
+        "admit.effects",
+        "admit.ownership",
+        "html.escape",
+        "html.serialize",
+        "html.observe",
+        "html.inspect",
+        "html.cssText",
+        "ec.schema",
+        "ec.slot",
+        "ec.scalar",
+        "ec.check",
+        "ec.referenceType",
+        "ec.fact",
+        "ec.reference",
+        "ec.argument",
+        "ec.lex",
+        "ec.header",
+        "ec.expression",
+        "ec.fields",
+        "ec.data",
+        "ec.record",
+        "ec.representation",
+        "ec.view",
+        "ec.edits",
+        "ec.show",
+        "ec.emitView",
+        "ec.emitRepresentation",
+        "ec.compile",
+        "ec.attempt",
+        "ec.complete",
+        "ec.verifyShow",
+        "ec.verify",
+        "ec.oneField",
+        "ec.prepare",
+        "ec.resolve",
+        "ec.safeTree",
+        "ec.events",
+        "ec.run",
+        "ec.patch",
+        "ec.findElement",
+        "language.refuse",
+        "language.line",
+        "language.module",
+        "language.entity",
+        "language.property",
+        "language.compile",
+        "lab.snapshot",
+        "lab.edit",
+        "workshop.boot",
+        "workshop.snapshot",
+        "workshop.change",
+        "workshop.diff",
+        "workshop.apply",
+        "workshop.selectTab",
+        "workshop.tab",
+        "workshop.key",
+        "workshop.source",
+        "workshop.routeFor",
+        "workshop.route",
+        "workshop.process",
+        "workshop.render",
+        "workshop.open",
+        "sp.role",
+        "sp.scan",
+        "sp.observed",
+        "sp.clip",
+        "sp.line",
+        "sp.render",
+        "sp.present",
+        "sp.expression",
+        "sp.programme",
+        "sp.statement",
+        "sp.listing",
+        "sp.style",
+        "sp.outline",
+        "sp.metadata",
+        "sp.stylePlan",
+        "source.split",
+        "source.lex",
+        "s01.portable",
+        "css.renderPlan"
+      ],
+      "grants": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type",
+        "asset.blobURL",
+        "asset.json",
+        "browser.cancel",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.fontsReady",
+        "browser.frame",
+        "browser.insert",
+        "browser.intersection",
+        "browser.mediaQuery",
+        "browser.read",
+        "browser.reflow",
+        "browser.relative",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.select",
+        "browser.style",
+        "browser.timer",
+        "browser.unobserve",
+        "canvas.draw",
+        "clock.read",
+        "image.rasterize",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "random.values",
+        "record.get",
+        "text.lowerCase",
+        "text.match",
+        "text.matchAll",
+        "text.replace",
+        "text.upperCase",
+        "text.utf8Length",
+        "value.sort",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "asset.text",
+        "browser.location",
+        "browser.navigate",
+        "browser.title",
+        "browser.scroll",
+        "browser.dialog",
+        "document.fragment",
+        "browser.frameContent",
+        "text.compare"
+      ],
+      "budget": 20000000
+    }
+  ],
+  "missingClosure": [],
+  "assurance": {
+    "structural": "Exact source hashes, selected module closure, named calls, declared port profiles and compiled runtime membership.",
+    "behavioral": "Named concrete suites execute separately; see the test report for observed results.",
+    "agentTrial": "A separate agent in the same task/model family is a distinct authoring trial, not independent human validation or an independent evidence family.",
+    "universalClaim": false
+  }
+}

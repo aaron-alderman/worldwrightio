@@ -11,11 +11,17 @@ for(const dir of [workspace,output])if(fs.existsSync(dir)&&fs.lstatSync(dir).isS
 fs.mkdirSync(workspace,{recursive:true});
 const lock=path.join(workspace,'build.lock'),fd=fs.openSync(lock,'wx');
 const candidate=fs.mkdtempSync(path.join(workspace,'build-')),previous=candidate+'-previous';
-function discard(dir){if(!path.resolve(dir).startsWith(workspace+path.sep))throw Error('Unexpected generated cleanup target');fs.rmSync(dir,{recursive:true,force:true});}
+function discard(dir){if(!path.resolve(dir).startsWith(workspace+path.sep))throw Error('Unexpected generated cleanup target');fs.rmSync(dir,{recursive:true,force:true,maxRetries:7,retryDelay:50});}
+async function rename(from,to){
+ for(let attempt=0;;attempt++)try{fs.renameSync(from,to);return;}catch(error){
+  if(attempt===11||!['EPERM','EBUSY','EACCES'].includes(error.code))throw error;
+  await new Promise(resolve=>setTimeout(resolve,50*(attempt+1)));
+ }
+}
 try{
  await build({root,output:candidate,manifestFile:'bootstrap/site.json'});
- if(fs.existsSync(output))fs.renameSync(output,previous);
- try{fs.renameSync(candidate,output);}catch(error){if(fs.existsSync(previous))fs.renameSync(previous,output);throw error;}
+ if(fs.existsSync(output))await rename(output,previous);
+ try{await rename(candidate,output);}catch(error){if(fs.existsSync(previous))await rename(previous,output);throw error;}
  discard(previous);
  console.log('Built the world in dist.');
 }finally{discard(candidate);fs.closeSync(fd);fs.unlinkSync(lock);}

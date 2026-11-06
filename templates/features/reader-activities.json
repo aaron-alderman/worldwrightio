@@ -1,0 +1,540 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "reader-activities",
+  "status": "portable-in-expedition-composition",
+  "purpose": "The numerical models and real session projections preserve their input/output and refusal boundaries.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/reader-activities.process.json",
+    "sha256": "0654a2112ec4805844b7affe22bbbf0a818507ac3ebbeee3f632cf3d35477e83"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/reader-activities.process.json",
+    "sha256": "06cdae54f468cb2060c900f8e03e26767c4c1a2f7d2675e6ded2910ce03ede5c",
+    "queries": [
+      "activity.boot",
+      "activity.motion",
+      "activity.calculations",
+      "activity.click",
+      "activity.input",
+      "activity.action.reply",
+      "activity.action.door",
+      "activity.action.quiet",
+      "activity.action.cabinet",
+      "activity.action.layer",
+      "activity.action.revision",
+      "activity.action.deck",
+      "activity.action.garden-mode",
+      "activity.garden",
+      "activity.action.gate",
+      "activity.action.hide-memory",
+      "activity.action.couple-memory",
+      "activity.action.origin",
+      "activity.action.enrich",
+      "activity.erasure",
+      "activity.action.attention",
+      "activity.action.inflate",
+      "activity.action.reset-pattern",
+      "activity.action.original-bit",
+      "activity.action.flip-bit",
+      "activity.code",
+      "activity.action.rate",
+      "activity.action.scale",
+      "activity.action.amplitude",
+      "activity.action.phase",
+      "activity.action.loop-reset",
+      "activity.action.loop",
+      "activity.loop.frame",
+      "activity.source",
+      "activity.source.close"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [
+      "source/atlas.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "name",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [
+      "$data.activities",
+      "$data.conversation.replies",
+      "$data.decks",
+      "$data.notes",
+      "$data.reportedRates",
+      "$eventInput.button",
+      "$eventInput.matched",
+      "$eventInput.matched.attributes",
+      "$eventInput.time",
+      "$eventInput.value"
+    ],
+    "configuration": [
+      {
+        "file": "source/reader/activities.json",
+        "sha256": "bff368d13fb955bfbdb70694527cb6f7479f58550d5e1e600896aaa25c4c9055",
+        "format": "json",
+        "topLevelKeys": [
+          "protocol",
+          "activities",
+          "conversation",
+          "echoes",
+          "decks",
+          "reportedRates",
+          "cellPattern"
+        ]
+      },
+      {
+        "file": "source/reader/document.html",
+        "sha256": "1ea4e431ebf0f0ca64cea322a0dbae7f586ad0502a8d91c5ec86d25ab2b8505c",
+        "format": "html"
+      },
+      {
+        "file": "source/reader/activity.html",
+        "sha256": "a17a2665e57dac1e5ddd11de48dcb84c92dfc9eb834cdee5761f5bfdde23d178",
+        "format": "html"
+      },
+      {
+        "file": "source/workshop/document.html",
+        "sha256": "c77e00c57ec18b7b4f86f5ee0b3fbc6298c9993fbfba6e0e72e44a465ea49b90",
+        "format": "html"
+      },
+      {
+        "file": "source/workshop/provenance.json",
+        "sha256": "04952dac5e7e95f7579f8cd2a3c4fb958acea67b0e785bbc539950849898a65f",
+        "format": "json",
+        "topLevelKeys": [
+          "protocol",
+          "hashes",
+          "origin",
+          "scope"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": [
+        "concat",
+        "activity.action.",
+        "$action"
+      ]
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.calibration"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.weights"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.pairs"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.memory"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.line"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.line"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.inflate"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.inflate"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.decode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "reader.model.coarse"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "browser.attribute",
+      "browser.class",
+      "browser.content",
+      "browser.dialog",
+      "browser.environment",
+      "browser.frame",
+      "browser.location",
+      "browser.on",
+      "browser.property",
+      "browser.relative",
+      "browser.replace",
+      "browser.select",
+      "browser.style",
+      "browser.title",
+      "browser.write",
+      "clock.read",
+      "kernel.invoke",
+      "number.calculate",
+      "number.format",
+      "number.parse",
+      "record.get",
+      "state.get",
+      "state.set",
+      "storage.read",
+      "storage.write",
+      "text.slice"
+    ],
+    "grantProfiles": {
+      "build": [
+        "record.get",
+        "text.slice"
+      ],
+      "worker": [
+        "record.get"
+      ],
+      "micrositesBrowser": [
+        "browser.attribute",
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.frame",
+        "browser.on",
+        "browser.relative",
+        "browser.replace",
+        "browser.select",
+        "browser.style",
+        "browser.write",
+        "clock.read",
+        "kernel.invoke",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "record.get",
+        "state.get",
+        "state.set",
+        "text.slice"
+      ],
+      "encounterBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set",
+        "text.slice"
+      ],
+      "atlasBrowser": [
+        "storage.read",
+        "storage.write",
+        "state.get",
+        "state.set",
+        "browser.select",
+        "browser.attribute",
+        "browser.on",
+        "browser.class"
+      ],
+      "readerBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "browser.class",
+        "browser.environment",
+        "browser.frame",
+        "browser.relative",
+        "browser.replace",
+        "browser.select",
+        "browser.style",
+        "clock.read",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "record.get",
+        "storage.read",
+        "storage.write",
+        "browser.location",
+        "browser.title",
+        "browser.dialog"
+      ],
+      "activityBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "browser.class",
+        "browser.environment",
+        "browser.frame",
+        "browser.relative",
+        "browser.replace",
+        "browser.select",
+        "browser.style",
+        "clock.read",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "record.get",
+        "storage.read",
+        "storage.write",
+        "browser.location",
+        "browser.title",
+        "browser.dialog"
+      ],
+      "workshopBrowser": [
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "kernel.invoke",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "browser.class",
+        "browser.environment",
+        "browser.frame",
+        "browser.relative",
+        "browser.replace",
+        "browser.select",
+        "browser.style",
+        "clock.read",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "record.get",
+        "storage.read",
+        "storage.write",
+        "browser.location",
+        "browser.title",
+        "browser.dialog"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "reader/activity-runtime.js",
+        "sha256": "7ec52681948f1ad9aad167db4bfbe63f0f3d60b62f5a03284ef8392c20e6585d",
+        "entry": "activity.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "activity.boot",
+          "activity.motion",
+          "activity.calculations",
+          "activity.click",
+          "activity.input",
+          "activity.action.reply",
+          "activity.action.door",
+          "activity.action.quiet",
+          "activity.action.cabinet",
+          "activity.action.layer",
+          "activity.action.revision",
+          "activity.action.deck",
+          "activity.action.garden-mode",
+          "activity.garden",
+          "activity.action.gate",
+          "activity.action.hide-memory",
+          "activity.action.couple-memory",
+          "activity.action.origin",
+          "activity.action.enrich",
+          "activity.erasure",
+          "activity.action.attention",
+          "activity.action.inflate",
+          "activity.action.reset-pattern",
+          "activity.action.original-bit",
+          "activity.action.flip-bit",
+          "activity.code",
+          "activity.action.rate",
+          "activity.action.scale",
+          "activity.action.amplitude",
+          "activity.action.phase",
+          "activity.action.loop-reset",
+          "activity.action.loop",
+          "activity.loop.frame",
+          "activity.source",
+          "activity.source.close"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/reader-activities.process.json",
+      "source/atlas.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "reader-workshop-algebra.test.mjs",
+        "kind": "algebra-execution",
+        "obligation": "The numerical models and real session projections preserve their input/output and refusal boundaries.",
+        "sha256": "052406ff0caab96a84be6f46a944f30b2c8a9bee8e6a77560d7e26439b7b0358"
+      },
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "Publish activity documents and the admitted interaction runtime from editable source owners.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

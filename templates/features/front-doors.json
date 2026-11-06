@@ -1,0 +1,565 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "front-doors",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Project configured project/capability front doors through declared source owners.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/front-doors.process.json",
+    "sha256": "1194b3695eb34ef7404858220ad626c216ee3a2be2d12d30d3c24213409959bc"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/front-doors.process.json",
+    "sha256": "c4524fe76b0a5fcee46561b8dd694cce1decdccfcb3a64eafa031a042f076566",
+    "queries": [
+      "frontdoors.home",
+      "frontdoors.claimipedia",
+      "frontdoors.worldwright",
+      "frontdoors.capabilities"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [
+    {
+      "name": "CapabilitySet",
+      "instanceCount": 5,
+      "owners": [
+        "source/front-doors.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "description",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "detail",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "href",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "icon",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "lead",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "light",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "links",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "name",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "note",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "paragraphs",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "slug",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "status",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "statusLabel",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "PublishedMicrosite",
+      "instanceCount": 4,
+      "owners": [
+        "source/front-doors.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "description",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "detail",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "href",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "icon",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "light",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "name",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "note",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "status",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "statusLabel",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "symbol",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    }
+  ],
+  "inputs": {
+    "factSources": [
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "PublishedMicrosite"
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "icon",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "href",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "light",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "statusLabel",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "note",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "purpose",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$world",
+        "predicate": "detail",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "CapabilitySet"
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "icon",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "href",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "origin",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.worldwright",
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.worldwright",
+        "predicate": "description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.worldwright",
+        "predicate": "image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.worldwright",
+        "predicate": "alt",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.worldwright",
+        "predicate": "width",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.worldwright",
+        "predicate": "height",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.worldwright",
+        "predicate": "type",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "slug",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "paragraphs",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "links",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$capability",
+        "predicate": "lead",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [],
+    "configuration": [],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/claimipedia.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "file.write",
+      "json.parse"
+    ],
+    "grantProfiles": {
+      "build": [
+        "file.write",
+        "json.parse"
+      ],
+      "compilation": [
+        "json.parse"
+      ],
+      "micrositesBrowser": [
+        "json.parse"
+      ],
+      "encounterBrowser": [
+        "json.parse"
+      ],
+      "readerBrowser": [
+        "json.parse"
+      ],
+      "activityBrowser": [
+        "json.parse"
+      ],
+      "workshopBrowser": [
+        "json.parse"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [
+      "worldwright/index.html",
+      [
+        "concat",
+        [
+          "one",
+          "$capability",
+          "href"
+        ],
+        "index.html"
+      ]
+    ],
+    "copyExpressions": [],
+    "bundledRuntimes": [],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/front-doors.process.json",
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "Project configured project/capability front doors through declared source owners.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

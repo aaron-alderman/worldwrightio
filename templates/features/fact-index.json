@@ -1,0 +1,351 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "fact-index",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Supply the reused fact-index semantic engine in the checked world composition.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/fact-index.process.json",
+    "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/fact-index.process.json",
+    "sha256": "66ba62d753114df7abad1b11a0c89cb014474da7744d391668508caa0ce336d9",
+    "queries": [
+      "facts.index"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [],
+    "configuration": [],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "record.entries",
+      "record.fromEntries",
+      "record.put",
+      "value.describe",
+      "value.freeze"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.describe",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.freeze"
+      ],
+      "compilation": [
+        "value.describe",
+        "record.entries"
+      ],
+      "reflection": [
+        "value.describe",
+        "record.entries"
+      ],
+      "micrositesBrowser": [
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.describe"
+      ],
+      "encounterBrowser": [
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.describe",
+        "value.freeze"
+      ],
+      "readerBrowser": [
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.describe",
+        "value.freeze"
+      ],
+      "activityBrowser": [
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.describe",
+        "value.freeze"
+      ],
+      "workshopBrowser": [
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "value.describe",
+        "value.freeze"
+      ]
+    },
+    "authoringGrants": [
+      "value.describe"
+    ],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "encounter/runtime.js",
+        "sha256": "9baee6a7705d9fe376c11f1908eefc88de5037235631a677ff7da3bbd5dd2c75",
+        "entry": "encounter.demo.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "facts.index"
+        ]
+      },
+      {
+        "path": "retained/workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "facts.index"
+        ]
+      },
+      {
+        "path": "workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "facts.index"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/fact-index.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "feature-core.test.mjs",
+        "kind": "real-core-algebra",
+        "obligation": "Lower and admit the complete concrete composition; exercise actual language, serialization, facts and refusal semantics.",
+        "sha256": "37b95344e2220aa00875fe5775dcd99fafda555a03eb6b6f6523e23ddfa9f51f"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

@@ -1,0 +1,256 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "reader-models",
+  "status": "portable-in-expedition-composition",
+  "purpose": "All calibration slider settings, finite pair sets, eight bit patterns, weight settings, coarse blocks and both memory trajectories retain actual results.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/reader-models.process.json",
+    "sha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/reader-models.process.json",
+    "sha256": "4a495045162fff241d6e302497a2e4071aada5ed92989b993f9eaf21f581220b",
+    "queries": [
+      "reader.model.calibration",
+      "reader.model.pairs",
+      "reader.model.inflate",
+      "reader.model.decode",
+      "reader.model.weights",
+      "reader.model.memory",
+      "reader.model.line",
+      "reader.model.coarse"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$data.cellPattern",
+      "$eventInput.angle",
+      "$eventInput.bits",
+      "$eventInput.block",
+      "$eventInput.coordinate",
+      "$eventInput.coupled",
+      "$eventInput.mode",
+      "$eventInput.percent",
+      "$eventInput.samples",
+      "$eventInput.step",
+      "$eventInput.value"
+    ],
+    "configuration": [
+      {
+        "file": "source/reader/activities.json",
+        "sha256": "bff368d13fb955bfbdb70694527cb6f7479f58550d5e1e600896aaa25c4c9055",
+        "format": "json",
+        "topLevelKeys": [
+          "protocol",
+          "activities",
+          "conversation",
+          "echoes",
+          "decks",
+          "reportedRates",
+          "cellPattern"
+        ]
+      },
+      {
+        "file": "source/reader/document.html",
+        "sha256": "1ea4e431ebf0f0ca64cea322a0dbae7f586ad0502a8d91c5ec86d25ab2b8505c",
+        "format": "html"
+      },
+      {
+        "file": "source/reader/activity.html",
+        "sha256": "a17a2665e57dac1e5ddd11de48dcb84c92dfc9eb834cdee5761f5bfdde23d178",
+        "format": "html"
+      },
+      {
+        "file": "source/workshop/document.html",
+        "sha256": "c77e00c57ec18b7b4f86f5ee0b3fbc6298c9993fbfba6e0e72e44a465ea49b90",
+        "format": "html"
+      },
+      {
+        "file": "source/workshop/provenance.json",
+        "sha256": "04952dac5e7e95f7579f8cd2a3c4fb958acea67b0e785bbc539950849898a65f",
+        "format": "json",
+        "topLevelKeys": [
+          "protocol",
+          "hashes",
+          "origin",
+          "scope"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "number.calculate",
+      "number.format",
+      "number.parse"
+    ],
+    "grantProfiles": {
+      "micrositesBrowser": [
+        "number.calculate",
+        "number.format",
+        "number.parse"
+      ],
+      "readerBrowser": [
+        "number.calculate",
+        "number.format",
+        "number.parse"
+      ],
+      "activityBrowser": [
+        "number.calculate",
+        "number.format",
+        "number.parse"
+      ],
+      "workshopBrowser": [
+        "number.calculate",
+        "number.format",
+        "number.parse"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "reader/activity-runtime.js",
+        "sha256": "7ec52681948f1ad9aad167db4bfbe63f0f3d60b62f5a03284ef8392c20e6585d",
+        "entry": "activity.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "reader.model.calibration",
+          "reader.model.pairs",
+          "reader.model.inflate",
+          "reader.model.decode",
+          "reader.model.weights",
+          "reader.model.memory",
+          "reader.model.line",
+          "reader.model.coarse"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/reader-models.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "reader-workshop-algebra.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "All calibration slider settings, finite pair sets, eight bit patterns, weight settings, coarse blocks and both memory trajectories retain actual results.",
+        "sha256": "052406ff0caab96a84be6f46a944f30b2c8a9bee8e6a77560d7e26439b7b0358"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

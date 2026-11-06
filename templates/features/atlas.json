@@ -1,0 +1,600 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "atlas",
+  "status": "portable-in-expedition-composition",
+  "purpose": "A variable place graph projects atlas links, per-place pages and complete local resources.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/atlas.process.json",
+    "sha256": "b2a33febd6a0983086584ef0ea944a26eddfab78493882625a1ceb99b0644cbd"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/atlas.process.json",
+    "sha256": "6bbc34a9db7a058ca166f1c2fa330e627a8e87f03c690e90825038ebe66cc9c7",
+    "queries": [
+      "atlas.build"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [
+    {
+      "name": "Place",
+      "instanceCount": 40,
+      "owners": [
+        "source/atlas.rel",
+        "source/expedition.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "activity",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "atlasLabel",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "chapter",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "choice",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 3,
+            "max": 5
+          }
+        },
+        {
+          "predicate": "experience",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "fullParagraph",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 4
+          }
+        },
+        {
+          "predicate": "instruction",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "lead",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "light",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapTipAbove",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapX",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapY",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "paragraph",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 3
+          }
+        },
+        {
+          "predicate": "pause",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "personal",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "region",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "route",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "slug",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "source",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "supplement",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "word",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 3
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "Territory",
+      "instanceCount": 3,
+      "owners": [
+        "source/atlas.rel",
+        "source/expedition.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "atlasImage",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "atlasNumber",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "atlasSlug",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "light",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "name",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "note",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "place",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 10,
+            "max": 16
+          }
+        },
+        {
+          "predicate": "question",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    }
+  ],
+  "inputs": {
+    "factSources": [
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "atlasDescription",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "origin",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Place"
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Territory"
+      },
+      {
+        "operation": "one",
+        "subject": "atlas",
+        "predicate": "image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "atlas",
+        "predicate": "imageWidth",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "atlas",
+        "predicate": "imageHeight",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "at",
+          [
+            "subjects",
+            "isa",
+            "Territory"
+          ],
+          0
+        ],
+        "predicate": "atlasSlug",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "slug",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "light",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "mapX",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "mapY",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$p",
+        "predicate": "atlasLabel",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "region",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "mapTipAbove",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$p",
+        "predicate": "chapter",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$t",
+        "predicate": "atlasSlug",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$t",
+        "predicate": "light",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$t",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$t",
+        "predicate": "place",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$t",
+        "predicate": "atlasImage",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$t",
+        "predicate": "atlasNumber",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$t",
+        "predicate": "question",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$t",
+        "predicate": "note",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [],
+    "configuration": [
+      {
+        "file": "source/atlas.rel",
+        "sha256": "3ba75edffb7ee4f3a61b50a576e74568717ba96f204812a09a1917cdd05eea13",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/atlas-journey.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "file.write"
+    ],
+    "grantProfiles": {
+      "build": [
+        "file.write"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [
+      "atlas.html"
+    ],
+    "copyExpressions": [],
+    "bundledRuntimes": [],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/atlas.process.json",
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "A variable place graph projects atlas links, per-place pages and complete local resources.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

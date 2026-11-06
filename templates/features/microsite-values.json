@@ -1,0 +1,628 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "microsite-values",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Canonical Unicode/padding hashes, genesis identities, roots and Merkle levels preserve actual source semantics.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/microsite-values.process.json",
+    "sha256": "1f995db6a7b6855aab6d80f279488345988c90997e6dfaaea75e304dfe036069"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/microsite-values.process.json",
+    "sha256": "1f995db6a7b6855aab6d80f279488345988c90997e6dfaaea75e304dfe036069",
+    "queries": [
+      "canonical.encode",
+      "canonical.identify",
+      "canonical.is",
+      "address.digest",
+      "address.short",
+      "record.remove",
+      "record.clone",
+      "lamp.measure",
+      "lamp.readPath",
+      "lamp.evaluateNode",
+      "lamp.evaluate",
+      "lamp.render",
+      "lamp.cellId",
+      "lamp.merkle",
+      "lamp.merkleLevel",
+      "lamp.stateRoot",
+      "lamp.cellsByKey",
+      "lamp.findCell",
+      "lamp.createWorld"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$eventInput.cell.key",
+      "$eventInput.cell.value",
+      "$eventInput.configuration",
+      "$eventInput.fuel",
+      "$eventInput.head",
+      "$eventInput.id",
+      "$eventInput.ids",
+      "$eventInput.indent",
+      "$eventInput.key",
+      "$eventInput.kind",
+      "$eventInput.level",
+      "$eventInput.levels",
+      "$eventInput.node",
+      "$eventInput.numbers",
+      "$eventInput.path",
+      "$eventInput.record",
+      "$eventInput.remaining",
+      "$eventInput.state",
+      "$eventInput.state.cells",
+      "$eventInput.state.predicateId",
+      "$eventInput.tail",
+      "$eventInput.value",
+      "$eventInput.view"
+    ],
+    "configuration": [
+      {
+        "file": "source/microsites/temple/config.json",
+        "sha256": "49f449255184b60029c594f1d511a34bafa7d033b11cccbed960b736a182fc82",
+        "format": "json",
+        "topLevelKeys": [
+          "identities",
+          "presets",
+          "genesisCells",
+          "covenants",
+          "limits",
+          "operators",
+          "stages"
+        ]
+      },
+      {
+        "file": "source/microsites/sourcery/config.json",
+        "sha256": "2244e911122bfce6c40ad41b23e9ad811bd0e1f91743e55d37d13a0844e7f60c",
+        "format": "json",
+        "topLevelKeys": [
+          "stopWords",
+          "archetypes",
+          "events",
+          "templates",
+          "subjectPattern",
+          "refusalPattern",
+          "amountPattern"
+        ]
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2",
+        "format": "rel"
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.digest"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.measure"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.readPath"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.evaluateNode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.evaluateNode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.evaluateNode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.evaluateNode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.evaluateNode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.render"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.digest"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.merkleLevel"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.merkleLevel"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.merkle"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.cellsByKey"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.cellId"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.stateRoot"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "digest.sha256",
+      "json.parse",
+      "json.stringify",
+      "kernel.invoke",
+      "number.calculate",
+      "record.entries",
+      "record.fromEntries",
+      "record.get",
+      "record.put",
+      "text.indexOf",
+      "text.join",
+      "text.slice",
+      "text.split",
+      "value.describe",
+      "value.sort"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.describe",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "record.get",
+        "text.split",
+        "json.stringify",
+        "json.parse",
+        "text.slice",
+        "text.join"
+      ],
+      "worker": [
+        "record.get"
+      ],
+      "compilation": [
+        "value.describe",
+        "record.entries",
+        "text.split",
+        "json.parse",
+        "json.stringify"
+      ],
+      "reflection": [
+        "value.describe",
+        "record.entries",
+        "json.stringify"
+      ],
+      "micrositesBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "number.calculate",
+        "record.entries",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "text.indexOf",
+        "text.join",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "value.sort"
+      ],
+      "encounterBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "text.indexOf",
+        "text.join",
+        "text.slice",
+        "text.split",
+        "value.describe"
+      ],
+      "atlasBrowser": [
+        "text.split",
+        "text.join"
+      ],
+      "readerBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "text.indexOf",
+        "text.join",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "number.calculate",
+        "record.get",
+        "value.sort"
+      ],
+      "activityBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "text.indexOf",
+        "text.join",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "number.calculate",
+        "record.get",
+        "value.sort"
+      ],
+      "workshopBrowser": [
+        "digest.sha256",
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "text.indexOf",
+        "text.join",
+        "text.slice",
+        "text.split",
+        "value.describe",
+        "number.calculate",
+        "record.get",
+        "value.sort"
+      ]
+    },
+    "authoringGrants": [
+      "value.describe"
+    ],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "sourcery/runtime.js",
+        "sha256": "01318d46ecafc21d97aa42c63454d6cf4cb39b26f91a8a215bdb93777926e8b6",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "canonical.encode",
+          "canonical.identify",
+          "canonical.is",
+          "address.digest",
+          "address.short",
+          "record.remove",
+          "record.clone",
+          "lamp.measure",
+          "lamp.readPath",
+          "lamp.evaluateNode",
+          "lamp.evaluate",
+          "lamp.render",
+          "lamp.cellId",
+          "lamp.merkle",
+          "lamp.merkleLevel",
+          "lamp.stateRoot",
+          "lamp.cellsByKey",
+          "lamp.findCell",
+          "lamp.createWorld"
+        ]
+      },
+      {
+        "path": "temple/runtime.js",
+        "sha256": "ab2b026a95d5a734a4bd721476eeaee25e91ed4175d22cb6ab7707ec044f0ebf",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "canonical.encode",
+          "canonical.identify",
+          "canonical.is",
+          "address.digest",
+          "address.short",
+          "record.remove",
+          "record.clone",
+          "lamp.measure",
+          "lamp.readPath",
+          "lamp.evaluateNode",
+          "lamp.evaluate",
+          "lamp.render",
+          "lamp.cellId",
+          "lamp.merkle",
+          "lamp.merkleLevel",
+          "lamp.stateRoot",
+          "lamp.cellsByKey",
+          "lamp.findCell",
+          "lamp.createWorld"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/microsite-values.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "microsite-fidelity.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "Canonical Unicode/padding hashes, genesis identities, roots and Merkle levels preserve actual source semantics.",
+        "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

@@ -21,9 +21,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Build the hub and algebraic starter
+      - name: Build the hub and reusable worlds
         run: npm run build
-      - name: Verify standalone creation and refusal boundaries
+      - name: Verify feature closure, standalone creation and full behavior
         run: npm test
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4

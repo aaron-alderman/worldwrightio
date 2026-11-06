@@ -1,0 +1,367 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "workshop-lab",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Execute source/overlay edits through actual compiled sessions; stale revisions, invalid values and unknown edits refuse unchanged.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/workshop-lab.process.json",
+    "sha256": "9e3049811c1325c840711a8aa091f44b3f670480fa376421a47e5f69399cd037"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/workshop-lab.process.json",
+    "sha256": "9e3049811c1325c840711a8aa091f44b3f670480fa376421a47e5f69399cd037",
+    "queries": [
+      "lab.snapshot",
+      "lab.edit"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$eventInput.candidate",
+      "$eventInput.kind",
+      "$eventInput.value"
+    ],
+    "configuration": [
+      {
+        "file": "source/encounter/example.json",
+        "sha256": "7a2e765e96ba7d5b2e9a8f972d3244f9db62ea8ee8ad75795a86ec21546d232d",
+        "format": "json",
+        "topLevelKeys": [
+          "codeText",
+          "factText",
+          "contractText",
+          "definitions",
+          "primitives",
+          "profile"
+        ]
+      },
+      {
+        "file": "source/encounter/presentation.json",
+        "sha256": "d65de5dc7309f9eef6fff7092ac455d04102e015dedf2bbf77df786588f1cacb",
+        "format": "json",
+        "topLevelKeys": [
+          "spPolicy",
+          "spGrammar",
+          "lexPolicy",
+          "lexGrammar"
+        ]
+      },
+      {
+        "file": "source/reader/activities.json",
+        "sha256": "bff368d13fb955bfbdb70694527cb6f7479f58550d5e1e600896aaa25c4c9055",
+        "format": "json",
+        "topLevelKeys": [
+          "protocol",
+          "activities",
+          "conversation",
+          "echoes",
+          "decks",
+          "reportedRates",
+          "cellPattern"
+        ]
+      },
+      {
+        "file": "source/reader/document.html",
+        "sha256": "1ea4e431ebf0f0ca64cea322a0dbae7f586ad0502a8d91c5ec86d25ab2b8505c",
+        "format": "html"
+      },
+      {
+        "file": "source/reader/activity.html",
+        "sha256": "a17a2665e57dac1e5ddd11de48dcb84c92dfc9eb834cdee5761f5bfdde23d178",
+        "format": "html"
+      },
+      {
+        "file": "source/workshop/document.html",
+        "sha256": "c77e00c57ec18b7b4f86f5ee0b3fbc6298c9993fbfba6e0e72e44a465ea49b90",
+        "format": "html"
+      },
+      {
+        "file": "source/workshop/provenance.json",
+        "sha256": "04952dac5e7e95f7579f8cd2a3c4fb958acea67b0e785bbc539950849898a65f",
+        "format": "json",
+        "topLevelKeys": [
+          "protocol",
+          "hashes",
+          "origin",
+          "scope"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.run"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.run"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.patch"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "kernel.invoke"
+    ],
+    "grantProfiles": {
+      "micrositesBrowser": [
+        "kernel.invoke"
+      ],
+      "encounterBrowser": [
+        "kernel.invoke"
+      ],
+      "readerBrowser": [
+        "kernel.invoke"
+      ],
+      "activityBrowser": [
+        "kernel.invoke"
+      ],
+      "workshopBrowser": [
+        "kernel.invoke"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "retained/workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "lab.snapshot",
+          "lab.edit"
+        ]
+      },
+      {
+        "path": "workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "lab.snapshot",
+          "lab.edit"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/workshop-lab.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "reader-workshop-algebra.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "Execute source/overlay edits through actual compiled sessions; stale revisions, invalid values and unknown edits refuse unchanged.",
+        "sha256": "052406ff0caab96a84be6f46a944f30b2c8a9bee8e6a77560d7e26439b7b0358"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

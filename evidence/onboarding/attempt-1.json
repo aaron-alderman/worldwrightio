@@ -1,0 +1,354 @@
+{
+  "protocol": "worldwright/different-world-trial/1",
+  "status": "in-progress-reusable-repairs",
+  "snapshot": {
+    "file": "repository/snapshot.json",
+    "sha256": "f5960c75244da67c392156f8e2fce489672e2b0bf977099894242f3a61ce547c",
+    "manifestFiles": 443
+  },
+  "brief": {
+    "protocol": "worldwright/agent-trial-protocol/1",
+    "purpose": "Test repository-only onboarding and reuse by a separately assigned agent making a different world.",
+    "brief": {
+      "name": "Tidepool Commons",
+      "author": "Tidepool Commons learning collective (fictional)",
+      "audience": "Curious newcomers learning how to observe, compare interpretations and keep an attributed field notebook.",
+      "scope": "An imaginary coastal learning world; no real measurements, organization, research outcomes or safety advice are asserted.",
+      "places": {
+        "minimum": 6,
+        "maximum": 8
+      },
+      "requiredDifference": [
+        "Identity",
+        "Purpose",
+        "Primary place readings",
+        "Regions and gateway framing",
+        "Atlas positions and labels",
+        "Source attribution and scope"
+      ],
+      "retainedDemonstrations": "Template educational subsystems may remain when clearly attributed; do not pass Aaron's personal accounts off as the fictional author's.",
+      "previewOrigin": "https://worldwright.io/examples/tidepool/"
+    },
+    "isolation": {
+      "context": "Fresh agent with no parent conversation; only the brief and prepared repository snapshot are supplied.",
+      "inputs": "Use files within the supplied repository snapshot and the created world. No surrounding project, original personal checkout, secrets or network content is needed.",
+      "sourceBasis": "Record the snapshot manifest and source hashes before edits.",
+      "noAssistance": "Read the repository's instructions first. Report blockers before accepting implementation hints from the parent. Retain failed attempts and fixes in the record."
+    },
+    "acceptance": [
+      "Create through the documented CLI with --template expedition.",
+      "Author the different world in canonical source; do not edit dist or the seed.",
+      "Build and run the created template's supported suite with actual test execution.",
+      "Verify 6–8 primary place routes, new identity and content, consistent atlas and source notes.",
+      "Verify a valid checked source edit and stale/invalid refusal preserve accepted source.",
+      "Observe browser reading/navigation, atlas visit/reset, Encounter edit/reset, claim comparison, interactive programme demo, media controls and reader workshop; record failures and unavailable observations honestly.",
+      "Check copied mechanism hashes and the unchanged 20-million execution budget.",
+      "Return reproducible changed-source files, commands, results, screenshots and remaining defects."
+    ],
+    "evidenceBoundary": "A separately assigned same-model agent in this task is an onboarding/transfer test. It is not an independent human study, scientific validation or evidence that every possible programme/input is correct.",
+    "reopening": "A failed criterion reopens the earliest affected template, documentation or feature dependency. Fix it in the reusable repository and repeat the affected trial rather than concealing the failure."
+  },
+  "readInputs": [
+    "repository/AGENTS.md",
+    "repository/README.md",
+    "repository/docs/start.md",
+    "repository/docs/templates.md",
+    "repository/docs/architecture.md",
+    "repository/context/features.json",
+    "repository/context/agent-trial-protocol.json",
+    "repository/snapshot.json",
+    "tidepool-world/README.md",
+    "tidepool-world/AGENTS.md",
+    "tidepool-world/source/world.rel",
+    "tidepool-world/source/expedition.rel",
+    "tidepool-world/source/atlas.rel",
+    "tidepool-world/source/gateway.rel",
+    "tidepool-world/source/authoring-contract.json",
+    "tidepool-world/source/reader/activities.json",
+    "tidepool-world/template.test.mjs",
+    "tidepool-world/authoring-native.test.mjs",
+    "tidepool-world/algebra/publication.process.json",
+    "tidepool-world/algebra/atlas.process.json",
+    "tidepool-world/source/workshop/document.html",
+    "computer-use/SKILL.md"
+  ],
+  "commands": [
+    {
+      "command": "node tooling/create-world.mjs ../tidepool-world --template expedition",
+      "cwd": "repository",
+      "result": "exit 0"
+    },
+    {
+      "command": "node author-tidepool.mjs",
+      "result": "created four canonical sources, seven new places, three regions and doors"
+    },
+    {
+      "command": "node tidepool-world/build.mjs > build.log 2>&1",
+      "result": "failed: Fact cardinality place.wrack-line.mapTipAbove"
+    },
+    {
+      "command": "node --test template.test.mjs authoring-native.test.mjs > ../tests.log 2>&1",
+      "result": "premature suite before successful dist; 0 pass, 2 fail (missing atlas-runtime, author candidate failed)"
+    },
+    {
+      "command": "Add mapTipAbove false for all seven places; node build.mjs > ../build-repair.log 2>&1",
+      "result": "exit 0, Built the world in dist."
+    },
+    {
+      "command": "node --test template.test.mjs authoring-native.test.mjs > ../tests-repair.log 2>&1",
+      "result": "exit 0; 48 tests passed; 0 failed; duration217871.6556ms; native copied-world authoring preview/apply/stale/invalid exercised with47 actual candidate checks"
+    },
+    {
+      "command": "$env:WORLDWRIGHT_PORT='4187'; node serve.mjs",
+      "result": "loopback preview, exec session39543"
+    }
+  ],
+  "failuresRepairs": [
+    {
+      "failure": "Initial parent snapshot.json lookup wrong location",
+      "repair": "Read repository/snapshot.json without help."
+    },
+    {
+      "failure": "README lists mapX/mapY but omits required mapTipAbove",
+      "repair": "Authored false values after inspecting supplied atlas facts; parent informed before any framework edits."
+    },
+    {
+      "failure": "Suite launched after failed build lacked dist",
+      "repair": "Reran after successful build; initial failed log retained."
+    },
+    {
+      "failure": "Homepage visible hero/footer retain personal framing despite canonical world identity",
+      "repair": "Reported to parent. Brief one-off source policy substitutions were reverted to supplied snapshot; awaiting reusable repair."
+    },
+    {
+      "failure": "Atlas Browse places target #unseen invalid for authored regions",
+      "repair": "Reported to parent; awaiting reusable repair."
+    },
+    {
+      "failure": "New places unconditionally embed missing activity and display READER-PLACE",
+      "repair": "Added seven owned fictional notebook exercise records; awaiting reusable explicit optional-activity policy."
+    },
+    {
+      "failure": "Reader map/search result #shell-table navigates homepage due root base",
+      "repair": "Reported to parent; awaiting reusable repair."
+    },
+    {
+      "failure": "Workshop unstyled, ./style.css not present; back link retired #workshop",
+      "repair": "Reported to parent; awaiting reusable repair."
+    },
+    {
+      "failure": "CUA visible option unsupported in subagent; pre-server URL connection refused; error-page binding blocked data URL",
+      "repair": "Created fresh IAB tab omitting visibility options; browser QA functional."
+    },
+    {
+      "failure": "Guessed /motion.html gave404",
+      "repair": "No such route documented/generated; procedural motion examined through Temple page."
+    }
+  ],
+  "browser": [
+    {
+      "journey": "Home and atlas",
+      "observed": "Actual CUA IAB: seven pins and 2/2/3 territory memberships; wrack-line reading displayed invented content; visit0→1, reset→0. Home inherited hero failure preserved.",
+      "screenshots": [
+        "atlas-reset.png",
+        "home-identity-failure.png"
+      ]
+    },
+    {
+      "journey": "Reader search and notes",
+      "observed": "Actual CUA: compare query1 match, shell query0; selected match incorrectly navigates root/#shell-table. Notes show seven invented source titles and explicit fictional collective/source scope.",
+      "screenshots": [
+        "reader-notes.png"
+      ]
+    },
+    {
+      "journey": "Encounter",
+      "observed": "Actual CUA: title The fictional notebook accepted in story/list row; menu The story stable; empty input refused EC-T007 preserving accepted content; Reset restored What happened.",
+      "screenshots": [
+        "encounter-refusal.png"
+      ]
+    },
+    {
+      "journey": "Claimipedia",
+      "observed": "Actual CUA: initial Accepted/Conflicted/Undecided. Removing retracted North study changed Equal weight to Accepted (support1/challenge0.5), others unchanged.",
+      "screenshots": [
+        "claim-comparison.png"
+      ]
+    },
+    {
+      "journey": "Interactive programme",
+      "observed": "Actual CUA Temple gate default steward Tend lamp accepted sequence1, oil3→2 flame lit, witness generated.",
+      "screenshots": [
+        "programme-accepted.png"
+      ]
+    },
+    {
+      "journey": "Media",
+      "observed": "Actual CUA Temple films scene00:12 click and sound toggle yielded video currentTime12.434877 paused:false muted:false readyState4. Subsequent SOUND OFF muted:true currentTime21.499928, playback advanced. Audible quality not independently assessed.",
+      "screenshots": [
+        "media-seek-muted.png"
+      ]
+    },
+    {
+      "journey": "Workshop",
+      "observed": "Actual CUA: title A shared notebook updates story/row, local menu Notebook menu separately accepted. Empty title refused EC-T007, last accepted state retained. Reload reset changes0/titleWhat happened/menuThe story. Page unstyled.",
+      "screenshots": [
+        "workshop-refusal.png"
+      ]
+    }
+  ],
+  "changedCanonicalFiles": [
+    {
+      "file": "source/atlas.rel",
+      "templateSha256": "3ba75edffb7ee4f3a61b50a576e74568717ba96f204812a09a1917cdd05eea13",
+      "worldSha256": "0e0672477092007c1c3e983758a2ac0b352dd2e77ec724cad04c1a2b1d2f1e75"
+    },
+    {
+      "file": "source/expedition.rel",
+      "templateSha256": "9e3b82afebd91951a9c74446649fbf6c92df3b3839359489c4be7e5b08730df1",
+      "worldSha256": "b94dffda3da692418aa4a44d93838eee5317a75eccb6a908cfe4658fac4f446f"
+    },
+    {
+      "file": "source/gateway.rel",
+      "templateSha256": "4cb83ce5b2c70acb5605913924d89594fe1a33c4ddf9b142cc04f4eeb4d4b01c",
+      "worldSha256": "d53c237f80bd54972978b5f1d4a1099cabb0cbd56102c51a1f22d4bbceb14eca"
+    },
+    {
+      "file": "source/reader/activities.json",
+      "templateSha256": "bff368d13fb955bfbdb70694527cb6f7479f58550d5e1e600896aaa25c4c9055",
+      "worldSha256": "2d883e10fef09aa5f10d3589ec352e0d4277a812d86adb71e8a9b6bd55e121b5"
+    },
+    {
+      "file": "source/world.rel",
+      "templateSha256": "a7ba0c21b458baa1120be2554231d7aca55ec08172d3c1c7cc773eee45aa77d2",
+      "worldSha256": "2e8e65eaed617b8ba20f9327bc6f394ec74140d86defce5a3143d1b22fb00334"
+    }
+  ],
+  "mechanisms": {
+    "bootstrap": [
+      {
+        "file": "bootstrap/hosts/runtime.cjs",
+        "worldSha256": "5afe01fefeafa9f4f3ea0f41c9da9ef026ad780afc2652635324a3885b297b1b",
+        "templateSha256": "5afe01fefeafa9f4f3ea0f41c9da9ef026ad780afc2652635324a3885b297b1b",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/kernel-profile.json",
+        "worldSha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875",
+        "templateSha256": "3067678f68016886d77569c62523c101d299648f37697df51c4524c83647a875",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/microsites-preview.json",
+        "worldSha256": "dedec4c4285f3d2aee97b1aae49a8511e0edfe989efb2ad422d8a7fcc8a7ab72",
+        "templateSha256": "dedec4c4285f3d2aee97b1aae49a8511e0edfe989efb2ad422d8a7fcc8a7ab72",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/native.json",
+        "worldSha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105",
+        "templateSha256": "39c1405b8d7eca883c5fefd425ce564ad8d9eb6ee6ec3d948cdc42d912a68105",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/algebra-lower.cjs",
+        "worldSha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2",
+        "templateSha256": "8cc997c2bc965c85b7b5615e796277a485bb1e64765c7df3031f9a30385a3ec2",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/browser-effects.cjs",
+        "worldSha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca",
+        "templateSha256": "2a5fbb13d1fcece0370227f174baf2efedb1da16b0cdfaf55b991cc9b1dbffca",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/browser.cjs",
+        "worldSha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72",
+        "templateSha256": "ff320be4c37276a6f4e5ad5979b6eaf7f9d3a3d1190be40b32021356240abf72",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/fact-index.cjs",
+        "worldSha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a",
+        "templateSha256": "7fe2c41afc600bf6f4b066e6295034d3529d71b674e6ab8d1d489484c999037a",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/kernel.cjs",
+        "worldSha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c",
+        "templateSha256": "0ab9faa6dbd5c6d3d811171d46301037436c53b6fd5e11afab4769246d121c5c",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/node.cjs",
+        "worldSha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69",
+        "templateSha256": "02e540acac441361ffdf337c91716d6cb5115958d129f17110ac9d5d923b7f69",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/programme.cjs",
+        "worldSha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec",
+        "templateSha256": "88d1c4d2aefe341533af1f967268e1c9da555d556db34adb7eea6b5838a5c1ec",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/register.cjs",
+        "worldSha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae",
+        "templateSha256": "43c668d783ccd74137dfb0c286be55ac0e8cd2413f648c5c43a1244a5beab9ae",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/rel-codec.cjs",
+        "worldSha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e",
+        "templateSha256": "d5ee4b037d6ca556822bde3e3a55cbfdee449b708d45f03ffe3508e8ec2b692e",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/value.cjs",
+        "worldSha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2",
+        "templateSha256": "0f7d884a3eb5bd8eb33bcdc236560e4156c2c7498ac3ae39afc1702853fd8ca2",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports/worker.cjs",
+        "worldSha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c",
+        "templateSha256": "10fd9a4424ef7e49fd4c924a900332c3978231c2a929ea36e97a38ca75c58c7c",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/ports.json",
+        "worldSha256": "a9f7b090d4eaa53da715c6f29bea65c0b9ea55f4fe826a2e5c5f86c22c8dd7f7",
+        "templateSha256": "a9f7b090d4eaa53da715c6f29bea65c0b9ea55f4fe826a2e5c5f86c22c8dd7f7",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/run.cjs",
+        "worldSha256": "b90c8a76ae4100a1d1b593cd350ef9d43aff269f3cd0ab8ba94d1d4a92ccafc2",
+        "templateSha256": "b90c8a76ae4100a1d1b593cd350ef9d43aff269f3cd0ab8ba94d1d4a92ccafc2",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/site.json",
+        "worldSha256": "0c5a77c53536bee652da858f99573b7293274f517453518239678d55bf6a4a83",
+        "templateSha256": "0c5a77c53536bee652da858f99573b7293274f517453518239678d55bf6a4a83",
+        "unchanged": true
+      },
+      {
+        "file": "bootstrap/temple-seed.cjs",
+        "worldSha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+        "templateSha256": "c1fdf47cb183a0c8e69d000d091ada457fdc8333b34a2a5bba4bcc51d53ac71e",
+        "unchanged": true
+      }
+    ],
+    "allUnchanged": true,
+    "budget": 20000000
+  },
+  "output": {
+    "path": "C:\\Users\\aaron\\grand-theory\\applications\\worldwright-platform-site\\.build\\agent-onboarding\\tidepool-world",
+    "preview": "http://127.0.0.1:4187/",
+    "session": 39543,
+    "published": false
+  },
+  "boundary": "Separately assigned same-model repository-only agent trial within one task; not independent human/scientific validation. Headless fixture tests and browser observations are distinct evidence surfaces."
+}

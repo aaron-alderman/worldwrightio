@@ -1,0 +1,868 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "microsites",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Build all configured microsite documents, resources and admitted browser bundles; no original app script is a runtime input.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/microsites.process.json",
+    "sha256": "a52c7d3ad4aff5a26a8fdd93969b049be7b5e8c02f54555f72a57ede7a873375"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/microsites.process.json",
+    "sha256": "e8a1f3a160a732d1bc9d1294312df90a3a7c9ed5e26b45253fa8a5d66f147f54",
+    "queries": [
+      "microsites.preview",
+      "microsites.build",
+      "microsites.project",
+      "microsite.early",
+      "microsite.boot"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [
+    {
+      "name": "Microsite",
+      "instanceCount": 2,
+      "owners": [
+        "source/microsites/presentation.rel",
+        "source/microsites/release.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "configuration",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "name",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "runtimeQuery",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 140,
+            "max": 140
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "MicrositeDocument",
+      "instanceCount": 4,
+      "owners": [
+        "source/microsites/presentation.rel",
+        "source/social-sharing.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "canonical",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "early",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:description",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:image",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:image:alt",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:type",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:url",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "oracle",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "path",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "root",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "runtime",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "sharing",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "site",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:card",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:description",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:image",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "MicrositeStylesheet",
+      "instanceCount": 2,
+      "owners": [
+        "source/microsites/presentation.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "path",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "root",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "PublicationAsset",
+      "instanceCount": 177,
+      "owners": [
+        "source/assets.rel",
+        "source/atlas.rel",
+        "source/claimipedia.rel",
+        "source/front-doors.rel",
+        "source/microsites/presentation.rel",
+        "source/social-sharing.rel",
+        "source/template-presentation.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "legacyAlias",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "path",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    }
+  ],
+  "inputs": {
+    "factSources": [
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia-example.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/microsites/release.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "PublicationAsset"
+      },
+      {
+        "operation": "one",
+        "subject": "$msAsset",
+        "predicate": "path",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "microsites.release",
+        "predicate": "status",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "MicrositeStylesheet"
+      },
+      {
+        "operation": "one",
+        "subject": "$msSheet",
+        "predicate": "root",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msSheet",
+        "predicate": "path",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "MicrositeDocument"
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "root",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msDocument",
+        "predicate": "path",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Microsite"
+      },
+      {
+        "operation": "one",
+        "subject": "$msSite",
+        "predicate": "configuration",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$msSite",
+        "predicate": "runtimeQuery",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$msSite",
+        "predicate": "name",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [
+      "$data.configuration",
+      "$data.site"
+    ],
+    "configuration": [
+      {
+        "file": "source/microsites/temple/config.json",
+        "sha256": "49f449255184b60029c594f1d511a34bafa7d033b11cccbed960b736a182fc82",
+        "format": "json",
+        "topLevelKeys": [
+          "identities",
+          "presets",
+          "genesisCells",
+          "covenants",
+          "limits",
+          "operators",
+          "stages"
+        ]
+      },
+      {
+        "file": "source/microsites/sourcery/config.json",
+        "sha256": "2244e911122bfce6c40ad41b23e9ad811bd0e1f91743e55d37d13a0844e7f60c",
+        "format": "json",
+        "topLevelKeys": [
+          "stopWords",
+          "archetypes",
+          "events",
+          "templates",
+          "subjectPattern",
+          "refusalPattern",
+          "amountPattern"
+        ]
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2",
+        "format": "rel"
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/microsite-projection.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.init"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "motion.sourcery.init"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.temple.init"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "motion.temple.init"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "media.screens.init"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "browser.select",
+      "dom.classToggle",
+      "file.copy",
+      "file.write",
+      "json.parse",
+      "kernel.invoke",
+      "runtime.bundle",
+      "state.set"
+    ],
+    "grantProfiles": {
+      "build": [
+        "file.write",
+        "file.copy",
+        "runtime.bundle",
+        "json.parse"
+      ],
+      "browser": [
+        "dom.classToggle"
+      ],
+      "compilation": [
+        "json.parse"
+      ],
+      "micrositesBrowser": [
+        "browser.select",
+        "json.parse",
+        "kernel.invoke",
+        "state.set"
+      ],
+      "micrositesEarly": [
+        "dom.classToggle"
+      ],
+      "encounterBrowser": [
+        "json.parse",
+        "kernel.invoke",
+        "state.set"
+      ],
+      "atlasBrowser": [
+        "state.set",
+        "browser.select"
+      ],
+      "readerBrowser": [
+        "json.parse",
+        "kernel.invoke",
+        "state.set",
+        "browser.select"
+      ],
+      "activityBrowser": [
+        "json.parse",
+        "kernel.invoke",
+        "state.set",
+        "browser.select"
+      ],
+      "workshopBrowser": [
+        "json.parse",
+        "kernel.invoke",
+        "state.set",
+        "browser.select"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [
+      [
+        "one",
+        "$msSheet",
+        "path"
+      ],
+      [
+        "one",
+        "$msDocument",
+        "path"
+      ],
+      [
+        "concat",
+        [
+          "one",
+          "$msSite",
+          "name"
+        ],
+        "/runtime.js"
+      ],
+      "temple/early.js"
+    ],
+    "copyExpressions": [
+      [
+        "one",
+        "$msAsset",
+        "path"
+      ]
+    ],
+    "bundledRuntimes": [
+      {
+        "path": "sourcery/runtime.js",
+        "sha256": "01318d46ecafc21d97aa42c63454d6cf4cb39b26f91a8a215bdb93777926e8b6",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "microsite.boot"
+        ]
+      },
+      {
+        "path": "temple/early.js",
+        "sha256": "ae74cc8fcabdb038801375daf42b1a74253a409ce95d46c12d06c98b0aff8d85",
+        "entry": "microsite.early",
+        "grants": [
+          "dom.classToggle"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "microsite.early"
+        ]
+      },
+      {
+        "path": "temple/runtime.js",
+        "sha256": "ab2b026a95d5a734a4bd721476eeaee25e91ed4175d22cb6ab7707ec044f0ebf",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "microsite.boot"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": [
+      {
+        "entry": "microsite.boot",
+        "mode": "browser",
+        "grantProfile": "micrositesBrowser",
+        "queries": [
+          "objects",
+          "$msSite",
+          "runtimeQuery"
+        ],
+        "factSubjects": [
+          "append",
+          [
+            "list"
+          ],
+          [
+            "list",
+            "site"
+          ]
+        ],
+        "data": {
+          "site": [
+            "one",
+            "$msSite",
+            "name"
+          ],
+          "configuration": "$msConfiguration"
+        },
+        "budget": 20000000
+      },
+      {
+        "entry": "microsite.early",
+        "mode": "browser",
+        "grantProfile": "micrositesEarly",
+        "queries": [
+          "list",
+          "microsite.early"
+        ],
+        "factSubjects": [
+          "append",
+          [
+            "list"
+          ],
+          [
+            "list",
+            "site"
+          ]
+        ],
+        "budget": 20000000
+      }
+    ]
+  },
+  "correction": {
+    "owners": [
+      "algebra/microsites.process.json",
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia-example.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/microsites/release.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "Build all configured microsite documents, resources and admitted browser bundles; no original app script is a runtime input.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

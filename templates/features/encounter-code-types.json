@@ -1,0 +1,621 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "encounter-code-types",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Use actual closed contracts and reject invalid values and fields without edit authority.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/encounter-code-types.process.json",
+    "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/encounter-code-types.process.json",
+    "sha256": "1289d28de383f0b00e06d9e7ae323da31ad8460668afbb6c9e49e6b6daa79b05",
+    "queries": [
+      "ec.schema",
+      "ec.slot",
+      "ec.scalar",
+      "ec.check",
+      "ec.referenceType",
+      "ec.fact",
+      "ec.reference",
+      "ec.argument"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Interface"
+      },
+      {
+        "operation": "optional",
+        "subject": "$ecI",
+        "predicate": "type",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$ecInterface",
+        "predicate": "mode",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$ecInterface",
+        "predicate": "slot",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$ecS",
+        "predicate": "predicate",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$ecS",
+        "predicate": "valueType",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$ecS",
+        "predicate": "cardinality",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$ecS",
+        "predicate": "expects",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$ecS",
+        "predicate": "allowed",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$ecS",
+        "predicate": "storage",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$ecS",
+        "predicate": "entryType",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$ecS",
+        "predicate": "entryField",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$ecS",
+        "predicate": "nonempty",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$ecS",
+        "predicate": "pattern",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$ecRef",
+        "predicate": "isa",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$ecFactId",
+        "predicate": "$ecFactSlot.name",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [
+      "$eventInput.id",
+      "$eventInput.name",
+      "$eventInput.slot",
+      "$eventInput.type",
+      "$eventInput.value",
+      "$eventInput.values"
+    ],
+    "configuration": [
+      {
+        "file": "source/encounter/example.json",
+        "sha256": "7a2e765e96ba7d5b2e9a8f972d3244f9db62ea8ee8ad75795a86ec21546d232d",
+        "format": "json",
+        "topLevelKeys": [
+          "codeText",
+          "factText",
+          "contractText",
+          "definitions",
+          "primitives",
+          "profile"
+        ]
+      },
+      {
+        "file": "source/encounter/presentation.json",
+        "sha256": "d65de5dc7309f9eef6fff7092ac455d04102e015dedf2bbf77df786588f1cacb",
+        "format": "json",
+        "topLevelKeys": [
+          "spPolicy",
+          "spGrammar",
+          "lexPolicy",
+          "lexGrammar"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.schema"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.referenceType"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.schema"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.scalar"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.scalar"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.referenceType"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.schema"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.fact"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.check"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.referenceType"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.fact"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.reference"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.check"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "kernel.execute",
+      "kernel.invoke",
+      "record.entries",
+      "record.put",
+      "text.matches",
+      "text.split",
+      "value.describe"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.describe",
+        "record.entries",
+        "record.put",
+        "text.split",
+        "text.matches"
+      ],
+      "worker": [
+        "text.matches"
+      ],
+      "compilation": [
+        "value.describe",
+        "record.entries",
+        "text.matches",
+        "text.split"
+      ],
+      "reflection": [
+        "value.describe",
+        "record.entries"
+      ],
+      "micrositesBrowser": [
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.split",
+        "value.describe"
+      ],
+      "encounterBrowser": [
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.split",
+        "value.describe"
+      ],
+      "atlasBrowser": [
+        "text.split"
+      ],
+      "readerBrowser": [
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.split",
+        "value.describe"
+      ],
+      "activityBrowser": [
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.split",
+        "value.describe"
+      ],
+      "workshopBrowser": [
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.split",
+        "value.describe"
+      ]
+    },
+    "authoringGrants": [
+      "value.describe"
+    ],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "encounter/runtime.js",
+        "sha256": "9baee6a7705d9fe376c11f1908eefc88de5037235631a677ff7da3bbd5dd2c75",
+        "entry": "encounter.demo.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ec.schema",
+          "ec.slot",
+          "ec.scalar",
+          "ec.check",
+          "ec.referenceType",
+          "ec.fact",
+          "ec.reference",
+          "ec.argument"
+        ]
+      },
+      {
+        "path": "retained/workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ec.schema",
+          "ec.slot",
+          "ec.scalar",
+          "ec.check",
+          "ec.referenceType",
+          "ec.fact",
+          "ec.reference",
+          "ec.argument"
+        ]
+      },
+      {
+        "path": "workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ec.schema",
+          "ec.slot",
+          "ec.scalar",
+          "ec.check",
+          "ec.referenceType",
+          "ec.fact",
+          "ec.reference",
+          "ec.argument"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/encounter-code-types.process.json",
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "encounter-microsite.test.mjs",
+        "kind": "algebra-execution",
+        "obligation": "Use actual closed contracts and reject invalid values and fields without edit authority.",
+        "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

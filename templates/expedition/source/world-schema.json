@@ -1,0 +1,112 @@
+{
+  "protocol": "worldwright/world-authoring-schema/1",
+  "authority": "Authoring reference for fields actually consumed by the selected algebra; runtime policy remains in the process modules.",
+  "types": {
+    "Place": {
+      "required": [
+        "slug",
+        "route",
+        "title",
+        "lead",
+        "region",
+        "chapter",
+        "source",
+        "light",
+        "mapX",
+        "mapY",
+        "mapTipAbove"
+      ],
+      "optional": [
+        "activity",
+        "category",
+        "atlasLabel",
+        "instruction",
+        "pause",
+        "personal",
+        "experience"
+      ],
+      "many": [
+        "paragraph",
+        "fullParagraph",
+        "word",
+        "choice",
+        "supplement"
+      ],
+      "notes": {
+        "route": "places/<slug>.html",
+        "mapX": "String percentage coordinate",
+        "mapY": "String percentage coordinate",
+        "mapTipAbove": "Required string true or false; controls tooltip placement.",
+        "activity": "Optional key in source/reader/activities.json.activities. No reference means no activity iframe."
+      }
+    },
+    "Territory": {
+      "required": [
+        "name",
+        "question",
+        "note",
+        "light",
+        "atlasSlug",
+        "atlasNumber",
+        "atlasImage"
+      ],
+      "many": [
+        "place"
+      ]
+    },
+    "SourceNote": {
+      "required": [
+        "title",
+        "originalTitle",
+        "kind",
+        "note"
+      ],
+      "optional": [
+        "href"
+      ],
+      "many": [
+        "paragraph"
+      ]
+    },
+    "Choice": {
+      "identity": "Subject referenced by Place.choice",
+      "required": [
+        "destination",
+        "label",
+        "kind"
+      ]
+    },
+    "Word": {
+      "identity": "Subject referenced by Place.word",
+      "required": [
+        "label",
+        "meaning"
+      ]
+    },
+    "Entrance": {
+      "required": [
+        "destination",
+        "number",
+        "name",
+        "symbol",
+        "question",
+        "note"
+      ]
+    },
+    "CorpusDoor": {
+      "required": [
+        "slug",
+        "readingName",
+        "title",
+        "description",
+        "question",
+        "light",
+        "kind",
+        "href",
+        "label",
+        "secondaryHref",
+        "secondaryLabel"
+      ]
+    }
+  }
+}

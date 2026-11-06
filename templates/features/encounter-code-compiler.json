@@ -1,0 +1,730 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "encounter-code-compiler",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Prepare and compile the retained Encounter source; reject wrong types and undeclared inverse fields.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/encounter-code-compiler.process.json",
+    "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/encounter-code-compiler.process.json",
+    "sha256": "4e2559bb1b560f30a245a9e71566005e7425825cb6f15e056a626ea1178582d9",
+    "queries": [
+      "ec.lex",
+      "ec.header",
+      "ec.expression",
+      "ec.fields",
+      "ec.data",
+      "ec.record",
+      "ec.representation",
+      "ec.view",
+      "ec.edits",
+      "ec.show",
+      "ec.emitView",
+      "ec.emitRepresentation",
+      "ec.compile",
+      "ec.attempt",
+      "ec.complete",
+      "ec.verifyShow",
+      "ec.verify",
+      "ec.oneField"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$eventInput.declaration",
+      "$eventInput.fields",
+      "$eventInput.input",
+      "$eventInput.node",
+      "$eventInput.nodes",
+      "$eventInput.query",
+      "$eventInput.representation",
+      "$eventInput.scope",
+      "$eventInput.show",
+      "$eventInput.span",
+      "$eventInput.text",
+      "$eventInput.type",
+      "$eventInput.view"
+    ],
+    "configuration": [
+      {
+        "file": "source/encounter/example.json",
+        "sha256": "7a2e765e96ba7d5b2e9a8f972d3244f9db62ea8ee8ad75795a86ec21546d232d",
+        "format": "json",
+        "topLevelKeys": [
+          "codeText",
+          "factText",
+          "contractText",
+          "definitions",
+          "primitives",
+          "profile"
+        ]
+      },
+      {
+        "file": "source/encounter/presentation.json",
+        "sha256": "d65de5dc7309f9eef6fff7092ac455d04102e015dedf2bbf77df786588f1cacb",
+        "format": "json",
+        "topLevelKeys": [
+          "spPolicy",
+          "spGrammar",
+          "lexPolicy",
+          "lexGrammar"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.argument"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.check"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.argument"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.check"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "$eventInput.query"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.schema"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.complete"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.complete"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.verifyShow"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.fact"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.verifyShow"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ec.attempt"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "json.parse",
+      "json.stringify",
+      "kernel.invoke",
+      "record.entries",
+      "record.put",
+      "text.matches",
+      "text.replaceAll",
+      "text.slice",
+      "text.split",
+      "text.trim",
+      "value.describe"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.describe",
+        "record.entries",
+        "record.put",
+        "text.replaceAll",
+        "text.split",
+        "text.trim",
+        "text.matches",
+        "json.stringify",
+        "json.parse",
+        "text.slice"
+      ],
+      "worker": [
+        "text.trim",
+        "text.matches"
+      ],
+      "compilation": [
+        "value.describe",
+        "record.entries",
+        "text.trim",
+        "text.matches",
+        "text.split",
+        "json.parse",
+        "json.stringify"
+      ],
+      "reflection": [
+        "value.describe",
+        "record.entries",
+        "json.stringify",
+        "text.replaceAll"
+      ],
+      "micrositesBrowser": [
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe"
+      ],
+      "encounterBrowser": [
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe"
+      ],
+      "atlasBrowser": [
+        "text.split"
+      ],
+      "readerBrowser": [
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe"
+      ],
+      "activityBrowser": [
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe"
+      ],
+      "workshopBrowser": [
+        "json.parse",
+        "json.stringify",
+        "kernel.invoke",
+        "record.entries",
+        "record.put",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe"
+      ]
+    },
+    "authoringGrants": [
+      "value.describe"
+    ],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "encounter/runtime.js",
+        "sha256": "9baee6a7705d9fe376c11f1908eefc88de5037235631a677ff7da3bbd5dd2c75",
+        "entry": "encounter.demo.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ec.lex",
+          "ec.header",
+          "ec.expression",
+          "ec.fields",
+          "ec.data",
+          "ec.record",
+          "ec.representation",
+          "ec.view",
+          "ec.edits",
+          "ec.show",
+          "ec.emitView",
+          "ec.emitRepresentation",
+          "ec.compile",
+          "ec.attempt",
+          "ec.complete",
+          "ec.verifyShow",
+          "ec.verify",
+          "ec.oneField"
+        ]
+      },
+      {
+        "path": "retained/workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ec.lex",
+          "ec.header",
+          "ec.expression",
+          "ec.fields",
+          "ec.data",
+          "ec.record",
+          "ec.representation",
+          "ec.view",
+          "ec.edits",
+          "ec.show",
+          "ec.emitView",
+          "ec.emitRepresentation",
+          "ec.compile",
+          "ec.attempt",
+          "ec.complete",
+          "ec.verifyShow",
+          "ec.verify",
+          "ec.oneField"
+        ]
+      },
+      {
+        "path": "workshop/runtime.js",
+        "sha256": "24c786e9eabdb66cd29b95641ff5c83d4224690b6ef416b27166d908a8fcd71f",
+        "entry": "workshop.boot",
+        "grants": [
+          "browser.attribute",
+          "browser.content",
+          "browser.on",
+          "browser.property",
+          "browser.write",
+          "digest.sha256",
+          "json.parse",
+          "json.stringify",
+          "kernel.evaluate",
+          "kernel.execute",
+          "kernel.invoke",
+          "record.entries",
+          "record.fromEntries",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.matches",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "value.describe",
+          "value.freeze",
+          "value.string",
+          "value.type",
+          "asset.blobURL",
+          "asset.json",
+          "browser.cancel",
+          "browser.class",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "canvas.draw",
+          "clock.read",
+          "image.rasterize",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.get",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.replace",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.sort",
+          "storage.read",
+          "storage.write",
+          "storage.remove",
+          "asset.text",
+          "browser.location",
+          "browser.navigate",
+          "browser.title",
+          "browser.scroll",
+          "browser.dialog",
+          "document.fragment",
+          "browser.frameContent",
+          "text.compare"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ec.lex",
+          "ec.header",
+          "ec.expression",
+          "ec.fields",
+          "ec.data",
+          "ec.record",
+          "ec.representation",
+          "ec.view",
+          "ec.edits",
+          "ec.show",
+          "ec.emitView",
+          "ec.emitRepresentation",
+          "ec.compile",
+          "ec.attempt",
+          "ec.complete",
+          "ec.verifyShow",
+          "ec.verify",
+          "ec.oneField"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/encounter-code-compiler.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "encounter-microsite.test.mjs",
+        "kind": "algebra-execution",
+        "obligation": "Prepare and compile the retained Encounter source; reject wrong types and undeclared inverse fields.",
+        "sha256": "cabe4d7f908bfca381ea1c6f3787e44240f0b10c16c275dc4406bde1c84cca19"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

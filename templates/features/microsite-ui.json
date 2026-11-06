@@ -1,0 +1,556 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "microsite-ui",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Sourcery proposal, witness, tamper and restoration semantics remain executable with the configured UI process.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/microsite-ui.process.json",
+    "sha256": "4b5e098df13bcc4c1fffabd354a79ec0db2681fdaf801c0c7249342619c041d2"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/microsite-ui.process.json",
+    "sha256": "4b5e098df13bcc4c1fffabd354a79ec0db2681fdaf801c0c7249342619c041d2",
+    "queries": [
+      "ui.html",
+      "ui.short",
+      "ui.sourcery.init",
+      "ui.sourcery.example",
+      "ui.sourcery.summon",
+      "ui.sourcery.focus",
+      "ui.sourcery.proposal",
+      "ui.sourcery.actions",
+      "ui.sourcery.askWhy",
+      "ui.sourcery.enter",
+      "ui.sourcery.decide",
+      "ui.sourcery.ledger",
+      "ui.sourcery.verify",
+      "ui.sourcery.tamper"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [],
+    "configuration": [
+      {
+        "file": "source/microsites/temple/config.json",
+        "sha256": "49f449255184b60029c594f1d511a34bafa7d033b11cccbed960b736a182fc82",
+        "format": "json",
+        "topLevelKeys": [
+          "identities",
+          "presets",
+          "genesisCells",
+          "covenants",
+          "limits",
+          "operators",
+          "stages"
+        ]
+      },
+      {
+        "file": "source/microsites/sourcery/config.json",
+        "sha256": "2244e911122bfce6c40ad41b23e9ad811bd0e1f91743e55d37d13a0844e7f60c",
+        "format": "json",
+        "topLevelKeys": [
+          "stopWords",
+          "archetypes",
+          "events",
+          "templates",
+          "subjectPattern",
+          "refusalPattern",
+          "amountPattern"
+        ]
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2",
+        "format": "rel"
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.summon"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.proposal"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.proposal"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.decide"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.askWhy"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.decide"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.decide"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.decide"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.ledger"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.html"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.verify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.ledger"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "sourcery.tamper"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "ui.sourcery.ledger"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "browser.class",
+      "browser.content",
+      "browser.environment",
+      "browser.focus",
+      "browser.frame",
+      "browser.insert",
+      "browser.on",
+      "browser.read",
+      "browser.remove",
+      "browser.replace",
+      "browser.scrollIntoView",
+      "browser.write",
+      "clock.read",
+      "kernel.invoke",
+      "record.put",
+      "state.get",
+      "state.set",
+      "text.replace",
+      "text.slice",
+      "text.trim"
+    ],
+    "grantProfiles": {
+      "build": [
+        "record.put",
+        "text.trim",
+        "text.slice"
+      ],
+      "worker": [
+        "text.trim"
+      ],
+      "compilation": [
+        "text.trim"
+      ],
+      "micrositesBrowser": [
+        "browser.class",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.frame",
+        "browser.insert",
+        "browser.on",
+        "browser.read",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "browser.write",
+        "clock.read",
+        "kernel.invoke",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.replace",
+        "text.slice",
+        "text.trim"
+      ],
+      "encounterBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "text.trim"
+      ],
+      "atlasBrowser": [
+        "state.get",
+        "state.set",
+        "browser.on",
+        "browser.class"
+      ],
+      "readerBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "text.trim",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.frame",
+        "browser.insert",
+        "browser.read",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "clock.read",
+        "text.replace"
+      ],
+      "activityBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "text.trim",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.frame",
+        "browser.insert",
+        "browser.read",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "clock.read",
+        "text.replace"
+      ],
+      "workshopBrowser": [
+        "browser.content",
+        "browser.on",
+        "browser.write",
+        "kernel.invoke",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.slice",
+        "text.trim",
+        "browser.class",
+        "browser.environment",
+        "browser.focus",
+        "browser.frame",
+        "browser.insert",
+        "browser.read",
+        "browser.remove",
+        "browser.replace",
+        "browser.scrollIntoView",
+        "clock.read",
+        "text.replace"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "sourcery/runtime.js",
+        "sha256": "01318d46ecafc21d97aa42c63454d6cf4cb39b26f91a8a215bdb93777926e8b6",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ui.html",
+          "ui.short",
+          "ui.sourcery.init",
+          "ui.sourcery.example",
+          "ui.sourcery.summon",
+          "ui.sourcery.focus",
+          "ui.sourcery.proposal",
+          "ui.sourcery.actions",
+          "ui.sourcery.askWhy",
+          "ui.sourcery.enter",
+          "ui.sourcery.decide",
+          "ui.sourcery.ledger",
+          "ui.sourcery.verify",
+          "ui.sourcery.tamper"
+        ]
+      },
+      {
+        "path": "temple/runtime.js",
+        "sha256": "ab2b026a95d5a734a4bd721476eeaee25e91ed4175d22cb6ab7707ec044f0ebf",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "ui.html",
+          "ui.short",
+          "ui.sourcery.init",
+          "ui.sourcery.example",
+          "ui.sourcery.summon",
+          "ui.sourcery.focus",
+          "ui.sourcery.proposal",
+          "ui.sourcery.actions",
+          "ui.sourcery.askWhy",
+          "ui.sourcery.enter",
+          "ui.sourcery.decide",
+          "ui.sourcery.ledger",
+          "ui.sourcery.verify",
+          "ui.sourcery.tamper"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/microsite-ui.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "microsite-fidelity.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "Sourcery proposal, witness, tamper and restoration semantics remain executable with the configured UI process.",
+        "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

@@ -1,0 +1,11 @@
+import './microsite-fidelity.test.mjs';
+import './claimipedia-review.test.mjs';
+import './encounter-microsite.test.mjs';
+import './atlas-journey.test.mjs';
+import './reader-workshop-algebra.test.mjs';
+import './authoring.test.mjs';
+import './expedition.test.mjs';
+import './feature-core.test.mjs';
+import './reader-navigation.test.mjs';
+import './world-projection.test.mjs';
+import './resource-paths.test.mjs';

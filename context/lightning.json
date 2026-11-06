@@ -1,17 +1,107 @@
 {
   "protocol": "worldwright/lightning-path/1",
   "terminal": "An agent can create an inspectable, correctable standalone world from a person's purpose and content.",
-  "scope": "Static reading worlds and a reference feature-extraction library.",
-  "evidenceFamily": "worldwright-template-extraction-2026-11-06",
+  "scope": "Complete initial expedition feature composition and the retained small reader; not every possible Temple programme.",
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06",
   "links": [
-    {"id": "L1", "from": "purpose", "to": "meaning", "status": "local-check", "test": "source correction reprojects escaped content while the kernel stays unchanged", "failure": "Personal identity is required."},
-    {"id": "L2", "from": "meaning", "to": "relations", "requires": ["L1"], "status": "local-check", "test": "unknown choice target; unknown source; empty required title; reserved route identity; unknown entry", "failure": "Invalid references are accepted."},
-    {"id": "L3", "from": "relations", "to": "projection", "requires": ["L2"], "status": "local-check", "test": "standalone build emits navigable pages, exact sources and a bounded receipt", "failure": "Admission or effects are bypassed."},
-    {"id": "L4", "from": "projection", "to": "inspection", "requires": ["L3"], "status": "local-check", "test": "standalone build emits navigable pages, exact sources and a bounded receipt", "failure": "Exposed source differs from its owner."},
-    {"id": "L5", "from": "correction", "to": "recomposition", "requires": ["L3", "L4"], "status": "local-check", "test": "source correction reprojects escaped content while the kernel stays unchanged", "failure": "Correction changes mechanisms or assigns authority to output."},
-    {"id": "L6", "from": "repository", "to": "standalone copy", "requires": ["L3"], "status": "local-check", "test": "the documented command creates a standalone world and refuses overwrites", "failure": "A hidden parent dependency is required."},
-    {"id": "L7", "from": "feature", "to": "reusable contract", "requires": ["L4"], "status": "local-check", "test": "every initial algebra module has an exact catalogue entry and honest status", "failure": "Reference modules are claimed fully portable."},
-    {"id": "L8", "from": "agent context", "to": "human usefulness", "requires": ["L5", "L6", "L7"], "status": "needs-outside-use", "test": "Observe another person's independent authoring session against their stated purpose.", "failure": "A new author cannot complete or understand the handoff."}
+    {
+      "id": "L1",
+      "from": "purpose",
+      "to": "meaning",
+      "status": "local-check",
+      "test": "source correction reprojects escaped content while the kernel stays unchanged",
+      "failure": "Personal identity is required."
+    },
+    {
+      "id": "L2",
+      "from": "meaning",
+      "to": "relations",
+      "requires": [
+        "L1"
+      ],
+      "status": "local-check",
+      "test": "unknown choice target; unknown source; empty required title; reserved route identity; unknown entry",
+      "failure": "Invalid references are accepted."
+    },
+    {
+      "id": "L3",
+      "from": "relations",
+      "to": "projection",
+      "requires": [
+        "L2"
+      ],
+      "status": "local-check",
+      "test": "standalone build emits navigable pages, exact sources and a bounded receipt",
+      "failure": "Admission or effects are bypassed."
+    },
+    {
+      "id": "L4",
+      "from": "projection",
+      "to": "inspection",
+      "requires": [
+        "L3"
+      ],
+      "status": "local-check",
+      "test": "standalone build emits navigable pages, exact sources and a bounded receipt",
+      "failure": "Exposed source differs from its owner."
+    },
+    {
+      "id": "L5",
+      "from": "correction",
+      "to": "recomposition",
+      "requires": [
+        "L3",
+        "L4"
+      ],
+      "status": "local-check",
+      "test": "source correction reprojects escaped content while the kernel stays unchanged",
+      "failure": "Correction changes mechanisms or assigns authority to output."
+    },
+    {
+      "id": "L6",
+      "from": "repository",
+      "to": "standalone copy",
+      "requires": [
+        "L3"
+      ],
+      "status": "local-check",
+      "test": "the documented command creates a standalone world and refuses overwrites",
+      "failure": "A hidden parent dependency is required."
+    },
+    {
+      "id": "L7",
+      "from": "feature",
+      "to": "reusable contract",
+      "requires": [
+        "L4"
+      ],
+      "status": "checked-concrete-composition",
+      "test": "node tooling/verify-features.mjs --check; node --test tooling/feature-extraction.test.mjs; full expedition behavioral suite",
+      "failure": "A required source/runtime/native dependency is absent or an actual feature behavior/refusal fails."
+    },
+    {
+      "id": "L8",
+      "from": "agent context",
+      "to": "different-world authoring",
+      "requires": [
+        "L5",
+        "L6",
+        "L7"
+      ],
+      "status": "separate-agent-tested-after-shared-repairs",
+      "test": "Final source-only snapshot447/447 verified; fresh CLI recreation, six content-only changes,60/60 supported tests, direct59-check preview/apply and refusal preservation, recorded browser journeys.",
+      "failure": "The agent needs hidden source, parent implementation hints or seed changes.",
+      "observed": {
+        "report": "evidence/onboarding/trial-report.json",
+        "sourceOverlay": "examples/tidepool/example.json",
+        "initialFailuresRetained": true,
+        "independentHumanEvidence": false
+      }
+    }
   ],
-  "correction": "Reopen the earliest affected edge. Preserve useful upstream results and alternative compositions."
+  "correction": "Reopen the earliest affected edge. Preserve useful upstream results and alternative compositions.",
+  "humanUsability": "not-yet-observed",
+  "trialProtocol": "context/agent-trial-protocol.json",
+  "trialReport": "evidence/onboarding/trial-report.json",
+  "example": "examples/tidepool/example.json"
 }

@@ -1,0 +1,136 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "authoring",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Stale source, authority, duplicate edits, no-ops and failed validation refuse before commit; preview/apply sequence is explicit.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/authoring.process.json",
+    "sha256": "6f90e04fb48885def927bfa799b358be85000892a2667e0ea81bc70108e92bf4"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/authoring.process.json",
+    "sha256": "9e85b26aeb6b734527f7f305160bbd6b3cf5825992eb1a6cd10c4e9e6d9fce1f",
+    "queries": [
+      "author.prepare",
+      "author.run"
+    ],
+    "operators": [],
+    "selectedBy": "source/authoring-contract.json#process"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [],
+    "configuration": [
+      {
+        "file": "source/authoring-contract.json",
+        "sha256": "f35e48e7233b39caf829c1a8e159a449b62c2d909d82f5d9939af2fbb8379212",
+        "format": "json",
+        "topLevelKeys": [
+          "protocol",
+          "process",
+          "budget",
+          "editable",
+          "grants",
+          "inputDirectories",
+          "inputFiles",
+          "checks",
+          "owners",
+          "boundary"
+        ]
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "document.commit",
+      "document.observe",
+      "publication.stage",
+      "publication.validate",
+      "receipt.write",
+      "value.describe"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.describe"
+      ],
+      "compilation": [
+        "value.describe"
+      ],
+      "reflection": [
+        "value.describe"
+      ],
+      "micrositesBrowser": [
+        "value.describe"
+      ],
+      "encounterBrowser": [
+        "value.describe"
+      ],
+      "readerBrowser": [
+        "value.describe"
+      ],
+      "activityBrowser": [
+        "value.describe"
+      ],
+      "workshopBrowser": [
+        "value.describe"
+      ]
+    },
+    "authoringGrants": [
+      "document.commit",
+      "document.observe",
+      "publication.stage",
+      "publication.validate",
+      "receipt.write",
+      "value.describe"
+    ],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/authoring.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "authoring.test.mjs",
+        "kind": "algebra-policy-fixture",
+        "obligation": "Stale source, authority, duplicate edits, no-ops and failed validation refuse before commit; preview/apply sequence is explicit.",
+        "sha256": "096b7d6c5f2ce813414be3ec92d03ca140cca598072cdc4566a505231aa3b72c"
+      },
+      {
+        "file": "authoring-native.test.mjs",
+        "kind": "native-filesystem",
+        "obligation": "Execute real isolated preview/apply, stale-source and failed-candidate refusal using actual filesystem snapshots and full candidate validation.",
+        "sha256": "9e5d9b42e83bed266e84cff5d5f3fdca1ba542f0d1f87e5e84a4d97973254bcf"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

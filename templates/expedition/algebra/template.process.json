@@ -1,0 +1,679 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "template.validate": [
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "site",
+              "name"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: name must be nonempty."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "site",
+              "purpose"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: purpose must be nonempty."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "site",
+              "headline"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: headline must be nonempty."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "site",
+              "description"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: description must be nonempty."
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "one",
+              "site",
+              "origin"
+            ],
+            ""
+          ]
+        ],
+        "message": "WORLD-EMPTY: origin must be nonempty."
+      },
+      {
+        "port": "text.matches",
+        "args": {
+          "value": [
+            "one",
+            "site",
+            "origin"
+          ],
+          "pattern": "^https?://[^/]+(?:/[^?#]*)?/$"
+        },
+        "into": "originValid"
+      },
+      {
+        "assert": "$originValid",
+        "message": "WORLD-ORIGIN: Use an absolute HTTP(S) origin with a trailing slash."
+      },
+      {
+        "let": "places",
+        "value": [
+          "subjects",
+          "isa",
+          "Place"
+        ]
+      },
+      {
+        "let": "sources",
+        "value": [
+          "subjects",
+          "isa",
+          "SourceNote"
+        ]
+      },
+      {
+        "let": "territories",
+        "value": [
+          "subjects",
+          "isa",
+          "Territory"
+        ]
+      },
+      {
+        "assert": [
+          "not",
+          [
+            "eq",
+            [
+              "count",
+              "$places"
+            ],
+            0
+          ]
+        ],
+        "message": "WORLD-PLACES: At least one place is required."
+      },
+      {
+        "each": "$places",
+        "as": "place",
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "title"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: title must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "slug"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: slug must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "route"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: route must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "lead"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: lead must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "region"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: region must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "chapter"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: chapter must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "source"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: source must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "light"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: light must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "mapX"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: mapX must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$place",
+                  "mapY"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: mapY must be nonempty."
+          },
+          {
+            "port": "text.matches",
+            "args": {
+              "value": [
+                "one",
+                "$place",
+                "slug"
+              ],
+              "pattern": "^[a-z][a-z0-9-]*$"
+            },
+            "into": "slugValid"
+          },
+          {
+            "assert": "$slugValid",
+            "message": "WORLD-SLUG: Place slug must be URL-safe lowercase text."
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "one",
+                "$place",
+                "route"
+              ],
+              [
+                "concat",
+                "places/",
+                [
+                  "one",
+                  "$place",
+                  "slug"
+                ],
+                ".html"
+              ]
+            ],
+            "message": "WORLD-ROUTE: Place route must match its slug."
+          },
+          {
+            "assert": [
+              "includes",
+              "$sources",
+              [
+                "one",
+                "$place",
+                "source"
+              ]
+            ],
+            "message": "WORLD-SOURCE: Unknown source note."
+          },
+          {
+            "each": [
+              "objects",
+              "$place",
+              "choice"
+            ],
+            "as": "choice",
+            "steps": [
+              {
+                "assert": [
+                  "includes",
+                  "$places",
+                  [
+                    "one",
+                    "$choice",
+                    "destination"
+                  ]
+                ],
+                "message": "WORLD-CHOICE: Unknown place destination."
+              },
+              {
+                "assert": [
+                  "not",
+                  [
+                    "eq",
+                    [
+                      "one",
+                      "$choice",
+                      "label"
+                    ],
+                    ""
+                  ]
+                ],
+                "message": "WORLD-EMPTY: label must be nonempty."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "port": "record.fromEntries",
+        "args": {
+          "entries": [
+            "map",
+            "$places",
+            "place",
+            [
+              "list",
+              [
+                "one",
+                "$place",
+                "route"
+              ],
+              "$place"
+            ]
+          ]
+        },
+        "into": "routes"
+      },
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$routes"
+        },
+        "into": "uniqueRoutes"
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            "$places"
+          ],
+          [
+            "count",
+            "$uniqueRoutes"
+          ]
+        ],
+        "message": "WORLD-ROUTE: Duplicate place routes refuse."
+      },
+      {
+        "each": "$territories",
+        "as": "territory",
+        "steps": [
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$territory",
+                  "name"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: name must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$territory",
+                  "question"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: question must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$territory",
+                  "note"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: note must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$territory",
+                  "light"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: light must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$territory",
+                  "atlasSlug"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: atlasSlug must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$territory",
+                  "atlasNumber"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: atlasNumber must be nonempty."
+          },
+          {
+            "assert": [
+              "not",
+              [
+                "eq",
+                [
+                  "one",
+                  "$territory",
+                  "atlasImage"
+                ],
+                ""
+              ]
+            ],
+            "message": "WORLD-EMPTY: atlasImage must be nonempty."
+          },
+          {
+            "each": [
+              "objects",
+              "$territory",
+              "place"
+            ],
+            "as": "member",
+            "steps": [
+              {
+                "assert": [
+                  "includes",
+                  "$places",
+                  "$member"
+                ],
+                "message": "WORLD-TERRITORY: Unknown member place."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "template.document": [
+      {
+        "let": "input",
+        "value": [
+          "one",
+          "site",
+          "name"
+        ]
+      },
+      {
+        "call": "html.escape"
+      },
+      {
+        "port": "text.replaceAll",
+        "args": {
+          "value": "$document",
+          "search": "__WORLD_NAME__",
+          "replacement": "$result"
+        },
+        "into": "document"
+      }
+    ],
+    "template.activityData": [
+      {
+        "port": "file.copy",
+        "args": {
+          "path": "source/reader/activities.json"
+        },
+        "into": "_"
+      },
+      {
+        "port": "file.read",
+        "args": {
+          "path": "source/reader/activities.json"
+        },
+        "into": "activityText"
+      },
+      {
+        "port": "json.parse",
+        "args": {
+          "text": "$activityText"
+        },
+        "into": "templateActivities"
+      },
+      {
+        "call": "template.activities"
+      }
+    ],
+    "template.activities": [
+      {
+        "each": [
+          "subjects",
+          "isa",
+          "Place"
+        ],
+        "as": "activityPlace",
+        "steps": [
+          {
+            "when": [
+              "optional",
+              "$activityPlace",
+              "activity"
+            ],
+            "then": [
+              {
+                "let": "activityId",
+                "value": [
+                  "one",
+                  "$activityPlace",
+                  "activity"
+                ]
+              },
+              {
+                "port": "record.get",
+                "args": {
+                  "record": "$templateActivities.activities",
+                  "key": "$activityId"
+                },
+                "into": "activityDefinition"
+              },
+              {
+                "assert": [
+                  "not",
+                  [
+                    "eq",
+                    "$activityDefinition",
+                    null
+                  ]
+                ],
+                "message": "WORLD-ACTIVITY: Place.activity must name an owned source/reader/activities.json entry."
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "template.monogram": [
+      {
+        "let": "monogramValue",
+        "value": [
+          "optional",
+          "site",
+          "monogram"
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$monogramValue"
+        ],
+        "then": [
+          {
+            "port": "text.slice",
+            "args": {
+              "value": [
+                "one",
+                "site",
+                "name"
+              ],
+              "start": 0,
+              "end": 1
+            },
+            "into": "monogramValue"
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": "$monogramValue"
+      }
+    ]
+  }
+}

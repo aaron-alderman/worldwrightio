@@ -1,0 +1,669 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "microsite-lamp",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Every preset, identity, stale basis, false root, amendment, replay and forgery follows the retained proposal/witness semantics.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/microsite-lamp.process.json",
+    "sha256": "fc4d07d31f82924b36fb9a921229c0b2f5f93b84727b52b4884b58144feecd5b"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/microsite-lamp.process.json",
+    "sha256": "fc4d07d31f82924b36fb9a921229c0b2f5f93b84727b52b4884b58144feecd5b",
+    "queries": [
+      "lamp.availability",
+      "lamp.applyUnchecked",
+      "address.flip",
+      "lamp.buildProposal",
+      "lamp.checkCanonical",
+      "lamp.judge",
+      "lamp.namedCells",
+      "lamp.commit",
+      "lamp.propose",
+      "lamp.freshTemple",
+      "lamp.replay",
+      "lamp.forge"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [],
+    "queryFactReads": [],
+    "recordFieldReads": [
+      "$eventInput.configuration",
+      "$eventInput.configuration.limits",
+      "$eventInput.delta.consume",
+      "$eventInput.delta.create",
+      "$eventInput.id",
+      "$eventInput.ids",
+      "$eventInput.journal",
+      "$eventInput.mode",
+      "$eventInput.preset",
+      "$eventInput.proposal",
+      "$eventInput.publishedHead",
+      "$eventInput.recipe",
+      "$eventInput.registry",
+      "$eventInput.result.S1",
+      "$eventInput.result.S1root",
+      "$eventInput.result.accepted",
+      "$eventInput.result.witness.id",
+      "$eventInput.state.cells",
+      "$eventInput.successorId",
+      "$eventInput.temple",
+      "$eventInput.temple.state",
+      "$eventInput.world",
+      "$eventInput.world.genesis",
+      "$eventInput.world.registry"
+    ],
+    "configuration": [
+      {
+        "file": "source/microsites/temple/config.json",
+        "sha256": "49f449255184b60029c594f1d511a34bafa7d033b11cccbed960b736a182fc82",
+        "format": "json",
+        "topLevelKeys": [
+          "identities",
+          "presets",
+          "genesisCells",
+          "covenants",
+          "limits",
+          "operators",
+          "stages"
+        ]
+      },
+      {
+        "file": "source/microsites/sourcery/config.json",
+        "sha256": "2244e911122bfce6c40ad41b23e9ad811bd0e1f91743e55d37d13a0844e7f60c",
+        "format": "json",
+        "topLevelKeys": [
+          "stopWords",
+          "archetypes",
+          "events",
+          "templates",
+          "subjectPattern",
+          "refusalPattern",
+          "amountPattern"
+        ]
+      },
+      {
+        "file": "source/microsites/presentation.rel",
+        "sha256": "5c34a82aaefc7e17242e9bbe8d00ffc4395de5b0f0d50252be2f84a1a53698a2",
+        "format": "rel"
+      },
+      {
+        "file": "source/microsites/release.rel",
+        "sha256": "c8aaedf9256c9ee3900f1b66ee639dee982c4ab4ba8a140d1090f644ba30ece5",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [],
+  "dynamicDispatch": [
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.findCell"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "record.remove"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.cellId"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.findCell"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.findCell"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.findCell"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.cellsByKey"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.applyUnchecked"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.stateRoot"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.flip"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.is"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.checkCanonical"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.encode"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "record.remove"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.cellId"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.stateRoot"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "address.short"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.namedCells"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.namedCells"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.evaluate"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.evaluate"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.measure"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.buildProposal"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.judge"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.commit"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.freshTemple"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "canonical.identify"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.judge"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.commit"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.freshTemple"
+    },
+    {
+      "kind": "kernel.invoke",
+      "entry": null,
+      "query": "lamp.propose"
+    }
+  ],
+  "effects": {
+    "ports": [
+      "json.stringify",
+      "kernel.invoke",
+      "number.calculate",
+      "number.parse",
+      "record.fromEntries",
+      "record.get",
+      "record.put",
+      "text.join",
+      "text.matches",
+      "text.replace",
+      "text.slice",
+      "text.split",
+      "text.trim",
+      "text.utf8Length",
+      "value.type"
+    ],
+    "grantProfiles": {
+      "build": [
+        "value.type",
+        "record.fromEntries",
+        "record.put",
+        "record.get",
+        "text.split",
+        "text.trim",
+        "text.matches",
+        "json.stringify",
+        "text.slice",
+        "text.join"
+      ],
+      "worker": [
+        "value.type",
+        "record.get",
+        "text.trim",
+        "text.matches"
+      ],
+      "compilation": [
+        "text.trim",
+        "text.matches",
+        "text.split",
+        "json.stringify"
+      ],
+      "reflection": [
+        "json.stringify"
+      ],
+      "micrositesBrowser": [
+        "json.stringify",
+        "kernel.invoke",
+        "number.calculate",
+        "number.parse",
+        "record.fromEntries",
+        "record.get",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.replace",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "text.utf8Length",
+        "value.type"
+      ],
+      "encounterBrowser": [
+        "json.stringify",
+        "kernel.invoke",
+        "record.fromEntries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.type"
+      ],
+      "atlasBrowser": [
+        "text.split",
+        "text.join"
+      ],
+      "readerBrowser": [
+        "json.stringify",
+        "kernel.invoke",
+        "record.fromEntries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.type",
+        "number.calculate",
+        "number.parse",
+        "record.get",
+        "text.replace",
+        "text.utf8Length"
+      ],
+      "activityBrowser": [
+        "json.stringify",
+        "kernel.invoke",
+        "record.fromEntries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.type",
+        "number.calculate",
+        "number.parse",
+        "record.get",
+        "text.replace",
+        "text.utf8Length"
+      ],
+      "workshopBrowser": [
+        "json.stringify",
+        "kernel.invoke",
+        "record.fromEntries",
+        "record.put",
+        "text.join",
+        "text.matches",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.type",
+        "number.calculate",
+        "number.parse",
+        "record.get",
+        "text.replace",
+        "text.utf8Length"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [],
+    "copyExpressions": [],
+    "bundledRuntimes": [
+      {
+        "path": "sourcery/runtime.js",
+        "sha256": "01318d46ecafc21d97aa42c63454d6cf4cb39b26f91a8a215bdb93777926e8b6",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "lamp.availability",
+          "lamp.applyUnchecked",
+          "address.flip",
+          "lamp.buildProposal",
+          "lamp.checkCanonical",
+          "lamp.judge",
+          "lamp.namedCells",
+          "lamp.commit",
+          "lamp.propose",
+          "lamp.freshTemple",
+          "lamp.replay",
+          "lamp.forge"
+        ]
+      },
+      {
+        "path": "temple/runtime.js",
+        "sha256": "ab2b026a95d5a734a4bd721476eeaee25e91ed4175d22cb6ab7707ec044f0ebf",
+        "entry": "microsite.boot",
+        "grants": [
+          "asset.blobURL",
+          "asset.json",
+          "browser.attribute",
+          "browser.cancel",
+          "browser.class",
+          "browser.content",
+          "browser.environment",
+          "browser.focus",
+          "browser.fontsReady",
+          "browser.frame",
+          "browser.insert",
+          "browser.intersection",
+          "browser.mediaQuery",
+          "browser.on",
+          "browser.read",
+          "browser.reflow",
+          "browser.relative",
+          "browser.remove",
+          "browser.replace",
+          "browser.scrollIntoView",
+          "browser.select",
+          "browser.style",
+          "browser.timer",
+          "browser.unobserve",
+          "browser.write",
+          "canvas.draw",
+          "clock.read",
+          "digest.sha256",
+          "image.rasterize",
+          "json.parse",
+          "json.stringify",
+          "kernel.invoke",
+          "media.load",
+          "media.pause",
+          "media.play",
+          "media.read",
+          "media.write",
+          "number.calculate",
+          "number.format",
+          "number.parse",
+          "random.values",
+          "record.entries",
+          "record.fromEntries",
+          "record.get",
+          "record.put",
+          "state.get",
+          "state.set",
+          "text.indexOf",
+          "text.join",
+          "text.lowerCase",
+          "text.match",
+          "text.matchAll",
+          "text.matches",
+          "text.replace",
+          "text.replaceAll",
+          "text.slice",
+          "text.split",
+          "text.trim",
+          "text.upperCase",
+          "text.utf8Length",
+          "value.describe",
+          "value.sort",
+          "value.string",
+          "value.type"
+        ],
+        "budget": 20000000,
+        "includedQueries": [
+          "lamp.availability",
+          "lamp.applyUnchecked",
+          "address.flip",
+          "lamp.buildProposal",
+          "lamp.checkCanonical",
+          "lamp.judge",
+          "lamp.namedCells",
+          "lamp.commit",
+          "lamp.propose",
+          "lamp.freshTemple",
+          "lamp.replay",
+          "lamp.forge"
+        ]
+      }
+    ],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/microsite-lamp.process.json"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "microsite-fidelity.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "Every preset, identity, stale basis, false root, amendment, replay and forgery follows the retained proposal/witness semantics.",
+        "sha256": "c05d343ad3123bc7fff1e9580d9bfba4e162436cce286a383ace7fd3e8127596"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

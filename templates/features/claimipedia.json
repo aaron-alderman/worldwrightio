@@ -1,0 +1,267 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "claimipedia",
+  "status": "portable-in-expedition-composition",
+  "purpose": "The compiled review semantics remain executable for distinct evidence selections.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/claimipedia.process.json",
+    "sha256": "dc74ccf8e8e81b15cd05178dd33b140999e28a4398130959f54a8f3f1f6ff173"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/claimipedia.process.json",
+    "sha256": "222440b6f4698b57b23a329824ae3cbc52c9c41be74da81ae8998ead1feae8a9",
+    "queries": [
+      "claimipedia.build"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [],
+  "inputs": {
+    "factSources": [
+      "source/atlas.rel",
+      "source/claimipedia-example.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "one",
+        "subject": "claimipedia.example",
+        "predicate": "configuration",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "origin",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.claimipedia",
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.claimipedia",
+        "predicate": "description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.claimipedia",
+        "predicate": "image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.claimipedia",
+        "predicate": "alt",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.claimipedia",
+        "predicate": "width",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.claimipedia",
+        "predicate": "height",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "sharing.claimipedia",
+        "predicate": "type",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "gateway",
+        "predicate": "route",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "name",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [],
+    "configuration": [
+      {
+        "file": "source/claimipedia-example.rel",
+        "sha256": "d95f26dcb518bc5cc9aeef306f648ab3d261429634052d7d4ec59ddec08e49e9",
+        "format": "rel"
+      },
+      {
+        "file": "source/claimipedia-example.json",
+        "sha256": "e032cab823d4364abe0939870c6342e703bbc244e14ff3d0e35b1caa97a41f5a",
+        "format": "json",
+        "topLevelKeys": [
+          "claim",
+          "scope",
+          "claimVersion",
+          "evidence",
+          "methods"
+        ]
+      },
+      {
+        "file": "source/claimipedia.rel",
+        "sha256": "d839cea6b9dd0b72bb254584be4095032fa90f71f3c40055eb6e24ac4d105879",
+        "format": "rel"
+      }
+    ],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/publication.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "file.write",
+      "json.parse",
+      "runtime.bundle"
+    ],
+    "grantProfiles": {
+      "build": [
+        "file.write",
+        "runtime.bundle",
+        "json.parse"
+      ],
+      "compilation": [
+        "json.parse"
+      ],
+      "micrositesBrowser": [
+        "json.parse"
+      ],
+      "encounterBrowser": [
+        "json.parse"
+      ],
+      "readerBrowser": [
+        "json.parse"
+      ],
+      "activityBrowser": [
+        "json.parse"
+      ],
+      "workshopBrowser": [
+        "json.parse"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [
+      "claimipedia/runtime.js",
+      "claimipedia/claimipedia.css",
+      "claimipedia/mark.svg",
+      "claimipedia/index.html"
+    ],
+    "copyExpressions": [],
+    "bundledRuntimes": [],
+    "declaredRuntimeSelections": [
+      {
+        "entry": "claim.review.boot",
+        "mode": "browser",
+        "grantProfile": "micrositesBrowser",
+        "queries": [
+          "list",
+          "claim.review.item",
+          "claim.review.method",
+          "claim.review.compare",
+          "claim.review.html",
+          "claim.review.boot",
+          "claim.review.change",
+          "claim.review.reset",
+          "claim.review.render",
+          "html.escape",
+          "html.serialize",
+          "html.observe",
+          "html.inspect",
+          "html.cssText"
+        ],
+        "factSubjects": [
+          "append",
+          [
+            "list"
+          ],
+          [
+            "list",
+            "site"
+          ]
+        ],
+        "data": {
+          "configuration": "$claimConfiguration"
+        },
+        "budget": 20000000
+      }
+    ]
+  },
+  "correction": {
+    "owners": [
+      "algebra/claimipedia.process.json",
+      "source/atlas.rel",
+      "source/claimipedia-example.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "claimipedia-review.test.mjs",
+        "kind": "bounded-oracle-correspondence",
+        "obligation": "The compiled review semantics remain executable for distinct evidence selections.",
+        "sha256": "76efa0f36ca28e7b93ecaa6ad7aa2e28088fb02a95044f373b0552f6c1060e33"
+      },
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "Project the review document, configured source data and admitted runtime.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

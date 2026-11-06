@@ -1,0 +1,1576 @@
+{
+  "protocol": "worldwright/reusable-feature/2",
+  "id": "publication",
+  "status": "portable-in-expedition-composition",
+  "purpose": "Recompose a configured world, validate local resources and metadata, preserve input identity and bounded execution.",
+  "scope": {
+    "composition": "templates/expedition",
+    "installation": "Create the complete expedition template; its modules share a declared fact/runtime closure.",
+    "independentModuleInstallation": false
+  },
+  "reference": {
+    "file": "reference/algebra/publication.process.json",
+    "sha256": "877d2bf0ab5ce3555b4022a2dc428c9c5cc3a38b70c7bbc9bbef97b19415cae3"
+  },
+  "implementation": {
+    "file": "templates/expedition/algebra/publication.process.json",
+    "sha256": "1e302dc5ea1e00368e82210a3402dd149576eb15fc93ee38a919412c0ce3064f",
+    "queries": [
+      "publication.build",
+      "publication.styles",
+      "publication.document",
+      "publication.home",
+      "publication.place",
+      "publication.motion",
+      "publication.icon"
+    ],
+    "operators": [],
+    "selectedBy": "bootstrap/site.json#modules"
+  },
+  "types": [
+    {
+      "name": "Entrance",
+      "instanceCount": 3,
+      "owners": [
+        "source/expedition.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "destination",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "name",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "note",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "number",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "question",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "symbol",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "MicrositeDocument",
+      "instanceCount": 4,
+      "owners": [
+        "source/microsites/presentation.rel",
+        "source/social-sharing.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "canonical",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "early",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:description",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:image",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:image:alt",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:type",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "og:url",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "oracle",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "path",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "root",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "runtime",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "sharing",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "site",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:card",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:description",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:image",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "twitter:title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "Motion",
+      "instanceCount": 2,
+      "owners": [
+        "source/atlas.rel",
+        "source/presentation.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "frame",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 2
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "name",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "Place",
+      "instanceCount": 40,
+      "owners": [
+        "source/atlas.rel",
+        "source/expedition.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "activity",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "atlasLabel",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "chapter",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "choice",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 3,
+            "max": 5
+          }
+        },
+        {
+          "predicate": "experience",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "fullParagraph",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 4
+          }
+        },
+        {
+          "predicate": "instruction",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "lead",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "light",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapTipAbove",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapX",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "mapY",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "paragraph",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 3
+          }
+        },
+        {
+          "predicate": "pause",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "personal",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "region",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "route",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "slug",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "source",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "supplement",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "word",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 3
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "PublicationAsset",
+      "instanceCount": 177,
+      "owners": [
+        "source/assets.rel",
+        "source/atlas.rel",
+        "source/claimipedia.rel",
+        "source/front-doors.rel",
+        "source/microsites/presentation.rel",
+        "source/social-sharing.rel",
+        "source/template-presentation.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "legacyAlias",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "path",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "SourceNote",
+      "instanceCount": 29,
+      "owners": [
+        "source/expedition.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "href",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "kind",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "note",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "originalTitle",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "paragraph",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 2,
+            "max": 2
+          }
+        },
+        {
+          "predicate": "title",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "StandalonePage",
+      "instanceCount": 8,
+      "owners": [
+        "source/atlas.rel",
+        "source/front-doors.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "canonical",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    },
+    {
+      "name": "StyleRule",
+      "instanceCount": 607,
+      "owners": [
+        "source/atlas.rel",
+        "source/claimipedia.rel",
+        "source/encounter.rel",
+        "source/front-doors.rel",
+        "source/gateway-presentation.rel",
+        "source/presentation.rel",
+        "source/template-presentation.rel"
+      ],
+      "predicates": [
+        {
+          "predicate": "context",
+          "valueType": "string",
+          "presentOnEveryInstance": false,
+          "observedCardinality": {
+            "min": 0,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "declaration",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 16
+          }
+        },
+        {
+          "predicate": "isa",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "projection",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        },
+        {
+          "predicate": "selector",
+          "valueType": "string",
+          "presentOnEveryInstance": true,
+          "observedCardinality": {
+            "min": 1,
+            "max": 1
+          }
+        }
+      ],
+      "boundary": "These counts and cardinalities describe this captured instance only. They are not required counts or schema constraints for a new world. Semantic admission and explicit module assertions remain controlling."
+    }
+  ],
+  "inputs": {
+    "factSources": [
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "queryFactReads": [
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Place"
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "PublicationAsset"
+      },
+      {
+        "operation": "one",
+        "subject": "$asset",
+        "predicate": "path",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$asset",
+        "predicate": "legacyAlias",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$asset",
+        "predicate": "legacyAlias",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "headline",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "description",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "origin",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "lead",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "route",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "light",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$sitemapPlace",
+        "predicate": "route",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "MicrositeDocument"
+      },
+      {
+        "operation": "one",
+        "subject": "$document",
+        "predicate": "canonical",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "StandalonePage"
+      },
+      {
+        "operation": "one",
+        "subject": "$page",
+        "predicate": "canonical",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "SourceNote"
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "StyleRule"
+      },
+      {
+        "operation": "one",
+        "subject": "$rule",
+        "predicate": "projection",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$rule",
+        "predicate": "selector",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$rule",
+        "predicate": "context",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$rule",
+        "predicate": "declaration",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$decl",
+        "predicate": "property",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$decl",
+        "predicate": "value",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "imageAlt",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "stylesheetVersion",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "site",
+        "predicate": "imageWidth",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "imageWidth",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "site",
+        "predicate": "imageHeight",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "imageHeight",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "site",
+        "predicate": "imageType",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "imageType",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "about",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "repository",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "site",
+        "predicate": "repositoryLabel",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "social",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "site",
+        "predicate": "socialLabel",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "purpose",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Entrance"
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$entrance",
+          "destination"
+        ],
+        "predicate": "slug",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$entrance",
+        "predicate": "destination",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$entrance",
+          "destination"
+        ],
+        "predicate": "light",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$entrance",
+        "predicate": "number",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$entrance",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$entrance",
+        "predicate": "symbol",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$entrance",
+        "predicate": "question",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$entrance",
+        "predicate": "note",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "atlas",
+        "predicate": "image",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "atlasImageAlt",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "atlasInvitation",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "chapter",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "region",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$place",
+        "predicate": "category",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$place",
+        "predicate": "activity",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "activity",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": [
+          "one",
+          "$place",
+          "source"
+        ],
+        "predicate": "paragraph",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "source",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$place",
+        "predicate": "personal",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$place",
+        "predicate": "paragraph",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$place",
+        "predicate": "instruction",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "instruction",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$place",
+        "predicate": "word",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$word",
+        "predicate": "label",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$word",
+        "predicate": "meaning",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$place",
+        "predicate": "fullParagraph",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$place",
+          "source"
+        ],
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$place",
+          "source"
+        ],
+        "predicate": "kind",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$place",
+          "source"
+        ],
+        "predicate": "originalTitle",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$place",
+          "source"
+        ],
+        "predicate": "note",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": [
+          "one",
+          "$place",
+          "source"
+        ],
+        "predicate": "href",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$place",
+          "source"
+        ],
+        "predicate": "href",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "site",
+        "predicate": "accountNote",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$place",
+        "predicate": "supplement",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$supplement",
+        "predicate": "title",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$supplement",
+        "predicate": "kind",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$supplement",
+        "predicate": "paragraph",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$supplement",
+        "predicate": "originalTitle",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$supplement",
+        "predicate": "note",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$supplement",
+        "predicate": "href",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$supplement",
+        "predicate": "href",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$place",
+        "predicate": "pause",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "pause",
+        "object": null
+      },
+      {
+        "operation": "optional",
+        "subject": "$place",
+        "predicate": "experience",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$place",
+        "predicate": "choice",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$choice",
+          "destination"
+        ],
+        "predicate": "slug",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$choice",
+        "predicate": "destination",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$choice",
+          "destination"
+        ],
+        "predicate": "light",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$choice",
+        "predicate": "kind",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$choice",
+        "predicate": "label",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": [
+          "one",
+          "$choice",
+          "destination"
+        ],
+        "predicate": "lead",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$place",
+        "predicate": "slug",
+        "object": null
+      },
+      {
+        "operation": "subjects",
+        "subject": null,
+        "predicate": "isa",
+        "object": "Motion"
+      },
+      {
+        "operation": "one",
+        "subject": "$motion",
+        "predicate": "name",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$motion",
+        "predicate": "frame",
+        "object": null
+      },
+      {
+        "operation": "one",
+        "subject": "$frame",
+        "predicate": "selector",
+        "object": null
+      },
+      {
+        "operation": "objects",
+        "subject": "$frame",
+        "predicate": "declaration",
+        "object": null
+      }
+    ],
+    "recordFieldReads": [],
+    "configuration": [],
+    "sourceClosure": "context/extraction.json#/sourceComposition"
+  },
+  "dependencies": [
+    {
+      "file": "templates/expedition/algebra/atlas.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/css.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/encounter.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/front-doors.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/gateway.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/html.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/microsites.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/reader-workshop-publication.process.json",
+      "bridge": "calls",
+      "required": true
+    },
+    {
+      "file": "templates/expedition/algebra/template.process.json",
+      "bridge": "calls",
+      "required": true
+    }
+  ],
+  "dynamicDispatch": [],
+  "effects": {
+    "ports": [
+      "file.copy",
+      "file.read",
+      "file.remove",
+      "file.write",
+      "text.matches"
+    ],
+    "grantProfiles": {
+      "build": [
+        "text.matches",
+        "file.write",
+        "file.read",
+        "file.copy",
+        "file.remove"
+      ],
+      "worker": [
+        "text.matches"
+      ],
+      "compilation": [
+        "text.matches"
+      ],
+      "micrositesBrowser": [
+        "text.matches"
+      ],
+      "encounterBrowser": [
+        "text.matches"
+      ],
+      "readerBrowser": [
+        "text.matches"
+      ],
+      "activityBrowser": [
+        "text.matches"
+      ],
+      "workshopBrowser": [
+        "text.matches"
+      ]
+    },
+    "authoringGrants": [],
+    "authority": "Profiles are selected at the declared build/browser/authoring boundary; catalogue membership grants no effects."
+  },
+  "projections": {
+    "writeExpressions": [
+      [
+        "one",
+        "$asset",
+        "legacyAlias"
+      ],
+      "expedition.css",
+      "activity.css",
+      "index.html",
+      [
+        "one",
+        "$place",
+        "route"
+      ],
+      "robots.txt",
+      "sitemap.xml",
+      "assets/personal-mark.svg"
+    ],
+    "copyExpressions": [
+      [
+        "one",
+        "$asset",
+        "path"
+      ]
+    ],
+    "bundledRuntimes": [],
+    "declaredRuntimeSelections": []
+  },
+  "correction": {
+    "owners": [
+      "algebra/publication.process.json",
+      "source/assets.rel",
+      "source/atlas.rel",
+      "source/claimipedia.rel",
+      "source/encounter.rel",
+      "source/expedition.rel",
+      "source/front-doors.rel",
+      "source/gateway-presentation.rel",
+      "source/gateway.rel",
+      "source/microsites/presentation.rel",
+      "source/presentation.rel",
+      "source/social-sharing.rel",
+      "source/template-presentation.rel",
+      "source/world.rel"
+    ],
+    "route": "Edit canonical facts/process or use the checked authoring proposal path. Rebuild and verify the forward projection; no inferred universal inverse.",
+    "preserves": [
+      "20,000,000-step kernel budget",
+      "Explicit native-port admission",
+      "Source identity and attribution",
+      "Unrelated source owners"
+    ]
+  },
+  "verification": {
+    "structural": "node tooling/verify-features.mjs --check",
+    "behavioral": [
+      {
+        "file": "expedition.test.mjs",
+        "kind": "native-publication",
+        "obligation": "Recompose a configured world, validate local resources and metadata, preserve input identity and bounded execution.",
+        "sha256": "325fde07f24385bc28d802694bc9de10f3f7b16ad837a04fec0104a30abe60df"
+      },
+      {
+        "file": "resource-paths.test.mjs",
+        "kind": "publication-resource-graph",
+        "obligation": "Resolve every emitted application href/src/poster and CSS resource against the actual document base; reject absent resources, invalid fragments and hosted-subpath escapes.",
+        "sha256": "e788aca3cea1612beb3de63c89a5576a060a1f0191b3c8e7f7e181afbd9d445f"
+      }
+    ],
+    "browserBoundary": "Headless effect fixtures test actual process decisions and captured effects; browser rendering/media interaction requires the separately recorded browser trial."
+  },
+  "missing": [],
+  "evidenceFamily": "worldwright-feature-extraction-2026-11-06"
+}

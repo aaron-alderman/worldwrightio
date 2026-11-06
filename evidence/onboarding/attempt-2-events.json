@@ -1,0 +1,18 @@
+{
+  "snapshot": "repository-corrected/snapshot.json",
+  "snapshotSha256": "de9c7127c1a58dfa1b37e8238302f6e631fe90a6a5a38676a7da0b168bd5913b",
+  "verifiedManifestFiles": 447,
+  "manifestMismatches": [],
+  "creation": "node tooling/create-world.mjs ../tidepool-world --template expedition (repository-corrected)",
+  "overlay": ["node reapply-authored-content.mjs", "node adapt-feature-links.mjs"],
+  "frameworkEditsByTrialAgent": [],
+  "build": "node tidepool-world/build.mjs > build-final.log 2>&1; exit 0",
+  "suite": {"command":"node --test template.test.mjs authoring-native.test.mjs > ../tests-final.log 2>&1","tests":58,"passed":56,"failed":2,"durationMs":138951.7375,"failures":["resource audit: retained capability CTAs point to retired initial places; Claimipedia process points to removed path-claimipedia; authored gateway.book mistakenly reader/index.html","native authoring candidate refused because same resource audit failed"]},
+  "sourceRepair": "Authored capability.*.links JSON facts in source/front-doors.rel to new coastal places and declared doors; corrected own gateway.book to reader.html. No process patched. Generic Claimipedia link repair escalated to parent.",
+  "operatorRecoveries": ["First directory-preservation command based paths on repository-corrected cwd instead of parent; source absent, CLI destination-exists refusal; no mutation.","Corrected directory move blocked by running preview server holding Windows cwd. Stopped preview39543 and accidental old rebuild29587, then preserved attempt1 and recreated successfully.","Get-CimInstance Win32_Process and Get-NetTCPConnection PID inspection denied; new server wrapper prints PID directly.","One atlas accessibility-index click produced no navigation; fresh state and semantic Playwright link click succeeded.","Uppercase Coastal learning trail regex matched no DOM links because accessible label uses mixed case; /Continue to/ matched.","Unsupported getByRole level option was ignored, producing strict3heading match; switched to observed first heading.","Immediate DOM snapshot before lazy iframe finished returned false for fictionalExercise at return-bench; subsequent AX state explicitly showed its authored exercise text."],
+  "browser": ["Home visible headline/description/newmonogram T/footer and source repository correct (home-final.png).","Atlas Browse places click reached #foreshore; traversed wrack-line, pool-window, shell-table, echo-cove, notebook-quay, revision-shed, return-bench with authored exercises; no READER-PLACE. Atlas7of7seen reset0of7 (atlas-final-reset.png, place-final.png).","Reader Skip focuses content and stays reader.html#wrack-line; compare search1 result click stays reader.html#shell-table. Notes show7fictional source notes and explicit attribution (reader-final-notes.png).","Styled /workshop accepted Tidepool revision title, story/row updated; backlink reader.html#home works (workshop-final.png).","Encounter footer now within Tidepool Commons and explicit Original demonstration Aaron Alderman link; repeated accepted title Tidepool source trace, empty EC-T007 preserving it, Reset What happened."],
+  "minorRemainingBeforeParentRefinement": ["Reader home still says A PERSONAL EXPEDITION.","Notes dialog keeps stale1matchingplaces searchstatus."],
+  "parentRefinement": "Parent transferred shared reader-navigation.process.json and reader-navigation.test.mjs with reader-refinement-transfer.json receipt, then agreed final source-only repository recreation will supersede transfers.",
+  "preview": {"url":"http://127.0.0.1:4187/","session":98537,"pid":29676},
+  "status": "Awaiting repository-final snapshot after generic Claimipedia link repair; final full suite and direct accepted-world checked CLI still pending."
+}
