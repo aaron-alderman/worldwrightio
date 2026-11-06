@@ -3,12 +3,15 @@
   "version": "0.3.0",
   "private": true,
   "type": "module",
-  "engines": {"node": ">=22"},
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "node tooling/build.mjs",
     "test": "node tooling/qualify.mjs",
     "verify:features": "node tooling/verify-features.mjs --check",
     "new": "node tooling/create-world.mjs",
     "dev": "node tooling/serve.mjs"
-  }
+  },
+  "license": "SEE LICENSE IN LICENSE.md"
 }

@@ -49,3 +49,5 @@ The hub renderer is an explicit native publisher; the world templates execute
 Temple algebra. The separate-agent trial tests transfer within this task/model
 family. Human usability, full hub self-hosting and capabilities beyond the
 bounded initial feature set remain separate questions.
+
+Repository care: [licensing](LICENSE.md), [Christian stewardship covenant](CHRISTIAN_STEWARDSHIP_COVENANT.md), and [source/evidence hygiene](STEWARDSHIP.md).
