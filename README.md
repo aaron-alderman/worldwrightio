@@ -69,4 +69,8 @@ node --input-type=module -e "import { readFacts } from './tooling/module-source.
 
 The [Worldwright Unified application](applications/worldwright-unified/README.md) provides the
 Expedition, Workshop and other app views in a standalone source package.
-Run `npm --prefix applications/worldwright-unified test` to verify it.
+Set `WORLDWRIGHT_ENCOUNTER_LIBRARY` to the absolute path to
+`applications/encounter-libraries/worldwright-source.cjs` in an Encounter
+Platform checkout. This compiler is shared with the hub build. Run
+`npm --prefix applications/worldwright-unified run build` followed by
+`npm --prefix applications/worldwright-unified test`.
