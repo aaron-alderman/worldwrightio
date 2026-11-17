@@ -1,0 +1,3123 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "sourceBasis": "worldwright-observation-inspection-design/1",
+  "queries": {
+    "inspection.recordShape": [
+      {
+        "port": "value.describe",
+        "args": {
+          "value": [
+            "at",
+            "$eventInput",
+            "value"
+          ]
+        },
+        "into": "description"
+      },
+      {
+        "let": "result",
+        "value": false
+      },
+      {
+        "when": [
+          "and",
+          [
+            "at",
+            "$description",
+            "plain"
+          ],
+          [
+            "at",
+            "$description",
+            "dataOnly"
+          ]
+        ],
+        "then": [
+          {
+            "port": "record.entries",
+            "args": {
+              "value": [
+                "at",
+                "$eventInput",
+                "value"
+              ]
+            },
+            "into": "entries"
+          },
+          {
+            "let": "keys",
+            "value": [
+              "map",
+              "$entries",
+              "entry",
+              [
+                "at",
+                "$entry",
+                0
+              ]
+            ]
+          },
+          {
+            "let": "result",
+            "value": [
+              "and",
+              [
+                "every",
+                "$keys",
+                "key",
+                [
+                  "includes",
+                  [
+                    "at",
+                    "$eventInput",
+                    "keys"
+                  ],
+                  "$key"
+                ]
+              ],
+              [
+                "every",
+                [
+                  "at",
+                  "$eventInput",
+                  "required"
+                ],
+                "key",
+                [
+                  "includes",
+                  "$keys",
+                  "$key"
+                ]
+              ]
+            ]
+          }
+        ]
+      }
+    ],
+    "inspection.literal": [
+      {
+        "let": "raw",
+        "value": [
+          "at",
+          "$eventInput",
+          "text"
+        ]
+      },
+      {
+        "let": "decoded",
+        "value": null
+      },
+      {
+        "let": "error",
+        "value": null
+      },
+      {
+        "port": "text.matches",
+        "args": {
+          "value": "$raw",
+          "pattern": "^\"(?:[^\"\\\\\\u0000-\\u001f]|\\\\(?:[\"\\\\/bfnrt]|u[0-9a-fA-F]{4}))*\"$"
+        },
+        "into": "doubleValid"
+      },
+      {
+        "port": "text.matches",
+        "args": {
+          "value": "$raw",
+          "pattern": "^'(?:[^'\\\\\\u0000-\\u001f]|\\\\(?:['\"\\\\/bfnrt]|u[0-9a-fA-F]{4}))*'$"
+        },
+        "into": "singleValid"
+      },
+      {
+        "when": [
+          "and",
+          [
+            "not",
+            "$error"
+          ],
+          [
+            "not",
+            [
+              "or",
+              "$doubleValid",
+              "$singleValid"
+            ]
+          ]
+        ],
+        "then": [
+          {
+            "let": "error",
+            "value": {
+              "kind": "inspection-refusal",
+              "code": "ENC-INSP-BINDING",
+              "message": "Unsupported source string literal"
+            }
+          }
+        ]
+      },
+      {
+        "let": "jsonText",
+        "value": "$raw"
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "when": "$singleValid",
+            "then": [
+              {
+                "port": "text.slice",
+                "args": {
+                  "value": "$raw",
+                  "start": 1,
+                  "end": [
+                    "add",
+                    [
+                      "count",
+                      "$raw"
+                    ],
+                    -1
+                  ]
+                },
+                "into": "inner"
+              },
+              {
+                "fold": [
+                  "range",
+                  [
+                    "count",
+                    "$inner"
+                  ]
+                ],
+                "as": "oneIndex",
+                "accumulator": "literalState",
+                "initial": {
+                  "out": "\"",
+                  "escaped": false
+                },
+                "steps": [
+                  {
+                    "let": "charIndex",
+                    "value": [
+                      "add",
+                      "$oneIndex",
+                      -1
+                    ]
+                  },
+                  {
+                    "port": "text.slice",
+                    "args": {
+                      "value": "$inner",
+                      "start": "$charIndex",
+                      "end": "$oneIndex"
+                    },
+                    "into": "character"
+                  },
+                  {
+                    "let": "out",
+                    "value": [
+                      "at",
+                      "$literalState",
+                      "out"
+                    ]
+                  },
+                  {
+                    "let": "escaped",
+                    "value": [
+                      "at",
+                      "$literalState",
+                      "escaped"
+                    ]
+                  },
+                  {
+                    "let": "piece",
+                    "value": ""
+                  },
+                  {
+                    "let": "nextEscaped",
+                    "value": false
+                  },
+                  {
+                    "when": "$escaped",
+                    "then": [
+                      {
+                        "let": "piece",
+                        "value": [
+                          "if",
+                          [
+                            "eq",
+                            "$character",
+                            "'"
+                          ],
+                          "'",
+                          [
+                            "concat",
+                            "\\",
+                            "$character"
+                          ]
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "when": [
+                      "not",
+                      "$escaped"
+                    ],
+                    "then": [
+                      {
+                        "let": "piece",
+                        "value": [
+                          "if",
+                          [
+                            "eq",
+                            "$character",
+                            "\\"
+                          ],
+                          "",
+                          [
+                            "if",
+                            [
+                              "eq",
+                              "$character",
+                              "\""
+                            ],
+                            "\\\"",
+                            "$character"
+                          ]
+                        ]
+                      },
+                      {
+                        "let": "nextEscaped",
+                        "value": [
+                          "eq",
+                          "$character",
+                          "\\"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "yield": {
+                  "out": [
+                    "concat",
+                    "$out",
+                    "$piece"
+                  ],
+                  "escaped": "$nextEscaped"
+                },
+                "into": "literalState"
+              },
+              {
+                "let": "jsonText",
+                "value": [
+                  "concat",
+                  [
+                    "at",
+                    "$literalState",
+                    "out"
+                  ],
+                  "\""
+                ]
+              }
+            ]
+          },
+          {
+            "port": "json.parse",
+            "args": {
+              "text": "$jsonText"
+            },
+            "into": "decoded"
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "ok": [
+            "not",
+            "$error"
+          ],
+          "value": [
+            "if",
+            "$error",
+            null,
+            [
+              "at",
+              {
+                "value": "$decoded"
+              },
+              "value"
+            ]
+          ],
+          "error": "$error"
+        }
+      }
+    ],
+    "inspection.sourceSpan": [
+      {
+        "let": "source",
+        "value": [
+          "at",
+          "$eventInput",
+          "source"
+        ]
+      },
+      {
+        "let": "excerpts",
+        "value": [
+          "at",
+          "$eventInput",
+          "excerpts"
+        ]
+      },
+      {
+        "let": "error",
+        "value": null
+      },
+      {
+        "let": "text",
+        "value": ""
+      },
+      {
+        "let": "matches",
+        "value": [
+          "filter",
+          "$excerpts",
+          "excerpt",
+          [
+            "and",
+            [
+              "eq",
+              [
+                "at",
+                [
+                  "at",
+                  "$excerpt",
+                  "source"
+                ],
+                "file"
+              ],
+              [
+                "at",
+                "$source",
+                "file"
+              ]
+            ],
+            [
+              "eq",
+              [
+                "at",
+                [
+                  "at",
+                  "$excerpt",
+                  "source"
+                ],
+                "fileSha256"
+              ],
+              [
+                "at",
+                "$source",
+                "fileSha256"
+              ]
+            ],
+            [
+              "eq",
+              [
+                "at",
+                [
+                  "at",
+                  "$excerpt",
+                  "source"
+                ],
+                "revision"
+              ],
+              [
+                "at",
+                "$source",
+                "revision"
+              ]
+            ]
+          ]
+        ]
+      },
+      {
+        "fold": "$matches",
+        "as": "excerpt",
+        "accumulator": "spanState",
+        "initial": {
+          "found": false,
+          "text": ""
+        },
+        "steps": [
+          {
+            "let": "base",
+            "value": [
+              "at",
+              "$excerpt",
+              "source"
+            ]
+          },
+          {
+            "let": "start",
+            "value": [
+              "add",
+              [
+                "at",
+                "$source",
+                "startUtf16"
+              ],
+              [
+                "concat",
+                "-",
+                [
+                  "at",
+                  "$base",
+                  "startUtf16"
+                ]
+              ]
+            ]
+          },
+          {
+            "let": "end",
+            "value": [
+              "add",
+              [
+                "at",
+                "$source",
+                "endUtf16Exclusive"
+              ],
+              [
+                "concat",
+                "-",
+                [
+                  "at",
+                  "$base",
+                  "startUtf16"
+                ]
+              ]
+            ]
+          },
+          {
+            "let": "valid",
+            "value": [
+              "and",
+              [
+                "includes",
+                [
+                  "range",
+                  [
+                    "add",
+                    [
+                      "count",
+                      [
+                        "at",
+                        "$excerpt",
+                        "text"
+                      ]
+                    ],
+                    1
+                  ]
+                ],
+                [
+                  "add",
+                  "$start",
+                  1
+                ]
+              ],
+              [
+                "includes",
+                [
+                  "range",
+                  [
+                    "add",
+                    [
+                      "count",
+                      [
+                        "at",
+                        "$excerpt",
+                        "text"
+                      ]
+                    ],
+                    1
+                  ]
+                ],
+                [
+                  "add",
+                  "$end",
+                  1
+                ]
+              ]
+            ]
+          },
+          {
+            "when": "$valid",
+            "then": [
+              {
+                "let": "valid",
+                "value": [
+                  "includes",
+                  [
+                    "range",
+                    [
+                      "add",
+                      "$end",
+                      1
+                    ]
+                  ],
+                  [
+                    "add",
+                    "$start",
+                    1
+                  ]
+                ]
+              }
+            ]
+          },
+          {
+            "let": "candidate",
+            "value": ""
+          },
+          {
+            "when": "$valid",
+            "then": [
+              {
+                "port": "text.slice",
+                "args": {
+                  "value": [
+                    "at",
+                    "$excerpt",
+                    "text"
+                  ],
+                  "start": "$start",
+                  "end": "$end"
+                },
+                "into": "candidate"
+              }
+            ]
+          }
+        ],
+        "yield": {
+          "found": [
+            "or",
+            [
+              "at",
+              "$spanState",
+              "found"
+            ],
+            "$valid"
+          ],
+          "text": [
+            "if",
+            "$valid",
+            "$candidate",
+            [
+              "at",
+              "$spanState",
+              "text"
+            ]
+          ]
+        },
+        "into": "spanState"
+      },
+      {
+        "when": [
+          "and",
+          [
+            "not",
+            "$error"
+          ],
+          [
+            "not",
+            [
+              "at",
+              "$spanState",
+              "found"
+            ]
+          ]
+        ],
+        "then": [
+          {
+            "let": "error",
+            "value": {
+              "kind": "inspection-refusal",
+              "code": "ENC-INSP-BINDING",
+              "message": "Source span is not covered by the verified excerpts"
+            }
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "text",
+            "value": [
+              "at",
+              "$spanState",
+              "text"
+            ]
+          },
+          {
+            "port": "text.sha256",
+            "args": {
+              "text": "$text"
+            },
+            "into": "digest"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "eq",
+                  "$digest",
+                  [
+                    "at",
+                    "$source",
+                    "lexemeSha256"
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-BINDING",
+                  "message": "Source lexeme digest mismatch"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "ok": [
+            "not",
+            "$error"
+          ],
+          "text": "$text",
+          "error": "$error"
+        }
+      }
+    ],
+    "inspection.run": [
+      {
+        "let": "error",
+        "value": null
+      },
+      {
+        "let": "request",
+        "value": [
+          "at",
+          "$eventInput",
+          "request"
+        ]
+      },
+      {
+        "let": "snapshot",
+        "value": [
+          "at",
+          "$eventInput",
+          "snapshot"
+        ]
+      },
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "s01.portable",
+          "input": {
+            "value": "$request",
+            "ancestors": [
+              "list"
+            ]
+          }
+        },
+        "into": "portableRequest"
+      },
+      {
+        "when": [
+          "and",
+          [
+            "not",
+            "$error"
+          ],
+          [
+            "not",
+            "$portableRequest"
+          ]
+        ],
+        "then": [
+          {
+            "let": "error",
+            "value": {
+              "kind": "inspection-refusal",
+              "code": "ENC-INSP-INPUT",
+              "message": "Inspection request must be finite own-data"
+            }
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "inspection.recordShape",
+              "input": {
+                "value": "$request",
+                "keys": [
+                  "list",
+                  "status",
+                  "principal",
+                  "context",
+                  "selection",
+                  "expectedBasis",
+                  "intent",
+                  "limits"
+                ],
+                "required": [
+                  "list",
+                  "principal",
+                  "context",
+                  "selection",
+                  "expectedBasis"
+                ]
+              }
+            },
+            "into": "requestShape"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                "$requestShape"
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-INPUT",
+                  "message": "Unknown or missing inspection request field"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "inspection.recordShape",
+              "input": {
+                "value": [
+                  "at",
+                  "$request",
+                  "selection"
+                ],
+                "keys": [
+                  "list",
+                  "subject",
+                  "predicate"
+                ],
+                "required": [
+                  "list",
+                  "subject",
+                  "predicate"
+                ]
+              }
+            },
+            "into": "selectionShape"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                "$selectionShape"
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-INPUT",
+                  "message": "Selection must identify one subject and predicate"
+                }
+              }
+            ]
+          },
+          {
+            "port": "value.describe",
+            "args": {
+              "value": [
+                "at",
+                "$request",
+                "principal"
+              ]
+            },
+            "into": "principalDescription"
+          },
+          {
+            "port": "value.describe",
+            "args": {
+              "value": [
+                "at",
+                "$request",
+                "context"
+              ]
+            },
+            "into": "contextDescription"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "and",
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$principalDescription",
+                      "type"
+                    ],
+                    "string"
+                  ],
+                  [
+                    "not",
+                    [
+                      "eq",
+                      [
+                        "at",
+                        "$request",
+                        "principal"
+                      ],
+                      ""
+                    ]
+                  ],
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$contextDescription",
+                      "type"
+                    ],
+                    "string"
+                  ],
+                  [
+                    "not",
+                    [
+                      "eq",
+                      [
+                        "at",
+                        "$request",
+                        "context"
+                      ],
+                      ""
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-INPUT",
+                  "message": "Principal and viewing context must be explicit strings"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "s01.portable",
+              "input": {
+                "value": "$snapshot",
+                "ancestors": [
+                  "list"
+                ]
+              }
+            },
+            "into": "portableSnapshot"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                "$portableSnapshot"
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-INPUT",
+                  "message": "Supplied snapshot must be finite own-data"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "inspection.recordShape",
+              "input": {
+                "value": "$snapshot",
+                "keys": [
+                  "list",
+                  "basis",
+                  "selection",
+                  "facts",
+                  "managedSubjects",
+                  "schemaFacts",
+                  "witnesses",
+                  "bindingDeclarations",
+                  "excerpts",
+                  "renderer"
+                ],
+                "required": [
+                  "list",
+                  "basis",
+                  "selection",
+                  "facts",
+                  "managedSubjects",
+                  "schemaFacts",
+                  "witnesses",
+                  "bindingDeclarations",
+                  "excerpts",
+                  "renderer"
+                ]
+              }
+            },
+            "into": "snapshotShape"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                "$snapshotShape"
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-INPUT",
+                  "message": "Missing or unknown supplied inspection record"
+                }
+              }
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "and",
+                  [
+                    "isArray",
+                    [
+                      "at",
+                      "$snapshot",
+                      "witnesses"
+                    ]
+                  ],
+                  [
+                    "isArray",
+                    [
+                      "at",
+                      "$snapshot",
+                      "bindingDeclarations"
+                    ]
+                  ],
+                  [
+                    "isArray",
+                    [
+                      "at",
+                      "$snapshot",
+                      "excerpts"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-INPUT",
+                  "message": "Source witnesses and declarations must be ordered arrays"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "basis",
+            "value": [
+              "at",
+              "$snapshot",
+              "basis"
+            ]
+          },
+          {
+            "port": "record.entries",
+            "args": {
+              "value": "$basis"
+            },
+            "into": "basisEntries"
+          },
+          {
+            "let": "basisKeys",
+            "value": [
+              "map",
+              "$basisEntries",
+              "entry",
+              [
+                "at",
+                "$entry",
+                0
+              ]
+            ]
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "inspection.recordShape",
+              "input": {
+                "value": [
+                  "at",
+                  "$request",
+                  "expectedBasis"
+                ],
+                "keys": "$basisKeys",
+                "required": "$basisKeys"
+              }
+            },
+            "into": "basisShape"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                "$basisShape"
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-BASIS",
+                  "message": "Expected basis has missing or extra identities"
+                }
+              }
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "every",
+                  "$basisEntries",
+                  "entry",
+                  [
+                    "eq",
+                    [
+                      "at",
+                      [
+                        "at",
+                        "$request",
+                        "expectedBasis"
+                      ],
+                      [
+                        "at",
+                        "$entry",
+                        0
+                      ]
+                    ],
+                    [
+                      "at",
+                      "$entry",
+                      1
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-BASIS",
+                  "message": "Inspection selection and supplied snapshot have different bases"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "selection",
+            "value": [
+              "at",
+              "$request",
+              "selection"
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "and",
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$selection",
+                      "subject"
+                    ],
+                    [
+                      "at",
+                      [
+                        "at",
+                        "$snapshot",
+                        "selection"
+                      ],
+                      "subject"
+                    ]
+                  ],
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$selection",
+                      "predicate"
+                    ],
+                    [
+                      "at",
+                      [
+                        "at",
+                        "$snapshot",
+                        "selection"
+                      ],
+                      "predicate"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SELECTION",
+                  "message": "Selected cell is outside the supplied inspection scope"
+                }
+              }
+            ]
+          },
+          {
+            "let": "facts",
+            "value": [
+              "at",
+              "$snapshot",
+              "facts"
+            ]
+          },
+          {
+            "let": "schemaFacts",
+            "value": [
+              "at",
+              "$snapshot",
+              "schemaFacts"
+            ]
+          },
+          {
+            "let": "managed",
+            "value": [
+              "at",
+              "$snapshot",
+              "managedSubjects"
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "and",
+                  [
+                    "isArray",
+                    "$facts"
+                  ],
+                  [
+                    "isArray",
+                    "$schemaFacts"
+                  ],
+                  [
+                    "isArray",
+                    "$managed"
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-INPUT",
+                  "message": "Snapshot requires ordered facts, definitions and managed subjects"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "s01.active",
+              "input": "$facts"
+            },
+            "into": "active"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "s01.compile",
+              "input": "$schemaFacts"
+            },
+            "into": "compiled"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "at",
+                  "$compiled",
+                  "ok"
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SCHEMA",
+                  "message": "Supplied definitions failed compilation",
+                  "cause": [
+                    "at",
+                    "$compiled",
+                    "error"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "eq",
+                  [
+                    "distinct",
+                    [
+                      "map",
+                      "$active",
+                      "fact",
+                      [
+                        "at",
+                        "$fact",
+                        "s"
+                      ]
+                    ]
+                  ],
+                  "$managed"
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SCHEMA",
+                  "message": "Managed subjects must cover the complete ordered domain"
+                }
+              }
+            ]
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "s01.validate",
+              "input": {
+                "facts": "$active",
+                "interfaces": [
+                  "at",
+                  "$compiled",
+                  "interfaces"
+                ],
+                "managed": "$managed"
+              }
+            },
+            "into": "issues"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "eq",
+                  [
+                    "count",
+                    "$issues"
+                  ],
+                  0
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SCHEMA",
+                  "message": "Managed scene validation failed",
+                  "issues": "$issues"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "s01.project",
+              "input": "$active"
+            },
+            "into": "projection"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "s01.typed",
+              "input": {
+                "projection": "$projection",
+                "interfaces": [
+                  "at",
+                  "$compiled",
+                  "interfaces"
+                ]
+              }
+            },
+            "into": "typed"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "not",
+                  [
+                    "at",
+                    "$typed",
+                    "error"
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SCHEMA",
+                  "message": "Typed projection failed",
+                  "cause": [
+                    "at",
+                    "$typed",
+                    "error"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "selectedFacts",
+            "value": [
+              "filter",
+              "$active",
+              "fact",
+              [
+                "and",
+                [
+                  "eq",
+                  [
+                    "at",
+                    "$fact",
+                    "s"
+                  ],
+                  [
+                    "at",
+                    "$selection",
+                    "subject"
+                  ]
+                ],
+                [
+                  "eq",
+                  [
+                    "at",
+                    "$fact",
+                    "p"
+                  ],
+                  [
+                    "at",
+                    "$selection",
+                    "predicate"
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "eq",
+                  [
+                    "count",
+                    "$selectedFacts"
+                  ],
+                  1
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SELECTION",
+                  "message": "Selection must resolve to one existing scalar"
+                }
+              }
+            ]
+          },
+          {
+            "let": "matchingInterfaces",
+            "value": [
+              "filter",
+              [
+                "at",
+                "$compiled",
+                "interfaces"
+              ],
+              "iface",
+              [
+                "includes",
+                [
+                  "map",
+                  [
+                    "filter",
+                    "$active",
+                    "fact",
+                    [
+                      "and",
+                      [
+                        "eq",
+                        [
+                          "at",
+                          "$fact",
+                          "s"
+                        ],
+                        [
+                          "at",
+                          "$selection",
+                          "subject"
+                        ]
+                      ],
+                      [
+                        "eq",
+                        [
+                          "at",
+                          "$fact",
+                          "p"
+                        ],
+                        "isa"
+                      ]
+                    ]
+                  ],
+                  "fact",
+                  [
+                    "at",
+                    "$fact",
+                    "o"
+                  ]
+                ],
+                [
+                  "at",
+                  "$iface",
+                  "type"
+                ]
+              ]
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "eq",
+                  [
+                    "count",
+                    "$matchingInterfaces"
+                  ],
+                  1
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SCHEMA",
+                  "message": "Selection requires exactly one governing interface"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "interface",
+            "value": [
+              "at",
+              "$matchingInterfaces",
+              0
+            ]
+          },
+          {
+            "let": "slots",
+            "value": [
+              "filter",
+              [
+                "at",
+                "$interface",
+                "slots"
+              ],
+              "slot",
+              [
+                "eq",
+                [
+                  "at",
+                  "$slot",
+                  "predicate"
+                ],
+                [
+                  "at",
+                  "$selection",
+                  "predicate"
+                ]
+              ]
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "eq",
+                  [
+                    "count",
+                    "$slots"
+                  ],
+                  1
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SELECTION",
+                  "message": "No unique direct selected slot"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "slot",
+            "value": [
+              "at",
+              "$slots",
+              0
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "and",
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$slot",
+                      "cardinality"
+                    ],
+                    "one"
+                  ],
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$slot",
+                      "valueType"
+                    ],
+                    "string"
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-SELECTION",
+                  "message": "Inspection profile selects one direct string slot"
+                }
+              }
+            ]
+          },
+          {
+            "let": "witnesses",
+            "value": [
+              "at",
+              "$snapshot",
+              "witnesses"
+            ]
+          },
+          {
+            "let": "bindingDeclarations",
+            "value": [
+              "at",
+              "$snapshot",
+              "bindingDeclarations"
+            ]
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "and",
+                  [
+                    "eq",
+                    [
+                      "count",
+                      "$witnesses"
+                    ],
+                    [
+                      "count",
+                      "$facts"
+                    ]
+                  ],
+                  [
+                    "eq",
+                    [
+                      "count",
+                      "$bindingDeclarations"
+                    ],
+                    [
+                      "count",
+                      "$facts"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-BINDING",
+                  "message": "Every ordered fact needs a complete supplied source witness"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "fold": [
+              "range",
+              [
+                "count",
+                "$facts"
+              ]
+            ],
+            "as": "oneIndex",
+            "accumulator": "bindingState",
+            "initial": {
+              "error": null,
+              "selected": null
+            },
+            "steps": [
+              {
+                "let": "error",
+                "value": [
+                  "at",
+                  "$bindingState",
+                  "error"
+                ]
+              },
+              {
+                "let": "selectedWitness",
+                "value": [
+                  "at",
+                  "$bindingState",
+                  "selected"
+                ]
+              },
+              {
+                "let": "index",
+                "value": [
+                  "add",
+                  "$oneIndex",
+                  -1
+                ]
+              },
+              {
+                "let": "fact",
+                "value": [
+                  "at",
+                  "$facts",
+                  "$index"
+                ]
+              },
+              {
+                "let": "witness",
+                "value": [
+                  "at",
+                  "$witnesses",
+                  "$index"
+                ]
+              },
+              {
+                "let": "declaration",
+                "value": [
+                  "at",
+                  "$bindingDeclarations",
+                  "$index"
+                ]
+              },
+              {
+                "when": [
+                  "and",
+                  [
+                    "not",
+                    "$error"
+                  ],
+                  [
+                    "not",
+                    [
+                      "eq",
+                      [
+                        "at",
+                        "$witness",
+                        "factIndex"
+                      ],
+                      "$index"
+                    ]
+                  ]
+                ],
+                "then": [
+                  {
+                    "let": "error",
+                    "value": {
+                      "kind": "inspection-refusal",
+                      "code": "ENC-INSP-BINDING",
+                      "message": "Fact/source binding order mismatch"
+                    }
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "and",
+                  [
+                    "not",
+                    "$error"
+                  ],
+                  [
+                    "not",
+                    [
+                      "every",
+                      [
+                        "list",
+                        "factIndex",
+                        "derivation",
+                        "logicalLocator",
+                        "source"
+                      ],
+                      "coordinate",
+                      [
+                        "eq",
+                        [
+                          "at",
+                          "$witness",
+                          "$coordinate"
+                        ],
+                        [
+                          "at",
+                          "$declaration",
+                          "$coordinate"
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                "then": [
+                  {
+                    "let": "error",
+                    "value": {
+                      "kind": "inspection-refusal",
+                      "code": "ENC-INSP-BINDING",
+                      "message": "Witness differs from the pinned source declaration"
+                    }
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "and",
+                  [
+                    "not",
+                    "$error"
+                  ],
+                  [
+                    "not",
+                    [
+                      "every",
+                      [
+                        "list",
+                        "s",
+                        "p",
+                        "o",
+                        "pol"
+                      ],
+                      "coordinate",
+                      [
+                        "eq",
+                        [
+                          "at",
+                          "$fact",
+                          "$coordinate"
+                        ],
+                        [
+                          "at",
+                          [
+                            "at",
+                            "$witness",
+                            "fact"
+                          ],
+                          "$coordinate"
+                        ]
+                      ]
+                    ]
+                  ]
+                ],
+                "then": [
+                  {
+                    "let": "error",
+                    "value": {
+                      "kind": "inspection-refusal",
+                      "code": "ENC-INSP-BINDING",
+                      "message": "Fact differs from the sealed source-normalization witness"
+                    }
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "not",
+                  "$error"
+                ],
+                "then": [
+                  {
+                    "port": "kernel.invoke",
+                    "args": {
+                      "query": "inspection.sourceSpan",
+                      "input": {
+                        "source": [
+                          "at",
+                          "$witness",
+                          "source"
+                        ],
+                        "excerpts": [
+                          "at",
+                          "$snapshot",
+                          "excerpts"
+                        ]
+                      }
+                    },
+                    "into": "spanResult"
+                  },
+                  {
+                    "when": [
+                      "and",
+                      [
+                        "not",
+                        "$error"
+                      ],
+                      [
+                        "not",
+                        [
+                          "at",
+                          "$spanResult",
+                          "ok"
+                        ]
+                      ]
+                    ],
+                    "then": [
+                      {
+                        "let": "error",
+                        "value": {
+                          "kind": "inspection-refusal",
+                          "code": "ENC-INSP-BINDING",
+                          "message": "Source witness does not resolve",
+                          "cause": [
+                            "at",
+                            "$spanResult",
+                            "error"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "not",
+                  "$error"
+                ],
+                "then": [
+                  {
+                    "when": [
+                      "and",
+                      [
+                        "not",
+                        "$error"
+                      ],
+                      [
+                        "not",
+                        [
+                          "includes",
+                          [
+                            "list",
+                            "decoded-literal",
+                            "supplied-domain-type",
+                            "array-membership",
+                            "array-index",
+                            "array-product",
+                            "number-to-canonical-storage-string",
+                            "source-key-resolution"
+                          ],
+                          [
+                            "at",
+                            "$witness",
+                            "derivation"
+                          ]
+                        ]
+                      ]
+                    ],
+                    "then": [
+                      {
+                        "let": "error",
+                        "value": {
+                          "kind": "inspection-refusal",
+                          "code": "ENC-INSP-BINDING",
+                          "message": "Unsupported source derivation"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "when": [
+                      "eq",
+                      [
+                        "at",
+                        "$witness",
+                        "derivation"
+                      ],
+                      "array-membership"
+                    ],
+                    "then": [
+                      {
+                        "let": "childOrdinals",
+                        "value": [
+                          "filter",
+                          "$witnesses",
+                          "child",
+                          [
+                            "and",
+                            [
+                              "eq",
+                              [
+                                "at",
+                                "$child",
+                                "derivation"
+                              ],
+                              "array-index"
+                            ],
+                            [
+                              "eq",
+                              [
+                                "at",
+                                [
+                                  "at",
+                                  "$child",
+                                  "fact"
+                                ],
+                                "s"
+                              ],
+                              [
+                                "at",
+                                "$fact",
+                                "o"
+                              ]
+                            ]
+                          ]
+                        ]
+                      },
+                      {
+                        "when": [
+                          "and",
+                          [
+                            "not",
+                            "$error"
+                          ],
+                          [
+                            "not",
+                            [
+                              "and",
+                              [
+                                "eq",
+                                [
+                                  "count",
+                                  "$childOrdinals"
+                                ],
+                                1
+                              ],
+                              [
+                                "eq",
+                                [
+                                  "at",
+                                  [
+                                    "at",
+                                    "$childOrdinals",
+                                    0
+                                  ],
+                                  "logicalLocator"
+                                ],
+                                [
+                                  "at",
+                                  "$witness",
+                                  "logicalLocator"
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        "then": [
+                          {
+                            "let": "error",
+                            "value": {
+                              "kind": "inspection-refusal",
+                              "code": "ENC-INSP-BINDING",
+                              "message": "Array member identity disagrees with source occurrence"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "when": [
+                      "eq",
+                      [
+                        "at",
+                        "$witness",
+                        "derivation"
+                      ],
+                      "source-key-resolution"
+                    ],
+                    "then": [
+                      {
+                        "let": "sourceKeys",
+                        "value": [
+                          "filter",
+                          "$witnesses",
+                          "keyWitness",
+                          [
+                            "and",
+                            [
+                              "eq",
+                              [
+                                "at",
+                                "$keyWitness",
+                                "derivation"
+                              ],
+                              "decoded-literal"
+                            ],
+                            [
+                              "eq",
+                              [
+                                "at",
+                                "$keyWitness",
+                                "logicalLocator"
+                              ],
+                              [
+                                "at",
+                                "$witness",
+                                "logicalLocator"
+                              ]
+                            ],
+                            [
+                              "eq",
+                              [
+                                "at",
+                                [
+                                  "at",
+                                  "$keyWitness",
+                                  "fact"
+                                ],
+                                "s"
+                              ],
+                              [
+                                "at",
+                                "$fact",
+                                "s"
+                              ]
+                            ]
+                          ]
+                        ]
+                      },
+                      {
+                        "let": "sourceTargets",
+                        "value": [
+                          "filter",
+                          "$witnesses",
+                          "targetWitness",
+                          [
+                            "and",
+                            [
+                              "eq",
+                              [
+                                "at",
+                                "$targetWitness",
+                                "derivation"
+                              ],
+                              "supplied-domain-type"
+                            ],
+                            [
+                              "eq",
+                              [
+                                "at",
+                                [
+                                  "at",
+                                  "$targetWitness",
+                                  "fact"
+                                ],
+                                "s"
+                              ],
+                              [
+                                "at",
+                                "$fact",
+                                "o"
+                              ]
+                            ]
+                          ]
+                        ]
+                      },
+                      {
+                        "when": [
+                          "and",
+                          [
+                            "not",
+                            "$error"
+                          ],
+                          [
+                            "not",
+                            [
+                              "and",
+                              [
+                                "eq",
+                                [
+                                  "count",
+                                  "$sourceKeys"
+                                ],
+                                1
+                              ],
+                              [
+                                "eq",
+                                [
+                                  "count",
+                                  "$sourceTargets"
+                                ],
+                                1
+                              ]
+                            ]
+                          ]
+                        ],
+                        "then": [
+                          {
+                            "let": "error",
+                            "value": {
+                              "kind": "inspection-refusal",
+                              "code": "ENC-INSP-BINDING",
+                              "message": "Source key requires one declared note target"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "when": [
+                          "not",
+                          "$error"
+                        ],
+                        "then": [
+                          {
+                            "port": "text.split",
+                            "args": {
+                              "value": [
+                                "at",
+                                [
+                                  "at",
+                                  "$sourceTargets",
+                                  0
+                                ],
+                                "logicalLocator"
+                              ],
+                              "pattern": "/"
+                            },
+                            "into": "targetLocator"
+                          },
+                          {
+                            "when": [
+                              "and",
+                              [
+                                "not",
+                                "$error"
+                              ],
+                              [
+                                "not",
+                                [
+                                  "eq",
+                                  [
+                                    "at",
+                                    "$targetLocator",
+                                    [
+                                      "add",
+                                      [
+                                        "count",
+                                        "$targetLocator"
+                                      ],
+                                      -1
+                                    ]
+                                  ],
+                                  [
+                                    "at",
+                                    [
+                                      "at",
+                                      [
+                                        "at",
+                                        "$sourceKeys",
+                                        0
+                                      ],
+                                      "fact"
+                                    ],
+                                    "o"
+                                  ]
+                                ]
+                              ]
+                            ],
+                            "then": [
+                              {
+                                "let": "error",
+                                "value": {
+                                  "kind": "inspection-refusal",
+                                  "code": "ENC-INSP-BINDING",
+                                  "message": "Resolved source key differs from its note"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "when": [
+                      "eq",
+                      [
+                        "at",
+                        "$witness",
+                        "derivation"
+                      ],
+                      "decoded-literal"
+                    ],
+                    "then": [
+                      {
+                        "port": "kernel.invoke",
+                        "args": {
+                          "query": "inspection.literal",
+                          "input": {
+                            "text": [
+                              "at",
+                              "$spanResult",
+                              "text"
+                            ]
+                          }
+                        },
+                        "into": "literal"
+                      },
+                      {
+                        "when": [
+                          "and",
+                          [
+                            "not",
+                            "$error"
+                          ],
+                          [
+                            "not",
+                            [
+                              "and",
+                              [
+                                "at",
+                                "$literal",
+                                "ok"
+                              ],
+                              [
+                                "eq",
+                                [
+                                  "at",
+                                  "$literal",
+                                  "value"
+                                ],
+                                [
+                                  "at",
+                                  "$fact",
+                                  "o"
+                                ]
+                              ]
+                            ]
+                          ]
+                        ],
+                        "then": [
+                          {
+                            "let": "error",
+                            "value": {
+                              "kind": "inspection-refusal",
+                              "code": "ENC-INSP-BINDING",
+                              "message": "Decoded source value disagrees with the fact"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "when": [
+                      "eq",
+                      [
+                        "at",
+                        "$witness",
+                        "derivation"
+                      ],
+                      "number-to-canonical-storage-string"
+                    ],
+                    "then": [
+                      {
+                        "when": [
+                          "and",
+                          [
+                            "not",
+                            "$error"
+                          ],
+                          [
+                            "not",
+                            [
+                              "eq",
+                              [
+                                "at",
+                                "$spanResult",
+                                "text"
+                              ],
+                              [
+                                "at",
+                                "$fact",
+                                "o"
+                              ]
+                            ]
+                          ]
+                        ],
+                        "then": [
+                          {
+                            "let": "error",
+                            "value": {
+                              "kind": "inspection-refusal",
+                              "code": "ENC-INSP-BINDING",
+                              "message": "Canonical numeric source text differs"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "when": [
+                      "eq",
+                      [
+                        "at",
+                        "$witness",
+                        "derivation"
+                      ],
+                      "array-index"
+                    ],
+                    "then": [
+                      {
+                        "port": "text.split",
+                        "args": {
+                          "value": [
+                            "at",
+                            "$witness",
+                            "logicalLocator"
+                          ],
+                          "pattern": "/"
+                        },
+                        "into": "locatorParts"
+                      },
+                      {
+                        "when": [
+                          "and",
+                          [
+                            "not",
+                            "$error"
+                          ],
+                          [
+                            "not",
+                            [
+                              "eq",
+                              [
+                                "at",
+                                "$locatorParts",
+                                [
+                                  "add",
+                                  [
+                                    "count",
+                                    "$locatorParts"
+                                  ],
+                                  -1
+                                ]
+                              ],
+                              [
+                                "at",
+                                "$fact",
+                                "o"
+                              ]
+                            ]
+                          ]
+                        ],
+                        "then": [
+                          {
+                            "let": "error",
+                            "value": {
+                              "kind": "inspection-refusal",
+                              "code": "ENC-INSP-BINDING",
+                              "message": "Array ordinal differs from its source occurrence"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "when": [
+                      "and",
+                      [
+                        "eq",
+                        [
+                          "at",
+                          "$fact",
+                          "s"
+                        ],
+                        [
+                          "at",
+                          "$selection",
+                          "subject"
+                        ]
+                      ],
+                      [
+                        "eq",
+                        [
+                          "at",
+                          "$fact",
+                          "p"
+                        ],
+                        [
+                          "at",
+                          "$selection",
+                          "predicate"
+                        ]
+                      ]
+                    ],
+                    "then": [
+                      {
+                        "let": "selectedWitness",
+                        "value": "$witness"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "yield": {
+              "error": "$error",
+              "selected": "$selectedWitness"
+            },
+            "into": "bindingState"
+          },
+          {
+            "let": "error",
+            "value": [
+              "at",
+              "$bindingState",
+              "error"
+            ]
+          },
+          {
+            "let": "selectedWitness",
+            "value": [
+              "at",
+              "$bindingState",
+              "selected"
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "renderer",
+            "value": [
+              "at",
+              "$snapshot",
+              "renderer"
+            ]
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "inspection.sourceSpan",
+              "input": {
+                "source": [
+                  "at",
+                  "$renderer",
+                  "source"
+                ],
+                "excerpts": [
+                  "at",
+                  "$snapshot",
+                  "excerpts"
+                ]
+              }
+            },
+            "into": "rendererDefinition"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "at",
+                  "$rendererDefinition",
+                  "ok"
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-BINDING",
+                  "message": "Renderer definition source mismatch"
+                }
+              }
+            ]
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "inspection.sourceSpan",
+              "input": {
+                "source": [
+                  "at",
+                  "$renderer",
+                  "read"
+                ],
+                "excerpts": [
+                  "at",
+                  "$snapshot",
+                  "excerpts"
+                ]
+              }
+            },
+            "into": "rendererRead"
+          },
+          {
+            "when": [
+              "and",
+              [
+                "not",
+                "$error"
+              ],
+              [
+                "not",
+                [
+                  "and",
+                  [
+                    "at",
+                    "$rendererRead",
+                    "ok"
+                  ],
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$rendererRead",
+                      "text"
+                    ],
+                    [
+                      "at",
+                      "$renderer",
+                      "expression"
+                    ]
+                  ]
+                ]
+              ]
+            ],
+            "then": [
+              {
+                "let": "error",
+                "value": {
+                  "kind": "inspection-refusal",
+                  "code": "ENC-INSP-BINDING",
+                  "message": "Renderer read binding mismatch"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "ok": false,
+          "status": "inspection-refused",
+          "failure": "$error"
+        }
+      },
+      {
+        "when": [
+          "not",
+          "$error"
+        ],
+        "then": [
+          {
+            "let": "result",
+            "value": {
+              "ok": true,
+              "status": "inspection-only",
+              "basis": "$basis",
+              "principal": [
+                "at",
+                "$request",
+                "principal"
+              ],
+              "context": [
+                "at",
+                "$request",
+                "context"
+              ],
+              "selection": "$selection",
+              "storedValue": [
+                "at",
+                [
+                  "at",
+                  "$selectedFacts",
+                  0
+                ],
+                "o"
+              ],
+              "typedValue": [
+                "at",
+                [
+                  "at",
+                  [
+                    "at",
+                    "$typed",
+                    "projection"
+                  ],
+                  [
+                    "at",
+                    "$selection",
+                    "subject"
+                  ]
+                ],
+                [
+                  "at",
+                  "$selection",
+                  "predicate"
+                ]
+              ],
+              "subject": {
+                "identity": [
+                  "at",
+                  "$selection",
+                  "subject"
+                ],
+                "facts": [
+                  "filter",
+                  "$active",
+                  "fact",
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$fact",
+                      "s"
+                    ],
+                    [
+                      "at",
+                      "$selection",
+                      "subject"
+                    ]
+                  ]
+                ],
+                "rawProjection": [
+                  "at",
+                  "$projection",
+                  [
+                    "at",
+                    "$selection",
+                    "subject"
+                  ]
+                ],
+                "typedProjection": [
+                  "at",
+                  [
+                    "at",
+                    "$typed",
+                    "projection"
+                  ],
+                  [
+                    "at",
+                    "$selection",
+                    "subject"
+                  ]
+                ]
+              },
+              "contextGraph": {
+                "facts": "$active",
+                "managedSubjects": "$managed",
+                "rawProjection": "$projection",
+                "typedProjection": [
+                  "at",
+                  "$typed",
+                  "projection"
+                ]
+              },
+              "slot": "$slot",
+              "source": "$selectedWitness",
+              "renderer": {
+                "definition": [
+                  "at",
+                  "$renderer",
+                  "source"
+                ],
+                "read": [
+                  "at",
+                  "$renderer",
+                  "read"
+                ],
+                "scope": "static-definition-binding;not-DOM-or-execution"
+              },
+              "coverage": {
+                "facts": [
+                  "count",
+                  "$facts"
+                ],
+                "managedSubjects": [
+                  "count",
+                  "$managed"
+                ],
+                "interfaces": [
+                  "count",
+                  [
+                    "at",
+                    "$compiled",
+                    "interfaces"
+                  ]
+                ]
+              },
+              "actionDiscovery": "not-requested",
+              "authority": "read-only-host-supplied-snapshot",
+              "sourceScope": "explicit-historical-snapshot",
+              "limitations": [
+                "list",
+                "No browser selection or executed render witnessed.",
+                "No edit, proposal, commit, authentication or publication authority.",
+                "Normalization declarations and source extraction remain attributed supplied input.",
+                "Raw and typed projection observations do not replace the complete ordered context facts."
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

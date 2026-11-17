@@ -1,0 +1,164 @@
+process-module "temple/surface-process-module/1"
+
+process page.definition:
+  let result = {
+    protocol = "encounter/composition-projection/1";
+    identity = "index.html";
+    reason = "Compose the page from named presentation roles and explicit control/source identities.";
+    target = "index.html";
+    goal = "Project HTML without importing a handwritten page.";
+    identify = true;
+    page = list("Document", {
+      children = list(
+        "\n",
+        list("DocumentElement", {
+          attributes = { lang = "en" };
+          children = list(
+            "\n",
+            list("Metadata", {
+              children = list(
+                "\n  ",
+                list("MetaValue", { attributes = { charset = "utf-8" } }),
+                "\n  ",
+                list("MetaValue", { attributes = { name = "viewport"; content = "width=device-width,initial-scale=1" } }),
+                "\n  ",
+                list("MetaValue", { attributes = { name = "theme-color"; content = "#100e16" } }),
+                "\n  ",
+                list("MetaValue", {
+                  attributes = {
+                    name = "description";
+                    content = "An expedition through Aaron Alderman's concepts, creations and the work of remembering care. A Worldwright story."
+                  }
+                }),
+                "\n  ",
+                list("PageTitle", { children = list("Worldwright — Follow a question") }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "icon"; href = "assets/mark.svg"; type = "image/svg+xml" } }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "stylesheet"; href = "style.css" } }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "stylesheet"; href = "enchantment.css" } }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "stylesheet"; href = "territories.css" } }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "stylesheet"; href = "wider-world.css" } }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "stylesheet"; href = "reading.css" } }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "stylesheet"; href = "inspection/style.css" } }),
+                "\n  ",
+                list("Resource", { attributes = { rel = "stylesheet"; href = "presentation/style.css" } }),
+                "\n  ",
+                list("Runtime", { attributes = { type = "module"; src = "app.js" } }),
+                "\n"
+              )
+            }),
+            "\n",
+            list("PageBody", {
+              children = list(
+                "\n  ",
+                list("Group", {
+                  attributes = { class = "world-light"; "aria-hidden" = "true" };
+                  children = list(list("Element_i"), list("Element_i"), list("Element_i"))
+                }),
+                "\n  ",
+                list("Link", { attributes = { class = "skip-link"; href = "#main" }; children = list("Skip to the story") }),
+                "\n  ",
+                list("Header", {
+                  attributes = { class = "header" };
+                  children = list(
+                    "\n    ",
+                    list("Link", {
+                      attributes = { class = "brand"; href = "#home"; "aria-label" = "Worldwright home" };
+                      children = list(
+                        list("Vector", {
+                          attributes = { viewBox = "0 0 40 40"; "aria-hidden" = "true" };
+                          children = list(
+                            list("VectorPath", { attributes = { d = "M5 9 13 30 20 12 27 30 35 9M8 21h24" } })
+                          )
+                        }),
+                        list("Inline", {
+                          children = list(
+                            "worldwright",
+                            list("Inline", { attributes = { class = "brand-dot" }; children = list(".") })
+                          )
+                        })
+                      )
+                    }),
+                    "\n    ",
+                    list("Navigation", {
+                      attributes = { "aria-label" = "Main navigation" };
+                      children = list(list("Slot", { name = "application.navigation" }))
+                    }),
+                    "\n    ",
+                    list("Action", {
+                      attributes = { class = "journey-button"; "data-action" = "atlas" };
+                      children = list(
+                        list("Inline", { attributes = { class = "live-dot" } }),
+                        list("Inline", { attributes = { id = "journey-count" }; children = list("Your expedition") })
+                      )
+                    }),
+                    "\n  "
+                  )
+                }),
+                "\n  ",
+                list("Main", { attributes = { id = "main"; tabindex = "-1" } }),
+                "\n  ",
+                list("Footer", {
+                  attributes = { class = "footer" };
+                  children = list(
+                    list("Inline", {
+                      children = list("AARON ALDERMAN ", list("Element_i", { children = list("×") }), " WORLDWRIGHT")
+                    }),
+                    list("Inline", { children = list("A living world. An unfinished story.") }),
+                    list("Action", {
+                      attributes = { "data-action" = "atlas" };
+                      children = list("Find your bearings ", list("Inline", { children = list("✧") }))
+                    })
+                  )
+                }),
+                "\n  ",
+                list("Dialog", {
+                  attributes = { id = "overlay"; "aria-labelledby" = "dialog-title" };
+                  children = list(list("Group", { attributes = { id = "dialog-content" } }))
+                }),
+                "\n  ",
+                list("Group", { attributes = { id = "announcement"; class = "sr-only"; "aria-live" = "polite" } }),
+                "\n  ",
+                list("Action", {
+                  attributes = { class = "atlas-compass"; "data-action" = "atlas"; "aria-label" = "Open the map" };
+                  children = list(
+                    list("Vector", {
+                      attributes = { viewBox = "0 0 40 40"; "aria-hidden" = "true" };
+                      children = list(
+                        list("Element_circle", { attributes = { cx = "20"; cy = "20"; r = "16" } }),
+                        list("VectorPath", { attributes = { d = "m20 5 4 11 11 4-11 4-4 11-4-11-11-4 11-4Z" } })
+                      )
+                    }),
+                    list("Inline", { children = list("Map") })
+                  )
+                }),
+                "\n  ",
+                list("Action", {
+                  attributes = {
+                    class = "motion-toggle";
+                    id = "motion-toggle";
+                    "data-action" = "motion";
+                    "aria-label" = "Animation";
+                    "aria-pressed" = "true"
+                  };
+                  children = list(
+                    list("Inline", { attributes = { class = "motion-icon"; "aria-hidden" = "true" }; children = list("◌") }),
+                    list("Inline", { attributes = { id = "motion-label" }; children = list("Motion on") })
+                  )
+                }),
+                "\n"
+              )
+            }),
+            "\n"
+          )
+        }),
+        "\n"
+      )
+    })
+  }

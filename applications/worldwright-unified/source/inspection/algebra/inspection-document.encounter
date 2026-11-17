@@ -1,0 +1,72 @@
+process-module "temple/surface-process-module/1"
+
+process inspection.document:
+  let error = null
+  let request = at($eventInput, "request")
+  let snapshot = at($eventInput, "snapshot")
+  port kernel.invoke { query = "s01.portable"; input = { value = $request; ancestors = list() } } → portable
+  when and(not($error), not($portable)):
+    let error = { code = "ENC-DOC-INPUT"; message = "Request must be finite own-data"; owner = "inspection.document" }
+  when not($error):
+    port kernel.invoke { query = "inspection.recordShape"; input = { value = $request; keys = list("principal", "context", "target", "expectedBasis", "display"); required = list("principal", "context", "target", "expectedBasis") } } → shape
+    when and(not($error), not($shape)):
+      let error = { code = "ENC-DOC-INPUT"; message = "Missing or extra request fields"; owner = "inspection.document" }
+  when not($error):
+    port value.describe { value = at($request, "principal") } → principalType
+    port value.describe { value = at($request, "context") } → contextType
+    when and(not($error), not(and(eq(at($principalType, "type"), "string"), not(eq(at($request, "principal"), "")), eq(at($contextType, "type"), "string"), not(eq(at($request, "context"), ""))))):
+      let error = { code = "ENC-DOC-INPUT"; message = "Explicit principal and context required"; owner = "inspection.document" }
+    when and(not($error), not(eq(at($request, "expectedBasis"), at($snapshot, "basis")))):
+      let error = { code = "ENC-DOC-BASIS"; message = "This selection belongs to a different loaded source basis"; owner = "inspection.document" }
+    let record = at($snapshot, "record")
+    when and(not($error), not(and($record, eq(at($request, "target"), at($record, "id"))))):
+      let error = { code = "ENC-DOC-TARGET"; message = "No exact bound source target"; owner = "inspection.document" }
+  when not($error):
+    port kernel.invoke { query = "s01.portable"; input = { value = $snapshot; ancestors = list() } } → snapshotPortable
+    when and(not($error), not($snapshotPortable)):
+      let error = { code = "ENC-DOC-INPUT"; message = "Snapshot must be finite own-data"; owner = "inspection.document" }
+  when not($error):
+    port kernel.invoke { query = "inspection.sourceSpan"; input = { source = at($record, "source"); excerpts = at($snapshot, "excerpts") } } → span
+    when and(not($error), not(at($span, "ok"))):
+      let error = { code = "ENC-DOC-SOURCE"; message = "Source occurrence failed its pinned span/digest check"; owner = "inspection.document" }
+  when not($error):
+    let id = at($record, "id")
+    let facts = list({ s = $id; p = "isa"; o = at($snapshot, "type"); pol = "is" }, { s = $id; p = "label"; o = at($record, "label"); pol = "is" }, { s = $id; p = "kind"; o = at($record, "kind"); pol = "is" }, { s = $id; p = "file"; o = at(at($record, "source"), "file"); pol = "is" }, { s = $id; p = "sourceHash"; o = at(at($record, "source"), "fileSha256"); pol = "is" }, { s = $id; p = "start"; o = concat(at(at($record, "source"), "startUtf16")); pol = "is" }, { s = $id; p = "end"; o = concat(at(at($record, "source"), "endUtf16Exclusive")); pol = "is" }, { s = $id; p = "text"; o = at($span, "text"); pol = "is" })
+    port kernel.invoke { query = "s01.compile"; input = at($snapshot, "schemaFacts") } → compiled
+    when and(not($error), not(at($compiled, "ok"))):
+      let error = { code = "ENC-DOC-SCHEMA"; message = "Source fragment definition failed compilation"; owner = "inspection.document" }
+  when not($error):
+    port kernel.invoke { query = "s01.validate"; input = { facts = $facts; interfaces = at($compiled, "interfaces"); managed = list($id) } } → issues
+    when and(not($error), not(eq(count($issues), 0))):
+      let error = { code = "ENC-DOC-SCHEMA"; message = "Source fragment is not valid under its closed definition"; owner = "inspection.document" }
+    port kernel.invoke { query = "s01.project"; input = $facts } → projection
+    port kernel.invoke { query = "s01.typed"; input = { projection = $projection; interfaces = at($compiled, "interfaces") } } → typed
+    when and(not($error), not(not(at($typed, "error")))):
+      let error = { code = "ENC-DOC-SCHEMA"; message = "Typed source projection failed"; owner = "inspection.document" }
+  let displayCheck = "not-requested"
+  when not($error):
+    port record.entries { value = $request } → requestEntries
+    let hasDisplay = some($requestEntries, "entry", eq(at($entry, 0), "display"))
+    when $hasDisplay:
+      port kernel.invoke { query = "inspection.recordShape"; input = { value = at($request, "display"); keys = list("kind", "text", "href"); required = list("kind") } } → displayShape
+      when and(not($error), not($displayShape)):
+        let error = { code = "ENC-DOC-DISPLAY"; message = "Malformed native display observation"; owner = "inspection.document" }
+      when and(not($error), not(eq(at($record, "literalType"), "string"))):
+        let error = { code = "ENC-DOC-DISPLAY"; message = "This source attachment is definition-only, not a literal display binding"; owner = "inspection.document" }
+      when not($error):
+        port kernel.invoke { query = "inspection.literal"; input = { text = at($span, "text") } } → literal
+        when and(not($error), not(at($literal, "ok"))):
+          let error = { code = "ENC-DOC-SOURCE"; message = "Source literal does not decode in this profile"; owner = "inspection.document" }
+        let display = at($request, "display")
+        when and(not($error), not(includes(list("text", "href"), at($display, "kind")))):
+          let error = { code = "ENC-DOC-DISPLAY"; message = "Unsupported displayed projection"; owner = "inspection.document" }
+        when eq(at($display, "kind"), "text"):
+          when and(not($error), not(eq(at($display, "text"), at($literal, "value")))):
+            let error = { code = "ENC-DOC-DISPLAY"; message = "Displayed text disagrees with its exact source literal"; owner = "inspection.document" }
+        when eq(at($display, "kind"), "href"):
+          when and(not($error), not(eq(at($display, "href"), concat("#", at($literal, "value"))))):
+            let error = { code = "ENC-DOC-DISPLAY"; message = "Displayed destination disagrees with its exact source literal"; owner = "inspection.document" }
+        let displayCheck = "host-observed-literal-agreement"
+  let result = { ok = false; status = "inspection-refused"; failure = $error }
+  when not($error):
+    let result = { ok = true; status = "inspection-only"; basis = at($snapshot, "basis"); principal = at($request, "principal"); context = at($request, "context"); target = $id; label = at($record, "label"); kind = at($record, "kind"); facts = $facts; typed = at(at($typed, "projection"), $id); source = at($record, "source"); text = at($span, "text"); links = at($record, "links"); displayCheck = $displayCheck; authority = "read-only-host-supplied-source"; scope = "definition-not-execution"; limitations = list("Source identity is unsigned local integrity, not authorship or scientific verification.", "DOM values are native host observations, not authenticated execution traces.", "Generated source projections are not independently authorable application state.", "No mutation, discovery, storage, publication or inferred learning authority.") }

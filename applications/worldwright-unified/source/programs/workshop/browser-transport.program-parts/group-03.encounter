@@ -1,0 +1,125 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0004 = list("Do", {
+        expression = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "pending" });
+                property = list("NameReference", { name = "delete" })
+              });
+            arguments = list(list("NameReference", { name = "id" }))
+          })
+      });
+    part0005 = list("Do", {
+        expression = list("Invoke", {
+            optional = false;
+            callee = list("NameReference", { name = "reject" });
+            arguments = list(
+              list("Invoke", {
+                  optional = false;
+                  callee = list("NameReference", { name = "Error" });
+                  arguments = list(
+                    list("LiteralValue", { value = "The example did not finish. Reload before making another change." })
+                  )
+                })
+            )
+          })
+      });
+    part0006 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("NameReference", { name = "data" });
+                    property = list("NameReference", { name = "projection" })
+                  });
+                property = list("NameReference", { name = "output" })
+              });
+            property = list("NameReference", { name = "events" })
+          });
+        property = list("NameReference", { name = "find" })
+      });
+    part0007 = list("Procedure", {
+        generator = false;
+        async = false;
+        block = false;
+        id = null;
+        params = list(list("NameReference", { name = "e" }));
+        body = list("ShortCircuit", {
+            operator = "&&";
+            left = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "e" });
+                property = list("NameReference", { name = "open" })
+              });
+            right = list("Invoke", {
+                optional = false;
+                callee = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "event" });
+                        property = list("NameReference", { name = "target" })
+                      });
+                    property = list("NameReference", { name = "closest" })
+                  });
+                arguments = list(
+                  list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "e" });
+                      property = list("NameReference", { name = "selector" })
+                    })
+                )
+              })
+          })
+      });
+    part0008 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "panels" });
+        property = list("NameReference", { name = "find" })
+      });
+    part0009 = list("Procedure", {
+        generator = false;
+        async = false;
+        block = false;
+        id = null;
+        params = list(list("NameReference", { name = "p" }));
+        body = list("Calculate", {
+            operator = "===";
+            left = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("NameReference", { name = "p" });
+                    property = list("NameReference", { name = "projection" })
+                  });
+                property = list("NameReference", { name = "view" })
+              });
+            right = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "open" });
+                property = list("NameReference", { name = "open" })
+              })
+          })
+      });
+    part0010 = list("LiteralValue", { value = "LAB-OPEN: This declared page has no current projection. Reopen the example." })
+  }

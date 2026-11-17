@@ -1,0 +1,13 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("Calculate", {
+        operator = "*";
+        left = list("Calculate", { operator = "+"; left = list("NameReference", { name = "row" }); right = list("NameReference", { name = "y" }) });
+        right = list("LiteralValue", { value = 4 })
+      });
+    part0002 = list("NameReference", { name = "col" });
+    part0003 = list("NameReference", { name = "block" });
+    part0004 = list("NameReference", { name = "block" })
+  }

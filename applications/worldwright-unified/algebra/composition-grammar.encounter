@@ -1,0 +1,360 @@
+process-module "temple/surface-process-module/1"
+
+process value.definition:
+  let result = {
+    protocol = "encounter/projection-grammar/1";
+    rules = {
+      Document = {
+        render = list("concat", "<!doctype html>\n", $j.children);
+        data = list();
+        links = { children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Text = { render = $h.value; data = list("value"); links = {  }; validators = {  }; types = { value = list("string") } };
+      Attribute = {
+        render = list("concat", " ", $n.name, list("if", list("eq", $n.value, null), "", list("concat", "=\"", $h.value, "\"")));
+        data = list("name", "value");
+        links = {  };
+        validators = { name = { pattern = "^[A-Za-z_:][A-Za-z0-9_:.-]*$" } };
+        types = { name = list("string"); value = list("string", "null") }
+      };
+      DocumentElement = {
+        render = list("concat", "<html", $j.attributes, ">", $j.children, "</html>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Metadata = {
+        render = list("concat", "<head", $j.attributes, ">", $j.children, "</head>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      MetaValue = {
+        render = list("concat", "<meta", $j.attributes, ">");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      PageTitle = {
+        render = list("concat", "<title", $j.attributes, ">", $j.children, "</title>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Resource = {
+        render = list("concat", "<link", $j.attributes, ">");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Runtime = {
+        render = list("concat", "<script", $j.attributes, ">", $j.children, "</script>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      PageBody = {
+        render = list("concat", "<body", $j.attributes, ">", $j.children, "</body>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Link = {
+        render = list("concat", "<a", $j.attributes, ">", $j.children, "</a>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Header = {
+        render = list("concat", "<header", $j.attributes, ">", $j.children, "</header>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Vector = {
+        render = list("concat", "<svg", $j.attributes, ">", $j.children, "</svg>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      VectorPath = {
+        render = list("concat", "<path", $j.attributes, ">", $j.children, "</path>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Inline = {
+        render = list("concat", "<span", $j.attributes, ">", $j.children, "</span>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Navigation = {
+        render = list("concat", "<nav", $j.attributes, ">", $j.children, "</nav>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Action = {
+        render = list("concat", "<button", $j.attributes, ">", $j.children, "</button>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Main = {
+        render = list("concat", "<main", $j.attributes, ">", $j.children, "</main>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Footer = {
+        render = list("concat", "<footer", $j.attributes, ">", $j.children, "</footer>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Element_i = {
+        render = list("concat", "<i", $j.attributes, ">", $j.children, "</i>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Dialog = {
+        render = list("concat", "<dialog", $j.attributes, ">", $j.children, "</dialog>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Group = {
+        render = list("concat", "<div", $j.attributes, ">", $j.children, "</div>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Paragraph = {
+        render = list("concat", "<p", $j.attributes, ">", $j.children, "</p>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      HeadingOne = {
+        render = list("concat", "<h1", $j.attributes, ">", $j.children, "</h1>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      LineBreak = {
+        render = list("concat", "<br", $j.attributes, ">");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Disclosure = {
+        render = list("concat", "<details", $j.attributes, ">", $j.children, "</details>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      DisclosureLabel = {
+        render = list("concat", "<summary", $j.attributes, ">", $j.children, "</summary>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Emphasis = {
+        render = list("concat", "<strong", $j.attributes, ">", $j.children, "</strong>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Section = {
+        render = list("concat", "<section", $j.attributes, ">", $j.children, "</section>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      HeadingTwo = {
+        render = list("concat", "<h2", $j.attributes, ">", $j.children, "</h2>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Form = {
+        render = list("concat", "<form", $j.attributes, ">", $j.children, "</form>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Label = {
+        render = list("concat", "<label", $j.attributes, ">", $j.children, "</label>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Input = {
+        render = list("concat", "<input", $j.attributes, ">");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      CodeBlock = {
+        render = list("concat", "<pre", $j.attributes, ">", $j.children, "</pre>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Aside = {
+        render = list("concat", "<aside", $j.attributes, ">", $j.children, "</aside>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      HeadingThree = {
+        render = list("concat", "<h3", $j.attributes, ">", $j.children, "</h3>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      NamedValues = {
+        render = list("concat", "<dl", $j.attributes, ">", $j.children, "</dl>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      ValueName = {
+        render = list("concat", "<dt", $j.attributes, ">", $j.children, "</dt>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      ValueDescription = {
+        render = list("concat", "<dd", $j.attributes, ">", $j.children, "</dd>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Element_b = {
+        render = list("concat", "<b", $j.attributes, ">", $j.children, "</b>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Article = {
+        render = list("concat", "<article", $j.attributes, ">", $j.children, "</article>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      SmallPrint = {
+        render = list("concat", "<small", $j.attributes, ">", $j.children, "</small>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      SelectControl = {
+        render = list("concat", "<select", $j.attributes, ">", $j.children, "</select>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Choice = {
+        render = list("concat", "<option", $j.attributes, ">", $j.children, "</option>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      OrderedCollection = {
+        render = list("concat", "<ol", $j.attributes, ">", $j.children, "</ol>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Image = {
+        render = list("concat", "<img", $j.attributes, ">");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Collection = {
+        render = list("concat", "<ul", $j.attributes, ">", $j.children, "</ul>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      TextArea = {
+        render = list("concat", "<textarea", $j.attributes, ">", $j.children, "</textarea>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Element_circle = {
+        render = list("concat", "<circle", $j.attributes, ">", $j.children, "</circle>");
+        data = list();
+        links = { attributes = { many = true; separator = "" }; children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      Slot = {
+        render = list("at", $slots, $n.name);
+        data = list("name");
+        links = {  };
+        types = { name = list("string") };
+        validators = { name = { enum = list("application.navigation") } }
+      };
+      Fragment = {
+        render = $j.children;
+        data = list();
+        links = { children = { many = true; separator = "" } };
+        types = {  };
+        validators = {  }
+      }
+    };
+    sourceProtocol = "encounter/composition-projection/1"
+  }

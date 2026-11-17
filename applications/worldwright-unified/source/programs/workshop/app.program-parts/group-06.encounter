@@ -1,0 +1,701 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0010 = list("Sequence", {
+        body = list(
+          list("Do", {
+              expression = list("Set", {
+                  operator = "=";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("Invoke", {
+                          optional = false;
+                          callee = list("NameReference", { name = { dollarPrefix = "" } });
+                          arguments = list(list("LiteralValue", { value = "#revision" }))
+                        });
+                      property = list("NameReference", { name = "textContent" })
+                    });
+                  right = list("ComposeText", {
+                      parts = list(
+                        list("LiteralValue", { value = "SESSION REVISION " }),
+                        list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("NameReference", { name = "state" });
+                            property = list("NameReference", { name = "revision" })
+                          }),
+                        list("LiteralValue", { value = "" })
+                      )
+                    })
+                })
+            }),
+          list("Do", {
+              expression = list("Set", {
+                  operator = "=";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("Invoke", {
+                          optional = false;
+                          callee = list("NameReference", { name = { dollarPrefix = "" } });
+                          arguments = list(list("LiteralValue", { value = "#story-title" }))
+                        });
+                      property = list("NameReference", { name = "value" })
+                    });
+                  right = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "state" });
+                      property = list("NameReference", { name = "title" })
+                    })
+                })
+            }),
+          list("Do", {
+              expression = list("Set", {
+                  operator = "=";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("Invoke", {
+                          optional = false;
+                          callee = list("NameReference", { name = { dollarPrefix = "" } });
+                          arguments = list(list("LiteralValue", { value = "#web-label" }))
+                        });
+                      property = list("NameReference", { name = "value" })
+                    });
+                  right = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "state" });
+                      property = list("NameReference", { name = "webLabel" })
+                    })
+                })
+            }),
+          list("Each", {
+              await = false;
+              left = list("BindGroup", {
+                  kind = "const";
+                  terminate = false;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("DestructureList", { elements = list(list("NameReference", { name = "id" }), list("NameReference", { name = "kind" })) });
+                        init = null
+                      })
+                  )
+                });
+              right = list("List", {
+                  elements = list(
+                    list("List", { elements = list(list("LiteralValue", { value = "title-route" }), list("LiteralValue", { value = "title" })) }),
+                    list("List", { elements = list(list("LiteralValue", { value = "web-route" }), list("LiteralValue", { value = "web-label" })) })
+                  )
+                });
+              body = list("Do", {
+                  expression = list("Set", {
+                      operator = "=";
+                      left = list("Select", {
+                          computed = false;
+                          optional = false;
+                          object = list("Invoke", {
+                              optional = false;
+                              callee = list("NameReference", { name = { dollarPrefix = "" } });
+                              arguments = list(
+                                list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "#" }); right = list("NameReference", { name = "id" }) })
+                              )
+                            });
+                          property = list("NameReference", { name = "textContent" })
+                        });
+                      right = list("Calculate", {
+                          operator = "+";
+                          left = list("LiteralValue", { value = "Edit route ↗ " });
+                          right = list("Invoke", {
+                              optional = false;
+                              callee = list("NameReference", { name = "routeText" });
+                              arguments = list(
+                                list("Invoke", {
+                                    optional = false;
+                                    callee = list("NameReference", { name = "routeFor" });
+                                    arguments = list(list("NameReference", { name = "kind" }))
+                                  })
+                              )
+                            })
+                        })
+                    })
+                })
+            }),
+          list("Do", {
+              expression = list("Invoke", { optional = false; callee = list("NameReference", { name = "renderSource" }); arguments = list() })
+            }),
+          list("Do", {
+              expression = list("Invoke", { optional = false; callee = list("NameReference", { name = "renderProcess" }); arguments = list() })
+            }),
+          list("Do", {
+              expression = list("Invoke", { optional = false; callee = list("NameReference", { name = "renderReceipt" }); arguments = list() })
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "pure" });
+                    init = list("Invoke", {
+                        optional = false;
+                        callee = list("NameReference", { name = { dollarPrefix = "" } });
+                        arguments = list(list("LiteralValue", { value = "#pure-values" }))
+                      })
+                  })
+              )
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "pure" });
+                      property = list("NameReference", { name = "replaceChildren" })
+                    });
+                  arguments = list()
+                })
+            }),
+          list("Each", {
+              await = false;
+              left = list("BindGroup", {
+                  kind = "const";
+                  terminate = false;
+                  declarations = list(list("Binding", { id = list("NameReference", { name = "v" }); init = null }))
+                });
+              right = list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("NameReference", { name = "state" });
+                  property = list("NameReference", { name = "pure" })
+                });
+              body = list("Sequence", {
+                  body = list(
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "d" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "item" });
+                                  arguments = list(
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "v" });
+                                        property = list("NameReference", { name = "name" })
+                                      }),
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "v" });
+                                        property = list("NameReference", { name = "expression" })
+                                      })
+                                  )
+                                })
+                            })
+                        )
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("NameReference", { name = "d" });
+                                property = list("NameReference", { name = "append" })
+                              });
+                            arguments = list(
+                              list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "node" });
+                                  arguments = list(
+                                    list("LiteralValue", { value = "p" }),
+                                    list("Invoke", {
+                                        optional = false;
+                                        callee = list("NameReference", { name = "String" });
+                                        arguments = list(
+                                          list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "v" });
+                                              property = list("NameReference", { name = "value" })
+                                            })
+                                        )
+                                      }),
+                                    list("LiteralValue", { value = "value-chip" })
+                                  )
+                                })
+                            )
+                          })
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("NameReference", { name = "pure" });
+                                property = list("NameReference", { name = "append" })
+                              });
+                            arguments = list(list("NameReference", { name = "d" }))
+                          })
+                      })
+                  )
+                })
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "html" });
+                    init = list("Invoke", {
+                        optional = false;
+                        callee = list("NameReference", { name = { dollarPrefix = "" } });
+                        arguments = list(list("LiteralValue", { value = "#html-values" }))
+                      })
+                  })
+              )
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "html" });
+                      property = list("NameReference", { name = "replaceChildren" })
+                    });
+                  arguments = list()
+                })
+            }),
+          list("Each", {
+              await = false;
+              left = list("BindGroup", {
+                  kind = "const";
+                  terminate = false;
+                  declarations = list(list("Binding", { id = list("NameReference", { name = "p" }); init = null }))
+                });
+              right = list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("NameReference", { name = "state" });
+                  property = list("NameReference", { name = "panels" })
+                });
+              body = list("Sequence", {
+                  body = list(
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "d" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "item" });
+                                  arguments = list(
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("NameReference", { name = "p" });
+                                                property = list("NameReference", { name = "projection" })
+                                              });
+                                            property = list("NameReference", { name = "output" })
+                                          });
+                                        property = list("NameReference", { name = "type" })
+                                      }),
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "p" });
+                                        property = list("NameReference", { name = "html" })
+                                      }),
+                                    list("LiteralValue", { value = "html" })
+                                  )
+                                })
+                            })
+                        )
+                      }),
+                    list("Each", {
+                        await = false;
+                        left = list("BindGroup", {
+                            kind = "const";
+                            terminate = false;
+                            declarations = list(list("Binding", { id = list("NameReference", { name = "e" }); init = null }))
+                          });
+                        right = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("NameReference", { name = "p" });
+                                    property = list("NameReference", { name = "projection" })
+                                  });
+                                property = list("NameReference", { name = "output" })
+                              });
+                            property = list("NameReference", { name = "events" })
+                          });
+                        body = list("Sequence", {
+                            body = list(
+                              list("BindGroup", {
+                                  kind = "const";
+                                  terminate = true;
+                                  declarations = list(
+                                    list("Binding", {
+                                        id = list("NameReference", { name = "description" });
+                                        init = list("Choose", {
+                                            test = list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("NameReference", { name = "e" });
+                                                property = list("NameReference", { name = "open" })
+                                              });
+                                            consequent = list("ComposeText", {
+                                                parts = list(
+                                                  list("LiteralValue", { value = "" }),
+                                                  list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("NameReference", { name = "e" });
+                                                      property = list("NameReference", { name = "selector" })
+                                                    }),
+                                                  list("LiteralValue", { value = " → open @" }),
+                                                  list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("NameReference", { name = "e" });
+                                                      property = list("NameReference", { name = "open" })
+                                                    }),
+                                                  list("LiteralValue", { value = "" })
+                                                )
+                                              });
+                                            alternate = list("ComposeText", {
+                                                parts = list(
+                                                  list("LiteralValue", { value = "" }),
+                                                  list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("NameReference", { name = "e" });
+                                                      property = list("NameReference", { name = "selector" })
+                                                    }),
+                                                  list("LiteralValue", { value = " → run " }),
+                                                  list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("NameReference", { name = "e" });
+                                                      property = list("NameReference", { name = "run" })
+                                                    }),
+                                                  list("LiteralValue", { value = "(story: @" }),
+                                                  list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("Select", {
+                                                          computed = false;
+                                                          optional = false;
+                                                          object = list("NameReference", { name = "e" });
+                                                          property = list("NameReference", { name = "arguments" })
+                                                        });
+                                                      property = list("NameReference", { name = "story" })
+                                                    }),
+                                                  list("LiteralValue", { value = ")" })
+                                                )
+                                              })
+                                          })
+                                      })
+                                  )
+                                }),
+                              list("Do", {
+                                  expression = list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "d" });
+                                          property = list("NameReference", { name = "append" })
+                                        });
+                                      arguments = list(
+                                        list("Invoke", {
+                                            optional = false;
+                                            callee = list("NameReference", { name = "node" });
+                                            arguments = list(
+                                              list("LiteralValue", { value = "p" }),
+                                              list("NameReference", { name = "description" }),
+                                              list("LiteralValue", { value = "panel-note" })
+                                            )
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("NameReference", { name = "html" });
+                                property = list("NameReference", { name = "append" })
+                              });
+                            arguments = list(list("NameReference", { name = "d" }))
+                          })
+                      })
+                  )
+                })
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "hashes" });
+                    init = list("Invoke", {
+                        optional = false;
+                        callee = list("NameReference", { name = { dollarPrefix = "" } });
+                        arguments = list(list("LiteralValue", { value = "#hashes" }))
+                      })
+                  })
+              )
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "hashes" });
+                      property = list("NameReference", { name = "replaceChildren" })
+                    });
+                  arguments = list()
+                })
+            }),
+          list("Each", {
+              await = false;
+              left = list("BindGroup", {
+                  kind = "const";
+                  terminate = false;
+                  declarations = list(list("Binding", { id = list("NameReference", { name = "h" }); init = null }))
+                });
+              right = list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("NameReference", { name = "state" });
+                  property = list("NameReference", { name = "hashes" })
+                });
+              body = list("Sequence", {
+                  body = list(
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "p" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "node" });
+                                  arguments = list(
+                                    list("LiteralValue", { value = "p" }),
+                                    list("Calculate", {
+                                        operator = "+";
+                                        left = list("Calculate", {
+                                            operator = "+";
+                                            left = list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("NameReference", { name = "h" });
+                                                property = list("NameReference", { name = "file" })
+                                              });
+                                            right = list("LiteralValue", { value = "\nSHA-256 " })
+                                          });
+                                        right = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "h" });
+                                            property = list("NameReference", { name = "hash" })
+                                          })
+                                      })
+                                  )
+                                })
+                            })
+                        )
+                      }),
+                    list("Branch", {
+                        test = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("NameReference", { name = "transport" });
+                            property = list("NameReference", { name = "sourceURL" })
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("BindGroup", {
+                                  kind = "const";
+                                  terminate = true;
+                                  declarations = list(
+                                    list("Binding", {
+                                        id = list("NameReference", { name = "a" });
+                                        init = list("Invoke", {
+                                            optional = false;
+                                            callee = list("NameReference", { name = "node" });
+                                            arguments = list(
+                                              list("LiteralValue", { value = "a" }),
+                                              list("LiteralValue", { value = "Read this source ↗" }),
+                                              list("LiteralValue", { value = "route-link" })
+                                            )
+                                          })
+                                      })
+                                  )
+                                }),
+                              list("Do", {
+                                  expression = list("Set", {
+                                      operator = "=";
+                                      left = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "a" });
+                                          property = list("NameReference", { name = "href" })
+                                        });
+                                      right = list("Invoke", {
+                                          optional = false;
+                                          callee = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "transport" });
+                                              property = list("NameReference", { name = "sourceURL" })
+                                            });
+                                          arguments = list(
+                                            list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("NameReference", { name = "h" });
+                                                property = list("NameReference", { name = "file" })
+                                              })
+                                          )
+                                        })
+                                    })
+                                }),
+                              list("Do", {
+                                  expression = list("Set", {
+                                      operator = "=";
+                                      left = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "a" });
+                                          property = list("NameReference", { name = "target" })
+                                        });
+                                      right = list("LiteralValue", { value = "_blank" })
+                                    })
+                                }),
+                              list("Do", {
+                                  expression = list("Set", {
+                                      operator = "=";
+                                      left = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "a" });
+                                          property = list("NameReference", { name = "rel" })
+                                        });
+                                      right = list("LiteralValue", { value = "noopener" })
+                                    })
+                                }),
+                              list("Do", {
+                                  expression = list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "p" });
+                                          property = list("NameReference", { name = "append" })
+                                        });
+                                      arguments = list(list("NameReference", { name = "a" }))
+                                    })
+                                })
+                            )
+                          });
+                        alternate = null
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("NameReference", { name = "hashes" });
+                                property = list("NameReference", { name = "append" })
+                              });
+                            arguments = list(list("NameReference", { name = "p" }))
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("NameReference", { name = "renderDiagram" });
+                  arguments = list(list("NameReference", { name = "previous" }))
+                })
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "window" });
+                      property = list("NameReference", { name = "dispatchEvent" })
+                    });
+                  arguments = list(
+                    list("Construct", {
+                        callee = list("NameReference", { name = "CustomEvent" });
+                        arguments = list(
+                          list("LiteralValue", { value = "encounter-state" }),
+                          list("Record", {
+                              properties = list(
+                                list("Field", {
+                                    computed = false;
+                                    kind = "init";
+                                    key = list("NameReference", { name = "detail" });
+                                    value = list("Record", {
+                                        properties = list(
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "revision" });
+                                              value = list("Select", {
+                                                  computed = false;
+                                                  optional = false;
+                                                  object = list("NameReference", { name = "state" });
+                                                  property = list("NameReference", { name = "revision" })
+                                                })
+                                            })
+                                        )
+                                      })
+                                  })
+                              )
+                            })
+                        )
+                      })
+                  )
+                })
+            })
+        )
+      })
+  }

@@ -1,0 +1,31 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "workshop/app.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "workshop/app.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list(
+      "app.program-parts/group-01.encounter",
+      "app.program-parts/group-02.encounter",
+      "app.program-parts/group-03.encounter",
+      "app.program-parts/group-04.encounter",
+      "app.program-parts/group-05.encounter",
+      "app.program-parts/group-06.encounter",
+      "app.program-parts/group-07.encounter"
+    );
+    tree = list("Module", {
+        body = list(
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", { imported = list("NameReference", { name = "paint" }); local = list("NameReference", { name = "paint" }) })
+              );
+              source = list("LiteralValue", { value = "./highlight.js" });
+              attributes = list()
+            }),
+          { fragment = "part0001" }
+        )
+      })
+  }

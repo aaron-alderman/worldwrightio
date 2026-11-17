@@ -1,0 +1,116 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("NameReference", { name = "createDebugger" });
+    part0002 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "data" });
+        property = list("NameReference", { name = "plan" })
+      });
+    part0003 = list("Procedure", {
+        generator = false;
+        async = false;
+        block = false;
+        id = null;
+        params = list(list("NameReference", { name = "state" }));
+        body = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "self" });
+                property = list("NameReference", { name = "postMessage" })
+              });
+            arguments = list(
+              list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "event" });
+                        value = list("LiteralValue", { value = "state" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "state" });
+                        value = list("NameReference", { name = "state" })
+                      })
+                  )
+                })
+            )
+          })
+      });
+    part0004 = list("NameReference", { name = "data" });
+    part0005 = list("NameReference", { name = "breakpoints" });
+    part0006 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "event" });
+        value = list("LiteralValue", { value = "prepared" })
+      });
+    part0007 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "instructions" });
+        value = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "controller" });
+            property = list("NameReference", { name = "instructions" })
+          })
+      });
+    part0008 = list("NameReference", { name = "controller" });
+    part0009 = list("NameReference", { name = "inspect" });
+    part0010 = list("ShortCircuit", {
+        operator = "||";
+        left = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "data" });
+            property = list("NameReference", { name = "path" })
+          });
+        right = list("List", { elements = list() })
+      });
+    part0011 = list("ShortCircuit", {
+        operator = "||";
+        left = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "data" });
+            property = list("NameReference", { name = "offset" })
+          });
+        right = list("LiteralValue", { value = 0 })
+      });
+    part0012 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "data" });
+        property = list("NameReference", { name = "pause" })
+      });
+    part0013 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "id" });
+        value = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "data" });
+            property = list("NameReference", { name = "id" })
+          })
+      });
+    part0014 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "value" });
+        value = list("NameReference", { name = "value" })
+      });
+    part0015 = list("NameReference", { name = "data" });
+    part0016 = list("NameReference", { name = "ids" });
+    part0017 = list("NameReference", { name = "data" });
+    part0018 = list("NameReference", { name = "id" });
+    part0019 = list("NameReference", { name = "error" });
+    part0020 = list("NameReference", { name = "message" })
+  }

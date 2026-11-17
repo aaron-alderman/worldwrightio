@@ -1,0 +1,255 @@
+process-module "temple/surface-process-module/1"
+
+process style.definition:
+  let result = {
+    protocol = "encounter/style-projection/1";
+    identity = "reading.css";
+    reason = "Own selectors, contexts and individual declarations as editable values.";
+    target = "reading.css";
+    goal = "Generate CSS from rules without a latent stylesheet.";
+    sheet = list("StyleSheet", list(
+      list("StyleRule", ".story .body-copy", list(
+        list("Declaration", "font-size", "16px"),
+        list("Declaration", "line-height", "1.85"),
+        list("Declaration", "max-width", "62ch"),
+        list("Declaration", "color", "#d5cbd7")
+      )),
+      list("StyleRule", ".story .lead", list(
+        list("Declaration", "line-height", "1.55")
+      )),
+      list("StyleRule", ".scope-note", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "line-height", "1.7"),
+        list("Declaration", "letter-spacing", ".04em"),
+        list("Declaration", "color", "#c8bdcb")
+      )),
+      list("StyleRule", ".story", list(
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".word-help,.research-reading,.calculation-detail,.full-source-note,.source-identity", list(
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "margin", "18px 0"),
+        list("Declaration", "padding", "0 0 8px"),
+        list("Declaration", "line-height", "1.75")
+      )),
+      list("StyleRule", ".word-help summary,.research-reading summary,.calculation-detail summary,.full-source-note summary,.source-identity summary", list(
+        list("Declaration", "cursor", "pointer"),
+        list("Declaration", "padding", "14px 4px"),
+        list("Declaration", "min-height", "48px"),
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "color", "var(--paper)")
+      )),
+      list("StyleRule", ".word-help dl", list(
+        list("Declaration", "margin", "4px 0 20px")
+      )),
+      list("StyleRule", ".word-help dt", list(
+        list("Declaration", "font-size", "16px"),
+        list("Declaration", "font-weight", "bold"),
+        list("Declaration", "margin-top", "14px"),
+        list("Declaration", "color", "var(--lime)")
+      )),
+      list("StyleRule", ".word-help dd", list(
+        list("Declaration", "margin", "4px 0 0"),
+        list("Declaration", "color", "#c7becd"),
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "line-height", "1.75")
+      )),
+      list("StyleRule", ".reading-detail-intro", list(
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "line-height", "1.75"),
+        list("Declaration", "color", "#bfb3c4")
+      )),
+      list("StyleRule", ".research-reading .body-copy", list(
+        list("Declaration", "font-size", "15px")
+      )),
+      list("StyleRule", ".activity-help", list(
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "line-height", "1.75"),
+        list("Declaration", "color", "#d3c9d8"),
+        list("Declaration", "margin", "0 0 24px"),
+        list("Declaration", "max-width", "55ch"),
+        list("Declaration", "border-left", "2px solid var(--orange)"),
+        list("Declaration", "padding-left", "16px")
+      )),
+      list("StyleRule", ".art-panel", list(
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".art-panel .encounter-label", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "letter-spacing", ".04em"),
+        list("Declaration", "text-transform", "none"),
+        list("Declaration", "line-height", "1.6"),
+        list("Declaration", "position", "static")
+      )),
+      list("StyleRule", ".art-panel .demo-note,.art-panel .world-note,.art-panel .art-caption", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "letter-spacing", ".02em"),
+        list("Declaration", "line-height", "1.75"),
+        list("Declaration", "color", "#bfb2c8")
+      )),
+      list("StyleRule", ".art-panel .readout,.world-result,.world-intro,.layer-notes,.range-label,.conversation-reflection,.encounter-hint", list(
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "line-height", "1.75")
+      )),
+      list("StyleRule", ".art-panel .control,.world-controls button,.deck-options button,.reply-options button,.object-controls button,.art-controls button", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "min-height", "44px"),
+        list("Declaration", "white-space", "normal"),
+        list("Declaration", "line-height", "1.5")
+      )),
+      list("StyleRule", ".art-controls,.world-controls,.object-controls", list(
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "gap", "8px")
+      )),
+      list("StyleRule", ".calculation-detail", list(
+        list("Declaration", "width", "100%"),
+        list("Declaration", "text-align", "left")
+      )),
+      list("StyleRule", ".calculation-detail .equation-note", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "overflow", "auto"),
+        list("Declaration", "line-height", "1.8")
+      )),
+      list("StyleRule", ".bench-reading span,.ledger-bars label,.count-pair small,.rate-controls small,.weight-options span", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "line-height", "1.6")
+      )),
+      list("StyleRule", ".ledger-bars label", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "gap", "12px")
+      )),
+      list("StyleRule", ".ledger-bars output", list(
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", ".source-note,.dialog-intro,.source-description", list(
+        list("Declaration", "font-size", "16px"),
+        list("Declaration", "line-height", "1.85")
+      )),
+      list("StyleRule", ".source-identity", list(
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".choice-detail,.region-description,.trail p", list(
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "line-height", "1.75"),
+        list("Declaration", "color", "#c0b3c8")
+      )),
+      list("StyleRule", ".choice-type,.passage-territory,.region-bearing small,.region-card-top,.region-card-foot", list(
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "line-height", "1.7")
+      )),
+      list("StyleRule", ".header nav button", list(
+        list("Declaration", "min-height", "44px")
+      )),
+      list("StyleRule", ".atlas-legend", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "line-height", "1.7")
+      )),
+      list("StyleRule", ".dialog-foot", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "line-height", "1.7")
+      )),
+      list("StyleRule", ".art-panel svg", list(
+        list("Declaration", "max-width", "100%")
+      )),
+      list("StyleRule", "details[hidden]", list(
+        list("Declaration", "display", "none")
+      )),
+      list("StyleRule", "summary:focus-visible", list(
+        list("Declaration", "outline", "2px solid var(--lime)"),
+        list("Declaration", "outline-offset", "4px")
+      )),
+      list("StyleGroup", "media", "(max-width:740px)", list(
+        list("StyleRule", ".story .body-copy", list(
+          list("Declaration", "font-size", "16px")
+        )),
+        list("StyleRule", ".story .lead", list(
+          list("Declaration", "font-size", "22px")
+        )),
+        list("StyleRule", ".scope-note", list(
+          list("Declaration", "font-size", "12px")
+        )),
+        list("StyleRule", ".activity-help", list(
+          list("Declaration", "margin-bottom", "22px")
+        )),
+        list("StyleRule", ".art-panel .control", list(
+          list("Declaration", "font-size", "13px")
+        )),
+        list("StyleRule", ".atlas-legend", list(
+          list("Declaration", "display", "block")
+        )),
+        list("StyleRule", ".header nav", list(
+          list("Declaration", "gap", "10px")
+        )),
+        list("StyleRule", ".header nav button", list(
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".scene-top", list(
+          list("Declaration", "gap", "15px"),
+          list("Declaration", "flex-wrap", "wrap")
+        )),
+        list("StyleRule", ".region-bearing", list(
+          list("Declaration", "flex-wrap", "wrap")
+        )),
+        list("StyleRule", ".story h1", list(
+          list("Declaration", "overflow-wrap", "normal")
+        )),
+        list("StyleRule", ".world-result", list(
+          list("Declaration", "overflow-wrap", "anywhere")
+        )),
+        list("StyleRule", ".ledger-bars label", list(
+          list("Declaration", "font-size", "13px")
+        )),
+        list("StyleRule", ".header", list(
+          list("Declaration", "margin-inline", "5%")
+        )),
+        list("StyleRule", ".brand", list(
+          list("Declaration", "font-size", "25px")
+        )),
+        list("StyleRule", ".brand svg", list(
+          list("Declaration", "width", "27px")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:380px)", list(
+        list("StyleRule", ".header nav", list(
+          list("Declaration", "gap", "8px")
+        )),
+        list("StyleRule", ".header nav button:nth-child(3)", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".header .brand", list(
+          list("Declaration", "font-size", "22px")
+        )),
+        list("StyleRule", ".header .brand svg", list(
+          list("Declaration", "width", "24px")
+        )),
+        list("StyleRule", ".story h1", list(
+          list("Declaration", "font-size", "40px")
+        )),
+        list("StyleRule", ".atlas-list", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        )),
+        list("StyleRule", ".art-panel .control", list(
+          list("Declaration", "padding", "10px")
+        )),
+        list("StyleRule", ".dialog-header h2", list(
+          list("Declaration", "font-size", "30px")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:740px)", list(
+        list("StyleRule", ".header nav button:nth-child(2)", list(
+          list("Declaration", "display", "block")
+        )),
+        list("StyleRule", ".header nav button", list(
+          list("Declaration", "font-size", "13px")
+        )),
+        list("StyleRule", ".header nav button:nth-child(3)", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".header nav", list(
+          list("Declaration", "gap", "14px")
+        ))
+      ))
+    ))
+  }

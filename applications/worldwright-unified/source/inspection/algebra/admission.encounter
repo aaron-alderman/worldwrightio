@@ -1,0 +1,140 @@
+process-module "temple/surface-process-module/1"
+
+process admit.binding:
+  port value.describe { value = $binding } → bindingKind
+  assert eq($bindingKind.type, "string")
+    otherwise "TEMPLE-S001: Binding must be a string identifier. Correct the authored source."
+  port text.matches { value = $binding; pattern = "^[A-Za-z_][A-Za-z0-9_]*$" } → valid
+  assert and($valid, not(includes(list("__proto__", "prototype", "constructor", "model"), $binding)))
+    otherwise "TEMPLE-S001: Invalid binding. Use a safe lexical identifier; correct the authored source."
+
+process admit.expression:
+  port value.describe { value = $expression } → kind
+  assert or($kind.null, eq($kind.type, "string"), eq($kind.type, "boolean"), $kind.finite, $kind.array, $kind.plain)
+    otherwise "TEMPLE-S002: Unsupported source value. Use finite JSON data."
+  assert $kind.dataOnly
+    otherwise "TEMPLE-S003: Accessor-bearing source is forbidden. Supply own-data records."
+  when eq($kind.type, "string"):
+    port text.matches { value = $expression; pattern = "^\\$" } → referenceLike
+    when $referenceLike:
+      port text.matches { value = $expression; pattern = "^\\$[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z0-9_-]+)*$" } → valid
+      assert $valid
+        otherwise "TEMPLE-S004: Invalid reference. Correct the source reference."
+      port text.split { value = $expression; pattern = "^\\$|\\." } → segments
+      assert every($segments, "segment", not(includes(list("__proto__", "prototype", "constructor"), $segment)))
+        otherwise "TEMPLE-S004: Reserved reference segment. Correct the authored reference before effects."
+  when $kind.plain:
+    port record.entries { value = $expression } → entries
+    each $entries as entry:
+      assert not(includes(list("__proto__", "prototype", "constructor"), at($entry, 0)))
+        otherwise "TEMPLE-S005: Reserved source field. Rename the field."
+      let expression = at($entry, 1)
+      call admit.expression
+  when $kind.array:
+    assert $kind.dense
+      otherwise "TEMPLE-S006: Sparse source arrays are forbidden."
+    when count($expression):
+      let operation = at($expression, 0)
+      let rule = at($profile.operators, $operation)
+      assert $rule
+        otherwise "TEMPLE-S007: Unknown core operation. Lower authored operators before admission."
+      assert includes($rule.arities, add(count($expression), -1))
+        otherwise "TEMPLE-S008: Wrong core arity. Correct the source call."
+      each range(add(count($expression), -1)) as position:
+        let argument = at($expression, $position)
+        when includes($rule.binders, add($position, -1)):
+          let binding = $argument
+          call admit.binding
+        when not(includes($rule.binders, add($position, -1))):
+          let expression = $argument
+          call admit.expression
+      when eq($operation, "fold"):
+        assert not(eq(at($expression, 2), at($expression, 3)))
+          otherwise "TEMPLE-S009: Fold item and accumulator must have distinct bindings."
+
+process admit.programme:
+  assert isArray($programme)
+    otherwise "TEMPLE-S010: Process must be an array."
+  each $programme as statement:
+    port value.describe { value = $statement } → shape
+    assert and($shape.plain, $shape.dataOnly)
+      otherwise "TEMPLE-S011: Statement must be an own-data record."
+    port record.entries { value = $profile.statements } → forms
+    port record.entries { value = $statement } → fields
+    let keys = map($fields, "entry", at($entry, 0))
+    let kinds = filter($forms, "form", includes($keys, at($form, 0)))
+    assert eq(count($kinds), 1)
+      otherwise "TEMPLE-S012: Unknown or ambiguous statement. Use one declared statement kind."
+    let form = at(at($kinds, 0), 0)
+    let schema = at(at($kinds, 0), 1)
+    assert and(eq(count($keys), count($schema.fields)), every($keys, "key", includes($schema.fields, $key)))
+      otherwise "TEMPLE-S013: Unknown or missing statement field. Correct the authored statement before effects."
+    each $schema.bindings as field:
+      let binding = at($statement, $field)
+      call admit.binding
+    each $schema.strings as field:
+      port value.describe { value = at($statement, $field) } → fieldKind
+      assert eq($fieldKind.type, "string")
+        otherwise "TEMPLE-S014: Statement name or message must be a string."
+    when eq($form, "fold"):
+      assert not(eq($statement.as, $statement.accumulator))
+        otherwise "TEMPLE-S009: Fold bindings must be distinct."
+    when eq($form, "call"):
+      port record.entries { value = $target.queries } → queries
+      assert some($queries, "entry", eq(at($entry, 0), $statement.call))
+        otherwise "TEMPLE-S015: Unknown process target. Declare it in this module closure."
+    each $schema.expressions as field:
+      let expression = at($statement, $field)
+      call admit.expression
+    each $schema.programmes as field:
+      let programme = at($statement, $field)
+      call admit.programme
+
+process admit.model:
+  port record.entries { value = $target.queries } → queries
+  assert some($queries, "entry", eq(at($entry, 0), $target.entry))
+    otherwise "TEMPLE-S016: Missing entrypoint. Declare the selected root."
+  each $queries as query:
+    let programme = at($query, 1)
+    call admit.programme
+  let result = { ok = true; profile = "temple/kernel-profile/1" }
+
+process admit.effects.programme:
+  fold $programme as statement; visited starts $visited:
+    when at($statement, "port"):
+      assert includes($grants, $statement.port)
+        otherwise "TEMPLE-S017: Undeclared host effect. Correct the authored programme or review an explicit grant; do not widen permissions to bypass this check."
+    when at($statement, "call"):
+      when not(includes($visited, $statement.call)):
+        let visited = append($visited, list($statement.call))
+        let programme = at($target.queries, $statement.call)
+        call admit.effects.programme
+    port record.entries { value = $statement } → fields
+    let keys = map($fields, "entry", at($entry, 0))
+    port record.entries { value = $profile.statements } → forms
+    fold $forms as form; visited starts $visited:
+      when includes($keys, at($form, 0)):
+        fold at(at($form, 1), "programmes") as field; visited starts $visited:
+          let programme = at($statement, $field)
+          call admit.effects.programme
+          yield $visited → visited
+      yield $visited → visited
+    yield $visited → visited
+
+process admit.effects:
+  let visited = list($target.entry)
+  let programme = at($target.queries, $target.entry)
+  call admit.effects.programme
+  let result = { ok = true }
+
+process admit.ownership:
+  fold $sources as source; ownershipEntries starts list():
+    fold $source.facts as fact; ownershipKeys starts list():
+      port json.stringify { value = list($fact.s, $fact.p) } → ownershipKey
+      yield append($ownershipKeys, list($ownershipKey)) → ownershipKeys
+    yield append($ownershipEntries, map(distinct($ownershipKeys), "ownershipKey", list($ownershipKey, $source.file))) → ownershipEntries
+  port record.fromEntries { entries = $ownershipEntries } → owners
+  each $ownershipEntries as ownershipEntry:
+    assert eq(at($owners, at($ownershipEntry, 0)), at($ownershipEntry, 1))
+      otherwise "TEMPLE-S018: Relation cell has multiple source owners. Correct the owning module; do not duplicate shared facts."
+  let result = { ok = true; owners = $owners }

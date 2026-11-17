@@ -1,0 +1,601 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("ComposeText", { parts = list(list("MarkupText", { value = "control" })) });
+    part0002 = list("ComposeText", { parts = list(list("NameReference", { name = "action" })) });
+    part0003 = list("ComposeText", { parts = list(list("NameReference", { name = "key" })) });
+    part0004 = list("ComposeText", {
+        parts = list(
+          list("Calculate", {
+              operator = "===";
+              left = list("NameReference", { name = "i" });
+              right = list("NameReference", { name = "active" })
+            })
+        )
+      });
+    part0005 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "p" });
+        property = list("NameReference", { name = "t" })
+      });
+    part0006 = list("LiteralValue", { value = 39 });
+    part0007 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "p" });
+        property = list("NameReference", { name = "x" })
+      });
+    part0008 = list("LiteralValue", { value = 135 });
+    part0009 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "p" });
+        property = list("NameReference", { name = "t" })
+      });
+    part0010 = list("LiteralValue", { value = 39 });
+    part0011 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "p" });
+        property = list("NameReference", { name = "h" })
+      });
+    part0012 = list("LiteralValue", { value = 135 });
+    part0013 = list("MarkupText", { value = "m150 30 28 80-28 46-28-46Z" });
+    part0014 = list("MarkupText", { value = "rotate(" });
+    part0015 = list("Calculate", { operator = "*"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 36 }) });
+    part0016 = list("MarkupText", { value = " 150 150)" });
+    part0017 = list("BindGroup", { kind = "const"; terminate = true; declarations = list({ fragment = "part0018" }) });
+    part0018 = list("Binding", { id = list("NameReference", { name = "decks" }); init = { fragment = "part0019" } });
+    part0019 = list("Record", {
+        properties = list(
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "will" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE JOINS / A CONCEPTUAL SEQUENCE" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "An arrow is a question about a relationship." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Getting ready → choosing" }),
+                                    list("LiteralValue", { value = "Which conditions make an option available, and what evidence shows it was selected?" })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Choosing → acting" }),
+                                    list("LiteralValue", { value = "How does a choice lead to a bodily action? Wanting to move does not explain each step." })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Acting → learning what happened" }),
+                                    list("LiteralValue", { value = "What record returns, and can it change the next action? A drawn loop is not proof that it ran." })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "stone" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE STONE / THREE INVESTIGATIVE LENSES" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "An illustrative object. No sampled monument is represented." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "What it is made of" }),
+                                    list("LiteralValue", {
+                                        value = "Compare the minerals and texture with stone from known places. Knowing its name does not tell us where it came from."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "How it was shaped" }),
+                                    list("LiteralValue", {
+                                        value = "A proposed process should predict removal, tool wear, waste and surface traces together. A successful modern treatment is not evidence that it was used historically."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Where it was found" }),
+                                    list("LiteralValue", {
+                                        value = "Where was it found? In which layer of the ground? What was nearby, and how old was it? These details help us understand its history."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "preservation" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE SURVIVING RECORD / LAYERS OF INFERENCE" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "Which explanation could account for an absent trace?" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "The process never occurred" }),
+                                    list("LiteralValue", {
+                                        value = "Look for independent evidence about the candidate process and its predicted traces. Absence is informative only relative to expected detection."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "The trace was altered" }),
+                                    list("LiteralValue", {
+                                        value = "A preservation model would need exposure, burial, chemical change or conservation conditions tied to this object."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "The detector missed it" }),
+                                    list("LiteralValue", {
+                                        value = "Calibration, resolution and sampling determine what a null reading can exclude. More confidence in the same blind view does not fix it."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "laboratory" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE BENCH / CHOOSE A DISCRIMINATOR" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "A proposal for a record, not a stream of acquired data." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Add a timing reference" }),
+                                    list("LiteralValue", {
+                                        value = "Compare the timing of signals that look alike when you measure only their height. Check the accuracy and stability of the timing reference too."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Reverse the path" }),
+                                    list("LiteralValue", {
+                                        value = "Ask which part changes sign or order when a controlled path reverses. Ordinary noncommutativity remains a rival to test."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Change the waiting time" }),
+                                    list("LiteralValue", {
+                                        value = "Record ring-downs, delays or dwell distributions. Equal endpoints can hide different histories and escape processes."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "cosmos" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE OBSERVATORY / OPEN WINDOWS" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "The stars are an illustration. The gates are research questions." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Gravity & torsion" }),
+                                    list("LiteralValue", {
+                                        value = "The studied route has not justified the numbers needed for a physical gravity model. The source names particular changes that could reopen it. Naming a mathematical structure does not supply those numbers."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Flavour & neutrinos" }),
+                                    list("LiteralValue", {
+                                        value = "The model still needs to calculate the relationships between particle types while respecting the theory’s rules. Inserting the desired relationships does not explain them."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Cosmic history" }),
+                                    list("LiteralValue", {
+                                        value = "One model needs to explain expansion, small fluctuations, bending of light and large structures with the same settings. A separate fit for each observation does not yet do that."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "scenario" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE SHARED-WORLD RECORD / INSPECT A CONDITION" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "Reported synthetic results. This is not a live policy simulator." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Lower urgency" }),
+                                    list("LiteralValue", {
+                                        value = "When the model assumes delivery succeeds, its overall score favours mediation in all 40 lower-urgency cases tested. That result depends on what the model measures and how it scores those things."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Higher urgency" }),
+                                    list("LiteralValue", {
+                                        value = "Under the same assumptions, the overall score favours immediate visible action in all 120 higher-urgency cases tested. A result in this computer model does not give permission to act in a real community."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Keep the tradeoffs" }),
+                                    list("LiteralValue", {
+                                        value = "Every case still involves a tradeoff: the option with the higher overall score is not better on every measure. The model still needs checks against real observations and evidence about causes."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "texts" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE READING DESK / KEEP THE RUNGS DISTINCT" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "No forecasts or dates are generated here." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Literary fit" }),
+                                    list("LiteralValue", {
+                                        value = "A reading can fit a passage’s language and genre. The same narrative supplying oracle and outcome is a different kind of support from independent history."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Historical correspondence" }),
+                                    list("LiteralValue", {
+                                        value = "Ask for the textual witness, source-date interval and independently dated outcome. Retrospective interpretation must remain available as a rival."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Try it on fresh examples" }),
+                                    list("LiteralValue", {
+                                        value = "Choose the reading rule before trying it on examples you did not use to develop it. A good literary fit alone does not establish a divine source or show that a rule predicts better than its rivals."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "commons" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE COMMONS / WHAT A USEFUL PACKET CARRIES" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "A proposal to another person. Nothing is sent by this reader." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "The exact object" }),
+                                    list("LiteralValue", {
+                                        value = "State the question. Give the source file, version and original test or observation. Help someone else find exactly what you checked."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "The observed difference" }),
+                                    list("LiteralValue", {
+                                        value = "Separate what you expected from what happened, then state the narrow conclusion. Several summaries of one event do not become independent confirmations."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "The next opening" }),
+                                    list("LiteralValue", {
+                                        value = "Offer a reproduction command, a counterexample or the smallest useful next test. Inbox acceptance is not scientific admission or agreement."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "refusal" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "heading" });
+                        value = list("LiteralValue", { value = "THE REFUSAL CABINET / WHAT KIND OF LIMIT?" })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "intro" });
+                        value = list("LiteralValue", { value = "Illustrative classifications from the negative-result discipline." })
+                      }),
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "items" });
+                        value = list("List", {
+                            elements = list(
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "A broken implementation" }),
+                                    list("LiteralValue", {
+                                        value = "The code did not perform the intended test. Repair and rerun can be appropriate; the failure does not settle the scientific claim."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "A limit under certain conditions" }),
+                                    list("LiteralValue", {
+                                        value = "A route fails under stated assumptions or in a parameter domain. A different declared assumption may reopen it."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "A proof of a limit" }),
+                                    list("LiteralValue", {
+                                        value = "The proof rules something out under its stated conditions. To reopen the question, explain which condition or part of the question has changed."
+                                      })
+                                  )
+                                }),
+                              list("List", {
+                                  elements = list(
+                                    list("LiteralValue", { value = "Insufficient information" }),
+                                    list("LiteralValue", {
+                                        value = "The record cannot tell the competing explanations apart. Try a measurement that preserves the difference. Repeating the same limited measurement cannot recover what it leaves out."
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            })
+        )
+      });
+    part0020 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "length" });
+        value = list("LiteralValue", { value = 25 })
+      });
+    part0021 = list("NameReference", { name = "_" });
+    part0022 = list("NameReference", { name = "i" });
+    part0023 = list("MarkupOpen", {
+        tag = "i";
+        closed = false;
+        attributes = list(
+          list("MarkupAttribute", {
+              name = "style";
+              quote = "\"";
+              value = list("ComposeText", {
+                  parts = list(
+                    list("MarkupText", { value = "--x:" }),
+                    list("Calculate", {
+                        operator = "%";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", { operator = "*"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 37 }) });
+                            right = list("LiteralValue", { value = 9 })
+                          });
+                        right = list("LiteralValue", { value = 100 })
+                      }),
+                    list("MarkupText", { value = "%;--y:" }),
+                    list("Calculate", {
+                        operator = "%";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", { operator = "*"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 23 }) });
+                            right = list("LiteralValue", { value = 5 })
+                          });
+                        right = list("LiteralValue", { value = 100 })
+                      }),
+                    list("MarkupText", { value = "%;--d:" }),
+                    list("Calculate", { operator = "%"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 4 }) }),
+                    list("MarkupText", { value = "s" })
+                  )
+                })
+            })
+        )
+      });
+    part0024 = list("MarkupClose", { tag = "i" });
+    part0025 = list("ComposeText", { parts = list(list("MarkupText", { value = "deck" })) });
+    part0026 = list("ComposeText", { parts = list(list("NameReference", { name = "i" })) });
+    part0027 = list("ComposeText", { parts = list(list("MarkupText", { value = "false" })) });
+    part0028 = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) });
+    part0029 = list("Publish", { declaration = { fragment = "part0030" }; specifiers = list(); source = null; attributes = list() });
+    part0030 = list("Define", {
+        generator = false;
+        async = false;
+        id = list("NameReference", { name = "renderWorldEncounter" });
+        params = list(list("NameReference", { name = "scene" }));
+        body = { fragment = "part0031" }
+      })
+  }

@@ -1,0 +1,337 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0012 = list("NameReference", { name = "inspector" });
+    part0013 = list("NameReference", { name = "basis" });
+    part0014 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "node" });
+        property = list("NameReference", { name = "hasAttribute" })
+      });
+    part0015 = list("LiteralValue", { value = "tabindex" });
+    part0016 = list("Sequence", {
+        body = list(
+          list("Do", {
+              expression = list("Set", {
+                  operator = "=";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "node" });
+                      property = list("NameReference", { name = "tabIndex" })
+                    });
+                  right = list("LiteralValue", { value = 0 })
+                })
+            }),
+          list("Do", {
+              expression = list("Set", {
+                  operator = "=";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("Select", {
+                          computed = false;
+                          optional = false;
+                          object = list("NameReference", { name = "node" });
+                          property = list("NameReference", { name = "dataset" })
+                        });
+                      property = list("NameReference", { name = "inspectionTab" })
+                    });
+                  right = list("LiteralValue", { value = "added" })
+                })
+            })
+        )
+      });
+    part0017 = list("NameReference", { name = "node" });
+    part0018 = list("NameReference", { name = "setAttribute" });
+    part0019 = list("NameReference", { name = "node" });
+    part0020 = list("NameReference", { name = "dataset" });
+    part0021 = list("Sequence", {
+        body = list(
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "node" });
+                      property = list("NameReference", { name = "removeAttribute" })
+                    });
+                  arguments = list(list("LiteralValue", { value = "tabindex" }))
+                })
+            }),
+          list("Do", {
+              expression = list("Unary", {
+                  operator = "delete";
+                  prefix = true;
+                  argument = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("Select", {
+                          computed = false;
+                          optional = false;
+                          object = list("NameReference", { name = "node" });
+                          property = list("NameReference", { name = "dataset" })
+                        });
+                      property = list("NameReference", { name = "inspectionTab" })
+                    })
+                })
+            })
+        )
+      });
+    part0022 = list("NameReference", { name = "node" });
+    part0023 = list("NameReference", { name = "removeAttribute" });
+    part0024 = list("LiteralValue", { value = "<" });
+    part0025 = list("LiteralValue", { value = "p" });
+    part0026 = list("Calculate", {
+        operator = "+";
+        left = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", {
+                    operator = "+";
+                    left = list("LiteralValue", { value = " " });
+                    right = list("LiteralValue", { value = "class" })
+                  });
+                right = list("LiteralValue", { value = "=" })
+              });
+            right = list("LiteralValue", { value = "\"" })
+          });
+        right = list("Calculate", {
+            operator = "+";
+            left = list("LiteralValue", { value = "" });
+            right = list("LiteralValue", { value = "inspection-error" })
+          })
+      });
+    part0027 = list("LiteralValue", { value = "\"" });
+    part0028 = list("Calculate", {
+        operator = "+";
+        left = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", {
+                    operator = "+";
+                    left = list("LiteralValue", { value = "" });
+                    right = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "div" }) });
+                            right = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("Calculate", {
+                                        operator = "+";
+                                        left = list("Calculate", {
+                                            operator = "+";
+                                            left = list("Calculate", {
+                                                operator = "+";
+                                                left = list("LiteralValue", { value = " " });
+                                                right = list("LiteralValue", { value = "class" })
+                                              });
+                                            right = list("LiteralValue", { value = "=" })
+                                          });
+                                        right = list("LiteralValue", { value = "\"" })
+                                      });
+                                    right = list("Calculate", {
+                                        operator = "+";
+                                        left = list("LiteralValue", { value = "" });
+                                        right = list("LiteralValue", { value = "inspection-toolbar" })
+                                      })
+                                  });
+                                right = list("LiteralValue", { value = "\"" })
+                              })
+                          });
+                        right = list("LiteralValue", { value = ">" })
+                      })
+                  });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "<" });
+                            right = list("LiteralValue", { value = "button" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("Calculate", {
+                                        operator = "+";
+                                        left = list("Calculate", {
+                                            operator = "+";
+                                            left = list("LiteralValue", { value = " " });
+                                            right = list("LiteralValue", { value = "data-inspection" })
+                                          });
+                                        right = list("LiteralValue", { value = "=" })
+                                      });
+                                    right = list("LiteralValue", { value = "\"" })
+                                  });
+                                right = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "" }); right = list("LiteralValue", { value = "index" }) })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          })
+                      });
+                    right = list("LiteralValue", { value = ">" })
+                  })
+              });
+            right = list("LiteralValue", { value = "This world’s composition" })
+          });
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("LiteralValue", { value = "</" });
+                right = list("LiteralValue", { value = "button" })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0029 = list("Calculate", {
+        operator = "+";
+        left = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", {
+                    operator = "+";
+                    left = list("LiteralValue", { value = "<" });
+                    right = list("LiteralValue", { value = "button" })
+                  });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("LiteralValue", { value = " " });
+                                    right = list("LiteralValue", { value = "data-inspection" })
+                                  });
+                                right = list("LiteralValue", { value = "=" })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          });
+                        right = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "" }); right = list("LiteralValue", { value = "back" }) })
+                      });
+                    right = list("LiteralValue", { value = "\"" })
+                  })
+              });
+            right = list("Choose", {
+                test = list("Calculate", {
+                    operator = ">";
+                    left = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "trail" });
+                        property = list("NameReference", { name = "length" })
+                      });
+                    right = list("LiteralValue", { value = 1 })
+                  });
+                consequent = list("LiteralValue", { value = "" });
+                alternate = list("LiteralValue", { value = "disabled" })
+              })
+          });
+        right = list("LiteralValue", { value = ">" })
+      });
+    part0030 = list("LiteralValue", { value = "</" });
+    part0031 = list("LiteralValue", { value = "button" });
+    part0032 = list("LiteralValue", { value = "<" });
+    part0033 = list("LiteralValue", { value = "button" });
+    part0034 = list("Calculate", {
+        operator = "+";
+        left = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", {
+                    operator = "+";
+                    left = list("LiteralValue", { value = " " });
+                    right = list("LiteralValue", { value = "data-inspection" })
+                  });
+                right = list("LiteralValue", { value = "=" })
+              });
+            right = list("LiteralValue", { value = "\"" })
+          });
+        right = list("Calculate", {
+            operator = "+";
+            left = list("LiteralValue", { value = "" });
+            right = list("LiteralValue", { value = "machinery" })
+          })
+      });
+    part0035 = list("LiteralValue", { value = "\"" });
+    part0036 = list("Calculate", {
+        operator = "+";
+        left = list("LiteralValue", { value = " " });
+        right = list("LiteralValue", { value = "data-inspection" })
+      });
+    part0037 = list("LiteralValue", { value = "=" });
+    part0038 = list("Define", {
+        generator = false;
+        async = true;
+        id = list("NameReference", { name = "index" });
+        params = list();
+        body = { fragment = "part0039" }
+      });
+    part0039 = list("Sequence", {
+        body = list(
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "ticket" });
+                    init = list("Update", { operator = "++"; prefix = true; argument = list("NameReference", { name = "epoch" }) })
+                  })
+              )
+            }),
+          { fragment = "part0040" }
+        )
+      });
+    part0040 = list("Recover", {
+        block = { fragment = "part0041" };
+        handler = list("Catch", {
+            param = list("NameReference", { name = "error" });
+            body = list("Sequence", {
+                body = list(
+                  list("Branch", {
+                      test = list("Calculate", {
+                          operator = "===";
+                          left = list("NameReference", { name = "ticket" });
+                          right = list("NameReference", { name = "epoch" })
+                        });
+                      consequent = list("Sequence", {
+                          body = list(
+                            list("Sequence", {
+                                body = list(
+                                  list("Do", {
+                                      expression = list("Invoke", {
+                                          optional = false;
+                                          callee = list("NameReference", { name = "showError" });
+                                          arguments = list(list("NameReference", { name = "error" }))
+                                        })
+                                    })
+                                )
+                              })
+                          )
+                        });
+                      alternate = null
+                    })
+                )
+              })
+          });
+        finalizer = null
+      })
+  }

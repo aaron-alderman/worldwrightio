@@ -1,0 +1,166 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0004 = list("NameReference", { name = "c" });
+    part0005 = list("NameReference", { name = "model" });
+    part0006 = list("NameReference", { name = "c" });
+    part0007 = list("NameReference", { name = "model" });
+    part0008 = list("NameReference", { name = "c" });
+    part0009 = list("NameReference", { name = "model" });
+    part0010 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "Object" });
+        property = list("NameReference", { name = "entries" })
+      });
+    part0011 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("Select", {
+                    computed = true;
+                    optional = false;
+                    object = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("NameReference", { name = "c" });
+                            property = list("NameReference", { name = "model" })
+                          });
+                        property = list("NameReference", { name = "queries" })
+                      });
+                    property = list("LiteralValue", { value = "code.story.view.experiment.nav.story" })
+                  });
+                property = list("NameReference", { name = "find" })
+              });
+            arguments = list(
+              list("Procedure", {
+                  generator = false;
+                  async = false;
+                  block = false;
+                  id = null;
+                  params = list(list("NameReference", { name = "s" }));
+                  body = list("Calculate", {
+                      operator = "===";
+                      left = list("Select", {
+                          computed = false;
+                          optional = false;
+                          object = list("NameReference", { name = "s" });
+                          property = list("NameReference", { name = "let" })
+                        });
+                      right = list("LiteralValue", { value = "ecViewValues" })
+                    })
+                })
+            )
+          });
+        property = list("NameReference", { name = "value" })
+      });
+    part0012 = list("DestructureList", { elements = list(list("NameReference", { name = "name" }), list("NameReference", { name = "value" })) });
+    part0013 = list("Record", {
+        properties = list(
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "name" });
+              value = list("NameReference", { name = "name" })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "expression" });
+              value = list("Await", {
+                  argument = list("Invoke", {
+                      optional = false;
+                      callee = list("NameReference", { name = "fmt" });
+                      arguments = list(list("NameReference", { name = "value" }))
+                    })
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "value" });
+              value = list("Select", {
+                  computed = true;
+                  optional = false;
+                  object = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("Select", {
+                          computed = false;
+                          optional = false;
+                          object = list("NameReference", { name = "web" });
+                          property = list("NameReference", { name = "projection" })
+                        });
+                      property = list("NameReference", { name = "base" })
+                    });
+                  property = list("NameReference", { name = "name" })
+                })
+            })
+        )
+      });
+    part0014 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("Select", {
+                computed = true;
+                optional = false;
+                object = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("NameReference", { name = "model" });
+                    property = list("NameReference", { name = "queries" })
+                  });
+                property = list("LiteralValue", { value = "ec.patch" })
+              });
+            property = list("NameReference", { name = "find" })
+          });
+        arguments = list(
+          list("Procedure", {
+              generator = false;
+              async = false;
+              block = false;
+              id = null;
+              params = list(list("NameReference", { name = "s" }));
+              body = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "s" });
+                      property = list("NameReference", { name = "let" })
+                    });
+                  right = list("LiteralValue", { value = "ecRoutes" })
+                })
+            })
+        )
+      });
+    part0015 = list("NameReference", { name = "value" });
+    part0016 = list("NameReference", { name = "candidate" });
+    part0017 = list("NameReference", { name = "basisCandidate" });
+    part0018 = list("NameReference", { name = "program" });
+    part0019 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "request" });
+        property = list("NameReference", { name = "program" })
+      });
+    part0020 = list("NameReference", { name = "value" });
+    part0021 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "request" });
+        property = list("NameReference", { name = "value" })
+      });
+    part0022 = list("NameReference", { name = "p" });
+    part0023 = list("NameReference", { name = "source" })
+  }

@@ -1,0 +1,39 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0004 = list("Do", {
+        expression = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "pending" });
+                property = list("NameReference", { name = "delete" })
+              });
+            arguments = list(list("NameReference", { name = "id" }))
+          })
+      });
+    part0005 = list("Do", {
+        expression = list("Invoke", {
+            optional = false;
+            callee = list("NameReference", { name = "reject" });
+            arguments = list(
+              list("Invoke", {
+                  optional = false;
+                  callee = list("NameReference", { name = "Error" });
+                  arguments = list(list("LiteralValue", { value = "The inspection did not return. Pause and open the value again." }))
+                })
+            )
+          })
+      });
+    part0006 = list("NameReference", { name = "runState" });
+    part0007 = list("NameReference", { name = "pause" });
+    part0008 = list("Define", {
+        generator = false;
+        async = false;
+        id = list("NameReference", { name = "showState" });
+        params = list();
+        body = { fragment = "part0009" }
+      })
+  }

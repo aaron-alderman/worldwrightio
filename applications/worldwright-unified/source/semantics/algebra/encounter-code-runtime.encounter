@@ -1,0 +1,207 @@
+process-module "temple/surface-process-module/1"
+
+process ec.prepare:
+  let ecInputs = $eventInput
+  port text.replaceAll { value = $ecInputs.codeText; search = "\r\n"; replacement = "\n" } → ecNormalCode
+  port record.put { record = $ecInputs; key = "codeText"; value = $ecNormalCode } → ecInputs
+  let ecAllFacts = list()
+  fold list({ file = "source/experiment/contracts.rel"; text = $ecInputs.contractText }, { file = "source/experiment/story.rel"; text = $ecInputs.factText }) as ecDocument; ecAllFacts starts list():
+    let file = $ecDocument.file
+    let text = $ecDocument.text
+    call source.rel
+    assert $result.ok
+      otherwise "EC-F001: The REL source could not be read. Correct its tuple syntax before trying again."
+    yield append($ecAllFacts, $result.facts) → ecAllFacts
+  assert every($ecAllFacts, "ecF", eq($ecF.pol, "is"))
+    otherwise "EC-F002: This positive-fact profile does not interpret negative assertions."
+  let input = $ecAllFacts
+  call facts.index
+  let factIndex = $result
+  let file = "source/experiment/story.encounter"
+  let text = $ecInputs.codeText
+  call ec.compile
+  let ecCompilation = $result
+  when not($ecCompilation.ok):
+    port json.stringify { value = $ecCompilation.diagnostic } → ecFailure
+    let result = raise(concat("EC-COMPILE: ", $ecFailure))
+  let codePlan = $ecCompilation.plan
+  let definitions = $ecInputs.definitions
+  let primitives = $ecInputs.primitives
+  let mode = "model"
+  let input = { queries = $ecCompilation.module.queries }
+  call lower.start
+  let ecLowered = $result.value
+  port record.entries { value = $model.queries } → ecRuntimeQueries
+  port record.entries { value = $ecLowered.queries } → ecEmittedQueries
+  port record.fromEntries { entries = append(filter($ecRuntimeQueries, "ecEntry", includes(list("ec.schema", "ec.slot", "ec.scalar", "ec.check", "ec.referenceType", "ec.fact", "ec.reference", "ec.argument"), at($ecEntry, 0))), $ecEmittedQueries) } → ecCandidateQueries
+  let codeModel = { entry = at(map($codePlan.views, "ecV", $ecV.entry), 0); queries = $ecCandidateQueries }
+  let target = $codeModel
+  let profile = $ecInputs.profile
+  call admit.model
+  let grants = list("value.describe", "record.entries", "record.put", "record.get", "text.matches", "text.split", "kernel.invoke", "kernel.execute")
+  port record.entries { value = $codeModel.queries } → ecEntries
+  each $ecEntries as ecEntryPair:
+    let target = { entry = at($ecEntryPair, 0); queries = $codeModel.queries }
+    call admit.effects
+  each distinct(map($ecAllFacts, "ecF", $ecF.s)) as ecFact:
+    let ecMembership = objects($ecFact, "isa")
+    assert eq(count($ecMembership), 1)
+      otherwise "EC-F003: Each fact identity in this profile needs exactly one declared type. Multiple participations require a later explicit alias profile."
+    when and(eq(count($ecMembership), 1), not(includes(list("Slot", "Interface"), at($ecMembership, 0)))):
+      port kernel.invoke { query = "ec.fact"; input = { id = $ecFact; type = at($ecMembership, 0) } } → _
+  let result = { plan = $codePlan; model = $codeModel; factIndex = $factIndex; facts = $ecAllFacts; inputs = $ecInputs }
+
+process ec.resolve:
+  let ecView = at(filter($codePlan.views, "ecV", eq($ecV.id, $eventInput.view)), 0)
+  assert $ecView
+    otherwise "EC-C011: This view is not declared in the current module."
+  port kernel.invoke { query = "ec.reference"; input = { id = $ecView.id; type = $ecView.type } } → ecBase
+  port kernel.invoke { query = "ec.fact"; input = { id = $ecView.source; type = $ecView.sourceType } } → ecSource
+  let bindings = { source = $ecSource }
+  let ecEffective = $ecBase.values
+  let ecEffectiveEdits = $ecView.edits
+  let ecEffectiveShow = $ecView.show
+  let ecContribution = null
+  when $eventInput.context:
+    let ecContributions = filter($ecView.contexts, "ecO", eq($ecO.id, $eventInput.context))
+    assert eq(count($ecContributions), 1)
+      otherwise "EC-C012: A context must have exactly one explicit contribution; there is no hidden precedence."
+    let ecContribution = at($ecContributions, 0)
+    fold $ecContribution.fields.fields as ecField; ecEffective starts $ecEffective:
+      port kernel.evaluate { expression = $ecField.expression.expression; bindings = { bindings = $bindings; codePlan = $codePlan } } → ecOverlayValue
+      port record.put { record = $ecEffective; key = $ecField.name; value = $ecOverlayValue } → ecEffective
+      yield $ecEffective → ecEffective
+    let ecEffectiveEdits = append(filter($ecEffectiveEdits, "ecE", not(some($ecContribution.fields.fields, "ecF", eq($ecF.name, $ecE.field)))), $ecContribution.edits)
+    let ecEffectiveShow = $ecContribution.show
+  port kernel.invoke { query = "ec.check"; input = { type = $ecView.type; values = $ecEffective } } → _
+  assert $ecEffectiveShow
+    otherwise "EC-C013: Select a representation for this view/context."
+  let ecRepresentation = at(filter($codePlan.representations, "ecR", eq($ecR.id, $ecEffectiveShow.representation)), 0)
+  let ecArguments = {}
+  port record.put { record = $ecArguments; key = at(at($ecRepresentation.given, 0), "name"); value = { id = $ecView.id; type = $ecView.type; values = $ecEffective } } → ecArguments
+  fold $ecEffectiveShow.parameters as ecParameter; ecArguments starts $ecArguments:
+    port kernel.evaluate { expression = $ecParameter.expression.expression; bindings = { bindings = $bindings; codePlan = $codePlan } } → ecParameterValue
+    port record.put { record = $ecArguments; key = $ecParameter.name; value = $ecParameterValue } → ecArguments
+    yield $ecArguments → ecArguments
+  port kernel.execute { model = $codeModel; entry = $ecRepresentation.entry; input = $ecArguments } → ecOutput
+  port kernel.invoke { query = "ec.safeTree"; input = { tree = $ecOutput.tree } } → _
+  port kernel.invoke { query = "ec.events"; input = { events = $ecOutput.events; tree = $ecOutput.tree } } → _
+  let result = { view = $ecView.id; source = $ecView.source; type = $ecView.type; values = $ecEffective; base = $ecBase.values; edits = $ecEffectiveEdits; show = $ecEffectiveShow; contribution = $ecContribution; output = $ecOutput; execution = { entry = $ecRepresentation.entry; input = $ecArguments } }
+
+process ec.safeTree:
+  let ecTree = $eventInput.tree
+  port value.describe { value = $ecTree } → ecTreeKind
+  when eq($ecTreeKind.type, "object"):
+    port record.entries { value = $ecTree } → ecTreeFields
+    assert every($ecTreeFields, "ecF", includes(list("tag", "attrs", "children"), at($ecF, 0)))
+      otherwise "EC-D006: This element contains an undeclared presentation field."
+    assert and($ecTreeKind.plain, not($ecTreeKind.array))
+      otherwise "EC-D001: A rendered element must be a plain record."
+    assert includes(list("a", "article", "h2", "p", "table", "tbody", "tr", "td", "button"), $ecTree.tag)
+      otherwise "EC-D002: This experiment does not grant that HTML element."
+    port record.entries { value = or(at($ecTree, "attrs"), {}) } → ecAttrs
+    each $ecAttrs as ecAttr:
+      assert includes(list("id", "href", "class", "type"), at($ecAttr, 0))
+        otherwise "EC-D003: This HTML attribute is not granted."
+      when eq(at($ecAttr, 0), "href"):
+        port text.matches { value = at($ecAttr, 1); pattern = "^encounter-[a-z0-9-]+\\.html$" } → ecHrefSafe
+        assert $ecHrefSafe
+          otherwise "EC-D004: Link to an explicit local experimental page route."
+    each or(at($ecTree, "children"), list()) as ecChild:
+      port kernel.invoke { query = "ec.safeTree"; input = { tree = $ecChild } } → _
+  when not(eq($ecTreeKind.type, "object")):
+    assert eq($ecTreeKind.type, "string")
+      otherwise "EC-D005: Rendered text must be text."
+  let result = true
+
+process ec.events:
+  each $eventInput.events as ecEvent:
+    port kernel.invoke { query = "ec.findElement"; input = { tree = $eventInput.tree; selector = $ecEvent.selector } } → ecSelectorCount
+    assert eq($ecSelectorCount, 1)
+      otherwise "EC-A005: An action must bind exactly one element inside its own rendered representation."
+    port record.entries { value = $ecEvent } → ecEventFields
+    assert every($ecEventFields, "ecF", includes(list("selector", "open", "run", "arguments"), at($ecF, 0)))
+      otherwise "EC-A006: This action contains an undeclared field."
+    port text.matches { value = $ecEvent.selector; pattern = "^#[a-z][a-z0-9-]*$" } → ecSelectorSafe
+    assert $ecSelectorSafe
+      otherwise "EC-A001: Events need a local element identity selector."
+    assert or(and(at($ecEvent, "open"), not(at($ecEvent, "run"))), and(at($ecEvent, "run"), not(at($ecEvent, "open"))))
+      otherwise "EC-A002: Choose exactly one explicit action: open a page or run a typed representation."
+    when at($ecEvent, "open"):
+      port kernel.invoke { query = "ec.reference"; input = { id = at($ecEvent, "open"); type = "Page" } } → _
+    when at($ecEvent, "run"):
+      let ecEventRep = at(filter($codePlan.representations, "ecR", eq($ecR.id, at($ecEvent, "run"))), 0)
+      assert $ecEventRep
+        otherwise "EC-A003: The action must name a representation in this admitted module."
+      port record.entries { value = $ecEvent.arguments } → ecEventArgs
+      assert eq(count($ecEventArgs), count($ecEventRep.given))
+        otherwise "EC-A004: The action argument count does not match its typed signature."
+      each $ecEventRep.given as ecGiven:
+        port kernel.invoke { query = "ec.argument"; input = { value = at($ecEvent.arguments, $ecGiven.name); type = $ecGiven.type } } → _
+  let result = true
+
+process ec.run:
+  let codePlan = $eventInput.candidate.plan
+  let codeModel = $eventInput.candidate.model
+  let factIndex = $eventInput.candidate.factIndex
+  fold $codePlan.views as ecV; ecResults starts list():
+    port kernel.invoke { query = "ec.reference"; input = { id = $ecV.id; type = $ecV.type } } → _
+    when $ecV.show:
+      port kernel.invoke { query = "ec.resolve"; input = { view = $ecV.id; context = null } } → ecResolved
+      let ecResults = append($ecResults, list($ecResolved))
+    fold $ecV.contexts as ecContext; ecResults starts $ecResults:
+      port kernel.invoke { query = "ec.resolve"; input = { view = $ecV.id; context = $ecContext.id } } → ecResolved
+      yield append($ecResults, list($ecResolved)) → ecResults
+    yield $ecResults → ecResults
+  let result = $ecResults
+
+process ec.patch:
+  let ecBasis = $eventInput.candidate
+  let ecProjection = $eventInput.projection
+  let ecNewText = $eventInput.value
+  port value.describe { value = $ecNewText } → ecNewKind
+  assert eq($ecNewKind.type, "string")
+    otherwise "EC-E010: A text edit requires text; values are never coerced."
+  let ecRoutes = filter($ecProjection.edits, "ecE", eq($ecE.field, $eventInput.field))
+  assert eq(count($ecRoutes), 1)
+    otherwise "EC-E011: This field has no unique declared reverse route. Edit its source or rule instead."
+  let ecRoute = at($ecRoutes, 0)
+  let ecPatchInputs = $ecBasis.inputs
+  when eq($ecRoute.destination.kind, "source"):
+    let text = $ecBasis.inputs.factText
+    let file = "source/experiment/story.rel"
+    call source.rel
+    let ecSourceDoc = $result
+    let ecOwned = filter($ecSourceDoc.origins, "ecO", and(eq(at(at($ecSourceDoc.facts, $ecO.index), "s"), $ecProjection.source), eq(at(at($ecSourceDoc.facts, $ecO.index), "p"), $ecRoute.destination.field)))
+    assert eq(count($ecOwned), 1)
+      otherwise "EC-E012: The source value does not have a single authored location."
+    let ecSpan = at($ecOwned, 0)
+    port json.stringify { value = $ecNewText } → ecEncoded
+    port text.slice { value = $ecBasis.inputs.factText; start = 0; end = $ecSpan.span.valueStart } → ecBefore
+    port text.slice { value = $ecBasis.inputs.factText; start = $ecSpan.span.valueEnd } → ecAfter
+    port record.put { record = $ecPatchInputs; key = "factText"; value = concat($ecBefore, $ecEncoded, $ecAfter) } → ecPatchInputs
+  when eq($ecRoute.destination.kind, "literal"):
+    let ecNode = $ecRoute.destination.node
+    port text.indexOf { value = $ecNode.raw; search = $ecRoute.destination.token } → ecTokenStart
+    assert not(eq($ecTokenStart, -1))
+      otherwise "EC-E013: The authored literal moved; re-open the current route."
+    let ecStart = add($ecNode.offset, $ecTokenStart)
+    port json.stringify { value = $ecNewText } → ecEncoded
+    port text.slice { value = $ecBasis.inputs.codeText; start = 0; end = $ecStart } → ecBefore
+    port text.slice { value = $ecBasis.inputs.codeText; start = add($ecStart, count($ecRoute.destination.token)) } → ecAfter
+    port record.put { record = $ecPatchInputs; key = "codeText"; value = concat($ecBefore, $ecEncoded, $ecAfter) } → ecPatchInputs
+  port kernel.invoke { query = "ec.prepare"; input = $ecPatchInputs } → ecPatched
+  port kernel.invoke { query = "ec.run"; input = { candidate = $ecPatched } } → ecForward
+  let ecObserved = at(filter($ecForward, "ecP", and(eq($ecP.view, $ecProjection.view), eq(or(at(at($ecP, "contribution"), "id"), null), or(at(at($ecProjection, "contribution"), "id"), null)))), 0)
+  assert eq(at($ecObserved.values, $eventInput.field), $ecNewText)
+    otherwise "EC-E014: The proposed inverse does not reproduce this requested value."
+  let result = { candidate = $ecPatched; projections = $ecForward; destination = $ecRoute.destination }
+
+process ec.findElement:
+  let ecTree = $eventInput.tree
+  port value.describe { value = $ecTree } → ecKind
+  let result = 0
+  when eq($ecKind.type, "object"):
+    fold or(at($ecTree, "children"), list()) as ecChild; ecMatches starts if(eq(concat("#", at(at($ecTree, "attrs"), "id")), $eventInput.selector), 1, 0):
+      port kernel.invoke { query = "ec.findElement"; input = { tree = $ecChild; selector = $eventInput.selector } } → ecFound
+      yield add($ecMatches, $ecFound) → result

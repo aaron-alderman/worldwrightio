@@ -1,0 +1,48 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0004 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "method" });
+        value = list("LiteralValue", { value = "POST" })
+      });
+    part0005 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "headers" });
+        value = list("Record", {
+            properties = list(
+              list("Field", {
+                  computed = false;
+                  kind = "init";
+                  key = list("LiteralValue", { value = "Content-Type" });
+                  value = list("LiteralValue", { value = "application/json" })
+                })
+            )
+          })
+      });
+    part0006 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "body" });
+        value = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "JSON" });
+                property = list("NameReference", { name = "stringify" })
+              });
+            arguments = list(list("NameReference", { name = "request" }))
+          })
+      });
+    part0007 = list("Define", {
+        generator = false;
+        async = false;
+        id = list("NameReference", { name = "renderDiagram" });
+        params = list(list("NameReference", { name = "previous" }));
+        body = { fragment = "part0008" }
+      })
+  }

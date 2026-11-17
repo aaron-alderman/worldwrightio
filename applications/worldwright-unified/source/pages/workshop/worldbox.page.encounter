@@ -1,0 +1,362 @@
+process-module "temple/surface-process-module/1"
+
+process page.definition:
+  let result = {
+    protocol = "encounter/composition-projection/1";
+    identity = "workshop/worldbox.html";
+    reason = "Author the worldbox Lightning plan in the one Encounter application.";
+    target = "Worldbox decomposition, maximum workload and performance contracts.";
+    goal = "Keep proposed targets editable and measurements distinct.";
+    page = list("Main", {
+      attributes = { class = "worldbox-planner" };
+      children = list(
+        list("Paragraph", {
+          attributes = { class = "wb-eyebrow" };
+          children = list("WORLDWRIGHT / ENCOUNTER / LIGHTNING")
+        }),
+        list("HeadingOne", { children = list("Build the worldbox") }),
+        list("Paragraph", {
+          attributes = { class = "wb-lead" };
+          children = list("One world. A million lives. Every consequence open to inspection.")
+        }),
+        list("Paragraph", {
+          attributes = { class = "wb-status" };
+          children = list("PROPOSED TARGETS · NO BENCHMARK RESULTS")
+        }),
+        list("Paragraph", {
+          children = list(
+            "Author here in Encounter. Edits share the existing volatile Worldwright notes service and survive navigation, not reload. Prepare and copy a planning export to retain changes. No repository write or admission is implied."
+          )
+        }),
+        list("Group", {
+          attributes = { class = "wb-toolbar" };
+          children = list(
+            list("Action", {
+              attributes = { id = "wb-save"; type = "button" };
+              children = list("Keep changes in this session")
+            }),
+            list("Action", {
+              attributes = { id = "wb-export"; type = "button" };
+              children = list("Prepare planning export")
+            }),
+            list("Link", {
+              attributes = { href = "#workshop"; "data-application-route" = "true" };
+              children = list("Back to Encounter")
+            })
+          )
+        }),
+        list("Paragraph", {
+          attributes = { id = "wb-status"; role = "status"; "aria-live" = "polite" };
+          children = list("Source defaults loaded. Measurements remain unmeasured.")
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Strike") }),
+            list("Paragraph", { children = list("An engine of discovery") }),
+            list("Label", { attributes = { for = "wb-strike" }; children = list("Edit Strike") }),
+            list("TextArea", {
+              attributes = { id = "wb-strike"; name = "strike"; rows = "4"; "data-wb-field" = "true" };
+              children = list(
+                "Players act as gods over a developing world and supply their own purposes. NPC dispositions, capacities and decaying records have real consequences; identity as a human player confers no exemption. Physical processes and authored rules compose. One real day is 1,000 game years: 86.4 real seconds per game year and 2.4 real hours per century. Browser and installed clients share semantics and differ in presentation LOD."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Bound") }),
+            list("Paragraph", { children = list("Maximum workload K1") }),
+            list("Label", { attributes = { for = "wb-bound" }; children = list("Edit Bound") }),
+            list("TextArea", {
+              attributes = { id = "wb-bound"; name = "bound"; rows = "5"; "data-wb-field" = "true" };
+              children = list(
+                "Proposed target: 4,096 × 4,096 world cells; 1,000,000 living NPCs; 256 civilizations; 4,096 settlements; 16 simultaneous players; 100 initial NPCs per player; 100,000 persistent constructed assets; 24 active directed relationship records per NPC on average; 32 knowledge domains. Initial population is a seed, not maximum population or ownership. All major systems run together. Single-player qualification keeps the same load with 15 scripted participant streams. These are design targets, not measured capacity."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Differentiate") }),
+            list("Paragraph", { children = list("Thirteen domain responsibilities") }),
+            list("Label", { attributes = { for = "wb-differentiate" }; children = list("Edit Differentiate") }),
+            list("TextArea", {
+              attributes = { id = "wb-differentiate"; name = "differentiate"; rows = "10"; "data-wb-field" = "true" };
+              children = list(
+                "W1 Identity and rules: stable IDs, schemas, versioned rules and powers. W2 Time and causality: clock, random streams, event ordering, checkpoints and branches. W3 Material world: terrain, water, climate, ecology and finite resource flows. W4 People: characteristics, needs, capacity, disposition, action selection, memory and decay. W5 Relationships: directed typed evidence, commitments, grants, challenge and repair. W6 Collective life: production, trade, institutions, conflict and succession. W7 Knowledge: observations, instruments, theories, teaching, transmission and loss. W8 Intervention: mark, connect, orient, weight, bias, perturb, constrain and release. W9 Observation: indices, dashboards, history, guide and inspection. W10 Projection: dynamic Settlers-like pixel art, zoom, animation and LOD. W11 Participation: local/shared authority, synchronization and handoff. W12 Companion: retrieval and permitted actions through world operations. W13 Encounter authoring and assurance: candidate definitions, validation, workload, budgets and receipts. Each has explicit state and interfaces; none owns an independent game."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Relate") }),
+            list("Paragraph", { children = list("Commands, events, queries and projections") }),
+            list("Label", { attributes = { for = "wb-relate" }; children = list("Edit Relate") }),
+            list("TextArea", {
+              attributes = { id = "wb-relate"; name = "relate"; rows = "7"; "data-wb-field" = "true" };
+              children = list(
+                "Commands carry actor, world ID, rule version, basis revision, target, operation, arguments and idempotency key. Validate scope, types and basis, then order deterministically. Events retain state changes, provenance and causal parent IDs. Queries carry revision, observer, time, visibility and resolution; disclose omissions. Projections consume state without writing gameplay. Companion actions use the same commands; narration cannot invent executed events. Meaning and policy belong in algebra; native ports supply declared mechanisms. Preserve the unchanged Temple seed and its 20-million execution budget per supported invocation. Throughput must come from bounded composition and measured execution, not raising the guard."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Project") }),
+            list("Paragraph", { children = list("One Encounter application") }),
+            list("Label", { attributes = { for = "wb-project" }; children = list("Edit Project") }),
+            list("TextArea", {
+              attributes = { id = "wb-project"; name = "project"; rows = "5"; "data-wb-field" = "true" };
+              children = list(
+                "This custom planning view shares Worldwright navigation, route model and existing volatile session notes service. Future world, dashboard, guide, instruments and companion project the same identified state. Client handoff preserves world, location, selection and companion context. LOD may change visible geometry, lighting and animation. It may not remove background NPCs or change outcomes. Simulation scheduling is a separate optimization with an explicit equivalence contract."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Test") }),
+            list("Paragraph", { children = list("The whole kitchen sink at once") }),
+            list("Label", { attributes = { for = "wb-test" }; children = list("Edit Test") }),
+            list("TextArea", {
+              attributes = { id = "wb-test"; name = "test"; rows = "7"; "data-wb-field" = "true" };
+              children = list(
+                "Run K1 for 60 real minutes after five minutes warm-up, then a 24-hour soak covering 1,000 game years. Physical transport, ecology, generations, construction, institutions, research, history, dashboards, companion and rendering stay active. Burst: 16 players issue 10 commands/second each for 60 seconds, including 16 overlapping regional interventions of 10,000 affected NPCs each. Dashboards: 16 observers each request one aggregate refresh and five focused inspections/second. Companion: one request/player/30 seconds plus a simultaneous 16-request burst. Dense view: 20,000 visible animated people and 5,000 visible constructed instances, drawn from the full world. Compare browser/installed and local/shared using identical seeds, rules and intervention transcript."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Recompose") }),
+            list("Paragraph", { children = list("Optimize the measured bottleneck") }),
+            list("Label", { attributes = { for = "wb-recompose" }; children = list("Edit Recompose") }),
+            list("TextArea", {
+              attributes = { id = "wb-recompose"; name = "recompose"; rows = "5"; "data-wb-field" = "true" };
+              children = list(
+                "Candidate methods: structure-of-arrays storage, sparse indices, incremental aggregates, event scheduling, analytical decay, batches, spatial partitions, bounded worker jobs and asynchronous archives. One daily update per NPC would require about 4.22 million updates/real second before useful work. Use equivalent analytical or event formulations without dropping lives. Every approximation needs a declared equivalence/error contract; the camera cannot choose the simulated population. Reuse common definitions and operations instead of application-specific native policy."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Correct") }),
+            list("Paragraph", { children = list("Freeze targets and retain failures") }),
+            list("Label", { attributes = { for = "wb-correct" }; children = list("Edit Correct") }),
+            list("TextArea", {
+              attributes = { id = "wb-correct"; name = "correct"; rows = "5"; "data-wb-field" = "true" };
+              children = list(
+                "Record engine/rule/content versions, seed, workload hash, actual hardware, browser/driver, LOD, deployment, network and instrument version. Preserve failures. A small demo is diagnostic, not K1 completion; a fast run missing systems fails. p95 cannot conceal p99, backlog or growth. Exact ledgers and same-backend event order must replay identically. Cross-backend floating domains need tolerances before acceptance. Targets are provisional until adopted and frozen; no performance result has been measured."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Corpus mechanics") }),
+            list("Paragraph", { children = list("Explicit mechanisms and discriminators") }),
+            list("Label", { attributes = { for = "wb-symmetry" }; children = list("Edit Corpus mechanics") }),
+            list("TextArea", {
+              attributes = { id = "wb-symmetry"; name = "symmetry"; rows = "7"; "data-wb-field" = "true" };
+              children = list(
+                "Finite relations: mark a site, direct an edge or change a weight; derive remaining equivalences and use separate transport rules for consequences. Six-minimum potential: supply dynamics and bias, then verify permitted selections without naming a winner. Hysteresis: compare weak/strong pulses, duration, persistence and reversal; retention is not learning. Boundary holonomy: an actual connection and dynamical system must exist; a geometric loop alone does nothing. Procedural symmetry: exchange identities with their characteristics/history and test agenda/tie-breaking. A possible transition still needs mechanism, resources and timing. Restoring equal rules does not erase history. Physical results and authored social analogies retain different statuses."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Reference hardware") }),
+            list("Paragraph", { children = list("Provisional acceptance environments") }),
+            list("Label", { attributes = { for = "wb-hardware" }; children = list("Edit Reference hardware") }),
+            list("TextArea", {
+              attributes = { id = "wb-hardware"; name = "hardware"; rows = "6"; "data-wb-field" = "true" };
+              children = list(
+                "Authority: 8 dedicated CPU cores, 16 GiB RAM, SSD, no GPU requirement. Client: 8 logical CPU threads, 16 GiB RAM, integrated GPU, SSD, 1,920 × 1,080 output. Exact CPU/GPU models, OS, browser, drivers and power mode must be pinned before qualification. Baseline 60 fps uses a 640 × 360 internal pixel-art image with sharp UI. Both modalities qualify on identical hardware and LOD. Higher installed LOD is additional; reducing simulation is forbidden. Local authority plus renderer has an 8 GiB combined working-set ceiling. Remote qualification: 100 ms RTT, 20 ms jitter, 1 percent packet loss; LAN results are separate."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Rendering budgets") }),
+            list("Paragraph", { children = list("Frame pacing and memory") }),
+            list("Label", { attributes = { for = "wb-frame" }; children = list("Edit Rendering budgets") }),
+            list("TextArea", {
+              attributes = { id = "wb-frame"; name = "frame"; rows = "5"; "data-wb-field" = "true" };
+              children = list(
+                "End-to-end frame p95 ≤ 16.67 ms and p99 ≤ 33.3 ms after warm-up. CPU critical path: input/UI 1 ms, integration/culling/animation 3 ms, submission 3 ms, reserve 3 ms = 10 ms. GPU: world 7 ms, lighting/effects 2 ms, composite 1 ms, reserve 2 ms = 12 ms. CPU/GPU overlap; do not add as a serial 22 ms frame. Client working set ≤ 1.5 GiB steady / 2 GiB peak, included in combined local ceiling. Main-thread tasks > 50 ms fail during the steady workload. Record warm-up, pacing, asset churn and dense-view counts."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Simulation budgets") }),
+            list("Paragraph", { children = list("Sustain time with every system active") }),
+            list("Label", { attributes = { for = "wb-simulation" }; children = list("Edit Simulation budgets") }),
+            list("TextArea", {
+              attributes = { id = "wb-simulation"; name = "simulation"; rows = "7"; "data-wb-field" = "true" };
+              children = list(
+                "20 Hz authoritative scheduler: a 50 ms wall-clock window. Batch completion p95 ≤ 35 ms / p99 ≤ 50 ms. Backlog ≤ 100 ms without upward drift. Provisional critical-path allocations: material/ecology 10 ms; people/relationships 12 ms; institutions/knowledge 5 ms; commands/history 4 ms; query snapshots 4 ms. Total 35 ms leaves 15 ms headroom. Parallel CPU work is separately accounted. At 10 consequential events/NPC-year, K1 needs 115,741 events/second. Stress target: 231,482/second for 60 seconds, with no drops. Four CPU cores allocated to those events give average ceilings about 34.6 microseconds/event baseline or 17.3 at 2×, before other work. Event density is a workload assumption, not a discovered fact. Domain clocks may differ; full world time cannot fall behind."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Interaction budgets") }),
+            list("Paragraph", { children = list("Acknowledgement is not completion") }),
+            list("Label", { attributes = { for = "wb-latency" }; children = list("Edit Interaction budgets") }),
+            list("TextArea", {
+              attributes = { id = "wb-latency"; name = "latency"; rows = "5"; "data-wb-field" = "true" };
+              children = list(
+                "Selection/overlay feedback p95 ≤ 50 ms / p99 ≤ 100 ms. Local command acknowledgement p95 ≤ 50 ms / p99 ≤ 100 ms; first authoritative visible effect p95 ≤ 150 ms / p99 ≤ 300 ms. Remote acknowledgement p95 ≤ 200 ms / p99 ≤ 350 ms; effect p95 ≤ 300 ms / p99 ≤ 500 ms under the stated network. Regional 10,000-entity intervention completes p95 ≤ 1 second / p99 ≤ 2 seconds; disclose effective tick and progress. An animation does not count as authoritative completion. Focused inspection p95 ≤ 100 ms / p99 ≤ 250 ms; global aggregate p95 ≤ 200 ms / p99 ≤ 500 ms."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Authority memory") }),
+            list("Paragraph", { children = list("An explicit 4 GiB steady allocation") }),
+            list("Label", { attributes = { for = "wb-memory" }; children = list("Edit Authority memory") }),
+            list("TextArea", {
+              attributes = { id = "wb-memory"; name = "memory"; rows = "5"; "data-wb-field" = "true" };
+              children = list(
+                "NPC state 512 MiB; 24 million directed relationship entries 768 MiB; terrain/ecology 512 MiB; assets/institutions/knowledge 256 MiB; indices/scheduler 512 MiB; 30-second raw event ring 256 MiB; checkpoint/I O staging 512 MiB; reserve 768 MiB. Total 4 GiB steady; authority peak ≤ 6 GiB. Authority peak plus 2 GiB client peak equals 8 GiB local combined ceiling. Sizes are representation targets to measure. Fixed records cannot hide unbounded text or per-NPC LLM contexts. Long-term archive and hosted inference memory are separate."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("History and replay") }),
+            list("Paragraph", { children = list("The cost of remembering") }),
+            list("Label", { attributes = { for = "wb-history" }; children = list("Edit History and replay") }),
+            list("TextArea", {
+              attributes = { id = "wb-history"; name = "history"; rows = "6"; "data-wb-field" = "true" };
+              children = list(
+                "1,000,000 NPCs × 10 events/NPC-year × 1,000 years/day = 10 billion events/day, about 115,741/second. At 64 bytes/event: 7.41 MB/second, 640 GB/day before indices/replication; 30-second ring about 222 MB. Compact replay proposal: checkpoints plus player commands, pinned rules/engine, deterministic random state, periodic state hashes and selected causal anchors. Replay regenerates internal events and requires retained versions and CPU. Full raw tracing is an optional diagnostic with ≥ 1 TB/day storage allowance including headroom. Narrative summaries disclose lost detail and cannot masquerade as a full trace. Retention horizon, compression and archive costs remain open."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Loading and continuity") }),
+            list("Paragraph", { children = list("Save, resume and handoff") }),
+            list("Label", { attributes = { for = "wb-io" }; children = list("Edit Loading and continuity") }),
+            list("TextArea", {
+              attributes = { id = "wb-io"; name = "io"; rows = "7"; "data-wb-field" = "true" };
+              children = list(
+                "Cold start to playable ≤ 10 seconds p95 from reference SSD with assets present. First download is measured separately with bytes/throughput. Checkpoint ≤ 512 MiB compressed is an unverified hypothesis. Asynchronous checkpoint p95 ≤ 5 seconds without violating authority deadlines or causing > 50 ms UI tasks. Checkpoint every 10 real minutes (about 6.94 game years), plus incremental command log. Resume from latest checkpoint p95 ≤ 15 seconds; historical replay reports progress and has a separate budget. Client handoff p95 ≤ 5 seconds / p99 ≤ 10 seconds, zero accepted-command loss. Steady interest-managed downlink ≤ 256 KiB/s/client; uplink ≤ 32 KiB/s/client. Five-second burst downlink ≤ 2 MiB/s/client; asset downloads excluded and reported separately."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Companion budgets") }),
+            list("Paragraph", { children = list("Bound inference without blocking the world") }),
+            list("Label", { attributes = { for = "wb-companion" }; children = list("Edit Companion budgets") }),
+            list("TextArea", {
+              attributes = { id = "wb-companion"; name = "companion"; rows = "7"; "data-wb-field" = "true" };
+              children = list(
+                "Snapshot/retrieval p95 ≤ 200 ms; local request acknowledgement ≤ 100 ms. Hosted inference targets: first meaningful token p95 ≤ 2 seconds, useful short answer p95 ≤ 8 seconds, provider-dependent. Local inference needs a separate model/hardware/quality qualification. Sixteen requests may queue concurrently with visible queue state. Proposed request caps: 8,192 input tokens, 512 output tokens, 10 tool calls; five-second timeout per retrieval/operation. At 16 requests every 30 seconds the maximum average provisioning is about 4,369 input and 273 output tokens/second. Service cost ceiling is still open. Inference must preserve simulation/rendering deadlines; it cannot invent events or bypass powers."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Acceptance protocol") }),
+            list("Paragraph", { children = list("A reproducible finish line") }),
+            list("Label", { attributes = { for = "wb-acceptance" }; children = list("Edit Acceptance protocol") }),
+            list("TextArea", {
+              attributes = { id = "wb-acceptance"; name = "acceptance"; rows = "6"; "data-wb-field" = "true" };
+              children = list(
+                "Three repeat 60-minute steady runs per configuration after five-minute warm-up, a 60-second 2× burst and one 24-hour soak. Report p50/p95/p99/max, throughput, queues, drops/retries/rejections, memory, archive growth and GC pauses. Rotate planet/region/dense settlement/individual views. Exercise handoff during commands, saves during bursts, disconnect/reconnect, simultaneous interventions and old-history replay. Check material ledgers, stale-basis refusal, idempotency, scoped powers, replay hashes, same outcomes across LOD and no player-name privilege. All systems run together. Local tests are one evidence family; no production telemetry or independent assurance is implied."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Necessary links") }),
+            list("Paragraph", { children = list("Build against the target") }),
+            list("Label", { attributes = { for = "wb-next" }; children = list("Edit Necessary links") }),
+            list("TextArea", {
+              attributes = { id = "wb-next"; name = "next"; rows = "6"; "data-wb-field" = "true" };
+              children = list(
+                "1. Admit typed domains and command/query boundaries through Encounter. 2. Bind corpus mechanisms with explicit carriers, dynamics, observations and source status. 3. Compose material/people/collective execution with deterministic history. 4. Project dynamic art, dashboard and inspector. 5. Exercise full K1 and optimize measured bottlenecks. 6. Add companion and both deployment/network configurations to combined qualification. Renderer/engine selection, exact hardware, inference cost and archive horizon remain open. This planning workspace is not an executed worldbox or benchmark."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Measurement receipt") }),
+            list("Paragraph", { children = list("Observed results only") }),
+            list("Label", { attributes = { for = "wb-measurements" }; children = list("Edit Measurement receipt") }),
+            list("TextArea", {
+              attributes = { id = "wb-measurements"; name = "measurements"; rows = "4"; "data-wb-field" = "true" };
+              children = list(
+                "UNMEASURED — no worldbox runtime or performance run has been executed. Record actual hardware, workload identity, measurements, failures and dates here. Proposed budgets never automatically become passes."
+              )
+            })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Planning snapshot") }),
+            list("Paragraph", {
+              children = list(
+                "Prepare an export, then copy the JSON below. It records planning values, not an executed benchmark or admitted world state."
+              )
+            }),
+            list("Label", { attributes = { for = "wb-output" }; children = list("Exported planning values") }),
+            list("TextArea", { attributes = { id = "wb-output"; rows = "8"; readonly = "readonly" } })
+          )
+        }),
+        list("Section", {
+          attributes = { class = "wb-card" };
+          children = list(
+            list("HeadingTwo", { children = list("Source bindings") }),
+            list("Paragraph", { children = list("Corpus paths and proposal boundaries") }),
+            list("Label", { attributes = { for = "wb-sources" }; children = list("Edit Source bindings") }),
+            list("TextArea", {
+              attributes = { id = "wb-sources"; name = "sources"; rows = "9"; "data-wb-field" = "true" };
+              children = list(
+                "Design basis: corpus/programmes/worldwright-storytelling/worldbox-game-design.md (8 November 2026). Lightning: source/semantics/lightning-method.txt in this application. Reading: corpus/READING_CONTRACT.md and corpus/EXPLANATORY_STANDARD.md. Mathematical mechanics: corpus/programmes/admissibility/admissibility_08_finite_contextual_casimir_experiment.md; admissibility_14_relative_frame_link_and_spontaneous_selection.md; admissibility_23_holonomy_driven_selector_breaking_and_reflexive_closure.md; admissibility_135_a_seam_changes_continuations_but_does_not_by_itself_trigger_decay.md. Retention: corpus/claims/1100-1199/1146_hysteresis_supplies_retained_self_modification_without_consciousness_but_not_learning.md. Social mechanisms and scheduling counterexample: corpus/programmes/the-field/README.md and household-orientations-and-correction.md. Source results retain their original scope. K1 counts and budgets are new proposed game targets, not inherited experimental results."
+              )
+            })
+          )
+        })
+      );
+      meaning = { identity = "workshop/worldbox.html"; role = "Worldbox planning workspace" }
+    })
+  }

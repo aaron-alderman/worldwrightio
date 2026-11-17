@@ -1,0 +1,138 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0010 = list("Define", {
+        generator = false;
+        async = true;
+        id = list("NameReference", { name = "loadValue" });
+        params = list(
+          list("NameReference", { name = "path" }),
+          list("NameReference", { name = "container" }),
+          list("Default", { left = list("NameReference", { name = "offset" }); right = list("LiteralValue", { value = 0 }) })
+        );
+        body = { fragment = "part0011" }
+      });
+    part0011 = list("Sequence", {
+        body = list(
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "pause" });
+                    init = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "runState" });
+                        property = list("NameReference", { name = "pause" })
+                      })
+                  }),
+                list("Binding", { id = list("NameReference", { name = "token" }); init = list("NameReference", { name = "generation" }) })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "waiting" });
+                    init = list("Invoke", {
+                        optional = false;
+                        callee = list("NameReference", { name = "make" });
+                        arguments = list(
+                          list("LiteralValue", { value = "p" }),
+                          list("LiteralValue", { value = "Reading…" }),
+                          list("LiteralValue", { value = "panel-note" })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "container" });
+                      property = list("NameReference", { name = "append" })
+                    });
+                  arguments = list(list("NameReference", { name = "waiting" }))
+                })
+            }),
+          { fragment = "part0012" }
+        )
+      });
+    part0012 = list("Recover", {
+        block = { fragment = "part0013" };
+        handler = list("Catch", {
+            param = list("NameReference", { name = "error" });
+            body = list("Sequence", {
+                body = list(
+                  list("Do", {
+                      expression = list("Invoke", {
+                          optional = false;
+                          callee = list("Select", {
+                              computed = false;
+                              optional = false;
+                              object = list("NameReference", { name = "waiting" });
+                              property = list("NameReference", { name = "remove" })
+                            });
+                          arguments = list()
+                        })
+                    }),
+                  list("Branch", {
+                      test = list("ShortCircuit", {
+                          operator = "&&";
+                          left = list("Calculate", {
+                              operator = "===";
+                              left = list("NameReference", { name = "token" });
+                              right = list("NameReference", { name = "generation" })
+                            });
+                          right = list("Calculate", {
+                              operator = "===";
+                              left = list("NameReference", { name = "pause" });
+                              right = list("Select", {
+                                  computed = false;
+                                  optional = false;
+                                  object = list("NameReference", { name = "runState" });
+                                  property = list("NameReference", { name = "pause" })
+                                })
+                            })
+                        });
+                      consequent = list("Do", {
+                          expression = list("Invoke", {
+                              optional = false;
+                              callee = list("Select", {
+                                  computed = false;
+                                  optional = false;
+                                  object = list("NameReference", { name = "container" });
+                                  property = list("NameReference", { name = "append" })
+                                });
+                              arguments = list(
+                                list("Invoke", {
+                                    optional = false;
+                                    callee = list("NameReference", { name = "make" });
+                                    arguments = list(
+                                      list("LiteralValue", { value = "p" }),
+                                      list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "error" });
+                                          property = list("NameReference", { name = "message" })
+                                        }),
+                                      list("LiteralValue", { value = "panel-note" })
+                                    )
+                                  })
+                              )
+                            })
+                        });
+                      alternate = null
+                    })
+                )
+              })
+          });
+        finalizer = null
+      })
+  }

@@ -1,0 +1,281 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0004 = list("NameReference", { name = "model" });
+    part0005 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "plan" });
+        property = list("NameReference", { name = "model" })
+      });
+    part0006 = list("NameReference", { name = "entry" });
+    part0007 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "plan" });
+        property = list("NameReference", { name = "entry" })
+      });
+    part0008 = list("NameReference", { name = "bindings" });
+    part0009 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "plan" });
+        property = list("NameReference", { name = "bindings" })
+      });
+    part0010 = list("NameReference", { name = "profile" });
+    part0011 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "plan" });
+        property = list("NameReference", { name = "profile" })
+      });
+    part0012 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "presenter" });
+        property = list("NameReference", { name = "listing" })
+      });
+    part0013 = list("Record", {
+        properties = list(
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "programme" });
+              value = list("List", {
+                  elements = list(
+                    list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "s" });
+                        property = list("NameReference", { name = "step" })
+                      })
+                  )
+                })
+            }),
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "origin" });
+              value = list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "kind" });
+                        value = list("LiteralValue", { value = "debug-instruction" })
+                      })
+                  )
+                })
+            })
+        )
+      });
+    part0014 = list("NameReference", { name = "lastRoots" });
+    part0015 = list("NameReference", { name = "k" });
+    part0016 = list("NameReference", { name = "next" });
+    part0017 = list("NameReference", { name = "k" });
+    part0018 = list("NameReference", { name = "resolve" });
+    part0019 = list("LiteralValue", { value = 0 });
+    part0020 = list("NameReference", { name = "lastRoots" });
+    part0021 = list("Record", { properties = list(list("Expand", { argument = list("NameReference", { name = "next" }) })) });
+    part0022 = list("Select", {
+        computed = true;
+        optional = false;
+        object = list("NameReference", { name = "lastRoots" });
+        property = list("NameReference", { name = "slot" })
+      });
+    part0023 = list("NameReference", { name = "status" });
+    part0024 = list("LiteralValue", { value = "paused" });
+    part0025 = list("NameReference", { name = "pause" });
+    part0026 = list("Construct", {
+        callee = list("NameReference", { name = "Promise" });
+        arguments = list(
+          list("Procedure", {
+              generator = false;
+              async = false;
+              block = true;
+              id = null;
+              params = list(list("NameReference", { name = "resolve" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("Do", {
+                        expression = list("Set", {
+                            operator = "=";
+                            left = list("NameReference", { name = "gate" });
+                            right = list("NameReference", { name = "resolve" })
+                          })
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", { optional = false; callee = list("NameReference", { name = "emit" }); arguments = list() })
+                      })
+                  )
+                })
+            })
+        )
+      });
+    part0027 = list("NameReference", { name = "Number" });
+    part0028 = list("NameReference", { name = "isSafeInteger" });
+    part0029 = list("NameReference", { name = "k" });
+    part0030 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "Object" });
+            property = list("NameReference", { name = "getOwnPropertyDescriptor" })
+          });
+        arguments = list(list("NameReference", { name = "value" }), list("NameReference", { name = "key" }))
+      });
+    part0031 = list("NameReference", { name = "value" });
+    part0032 = list("NameReference", { name = "path" });
+    part0033 = list("NameReference", { name = "length" });
+    part0034 = list("NameReference", { name = "changed" });
+    part0035 = list("NameReference", { name = "includes" });
+    part0036 = list("NameReference", { name = "key" });
+    part0037 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "model" });
+        value = list("NameReference", { name = "target" })
+      });
+    part0038 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "entry" });
+        value = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "plan" });
+            property = list("NameReference", { name = "entry" })
+          })
+      });
+    part0039 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "input" });
+        value = list("Record", {
+            properties = list(
+              list("Expand", {
+                  argument = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "plan" });
+                      property = list("NameReference", { name = "bindings" })
+                    })
+                }),
+              list("Field", {
+                  computed = false;
+                  kind = "init";
+                  key = list("NameReference", { name = "eventInput" });
+                  value = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "plan" });
+                      property = list("NameReference", { name = "eventInput" })
+                    })
+                })
+            )
+          })
+      });
+    part0040 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "ports" });
+        value = list("NameReference", { name = "ports" })
+      });
+    part0041 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "nested" });
+        value = list("NameReference", { name = "bridge" })
+      });
+    part0042 = list("Set", {
+        operator = "=";
+        left = list("NameReference", { name = "result" });
+        right = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "r" });
+            property = list("NameReference", { name = "value" })
+          })
+      });
+    part0043 = list("Set", {
+        operator = "=";
+        left = list("NameReference", { name = "usage" });
+        right = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "r" });
+            property = list("NameReference", { name = "usage" })
+          })
+      });
+    part0044 = list("Set", {
+        operator = "=";
+        left = list("NameReference", { name = "status" });
+        right = list("LiteralValue", { value = "done" })
+      });
+    part0045 = list("Update", { operator = "++"; prefix = false; argument = list("NameReference", { name = "pause" }) });
+    part0046 = list("Invoke", { optional = false; callee = list("NameReference", { name = "emit" }); arguments = list() });
+    part0047 = list("NameReference", { name = "r" });
+    part0048 = list("Set", {
+        operator = "=";
+        left = list("NameReference", { name = "error" });
+        right = list("Record", {
+            properties = list(
+              list("Field", {
+                  computed = false;
+                  kind = "init";
+                  key = list("NameReference", { name = "name" });
+                  value = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "e" });
+                      property = list("NameReference", { name = "name" })
+                    })
+                }),
+              list("Field", {
+                  computed = false;
+                  kind = "init";
+                  key = list("NameReference", { name = "message" });
+                  value = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "e" });
+                      property = list("NameReference", { name = "message" })
+                    })
+                }),
+              list("Field", {
+                  computed = false;
+                  kind = "init";
+                  key = list("NameReference", { name = "code" });
+                  value = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "e" });
+                      property = list("NameReference", { name = "code" })
+                    })
+                })
+            )
+          })
+      });
+    part0049 = list("Set", {
+        operator = "=";
+        left = list("NameReference", { name = "status" });
+        right = list("LiteralValue", { value = "failed" })
+      });
+    part0050 = list("Update", { operator = "++"; prefix = false; argument = list("NameReference", { name = "pause" }) });
+    part0051 = list("Invoke", { optional = false; callee = list("NameReference", { name = "emit" }); arguments = list() });
+    part0052 = list("Record", {
+        properties = list(
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "error" });
+              value = list("NameReference", { name = "error" })
+            })
+        )
+      });
+    part0053 = list("NameReference", { name = "byId" });
+    part0054 = list("NameReference", { name = "has" });
+    part0055 = list("NameReference", { name = "id" })
+  }

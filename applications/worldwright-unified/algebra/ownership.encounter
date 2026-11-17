@@ -1,0 +1,33 @@
+process-module "temple/surface-process-module/1"
+
+process ownership.compare:
+  port record.fromEntries { entries = fold($expected, "item", "pairs", list(), append($pairs, list(list($item.path, $item)))) } → expectedIndex
+  port record.fromEntries { entries = fold($actual, "item", "pairs", list(), append($pairs, list(list($item.path, $item)))) } → actualIndex
+  each $actual as observed:
+    port record.get { record = $expectedIndex; key = $observed.path } → owner
+    assert if(if(eq($owner, null), false, true), true, raise(concat($prefix, "-UNOWNED: ", $observed.path, " has no declared owner. Add an admitted definition and rebuild; do not author generated files.")))
+      otherwise "Ownership check failed"
+    assert if(eq($observed.sha256, $owner.sha256), true, raise(concat($prefix, "-DRIFT: ", $observed.path, " differs from its receipt. Owner: ", if(eq($prefix, "GUARD-OUTPUT"), $owner.owner, $owner.path), ". Correct that owner and rebuild. If output itself was edited, review it and use --repair-output to quarantine it; it will never be imported as source.")))
+      otherwise "Ownership check failed"
+  each $expected as item:
+    port record.get { record = $actualIndex; key = $item.path } → observed
+    assert if(if(eq($observed, null), false, true), true, raise(concat($prefix, "-MISSING: ", $item.path, " is absent. Restore its source and rebuild.")))
+      otherwise "Ownership check failed"
+
+process ownership.check:
+  assert if(eq($receipt.protocol, "encounter/build-receipt/1"), true, raise("GUARD-RECEIPT: Missing or unsupported build receipt. Rebuild from the owned definitions."))
+    otherwise "Ownership check failed"
+  let expected = $receipt.artifacts
+  let actual = $actualOutputs
+  let prefix = "GUARD-OUTPUT"
+  call ownership.compare
+  when $checkInputs:
+    let expected = $receipt.inputs
+    let actual = $actualInputs
+    let prefix = "GUARD-SOURCE"
+    call ownership.compare
+  each $manifest.assets as asset:
+    port text.matches { value = $asset.owner; pattern = "^source/assets/.+\\.(?:svg|png|jpg|jpeg|webp|ico|txt)$" } → allowed
+    assert if($allowed, true, raise(concat("GUARD-ASSET: ", $asset.owner, " cannot bypass projection as an executable asset. Use a typed page/style/programme owner.")))
+      otherwise "Ownership check failed"
+  let result = true

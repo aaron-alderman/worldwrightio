@@ -1,0 +1,1673 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "reading-guide.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "reading-guide.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list("reading-guide.program-parts/group-01.encounter", "reading-guide.program-parts/group-02.encounter");
+    tree = list("Module", {
+        body = list(
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "entry" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(
+                          list("NameReference", { name = "lead" }),
+                          list("NameReference", { name = "body" }),
+                          list("Default", { left = list("NameReference", { name = "words" }); right = list("List", { elements = list() }) })
+                        );
+                        body = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "lead" });
+                                  value = list("NameReference", { name = "lead" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "body" });
+                                  value = list("NameReference", { name = "body" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "words" });
+                                  value = list("NameReference", { name = "words" })
+                                })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          { fragment = "part0001" },
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "wordMeanings" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "phase" });
+                                  value = list("LiteralValue", {
+                                      value = "Where a repeating signal is in its cycle: for example, whether it is rising or falling at a given moment."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "detector" });
+                                  value = list("LiteralValue", { value = "A tool or method that turns something happening into a record we can inspect." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "holonomy" });
+                                  value = list("LiteralValue", {
+                                      value = "A change left after following a closed path. Returning to the same location does not always return everything to the same state."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "calibration" });
+                                  value = list("LiteralValue", { value = "Checking how a measuring tool’s readings relate to a known reference." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "model" });
+                                  value = list("LiteralValue", {
+                                      value = "A simplified description used to explore a question. A result in the model needs further evidence before it describes the real world."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "kenosis" });
+                                  value = list("LiteralValue", {
+                                      value = "A Christian term often translated as “self-emptying.” Here it means using power while making room for others to act."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "agency" });
+                                  value = list("LiteralValue", { value = "A person’s ability to make choices and have a meaningful effect on what happens." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "authorship" });
+                                  value = list("LiteralValue", { value = "Having a meaningful say in what is made, why it is made and how it is changed." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "replay" });
+                                  value = list("LiteralValue", { value = "Repeating a calculation from saved settings so its result can be checked." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "control" });
+                                  value = list("LiteralValue", { value = "A comparison designed to test whether an apparent effect could have another explanation." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "representation" });
+                                  value = list("LiteralValue", {
+                                      value = "A view of something, such as a map, diagram, set of numbers or piece of text. Every view keeps some features and leaves others out."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "assumption" });
+                                  value = list("LiteralValue", {
+                                      value = "Something an explanation takes as a starting point. A conclusion depends on the assumptions it needs."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "source" });
+                                  value = list("LiteralValue", {
+                                      value = "Where a statement or displayed value comes from: for example, a document, a record or a piece of code."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "projection" });
+                                  value = list("LiteralValue", {
+                                      value = "A particular view of the same thing. In the workshop, one story can appear as a page, a menu link or a row."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "overlay" });
+                                  value = list("LiteralValue", {
+                                      value = "A local change to a view. In the workshop, the menu can use its own label while the story keeps its title."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "admissibility" });
+                                  value = list("LiteralValue", {
+                                      value = "Whether something meets the stated rules or constraints. It does not mean that it will happen or that we can reach it."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "positive response" });
+                                  value = list("LiteralValue", {
+                                      value = "A response described by a number table that gives zero or above for every direction you test. Here, that puts a limit on the shared term c. The formula is available under the calculation details."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "coupling" });
+                                  value = list("LiteralValue", { value = "A link through which two parts of a model can affect one another." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "record" });
+                                  value = list("LiteralValue", {
+                                      value = "The information that was kept. A record may leave out differences that were present in the original event."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "conscious access" });
+                                  value = list("LiteralValue", {
+                                      value = "Information becoming available for such things as reporting or deliberately using it. Explaining this does not by itself explain all experience."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "feedback" });
+                                  value = list("LiteralValue", { value = "Information about what happened returning to a system and potentially changing what happens next." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "provenance" });
+                                  value = list("LiteralValue", { value = "Where something came from and the history of how it reached us." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "preservation" });
+                                  value = list("LiteralValue", { value = "The processes that allow traces to survive, or that change and damage them over time." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "transformation" });
+                                  value = list("LiteralValue", { value = "A stated rule for changing one state, number pair or arrangement into another." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "carrier" });
+                                  value = list("LiteralValue", {
+                                      value = "The particular thing being described by a model: for example, a set of numbers, a physical device or a system of relations. Shared mathematics does not make two carriers the same thing."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "code" });
+                                  value = list("LiteralValue", { value = "A rule for representing a message so that some errors can be detected or repaired." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "bit" });
+                                  value = list("LiteralValue", { value = "One binary digit: zero or one." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "cosmology" });
+                                  value = list("LiteralValue", { value = "The study of the universe’s large-scale structure and history." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "coarse-graining" });
+                                  value = list("LiteralValue", {
+                                      value = "Combining small details into larger groups. This can preserve a total while losing information about the parts."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "synthetic model" });
+                                  value = list("LiteralValue", {
+                                      value = "An invented model for exploring assumptions. Its outcomes are not observations of real people or communities."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "Pareto tradeoff" });
+                                  value = list("LiteralValue", {
+                                      value = "A choice where improving one quantity comes with a loss in another. A single overall score can hide that loss."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "weight" });
+                                  value = list("LiteralValue", { value = "How much a quantity contributes to a combined score." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "tradeoff" });
+                                  value = list("LiteralValue", { value = "Gaining something while giving up something else." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "theology" });
+                                  value = list("LiteralValue", {
+                                      value = "Thinking and arguments about God and religious belief. These may begin from beliefs that the reader does not share."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "incarnation" });
+                                  value = list("LiteralValue", { value = "In Christian belief, God entering human life in Jesus." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "resurrection" });
+                                  value = list("LiteralValue", {
+                                      value = "In Christian belief, rising from death. Here it is part of an identified account of hope, not a result from physics."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "held-out test" });
+                                  value = list("LiteralValue", { value = "Trying a rule on examples that were not used to develop or choose it." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "independent verification" });
+                                  value = list("LiteralValue", {
+                                      value = "A check that is genuinely separate from the work being checked. Repeating a claim or summarizing the same run is not an independent check."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "evidence family" });
+                                  value = list("LiteralValue", {
+                                      value = "Records that come from the same underlying event or test. Several versions of one result are not several independent confirmations."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("LiteralValue", { value = "no-go result" });
+                                  value = list("LiteralValue", {
+                                      value = "A proof that a proposed route cannot work under stated conditions. It does not rule out every differently stated route."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "scope" });
+                                  value = list("LiteralValue", { value = "The particular question, conditions and range to which a claim applies." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "totalizing" });
+                                  value = list("LiteralValue", { value = "Taking over so much attention that other things become hard to notice." })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "sourceGuides" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "reflection" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "An invented scene for reflection" }),
+                                        list("LiteralValue", {
+                                            value = "These scenes develop Aaron’s ideas about helping a reader recognize something for themselves. They do not add to his life story or assess the reader."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "frontier" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "An overview of the current research" }),
+                                        list("LiteralValue", {
+                                            value = "Asks which differences our measurements leave out and how another measurement might reveal them. It does not identify a new physical theory as true."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "invariant" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A mathematical result; the physical connection is still open" }),
+                                        list("LiteralValue", {
+                                            value = "Explains how a comparison can remain valid during a journey even when the final state changes. This does not identify the material system that nature uses."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "detector" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A result in a specified mathematical model" }),
+                                        list("LiteralValue", {
+                                            value = "One reading can miss a changing part of the model. Several well-chosen, checked measurements can reveal it. This is not yet a physical measurement."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "instrument" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A recorded computer experiment" }),
+                                        list("LiteralValue", {
+                                            value = "The source keeps a set of computer runs and a program for checking them. Real equipment and physical measurements are separate work."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "contact" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A proposal developed from one recorded mistake" }),
+                                        list("LiteralValue", {
+                                            value = "Studies how an answer missed the speaker’s question. Its suggested checks still need testing in fresh cases."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "correction" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "An earlier interpretation that was withdrawn" }),
+                                        list("LiteralValue", {
+                                            value = "The interpretation brought one research framework into a different question. It is kept so readers can see the mistake and the correction."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "kenosis" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A philosophical and theological argument" }),
+                                        list("LiteralValue", {
+                                            value = "Distinguishes the ability to use power from permission and responsibility. It makes room for both restraint and protection. It is not a scientific law."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "sourcery" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A software research programme" }),
+                                        list("LiteralValue", {
+                                            value = "Explores how software descriptions can keep sources, assumptions and rejected changes visible. A complete description does not prove an experiment ran."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "monster" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A mathematical comparison of three chosen structures" }),
+                                        list("LiteralValue", {
+                                            value = "A count distinguishes three named mathematical structures. It is not a proof about every possible structure or evidence of a physical Monster system."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "personal" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "Aaron’s account, in wording open to revision" }),
+                                        list("LiteralValue", {
+                                            value = "This passage expresses Aaron’s experience. It does not establish what another family member thought or intended."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "authorship" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A design philosophy with a small working example" }),
+                                        list("LiteralValue", {
+                                            value = "The workshop lets you edit two values and follow the results through the existing checking system. It is not a complete authoring environment or independent verification."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "contribution" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "Guidance for offering a checkable contribution" }),
+                                        list("LiteralValue", {
+                                            value = "A useful proposal names its question, source and limits. Receiving a proposal does not make its claims true or authorize a system change."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "possibilities" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A framework for asking research questions" }),
+                                        list("LiteralValue", {
+                                            value = "Keeps “possible,” “allowed,” “reachable” and “observed” separate. The garden is a small example with visible rules."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "memory" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A mathematical result for specified linked quantities" }),
+                                        list("LiteralValue", {
+                                            value = "Removing a quantity from an equation can leave an effect that depends on the past. The browser uses a smaller example to explain the idea."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "erasure" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A mathematical limit on what a record can tell us" }),
+                                        list("LiteralValue", {
+                                            value = "If two origins leave exactly the same record, that record alone cannot tell them apart. A second, different record can help."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "mind" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A research overview with uncertain connections marked" }),
+                                        list("LiteralValue", {
+                                            value = "Separates attention, awareness, choosing and acting. The drawings do not test the reader or provide a completed explanation of consciousness."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "relations" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A proposal for describing connections carefully" }),
+                                        list("LiteralValue", {
+                                            value = "Names what a connection needs and what evidence supports it. A drawn arrow is not proof that the connection exists in a brain."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "material" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A proposed approach to material and historical evidence" }),
+                                        list("LiteralValue", {
+                                            value = "Connects materials, making, surviving traces and historical context. The drawing is not a measured archaeological sample."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "patterns" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "An exact counting relationship with limits" }),
+                                        list("LiteralValue", {
+                                            value = "Connects specific pattern rules through explicit mathematical steps. Similar numbers or shapes do not by themselves establish the same material or history."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "codes" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A mathematical check that also rules out one proposed step" }),
+                                        list("LiteralValue", {
+                                            value = "The source studies a larger code and a proposed ordering rule. The browser’s three-bit example is different and has its own small error limit."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "laboratory" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A plan for physical tests" }),
+                                        list("LiteralValue", {
+                                            value = "Describes possible equipment, comparisons and records. The browser does not collect experimental measurements."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "costs" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A map of research questions about costs and limits" }),
+                                        list("LiteralValue", {
+                                            value = "Asks what a result costs, what measurement changes, and which conclusions survive a change of scale. Many questions remain open."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "cosmos" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A map of open questions in physics" }),
+                                        list("LiteralValue", {
+                                            value = "Names work needed on gravity, particles and the universe. A place on this map is not evidence that a proposed explanation is correct."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "scenarios" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "Results in an invented model; real-world testing is still needed" }),
+                                        list("LiteralValue", {
+                                            value = "The reported ranking changes with urgency and with the chosen score. The model has not been shown to predict real communities or decide what is morally right."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "meanings" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "An optional religious interpretation" }),
+                                        list("LiteralValue", {
+                                            value = "Begins by assuming God exists and identifies its Christian continuation. It does not use mathematics to prove those beliefs or justify a person’s suffering."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "texts" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A proposed way to test interpretations of texts" }),
+                                        list("LiteralValue", {
+                                            value = "Separates a reading that fits a passage from an independently supported prediction. The encounter generates no dates or personal prophecy."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "correspondence" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A record of an exchange, with views separately attributed" }),
+                                        list("LiteralValue", {
+                                            value = "Keeps an earlier assessment and a response that changed the discussion. It does not imply agreement, peer review or endorsement."
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "negatives" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("LiteralValue", { value = "A record of failures with their limits kept clear" }),
+                                        list("LiteralValue", {
+                                            value = "Distinguishes a broken program, a failed route, a proof of impossibility under conditions, and a test with too little information. It also asks what could change the conclusion."
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "activityInstructions" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "observation" });
+                                  value = list("LiteralValue", { value = "Switch between the views. Look for a difference the first view misses." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "instrument" });
+                                  value = list("LiteralValue", { value = "Switch between the views. The added reference shows where each signal is in its cycle." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "return" });
+                                  value = list("LiteralValue", { value = "Choose “Go round the loop.” Watch which way the little arrow points when it comes back." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "calibration" });
+                                  value = list("LiteralValue", { value = "Move the slider. Watch how turning the measuring line changes the number." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "listening" });
+                                  value = list("LiteralValue", { value = "Choose a reply, then read the possible response. You can try every reply." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "permission" });
+                                  value = list("LiteralValue", { value = "Open each door. Each asks a different question about the same proposed action." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "monster" });
+                                  value = list("LiteralValue", { value = "Compare the broad view with the detailed count. Which view tells the three structures apart?" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "representation" });
+                                  value = list("LiteralValue", { value = "Open each layer to see what the map needs you to know." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "revision" });
+                                  value = list("LiteralValue", { value = "Open the correction to see why the earlier explanation was withdrawn." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "possibility" });
+                                  value = list("LiteralValue", {
+                                      value = "Move the slider to change the rule. Lit pairs meet the current rule. You can also try a second mathematical view."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "reachable" });
+                                  value = list("LiteralValue", { value = "Add the missing step. See which point you can reach from A." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "memory" });
+                                  value = list("LiteralValue", { value = "First hide a line. Then disconnect the link. Compare what each action changes." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "erasure" });
+                                  value = list("LiteralValue", { value = "Try both pairs. Then keep a second record and see what becomes clear." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "attention" });
+                                  value = list("LiteralValue", { value = "Try the broad view and the close view. Notice what each brings forward." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "will" });
+                                  value = list("LiteralValue", { value = "Open each link to see what would be needed to explain it." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "stone" });
+                                  value = list("LiteralValue", { value = "Choose a view of the stone. Each asks for a different kind of evidence." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "preservation" });
+                                  value = list("LiteralValue", { value = "Choose a reason a trace might be missing. Read what would need checking." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "tiling" });
+                                  value = list("LiteralValue", { value = "Apply the rule one step at a time. Watch the two numbers. Reset to begin again." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "code" });
+                                  value = list("LiteralValue", {
+                                      value = "Choose a starting bit: zero or one. Flip one of the three bits, then a second. Watch the decoded answer."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "laboratory" });
+                                  value = list("LiteralValue", { value = "Choose a comparison to see which difference it could reveal." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "cost" });
+                                  value = list("LiteralValue", {
+                                      value = "Choose a setting. A larger number means a slower loop here. Compare how much signal returns with how much is lost."
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "cosmos" });
+                                  value = list("LiteralValue", { value = "Choose a research question. Read what would still be needed to answer it." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "scale" });
+                                  value = list("LiteralValue", { value = "Combine the cells into bigger blocks. Look for what stays the same and what disappears." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "coexistence" });
+                                  value = list("LiteralValue", { value = "Open each part of the computer result. Keep its limits beside its ranking." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "weights" });
+                                  value = list("LiteralValue", { value = "Move the slider to change what the score values. The options themselves stay the same." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "texts" });
+                                  value = list("LiteralValue", { value = "Open each kind of evidence. Notice why one does not automatically establish the next." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "commons" });
+                                  value = list("LiteralValue", { value = "Open the cards to see what helps someone else check a contribution." })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "closedpath" });
+                                  value = list("LiteralValue", { value = "Choose a kind of failure. Read what it rules out and what it leaves open." })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "readerTitles" });
+                    init = list("Record", {
+                        properties = list(
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "replay" });
+                              value = list("LiteralValue", { value = "Can someone else check the result?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "code" });
+                              value = list("LiteralValue", { value = "Can a message survive a mistake?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "laboratory" });
+                              value = list("LiteralValue", { value = "How could we tell the explanations apart?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "coexistence" });
+                              value = list("LiteralValue", { value = "What changes when time is short?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "tiling" });
+                              value = list("LiteralValue", { value = "Grow a pattern.\nKeep count." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "sourcery" });
+                              value = list("LiteralValue", { value = "More help from machines.\nMore say for people." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "monster" });
+                              value = list("LiteralValue", { value = "A matching number\nis only a clue." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "scale" });
+                              value = list("LiteralValue", { value = "Zoom out.\nWhat disappears?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "weights" });
+                              value = list("LiteralValue", { value = "Who decides\nwhat matters?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "closedpath" });
+                              value = list("LiteralValue", { value = "A failed attempt\ncan still help." })
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "readingFor" });
+                  params = list(list("NameReference", { name = "id" }), list("NameReference", { name = "scene" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("BindGroup", {
+                            kind = "const";
+                            terminate = true;
+                            declarations = list(
+                              list("Binding", {
+                                  id = list("NameReference", { name = "reading" });
+                                  init = list("Select", {
+                                      computed = true;
+                                      optional = false;
+                                      object = list("NameReference", { name = "readings" });
+                                      property = list("NameReference", { name = "id" })
+                                    })
+                                })
+                            )
+                          }),
+                        list("Yield", {
+                            argument = list("Record", {
+                                properties = list(
+                                  list("Field", {
+                                      computed = false;
+                                      kind = "init";
+                                      key = list("NameReference", { name = "title" });
+                                      value = list("ShortCircuit", {
+                                          operator = "||";
+                                          left = list("Select", {
+                                              computed = true;
+                                              optional = false;
+                                              object = list("NameReference", { name = "readerTitles" });
+                                              property = list("NameReference", { name = "id" })
+                                            });
+                                          right = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "scene" });
+                                              property = list("NameReference", { name = "title" })
+                                            })
+                                        })
+                                    }),
+                                  list("Field", {
+                                      computed = false;
+                                      kind = "init";
+                                      key = list("NameReference", { name = "lead" });
+                                      value = list("ShortCircuit", {
+                                          operator = "||";
+                                          left = list("OptionalResult", {
+                                              expression = list("Select", {
+                                                  computed = false;
+                                                  optional = true;
+                                                  object = list("NameReference", { name = "reading" });
+                                                  property = list("NameReference", { name = "lead" })
+                                                })
+                                            });
+                                          right = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "scene" });
+                                              property = list("NameReference", { name = "lead" })
+                                            })
+                                        })
+                                    }),
+                                  list("Field", {
+                                      computed = false;
+                                      kind = "init";
+                                      key = list("NameReference", { name = "body" });
+                                      value = list("ShortCircuit", {
+                                          operator = "||";
+                                          left = list("OptionalResult", {
+                                              expression = list("Select", {
+                                                  computed = false;
+                                                  optional = true;
+                                                  object = list("NameReference", { name = "reading" });
+                                                  property = list("NameReference", { name = "body" })
+                                                })
+                                            });
+                                          right = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "scene" });
+                                              property = list("NameReference", { name = "body" })
+                                            })
+                                        })
+                                    }),
+                                  list("Field", {
+                                      computed = false;
+                                      kind = "init";
+                                      key = list("NameReference", { name = "words" });
+                                      value = list("ShortCircuit", {
+                                          operator = "||";
+                                          left = list("OptionalResult", {
+                                              expression = list("Select", {
+                                                  computed = false;
+                                                  optional = true;
+                                                  object = list("NameReference", { name = "reading" });
+                                                  property = list("NameReference", { name = "words" })
+                                                })
+                                            });
+                                          right = list("List", { elements = list() })
+                                        })
+                                    })
+                                )
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "sourceGuideFor" });
+                  params = list(list("NameReference", { name = "key" }), list("NameReference", { name = "source" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("Yield", {
+                            argument = list("ShortCircuit", {
+                                operator = "||";
+                                left = list("Select", {
+                                    computed = true;
+                                    optional = false;
+                                    object = list("NameReference", { name = "sourceGuides" });
+                                    property = list("NameReference", { name = "key" })
+                                  });
+                                right = list("List", {
+                                    elements = list(
+                                      list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "source" });
+                                          property = list("NameReference", { name = "kind" })
+                                        }),
+                                      list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "source" });
+                                          property = list("NameReference", { name = "note" })
+                                        })
+                                    )
+                                  })
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "connectionLabel" });
+                  params = list(list("NameReference", { name = "kind" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("Branch", {
+                            test = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Pattern", {
+                                        pattern = "Personal association|Editorial association|Editorial connection|A related question|Reflective crossing|Source-grounded crossing";
+                                        flags = "i"
+                                      });
+                                    property = list("NameReference", { name = "test" })
+                                  });
+                                arguments = list(list("NameReference", { name = "kind" }))
+                              });
+                            consequent = list("Yield", { argument = list("LiteralValue", { value = "Ideas to compare" }) });
+                            alternate = null
+                          }),
+                        list("Branch", {
+                            test = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Pattern", { pattern = "Research connection|Mathematical trail|Experimental trail|Research trail"; flags = "i" });
+                                    property = list("NameReference", { name = "test" })
+                                  });
+                                arguments = list(list("NameReference", { name = "kind" }))
+                              });
+                            consequent = list("Yield", { argument = list("LiteralValue", { value = "Follow the research" }) });
+                            alternate = null
+                          }),
+                        list("Branch", {
+                            test = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Pattern", { pattern = "Return"; flags = "i" });
+                                    property = list("NameReference", { name = "test" })
+                                  });
+                                arguments = list(list("NameReference", { name = "kind" }))
+                              });
+                            consequent = list("Yield", { argument = list("LiteralValue", { value = "Another way back" }) });
+                            alternate = null
+                          }),
+                        list("Branch", {
+                            test = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Pattern", { pattern = "Go deeper"; flags = "i" });
+                                    property = list("NameReference", { name = "test" })
+                                  });
+                                arguments = list(list("NameReference", { name = "kind" }))
+                              });
+                            consequent = list("Yield", { argument = list("LiteralValue", { value = "Look more closely" }) });
+                            alternate = null
+                          }),
+                        list("Branch", {
+                            test = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Pattern", { pattern = "Source connection"; flags = "i" });
+                                    property = list("NameReference", { name = "test" })
+                                  });
+                                arguments = list(list("NameReference", { name = "kind" }))
+                              });
+                            consequent = list("Yield", { argument = list("LiteralValue", { value = "Read a related account" }) });
+                            alternate = null
+                          }),
+                        list("Yield", { argument = list("NameReference", { name = "kind" }) })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "sourceTitles" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "reflection" });
+                                  value = list("LiteralValue", { value = "Scenes for reflection" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "frontier" });
+                                  value = list("LiteralValue", { value = "What measurements miss" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "invariant" });
+                                  value = list("LiteralValue", { value = "What stays comparable along a path" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "detector" });
+                                  value = list("LiteralValue", { value = "What a measuring tool can see" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "instrument" });
+                                  value = list("LiteralValue", { value = "The recorded computer experiment" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "contact" });
+                                  value = list("LiteralValue", { value = "When an answer misses the question" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "correction" });
+                                  value = list("LiteralValue", { value = "The withdrawn explanation" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "kenosis" });
+                                  value = list("LiteralValue", { value = "Power, restraint and responsibility" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "sourcery" });
+                                  value = list("LiteralValue", { value = "Software that keeps its workings visible" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "monster" });
+                                  value = list("LiteralValue", { value = "Three mathematical structures compared" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "personal" });
+                                  value = list("LiteralValue", { value = "About Aaron’s personal account" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "authorship" });
+                                  value = list("LiteralValue", { value = "People choosing; machines helping" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "contribution" });
+                                  value = list("LiteralValue", { value = "How to offer a checkable contribution" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "possibilities" });
+                                  value = list("LiteralValue", { value = "What is possible, allowed and reachable" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "memory" });
+                                  value = list("LiteralValue", { value = "How the past can keep affecting a system" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "erasure" });
+                                  value = list("LiteralValue", { value = "What a record cannot recover" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "mind" });
+                                  value = list("LiteralValue", { value = "Attention, awareness, choice and action" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "relations" });
+                                  value = list("LiteralValue", { value = "What an arrow needs to explain" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "material" });
+                                  value = list("LiteralValue", { value = "Investigating materials and their history" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "patterns" });
+                                  value = list("LiteralValue", { value = "The exact counting relationship" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "codes" });
+                                  value = list("LiteralValue", { value = "Checking a larger error-correcting code" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "laboratory" });
+                                  value = list("LiteralValue", { value = "Plans for physical tests" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "costs" });
+                                  value = list("LiteralValue", { value = "Costs and limits of a result" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "cosmos" });
+                                  value = list("LiteralValue", { value = "Open questions about the universe" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "scenarios" });
+                                  value = list("LiteralValue", { value = "Results from an invented social model" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "meanings" });
+                                  value = list("LiteralValue", { value = "Optional religious interpretations" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "texts" });
+                                  value = list("LiteralValue", { value = "Testing interpretations of texts" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "correspondence" });
+                                  value = list("LiteralValue", { value = "A recorded exchange of views" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "negatives" });
+                                  value = list("LiteralValue", { value = "Failures and what could reopen a question" })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "choiceLabel" });
+                  params = list(list("NameReference", { name = "label" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("Yield", {
+                            argument = list("ShortCircuit", {
+                                operator = "||";
+                                left = list("Select", {
+                                    computed = true;
+                                    optional = false;
+                                    object = list("Record", {
+                                        properties = list(
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Build systems around accountable agency" });
+                                              value = list("LiteralValue", { value = "Build systems people can understand and direct" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Return to accountable systems" });
+                                              value = list("LiteralValue", { value = "Return to systems people can direct" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Return to the hidden plane" });
+                                              value = list("LiteralValue", { value = "Return to the measuring tool" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Check what the ports can see" });
+                                              value = list("LiteralValue", { value = "Check what the measuring tools can see" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Inspect the aggregation" });
+                                              value = list("LiteralValue", { value = "See how the overall score is made" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Inspect the failed promotion" });
+                                              value = list("LiteralValue", { value = "See why a proposed step failed" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Meet the recovery boundary" });
+                                              value = list("LiteralValue", { value = "Ask what the record cannot recover" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Return a useful packet" });
+                                              value = list("LiteralValue", { value = "Leave something others can check" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "Keep the smaller exact result" });
+                                              value = list("LiteralValue", { value = "Return to the mathematical comparison" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "What record would make a witness?" });
+                                              value = list("LiteralValue", { value = "What record could tell the structures apart?" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "What does this map owe its territory?" });
+                                              value = list("LiteralValue", { value = "What should a map tell us about its limits?" })
+                                            })
+                                        )
+                                      });
+                                    property = list("NameReference", { name = "label" })
+                                  });
+                                right = list("NameReference", { name = "label" })
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "studyFor" });
+                  params = list(list("NameReference", { name = "scene" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("Yield", {
+                            argument = list("ShortCircuit", {
+                                operator = "||";
+                                left = list("Select", {
+                                    computed = true;
+                                    optional = false;
+                                    object = list("Record", {
+                                        properties = list(
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "replay" });
+                                              value = list("List", {
+                                                  elements = list(
+                                                    list("LiteralValue", { value = "KEEP" }),
+                                                    list("LiteralValue", { value = "Save the settings and method" }),
+                                                    list("LiteralValue", { value = "COMPARE" }),
+                                                    list("LiteralValue", { value = "Try the journey, its reverse, and no journey" }),
+                                                    list("LiteralValue", { value = "CHECK" }),
+                                                    list("LiteralValue", { value = "Run the checks on the saved record" })
+                                                  )
+                                                })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "discomfort" });
+                                              value = list("List", {
+                                                  elements = list(
+                                                    list("LiteralValue", { value = "NOTICE" }),
+                                                    list("LiteralValue", { value = "Something does not fit" }),
+                                                    list("LiteralValue", { value = "SEPARATE" }),
+                                                    list("LiteralValue", { value = "What happened? What did I think it meant?" }),
+                                                    list("LiteralValue", { value = "CHECK" }),
+                                                    list("LiteralValue", { value = "What could tell the explanations apart?" })
+                                                  )
+                                                })
+                                            })
+                                        )
+                                      });
+                                    property = list("Choose", {
+                                        test = list("Calculate", {
+                                            operator = "===";
+                                            left = list("OptionalResult", {
+                                                expression = list("Select", {
+                                                    computed = true;
+                                                    optional = true;
+                                                    object = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("NameReference", { name = "scene" });
+                                                        property = list("NameReference", { name = "study" })
+                                                      });
+                                                    property = list("LiteralValue", { value = 0 })
+                                                  })
+                                              });
+                                            right = list("LiteralValue", { value = "PREPARE" })
+                                          });
+                                        consequent = list("LiteralValue", { value = "replay" });
+                                        alternate = list("Choose", {
+                                            test = list("Calculate", {
+                                                operator = "===";
+                                                left = list("OptionalResult", {
+                                                    expression = list("Select", {
+                                                        computed = true;
+                                                        optional = true;
+                                                        object = list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "scene" });
+                                                            property = list("NameReference", { name = "study" })
+                                                          });
+                                                        property = list("LiteralValue", { value = 0 })
+                                                      })
+                                                  });
+                                                right = list("LiteralValue", { value = "NOTICE" })
+                                              });
+                                            consequent = list("LiteralValue", { value = "discomfort" });
+                                            alternate = list("LiteralValue", { value = "" })
+                                          })
+                                      })
+                                  });
+                                right = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("NameReference", { name = "scene" });
+                                    property = list("NameReference", { name = "study" })
+                                  })
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            })
+        )
+      })
+  }

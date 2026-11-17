@@ -1,0 +1,1467 @@
+process-module "temple/surface-process-module/1"
+
+process style.definition:
+  let result = {
+    protocol = "encounter/style-projection/1";
+    identity = "style.css";
+    reason = "Own selectors, contexts and individual declarations as editable values.";
+    target = "style.css";
+    goal = "Generate CSS from rules without a latent stylesheet.";
+    sheet = list("StyleSheet", list(
+      list("StyleRule", ":root", list(
+        list("Declaration", "color-scheme", "dark"),
+        list("Declaration", "--ink", "#100e16"),
+        list("Declaration", "--paper", "#f1e9d9"),
+        list("Declaration", "--muted", "#a8a1ad"),
+        list("Declaration", "--orange", "#f48b58"),
+        list("Declaration", "--lime", "#d1ef8d"),
+        list("Declaration", "--line", "#ffffff1c"),
+        list("Declaration", "--serif", "Georgia,'Times New Roman',serif"),
+        list("Declaration", "--sans", "Arial,Helvetica,sans-serif"),
+        list("Declaration", "--mono", "'Courier New',monospace")
+      )),
+      list("StyleRule", "*", list(
+        list("Declaration", "box-sizing", "border-box")
+      )),
+      list("StyleRule", "html", list(
+        list("Declaration", "scroll-behavior", "smooth")
+      )),
+      list("StyleRule", "body", list(
+        list("Declaration", "margin", "0"),
+        list("Declaration", "background", "var(--ink)"),
+        list("Declaration", "color", "var(--paper)"),
+        list("Declaration", "font-family", "var(--sans)"),
+        list("Declaration", "font-size", "16px"),
+        list("Declaration", "-webkit-font-smoothing", "antialiased")
+      )),
+      list("StyleRule", "button,a", list(
+        list("Declaration", "-webkit-tap-highlight-color", "transparent")
+      )),
+      list("StyleRule", "button", list(
+        list("Declaration", "font", "inherit"),
+        list("Declaration", "color", "inherit"),
+        list("Declaration", "cursor", "pointer")
+      )),
+      list("StyleRule", "a", list(
+        list("Declaration", "color", "inherit"),
+        list("Declaration", "text-decoration", "none")
+      )),
+      list("StyleRule", "button", list(
+        list("Declaration", "background", "none"),
+        list("Declaration", "border", "0")
+      )),
+      list("StyleRule", "button:disabled", list(
+        list("Declaration", "opacity", ".4"),
+        list("Declaration", "cursor", "default")
+      )),
+      list("StyleRule", ":focus-visible", list(
+        list("Declaration", "outline", "2px solid var(--lime)"),
+        list("Declaration", "outline-offset", "6px")
+      )),
+      list("StyleRule", "::selection", list(
+        list("Declaration", "background", "#f48b5855")
+      )),
+      list("StyleRule", "button svg", list(
+        list("Declaration", "pointer-events", "none")
+      )),
+      list("StyleRule", ".sr-only", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "width", "1px"),
+        list("Declaration", "height", "1px"),
+        list("Declaration", "overflow", "hidden"),
+        list("Declaration", "clip", "rect(0,0,0,0)")
+      )),
+      list("StyleRule", ".skip-link", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "left", "20px"),
+        list("Declaration", "top", "-80px"),
+        list("Declaration", "padding", "14px"),
+        list("Declaration", "background", "var(--lime)"),
+        list("Declaration", "color", "var(--ink)"),
+        list("Declaration", "z-index", "30")
+      )),
+      list("StyleRule", ".skip-link:focus", list(
+        list("Declaration", "top", "10px")
+      )),
+      list("StyleRule", ".header", list(
+        list("Declaration", "height", "96px"),
+        list("Declaration", "margin", "0 5.2%"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "border-bottom", "1px solid var(--line)"),
+        list("Declaration", "position", "relative"),
+        list("Declaration", "z-index", "5")
+      )),
+      list("StyleRule", ".brand", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "10px"),
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-size", "29px"),
+        list("Declaration", "letter-spacing", "-1.3px")
+      )),
+      list("StyleRule", ".brand svg", list(
+        list("Declaration", "width", "35px"),
+        list("Declaration", "stroke", "var(--orange)"),
+        list("Declaration", "stroke-width", "1.5"),
+        list("Declaration", "fill", "none")
+      )),
+      list("StyleRule", ".brand-dot", list(
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".header nav", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "33px")
+      )),
+      list("StyleRule", ".header nav button", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "letter-spacing", ".3px"),
+        list("Declaration", "padding", "12px 0"),
+        list("Declaration", "color", "#c7bfca")
+      )),
+      list("StyleRule", ".header nav button:hover,.footer button:hover", list(
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".header nav span", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "margin-left", "3px")
+      )),
+      list("StyleRule", ".journey-button", list(
+        list("Declaration", "border", "1px solid #70646d"),
+        list("Declaration", "padding", "12px 15px"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "9px")
+      )),
+      list("StyleRule", ".live-dot", list(
+        list("Declaration", "height", "5px"),
+        list("Declaration", "width", "5px"),
+        list("Declaration", "border-radius", "50%"),
+        list("Declaration", "background", "var(--lime)"),
+        list("Declaration", "box-shadow", "0 0 10px #d1ef8d44")
+      )),
+      list("StyleRule", ".eyebrow", list(
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "letter-spacing", "2.2px"),
+        list("Declaration", "text-transform", "uppercase"),
+        list("Declaration", "color", "var(--lime)"),
+        list("Declaration", "line-height", "1.6")
+      )),
+      list("StyleRule", ".home", list(
+        list("Declaration", "position", "relative"),
+        list("Declaration", "isolation", "isolate"),
+        list("Declaration", "overflow", "hidden")
+      )),
+      list("StyleRule", ".hero", list(
+        list("Declaration", "position", "relative"),
+        list("Declaration", "min-height", "680px"),
+        list("Declaration", "padding", "96px 7.2% 65px")
+      )),
+      list("StyleRule", ".hero-art", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "inset", "-96px 0 -30px 29%"),
+        list("Declaration", "z-index", "-2"),
+        list("Declaration", "background", "url('assets/terrain.svg') 57% center/cover no-repeat"),
+        list("Declaration", "opacity", ".95"),
+        list("Declaration", "mask-image", "linear-gradient(90deg,transparent,#000 27%)")
+      )),
+      list("StyleRule", ".hero:after", list(
+        list("Declaration", "content", "''"),
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "inset", "0"),
+        list("Declaration", "z-index", "-1"),
+        list("Declaration", "background", "linear-gradient(0deg,var(--ink),transparent 25%),linear-gradient(90deg,#100e1699,transparent 70%)"),
+        list("Declaration", "pointer-events", "none")
+      )),
+      list("StyleRule", ".hero .eyebrow", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "13px")
+      )),
+      list("StyleRule", ".hero .eyebrow:before", list(
+        list("Declaration", "content", "''"),
+        list("Declaration", "width", "28px"),
+        list("Declaration", "height", "1px"),
+        list("Declaration", "background", "var(--lime)")
+      )),
+      list("StyleRule", "h1,h2,p", list(
+        list("Declaration", "margin-top", "0")
+      )),
+      list("StyleRule", ".hero h1", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-weight", "400"),
+        list("Declaration", "font-size", "clamp(76px,8.9vw,142px)"),
+        list("Declaration", "line-height", ".99"),
+        list("Declaration", "letter-spacing", "-7px"),
+        list("Declaration", "margin", "31px 0 25px"),
+        list("Declaration", "max-width", "800px")
+      )),
+      list("StyleRule", ".hero h1 em", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-weight", "400")
+      )),
+      list("StyleRule", ".hero-copy", list(
+        list("Declaration", "color", "#c3bac7"),
+        list("Declaration", "max-width", "370px"),
+        list("Declaration", "line-height", "1.85"),
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "margin-bottom", "30px")
+      )),
+      list("StyleRule", ".text-button", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "padding", "0 0 11px"),
+        list("Declaration", "border-bottom", "1px solid #a48267"),
+        list("Declaration", "display", "inline-flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "34px")
+      )),
+      list("StyleRule", ".text-button span", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-size", "20px")
+      )),
+      list("StyleRule", ".landmark", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "right", "6%"),
+        list("Declaration", "bottom", "80px"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "13px"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "8px"),
+        list("Declaration", "line-height", "1.7"),
+        list("Declaration", "letter-spacing", "1.4px"),
+        list("Declaration", "color", "#b6a6a2")
+      )),
+      list("StyleRule", ".landmark svg", list(
+        list("Declaration", "height", "36px"),
+        list("Declaration", "width", "36px"),
+        list("Declaration", "stroke", "#af8b71"),
+        list("Declaration", "fill", "none")
+      )),
+      list("StyleRule", ".hero-bottom", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "bottom", "24px"),
+        list("Declaration", "left", "7.2%"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "letter-spacing", "1.8px"),
+        list("Declaration", "color", "#827584"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "21px")
+      )),
+      list("StyleRule", ".hero-bottom span:first-child", list(
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".trails", list(
+        list("Declaration", "margin", "0 7.2%"),
+        list("Declaration", "padding", "20px 0 63px"),
+        list("Declaration", "border-top", "1px solid var(--line)")
+      )),
+      list("StyleRule", ".section-intro", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "margin-bottom", "25px")
+      )),
+      list("StyleRule", ".section-intro .eyebrow", list(
+        list("Declaration", "color", "#9d929f"),
+        list("Declaration", "font-size", "9px")
+      )),
+      list("StyleRule", ".section-intro p", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-style", "italic"),
+        list("Declaration", "color", "#958b98"),
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "margin", "0")
+      )),
+      list("StyleRule", ".trail-grid", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "repeat(3,1fr)"),
+        list("Declaration", "gap", "35px")
+      )),
+      list("StyleRule", ".trail", list(
+        list("Declaration", "position", "relative"),
+        list("Declaration", "border-left", "1px solid #6a4e46"),
+        list("Declaration", "padding", "0 28px 0 20px"),
+        list("Declaration", "min-height", "130px"),
+        list("Declaration", "transition", "transform .25s")
+      )),
+      list("StyleRule", ".trail:hover", list(
+        list("Declaration", "transform", "translateY(-5px)")
+      )),
+      list("StyleRule", ".trail-top", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "margin-bottom", "20px"),
+        list("Declaration", "color", "#8c7f90"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "letter-spacing", "1.5px"),
+        list("Declaration", "text-transform", "uppercase")
+      )),
+      list("StyleRule", ".trail-symbol", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-size", "20px"),
+        list("Declaration", "line-height", "1")
+      )),
+      list("StyleRule", ".trail h2", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-size", "27px"),
+        list("Declaration", "line-height", "1.15"),
+        list("Declaration", "letter-spacing", "-.6px"),
+        list("Declaration", "font-weight", "400"),
+        list("Declaration", "margin-bottom", "12px"),
+        list("Declaration", "padding-right", "9px")
+      )),
+      list("StyleRule", ".trail p", list(
+        list("Declaration", "color", "#938998"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "line-height", "1.6"),
+        list("Declaration", "margin", "0")
+      )),
+      list("StyleRule", ".trail-arrow", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "right", "0"),
+        list("Declaration", "bottom", "0"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-size", "23px")
+      )),
+      list("StyleRule", ".home-note", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "30px"),
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "padding", "37px 7.2%"),
+        list("Declaration", "background", "#17131c")
+      )),
+      list("StyleRule", ".home-note .seal", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-size", "31px"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "border", "1px solid #f48b5833"),
+        list("Declaration", "border-radius", "50%"),
+        list("Declaration", "width", "52px"),
+        list("Declaration", "height", "52px"),
+        list("Declaration", "display", "grid"),
+        list("Declaration", "place-items", "center"),
+        list("Declaration", "flex-shrink", "0")
+      )),
+      list("StyleRule", ".home-note p", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-size", "18px"),
+        list("Declaration", "line-height", "1.6"),
+        list("Declaration", "color", "#b9afbf"),
+        list("Declaration", "margin", "0"),
+        list("Declaration", "max-width", "680px")
+      )),
+      list("StyleRule", ".home-note button", list(
+        list("Declaration", "margin-left", "auto"),
+        list("Declaration", "white-space", "nowrap"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".footer", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "20px"),
+        list("Declaration", "margin", "0 5.2%"),
+        list("Declaration", "padding", "26px 0"),
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "color", "#857b8c"),
+        list("Declaration", "letter-spacing", "1px")
+      )),
+      list("StyleRule", ".footer>span:first-child", list(
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "8px"),
+        list("Declaration", "letter-spacing", "1.6px")
+      )),
+      list("StyleRule", ".footer i", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "margin", "0 10px"),
+        list("Declaration", "font-style", "normal")
+      )),
+      list("StyleRule", ".footer>span:nth-child(2)", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-style", "italic"),
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "letter-spacing", "0")
+      )),
+      list("StyleRule", ".footer button", list(
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "color", "#ada0b6")
+      )),
+      list("StyleRule", ".footer button span", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "padding-left", "10px")
+      )),
+      list("StyleRule", ".scene", list(
+        list("Declaration", "animation", "arrive .5s ease-out")
+      )),
+      list("StyleRule", ".scene-top", list(
+        list("Declaration", "margin", "0 7.2%"),
+        list("Declaration", "padding", "28px 0"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "color", "#948799"),
+        list("Declaration", "font-size", "10px")
+      )),
+      list("StyleRule", ".back", list(
+        list("Declaration", "padding", "0"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "color", "#b8acbc")
+      )),
+      list("StyleRule", ".back span", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "margin-right", "12px")
+      )),
+      list("StyleRule", ".scene-top .eyebrow", list(
+        list("Declaration", "color", "#948799"),
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "letter-spacing", "1.4px")
+      )),
+      list("StyleRule", ".scene-body", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "minmax(0,1fr) minmax(340px,1fr)"),
+        list("Declaration", "gap", "8%"),
+        list("Declaration", "margin", "10px 7.2% 74px"),
+        list("Declaration", "align-items", "start")
+      )),
+      list("StyleRule", ".art-panel", list(
+        list("Declaration", "position", "sticky"),
+        list("Declaration", "top", "35px"),
+        list("Declaration", "min-height", "560px"),
+        list("Declaration", "padding-top", "55px")
+      )),
+      list("StyleRule", ".art-label", list(
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "letter-spacing", "1.8px"),
+        list("Declaration", "color", "#a18e96"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "text-transform", "uppercase"),
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "padding-top", "15px")
+      )),
+      list("StyleRule", ".art-panel svg", list(
+        list("Declaration", "width", "100%"),
+        list("Declaration", "height", "auto"),
+        list("Declaration", "display", "block")
+      )),
+      list("StyleRule", ".art-caption", list(
+        list("Declaration", "color", "#958799"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "line-height", "1.8"),
+        list("Declaration", "max-width", "350px"),
+        list("Declaration", "margin", "18px auto 0"),
+        list("Declaration", "text-align", "center")
+      )),
+      list("StyleRule", ".story", list(
+        list("Declaration", "padding-top", "10px")
+      )),
+      list("StyleRule", ".story .eyebrow", list(
+        list("Declaration", "font-size", "9px")
+      )),
+      list("StyleRule", ".story h1", list(
+        list("Declaration", "font", "400 clamp(38px,4.2vw,66px)/1.04 var(--serif)"),
+        list("Declaration", "letter-spacing", "-2.1px"),
+        list("Declaration", "margin", "22px 0 26px"),
+        list("Declaration", "white-space", "pre-line")
+      )),
+      list("StyleRule", ".story .lead", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-size", "22px"),
+        list("Declaration", "line-height", "1.45"),
+        list("Declaration", "color", "#ddd1dc"),
+        list("Declaration", "margin-bottom", "22px")
+      )),
+      list("StyleRule", ".story .body-copy", list(
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "color", "#b0a5b5"),
+        list("Declaration", "line-height", "1.95"),
+        list("Declaration", "margin-bottom", "17px")
+      )),
+      list("StyleRule", ".story .source-button", list(
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "padding", "8px 0"),
+        list("Declaration", "margin-bottom", "29px"),
+        list("Declaration", "text-align", "left")
+      )),
+      list("StyleRule", ".source-button span", list(
+        list("Declaration", "padding-left", "9px")
+      )),
+      list("StyleRule", ".choices", list(
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "padding-top", "24px")
+      )),
+      list("StyleRule", ".choices>.eyebrow", list(
+        list("Declaration", "color", "#8c7f93"),
+        list("Declaration", "margin-bottom", "8px"),
+        list("Declaration", "font-size", "8px")
+      )),
+      list("StyleRule", ".choice", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "position", "relative"),
+        list("Declaration", "padding", "19px 28px 19px 0"),
+        list("Declaration", "border-bottom", "1px solid var(--line)")
+      )),
+      list("StyleRule", ".choice:hover .choice-title", list(
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".choice-type", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "8px"),
+        list("Declaration", "letter-spacing", "1.1px"),
+        list("Declaration", "text-transform", "uppercase"),
+        list("Declaration", "color", "#8b7e93"),
+        list("Declaration", "margin-bottom", "7px")
+      )),
+      list("StyleRule", ".choice-title", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-size", "22px"),
+        list("Declaration", "line-height", "1.2"),
+        list("Declaration", "transition", "color .2s")
+      )),
+      list("StyleRule", ".choice-detail", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "color", "#95899f"),
+        list("Declaration", "margin-top", "7px"),
+        list("Declaration", "line-height", "1.6")
+      )),
+      list("StyleRule", ".choice-arrow", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "right", "1px"),
+        list("Declaration", "top", "38px"),
+        list("Declaration", "font-size", "20px"),
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".art-controls", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "center"),
+        list("Declaration", "gap", "10px"),
+        list("Declaration", "margin-top", "12px"),
+        list("Declaration", "flex-wrap", "wrap")
+      )),
+      list("StyleRule", ".control", list(
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "border", "1px solid #786575"),
+        list("Declaration", "padding", "11px 14px"),
+        list("Declaration", "min-height", "38px")
+      )),
+      list("StyleRule", ".control[aria-pressed=true]", list(
+        list("Declaration", "background", "#f48b5816"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "border-color", "#ba6c4a")
+      )),
+      list("StyleRule", ".control:hover", list(
+        list("Declaration", "border-color", "var(--orange)")
+      )),
+      list("StyleRule", ".demo-note", list(
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "font", "8px var(--mono)"),
+        list("Declaration", "letter-spacing", "1.2px"),
+        list("Declaration", "color", "#8e7b86"),
+        list("Declaration", "margin", "20px 0")
+      )),
+      list("StyleRule", ".readout", list(
+        list("Declaration", "color", "var(--lime)"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "min-height", "24px"),
+        list("Declaration", "margin-top", "20px")
+      )),
+      list("StyleRule", ".scene.personal .scene-body", list(
+        list("Declaration", "grid-template-columns", ".8fr 1fr"),
+        list("Declaration", "gap", "12%")
+      )),
+      list("StyleRule", ".scene.personal .art-panel", list(
+        list("Declaration", "min-height", "550px")
+      )),
+      list("StyleRule", ".scene.personal .story h1", list(
+        list("Declaration", "font-size", "clamp(60px,6vw,86px)"),
+        list("Declaration", "color", "#f0d7bf")
+      )),
+      list("StyleRule", ".scene.personal .story .body-copy", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-size", "19px"),
+        list("Declaration", "line-height", "1.9"),
+        list("Declaration", "color", "#c6b5be")
+      )),
+      list("StyleRule", ".scene.personal .story .lead", list(
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "color", "#9c8997"),
+        list("Declaration", "font-style", "italic")
+      )),
+      list("StyleRule", ".draft-label", list(
+        list("Declaration", "color", "#bb9c8a"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "8px"),
+        list("Declaration", "letter-spacing", "1.4px"),
+        list("Declaration", "margin-top", "14px")
+      )),
+      list("StyleRule", ".field-quote", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-style", "italic"),
+        list("Declaration", "font-size", "clamp(32px,3.8vw,55px)"),
+        list("Declaration", "line-height", "1.3"),
+        list("Declaration", "max-width", "340px"),
+        list("Declaration", "margin", "70px auto 0"),
+        list("Declaration", "color", "#bd9d8b"),
+        list("Declaration", "text-align", "center")
+      )),
+      list("StyleRule", ".lantern-art", list(
+        list("Declaration", "position", "relative"),
+        list("Declaration", "height", "260px"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "justify-content", "center")
+      )),
+      list("StyleRule", ".lantern-art:before", list(
+        list("Declaration", "content", "''"),
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "width", "330px"),
+        list("Declaration", "height", "330px"),
+        list("Declaration", "border-radius", "50%"),
+        list("Declaration", "background", "radial-gradient(circle,#c36b3c26,transparent 66%)")
+      )),
+      list("StyleRule", ".lantern-art svg", list(
+        list("Declaration", "width", "100px"),
+        list("Declaration", "position", "relative"),
+        list("Declaration", "filter", "drop-shadow(0 0 20px #e68a4e3d)")
+      )),
+      list("StyleRule", ".marginal", list(
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "line-height", "1.8"),
+        list("Declaration", "color", "#897786"),
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "letter-spacing", ".8px"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "margin-top", "25px")
+      )),
+      list("StyleRule", ".contact-lines", list(
+        list("Declaration", "font", "italic 23px/1.5 var(--serif)"),
+        list("Declaration", "padding", "48px 0 25px"),
+        list("Declaration", "color", "#a697b0"),
+        list("Declaration", "text-align", "center")
+      )),
+      list("StyleRule", ".contact-lines .rejected", list(
+        list("Declaration", "text-decoration", "line-through"),
+        list("Declaration", "text-decoration-color", "#b97155"),
+        list("Declaration", "color", "#6b5c70"),
+        list("Declaration", "font-size", "19px")
+      )),
+      list("StyleRule", ".contact-lines strong", list(
+        list("Declaration", "color", "var(--paper)"),
+        list("Declaration", "font-weight", "400")
+      )),
+      list("StyleRule", ".contact-correction", list(
+        list("Declaration", "border-left", "1px solid var(--orange)"),
+        list("Declaration", "padding", "17px 20px"),
+        list("Declaration", "line-height", "1.8"),
+        list("Declaration", "color", "#b9aabb"),
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "margin-top", "35px")
+      )),
+      list("StyleRule", ".diagram-card", list(
+        list("Declaration", "border", "1px solid #5f4559"),
+        list("Declaration", "background", "#21192377"),
+        list("Declaration", "padding", "22px 25px"),
+        list("Declaration", "margin", "15px 0"),
+        list("Declaration", "font", "18px var(--serif)"),
+        list("Declaration", "text-align", "center")
+      )),
+      list("StyleRule", ".diagram-card small", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font", "8px var(--mono)"),
+        list("Declaration", "color", "#a58eab"),
+        list("Declaration", "letter-spacing", "1.5px"),
+        list("Declaration", "margin-bottom", "12px")
+      )),
+      list("StyleRule", ".diagram-arrow", list(
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-size", "20px")
+      )),
+      list("StyleRule", ".atlas-modal", list(
+        list("Declaration", "max-width", "1050px!important")
+      )),
+      list("StyleRule", ".dialog-header", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "align-items", "start"),
+        list("Declaration", "gap", "20px")
+      )),
+      list("StyleRule", ".dialog-header .eyebrow", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-size", "9px")
+      )),
+      list("StyleRule", ".dialog-header h2", list(
+        list("Declaration", "font", "400 45px/1.1 var(--serif)"),
+        list("Declaration", "letter-spacing", "-1.4px"),
+        list("Declaration", "margin", "16px 0 0")
+      )),
+      list("StyleRule", ".close", list(
+        list("Declaration", "height", "36px"),
+        list("Declaration", "width", "36px"),
+        list("Declaration", "border", "1px solid #786575"),
+        list("Declaration", "font-size", "23px"),
+        list("Declaration", "line-height", "1"),
+        list("Declaration", "flex-shrink", "0")
+      )),
+      list("StyleRule", ".dialog-intro", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "line-height", "1.85"),
+        list("Declaration", "color", "#b0a0ba"),
+        list("Declaration", "max-width", "640px"),
+        list("Declaration", "margin", "22px 0")
+      )),
+      list("StyleRule", ".atlas-canvas", list(
+        list("Declaration", "position", "relative"),
+        list("Declaration", "height", "400px"),
+        list("Declaration", "margin", "10px 0 28px"),
+        list("Declaration", "background", "radial-gradient(ellipse at center,#35222b77,transparent 65%)"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "overflow", "hidden")
+      )),
+      list("StyleRule", ".atlas-canvas>svg", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "inset", "0"),
+        list("Declaration", "width", "100%"),
+        list("Declaration", "height", "100%")
+      )),
+      list("StyleRule", ".atlas-node", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "transform", "translate(-50%,-50%)"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "flex-direction", "column"),
+        list("Declaration", "gap", "9px"),
+        list("Declaration", "width", "150px"),
+        list("Declaration", "padding", "10px 0"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "color", "#9d8ca5")
+      )),
+      list("StyleRule", ".node-dot", list(
+        list("Declaration", "width", "10px"),
+        list("Declaration", "height", "10px"),
+        list("Declaration", "border", "1px solid #a98a9c"),
+        list("Declaration", "transform", "rotate(45deg)"),
+        list("Declaration", "background", "#211822"),
+        list("Declaration", "box-shadow", "0 0 0 6px #17121c")
+      )),
+      list("StyleRule", ".atlas-node.visited", list(
+        list("Declaration", "color", "var(--paper)")
+      )),
+      list("StyleRule", ".atlas-node.visited .node-dot", list(
+        list("Declaration", "background", "var(--orange)"),
+        list("Declaration", "border-color", "var(--orange)"),
+        list("Declaration", "box-shadow", "0 0 17px #ed7f4655,0 0 0 6px #17121c")
+      )),
+      list("StyleRule", ".atlas-node.current", list(
+        list("Declaration", "color", "var(--lime)")
+      )),
+      list("StyleRule", ".atlas-node.current .node-dot", list(
+        list("Declaration", "background", "var(--lime)"),
+        list("Declaration", "border-color", "var(--lime)")
+      )),
+      list("StyleRule", ".atlas-node:hover", list(
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".atlas-legend", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "23px"),
+        list("Declaration", "font", "9px var(--mono)"),
+        list("Declaration", "color", "#a18eab"),
+        list("Declaration", "letter-spacing", ".7px")
+      )),
+      list("StyleRule", ".atlas-legend span:before", list(
+        list("Declaration", "content", "'◇'"),
+        list("Declaration", "margin-right", "9px"),
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".atlas-legend span:last-child:before", list(
+        list("Declaration", "color", "var(--lime)")
+      )),
+      list("StyleRule", ".dialog-foot", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "15px"),
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "padding-top", "22px"),
+        list("Declaration", "margin-top", "25px"),
+        list("Declaration", "color", "#8f7d99"),
+        list("Declaration", "font-size", "10px")
+      )),
+      list("StyleRule", ".reset", list(
+        list("Declaration", "color", "#c5a58d"),
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "text-decoration", "underline"),
+        list("Declaration", "text-underline-offset", "4px")
+      )),
+      list("StyleRule", ".atlas-list", list(
+        list("Declaration", "display", "none")
+      )),
+      list("StyleRule", ".notes-list", list(
+        list("Declaration", "margin-top", "25px")
+      )),
+      list("StyleRule", ".note-row", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "20px"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "width", "100%"),
+        list("Declaration", "text-align", "left"),
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "padding", "18px 0")
+      )),
+      list("StyleRule", ".note-row .num", list(
+        list("Declaration", "font", "10px var(--mono)"),
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".note-row strong", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font", "20px var(--serif)"),
+        list("Declaration", "font-weight", "400")
+      )),
+      list("StyleRule", ".note-row small", list(
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "color", "#9c8ba6"),
+        list("Declaration", "display", "block"),
+        list("Declaration", "margin-top", "7px")
+      )),
+      list("StyleRule", ".note-row .arrow", list(
+        list("Declaration", "margin-left", "auto"),
+        list("Declaration", "color", "var(--orange)")
+      )),
+      list("StyleRule", ".source-note", list(
+        list("Declaration", "font-size", "16px"),
+        list("Declaration", "line-height", "1.9"),
+        list("Declaration", "color", "#c1b2c8"),
+        list("Declaration", "margin", "26px 0")
+      )),
+      list("StyleRule", ".source-path", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-family", "var(--mono)"),
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "line-height", "1.8"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "color", "#97809d"),
+        list("Declaration", "background", "#17121d"),
+        list("Declaration", "padding", "16px"),
+        list("Declaration", "border", "1px solid var(--line)")
+      )),
+      list("StyleRule", ".source-link", list(
+        list("Declaration", "display", "inline-block"),
+        list("Declaration", "margin-top", "22px"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "border-bottom", "1px solid #8a5a40"),
+        list("Declaration", "padding-bottom", "8px")
+      )),
+      list("StyleRule", ".about-copy", list(
+        list("Declaration", "font", "19px/1.8 var(--serif)"),
+        list("Declaration", "color", "#c7b7cb"),
+        list("Declaration", "margin-top", "25px")
+      )),
+      list("StyleRule", ".about-copy a", list(
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "border-bottom", "1px solid #7c4e37")
+      )),
+      list("StyleRule", ".about-small", list(
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "color", "#9f8ca7"),
+        list("Declaration", "line-height", "1.8")
+      )),
+      list("StyleRule", "dialog", list(
+        list("Declaration", "color", "var(--paper)"),
+        list("Declaration", "background", "#1c1622"),
+        list("Declaration", "border", "1px solid #6b4c5a"),
+        list("Declaration", "padding", "38px"),
+        list("Declaration", "width", "calc(100% - 40px)"),
+        list("Declaration", "max-width", "730px"),
+        list("Declaration", "max-height", "88vh"),
+        list("Declaration", "overflow", "auto"),
+        list("Declaration", "box-shadow", "0 30px 160px #0008")
+      )),
+      list("StyleRule", "dialog::backdrop", list(
+        list("Declaration", "background", "#08060bd9"),
+        list("Declaration", "backdrop-filter", "blur(8px)")
+      )),
+      list("StyleRule", ".dialog-body", list(
+        list("Declaration", "animation", "arrive .25s")
+      )),
+      list("StyleRule", ".monster-counts", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "center"),
+        list("Declaration", "gap", "20px"),
+        list("Declaration", "margin-top", "30px")
+      )),
+      list("StyleRule", ".count-column", list(
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "flex", "1")
+      )),
+      list("StyleRule", ".count-column strong", list(
+        list("Declaration", "font-family", "var(--serif)"),
+        list("Declaration", "font-weight", "400"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "font-size", "44px"),
+        list("Declaration", "display", "block")
+      )),
+      list("StyleRule", ".count-column span", list(
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "color", "#a38bad"),
+        list("Declaration", "line-height", "2")
+      )),
+      list("StyleRule", ".count-column small", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font", "8px var(--mono)"),
+        list("Declaration", "color", "#74677f"),
+        list("Declaration", "margin-top", "8px")
+      )),
+      list("StyleRule", ".monster-total", list(
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "padding", "20px"),
+        list("Declaration", "border-bottom", "1px solid var(--line)"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "color", "#b5a1bf")
+      )),
+      list("StyleRule", ".route-pill", list(
+        list("Declaration", "font", "9px var(--mono)"),
+        list("Declaration", "color", "var(--orange)"),
+        list("Declaration", "letter-spacing", "1px")
+      )),
+      list("StyleRule", ".scene-art-fade", list(
+        list("Declaration", "opacity", ".75")
+      )),
+      list("StyleRule", ".legend-sim", list(
+        list("Declaration", "font", "9px var(--mono)"),
+        list("Declaration", "letter-spacing", "1px"),
+        list("Declaration", "fill", "#95819c")
+      )),
+      list("StyleGroup", "keyframes", "arrive", list(
+        list("StyleRule", "from", list(
+          list("Declaration", "opacity", "0"),
+          list("Declaration", "transform", "translateY(9px)")
+        )),
+        list("StyleRule", "to", list(
+          list("Declaration", "opacity", "1"),
+          list("Declaration", "transform", "none")
+        ))
+      )),
+      list("StyleGroup", "media", "(min-width:1600px)", list(
+        list("StyleRule", ".hero", list(
+          list("Declaration", "min-height", "760px")
+        )),
+        list("StyleRule", ".hero-art", list(
+          list("Declaration", "background-position", "center 45%")
+        )),
+        list("StyleRule", ".hero h1", list(
+          list("Declaration", "font-size", "158px")
+        )),
+        list("StyleRule", ".hero-copy", list(
+          list("Declaration", "font-size", "17px"),
+          list("Declaration", "max-width", "430px")
+        )),
+        list("StyleRule", ".trail h2", list(
+          list("Declaration", "font-size", "32px")
+        )),
+        list("StyleRule", ".scene-body", list(
+          list("Declaration", "max-width", "1400px"),
+          list("Declaration", "margin-left", "auto"),
+          list("Declaration", "margin-right", "auto"),
+          list("Declaration", "padding", "0 6%")
+        )),
+        list("StyleRule", ".scene-top", list(
+          list("Declaration", "max-width", "1400px"),
+          list("Declaration", "margin-left", "auto"),
+          list("Declaration", "margin-right", "auto"),
+          list("Declaration", "padding-left", "6%"),
+          list("Declaration", "padding-right", "6%")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:1050px)", list(
+        list("StyleRule", ".header", list(
+          list("Declaration", "height", "80px")
+        )),
+        list("StyleRule", ".header nav", list(
+          list("Declaration", "gap", "20px")
+        )),
+        list("StyleRule", ".hero", list(
+          list("Declaration", "min-height", "620px"),
+          list("Declaration", "padding-top", "90px")
+        )),
+        list("StyleRule", ".hero h1", list(
+          list("Declaration", "letter-spacing", "-5px"),
+          list("Declaration", "font-size", "102px")
+        )),
+        list("StyleRule", ".hero-art", list(
+          list("Declaration", "inset", "-80px -180px -30px 18%"),
+          list("Declaration", "opacity", ".75")
+        )),
+        list("StyleRule", ".hero-copy", list(
+          list("Declaration", "max-width", "310px")
+        )),
+        list("StyleRule", ".landmark", list(
+          list("Declaration", "right", "5%"),
+          list("Declaration", "bottom", "70px")
+        )),
+        list("StyleRule", ".trail-grid", list(
+          list("Declaration", "gap", "24px")
+        )),
+        list("StyleRule", ".trail", list(
+          list("Declaration", "padding-left", "15px")
+        )),
+        list("StyleRule", ".trail h2", list(
+          list("Declaration", "font-size", "24px")
+        )),
+        list("StyleRule", ".scene-body", list(
+          list("Declaration", "gap", "6%"),
+          list("Declaration", "grid-template-columns", ".9fr 1fr")
+        )),
+        list("StyleRule", ".story h1", list(
+          list("Declaration", "font-size", "48px")
+        )),
+        list("StyleRule", ".story .lead", list(
+          list("Declaration", "font-size", "20px")
+        )),
+        list("StyleRule", ".art-panel", list(
+          list("Declaration", "padding-top", "55px")
+        )),
+        list("StyleRule", ".scene.personal .scene-body", list(
+          list("Declaration", "gap", "7%"),
+          list("Declaration", "grid-template-columns", ".8fr 1fr")
+        )),
+        list("StyleRule", ".header .journey-button", list(
+          list("Declaration", "padding", "10px"),
+          list("Declaration", "font-size", "10px")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:740px)", list(
+        list("StyleRule", ".header", list(
+          list("Declaration", "margin", "0 6%"),
+          list("Declaration", "height", "76px")
+        )),
+        list("StyleRule", ".brand", list(
+          list("Declaration", "font-size", "25px")
+        )),
+        list("StyleRule", ".brand svg", list(
+          list("Declaration", "width", "29px")
+        )),
+        list("StyleRule", ".header nav", list(
+          list("Declaration", "gap", "18px")
+        )),
+        list("StyleRule", ".header nav button", list(
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".header nav button:nth-child(2),.header nav button:nth-child(3)", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".journey-button", list(
+          list("Declaration", "display", "none!important")
+        )),
+        list("StyleRule", ".hero", list(
+          list("Declaration", "padding", "72px 7% 65px"),
+          list("Declaration", "min-height", "650px")
+        )),
+        list("StyleRule", ".hero h1", list(
+          list("Declaration", "font-size", "clamp(70px,15.5vw,108px)"),
+          list("Declaration", "letter-spacing", "-4px"),
+          list("Declaration", "margin-top", "25px")
+        )),
+        list("StyleRule", ".hero .eyebrow", list(
+          list("Declaration", "font-size", "8px"),
+          list("Declaration", "letter-spacing", "1.6px")
+        )),
+        list("StyleRule", ".hero-art", list(
+          list("Declaration", "inset", "30px -310px -10px 0"),
+          list("Declaration", "background-position", "center"),
+          list("Declaration", "opacity", ".62"),
+          list("Declaration", "mask-image", "linear-gradient(0deg,#000,transparent 96%)")
+        )),
+        list("StyleRule", ".hero-copy", list(
+          list("Declaration", "max-width", "280px"),
+          list("Declaration", "font-size", "14px"),
+          list("Declaration", "color", "#c5b9cb"),
+          list("Declaration", "text-shadow", "0 1px 12px #000")
+        )),
+        list("StyleRule", ".hero-bottom", list(
+          list("Declaration", "bottom", "25px"),
+          list("Declaration", "left", "7%"),
+          list("Declaration", "font-size", "7px"),
+          list("Declaration", "gap", "14px")
+        )),
+        list("StyleRule", ".landmark", list(
+          list("Declaration", "bottom", "60px"),
+          list("Declaration", "right", "6%"),
+          list("Declaration", "font-size", "7px")
+        )),
+        list("StyleRule", ".landmark svg", list(
+          list("Declaration", "width", "28px")
+        )),
+        list("StyleRule", ".trails", list(
+          list("Declaration", "margin", "0 7%"),
+          list("Declaration", "padding-bottom", "35px")
+        )),
+        list("StyleRule", ".section-intro", list(
+          list("Declaration", "margin", "3px 0 22px")
+        )),
+        list("StyleRule", ".section-intro p", list(
+          list("Declaration", "font-size", "12px")
+        )),
+        list("StyleRule", ".section-intro .eyebrow", list(
+          list("Declaration", "font-size", "8px")
+        )),
+        list("StyleRule", ".trail-grid", list(
+          list("Declaration", "grid-template-columns", "1fr"),
+          list("Declaration", "gap", "0")
+        )),
+        list("StyleRule", ".trail", list(
+          list("Declaration", "min-height", "0"),
+          list("Declaration", "padding", "20px 30px 22px 17px"),
+          list("Declaration", "border-bottom", "1px solid var(--line)"),
+          list("Declaration", "border-left", "1px solid #604a48")
+        )),
+        list("StyleRule", ".trail-top", list(
+          list("Declaration", "margin-bottom", "10px")
+        )),
+        list("StyleRule", ".trail-symbol", list(
+          list("Declaration", "position", "absolute"),
+          list("Declaration", "right", "3px"),
+          list("Declaration", "top", "22px"),
+          list("Declaration", "font-size", "18px")
+        )),
+        list("StyleRule", ".trail h2", list(
+          list("Declaration", "font-size", "28px"),
+          list("Declaration", "margin-bottom", "7px")
+        )),
+        list("StyleRule", ".trail p", list(
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".trail-arrow", list(
+          list("Declaration", "bottom", "23px"),
+          list("Declaration", "right", "5px")
+        )),
+        list("StyleRule", ".home-note", list(
+          list("Declaration", "padding", "27px 7%"),
+          list("Declaration", "gap", "18px"),
+          list("Declaration", "align-items", "start")
+        )),
+        list("StyleRule", ".home-note p", list(
+          list("Declaration", "font-size", "16px")
+        )),
+        list("StyleRule", ".home-note .seal", list(
+          list("Declaration", "width", "38px"),
+          list("Declaration", "height", "38px"),
+          list("Declaration", "font-size", "25px")
+        )),
+        list("StyleRule", ".home-note button", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".footer", list(
+          list("Declaration", "margin", "0 7%"),
+          list("Declaration", "padding", "23px 0")
+        )),
+        list("StyleRule", ".footer>span:nth-child(2)", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".footer>span:first-child", list(
+          list("Declaration", "font-size", "7px")
+        )),
+        list("StyleRule", ".footer button", list(
+          list("Declaration", "font-size", "9px")
+        )),
+        list("StyleRule", ".scene-top", list(
+          list("Declaration", "padding", "23px 0"),
+          list("Declaration", "margin", "0 7%")
+        )),
+        list("StyleRule", ".scene-top .eyebrow", list(
+          list("Declaration", "font-size", "7px"),
+          list("Declaration", "max-width", "55%"),
+          list("Declaration", "text-align", "right")
+        )),
+        list("StyleRule", ".scene-body,.scene.personal .scene-body", list(
+          list("Declaration", "display", "flex"),
+          list("Declaration", "flex-direction", "column"),
+          list("Declaration", "gap", "0"),
+          list("Declaration", "margin", "0 7% 40px")
+        )),
+        list("StyleRule", ".art-panel,.scene.personal .art-panel", list(
+          list("Declaration", "position", "relative"),
+          list("Declaration", "top", "0"),
+          list("Declaration", "width", "100%"),
+          list("Declaration", "min-height", "0"),
+          list("Declaration", "padding-top", "0"),
+          list("Declaration", "order", "2"),
+          list("Declaration", "margin-top", "35px")
+        )),
+        list("StyleRule", ".art-panel>svg", list(
+          list("Declaration", "max-height", "360px")
+        )),
+        list("StyleRule", ".story", list(
+          list("Declaration", "order", "1"),
+          list("Declaration", "width", "100%"),
+          list("Declaration", "padding-top", "12px")
+        )),
+        list("StyleRule", ".story h1", list(
+          list("Declaration", "font-size", "47px"),
+          list("Declaration", "letter-spacing", "-1.8px"),
+          list("Declaration", "margin", "16px 0 22px")
+        )),
+        list("StyleRule", ".story .lead", list(
+          list("Declaration", "font-size", "21px")
+        )),
+        list("StyleRule", ".story .body-copy", list(
+          list("Declaration", "font-size", "14px"),
+          list("Declaration", "line-height", "1.9")
+        )),
+        list("StyleRule", ".story .source-button", list(
+          list("Declaration", "margin-bottom", "20px")
+        )),
+        list("StyleRule", ".choice-title", list(
+          list("Declaration", "font-size", "23px")
+        )),
+        list("StyleRule", ".scene.personal .story h1", list(
+          list("Declaration", "font-size", "66px")
+        )),
+        list("StyleRule", ".scene.personal .story .body-copy", list(
+          list("Declaration", "font-size", "19px")
+        )),
+        list("StyleRule", ".scene.personal .art-panel", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".art-caption", list(
+          list("Declaration", "max-width", "100%")
+        )),
+        list("StyleRule", ".art-panel:has(.contact-lines)", list(
+          list("Declaration", "margin-top", "10px")
+        )),
+        list("StyleRule", ".field-quote", list(
+          list("Declaration", "margin-top", "20px")
+        )),
+        list("StyleRule", ".scene-body:has(.detector-demo) .art-panel,.scene-body:has(.loop-demo) .art-panel", list(
+          list("Declaration", "order", "0"),
+          list("Declaration", "margin", "8px 0 30px")
+        )),
+        list("StyleRule", ".detector-demo>svg,.loop-demo>svg", list(
+          list("Declaration", "max-height", "230px")
+        )),
+        list("StyleRule", ".art-label", list(
+          list("Declaration", "font-size", "7px")
+        )),
+        list("StyleRule", ".art-caption", list(
+          list("Declaration", "font-size", "10px"),
+          list("Declaration", "margin-top", "9px")
+        )),
+        list("StyleRule", ".art-controls", list(
+          list("Declaration", "margin-top", "7px")
+        )),
+        list("StyleRule", ".demo-note", list(
+          list("Declaration", "font-size", "7px"),
+          list("Declaration", "margin", "12px 0")
+        )),
+        list("StyleRule", ".readout", list(
+          list("Declaration", "margin-top", "10px"),
+          list("Declaration", "font-size", "9px")
+        )),
+        list("StyleRule", ".control", list(
+          list("Declaration", "font-size", "9px"),
+          list("Declaration", "padding", "9px 12px")
+        )),
+        list("StyleRule", ".atlas-canvas", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".atlas-list", list(
+          list("Declaration", "display", "grid"),
+          list("Declaration", "grid-template-columns", "1fr 1fr"),
+          list("Declaration", "gap", "10px"),
+          list("Declaration", "margin-top", "25px")
+        )),
+        list("StyleRule", ".atlas-list a", list(
+          list("Declaration", "border", "1px solid var(--line)"),
+          list("Declaration", "padding", "15px 12px"),
+          list("Declaration", "font", "15px var(--serif)"),
+          list("Declaration", "line-height", "1.3")
+        )),
+        list("StyleRule", ".atlas-list a.visited", list(
+          list("Declaration", "border-color", "#a76743")
+        )),
+        list("StyleRule", ".atlas-list small", list(
+          list("Declaration", "display", "block"),
+          list("Declaration", "font", "8px var(--mono)"),
+          list("Declaration", "color", "var(--orange)"),
+          list("Declaration", "margin-bottom", "7px")
+        )),
+        list("StyleRule", ".atlas-legend", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".dialog-header h2", list(
+          list("Declaration", "font-size", "35px")
+        )),
+        list("StyleRule", ".dialog-header .eyebrow", list(
+          list("Declaration", "font-size", "8px")
+        )),
+        list("StyleRule", "dialog", list(
+          list("Declaration", "padding", "25px 22px"),
+          list("Declaration", "max-height", "90vh")
+        )),
+        list("StyleRule", ".dialog-intro", list(
+          list("Declaration", "font-size", "12px")
+        )),
+        list("StyleRule", ".dialog-foot", list(
+          list("Declaration", "font-size", "9px")
+        )),
+        list("StyleRule", ".source-note", list(
+          list("Declaration", "font-size", "15px")
+        )),
+        list("StyleRule", ".about-copy", list(
+          list("Declaration", "font-size", "18px")
+        )),
+        list("StyleRule", ".note-row strong", list(
+          list("Declaration", "font-size", "18px")
+        ))
+      )),
+      list("StyleGroup", "media", "(prefers-reduced-motion:reduce)", list(
+        list("StyleRule", "html", list(
+          list("Declaration", "scroll-behavior", "auto")
+        )),
+        list("StyleRule", "*,*:before,*:after", list(
+          list("Declaration", "animation", "none!important"),
+          list("Declaration", "transition", "none!important")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:740px)", list(
+        list("StyleRule", ".header nav button:nth-child(3)", list(
+          list("Declaration", "display", "block"),
+          list("Declaration", "font-size", "0")
+        )),
+        list("StyleRule", ".header nav button:nth-child(3)::after", list(
+          list("Declaration", "content", "'About'"),
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".header nav", list(
+          list("Declaration", "gap", "16px")
+        ))
+      )),
+      list("StyleRule", ".atlas-legend span:nth-child(2):before", list(
+        list("Declaration", "color", "#9d8ca5")
+      )),
+      list("StyleRule", ".experience-link", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "border", "1px solid #a77d5b"),
+        list("Declaration", "background", "linear-gradient(135deg,#b87e4c22,#aa7dae11)"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "padding", "20px 23px"),
+        list("Declaration", "margin", "25px 0 17px"),
+        list("Declaration", "text-decoration", "none"),
+        list("Declaration", "color", "#f2dec8")
+      )),
+      list("StyleRule", ".experience-link strong", list(
+        list("Declaration", "font-size", "18px"),
+        list("Declaration", "font-weight", "500"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "gap", "15px")
+      )),
+      list("StyleRule", ".experience-link small", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "color", "#c8b8c4"),
+        list("Declaration", "line-height", "1.7"),
+        list("Declaration", "margin-top", "8px"),
+        list("Declaration", "font-size", "12px")
+      )),
+      list("StyleRule", ".experience-link:hover", list(
+        list("Declaration", "border-color", "#f2c58c"),
+        list("Declaration", "background", "#c58e5525")
+      )),
+      list("StyleRule", ".experience-link:focus-visible", list(
+        list("Declaration", "outline", "2px solid #efd5a4"),
+        list("Declaration", "outline-offset", "5px")
+      )),
+      list("StyleGroup", "media", "(max-width:640px)", list(
+        list("StyleRule", ".experience-link", list(
+          list("Declaration", "padding", "18px")
+        )),
+        list("StyleRule", ".experience-link strong", list(
+          list("Declaration", "font-size", "17px")
+        ))
+      )),
+      list("StyleRule", ".application-scene", list(
+        list("Declaration", "padding-top", "36px")
+      )),
+      list("StyleRule", ".application-intro", list(
+        list("Declaration", "max-width", "780px"),
+        list("Declaration", "margin", "36px 0")
+      )),
+      list("StyleRule", ".application-intro h1", list(
+        list("Declaration", "font", "400 clamp(40px,6vw,74px)/1.08 var(--serif)"),
+        list("Declaration", "letter-spacing", "-2px"),
+        list("Declaration", "margin", "20px 0")
+      )),
+      list("StyleRule", ".application-intro p", list(
+        list("Declaration", "line-height", "1.8"),
+        list("Declaration", "color", "#ddd1dc")
+      )),
+      list("StyleRule", ".application-intro details", list(
+        list("Declaration", "margin", "20px 0"),
+        list("Declaration", "padding", "16px 0"),
+        list("Declaration", "border-top", "1px solid var(--line)")
+      )),
+      list("StyleRule", ".application-intro summary", list(
+        list("Declaration", "cursor", "pointer"),
+        list("Declaration", "padding", "8px 0")
+      )),
+      list("StyleRule", ".encounter-workspace", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "border-radius", "16px"),
+        list("Declaration", "overflow", "hidden"),
+        list("Declaration", "margin-bottom", "50px")
+      )),
+      list("StyleRule", ".application-scene", list(
+        list("Declaration", "margin", "0 5.2%"),
+        list("Declaration", "max-width", "1440px")
+      )),
+      list("StyleRule", ".header nav a", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "letter-spacing", ".3px"),
+        list("Declaration", "padding", "12px 0"),
+        list("Declaration", "color", "#c7bfca"),
+        list("Declaration", "text-decoration", "none")
+      )),
+      list("StyleGroup", "media", "(max-width:740px)", list(
+        list("StyleRule", ".header", list(
+          list("Declaration", "height", "auto"),
+          list("Declaration", "min-height", "100px"),
+          list("Declaration", "flex-wrap", "wrap"),
+          list("Declaration", "gap", "8px"),
+          list("Declaration", "padding", "18px 0")
+        )),
+        list("StyleRule", ".header nav", list(
+          list("Declaration", "order", "3"),
+          list("Declaration", "width", "100%"),
+          list("Declaration", "flex-wrap", "wrap"),
+          list("Declaration", "gap", "16px")
+        )),
+        list("StyleRule", ".header nav button,.header nav a,.header nav button:nth-child(2),.header nav button:nth-child(3)", list(
+          list("Declaration", "display", "inline-flex"),
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".header nav button:nth-child(3)::after", list(
+          list("Declaration", "content", "none")
+        )),
+        list("StyleRule", ".application-scene", list(
+          list("Declaration", "margin", "0 6%")
+        ))
+      ))
+    ))
+  }

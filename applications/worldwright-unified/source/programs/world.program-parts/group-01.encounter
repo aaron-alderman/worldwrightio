@@ -1,0 +1,8 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("Publish", { declaration = { fragment = "part0002" }; specifiers = list(); source = null; attributes = list() });
+    part0002 = list("BindGroup", { kind = "const"; terminate = true; declarations = list({ fragment = "part0003" }) });
+    part0003 = list("Binding", { id = list("NameReference", { name = "scenes" }); init = { fragment = "part0004" } })
+  }

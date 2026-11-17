@@ -1,0 +1,256 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0004 = list("MarkupAttribute", { name = "cx"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "60" })) }) });
+    part0005 = list("MarkupAttribute", { name = "cy"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "60" })) }) });
+    part0006 = list("MarkupAttribute", { name = "rx"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "20" })) }) });
+    part0007 = list("MarkupAttribute", { name = "ry"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "43" })) }) });
+    part0008 = list("MarkupAttribute", {
+        name = "transform";
+        quote = "\"";
+        value = list("ComposeText", {
+            parts = list(
+              list("MarkupText", { value = "rotate(" }),
+              list("Calculate", {
+                  operator = "/";
+                  left = list("Calculate", { operator = "*"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 180 }) });
+                  right = list("LiteralValue", { value = 7 })
+                }),
+              list("MarkupText", { value = " 60 60)" })
+            )
+          })
+      });
+    part0009 = list("MarkupAttribute", {
+        name = "d";
+        quote = "\"";
+        value = list("ComposeText", { parts = list(list("MarkupText", { value = "m60 14 14 31-14 29-14-29Z" })) })
+      });
+    part0010 = list("MarkupAttribute", {
+        name = "transform";
+        quote = "\"";
+        value = list("ComposeText", {
+            parts = list(
+              list("MarkupText", { value = "rotate(" }),
+              list("Calculate", { operator = "*"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 45 }) }),
+              list("MarkupText", { value = " 60 60)" })
+            )
+          })
+      });
+    part0011 = list("MarkupAttribute", {
+        name = "class";
+        quote = "\"";
+        value = list("ComposeText", { parts = list(list("MarkupText", { value = "region-card" })) })
+      });
+    part0012 = list("MarkupAttribute", {
+        name = "href";
+        quote = "\"";
+        value = list("ComposeText", {
+            parts = list(
+              list("MarkupText", { value = "#" }),
+              list("Select", {
+                  computed = true;
+                  optional = false;
+                  object = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "r" });
+                      property = list("NameReference", { name = "scenes" })
+                    });
+                  property = list("LiteralValue", { value = 0 })
+                })
+            )
+          })
+      });
+    part0013 = list("MarkupAttribute", {
+        name = "data-light";
+        quote = "\"";
+        value = list("ComposeText", {
+            parts = list(
+              list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("NameReference", { name = "r" });
+                  property = list("NameReference", { name = "light" })
+                })
+            )
+          })
+      });
+    part0014 = list("MarkupAttribute", {
+        name = "data-region";
+        quote = "\"";
+        value = list("ComposeText", {
+            parts = list(
+              list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("NameReference", { name = "r" });
+                  property = list("NameReference", { name = "id" })
+                })
+            )
+          })
+      });
+    part0015 = list("MarkupAttribute", {
+        name = "data-search";
+        quote = "\"";
+        value = list("ComposeText", {
+            parts = list(
+              list("Invoke", {
+                  optional = false;
+                  callee = list("NameReference", { name = "escape" });
+                  arguments = list(
+                    list("Invoke", {
+                        optional = false;
+                        callee = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("List", {
+                                elements = list(
+                                  list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("NameReference", { name = "r" });
+                                      property = list("NameReference", { name = "name" })
+                                    }),
+                                  list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("NameReference", { name = "r" });
+                                      property = list("NameReference", { name = "question" })
+                                    }),
+                                  list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("NameReference", { name = "r" });
+                                      property = list("NameReference", { name = "description" })
+                                    }),
+                                  list("Select", {
+                                      computed = true;
+                                      optional = false;
+                                      object = list("NameReference", { name = "regionKeywords" });
+                                      property = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "r" });
+                                          property = list("NameReference", { name = "id" })
+                                        })
+                                    })
+                                )
+                              });
+                            property = list("NameReference", { name = "join" })
+                          });
+                        arguments = list(list("LiteralValue", { value = " " }))
+                      })
+                  )
+                })
+            )
+          })
+      });
+    part0016 = list("MarkupAttribute", {
+        name = "class";
+        quote = "\"";
+        value = list("ComposeText", { parts = list(list("MarkupText", { value = "region-card-top" })) })
+      });
+    part0017 = list("Invoke", {
+        optional = false;
+        callee = list("NameReference", { name = "String" });
+        arguments = list(
+          list("Calculate", { operator = "+"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 1 }) })
+        )
+      });
+    part0018 = list("NameReference", { name = "padStart" });
+    part0019 = list("LiteralValue", { value = 2 });
+    part0020 = list("LiteralValue", { value = "0" });
+    part0021 = list("NameReference", { name = "r" });
+    part0022 = list("NameReference", { name = "optional" });
+    part0023 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "r" });
+            property = list("NameReference", { name = "scenes" })
+          });
+        property = list("NameReference", { name = "filter" })
+      });
+    part0024 = list("Procedure", {
+        generator = false;
+        async = false;
+        block = false;
+        id = null;
+        params = list(list("NameReference", { name = "id" }));
+        body = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "visited" });
+                property = list("NameReference", { name = "includes" })
+              });
+            arguments = list(list("NameReference", { name = "id" }))
+          })
+      });
+    part0025 = list("NameReference", { name = "r" });
+    part0026 = list("NameReference", { name = "scenes" });
+    part0027 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "id" })
+      });
+    part0028 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "name" })
+      });
+    part0029 = list("MarkupAttribute", {
+        name = "class";
+        quote = "\"";
+        value = list("ComposeText", { parts = list(list("MarkupText", { value = "region-question" })) })
+      });
+    part0030 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "question" })
+      });
+    part0031 = list("MarkupAttribute", {
+        name = "class";
+        quote = "\"";
+        value = list("ComposeText", { parts = list(list("MarkupText", { value = "region-description" })) })
+      });
+    part0032 = list("ShortCircuit", {
+        operator = "||";
+        left = list("Select", {
+            computed = true;
+            optional = false;
+            object = list("NameReference", { name = "plainDescriptions" });
+            property = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "r" });
+                property = list("NameReference", { name = "id" })
+              })
+          });
+        right = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "r" });
+            property = list("NameReference", { name = "description" })
+          })
+      });
+    part0033 = list("MarkupAttribute", {
+        name = "class";
+        quote = "\"";
+        value = list("ComposeText", { parts = list(list("MarkupText", { value = "region-card-foot" })) })
+      });
+    part0034 = list("NameReference", { name = "r" });
+    part0035 = list("NameReference", { name = "scenes" });
+    part0036 = list("MarkupAttribute", {
+        name = "aria-hidden";
+        quote = "\"";
+        value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+      })
+  }

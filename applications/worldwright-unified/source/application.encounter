@@ -1,0 +1,188 @@
+process-module "temple/surface-process-module/1"
+
+process application.definition:
+  let result = {
+    protocol = "worldwright/application/1";
+    id = "worldwright";
+    reason = "Encounter is the authoring and explanation view of this same application.";
+    target = "One shared reader, journey, session, inspector and composition.";
+    goal = "Follow an idea into a valid change and back to its source without leaving the application.";
+    hostScene = "workshop";
+    navigation = list(
+      { kind = "action"; label = "The atlas ↗"; action = "atlas" },
+      { kind = "action"; label = "Field notes"; action = "notes" },
+      { kind = "route"; label = "Encounter"; href = "#workshop" },
+      { kind = "route"; label = "Worldbox plan"; href = "#worldbox" },
+      { kind = "action"; label = "About this world"; action = "about" }
+    );
+    session = {
+      module = "workshop/browser-transport.js";
+      exportName = "createTransport";
+      alias = "storyLab";
+      stateMethod = "state";
+      stateEvent = "encounter-state"
+    };
+    views = {
+      example = {
+        fragment = "views/example.html";
+        base = "workshop/";
+        styles = list("workshop/style.css", "presentation/style.css");
+        modules = list(
+          { module = "workshop/app.js"; exportName = "mountExample" },
+          { module = "workshop/debugger-ui.js"; exportName = "mountDebugger" }
+        );
+        title = "Encounter";
+        binding = "application/features/encounter/source";
+        mode = "example";
+        parts = list(
+          { select = "identity"; value = "workshop/index.html#revision" },
+          { select = "mainChildren"; exclude = list("Header") }
+        );
+        description = "Change one thing. Follow its meaning, the checked process, and the route back to source.";
+        composition = "source/pages/workshop/index.page.encounter"
+      };
+      reason = {
+        fragment = "views/reason.html";
+        base = "workshop/";
+        styles = list("workshop/style.css", "workshop/lightning.css", "presentation/style.css");
+        modules = list(
+          { module = "workshop/lightning.js"; exportName = "mountReason"; render = "render" }
+        );
+        title = "Why this change?";
+        binding = "application/features/reason";
+        mode = "reason";
+        parts = list(
+          { select = "mainChildren"; exclude = list("Header", "Footer") }
+        );
+        description = "Begin with a human purpose. Follow the necessary links and keep every assumption open to correction.";
+        composition = "source/pages/workshop/lightning.page.encounter"
+      };
+      diagrams = {
+        fragment = "views/diagrams.html";
+        base = "workshop/";
+        styles = list("workshop/style.css", "workshop/infographics.css");
+        modules = list(
+          { module = "workshop/infographics.js"; exportName = "mountDiagrams" }
+        );
+        title = "See the whole";
+        binding = "application/features/diagrams";
+        mode = "diagrams";
+        parts = list(
+          { select = "mainChildren"; exclude = list("Header", "Footer") }
+        );
+        body = { "data-paper" = "a3"; "data-print-scope" = "current" };
+        description = "Read the architecture as a whole. Explore the diagrams here, or print them to share.";
+        composition = "source/pages/workshop/infographics.page.encounter"
+      };
+      worldbox = {
+        fragment = "views/worldbox.html";
+        base = "workshop/";
+        styles = list("workshop/worldbox.css");
+        modules = list(
+          { module = "workshop/worldbox.js"; exportName = "mountWorldbox" }
+        );
+        title = "Worldbox Lightning plan";
+        binding = "application";
+        mode = "worldbox";
+        parts = list(
+          { select = "identity"; value = "workshop/worldbox.html" }
+        );
+        description = "Author the decomposition, maximum-complexity workload and proposed performance budgets.";
+        composition = "source/pages/workshop/worldbox.page.encounter"
+      }
+    };
+    routes = list(
+      { hash = "workshop"; scene = "workshop"; view = "example" },
+      { hash = "encounter"; scene = "workshop"; view = "example" },
+      { hash = "reason"; scene = "workshop"; view = "reason" },
+      { hash = "lightning"; scene = "workshop"; view = "reason" },
+      { hash = "diagrams"; scene = "workshop"; view = "diagrams" },
+      { hash = "edit-title"; scene = "workshop"; view = "example"; focus = "story-title" },
+      { hash = "edit-web-label"; scene = "workshop"; view = "example"; focus = "web-label" },
+      { hash = "edit-receipt"; scene = "workshop"; view = "example"; focus = "return-path" },
+      { hash = "edit-source"; scene = "workshop"; view = "example"; focus = "inspect" },
+      { hash = "worldbox"; scene = "workshop"; view = "worldbox" }
+    );
+    journey = list(
+      {
+        label = "Change one thing";
+        href = "#workshop";
+        view = "example";
+        reason = "Begin with the Story and one declared edit owner."
+      },
+      {
+        label = "Follow the reason";
+        href = "#reason";
+        view = "reason";
+        reason = "Inspect the desire, necessary links, evidence and correction route."
+      },
+      {
+        label = "See the whole";
+        href = "#diagrams";
+        view = "diagrams";
+        reason = "Read or print the wider explanation without leaving the shared application."
+      },
+      {
+        label = "Build the worldbox";
+        href = "#worldbox";
+        view = "worldbox";
+        reason = "Apply Lightning to maximum scale and its acceptance targets."
+      },
+      {
+        label = "Return to the questions";
+        href = "#sourcery";
+        view = null;
+        reason = "Bring the change back into the wider story."
+      }
+    );
+    compatibility = list(
+      {
+        path = "encounter/";
+        target = "#workshop";
+        fragments = {
+          "story-title" = "#edit-title";
+          "web-label" = "#edit-web-label";
+          "return-path" = "#edit-receipt";
+          "source-story" = "#edit-title";
+          inspect = "#edit-source"
+        }
+      },
+      {
+        path = "encounter/index.html";
+        target = "#workshop";
+        fragments = {
+          "story-title" = "#edit-title";
+          "web-label" = "#edit-web-label";
+          "return-path" = "#edit-receipt";
+          "source-story" = "#edit-title";
+          inspect = "#edit-source"
+        }
+      },
+      { path = "encounter/lightning.html"; target = "#reason" },
+      { path = "encounter/infographics.html"; target = "#diagrams" },
+      {
+        path = "workshop/index.html";
+        target = "#workshop";
+        fragments = {
+          "story-title" = "#edit-title";
+          "web-label" = "#edit-web-label";
+          "return-path" = "#edit-receipt";
+          "source-story" = "#edit-title";
+          inspect = "#edit-source"
+        }
+      },
+      { path = "workshop/lightning.html"; target = "#reason" },
+      { path = "workshop/infographics.html"; target = "#diagrams" },
+      {
+        path = "workshop/";
+        target = "#workshop";
+        fragments = {
+          "story-title" = "#edit-title";
+          "web-label" = "#edit-web-label";
+          "return-path" = "#edit-receipt";
+          "source-story" = "#edit-title";
+          inspect = "#edit-source"
+        }
+      }
+    )
+  }

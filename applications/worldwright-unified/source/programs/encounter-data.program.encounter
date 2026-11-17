@@ -1,0 +1,687 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "encounter-data.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "encounter-data.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    tree = list("Module", {
+        body = list(
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "encounterKinds" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "observation" });
+                                  value = list("LiteralValue", { value = "experiment" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "return" });
+                                  value = list("LiteralValue", { value = "experiment" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "instrument" });
+                                  value = list("LiteralValue", { value = "experiment" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "calibration" });
+                                  value = list("LiteralValue", { value = "experiment" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "listening" });
+                                  value = list("LiteralValue", { value = "conversation" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "permission" });
+                                  value = list("LiteralValue", { value = "decision" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "water" });
+                                  value = list("LiteralValue", { value = "quiet" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "care" });
+                                  value = list("LiteralValue", { value = "quiet" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "monster" });
+                                  value = list("LiteralValue", { value = "experiment" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "representation" });
+                                  value = list("LiteralValue", { value = "object" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "revision" });
+                                  value = list("LiteralValue", { value = "comparison" })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "conversation" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "opening" });
+                                  value = list("LiteralValue", { value = "“I know the plan makes sense. I’m not sure I can keep doing it.”" })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "replies" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "Offer a more efficient plan" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "answer" });
+                                                  value = list("LiteralValue", { value = "“That might help later. I was trying to tell you what it is costing me.”" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "question" });
+                                                  value = list("LiteralValue", { value = "The problem you solved may be adjacent to the one being offered." })
+                                                })
+                                            )
+                                          }),
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "Ask what has become difficult" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "answer" });
+                                                  value = list("LiteralValue", { value = "“It feels as though the plan has become more important than the people in it.”" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "question" });
+                                                  value = list("LiteralValue", { value = "A question can make room for information the plan did not contain." })
+                                                })
+                                            )
+                                          }),
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "Ask what they need from this conversation" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "answer" });
+                                                  value = list("LiteralValue", { value = "“Could we work out what to keep, and what I’m allowed to put down?”" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "question" });
+                                                  value = list("LiteralValue", { value = "The speaker gets a chance to help define the encounter." })
+                                                })
+                                            )
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "echoes" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "observation" });
+                                  value = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "after" });
+                                            value = list("LiteralValue", { value = "listening" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "heading" });
+                                            value = list("LiteralValue", { value = "A different kind of instrument" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("LiteralValue", {
+                                                value = "You have also visited The unasked question. Try the detector again with this beside it: what does the way you ask make possible to hear?"
+                                              })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "to" });
+                                            value = list("LiteralValue", { value = "listening" })
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "care" });
+                                  value = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "after" });
+                                            value = list("LiteralValue", { value = "restraint" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "heading" });
+                                            value = list("LiteralValue", { value = "The open hand, brought back here" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("LiteralValue", {
+                                                value = "You have also encountered restraint. Who has room to act in this scene, and who might need protection?"
+                                              })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "to" });
+                                            value = list("LiteralValue", { value = "restraint" })
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "kenosis" });
+                                  value = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "after" });
+                                            value = list("LiteralValue", { value = "permission" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "heading" });
+                                            value = list("LiteralValue", { value = "Three doors are still open" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("LiteralValue", {
+                                                value = "You have encountered capability, permission and responsibility separately. Which question is this passage asking now?"
+                                              })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "to" });
+                                            value = list("LiteralValue", { value = "permission" })
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "return" });
+                                  value = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "after" });
+                                            value = list("LiteralValue", { value = "revision" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "heading" });
+                                            value = list("LiteralValue", { value = "An earlier place, another reading" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("LiteralValue", {
+                                                value = "You have visited The visible seam. A changed mathematical frame and a corrected explanation are different things; what makes the association useful to you?"
+                                              })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "to" });
+                                            value = list("LiteralValue", { value = "revision" })
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "water" });
+                                  value = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "after" });
+                                            value = list("LiteralValue", { value = "listening" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "heading" });
+                                            value = list("LiteralValue", { value = "The guide can listen too" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("LiteralValue", {
+                                                value = "You have visited The unasked question. The horse’s reflection offers the guide another chance to begin."
+                                              })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "to" });
+                                            value = list("LiteralValue", { value = "listening" })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("BindGroup", {
+                  kind = "const";
+                  terminate = true;
+                  declarations = list(
+                    list("Binding", {
+                        id = list("NameReference", { name = "horizons" });
+                        init = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "unseen" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "to" });
+                                                  value = list("LiteralValue", { value = "listening" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "When the question is the instrument" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "reason" });
+                                                  value = list("LiteralValue", { value = "An editorial crossing: a detector’s limits invite a question about the limits of listening." })
+                                                })
+                                            )
+                                          }),
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "to" });
+                                                  value = list("LiteralValue", { value = "representation" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "Meet the person drawing the map" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "reason" });
+                                                  value = list("LiteralValue", { value = "From a measurement to the representation that carries it." })
+                                                })
+                                            )
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "human" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "to" });
+                                                  value = list("LiteralValue", { value = "calibration" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "Borrow a different ruler" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "reason" });
+                                                  value = list("LiteralValue", { value = "An editorial association: agreement and understanding both deserve a reference." })
+                                                })
+                                            )
+                                          }),
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "to" });
+                                                  value = list("LiteralValue", { value = "restraint" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "Find the boundary of the clearing" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "reason" });
+                                                  value = list("LiteralValue", { value = "Follow attention into the question of agency and protection." })
+                                                })
+                                            )
+                                          })
+                                      )
+                                    })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "boundary" });
+                                  value = list("List", {
+                                      elements = list(
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "to" });
+                                                  value = list("LiteralValue", { value = "water" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "The horse is still by the water" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "reason" });
+                                                  value = list("LiteralValue", { value = "Leave the argument for a fable about the person offering it." })
+                                                })
+                                            )
+                                          }),
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "to" });
+                                                  value = list("LiteralValue", { value = "replay" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "label" });
+                                                  value = list("LiteralValue", { value = "Enter the replay room" })
+                                                }),
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "reason" });
+                                                  value = list("LiteralValue", { value = "Follow accountability into a record someone else can check." })
+                                                })
+                                            )
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  )
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "projectionVisibility" });
+                  params = list(list("NameReference", { name = "layer" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("Yield", {
+                            argument = list("Record", {
+                                properties = list(
+                                  list("Field", {
+                                      computed = false;
+                                      kind = "init";
+                                      key = list("NameReference", { name = "record" });
+                                      value = list("LiteralValue", { value = true })
+                                    }),
+                                  list("Field", {
+                                      computed = false;
+                                      kind = "init";
+                                      key = list("NameReference", { name = "conditions" });
+                                      value = list("Calculate", {
+                                          operator = "!==";
+                                          left = list("NameReference", { name = "layer" });
+                                          right = list("LiteralValue", { value = "surface" })
+                                        })
+                                    }),
+                                  list("Field", {
+                                      computed = false;
+                                      kind = "init";
+                                      key = list("NameReference", { name = "limits" });
+                                      value = list("Calculate", {
+                                          operator = "===";
+                                          left = list("NameReference", { name = "layer" });
+                                          right = list("LiteralValue", { value = "limits" })
+                                        })
+                                    })
+                                )
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "calibrationReading" });
+                  params = list(list("NameReference", { name = "angle" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("BindGroup", {
+                            kind = "const";
+                            terminate = true;
+                            declarations = list(
+                              list("Binding", {
+                                  id = list("NameReference", { name = "radians" });
+                                  init = list("Calculate", {
+                                      operator = "/";
+                                      left = list("Calculate", {
+                                          operator = "*";
+                                          left = list("Invoke", {
+                                              optional = false;
+                                              callee = list("NameReference", { name = "Number" });
+                                              arguments = list(list("NameReference", { name = "angle" }))
+                                            });
+                                          right = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "Math" });
+                                              property = list("NameReference", { name = "PI" })
+                                            })
+                                        });
+                                      right = list("LiteralValue", { value = 180 })
+                                    })
+                                })
+                            )
+                          }),
+                        list("Yield", {
+                            argument = list("Calculate", {
+                                operator = "/";
+                                left = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "Math" });
+                                        property = list("NameReference", { name = "round" })
+                                      });
+                                    arguments = list(
+                                      list("Calculate", {
+                                          operator = "*";
+                                          left = list("Invoke", {
+                                              optional = false;
+                                              callee = list("Select", {
+                                                  computed = false;
+                                                  optional = false;
+                                                  object = list("NameReference", { name = "Math" });
+                                                  property = list("NameReference", { name = "sin" })
+                                                });
+                                              arguments = list(list("NameReference", { name = "radians" }))
+                                            });
+                                          right = list("LiteralValue", { value = 100 })
+                                        })
+                                    )
+                                  });
+                                right = list("LiteralValue", { value = 100 })
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            })
+        )
+      })
+  }

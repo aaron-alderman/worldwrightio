@@ -64,3 +64,9 @@ output before replacing the projection.
 ```sh
 node --input-type=module -e "import { readFacts } from './tooling/module-source.mjs'; process.stdout.write(readFacts('.', 'algebra/hub-footer.imports.rel'))" > /tmp/hub-footer.imports.rel
 ```
+
+## Unified application
+
+The [Worldwright Unified application](applications/worldwright-unified/README.md) provides the
+Expedition, Workshop and other app views in a standalone source package.
+Run `npm --prefix applications/worldwright-unified test` to verify it.

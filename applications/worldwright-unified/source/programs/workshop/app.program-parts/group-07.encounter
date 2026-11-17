@@ -1,0 +1,172 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0011 = list("NameReference", { name = "state" });
+    part0012 = list("NameReference", { name = "revision" });
+    part0013 = list("Expand", {
+        argument = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "document" });
+                property = list("NameReference", { name = "querySelectorAll" })
+              });
+            arguments = list(list("LiteralValue", { value = "[data-tab]" }))
+          })
+      });
+    part0014 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "tabs" });
+        property = list("NameReference", { name = "indexOf" })
+      });
+    part0015 = list("NameReference", { name = "b" });
+    part0016 = list("Calculate", { operator = "+"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 1 }) });
+    part0017 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "tabs" });
+        property = list("NameReference", { name = "length" })
+      });
+    part0018 = list("Calculate", {
+        operator = "-";
+        left = list("Calculate", {
+            operator = "+";
+            left = list("NameReference", { name = "i" });
+            right = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "tabs" });
+                property = list("NameReference", { name = "length" })
+              })
+          });
+        right = list("LiteralValue", { value = 1 })
+      });
+    part0019 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "tabs" });
+        property = list("NameReference", { name = "length" })
+      });
+    part0020 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "tabs" });
+        property = list("NameReference", { name = "length" })
+      });
+    part0021 = list("LiteralValue", { value = 1 });
+    part0022 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "e" });
+            property = list("NameReference", { name = "preventDefault" })
+          });
+        arguments = list()
+      });
+    part0023 = list("Invoke", {
+        optional = false;
+        callee = list("NameReference", { name = "selectTab" });
+        arguments = list(
+          list("Select", {
+              computed = false;
+              optional = false;
+              object = list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("Select", {
+                      computed = true;
+                      optional = false;
+                      object = list("NameReference", { name = "tabs" });
+                      property = list("NameReference", { name = "n" })
+                    });
+                  property = list("NameReference", { name = "dataset" })
+                });
+              property = list("NameReference", { name = "tab" })
+            }),
+          list("LiteralValue", { value = true })
+        )
+      });
+    part0024 = list("NameReference", { name = "b" });
+    part0025 = list("NameReference", { name = "dataset" });
+    part0026 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "kind" })
+      });
+    part0027 = list("LiteralValue", { value = "source" });
+    part0028 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("Invoke", {
+                optional = false;
+                callee = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("NameReference", { name = "state" });
+                            property = list("NameReference", { name = "sources" })
+                          });
+                        property = list("NameReference", { name = "facts" })
+                      });
+                    property = list("NameReference", { name = "split" })
+                  });
+                arguments = list(list("Pattern", { pattern = "\\r?\\n"; flags = "" }))
+              });
+            property = list("NameReference", { name = "findIndex" })
+          });
+        arguments = list(
+          list("Procedure", {
+              generator = false;
+              async = false;
+              block = false;
+              id = null;
+              params = list(list("NameReference", { name = "s" }));
+              body = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "s" });
+                      property = list("NameReference", { name = "startsWith" })
+                    });
+                  arguments = list(
+                    list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "(\"TheStory\", \"" });
+                            right = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("NameReference", { name = "r" });
+                                property = list("NameReference", { name = "field" })
+                              })
+                          });
+                        right = list("LiteralValue", { value = "\"," })
+                      })
+                  )
+                })
+            })
+        )
+      });
+    part0029 = list("LiteralValue", { value = 1 });
+    part0030 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "node" })
+      });
+    part0031 = list("NameReference", { name = "line" })
+  }

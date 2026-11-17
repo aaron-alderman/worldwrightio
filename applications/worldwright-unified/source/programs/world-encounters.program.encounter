@@ -1,0 +1,1561 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "world-encounters.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "world-encounters.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list(
+      "world-encounters.program-parts/group-01.encounter",
+      "world-encounters.program-parts/group-02.encounter",
+      "world-encounters.program-parts/group-03.encounter",
+      "world-encounters.program-parts/group-04.encounter",
+      "world-encounters.program-parts/group-05.encounter"
+    );
+    tree = list("Module", {
+        body = list(
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "allowedPairs" });
+                    local = list("NameReference", { name = "allowedPairs" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "positivePairs" });
+                    local = list("NameReference", { name = "positivePairs" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "inflatePair" });
+                    local = list("NameReference", { name = "inflatePair" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "decodeRepetition" });
+                    local = list("NameReference", { name = "decodeRepetition" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "weightedOptions" });
+                    local = list("NameReference", { name = "weightedOptions" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "memoryTrace" });
+                    local = list("NameReference", { name = "memoryTrace" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "coarseCells" });
+                    local = list("NameReference", { name = "coarseCells" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "reportedRates" });
+                    local = list("NameReference", { name = "reportedRates" })
+                  })
+              );
+              source = list("LiteralValue", { value = "./world-models.js" });
+              attributes = list()
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "safe" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(list("NameReference", { name = "value" }));
+                        body = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("NameReference", { name = "String" });
+                                    arguments = list(list("NameReference", { name = "value" }))
+                                  });
+                                property = list("NameReference", { name = "replace" })
+                              });
+                            arguments = list(
+                              list("Pattern", { pattern = "[&<>\"']"; flags = "g" }),
+                              list("Procedure", {
+                                  generator = false;
+                                  async = false;
+                                  block = false;
+                                  id = null;
+                                  params = list(list("NameReference", { name = "c" }));
+                                  body = list("Select", {
+                                      computed = true;
+                                      optional = false;
+                                      object = list("Record", {
+                                          properties = list(
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "&" });
+                                                value = list("LiteralValue", { value = "&amp;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "<" });
+                                                value = list("LiteralValue", { value = "&lt;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = ">" });
+                                                value = list("LiteralValue", { value = "&gt;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "\"" });
+                                                value = list("LiteralValue", { value = "&quot;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "'" });
+                                                value = list("LiteralValue", { value = "&#39;" })
+                                              })
+                                          )
+                                        });
+                                      property = list("NameReference", { name = "c" })
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "eyebrow" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(list("NameReference", { name = "text" }));
+                        body = list("ComposeText", {
+                            parts = list(
+                              list("MarkupOpen", {
+                                  tag = "p";
+                                  closed = false;
+                                  attributes = list(
+                                    list("MarkupAttribute", {
+                                        name = "class";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "encounter-label" })) })
+                                      })
+                                  )
+                                }),
+                              list("NameReference", { name = "text" }),
+                              list("MarkupClose", { tag = "p" })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "note" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(list("NameReference", { name = "text" }));
+                        body = list("ComposeText", {
+                            parts = list(
+                              list("MarkupOpen", {
+                                  tag = "p";
+                                  closed = false;
+                                  attributes = list(
+                                    list("MarkupAttribute", {
+                                        name = "class";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-note" })) })
+                                      })
+                                  )
+                                }),
+                              list("NameReference", { name = "text" }),
+                              list("MarkupClose", { tag = "p" })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "result" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(
+                          list("NameReference", { name = "text" }),
+                          list("Default", { left = list("NameReference", { name = "id" }); right = list("LiteralValue", { value = "world-result" }) })
+                        );
+                        body = list("ComposeText", {
+                            parts = list(
+                              list("MarkupOpen", {
+                                  tag = "div";
+                                  closed = false;
+                                  attributes = list(
+                                    list("MarkupAttribute", {
+                                        name = "class";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-result" })) })
+                                      }),
+                                    list("MarkupAttribute", {
+                                        name = "id";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("NameReference", { name = "id" })) })
+                                      }),
+                                    list("MarkupAttribute", {
+                                        name = "aria-live";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "polite" })) })
+                                      })
+                                  )
+                                }),
+                              list("NameReference", { name = "text" }),
+                              list("MarkupClose", { tag = "div" })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "buttons" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(
+                          list("NameReference", { name = "action" }),
+                          list("NameReference", { name = "items" }),
+                          list("Default", { left = list("NameReference", { name = "active" }); right = list("LiteralValue", { value = 0 }) })
+                        );
+                        body = list("ComposeText", {
+                            parts = list(
+                              list("MarkupOpen", {
+                                  tag = "div";
+                                  closed = false;
+                                  attributes = list(
+                                    list("MarkupAttribute", {
+                                        name = "class";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-controls" })) })
+                                      })
+                                  )
+                                }),
+                              list("Invoke", {
+                                  optional = false;
+                                  callee = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("Invoke", {
+                                          optional = false;
+                                          callee = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "items" });
+                                              property = list("NameReference", { name = "map" })
+                                            });
+                                          arguments = list(
+                                            list("Procedure", {
+                                                generator = false;
+                                                async = false;
+                                                block = false;
+                                                id = null;
+                                                params = list(
+                                                  list("DestructureList", { elements = list(list("NameReference", { name = "key" }), list("NameReference", { name = "label" })) }),
+                                                  list("NameReference", { name = "i" })
+                                                );
+                                                body = list("ComposeText", {
+                                                    parts = list(
+                                                      list("MarkupOpen", {
+                                                          tag = "button";
+                                                          closed = false;
+                                                          attributes = list(
+                                                            list("MarkupAttribute", { name = "class"; quote = "\""; value = { fragment = "part0001" } }),
+                                                            list("MarkupAttribute", { name = "data-world"; quote = "\""; value = { fragment = "part0002" } }),
+                                                            list("MarkupAttribute", { name = "data-value"; quote = "\""; value = { fragment = "part0003" } }),
+                                                            list("MarkupAttribute", { name = "aria-pressed"; quote = "\""; value = { fragment = "part0004" } })
+                                                          )
+                                                        }),
+                                                      list("NameReference", { name = "label" }),
+                                                      list("MarkupClose", { tag = "button" })
+                                                    )
+                                                  })
+                                              })
+                                          )
+                                        });
+                                      property = list("NameReference", { name = "join" })
+                                    });
+                                  arguments = list(list("LiteralValue", { value = "" }))
+                                }),
+                              list("MarkupClose", { tag = "div" })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "line" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(list("NameReference", { name = "values" }));
+                        body = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "values" });
+                                        property = list("NameReference", { name = "map" })
+                                      });
+                                    arguments = list(
+                                      list("Procedure", {
+                                          generator = false;
+                                          async = false;
+                                          block = false;
+                                          id = null;
+                                          params = list(list("NameReference", { name = "p" }), list("NameReference", { name = "i" }));
+                                          body = list("ComposeText", {
+                                              parts = list(
+                                                list("LiteralValue", { value = "" }),
+                                                list("Choose", {
+                                                    test = list("NameReference", { name = "i" });
+                                                    consequent = list("LiteralValue", { value = "L" });
+                                                    alternate = list("LiteralValue", { value = "M" })
+                                                  }),
+                                                list("LiteralValue", { value = "" }),
+                                                list("Invoke", {
+                                                    optional = false;
+                                                    callee = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("Calculate", {
+                                                            operator = "+";
+                                                            left = list("LiteralValue", { value = 25 });
+                                                            right = list("Calculate", { operator = "*"; left = { fragment = "part0005" }; right = { fragment = "part0006" } })
+                                                          });
+                                                        property = list("NameReference", { name = "toFixed" })
+                                                      });
+                                                    arguments = list(list("LiteralValue", { value = 2 }))
+                                                  }),
+                                                list("LiteralValue", { value = "," }),
+                                                list("Invoke", {
+                                                    optional = false;
+                                                    callee = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("Calculate", {
+                                                            operator = "-";
+                                                            left = list("LiteralValue", { value = 215 });
+                                                            right = list("Calculate", { operator = "*"; left = { fragment = "part0007" }; right = { fragment = "part0008" } })
+                                                          });
+                                                        property = list("NameReference", { name = "toFixed" })
+                                                      });
+                                                    arguments = list(list("LiteralValue", { value = 2 }))
+                                                  }),
+                                                list("LiteralValue", { value = "" })
+                                              )
+                                            })
+                                        })
+                                    )
+                                  });
+                                property = list("NameReference", { name = "join" })
+                              });
+                            arguments = list(list("LiteralValue", { value = " " }))
+                          })
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "hiddenLine" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(list("NameReference", { name = "values" }));
+                        body = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "values" });
+                                        property = list("NameReference", { name = "map" })
+                                      });
+                                    arguments = list(
+                                      list("Procedure", {
+                                          generator = false;
+                                          async = false;
+                                          block = false;
+                                          id = null;
+                                          params = list(list("NameReference", { name = "p" }), list("NameReference", { name = "i" }));
+                                          body = list("ComposeText", {
+                                              parts = list(
+                                                list("LiteralValue", { value = "" }),
+                                                list("Choose", {
+                                                    test = list("NameReference", { name = "i" });
+                                                    consequent = list("LiteralValue", { value = "L" });
+                                                    alternate = list("LiteralValue", { value = "M" })
+                                                  }),
+                                                list("LiteralValue", { value = "" }),
+                                                list("Invoke", {
+                                                    optional = false;
+                                                    callee = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("Calculate", {
+                                                            operator = "+";
+                                                            left = list("LiteralValue", { value = 25 });
+                                                            right = list("Calculate", { operator = "*"; left = { fragment = "part0009" }; right = { fragment = "part0010" } })
+                                                          });
+                                                        property = list("NameReference", { name = "toFixed" })
+                                                      });
+                                                    arguments = list(list("LiteralValue", { value = 2 }))
+                                                  }),
+                                                list("LiteralValue", { value = "," }),
+                                                list("Invoke", {
+                                                    optional = false;
+                                                    callee = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("Calculate", {
+                                                            operator = "-";
+                                                            left = list("LiteralValue", { value = 215 });
+                                                            right = list("Calculate", { operator = "*"; left = { fragment = "part0011" }; right = { fragment = "part0012" } })
+                                                          });
+                                                        property = list("NameReference", { name = "toFixed" })
+                                                      });
+                                                    arguments = list(list("LiteralValue", { value = 2 }))
+                                                  }),
+                                                list("LiteralValue", { value = "" })
+                                              )
+                                            })
+                                        })
+                                    )
+                                  });
+                                property = list("NameReference", { name = "join" })
+                              });
+                            arguments = list(list("LiteralValue", { value = " " }))
+                          })
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "stone" });
+                    init = list("ComposeText", {
+                        parts = list(
+                          list("MarkupOpen", {
+                              tag = "svg";
+                              closed = false;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "class";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "stone-drawing" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "viewBox";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "0 0 360 280" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "aria-hidden";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", { tag = "defs"; closed = false; attributes = list() }),
+                          list("MarkupOpen", {
+                              tag = "linearGradient";
+                              closed = false;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "id";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "stoneFace" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "stop";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "stop-color";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "#b7a48a" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "stop";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "offset";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "1" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "stop-color";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "#534c4a" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupClose", { tag = "linearGradient" }),
+                          list("MarkupClose", { tag = "defs" }),
+                          list("MarkupOpen", {
+                              tag = "path";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "d";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "m65 110 120-62 126 72-20 94-139 28-90-63Z" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "fill";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "url(#stoneFace)" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "path";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "d";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "m65 110 124 61 122-51M189 171l-37 71M185 48l4 123" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "path";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "class";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "stone-marks" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "d";
+                                    quote = "\"";
+                                    value = list("ComposeText", {
+                                        parts = list(list("MarkupText", { value = "m95 128 52 26m-54-14 52 26m-52-14 48 24m64 22 62-13m-64 24 61-13" }))
+                                      })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "g";
+                              closed = false;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "class";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "stone-context" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "circle";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "cx";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "185" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "cy";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "145" })) })
+                                  }),
+                                list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "118" })) }) })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "path";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "d";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "M25 235h310M185 10v28m0 220v17" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupClose", { tag = "g" }),
+                          list("MarkupClose", { tag = "svg" })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "rosette" });
+                    init = list("ComposeText", {
+                        parts = list(
+                          list("MarkupOpen", {
+                              tag = "svg";
+                              closed = false;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "class";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "rosette" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "viewBox";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "0 0 300 300" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "aria-hidden";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                  })
+                              )
+                            }),
+                          list("MarkupOpen", { tag = "g"; closed = false; attributes = list() }),
+                          list("Invoke", {
+                              optional = false;
+                              callee = list("Select", {
+                                  computed = false;
+                                  optional = false;
+                                  object = list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "Array" });
+                                          property = list("NameReference", { name = "from" })
+                                        });
+                                      arguments = list(
+                                        list("Record", {
+                                            properties = list(
+                                              list("Field", {
+                                                  computed = false;
+                                                  kind = "init";
+                                                  key = list("NameReference", { name = "length" });
+                                                  value = list("LiteralValue", { value = 10 })
+                                                })
+                                            )
+                                          }),
+                                        list("Procedure", {
+                                            generator = false;
+                                            async = false;
+                                            block = false;
+                                            id = null;
+                                            params = list(list("NameReference", { name = "_" }), list("NameReference", { name = "i" }));
+                                            body = list("ComposeText", {
+                                                parts = list(
+                                                  list("MarkupOpen", {
+                                                      tag = "path";
+                                                      closed = true;
+                                                      attributes = list(
+                                                        list("MarkupAttribute", { name = "d"; quote = "\""; value = list("ComposeText", { parts = list({ fragment = "part0013" }) }) }),
+                                                        list("MarkupAttribute", {
+                                                            name = "transform";
+                                                            quote = "\"";
+                                                            value = list("ComposeText", { parts = list({ fragment = "part0014" }, { fragment = "part0015" }, { fragment = "part0016" }) })
+                                                          })
+                                                      )
+                                                    })
+                                                )
+                                              })
+                                          })
+                                      )
+                                    });
+                                  property = list("NameReference", { name = "join" })
+                                });
+                              arguments = list(list("LiteralValue", { value = "" }))
+                            }),
+                          list("MarkupClose", { tag = "g" }),
+                          list("MarkupOpen", {
+                              tag = "circle";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "cx";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "150" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "cy";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "150" })) })
+                                  }),
+                                list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "120" })) }) })
+                              )
+                            }),
+                          list("MarkupOpen", {
+                              tag = "circle";
+                              closed = true;
+                              attributes = list(
+                                list("MarkupAttribute", {
+                                    name = "cx";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "150" })) })
+                                  }),
+                                list("MarkupAttribute", {
+                                    name = "cy";
+                                    quote = "\"";
+                                    value = list("ComposeText", { parts = list(list("MarkupText", { value = "150" })) })
+                                  }),
+                                list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "68" })) }) })
+                              )
+                            }),
+                          list("MarkupClose", { tag = "svg" })
+                        )
+                      })
+                  })
+              )
+            }),
+          { fragment = "part0017" },
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "deck" });
+              params = list(list("NameReference", { name = "type" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "d" });
+                              init = list("Select", {
+                                  computed = true;
+                                  optional = false;
+                                  object = list("NameReference", { name = "decks" });
+                                  property = list("NameReference", { name = "type" })
+                                })
+                            })
+                        )
+                      }),
+                    list("Yield", {
+                        argument = list("ComposeText", {
+                            parts = list(
+                              list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "eyebrow" });
+                                  arguments = list(
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "d" });
+                                        property = list("NameReference", { name = "heading" })
+                                      })
+                                  )
+                                }),
+                              list("Choose", {
+                                  test = list("ShortCircuit", {
+                                      operator = "||";
+                                      left = list("Calculate", {
+                                          operator = "===";
+                                          left = list("NameReference", { name = "type" });
+                                          right = list("LiteralValue", { value = "stone" })
+                                        });
+                                      right = list("Calculate", {
+                                          operator = "===";
+                                          left = list("NameReference", { name = "type" });
+                                          right = list("LiteralValue", { value = "preservation" })
+                                        })
+                                    });
+                                  consequent = list("NameReference", { name = "stone" });
+                                  alternate = list("Choose", {
+                                      test = list("Calculate", {
+                                          operator = "===";
+                                          left = list("NameReference", { name = "type" });
+                                          right = list("LiteralValue", { value = "cosmos" })
+                                        });
+                                      consequent = list("ComposeText", {
+                                          parts = list(
+                                            list("MarkupOpen", {
+                                                tag = "div";
+                                                closed = false;
+                                                attributes = list(
+                                                  list("MarkupAttribute", {
+                                                      name = "class";
+                                                      quote = "\"";
+                                                      value = list("ComposeText", { parts = list(list("MarkupText", { value = "question-sky" })) })
+                                                    }),
+                                                  list("MarkupAttribute", {
+                                                      name = "aria-hidden";
+                                                      quote = "\"";
+                                                      value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                                    })
+                                                )
+                                              }),
+                                            list("Invoke", {
+                                                optional = false;
+                                                callee = list("Select", {
+                                                    computed = false;
+                                                    optional = false;
+                                                    object = list("Invoke", {
+                                                        optional = false;
+                                                        callee = list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "Array" });
+                                                            property = list("NameReference", { name = "from" })
+                                                          });
+                                                        arguments = list(
+                                                          list("Record", { properties = list({ fragment = "part0020" }) }),
+                                                          list("Procedure", {
+                                                              generator = false;
+                                                              async = false;
+                                                              block = false;
+                                                              id = null;
+                                                              params = list({ fragment = "part0021" }, { fragment = "part0022" });
+                                                              body = list("ComposeText", { parts = list({ fragment = "part0023" }, { fragment = "part0024" }) })
+                                                            })
+                                                        )
+                                                      });
+                                                    property = list("NameReference", { name = "join" })
+                                                  });
+                                                arguments = list(list("LiteralValue", { value = "" }))
+                                              }),
+                                            list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                                            list("MarkupText", { value = "?" }),
+                                            list("MarkupClose", { tag = "span" }),
+                                            list("MarkupClose", { tag = "div" })
+                                          )
+                                        });
+                                      alternate = list("ComposeText", {
+                                          parts = list(
+                                            list("MarkupOpen", {
+                                                tag = "div";
+                                                closed = false;
+                                                attributes = list(
+                                                  list("MarkupAttribute", {
+                                                      name = "class";
+                                                      quote = "\"";
+                                                      value = list("ComposeText", {
+                                                          parts = list(
+                                                            list("MarkupText", { value = "relation-emblem emblem-" }),
+                                                            list("NameReference", { name = "type" })
+                                                          )
+                                                        })
+                                                    }),
+                                                  list("MarkupAttribute", {
+                                                      name = "aria-hidden";
+                                                      quote = "\"";
+                                                      value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                                    })
+                                                )
+                                              }),
+                                            list("MarkupOpen", { tag = "i"; closed = false; attributes = list() }),
+                                            list("MarkupClose", { tag = "i" }),
+                                            list("MarkupOpen", { tag = "i"; closed = false; attributes = list() }),
+                                            list("MarkupClose", { tag = "i" }),
+                                            list("MarkupOpen", { tag = "i"; closed = false; attributes = list() }),
+                                            list("MarkupClose", { tag = "i" }),
+                                            list("MarkupClose", { tag = "div" })
+                                          )
+                                        })
+                                    })
+                                }),
+                              list("MarkupOpen", {
+                                  tag = "p";
+                                  closed = false;
+                                  attributes = list(
+                                    list("MarkupAttribute", {
+                                        name = "class";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-intro" })) })
+                                      })
+                                  )
+                                }),
+                              list("Select", {
+                                  computed = false;
+                                  optional = false;
+                                  object = list("NameReference", { name = "d" });
+                                  property = list("NameReference", { name = "intro" })
+                                }),
+                              list("MarkupClose", { tag = "p" }),
+                              list("MarkupOpen", {
+                                  tag = "div";
+                                  closed = false;
+                                  attributes = list(
+                                    list("MarkupAttribute", {
+                                        name = "class";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "deck-options" })) })
+                                      })
+                                  )
+                                }),
+                              list("Invoke", {
+                                  optional = false;
+                                  callee = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("Invoke", {
+                                          optional = false;
+                                          callee = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("Select", {
+                                                  computed = false;
+                                                  optional = false;
+                                                  object = list("NameReference", { name = "d" });
+                                                  property = list("NameReference", { name = "items" })
+                                                });
+                                              property = list("NameReference", { name = "map" })
+                                            });
+                                          arguments = list(
+                                            list("Procedure", {
+                                                generator = false;
+                                                async = false;
+                                                block = false;
+                                                id = null;
+                                                params = list(
+                                                  list("DestructureList", { elements = list(list("NameReference", { name = "title" })) }),
+                                                  list("NameReference", { name = "i" })
+                                                );
+                                                body = list("ComposeText", {
+                                                    parts = list(
+                                                      list("MarkupOpen", {
+                                                          tag = "button";
+                                                          closed = false;
+                                                          attributes = list(
+                                                            list("MarkupAttribute", { name = "data-world"; quote = "\""; value = { fragment = "part0025" } }),
+                                                            list("MarkupAttribute", { name = "data-value"; quote = "\""; value = { fragment = "part0026" } }),
+                                                            list("MarkupAttribute", { name = "aria-pressed"; quote = "\""; value = { fragment = "part0027" } })
+                                                          )
+                                                        }),
+                                                      list("NameReference", { name = "title" }),
+                                                      list("MarkupOpen", {
+                                                          tag = "span";
+                                                          closed = false;
+                                                          attributes = list(list("MarkupAttribute", { name = "aria-hidden"; quote = "\""; value = { fragment = "part0028" } }))
+                                                        }),
+                                                      list("MarkupText", { value = "↳" }),
+                                                      list("MarkupClose", { tag = "span" }),
+                                                      list("MarkupClose", { tag = "button" })
+                                                    )
+                                                  })
+                                              })
+                                          )
+                                        });
+                                      property = list("NameReference", { name = "join" })
+                                    });
+                                  arguments = list(list("LiteralValue", { value = "" }))
+                                }),
+                              list("MarkupClose", { tag = "div" }),
+                              list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "result" });
+                                  arguments = list(
+                                    list("LiteralValue", { value = "Open a question. You may inspect every view." }),
+                                    list("LiteralValue", { value = "deck-result" })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          { fragment = "part0029" },
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "show" });
+              params = list(list("NameReference", { name = "root" }), list("NameReference", { name = "text" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("Do", {
+                        expression = list("Set", {
+                            operator = "=";
+                            left = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "root" });
+                                        property = list("NameReference", { name = "querySelector" })
+                                      });
+                                    arguments = list(list("LiteralValue", { value = ".world-result" }))
+                                  });
+                                property = list("NameReference", { name = "textContent" })
+                              });
+                            right = list("NameReference", { name = "text" })
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "press" });
+              params = list(
+                list("NameReference", { name = "root" }),
+                list("NameReference", { name = "action" }),
+                list("NameReference", { name = "value" })
+              );
+              body = list("Sequence", {
+                  body = list(
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "root" });
+                                        property = list("NameReference", { name = "querySelectorAll" })
+                                      });
+                                    arguments = list(
+                                      list("ComposeText", {
+                                          parts = list(
+                                            list("LiteralValue", { value = "button[data-world=\"" }),
+                                            list("NameReference", { name = "action" }),
+                                            list("LiteralValue", { value = "\"]" })
+                                          )
+                                        })
+                                    )
+                                  });
+                                property = list("NameReference", { name = "forEach" })
+                              });
+                            arguments = list(
+                              list("Procedure", {
+                                  generator = false;
+                                  async = false;
+                                  block = false;
+                                  id = null;
+                                  params = list(list("NameReference", { name = "b" }));
+                                  body = list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "b" });
+                                          property = list("NameReference", { name = "setAttribute" })
+                                        });
+                                      arguments = list(
+                                        list("LiteralValue", { value = "aria-pressed" }),
+                                        list("Invoke", {
+                                            optional = false;
+                                            callee = list("NameReference", { name = "String" });
+                                            arguments = list(
+                                              list("Calculate", {
+                                                  operator = "===";
+                                                  left = list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("Select", {
+                                                          computed = false;
+                                                          optional = false;
+                                                          object = list("NameReference", { name = "b" });
+                                                          property = list("NameReference", { name = "dataset" })
+                                                        });
+                                                      property = list("NameReference", { name = "value" })
+                                                    });
+                                                  right = list("Invoke", {
+                                                      optional = false;
+                                                      callee = list("NameReference", { name = "String" });
+                                                      arguments = list(list("NameReference", { name = "value" }))
+                                                    })
+                                                })
+                                            )
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "codeResult" });
+              params = list(list("NameReference", { name = "root" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "bits" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("List", {
+                                          elements = list(
+                                            list("Expand", {
+                                                argument = list("Invoke", {
+                                                    optional = false;
+                                                    callee = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("NameReference", { name = "root" });
+                                                        property = list("NameReference", { name = "querySelectorAll" })
+                                                      });
+                                                    arguments = list(list("LiteralValue", { value = "[data-world=\"flip-bit\"]" }))
+                                                  })
+                                              })
+                                          )
+                                        });
+                                      property = list("NameReference", { name = "map" })
+                                    });
+                                  arguments = list(
+                                    list("Procedure", {
+                                        generator = false;
+                                        async = false;
+                                        block = false;
+                                        id = null;
+                                        params = list(list("NameReference", { name = "b" }));
+                                        body = list("Invoke", {
+                                            optional = false;
+                                            callee = list("NameReference", { name = "Number" });
+                                            arguments = list(
+                                              list("Select", {
+                                                  computed = false;
+                                                  optional = false;
+                                                  object = list("NameReference", { name = "b" });
+                                                  property = list("NameReference", { name = "textContent" })
+                                                })
+                                            )
+                                          })
+                                      })
+                                  )
+                                })
+                            }),
+                          list("Binding", {
+                              id = list("NameReference", { name = "original" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "Number" });
+                                  arguments = list(
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "root" });
+                                            property = list("NameReference", { name = "dataset" })
+                                          });
+                                        property = list("NameReference", { name = "original" })
+                                      })
+                                  )
+                                })
+                            }),
+                          list("Binding", {
+                              id = list("NameReference", { name = "decoded" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "decodeRepetition" });
+                                  arguments = list(list("NameReference", { name = "bits" }))
+                                })
+                            }),
+                          list("Binding", {
+                              id = list("NameReference", { name = "changed" });
+                              init = list("Select", {
+                                  computed = false;
+                                  optional = false;
+                                  object = list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "bits" });
+                                          property = list("NameReference", { name = "filter" })
+                                        });
+                                      arguments = list(
+                                        list("Procedure", {
+                                            generator = false;
+                                            async = false;
+                                            block = false;
+                                            id = null;
+                                            params = list(list("NameReference", { name = "b" }));
+                                            body = list("Calculate", {
+                                                operator = "!==";
+                                                left = list("NameReference", { name = "b" });
+                                                right = list("NameReference", { name = "original" })
+                                              })
+                                          })
+                                      )
+                                    });
+                                  property = list("NameReference", { name = "length" })
+                                })
+                            })
+                        )
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "show" });
+                            arguments = list(
+                              list("NameReference", { name = "root" }),
+                              list("ComposeText", {
+                                  parts = list(
+                                    list("LiteralValue", { value = "Decoder returns " }),
+                                    list("NameReference", { name = "decoded" }),
+                                    list("LiteralValue", { value = ". " }),
+                                    list("NameReference", { name = "changed" }),
+                                    list("LiteralValue", { value = " changed " }),
+                                    list("Choose", {
+                                        test = list("Calculate", {
+                                            operator = "===";
+                                            left = list("NameReference", { name = "changed" });
+                                            right = list("LiteralValue", { value = 1 })
+                                          });
+                                        consequent = list("LiteralValue", { value = "bit" });
+                                        alternate = list("LiteralValue", { value = "bits" })
+                                      }),
+                                    list("LiteralValue", { value = ". " }),
+                                    list("Choose", {
+                                        test = list("Calculate", {
+                                            operator = "===";
+                                            left = list("NameReference", { name = "decoded" });
+                                            right = list("NameReference", { name = "original" })
+                                          });
+                                        consequent = list("LiteralValue", { value = "The original bit is recovered." });
+                                        alternate = list("LiteralValue", { value = "This is outside the one-flip correction budget; the original bit is not recovered." })
+                                      }),
+                                    list("LiteralValue", { value = "" })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          { fragment = "part0052" },
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "updateGarden" });
+              params = list(list("NameReference", { name = "root" }), list("NameReference", { name = "value" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "positive" });
+                              init = list("Calculate", {
+                                  operator = "===";
+                                  left = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "root" });
+                                          property = list("NameReference", { name = "dataset" })
+                                        });
+                                      property = list("NameReference", { name = "mode" })
+                                    });
+                                  right = list("LiteralValue", { value = "positive" })
+                                })
+                            }),
+                          list("Binding", {
+                              id = list("NameReference", { name = "allowed" });
+                              init = list("Choose", {
+                                  test = list("NameReference", { name = "positive" });
+                                  consequent = list("Invoke", {
+                                      optional = false;
+                                      callee = list("NameReference", { name = "positivePairs" });
+                                      arguments = list(list("NameReference", { name = "value" }))
+                                    });
+                                  alternate = list("Invoke", {
+                                      optional = false;
+                                      callee = list("NameReference", { name = "allowedPairs" });
+                                      arguments = list(list("NameReference", { name = "value" }))
+                                    })
+                                })
+                            })
+                        )
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "root" });
+                                        property = list("NameReference", { name = "querySelectorAll" })
+                                      });
+                                    arguments = list(list("LiteralValue", { value = ".possibility-seed" }))
+                                  });
+                                property = list("NameReference", { name = "forEach" })
+                              });
+                            arguments = list(
+                              list("Procedure", {
+                                  generator = false;
+                                  async = false;
+                                  block = true;
+                                  id = null;
+                                  params = list(list("NameReference", { name = "seed" }));
+                                  body = list("Sequence", {
+                                      body = list(
+                                        list("BindGroup", {
+                                            kind = "const";
+                                            terminate = true;
+                                            declarations = list(
+                                              list("Binding", {
+                                                  id = list("NameReference", { name = "x" });
+                                                  init = list("Invoke", {
+                                                      optional = false;
+                                                      callee = list("NameReference", { name = "Number" });
+                                                      arguments = list(
+                                                        list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("Select", { computed = false; optional = false; object = { fragment = "part0057" }; property = { fragment = "part0058" } });
+                                                            property = list("NameReference", { name = "x" })
+                                                          })
+                                                      )
+                                                    })
+                                                }),
+                                              list("Binding", {
+                                                  id = list("NameReference", { name = "y" });
+                                                  init = list("Invoke", {
+                                                      optional = false;
+                                                      callee = list("NameReference", { name = "Number" });
+                                                      arguments = list(
+                                                        list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("Select", { computed = false; optional = false; object = { fragment = "part0059" }; property = { fragment = "part0060" } });
+                                                            property = list("NameReference", { name = "y" })
+                                                          })
+                                                      )
+                                                    })
+                                                })
+                                            )
+                                          }),
+                                        list("Do", {
+                                            expression = list("Invoke", {
+                                                optional = false;
+                                                callee = list("Select", {
+                                                    computed = false;
+                                                    optional = false;
+                                                    object = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("NameReference", { name = "seed" });
+                                                        property = list("NameReference", { name = "classList" })
+                                                      });
+                                                    property = list("NameReference", { name = "toggle" })
+                                                  });
+                                                arguments = list(
+                                                  list("LiteralValue", { value = "admitted" }),
+                                                  list("Choose", {
+                                                      test = list("NameReference", { name = "positive" });
+                                                      consequent = list("Calculate", {
+                                                          operator = ">=";
+                                                          left = list("Calculate", { operator = "*"; left = list("NameReference", { name = "x" }); right = list("NameReference", { name = "y" }) });
+                                                          right = list("Calculate", {
+                                                              operator = "*";
+                                                              left = list("NameReference", { name = "value" });
+                                                              right = list("NameReference", { name = "value" })
+                                                            })
+                                                        });
+                                                      alternate = list("Calculate", {
+                                                          operator = "<=";
+                                                          left = list("Calculate", { operator = "+"; left = list("NameReference", { name = "x" }); right = list("NameReference", { name = "y" }) });
+                                                          right = list("NameReference", { name = "value" })
+                                                        })
+                                                    })
+                                                )
+                                              })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      }),
+                    list("Do", {
+                        expression = list("Set", {
+                            operator = "=";
+                            left = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "root" });
+                                        property = list("NameReference", { name = "querySelector" })
+                                      });
+                                    arguments = list(list("LiteralValue", { value = "#garden-value" }))
+                                  });
+                                property = list("NameReference", { name = "textContent" })
+                              });
+                            right = list("Invoke", {
+                                optional = false;
+                                callee = list("NameReference", { name = "String" });
+                                arguments = list(list("NameReference", { name = "value" }))
+                              })
+                          })
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "root" });
+                                        property = list("NameReference", { name = "querySelector" })
+                                      });
+                                    arguments = list(list("LiteralValue", { value = ".possibility-grid" }))
+                                  });
+                                property = list("NameReference", { name = "setAttribute" })
+                              });
+                            arguments = list(
+                              list("LiteralValue", { value = "aria-label" }),
+                              list("ComposeText", {
+                                  parts = list(
+                                    list("LiteralValue", { value = "Twenty-five nonnegative integer pairs. " }),
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "allowed" });
+                                        property = list("NameReference", { name = "length" })
+                                      }),
+                                    list("LiteralValue", { value = " satisfy " }),
+                                    list("Choose", {
+                                        test = list("NameReference", { name = "positive" });
+                                        consequent = list("LiteralValue", { value = "x times y no less than c squared" });
+                                        alternate = list("LiteralValue", { value = "x plus y no greater than the budget" })
+                                      }),
+                                    list("LiteralValue", { value = "." })
+                                  )
+                                })
+                            )
+                          })
+                      }),
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "show" });
+                            arguments = list(
+                              list("NameReference", { name = "root" }),
+                              list("ComposeText", {
+                                  parts = list(
+                                    list("LiteralValue", { value = "" }),
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "allowed" });
+                                        property = list("NameReference", { name = "length" })
+                                      }),
+                                    list("LiteralValue", { value = " of 25 represented pairs satisfy " }),
+                                    list("Choose", {
+                                        test = list("NameReference", { name = "positive" });
+                                        consequent = list("LiteralValue", { value = "the rule for these two linked quantities" });
+                                        alternate = list("LiteralValue", { value = "the shared-limit rule" })
+                                      }),
+                                    list("LiteralValue", { value = "." })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            })
+        )
+      })
+  }

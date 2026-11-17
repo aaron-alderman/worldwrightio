@@ -1,0 +1,44 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("NameReference", { name = "key" });
+    part0002 = list("NameReference", { name = "slice" });
+    part0003 = list("NameReference", { name = "catalogue" });
+    part0004 = list("NameReference", { name = "files" });
+    part0005 = list("LiteralValue", { value = "source:" });
+    part0006 = list("NameReference", { name = "file" });
+    part0007 = list("NameReference", { name = "f" });
+    part0008 = list("NameReference", { name = "text" });
+    part0009 = list("Publish", { declaration = { fragment = "part0010" }; specifiers = list(); source = null; attributes = list() });
+    part0010 = list("Define", {
+        generator = false;
+        async = false;
+        id = list("NameReference", { name = "initInspection" });
+        params = list(
+          list("DestructureRecord", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "modal" });
+                    value = list("NameReference", { name = "modal" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "dialog" });
+                    value = list("NameReference", { name = "dialog" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "content" });
+                    value = list("NameReference", { name = "content" })
+                  })
+              )
+            })
+        );
+        body = { fragment = "part0011" }
+      })
+  }

@@ -1,0 +1,1751 @@
+process-module "temple/surface-process-module/1"
+
+process style.definition:
+  let result = {
+    protocol = "encounter/style-projection/1";
+    identity = "workshop/style.css";
+    reason = "Own selectors, contexts and individual declarations as editable values.";
+    target = "workshop/style.css";
+    goal = "Generate CSS from rules without a latent stylesheet.";
+    sheet = list("StyleSheet", list(
+      list("StyleStatement", "charset", "\"utf-8\""),
+      list("StyleRule", ":host", list(
+        list("Declaration", "color-scheme", "light"),
+        list("Declaration", "--paper", "#f5f3ec"),
+        list("Declaration", "--ink", "#182d39"),
+        list("Declaration", "--muted", "#52636a"),
+        list("Declaration", "--teal", "#08635f"),
+        list("Declaration", "--purple", "#65477f"),
+        list("Declaration", "--gold", "#8a5910"),
+        list("Declaration", "--line", "#cdd4ce"),
+        list("Declaration", "--white", "#fffefa")
+      )),
+      list("StyleRule", "*", list(
+        list("Declaration", "box-sizing", "border-box")
+      )),
+      list("StyleRule", ":host", list(
+        list("Declaration", "margin", "0"),
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "color", "var(--ink)"),
+        list("Declaration", "font", "16px/1.55 \"Segoe UI\",Arial,sans-serif"),
+        list("Declaration", "border-top", "7px solid var(--teal)")
+      )),
+      list("StyleRule", "main", list(
+        list("Declaration", "max-width", "1320px"),
+        list("Declaration", "margin", "auto"),
+        list("Declaration", "padding", "44px 44px 20px")
+      )),
+      list("StyleRule", "h1", list(
+        list("Declaration", "font", "500 clamp(44px,5.3vw,72px)/1.07 Georgia,serif"),
+        list("Declaration", "letter-spacing", "-2.3px"),
+        list("Declaration", "margin", "18px 0 12px")
+      )),
+      list("StyleRule", "h2", list(
+        list("Declaration", "font-size", "23px"),
+        list("Declaration", "letter-spacing", "-.5px"),
+        list("Declaration", "margin", "0")
+      )),
+      list("StyleRule", "p", list(
+        list("Declaration", "margin", "0")
+      )),
+      list("StyleRule", ".eyebrow", list(
+        list("Declaration", "text-transform", "uppercase"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "font-weight", "700"),
+        list("Declaration", "letter-spacing", "1.6px"),
+        list("Declaration", "color", "var(--teal)")
+      )),
+      list("StyleRule", ".eyebrow span", list(
+        list("Declaration", "padding", "0 10px"),
+        list("Declaration", "color", "#8c9896")
+      )),
+      list("StyleRule", ".title-row", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1.35fr 1fr"),
+        list("Declaration", "gap", "60px"),
+        list("Declaration", "align-items", "center")
+      )),
+      list("StyleRule", ".intro>p:first-child", list(
+        list("Declaration", "font-size", "21px"),
+        list("Declaration", "line-height", "1.4"),
+        list("Declaration", "margin", "6px 0 14px")
+      )),
+      list("StyleRule", ".quiet,.explain", list(
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "font-size", "14px")
+      )),
+      list("StyleRule", ".badge", list(
+        list("Declaration", "display", "inline-block"),
+        list("Declaration", "font", "12px Consolas,monospace"),
+        list("Declaration", "padding", "5px 10px"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "margin-top", "18px"),
+        list("Declaration", "background", "#fff9")
+      )),
+      list("StyleRule", "section", list(
+        list("Declaration", "margin-top", "40px")
+      )),
+      list("StyleRule", ".section-head", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "baseline"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "gap", "20px"),
+        list("Declaration", "margin-bottom", "15px")
+      )),
+      list("StyleRule", ".section-head p", list(
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "color", "var(--muted)")
+      )),
+      list("StyleRule", ".edit-grid", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1fr 1fr"),
+        list("Declaration", "gap", "18px")
+      )),
+      list("StyleRule", ".edit-card", list(
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-top", "3px solid var(--teal)"),
+        list("Declaration", "border-radius", "10px"),
+        list("Declaration", "padding", "23px")
+      )),
+      list("StyleRule", ".edit-card.web", list(
+        list("Declaration", "border-top-color", "var(--gold)")
+      )),
+      list("StyleRule", ".web .eyebrow", list(
+        list("Declaration", "color", "var(--gold)")
+      )),
+      list("StyleRule", ".edit-card label", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "22px"),
+        list("Declaration", "font-weight", "600"),
+        list("Declaration", "letter-spacing", "-.4px"),
+        list("Declaration", "margin", "6px 0 13px")
+      )),
+      list("StyleRule", ".input-row", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "9px")
+      )),
+      list("StyleRule", "input", list(
+        list("Declaration", "min-width", "0"),
+        list("Declaration", "flex", "1"),
+        list("Declaration", "font", "17px \"Segoe UI\",sans-serif"),
+        list("Declaration", "color", "var(--ink)"),
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "border", "1px solid #899a96"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "padding", "11px 12px")
+      )),
+      list("StyleRule", "button,select", list(
+        list("Declaration", "font", "inherit")
+      )),
+      list("StyleRule", "button", list(
+        list("Declaration", "cursor", "pointer"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "border", "1px solid transparent")
+      )),
+      list("StyleRule", "button[type=submit]", list(
+        list("Declaration", "color", "white"),
+        list("Declaration", "background", "var(--teal)"),
+        list("Declaration", "padding", "9px 14px"),
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "font-weight", "600"),
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", ".web button[type=submit]", list(
+        list("Declaration", "background", "var(--gold)")
+      )),
+      list("StyleRule", "button[type=submit] span", list(
+        list("Declaration", "padding-left", "9px")
+      )),
+      list("StyleRule", "button:hover", list(
+        list("Declaration", "filter", "brightness(.95)")
+      )),
+      list("StyleRule", "button:disabled,input:disabled", list(
+        list("Declaration", "opacity", ".6"),
+        list("Declaration", "cursor", "wait")
+      )),
+      list("StyleRule", ".explain", list(
+        list("Declaration", "margin-top", "12px")
+      )),
+      list("StyleRule", ".route-link", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "border", "0"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "font", "12px/1.6 Consolas,monospace"),
+        list("Declaration", "text-align", "left"),
+        list("Declaration", "padding", "11px 0 0"),
+        list("Declaration", "text-decoration", "underline"),
+        list("Declaration", "text-underline-offset", "3px"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".web .route-link", list(
+        list("Declaration", "color", "var(--gold)")
+      )),
+      list("StyleRule", ":focus-visible", list(
+        list("Declaration", "outline", "3px solid #674b89"),
+        list("Declaration", "outline-offset", "4px")
+      )),
+      list("StyleRule", "#status", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "min-height", "22px"),
+        list("Declaration", "margin-top", "13px")
+      )),
+      list("StyleRule", "#error", list(
+        list("Declaration", "color", "#8e2530"),
+        list("Declaration", "border-left", "3px solid #8e2530"),
+        list("Declaration", "background", "#f8e8e6"),
+        list("Declaration", "padding", "12px 16px"),
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "margin-top", "8px"),
+        list("Declaration", "white-space", "pre-wrap"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".outputs", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1fr 1fr 1.15fr"),
+        list("Declaration", "gap", "18px")
+      )),
+      list("StyleRule", ".output", list(
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "9px"),
+        list("Declaration", "overflow", "hidden")
+      )),
+      list("StyleRule", ".output-heading", list(
+        list("Declaration", "padding", "12px 17px"),
+        list("Declaration", "border-bottom", "1px solid var(--line)"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "font-weight", "700"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between")
+      )),
+      list("StyleRule", ".output-heading span", list(
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "font-weight", "400")
+      )),
+      list("StyleRule", ".output iframe", list(
+        list("Declaration", "width", "100%"),
+        list("Declaration", "height", "136px"),
+        list("Declaration", "display", "block"),
+        list("Declaration", "border", "0"),
+        list("Declaration", "background", "var(--white)")
+      )),
+      list("StyleRule", ".inspector", list(
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "10px"),
+        list("Declaration", "overflow", "hidden")
+      )),
+      list("StyleRule", ".tabs", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "10px"),
+        list("Declaration", "border-bottom", "1px solid var(--line)"),
+        list("Declaration", "padding", "10px 18px"),
+        list("Declaration", "overflow", "auto")
+      )),
+      list("StyleRule", ".tabs button", list(
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "padding", "10px 13px"),
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "font-weight", "600"),
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", ".tabs button[aria-selected=true]", list(
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "background", "#e3efeb")
+      )),
+      list("StyleRule", ".inspector [role=tabpanel]", list(
+        list("Declaration", "padding", "21px 24px"),
+        list("Declaration", "min-height", "260px")
+      )),
+      list("StyleRule", ".panel-toolbar", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "16px"),
+        list("Declaration", "flex-wrap", "wrap")
+      )),
+      list("StyleRule", ".panel-toolbar label", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "font-weight", "600")
+      )),
+      list("StyleRule", "select", list(
+        list("Declaration", "max-width", "100%"),
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "border", "1px solid #899a96"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "padding", "7px 30px 7px 10px"),
+        list("Declaration", "color", "var(--ink)"),
+        list("Declaration", "background", "var(--white)")
+      )),
+      list("StyleRule", ".panel-note", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "margin", "12px 0 18px")
+      )),
+      list("StyleRule", "pre", list(
+        list("Declaration", "font", "13px/1.7 Consolas,\"Courier New\",monospace"),
+        list("Declaration", "background", "#f3f4ef"),
+        list("Declaration", "padding", "17px"),
+        list("Declaration", "border", "1px solid #e0e5dd"),
+        list("Declaration", "border-radius", "6px"),
+        list("Declaration", "overflow", "auto"),
+        list("Declaration", "max-height", "470px"),
+        list("Declaration", "margin", "12px 0 0"),
+        list("Declaration", "tab-size", "2")
+      )),
+      list("StyleRule", ".source-code", list(
+        list("Declaration", "padding", "12px 0"),
+        list("Declaration", "counter-reset", "source"),
+        list("Declaration", "overflow", "auto")
+      )),
+      list("StyleRule", ".source-line", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "white-space", "pre"),
+        list("Declaration", "padding", "0 17px 0 0"),
+        list("Declaration", "counter-increment", "source"),
+        list("Declaration", "min-height", "22px")
+      )),
+      list("StyleRule", ".source-line:before", list(
+        list("Declaration", "content", "counter(source)"),
+        list("Declaration", "display", "inline-block"),
+        list("Declaration", "user-select", "none"),
+        list("Declaration", "color", "#657772"),
+        list("Declaration", "width", "45px"),
+        list("Declaration", "text-align", "right"),
+        list("Declaration", "margin-right", "20px"),
+        list("Declaration", "font-size", "11px")
+      )),
+      list("StyleRule", ".source-line.highlight", list(
+        list("Declaration", "background", "#f4e5b4")
+      )),
+      list("StyleRule", ".inspection-item+ .inspection-item", list(
+        list("Declaration", "margin-top", "23px")
+      )),
+      list("StyleRule", ".inspection-item h3", list(
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "margin", "0 0 7px")
+      )),
+      list("StyleRule", ".value-chip", list(
+        list("Declaration", "display", "inline-block"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "font", "13px Consolas,monospace"),
+        list("Declaration", "background", "#e3efeb"),
+        list("Declaration", "padding", "4px 9px"),
+        list("Declaration", "border-radius", "4px"),
+        list("Declaration", "margin-top", "9px")
+      )),
+      list("StyleRule", ".receipt-route", list(
+        list("Declaration", "padding", "14px 16px"),
+        list("Declaration", "background", "#e3efeb"),
+        list("Declaration", "border-radius", "6px"),
+        list("Declaration", "margin", "14px 0"),
+        list("Declaration", "font-family", "Consolas,monospace"),
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".receipt-grid", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1fr 1fr"),
+        list("Declaration", "gap", "18px")
+      )),
+      list("StyleRule", ".receipt-grid h3", list(
+        list("Declaration", "font-size", "14px")
+      )),
+      list("StyleRule", "dl", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "90px 1fr"),
+        list("Declaration", "gap", "7px 15px"),
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "margin", "14px 0")
+      )),
+      list("StyleRule", "dt", list(
+        list("Declaration", "font-weight", "600")
+      )),
+      list("StyleRule", "dd", list(
+        list("Declaration", "margin", "0"),
+        list("Declaration", "color", "var(--muted)")
+      )),
+      list("StyleRule", "footer", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "margin-top", "35px"),
+        list("Declaration", "padding", "22px 0")
+      )),
+      list("StyleRule", "footer>p", list(
+        list("Declaration", "max-width", "900px")
+      )),
+      list("StyleRule", "details", list(
+        list("Declaration", "margin-top", "14px")
+      )),
+      list("StyleRule", "summary", list(
+        list("Declaration", "cursor", "pointer"),
+        list("Declaration", "font-weight", "600")
+      )),
+      list("StyleRule", "details p", list(
+        list("Declaration", "margin-top", "12px")
+      )),
+      list("StyleRule", "#hashes", list(
+        list("Declaration", "margin-top", "12px")
+      )),
+      list("StyleRule", "#hashes p", list(
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "font-family", "Consolas,monospace"),
+        list("Declaration", "font-size", "11px")
+      )),
+      list("StyleRule", ".skip", list(
+        list("Declaration", "position", "fixed"),
+        list("Declaration", "top", "-100px"),
+        list("Declaration", "left", "10px"),
+        list("Declaration", "background", "var(--ink)"),
+        list("Declaration", "color", "white"),
+        list("Declaration", "padding", "10px"),
+        list("Declaration", "z-index", "2")
+      )),
+      list("StyleRule", ".skip:focus", list(
+        list("Declaration", "top", "10px")
+      )),
+      list("StyleRule", "[hidden]", list(
+        list("Declaration", "display", "none!important")
+      )),
+      list("StyleGroup", "media", "(max-width:850px)", list(
+        list("StyleRule", "main", list(
+          list("Declaration", "padding", "28px 22px")
+        )),
+        list("StyleRule", ".title-row", list(
+          list("Declaration", "gap", "20px"),
+          list("Declaration", "grid-template-columns", "1fr 1fr")
+        )),
+        list("StyleRule", ".edit-grid", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        )),
+        list("StyleRule", ".outputs", list(
+          list("Declaration", "grid-template-columns", "1fr 1fr")
+        )),
+        list("StyleRule", ".output:last-child", list(
+          list("Declaration", "grid-column", "1/-1")
+        )),
+        list("StyleRule", ".section-head", list(
+          list("Declaration", "display", "block")
+        )),
+        list("StyleRule", ".section-head p", list(
+          list("Declaration", "margin-top", "5px")
+        )),
+        list("StyleRule", ".tabs", list(
+          list("Declaration", "gap", "0"),
+          list("Declaration", "padding", "9px")
+        )),
+        list("StyleRule", ".tabs button", list(
+          list("Declaration", "padding", "9px 10px")
+        )),
+        list("StyleRule", "h1", list(
+          list("Declaration", "letter-spacing", "-1.5px")
+        )),
+        list("StyleRule", ".receipt-grid", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:520px)", list(
+        list("StyleRule", "main", list(
+          list("Declaration", "padding", "23px 16px")
+        )),
+        list("StyleRule", ".title-row", list(
+          list("Declaration", "grid-template-columns", "1fr"),
+          list("Declaration", "gap", "12px")
+        )),
+        list("StyleRule", ".intro>p:first-child", list(
+          list("Declaration", "font-size", "18px")
+        )),
+        list("StyleRule", ".badge", list(
+          list("Declaration", "margin-top", "12px")
+        )),
+        list("StyleRule", ".edit-card", list(
+          list("Declaration", "padding", "18px")
+        )),
+        list("StyleRule", "section", list(
+          list("Declaration", "margin-top", "30px")
+        )),
+        list("StyleRule", ".input-row", list(
+          list("Declaration", "flex-wrap", "wrap")
+        )),
+        list("StyleRule", ".input-row input", list(
+          list("Declaration", "flex-basis", "100%")
+        )),
+        list("StyleRule", ".input-row button", list(
+          list("Declaration", "width", "100%")
+        )),
+        list("StyleRule", ".outputs", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        )),
+        list("StyleRule", ".output:last-child", list(
+          list("Declaration", "grid-column", "auto")
+        )),
+        list("StyleRule", ".inspector [role=tabpanel]", list(
+          list("Declaration", "padding", "16px 12px")
+        )),
+        list("StyleRule", ".tabs button", list(
+          list("Declaration", "font-size", "13px")
+        )),
+        list("StyleRule", ".panel-toolbar", list(
+          list("Declaration", "gap", "7px")
+        )),
+        list("StyleRule", "pre", list(
+          list("Declaration", "font-size", "12px")
+        )),
+        list("StyleRule", ".eyebrow", list(
+          list("Declaration", "font-size", "10px")
+        )),
+        list("StyleRule", "h2", list(
+          list("Declaration", "font-size", "21px")
+        ))
+      )),
+      list("StyleRule", "main", list(
+        list("Declaration", "max-width", "1200px"),
+        list("Declaration", "padding-top", "44px")
+      )),
+      list("StyleRule", ".title-row", list(
+        list("Declaration", "grid-template-columns", "1.2fr 1fr"),
+        list("Declaration", "gap", "70px")
+      )),
+      list("StyleRule", "h1", list(
+        list("Declaration", "font", "650 clamp(42px,5vw,66px)/1.05 \"Segoe UI\",Arial,sans-serif"),
+        list("Declaration", "letter-spacing", "-2.5px")
+      )),
+      list("StyleRule", ".hero-note", list(
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "margin-top", "22px")
+      )),
+      list("StyleRule", ".live-status", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "10px"),
+        list("Declaration", "margin", "28px 0 33px"),
+        list("Declaration", "padding", "12px 0"),
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "border-bottom", "1px solid var(--line)")
+      )),
+      list("StyleRule", ".live-dot", list(
+        list("Declaration", "width", "7px"),
+        list("Declaration", "height", "7px"),
+        list("Declaration", "flex-shrink", "0"),
+        list("Declaration", "border-radius", "50%"),
+        list("Declaration", "background", "var(--teal)")
+      )),
+      list("StyleRule", "#status", list(
+        list("Declaration", "margin", "0"),
+        list("Declaration", "flex", "1"),
+        list("Declaration", "font-size", "12px")
+      )),
+      list("StyleRule", ".live-status a", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "white-space", "nowrap"),
+        list("Declaration", "text-underline-offset", "3px")
+      )),
+      list("StyleRule", ".stage", list(
+        list("Declaration", "margin", "0"),
+        list("Declaration", "scroll-margin-top", "20px")
+      )),
+      list("StyleRule", ".stage-heading", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "16px"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "margin-bottom", "20px")
+      )),
+      list("StyleRule", ".stage-heading h2", list(
+        list("Declaration", "font-size", "27px"),
+        list("Declaration", "line-height", "1.2"),
+        list("Declaration", "margin-top", "5px")
+      )),
+      list("StyleRule", ".stage-heading>.kind", list(
+        list("Declaration", "margin-left", "auto")
+      )),
+      list("StyleRule", ".step", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "place-items", "center"),
+        list("Declaration", "background", "var(--ink)"),
+        list("Declaration", "color", "var(--white)"),
+        list("Declaration", "font-weight", "650"),
+        list("Declaration", "border-radius", "50%"),
+        list("Declaration", "width", "40px"),
+        list("Declaration", "height", "40px"),
+        list("Declaration", "flex-shrink", "0")
+      )),
+      list("StyleRule", ".kind", list(
+        list("Declaration", "display", "inline-block"),
+        list("Declaration", "font", "11px Consolas,monospace"),
+        list("Declaration", "background", "#e3efeb"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "padding", "5px 9px"),
+        list("Declaration", "border", "1px solid #c4dad2"),
+        list("Declaration", "border-radius", "4px"),
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", ".source-grid", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1.4fr 1fr"),
+        list("Declaration", "gap", "20px")
+      )),
+      list("StyleRule", ".object-id", list(
+        list("Declaration", "font", "12px/1.6 Consolas,monospace"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".edit-card", list(
+        list("Declaration", "border-top-width", "1px"),
+        list("Declaration", "padding", "24px")
+      )),
+      list("StyleRule", ".story", list(
+        list("Declaration", "border-left", "4px solid var(--teal)")
+      )),
+      list("StyleRule", ".source-grid .edit-card", list(
+        list("Declaration", "background", "var(--ink)"),
+        list("Declaration", "color", "var(--white)"),
+        list("Declaration", "border-color", "var(--ink)"),
+        list("Declaration", "border-left-color", "#6db5a5")
+      )),
+      list("StyleRule", ".source-grid .object-id", list(
+        list("Declaration", "color", "#aad1c8")
+      )),
+      list("StyleRule", ".source-grid .explain", list(
+        list("Declaration", "color", "#d2dfdc")
+      )),
+      list("StyleRule", ".source-grid input", list(
+        list("Declaration", "background", "#fffefa")
+      )),
+      list("StyleRule", ".source-grid button[type=submit]", list(
+        list("Declaration", "background", "#a3d3c6"),
+        list("Declaration", "color", "#11362e")
+      )),
+      list("StyleRule", ".source-grid .route-link", list(
+        list("Declaration", "color", "#a8d9cc")
+      )),
+      list("StyleRule", ".source-grid .compact", list(
+        list("Declaration", "color", "#dae7e1"),
+        list("Declaration", "background", "#24404a"),
+        list("Declaration", "border-color", "#466068")
+      )),
+      list("StyleRule", ".source-grid summary", list(
+        list("Declaration", "color", "#d5e5de"),
+        list("Declaration", "font-size", "12px")
+      )),
+      list("StyleRule", ".source-grid details p", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "color", "#d5e5de")
+      )),
+      list("StyleRule", ".edit-card label", list(
+        list("Declaration", "font-size", "23px")
+      )),
+      list("StyleRule", ".compact", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "line-height", "1.65"),
+        list("Declaration", "padding", "13px 14px"),
+        list("Declaration", "white-space", "pre-wrap"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "max-height", "none"),
+        list("Declaration", "margin", "17px 0 10px")
+      )),
+      list("StyleRule", ".type-card", list(
+        list("Declaration", "border", "1px solid #c5d9cf"),
+        list("Declaration", "background", "#e3efeb"),
+        list("Declaration", "border-radius", "10px"),
+        list("Declaration", "padding", "25px")
+      )),
+      list("StyleRule", ".type-card h3", list(
+        list("Declaration", "font-size", "24px"),
+        list("Declaration", "letter-spacing", "-.6px"),
+        list("Declaration", "margin", "8px 0 17px")
+      )),
+      list("StyleRule", ".type-card dl", list(
+        list("Declaration", "grid-template-columns", "95px 1fr"),
+        list("Declaration", "margin", "0 0 18px")
+      )),
+      list("StyleRule", ".type-card dd", list(
+        list("Declaration", "color", "#34554f")
+      )),
+      list("StyleRule", ".text-link", list(
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "border", "0"),
+        list("Declaration", "text-decoration", "underline"),
+        list("Declaration", "text-underline-offset", "3px"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "padding", "14px 0 0")
+      )),
+      list("StyleRule", ".connector", list(
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "padding", "16px 0 14px"),
+        list("Declaration", "position", "relative")
+      )),
+      list("StyleRule", ".connector span", list(
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "font", "11px Consolas,monospace")
+      )),
+      list("StyleRule", ".connector b", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "30px"),
+        list("Declaration", "line-height", "35px"),
+        list("Declaration", "font-weight", "400"),
+        list("Declaration", "color", "var(--teal)")
+      )),
+      list("StyleRule", ".projection-grid", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1.3fr 1fr"),
+        list("Declaration", "gap", "20px")
+      )),
+      list("StyleRule", ".projection-card,.page-card", list(
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "10px"),
+        list("Declaration", "padding", "23px")
+      )),
+      list("StyleRule", ".mapping", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "24px"),
+        list("Declaration", "margin", "18px 0"),
+        list("Declaration", "font-family", "Consolas,monospace"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".mapping>span", list(
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "min-width", "122px")
+      )),
+      list("StyleRule", ".mapping b", list(
+        list("Declaration", "font-size", "25px"),
+        list("Declaration", "font-weight", "400"),
+        list("Declaration", "color", "#91aba0")
+      )),
+      list("StyleRule", ".mapping small", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "color", "var(--muted)")
+      )),
+      list("StyleRule", ".mapping strong", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font", "600 21px/1.4 \"Segoe UI\",Arial,sans-serif"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".page-card h3", list(
+        list("Declaration", "font", "500 29px/1.2 Georgia,serif"),
+        list("Declaration", "margin", "15px 0")
+      )),
+      list("StyleRule", ".page-card .kind", list(
+        list("Declaration", "float", "right")
+      )),
+      list("StyleRule", ".mono", list(
+        list("Declaration", "font", "12px/1.9 Consolas,monospace"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".page-card .quiet", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "margin-top", "14px")
+      )),
+      list("StyleRule", ".algebra-fold", list(
+        list("Declaration", "margin", "13px 0 0"),
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "7px"),
+        list("Declaration", "padding", "0 17px")
+      )),
+      list("StyleRule", ".algebra-fold>summary", list(
+        list("Declaration", "padding", "12px 0"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "font-weight", "500"),
+        list("Declaration", "color", "var(--teal)")
+      )),
+      list("StyleRule", ".algebra-fold[open]", list(
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "padding-bottom", "15px")
+      )),
+      list("StyleRule", ".algebra-fold h3", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "margin", "16px 0 7px")
+      )),
+      list("StyleRule", ".algebra-fold pre", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "max-height", "340px")
+      )),
+      list("StyleRule", ".algebra-fold .panel-note", list(
+        list("Declaration", "margin-bottom", "0")
+      )),
+      list("StyleRule", ".fork", list(
+        list("Declaration", "height", "105px"),
+        list("Declaration", "position", "relative"),
+        list("Declaration", "margin", "4px 0 12px")
+      )),
+      list("StyleRule", ".fork svg", list(
+        list("Declaration", "width", "100%"),
+        list("Declaration", "height", "90px"),
+        list("Declaration", "fill", "none"),
+        list("Declaration", "stroke", "#90a99e"),
+        list("Declaration", "stroke-width", "2"),
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "top", "9px")
+      )),
+      list("StyleRule", ".fork span", list(
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "left", "50%"),
+        list("Declaration", "top", "34px"),
+        list("Declaration", "transform", "translateX(-50%)"),
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "padding", "0 12px"),
+        list("Declaration", "font", "11px Consolas,monospace"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", ".lanes", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1fr 1fr"),
+        list("Declaration", "gap", "24px")
+      )),
+      list("StyleRule", ".lane", list(
+        list("Declaration", "border", "1px solid #d5c195"),
+        list("Declaration", "border-radius", "10px"),
+        list("Declaration", "background", "#f4e9ca"),
+        list("Declaration", "overflow", "hidden"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-direction", "column"),
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".lane.row", list(
+        list("Declaration", "background", "#eee7f3"),
+        list("Declaration", "border-color", "#d5c8df")
+      )),
+      list("StyleRule", ".lane-header", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "12px"),
+        list("Declaration", "padding", "20px 22px 0")
+      )),
+      list("StyleRule", ".lane-mark", list(
+        list("Declaration", "font-size", "27px"),
+        list("Declaration", "line-height", "1"),
+        list("Declaration", "color", "var(--gold)")
+      )),
+      list("StyleRule", ".row .lane-mark,.row .eyebrow", list(
+        list("Declaration", "color", "var(--purple)")
+      )),
+      list("StyleRule", ".lane .eyebrow", list(
+        list("Declaration", "color", "var(--gold)"),
+        list("Declaration", "font-size", "11px")
+      )),
+      list("StyleRule", ".lane .object-id", list(
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "margin-top", "5px")
+      )),
+      list("StyleRule", ".lane .edit-card", list(
+        list("Declaration", "padding", "10px 22px 5px"),
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "border", "0")
+      )),
+      list("StyleRule", ".lane input", list(
+        list("Declaration", "background", "#fffdf8")
+      )),
+      list("StyleRule", ".lane .compact", list(
+        list("Declaration", "background", "#fff9"),
+        list("Declaration", "border-color", "#ddcda8")
+      )),
+      list("StyleRule", ".lane .lane-law", list(
+        list("Declaration", "padding", "16px 22px"),
+        list("Declaration", "border-top", "1px solid #d7c49a"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "color", "#725215"),
+        list("Declaration", "margin-top", "auto")
+      )),
+      list("StyleRule", ".lane-law strong", list(
+        list("Declaration", "font-family", "Consolas,monospace"),
+        list("Declaration", "font-weight", "500")
+      )),
+      list("StyleRule", ".row .lane-law", list(
+        list("Declaration", "border-color", "#d1c5da"),
+        list("Declaration", "color", "var(--purple)")
+      )),
+      list("StyleRule", ".inherited-value", list(
+        list("Declaration", "padding", "25px 22px 5px")
+      )),
+      list("StyleRule", ".inherited-value small", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font", "11px Consolas,monospace"),
+        list("Declaration", "color", "var(--purple)")
+      )),
+      list("StyleRule", ".inherited-value strong", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "27px"),
+        list("Declaration", "line-height", "1.3"),
+        list("Declaration", "font-weight", "600"),
+        list("Declaration", "letter-spacing", "-.6px"),
+        list("Declaration", "margin-top", "5px"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".inheritance", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "color", "var(--purple)"),
+        list("Declaration", "font", "11px Consolas,monospace"),
+        list("Declaration", "margin-top", "11px")
+      )),
+      list("StyleRule", ".row>.compact", list(
+        list("Declaration", "margin", "18px 22px 10px"),
+        list("Declaration", "background", "#fff9"),
+        list("Declaration", "border-color", "#d5c8df")
+      )),
+      list("StyleRule", ".row>.explain", list(
+        list("Declaration", "padding", "0 22px 17px"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".dual", list(
+        list("Declaration", "padding-top", "20px")
+      )),
+      list("StyleRule", ".dual b", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-around")
+      )),
+      list("StyleRule", ".dual i", list(
+        list("Declaration", "display", "none")
+      )),
+      list("StyleRule", ".stage-note", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "margin", "-5px 0 17px")
+      )),
+      list("StyleRule", ".output", list(
+        list("Declaration", "min-width", "0"),
+        list("Declaration", "border-top", "3px solid #b38a42")
+      )),
+      list("StyleRule", ".output.row-output", list(
+        list("Declaration", "border-top-color", "#9271ae")
+      )),
+      list("StyleRule", ".output.page-output", list(
+        list("Declaration", "border-top-color", "var(--teal)"),
+        list("Declaration", "margin-top", "15px")
+      )),
+      list("StyleRule", ".output iframe", list(
+        list("Declaration", "height", "110px")
+      )),
+      list("StyleRule", ".page-output iframe", list(
+        list("Declaration", "height", "165px")
+      )),
+      list("StyleRule", ".output details", list(
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "margin", "0"),
+        list("Declaration", "padding", "0 16px")
+      )),
+      list("StyleRule", ".output summary", list(
+        list("Declaration", "padding", "11px 0"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "font-weight", "500"),
+        list("Declaration", "color", "var(--teal)")
+      )),
+      list("StyleRule", ".output pre", list(
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "max-height", "330px"),
+        list("Declaration", "margin", "0 0 13px")
+      )),
+      list("StyleRule", ".output-heading span", list(
+        list("Declaration", "font-size", "10px")
+      )),
+      list("StyleRule", ".page-preview", list(
+        list("Declaration", "padding", "0 17px"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "7px"),
+        list("Declaration", "margin-top", "14px")
+      )),
+      list("StyleRule", ".page-preview>summary", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "padding", "12px 0"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "font-weight", "500")
+      )),
+      list("StyleRule", ".page-preview[open]", list(
+        list("Declaration", "padding-bottom", "17px")
+      )),
+      list("StyleRule", ".page-preview summary span", list(
+        list("Declaration", "float", "right"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "font", "12px Consolas,monospace"),
+        list("Declaration", "max-width", "50%"),
+        list("Declaration", "overflow", "hidden"),
+        list("Declaration", "text-overflow", "ellipsis"),
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", ".return-connector", list(
+        list("Declaration", "text-align", "center"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "padding", "18px 0 25px"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "justify-content", "center"),
+        list("Declaration", "gap", "14px")
+      )),
+      list("StyleRule", ".return-connector span", list(
+        list("Declaration", "font-size", "48px"),
+        list("Declaration", "line-height", "1")
+      )),
+      list("StyleRule", ".return-connector p", list(
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".return-stage", list(
+        list("Declaration", "border", "1px solid #b8cec3"),
+        list("Declaration", "border-top", "4px solid var(--teal)"),
+        list("Declaration", "background", "#e8efe7"),
+        list("Declaration", "border-radius", "12px"),
+        list("Declaration", "padding", "27px")
+      )),
+      list("StyleRule", ".return-map", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1fr 30px 1fr"),
+        list("Declaration", "gap", "15px")
+      )),
+      list("StyleRule", ".return-map>div", list(
+        list("Declaration", "background", "#fff9"),
+        list("Declaration", "padding", "17px 20px"),
+        list("Declaration", "border-radius", "6px"),
+        list("Declaration", "border", "1px solid #c6d7cd")
+      )),
+      list("StyleRule", ".return-map small", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "color", "var(--muted)")
+      )),
+      list("StyleRule", ".return-map strong", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font", "13px Consolas,monospace"),
+        list("Declaration", "margin", "6px 0"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".return-map span", list(
+        list("Declaration", "font", "11px Consolas,monospace"),
+        list("Declaration", "color", "var(--teal)")
+      )),
+      list("StyleRule", ".return-map>b", list(
+        list("Declaration", "align-self", "center"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "font-weight", "400")
+      )),
+      list("StyleRule", ".check-strip", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "gap", "12px"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "background", "var(--ink)"),
+        list("Declaration", "color", "#deebe4"),
+        list("Declaration", "border-radius", "6px"),
+        list("Declaration", "padding", "16px 20px"),
+        list("Declaration", "margin", "20px 0"),
+        list("Declaration", "font", "11px Consolas,monospace")
+      )),
+      list("StyleRule", ".check-strip b", list(
+        list("Declaration", "color", "#a8d9cc"),
+        list("Declaration", "font-weight", "400")
+      )),
+      list("StyleRule", ".return-stage h3", list(
+        list("Declaration", "font-size", "17px")
+      )),
+      list("StyleRule", ".return-stage .receipt-route", list(
+        list("Declaration", "background", "#fff9"),
+        list("Declaration", "padding", "11px 13px"),
+        list("Declaration", "border", "1px solid var(--line)")
+      )),
+      list("StyleRule", ".return-stage pre", list(
+        list("Declaration", "background", "#fffefa")
+      )),
+      list("StyleRule", ".return-stage .receipt-grid .inspection-item", list(
+        list("Declaration", "margin", "0")
+      )),
+      list("StyleRule", ".return-stage>.algebra-fold", list(
+        list("Declaration", "border-color", "#b8cec3")
+      )),
+      list("StyleRule", "#diagram-receipt>.panel-note", list(
+        list("Declaration", "font-size", "12px")
+      )),
+      list("StyleRule", ".return-stage .receipt-grid", list(
+        list("Declaration", "align-items", "start")
+      )),
+      list("StyleRule", "#technical", list(
+        list("Declaration", "margin-top", "35px")
+      )),
+      list("StyleRule", "#technical>summary", list(
+        list("Declaration", "font-size", "17px"),
+        list("Declaration", "display", "list-item"),
+        list("Declaration", "padding", "16px 2px"),
+        list("Declaration", "border-top", "1px solid var(--line)"),
+        list("Declaration", "color", "var(--ink)")
+      )),
+      list("StyleRule", ".detail-tag", list(
+        list("Declaration", "float", "right"),
+        list("Declaration", "font", "11px Consolas,monospace"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "margin-top", "4px")
+      )),
+      list("StyleRule", ".inspector", list(
+        list("Declaration", "margin-top", "16px")
+      )),
+      list("StyleRule", "footer", list(
+        list("Declaration", "margin-top", "25px")
+      )),
+      list("StyleRule", "section#inspect", list(
+        list("Declaration", "margin-top", "0")
+      )),
+      list("StyleRule", ".source-grid>*", list(
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".projection-grid>*", list(
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".output iframe:focus-visible", list(
+        list("Declaration", "outline-offset", "-4px")
+      )),
+      list("StyleGroup", "media", "(prefers-reduced-motion:no-preference)", list(
+        list("StyleRule", ".output-heading span", list(
+          list("Declaration", "transition", "color .2s")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:850px)", list(
+        list("StyleRule", "main", list(
+          list("Declaration", "padding", "30px 22px")
+        )),
+        list("StyleRule", ".title-row", list(
+          list("Declaration", "gap", "30px"),
+          list("Declaration", "grid-template-columns", "1.1fr 1fr")
+        )),
+        list("StyleRule", ".source-grid", list(
+          list("Declaration", "grid-template-columns", "1.2fr 1fr")
+        )),
+        list("StyleRule", ".projection-grid", list(
+          list("Declaration", "grid-template-columns", "1.2fr 1fr")
+        )),
+        list("StyleRule", ".lanes", list(
+          list("Declaration", "gap", "16px")
+        )),
+        list("StyleRule", ".input-row", list(
+          list("Declaration", "flex-wrap", "wrap")
+        )),
+        list("StyleRule", ".input-row input", list(
+          list("Declaration", "flex-basis", "100%")
+        )),
+        list("StyleRule", ".input-row button", list(
+          list("Declaration", "width", "100%")
+        )),
+        list("StyleRule", ".stage-heading h2", list(
+          list("Declaration", "font-size", "24px")
+        )),
+        list("StyleRule", ".mapping", list(
+          list("Declaration", "gap", "12px"),
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".mapping>span", list(
+          list("Declaration", "min-width", "105px")
+        )),
+        list("StyleRule", ".mapping strong", list(
+          list("Declaration", "font-size", "18px")
+        )),
+        list("StyleRule", ".check-strip", list(
+          list("Declaration", "flex-wrap", "wrap"),
+          list("Declaration", "justify-content", "center")
+        )),
+        list("StyleRule", ".type-card", list(
+          list("Declaration", "padding", "20px")
+        )),
+        list("StyleRule", ".source-grid .edit-card", list(
+          list("Declaration", "padding", "20px")
+        )),
+        list("StyleRule", ".edit-card label", list(
+          list("Declaration", "font-size", "20px")
+        )),
+        list("StyleRule", ".lane-header,.inherited-value", list(
+          list("Declaration", "padding-left", "17px"),
+          list("Declaration", "padding-right", "17px")
+        )),
+        list("StyleRule", ".lane .edit-card", list(
+          list("Declaration", "padding-left", "17px"),
+          list("Declaration", "padding-right", "17px")
+        ))
+      )),
+      list("StyleGroup", "media", "(max-width:620px)", list(
+        list("StyleRule", "main", list(
+          list("Declaration", "padding", "25px 17px")
+        )),
+        list("StyleRule", ".title-row,.source-grid,.projection-grid,.lanes", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        )),
+        list("StyleRule", ".title-row", list(
+          list("Declaration", "gap", "15px")
+        )),
+        list("StyleRule", "h1", list(
+          list("Declaration", "font-size", "44px"),
+          list("Declaration", "letter-spacing", "-1.8px")
+        )),
+        list("StyleRule", ".hero-note", list(
+          list("Declaration", "font-size", "12px"),
+          list("Declaration", "margin-top", "14px")
+        )),
+        list("StyleRule", ".intro>p:first-child", list(
+          list("Declaration", "font-size", "18px")
+        )),
+        list("StyleRule", ".live-status", list(
+          list("Declaration", "align-items", "flex-start"),
+          list("Declaration", "gap", "8px"),
+          list("Declaration", "margin-top", "24px")
+        )),
+        list("StyleRule", ".live-dot", list(
+          list("Declaration", "margin-top", "6px")
+        )),
+        list("StyleRule", ".live-status a", list(
+          list("Declaration", "max-width", "85px"),
+          list("Declaration", "white-space", "normal"),
+          list("Declaration", "text-align", "right"),
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".stage-heading", list(
+          list("Declaration", "gap", "11px"),
+          list("Declaration", "align-items", "flex-start"),
+          list("Declaration", "margin-bottom", "16px")
+        )),
+        list("StyleRule", ".stage-heading h2", list(
+          list("Declaration", "font-size", "23px")
+        )),
+        list("StyleRule", ".stage-heading .eyebrow", list(
+          list("Declaration", "font-size", "9px")
+        )),
+        list("StyleRule", ".step", list(
+          list("Declaration", "width", "33px"),
+          list("Declaration", "height", "33px"),
+          list("Declaration", "font-size", "14px")
+        )),
+        list("StyleRule", ".stage-heading>.kind", list(
+          list("Declaration", "font-size", "9px"),
+          list("Declaration", "padding", "4px 6px")
+        )),
+        list("StyleRule", ".source-grid,.projection-grid", list(
+          list("Declaration", "gap", "14px")
+        )),
+        list("StyleRule", ".source-grid .edit-card", list(
+          list("Declaration", "padding", "22px 18px")
+        )),
+        list("StyleRule", ".type-card h3", list(
+          list("Declaration", "font-size", "21px")
+        )),
+        list("StyleRule", ".type-card dl", list(
+          list("Declaration", "font-size", "12px")
+        )),
+        list("StyleRule", ".mapping", list(
+          list("Declaration", "font-size", "12px"),
+          list("Declaration", "gap", "17px")
+        )),
+        list("StyleRule", ".mapping strong", list(
+          list("Declaration", "font-size", "22px")
+        )),
+        list("StyleRule", ".connector", list(
+          list("Declaration", "padding", "15px 0")
+        )),
+        list("StyleRule", ".fork", list(
+          list("Declaration", "height", "75px")
+        )),
+        list("StyleRule", ".fork svg", list(
+          list("Declaration", "height", "65px")
+        )),
+        list("StyleRule", ".fork span", list(
+          list("Declaration", "top", "24px"),
+          list("Declaration", "font-size", "9px"),
+          list("Declaration", "padding", "0 7px")
+        )),
+        list("StyleRule", ".lanes", list(
+          list("Declaration", "gap", "18px")
+        )),
+        list("StyleRule", ".lane .edit-card", list(
+          list("Declaration", "padding", "8px 18px")
+        )),
+        list("StyleRule", ".lane .object-id", list(
+          list("Declaration", "font-size", "10px")
+        )),
+        list("StyleRule", ".lane-law", list(
+          list("Declaration", "line-height", "1.8")
+        )),
+        list("StyleRule", ".dual b", list(
+          list("Declaration", "justify-content", "center"),
+          list("Declaration", "gap", "80px")
+        )),
+        list("StyleRule", ".return-stage", list(
+          list("Declaration", "padding", "21px 15px")
+        )),
+        list("StyleRule", ".return-map", list(
+          list("Declaration", "grid-template-columns", "1fr"),
+          list("Declaration", "gap", "10px")
+        )),
+        list("StyleRule", ".return-map>b", list(
+          list("Declaration", "text-align", "center")
+        )),
+        list("StyleRule", ".return-map>div", list(
+          list("Declaration", "padding", "13px 15px")
+        )),
+        list("StyleRule", ".check-strip", list(
+          list("Declaration", "gap", "8px"),
+          list("Declaration", "font-size", "10px"),
+          list("Declaration", "padding", "14px 10px"),
+          list("Declaration", "line-height", "1.8")
+        )),
+        list("StyleRule", ".return-connector", list(
+          list("Declaration", "padding", "16px 0 20px")
+        )),
+        list("StyleRule", ".receipt-grid", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        )),
+        list("StyleRule", ".return-stage dl", list(
+          list("Declaration", "grid-template-columns", "55px 1fr"),
+          list("Declaration", "font-size", "12px"),
+          list("Declaration", "gap", "8px 12px")
+        )),
+        list("StyleRule", "#technical>summary", list(
+          list("Declaration", "font-size", "15px"),
+          list("Declaration", "padding-right", "35px")
+        )),
+        list("StyleRule", ".detail-tag", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".page-preview summary span", list(
+          list("Declaration", "display", "none")
+        )),
+        list("StyleRule", ".source-grid .compact", list(
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".algebra-fold", list(
+          list("Declaration", "padding-left", "12px"),
+          list("Declaration", "padding-right", "12px")
+        ))
+      )),
+      list("StyleRule", ".form-error", list(
+        list("Declaration", "color", "#862b30"),
+        list("Declaration", "background", "#fbe8e2"),
+        list("Declaration", "border-left", "3px solid #a64248"),
+        list("Declaration", "padding", "11px 13px"),
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "line-height", "1.6"),
+        list("Declaration", "margin", "15px 0 0"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".tour-back", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "justify-content", "space-between"),
+        list("Declaration", "gap", "15px"),
+        list("Declaration", "margin-bottom", "32px"),
+        list("Declaration", "font-size", "11px")
+      )),
+      list("StyleRule", ".tour-back a", list(
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "text-underline-offset", "3px")
+      )),
+      list("StyleRule", ".tour-back span", list(
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "letter-spacing", "1px")
+      )),
+      list("StyleRule", ".authorship-note", list(
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-left", "3px solid var(--teal)"),
+        list("Declaration", "border-radius", "7px"),
+        list("Declaration", "margin", "26px 0 0"),
+        list("Declaration", "padding", "12px 18px")
+      )),
+      list("StyleRule", ".authorship-note summary", list(
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "font-weight", "500")
+      )),
+      list("StyleRule", ".authorship-note>div", list(
+        list("Declaration", "max-width", "800px")
+      )),
+      list("StyleRule", ".authorship-note p", list(
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "margin", "15px 0")
+      )),
+      list("StyleRule", ".authorship-note strong", list(
+        list("Declaration", "color", "var(--ink)")
+      )),
+      list("StyleGroup", "media", "(max-width:620px)", list(
+        list("StyleRule", ".tour-back", list(
+          list("Declaration", "flex-wrap", "wrap"),
+          list("Declaration", "margin-bottom", "24px")
+        )),
+        list("StyleRule", ".tour-back span", list(
+          list("Declaration", "display", "none")
+        ))
+      )),
+      list("StyleRule", ".debugger-stage", list(
+        list("Declaration", "margin-top", "10px"),
+        list("Declaration", "border", "1px solid #c4cdd9"),
+        list("Declaration", "border-top", "4px solid var(--purple)"),
+        list("Declaration", "border-radius", "12px"),
+        list("Declaration", "padding", "26px"),
+        list("Declaration", "background", "#f1eef5")
+      )),
+      list("StyleRule", ".debugger-stage h3", list(
+        list("Declaration", "font-size", "15px"),
+        list("Declaration", "margin", "0 0 12px")
+      )),
+      list("StyleRule", ".debugger-stage h3 small", list(
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "font-weight", "400"),
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "float", "right")
+      )),
+      list("StyleRule", ".debug-setup", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "gap", "14px"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".debug-setup>label", list(
+        list("Declaration", "font-weight", "600")
+      )),
+      list("StyleRule", ".debug-setup input", list(
+        list("Declaration", "flex", "none"),
+        list("Declaration", "width", "100%"),
+        list("Declaration", "margin-top", "8px")
+      )),
+      list("StyleRule", "#debug-value-row", list(
+        list("Declaration", "width", "100%"),
+        list("Declaration", "max-width", "580px"),
+        list("Declaration", "margin-top", "8px")
+      )),
+      list("StyleRule", ".debug-controls", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "8px"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "margin", "20px 0 16px")
+      )),
+      list("StyleRule", ".debug-controls button", list(
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "color", "var(--purple)"),
+        list("Declaration", "border", "1px solid #a995bb"),
+        list("Declaration", "padding", "9px 16px"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".debug-controls #debug-start", list(
+        list("Declaration", "background", "var(--purple)"),
+        list("Declaration", "color", "white")
+      )),
+      list("StyleRule", ".debug-controls button:disabled", list(
+        list("Declaration", "opacity", ".4"),
+        list("Declaration", "cursor", "default")
+      )),
+      list("StyleRule", "#debug-status", list(
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "font-weight", "600"),
+        list("Declaration", "color", "var(--purple)"),
+        list("Declaration", "min-height", "23px")
+      )),
+      list("StyleRule", "#debug-status[data-phase=failed]", list(
+        list("Declaration", "color", "#862b30")
+      )),
+      list("StyleRule", "#debug-basis", list(
+        list("Declaration", "margin", "8px 0 18px")
+      )),
+      list("StyleRule", ".debug-grid", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1fr 1fr"),
+        list("Declaration", "gap", "18px"),
+        list("Declaration", "align-items", "start")
+      )),
+      list("StyleRule", ".debug-grid>div", list(
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "padding", "17px"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "7px"),
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".debug-grid .panel-note", list(
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "margin", "0 0 12px")
+      )),
+      list("StyleRule", "#debug-instructions", list(
+        list("Declaration", "list-style", "none"),
+        list("Declaration", "padding", "0"),
+        list("Declaration", "margin", "0"),
+        list("Declaration", "max-height", "400px"),
+        list("Declaration", "overflow", "auto"),
+        list("Declaration", "position", "relative")
+      )),
+      list("StyleRule", "#debug-instructions li", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "start"),
+        list("Declaration", "gap", "9px"),
+        list("Declaration", "padding", "9px 5px"),
+        list("Declaration", "border-bottom", "1px solid #e0e3dc")
+      )),
+      list("StyleRule", "#debug-instructions li.current", list(
+        list("Declaration", "background", "#e4dbef"),
+        list("Declaration", "box-shadow", "inset 3px 0 var(--purple)")
+      )),
+      list("StyleRule", "#debug-instructions code", list(
+        list("Declaration", "font", "11px/1.65 Consolas,monospace"),
+        list("Declaration", "white-space", "pre-wrap"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".breakpoint", list(
+        list("Declaration", "flex-shrink", "0"),
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "color", "var(--purple)"),
+        list("Declaration", "padding", "0 3px"),
+        list("Declaration", "font-size", "19px"),
+        list("Declaration", "line-height", "1.1")
+      )),
+      list("StyleRule", ".breakpoint[aria-pressed=true]", list(
+        list("Declaration", "color", "#a62d57")
+      )),
+      list("StyleRule", ".binding-tree", list(
+        list("Declaration", "list-style", "none"),
+        list("Declaration", "padding", "0"),
+        list("Declaration", "margin", "0")
+      )),
+      list("StyleRule", ".binding-tree>li", list(
+        list("Declaration", "border-bottom", "1px solid #e6e6e0")
+      )),
+      list("StyleRule", ".binding-toggle", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "baseline"),
+        list("Declaration", "gap", "8px"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "padding", "10px 3px"),
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "border", "0"),
+        list("Declaration", "text-align", "left"),
+        list("Declaration", "width", "100%"),
+        list("Declaration", "color", "var(--ink)")
+      )),
+      list("StyleRule", ".binding-name", list(
+        list("Declaration", "font", "12px Consolas,monospace"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".binding-toggle small", list(
+        list("Declaration", "font-size", "10px"),
+        list("Declaration", "color", "var(--muted)")
+      )),
+      list("StyleRule", ".binding-preview", list(
+        list("Declaration", "font", "11px/1.6 Consolas,monospace"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "max-width", "100%")
+      )),
+      list("StyleRule", ".binding-toggle .binding-changed", list(
+        list("Declaration", "font-size", "9px"),
+        list("Declaration", "color", "var(--purple)"),
+        list("Declaration", "background", "#ede4f6"),
+        list("Declaration", "border-radius", "3px"),
+        list("Declaration", "padding", "2px 5px")
+      )),
+      list("StyleRule", ".binding-children", list(
+        list("Declaration", "padding-left", "14px"),
+        list("Declaration", "border-left", "1px solid #cfc0dc"),
+        list("Declaration", "margin-left", "5px"),
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".debug-scalar", list(
+        list("Declaration", "white-space", "pre-wrap"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "font-size", "11px"),
+        list("Declaration", "max-height", "260px")
+      )),
+      list("StyleRule", "#debug-bindings", list(
+        list("Declaration", "max-height", "450px"),
+        list("Declaration", "overflow", "auto")
+      )),
+      list("StyleRule", ".debugger-stage .algebra-fold", list(
+        list("Declaration", "background", "#fff8"),
+        list("Declaration", "border-color", "#cfc3da")
+      )),
+      list("StyleRule", ".debugger-stage .algebra-fold>summary", list(
+        list("Declaration", "color", "var(--purple)")
+      )),
+      list("StyleRule", "#debug-source-link", list(
+        list("Declaration", "display", "inline-block"),
+        list("Declaration", "margin", "12px 0 0")
+      )),
+      list("StyleGroup", "media", "(max-width:720px)", list(
+        list("StyleRule", ".debug-grid", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        )),
+        list("StyleRule", ".debugger-stage", list(
+          list("Declaration", "padding", "20px 14px")
+        )),
+        list("StyleRule", ".debug-controls", list(
+          list("Declaration", "gap", "7px")
+        )),
+        list("StyleRule", ".debug-controls button", list(
+          list("Declaration", "padding", "10px 13px")
+        )),
+        list("StyleRule", ".debug-setup", list(
+          list("Declaration", "align-items", "start"),
+          list("Declaration", "flex-direction", "column"),
+          list("Declaration", "gap", "8px")
+        )),
+        list("StyleRule", ".debug-setup select", list(
+          list("Declaration", "width", "100%")
+        )),
+        list("StyleRule", "#debug-instructions", list(
+          list("Declaration", "max-height", "300px")
+        )),
+        list("StyleRule", ".debug-grid>div", list(
+          list("Declaration", "padding", "13px")
+        ))
+      )),
+      list("StyleRule", ".debug-controls", list(
+        list("Declaration", "position", "sticky"),
+        list("Declaration", "top", "8px"),
+        list("Declaration", "z-index", "3"),
+        list("Declaration", "background", "#f1eef5f5"),
+        list("Declaration", "padding", "10px"),
+        list("Declaration", "border", "1px solid #d6cade"),
+        list("Declaration", "border-radius", "7px"),
+        list("Declaration", "box-shadow", "0 4px 12px #25162c0a")
+      )),
+      list("StyleRule", ".debug-controls a", list(
+        list("Declaration", "margin-left", "auto"),
+        list("Declaration", "color", "var(--purple)"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "padding", "8px 3px"),
+        list("Declaration", "text-underline-offset", "3px"),
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", "#debug-heading", list(
+        list("Declaration", "scroll-margin-top", "60px")
+      )),
+      list("StyleRule", "[data-language]", list(
+        list("Declaration", "color", "#233943"),
+        list("Declaration", "tab-size", "2")
+      )),
+      list("StyleRule", ".syntax-keyword", list(
+        list("Declaration", "color", "#743c79"),
+        list("Declaration", "font-weight", "650")
+      )),
+      list("StyleRule", ".syntax-operator", list(
+        list("Declaration", "color", "#075e70"),
+        list("Declaration", "font-weight", "650")
+      )),
+      list("StyleRule", ".syntax-derived", list(
+        list("Declaration", "color", "#075e70")
+      )),
+      list("StyleRule", ".syntax-reference,.syntax-identity", list(
+        list("Declaration", "color", "#155ba1")
+      )),
+      list("StyleRule", ".syntax-field", list(
+        list("Declaration", "color", "#80520d")
+      )),
+      list("StyleRule", ".syntax-string", list(
+        list("Declaration", "color", "#28613b")
+      )),
+      list("StyleRule", ".syntax-number", list(
+        list("Declaration", "color", "#91422b")
+      )),
+      list("StyleRule", ".syntax-type,.syntax-tag", list(
+        list("Declaration", "color", "#65429a"),
+        list("Declaration", "font-weight", "600")
+      )),
+      list("StyleRule", ".syntax-port", list(
+        list("Declaration", "color", "#9a392c"),
+        list("Declaration", "font-weight", "600")
+      )),
+      list("StyleRule", ".syntax-comment", list(
+        list("Declaration", "color", "#59686c"),
+        list("Declaration", "font-style", "italic")
+      )),
+      list("StyleRule", ".syntax-punctuation", list(
+        list("Declaration", "color", "#566572")
+      )),
+      list("StyleRule", ".syntax-diff-add", list(
+        list("Declaration", "background", "#e0f0df")
+      )),
+      list("StyleRule", ".syntax-diff-remove", list(
+        list("Declaration", "background", "#f7e2de")
+      )),
+      list("StyleRule", ".syntax-diff-sign", list(
+        list("Declaration", "font-weight", "700")
+      )),
+      list("StyleRule", ".source-line:empty::after", list(
+        list("Declaration", "content", "'\\200b'")
+      )),
+      list("StyleGroup", "media", "(forced-colors:active)", list(
+        list("StyleRule", ".syntax-keyword,.syntax-operator,.syntax-port,.syntax-type,.syntax-tag", list(
+          list("Declaration", "font-weight", "700")
+        )),
+        list("StyleRule", ".syntax-diff-remove", list(
+          list("Declaration", "text-decoration", "line-through")
+        ))
+      )),
+      list("StyleRule", ".syntax-call", list(
+        list("Declaration", "color", "#075e70")
+      )),
+      list("StyleRule", ".syntax-key", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "gap", "8px 20px"),
+        list("Declaration", "padding", "14px 23px"),
+        list("Declaration", "border-bottom", "1px solid var(--line)"),
+        list("Declaration", "font", "12px/1.6 Consolas,monospace")
+      )),
+      list("StyleRule", ".syntax-key span", list(
+        list("Declaration", "white-space", "nowrap")
+      )),
+      list("StyleRule", ".source-code .source-line", list(
+        list("Declaration", "display", "inline"),
+        list("Declaration", "padding", "0"),
+        list("Declaration", "white-space", "pre")
+      )),
+      list("StyleRule", ".source-code", list(
+        list("Declaration", "white-space", "pre")
+      )),
+      list("StyleRule", ".infographic-entry", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "gap", "8px 20px"),
+        list("Declaration", "align-items", "baseline"),
+        list("Declaration", "margin-top", "24px"),
+        list("Declaration", "font-size", "14px")
+      )),
+      list("StyleRule", ".infographic-entry a", list(
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "font-weight", "600")
+      )),
+      list("StyleRule", ".infographic-entry span", list(
+        list("Declaration", "color", "var(--muted)"),
+        list("Declaration", "font-size", "12px")
+      )),
+      list("StyleRule", ":host", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "padding", "clamp(18px,3vw,38px)")
+      )),
+      list("StyleRule", ".encounter-journey", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "gap", "10px"),
+        list("Declaration", "padding-bottom", "22px"),
+        list("Declaration", "margin-bottom", "20px"),
+        list("Declaration", "border-bottom", "1px solid #c4cbc8")
+      )),
+      list("StyleRule", ".encounter-journey a", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "padding", "10px 14px"),
+        list("Declaration", "border", "1px solid #b5c1bf"),
+        list("Declaration", "border-radius", "24px"),
+        list("Declaration", "color", "#173d43"),
+        list("Declaration", "text-decoration", "none"),
+        list("Declaration", "font-size", "14px")
+      )),
+      list("StyleRule", ".encounter-journey a[aria-current=page]", list(
+        list("Declaration", "background", "#173d43"),
+        list("Declaration", "color", "#fff")
+      )),
+      list("StyleRule", ".encounter-journey a:focus-visible", list(
+        list("Declaration", "outline", "3px solid #ab5732"),
+        list("Declaration", "outline-offset", "3px")
+      ))
+    ))
+  }

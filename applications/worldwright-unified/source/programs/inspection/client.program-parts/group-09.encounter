@@ -1,0 +1,551 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0135 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("Invoke", { optional = false; callee = list("NameReference", { name = "get" }); arguments = list() });
+            property = list("NameReference", { name = "then" })
+          });
+        arguments = list(
+          list("Procedure", {
+              generator = false;
+              async = false;
+              block = true;
+              id = null;
+              params = list(list("NameReference", { name = "i" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("Branch", {
+                        test = list("ShortCircuit", {
+                            operator = "||";
+                            left = list("Calculate", {
+                                operator = "!==";
+                                left = list("NameReference", { name = "ticket" });
+                                right = list("NameReference", { name = "epoch" })
+                              });
+                            right = list("Unary", {
+                                operator = "!";
+                                prefix = true;
+                                argument = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("NameReference", { name = "bound" });
+                                    property = list("NameReference", { name = "isConnected" })
+                                  })
+                              })
+                          });
+                        consequent = list("Sequence", { body = list(list("Sequence", { body = list(list("Yield", { argument = null })) })) });
+                        alternate = null
+                      }),
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "target" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("NameReference", { name = "resolveBinding" });
+                                  arguments = list(
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "i" });
+                                        property = list("NameReference", { name = "catalogue" })
+                                      }),
+                                    list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "bound" });
+                                            property = list("NameReference", { name = "dataset" })
+                                          });
+                                        property = list("NameReference", { name = "inspectionKey" })
+                                      })
+                                  )
+                                })
+                            })
+                        )
+                      }),
+                    list("Branch", {
+                        test = list("NameReference", { name = "target" });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Sequence", {
+                                  body = list(
+                                    list("Do", {
+                                        expression = list("Invoke", {
+                                            optional = false;
+                                            callee = list("NameReference", { name = "open" });
+                                            arguments = list(list("NameReference", { name = "target" }))
+                                          })
+                                      })
+                                  )
+                                })
+                            )
+                          });
+                        alternate = list("Sequence", {
+                            body = list(
+                              list("Sequence", {
+                                  body = list(
+                                    list("Do", {
+                                        expression = list("Invoke", {
+                                            optional = false;
+                                            callee = list("NameReference", { name = "showError" });
+                                            arguments = list(list("LiteralValue", { value = "INSPECT-UNBOUND: No exact source definition." }))
+                                          })
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            })
+        )
+      });
+    part0136 = list("NameReference", { name = "catch" });
+    part0137 = list("NameReference", { name = "event" });
+    part0138 = list("NameReference", { name = "preventDefault" });
+    part0139 = list("NameReference", { name = "event" });
+    part0140 = list("NameReference", { name = "stopImmediatePropagation" });
+    part0141 = list("NameReference", { name = "control" });
+    part0142 = list("NameReference", { name = "dataset" });
+    part0143 = list("Do", {
+        expression = list("Invoke", {
+            optional = false;
+            callee = list("NameReference", { name = "open" });
+            arguments = list(
+              list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "control" });
+                      property = list("NameReference", { name = "dataset" })
+                    });
+                  property = list("NameReference", { name = "inspectionTarget" })
+                })
+            )
+          })
+      });
+    part0144 = list("Branch", {
+        test = list("Calculate", {
+            operator = "===";
+            left = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("NameReference", { name = "control" });
+                    property = list("NameReference", { name = "dataset" })
+                  });
+                property = list("NameReference", { name = "inspection" })
+              });
+            right = list("LiteralValue", { value = "index" })
+          });
+        consequent = list("Sequence", {
+            body = list(
+              list("Sequence", {
+                  body = list(
+                    list("Do", {
+                        expression = list("Invoke", { optional = false; callee = list("NameReference", { name = "index" }); arguments = list() })
+                      })
+                  )
+                })
+            )
+          });
+        alternate = list("Sequence", {
+            body = list(
+              list("Sequence", {
+                  body = list(
+                    list("Branch", {
+                        test = list("ShortCircuit", {
+                            operator = "&&";
+                            left = list("Calculate", {
+                                operator = "===";
+                                left = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "control" });
+                                        property = list("NameReference", { name = "dataset" })
+                                      });
+                                    property = list("NameReference", { name = "inspection" })
+                                  });
+                                right = list("LiteralValue", { value = "back" })
+                              });
+                            right = list("Calculate", {
+                                operator = ">";
+                                left = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("NameReference", { name = "trail" });
+                                    property = list("NameReference", { name = "length" })
+                                  });
+                                right = list("LiteralValue", { value = 1 })
+                              })
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Sequence", {
+                                  body = list(
+                                    list("Sequence", {
+                                        body = list(
+                                          list("Do", {
+                                              expression = list("Invoke", {
+                                                  optional = false;
+                                                  callee = list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("NameReference", { name = "trail" });
+                                                      property = list("NameReference", { name = "pop" })
+                                                    });
+                                                  arguments = list()
+                                                })
+                                            }),
+                                          list("Do", {
+                                              expression = list("Invoke", {
+                                                  optional = false;
+                                                  callee = list("NameReference", { name = "open" });
+                                                  arguments = list(
+                                                    list("Invoke", {
+                                                        optional = false;
+                                                        callee = list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "trail" });
+                                                            property = list("NameReference", { name = "at" })
+                                                          });
+                                                        arguments = list(list("Unary", { operator = "-"; prefix = true; argument = list("LiteralValue", { value = 1 }) }))
+                                                      }),
+                                                    list("Record", {
+                                                        properties = list(
+                                                          list("Field", {
+                                                              computed = false;
+                                                              kind = "init";
+                                                              key = list("NameReference", { name = "remember" });
+                                                              value = list("LiteralValue", { value = false })
+                                                            })
+                                                        )
+                                                      })
+                                                  )
+                                                })
+                                            })
+                                        )
+                                      })
+                                  )
+                                })
+                            )
+                          });
+                        alternate = list("Sequence", {
+                            body = list(
+                              list("Sequence", {
+                                  body = list(
+                                    list("Branch", {
+                                        test = list("Calculate", {
+                                            operator = "===";
+                                            left = list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("Select", {
+                                                    computed = false;
+                                                    optional = false;
+                                                    object = list("NameReference", { name = "control" });
+                                                    property = list("NameReference", { name = "dataset" })
+                                                  });
+                                                property = list("NameReference", { name = "inspection" })
+                                              });
+                                            right = list("LiteralValue", { value = "machinery" })
+                                          });
+                                        consequent = list("Sequence", {
+                                            body = list(
+                                              list("Sequence", {
+                                                  body = list(
+                                                    list("Do", {
+                                                        expression = list("Invoke", {
+                                                            optional = false;
+                                                            callee = list("NameReference", { name = "open" });
+                                                            arguments = list(
+                                                              list("Invoke", {
+                                                                  optional = false;
+                                                                  callee = { fragment = "part0145" };
+                                                                  arguments = list({ fragment = "part0146" }, { fragment = "part0147" })
+                                                                })
+                                                            )
+                                                          })
+                                                      })
+                                                  )
+                                                })
+                                            )
+                                          });
+                                        alternate = list("Sequence", {
+                                            body = list(
+                                              list("Sequence", {
+                                                  body = list(
+                                                    list("Branch", {
+                                                        test = list("Calculate", {
+                                                            operator = "===";
+                                                            left = list("Select", { computed = false; optional = false; object = { fragment = "part0148" }; property = { fragment = "part0149" } });
+                                                            right = list("LiteralValue", { value = "reflect" })
+                                                          });
+                                                        consequent = list("Sequence", { body = list(list("Sequence", { body = list({ fragment = "part0150" }) })) });
+                                                        alternate = null
+                                                      })
+                                                  )
+                                                })
+                                            )
+                                          })
+                                      })
+                                  )
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            )
+          })
+      });
+    part0145 = list("NameReference", { name = "resolveBinding" });
+    part0146 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "inspector" });
+        property = list("NameReference", { name = "catalogue" })
+      });
+    part0147 = list("LiteralValue", { value = "file/inspection/sources/algebra/inspection-document.process.json" });
+    part0148 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "control" });
+        property = list("NameReference", { name = "dataset" })
+      });
+    part0149 = list("NameReference", { name = "inspection" });
+    part0150 = list("Do", {
+        expression = list("Invoke", { optional = false; callee = list("NameReference", { name = "reflect" }); arguments = list() })
+      });
+    part0151 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "event" });
+                property = list("NameReference", { name = "composedPath" })
+              });
+            arguments = list()
+          });
+        property = list("NameReference", { name = "find" })
+      });
+    part0152 = list("Procedure", {
+        generator = false;
+        async = false;
+        block = false;
+        id = null;
+        params = list(list("NameReference", { name = "n" }));
+        body = list("OptionalResult", {
+            expression = list("Invoke", {
+                optional = true;
+                callee = list("Select", {
+                    computed = false;
+                    optional = true;
+                    object = list("NameReference", { name = "n" });
+                    property = list("NameReference", { name = "matches" })
+                  });
+                arguments = list(list("LiteralValue", { value = "[data-inspect-key]" }))
+              })
+          })
+      });
+    part0153 = list("Sequence", {
+        body = list(
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "event" });
+                      property = list("NameReference", { name = "preventDefault" })
+                    });
+                  arguments = list()
+                })
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "event" });
+                      property = list("NameReference", { name = "stopImmediatePropagation" })
+                    });
+                  arguments = list()
+                })
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("NameReference", { name = "select" });
+                  arguments = list(list("NameReference", { name = "node" }))
+                })
+            })
+        )
+      });
+    part0154 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "event" });
+                property = list("NameReference", { name = "composedPath" })
+              });
+            arguments = list()
+          });
+        property = list("NameReference", { name = "find" })
+      });
+    part0155 = list("Procedure", {
+        generator = false;
+        async = false;
+        block = false;
+        id = null;
+        params = list(list("NameReference", { name = "n" }));
+        body = list("OptionalResult", {
+            expression = list("Invoke", {
+                optional = true;
+                callee = list("Select", {
+                    computed = false;
+                    optional = true;
+                    object = list("NameReference", { name = "n" });
+                    property = list("NameReference", { name = "matches" })
+                  });
+                arguments = list(list("LiteralValue", { value = "[data-inspect-key]" }))
+              })
+          })
+      });
+    part0156 = list("Sequence", {
+        body = list(
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "event" });
+                      property = list("NameReference", { name = "preventDefault" })
+                    });
+                  arguments = list()
+                })
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "event" });
+                      property = list("NameReference", { name = "stopImmediatePropagation" })
+                    });
+                  arguments = list()
+                })
+            }),
+          list("Do", {
+              expression = list("Invoke", {
+                  optional = false;
+                  callee = list("NameReference", { name = "select" });
+                  arguments = list(list("NameReference", { name = "node" }))
+                })
+            })
+        )
+      });
+    part0157 = list("NameReference", { name = "preventScroll" });
+    part0158 = list("LiteralValue", { value = true });
+    part0159 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "value" })
+      });
+    part0160 = list("NameReference", { name = "nodes" });
+    part0161 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "value" })
+      });
+    part0162 = list("NameReference", { name = "source" });
+    part0163 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "listing" });
+        property = list("NameReference", { name = "value" })
+      });
+    part0164 = list("NameReference", { name = "language" });
+    part0165 = list("Invoke", {
+        optional = false;
+        callee = list("NameReference", { name = "textHash" });
+        arguments = list(list("NameReference", { name = "text" }))
+      });
+    part0166 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "r" });
+        property = list("NameReference", { name = "value" })
+      });
+    part0167 = list("NameReference", { name = "source" });
+    part0168 = list("LiteralValue", { value = "" });
+    part0169 = list("Invoke", { optional = false; callee = list("NameReference", { name = "tools" }); arguments = list() });
+    part0170 = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "p" }) });
+    part0171 = list("LiteralValue", { value = ">" });
+    part0172 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "r" });
+                property = list("NameReference", { name = "value" })
+              });
+            property = list("NameReference", { name = "limitations" })
+          });
+        property = list("NameReference", { name = "join" })
+      });
+    part0173 = list("LiteralValue", { value = " " });
+    part0174 = list("Calculate", {
+        operator = "+";
+        left = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("LiteralValue", { value = " " });
+                right = list("LiteralValue", { value = "class" })
+              });
+            right = list("LiteralValue", { value = "=" })
+          });
+        right = list("LiteralValue", { value = "\"" })
+      });
+    part0175 = list("Calculate", {
+        operator = "+";
+        left = list("LiteralValue", { value = "" });
+        right = list("LiteralValue", { value = "inspection-source" })
+      })
+  }

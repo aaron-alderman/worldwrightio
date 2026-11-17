@@ -1,0 +1,1628 @@
+{
+  "protocol": "encounter/projection-grammar/1",
+  "rules": {
+    "Module": {
+      "render": "$j.body",
+      "validators": {},
+      "data": [],
+      "links": {
+        "body": {
+          "many": true,
+          "separator": "\n"
+        }
+      },
+      "types": {}
+    },
+    "NameReference": {
+      "render": "$n.name",
+      "validators": {
+        "name": {
+          "pattern": "^(?!(?:eval|Function)$)[A-Za-z_$][A-Za-z0-9_$]*$"
+        }
+      },
+      "data": [
+        "name"
+      ],
+      "links": {},
+      "types": {
+        "name": [
+          "string"
+        ]
+      }
+    },
+    "LiteralValue": {
+      "render": "$q.value",
+      "validators": {},
+      "data": [
+        "value"
+      ],
+      "links": {},
+      "types": {
+        "value": [
+          "string",
+          "null",
+          "boolean",
+          "number"
+        ]
+      }
+    },
+    "Pattern": {
+      "render": [
+        "concat",
+        "new RegExp(",
+        "$q.pattern",
+        ",",
+        "$q.flags",
+        ")"
+      ],
+      "validators": {},
+      "data": [
+        "pattern",
+        "flags"
+      ],
+      "links": {},
+      "types": {
+        "pattern": [
+          "string"
+        ],
+        "flags": [
+          "string"
+        ]
+      }
+    },
+    "BindGroup": {
+      "render": [
+        "concat",
+        "$n.kind",
+        " ",
+        "$j.declarations",
+        [
+          "if",
+          "$n.terminate",
+          ";",
+          ""
+        ]
+      ],
+      "validators": {
+        "kind": {
+          "enum": [
+            "let",
+            "const",
+            "var"
+          ]
+        }
+      },
+      "data": [
+        "kind",
+        "terminate"
+      ],
+      "links": {
+        "declarations": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {
+        "kind": [
+          "string"
+        ],
+        "terminate": [
+          "boolean"
+        ]
+      }
+    },
+    "Binding": {
+      "render": [
+        "concat",
+        "$c.id",
+        [
+          "if",
+          "$c.init",
+          [
+            "concat",
+            " = ",
+            "$c.init"
+          ],
+          ""
+        ]
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "id": {
+          "many": false,
+          "separator": ","
+        },
+        "init": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Invoke": {
+      "render": [
+        "concat",
+        "$c.callee",
+        [
+          "if",
+          "$n.optional",
+          "?.",
+          ""
+        ],
+        "(",
+        "$j.arguments",
+        ")"
+      ],
+      "validators": {},
+      "data": [
+        "optional"
+      ],
+      "links": {
+        "arguments": {
+          "many": true,
+          "separator": ","
+        },
+        "callee": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "optional": [
+          "boolean"
+        ]
+      }
+    },
+    "Select": {
+      "render": [
+        "concat",
+        "$c.object",
+        [
+          "if",
+          "$n.computed",
+          [
+            "concat",
+            [
+              "if",
+              "$n.optional",
+              "?.",
+              ""
+            ],
+            "[",
+            "$c.property",
+            "]"
+          ],
+          [
+            "concat",
+            [
+              "if",
+              "$n.optional",
+              "?.",
+              "."
+            ],
+            "$c.property"
+          ]
+        ]
+      ],
+      "validators": {},
+      "data": [
+        "computed",
+        "optional"
+      ],
+      "links": {
+        "object": {
+          "many": false,
+          "separator": ","
+        },
+        "property": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "computed": [
+          "boolean"
+        ],
+        "optional": [
+          "boolean"
+        ]
+      }
+    },
+    "Procedure": {
+      "render": [
+        "concat",
+        "(",
+        [
+          "if",
+          "$n.async",
+          "async ",
+          ""
+        ],
+        "(",
+        "$j.params",
+        ") => ",
+        [
+          "if",
+          "$n.block",
+          "$c.body",
+          [
+            "concat",
+            "(",
+            "$c.body",
+            ")"
+          ]
+        ],
+        ")"
+      ],
+      "validators": {},
+      "data": [
+        "generator",
+        "async",
+        "block"
+      ],
+      "links": {
+        "body": {
+          "many": false,
+          "separator": "\n"
+        },
+        "id": {
+          "many": false,
+          "separator": ","
+        },
+        "params": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {
+        "generator": [
+          "boolean"
+        ],
+        "async": [
+          "boolean"
+        ],
+        "block": [
+          "boolean"
+        ]
+      }
+    },
+    "Record": {
+      "render": [
+        "concat",
+        "({",
+        "$j.properties",
+        "})"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "properties": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "DestructureRecord": {
+      "render": [
+        "concat",
+        "{",
+        "$j.properties",
+        "}"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "properties": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Field": {
+      "render": [
+        "concat",
+        [
+          "if",
+          "$n.computed",
+          [
+            "concat",
+            "[",
+            "$c.key",
+            "]"
+          ],
+          "$c.key"
+        ],
+        ":",
+        "$c.value"
+      ],
+      "validators": {},
+      "data": [
+        "computed",
+        "kind"
+      ],
+      "links": {
+        "key": {
+          "many": false,
+          "separator": ","
+        },
+        "value": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "computed": [
+          "boolean"
+        ],
+        "kind": [
+          "string"
+        ]
+      }
+    },
+    "Method": {
+      "render": [
+        "concat",
+        [
+          "if",
+          [
+            "eq",
+            "$n.kind",
+            "init"
+          ],
+          "",
+          [
+            "concat",
+            "$n.kind",
+            " "
+          ]
+        ],
+        [
+          "if",
+          "$n.async",
+          "async ",
+          ""
+        ],
+        [
+          "if",
+          "$n.generator",
+          "*",
+          ""
+        ],
+        [
+          "if",
+          "$n.computed",
+          [
+            "concat",
+            "[",
+            "$c.key",
+            "]"
+          ],
+          "$c.key"
+        ],
+        "(",
+        "$j.params",
+        ")",
+        "$c.body"
+      ],
+      "validators": {},
+      "data": [
+        "kind",
+        "computed",
+        "async",
+        "generator"
+      ],
+      "links": {
+        "body": {
+          "many": false,
+          "separator": "\n"
+        },
+        "key": {
+          "many": false,
+          "separator": ","
+        },
+        "params": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {
+        "kind": [
+          "string"
+        ],
+        "computed": [
+          "boolean"
+        ],
+        "async": [
+          "boolean"
+        ],
+        "generator": [
+          "boolean"
+        ]
+      }
+    },
+    "List": {
+      "render": [
+        "concat",
+        "[",
+        "$j.elements",
+        "]"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "elements": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "DestructureList": {
+      "render": [
+        "concat",
+        "[",
+        "$j.elements",
+        "]"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "elements": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Recover": {
+      "render": [
+        "concat",
+        "try ",
+        "$c.block",
+        [
+          "if",
+          "$c.handler",
+          [
+            "concat",
+            " ",
+            "$c.handler"
+          ],
+          ""
+        ],
+        [
+          "if",
+          "$c.finalizer",
+          [
+            "concat",
+            " finally ",
+            "$c.finalizer"
+          ],
+          ""
+        ]
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "block": {
+          "many": false,
+          "separator": ","
+        },
+        "finalizer": {
+          "many": false,
+          "separator": ","
+        },
+        "handler": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Sequence": {
+      "render": [
+        "concat",
+        "{\n",
+        "$j.body",
+        "\n}"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "body": {
+          "many": true,
+          "separator": "\n"
+        }
+      },
+      "types": {}
+    },
+    "Branch": {
+      "render": [
+        "concat",
+        "if (",
+        "$c.test",
+        ") {",
+        "$c.consequent",
+        "}",
+        [
+          "if",
+          "$c.alternate",
+          [
+            "concat",
+            " else {",
+            "$c.alternate",
+            "}"
+          ],
+          ""
+        ]
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "alternate": {
+          "many": false,
+          "separator": ","
+        },
+        "consequent": {
+          "many": false,
+          "separator": ","
+        },
+        "test": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Do": {
+      "render": [
+        "concat",
+        "$c.expression",
+        ";"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "expression": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Set": {
+      "render": [
+        "concat",
+        "(",
+        "$c.left",
+        " ",
+        "$n.operator",
+        " ",
+        "$c.right",
+        ")"
+      ],
+      "validators": {
+        "operator": {
+          "enum": [
+            "=",
+            "+=",
+            "-=",
+            "*=",
+            "/=",
+            "??=",
+            "||=",
+            "&&=",
+            "%="
+          ]
+        }
+      },
+      "data": [
+        "operator"
+      ],
+      "links": {
+        "left": {
+          "many": false,
+          "separator": ","
+        },
+        "right": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "operator": [
+          "string"
+        ]
+      }
+    },
+    "Expand": {
+      "render": [
+        "concat",
+        "...",
+        "$c.argument"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "argument": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Rest": {
+      "render": [
+        "concat",
+        "...",
+        "$c.argument"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "argument": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Construct": {
+      "render": [
+        "concat",
+        "new (",
+        "$c.callee",
+        ")(",
+        "$j.arguments",
+        ")"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "arguments": {
+          "many": true,
+          "separator": ","
+        },
+        "callee": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Catch": {
+      "render": [
+        "concat",
+        "catch",
+        [
+          "if",
+          "$c.param",
+          [
+            "concat",
+            " (",
+            "$c.param",
+            ")"
+          ],
+          ""
+        ],
+        " ",
+        "$c.body"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "body": {
+          "many": false,
+          "separator": "\n"
+        },
+        "param": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Define": {
+      "render": [
+        "concat",
+        [
+          "if",
+          "$n.async",
+          "async ",
+          ""
+        ],
+        "function",
+        [
+          "if",
+          "$n.generator",
+          "*",
+          ""
+        ],
+        " ",
+        "$c.id",
+        "(",
+        "$j.params",
+        ") ",
+        "$c.body"
+      ],
+      "validators": {},
+      "data": [
+        "generator",
+        "async"
+      ],
+      "links": {
+        "body": {
+          "many": false,
+          "separator": "\n"
+        },
+        "id": {
+          "many": false,
+          "separator": ","
+        },
+        "params": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {
+        "generator": [
+          "boolean"
+        ],
+        "async": [
+          "boolean"
+        ]
+      }
+    },
+    "FunctionValue": {
+      "render": [
+        "concat",
+        "(",
+        [
+          "if",
+          "$n.async",
+          "async ",
+          ""
+        ],
+        "function",
+        [
+          "if",
+          "$n.generator",
+          "*",
+          ""
+        ],
+        [
+          "if",
+          "$c.id",
+          [
+            "concat",
+            " ",
+            "$c.id"
+          ],
+          ""
+        ],
+        "(",
+        "$j.params",
+        ") ",
+        "$c.body",
+        ")"
+      ],
+      "validators": {},
+      "types": {},
+      "data": [],
+      "links": {}
+    },
+    "Default": {
+      "render": [
+        "concat",
+        "$c.left",
+        " = ",
+        "$c.right"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "left": {
+          "many": false,
+          "separator": ","
+        },
+        "right": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Yield": {
+      "render": [
+        "concat",
+        "return",
+        [
+          "if",
+          "$c.argument",
+          [
+            "concat",
+            " ",
+            "$c.argument"
+          ],
+          ""
+        ],
+        ";"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "argument": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "ComposeText": {
+      "render": [
+        "concat",
+        "(\"\"",
+        [
+          "if",
+          "$j.parts",
+          [
+            "concat",
+            " + ",
+            "$j.parts"
+          ],
+          ""
+        ],
+        ")"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "parts": {
+          "many": true,
+          "separator": " + "
+        }
+      },
+      "types": {}
+    },
+    "Calculate": {
+      "render": [
+        "concat",
+        "(",
+        "$c.left",
+        " ",
+        "$n.operator",
+        " ",
+        "$c.right",
+        ")"
+      ],
+      "validators": {
+        "operator": {
+          "enum": [
+            "===",
+            "!==",
+            "==",
+            "!=",
+            "+",
+            "-",
+            "*",
+            "/",
+            "%",
+            "**",
+            "<",
+            "<=",
+            ">",
+            ">=",
+            "in",
+            "instanceof",
+            "|",
+            "&",
+            "^",
+            "<<",
+            ">>",
+            ">>>",
+            "&&",
+            "||",
+            "??"
+          ]
+        }
+      },
+      "data": [
+        "operator"
+      ],
+      "links": {
+        "left": {
+          "many": false,
+          "separator": ","
+        },
+        "right": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "operator": [
+          "string"
+        ]
+      }
+    },
+    "ShortCircuit": {
+      "render": [
+        "concat",
+        "(",
+        "$c.left",
+        " ",
+        "$n.operator",
+        " ",
+        "$c.right",
+        ")"
+      ],
+      "validators": {
+        "operator": {
+          "enum": [
+            "===",
+            "!==",
+            "==",
+            "!=",
+            "+",
+            "-",
+            "*",
+            "/",
+            "%",
+            "**",
+            "<",
+            "<=",
+            ">",
+            ">=",
+            "in",
+            "instanceof",
+            "|",
+            "&",
+            "^",
+            "<<",
+            ">>",
+            ">>>",
+            "&&",
+            "||",
+            "??"
+          ]
+        }
+      },
+      "data": [
+        "operator"
+      ],
+      "links": {
+        "left": {
+          "many": false,
+          "separator": ","
+        },
+        "right": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "operator": [
+          "string"
+        ]
+      }
+    },
+    "Choose": {
+      "render": [
+        "concat",
+        "(",
+        "$c.test",
+        " ? ",
+        "$c.consequent",
+        " : ",
+        "$c.alternate",
+        ")"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "alternate": {
+          "many": false,
+          "separator": ","
+        },
+        "consequent": {
+          "many": false,
+          "separator": ","
+        },
+        "test": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Unary": {
+      "render": [
+        "concat",
+        "(",
+        "$n.operator",
+        " ",
+        "$c.argument",
+        ")"
+      ],
+      "validators": {
+        "operator": {
+          "enum": [
+            "!",
+            "~",
+            "-",
+            "+",
+            "typeof",
+            "void",
+            "delete"
+          ]
+        }
+      },
+      "data": [
+        "operator",
+        "prefix"
+      ],
+      "links": {
+        "argument": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "operator": [
+          "string"
+        ],
+        "prefix": [
+          "boolean"
+        ]
+      }
+    },
+    "OptionalResult": {
+      "render": [
+        "concat",
+        "(",
+        "$c.expression",
+        ")"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "expression": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Await": {
+      "render": [
+        "concat",
+        "(await ",
+        "$c.argument",
+        ")"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "argument": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Publish": {
+      "render": [
+        "if",
+        "$c.declaration",
+        [
+          "concat",
+          "export ",
+          "$c.declaration"
+        ],
+        [
+          "concat",
+          "export {",
+          "$j.specifiers",
+          "}",
+          [
+            "if",
+            "$c.source",
+            [
+              "concat",
+              " from ",
+              "$c.source"
+            ],
+            ""
+          ],
+          ";"
+        ]
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": " + "
+        },
+        "declaration": {
+          "many": false,
+          "separator": ","
+        },
+        "source": {
+          "many": false,
+          "separator": ","
+        },
+        "specifiers": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Each": {
+      "render": [
+        "concat",
+        "for ",
+        [
+          "if",
+          "$n.await",
+          "await ",
+          ""
+        ],
+        "(",
+        "$c.left",
+        " of ",
+        "$c.right",
+        ") ",
+        "$c.body"
+      ],
+      "validators": {},
+      "data": [
+        "await"
+      ],
+      "links": {
+        "body": {
+          "many": false,
+          "separator": "\n"
+        },
+        "left": {
+          "many": false,
+          "separator": ","
+        },
+        "right": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "await": [
+          "boolean"
+        ]
+      }
+    },
+    "Refuse": {
+      "render": [
+        "concat",
+        "throw ",
+        "$c.argument",
+        ";"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "argument": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Load": {
+      "render": [
+        "concat",
+        "import(",
+        "$c.source",
+        ")"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "source": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "ModuleContext": {
+      "render": [
+        "concat",
+        "$c.meta",
+        ".",
+        "$c.property"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "meta": {
+          "many": false,
+          "separator": ","
+        },
+        "property": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Update": {
+      "render": [
+        "concat",
+        "(",
+        [
+          "if",
+          "$n.prefix",
+          "$n.operator",
+          ""
+        ],
+        "$c.argument",
+        [
+          "if",
+          "$n.prefix",
+          "",
+          "$n.operator"
+        ],
+        ")"
+      ],
+      "validators": {
+        "operator": {
+          "enum": [
+            "++",
+            "--"
+          ]
+        }
+      },
+      "data": [
+        "operator",
+        "prefix"
+      ],
+      "links": {
+        "argument": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "operator": [
+          "string"
+        ],
+        "prefix": [
+          "boolean"
+        ]
+      }
+    },
+    "RepeatWhile": {
+      "render": [
+        "concat",
+        "while (",
+        "$c.test",
+        ") ",
+        "$c.body"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "body": {
+          "many": false,
+          "separator": "\n"
+        },
+        "test": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Continue": {
+      "render": "continue;",
+      "validators": {},
+      "data": [],
+      "links": {
+        "label": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "ExportBinding": {
+      "render": [
+        "concat",
+        "$c.local",
+        " as ",
+        "$c.exported"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "exported": {
+          "many": false,
+          "separator": ","
+        },
+        "local": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "ImportBinding": {
+      "render": [
+        "concat",
+        "$c.imported",
+        " as ",
+        "$c.local"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "imported": {
+          "many": false,
+          "separator": ","
+        },
+        "local": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "Use": {
+      "render": [
+        "concat",
+        "import ",
+        [
+          "if",
+          "$j.specifiers",
+          [
+            "concat",
+            "{",
+            "$j.specifiers",
+            "} from "
+          ],
+          ""
+        ],
+        "$c.source",
+        ";"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": " + "
+        },
+        "source": {
+          "many": false,
+          "separator": ","
+        },
+        "specifiers": {
+          "many": true,
+          "separator": ","
+        }
+      },
+      "types": {}
+    },
+    "MarkupText": {
+      "render": "$q.value",
+      "validators": {},
+      "data": [
+        "value"
+      ],
+      "links": {},
+      "types": {
+        "value": [
+          "string"
+        ]
+      }
+    },
+    "MarkupOpen": {
+      "render": [
+        "concat",
+        "(\"<\" + ",
+        "$q.tag",
+        [
+          "if",
+          "$j.attributes",
+          [
+            "concat",
+            " + ",
+            "$j.attributes"
+          ],
+          ""
+        ],
+        " + ",
+        [
+          "if",
+          "$n.closed",
+          "\"/>\"",
+          "\">\""
+        ],
+        ")"
+      ],
+      "validators": {
+        "tag": {
+          "pattern": "^[A-Za-z][A-Za-z0-9:_-]*$"
+        }
+      },
+      "data": [
+        "tag",
+        "closed"
+      ],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": " + "
+        }
+      },
+      "types": {
+        "tag": [
+          "string"
+        ],
+        "closed": [
+          "boolean"
+        ]
+      }
+    },
+    "MarkupClose": {
+      "render": [
+        "concat",
+        "(\"</\" + ",
+        "$q.tag",
+        " + \">\")"
+      ],
+      "validators": {
+        "tag": {
+          "pattern": "^[A-Za-z][A-Za-z0-9:_-]*$"
+        }
+      },
+      "data": [
+        "tag"
+      ],
+      "links": {},
+      "types": {
+        "tag": [
+          "string"
+        ]
+      }
+    },
+    "MarkupAttribute": {
+      "render": [
+        "concat",
+        "(\" \" + ",
+        "$q.name",
+        [
+          "if",
+          "$c.value",
+          [
+            "concat",
+            " + \"=\" + ",
+            "$q.quote",
+            " + ",
+            "$c.value",
+            " + ",
+            "$q.quote"
+          ],
+          ""
+        ],
+        ")"
+      ],
+      "validators": {
+        "name": {
+          "pattern": "^[^\\s<>=\"'/]+$"
+        }
+      },
+      "data": [
+        "name",
+        "quote"
+      ],
+      "links": {
+        "value": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "name": [
+          "string"
+        ],
+        "quote": [
+          "string"
+        ]
+      }
+    },
+    "InlineStyle": {
+      "render": [
+        "concat",
+        "(",
+        "$j.declarations",
+        ")"
+      ],
+      "data": [],
+      "links": {
+        "declarations": {
+          "many": true,
+          "separator": " + "
+        }
+      },
+      "types": {},
+      "validators": {}
+    },
+    "InlineDeclaration": {
+      "render": [
+        "concat",
+        "(",
+        "$q.property",
+        " + \":\" + ",
+        "$c.value",
+        " + \";\")"
+      ],
+      "data": [
+        "property"
+      ],
+      "links": {
+        "value": {
+          "many": false,
+          "separator": ","
+        }
+      },
+      "types": {
+        "property": [
+          "string"
+        ]
+      },
+      "validators": {
+        "property": {
+          "pattern": "^(?:--)?[A-Za-z_-][A-Za-z0-9_-]*$"
+        }
+      }
+    },
+    "RepeatFor": {
+      "render": [
+        "concat",
+        "for (",
+        "$c.init",
+        ";",
+        "$c.test",
+        ";",
+        "$c.update",
+        ") ",
+        "$c.body"
+      ],
+      "validators": {},
+      "data": [],
+      "links": {
+        "init": {
+          "many": false,
+          "separator": ","
+        },
+        "test": {
+          "many": false,
+          "separator": ","
+        },
+        "update": {
+          "many": false,
+          "separator": ","
+        },
+        "body": {
+          "many": false,
+          "separator": "\n"
+        }
+      },
+      "types": {}
+    }
+  },
+  "sourceProtocol": "encounter/program-projection/1"
+}

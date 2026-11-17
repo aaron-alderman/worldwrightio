@@ -1,0 +1,135 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "presenter" });
+            property = list("NameReference", { name = "present" })
+          });
+        arguments = list(
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "text" });
+                    value = list("NameReference", { name = "text" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "file" });
+                    value = list("Calculate", {
+                        operator = "+";
+                        left = list("LiteralValue", { value = "live/" });
+                        right = list("NameReference", { name = "language" })
+                      })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "language" });
+                    value = list("NameReference", { name = "language" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "expectedHash" });
+                    value = list("NameReference", { name = "hash" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "theme" });
+                    value = list("ShortCircuit", {
+                        operator = "??";
+                        left = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("NameReference", { name = "element" });
+                                property = list("NameReference", { name = "dataset" })
+                              });
+                            property = list("NameReference", { name = "presentationTheme" })
+                          });
+                        right = list("LiteralValue", { value = "light" })
+                      })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "lineNumbers" });
+                    value = list("ShortCircuit", {
+                        operator = "??";
+                        left = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("NameReference", { name = "options" });
+                            property = list("NameReference", { name = "lineNumbers" })
+                          });
+                        right = list("LiteralValue", { value = false })
+                      })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "selectedLine" });
+                    value = list("ShortCircuit", {
+                        operator = "??";
+                        left = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("NameReference", { name = "options" });
+                            property = list("NameReference", { name = "selectedLine" })
+                          });
+                        right = list("LiteralValue", { value = null })
+                      })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "origin" });
+                    value = list("Record", {
+                        properties = list(
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("NameReference", { name = "kind" });
+                              value = list("LiteralValue", { value = "live-session-projection" })
+                            })
+                        )
+                      })
+                  })
+              )
+            })
+        )
+      });
+    part0002 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "tickets" });
+        property = list("NameReference", { name = "get" })
+      });
+    part0003 = list("NameReference", { name = "element" });
+    part0004 = list("NameReference", { name = "mountProjection" });
+    part0005 = list("NameReference", { name = "element" });
+    part0006 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "result" });
+            property = list("NameReference", { name = "value" })
+          });
+        property = list("NameReference", { name = "tree" })
+      });
+    part0007 = list("NameReference", { name = "error" });
+    part0008 = list("NameReference", { name = "message" })
+  }

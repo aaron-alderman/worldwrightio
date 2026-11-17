@@ -1,0 +1,129 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "workshop/listing.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "workshop/listing.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list("listing.program-parts/group-01.encounter");
+    tree = list("Module", {
+        body = list(
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "diff" });
+              params = list(list("NameReference", { name = "a" }), list("NameReference", { name = "b" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("BindGroup", {
+                        kind = "const";
+                        terminate = true;
+                        declarations = list(
+                          list("Binding", {
+                              id = list("NameReference", { name = "aa" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("NameReference", { name = "a" });
+                                      property = list("NameReference", { name = "split" })
+                                    });
+                                  arguments = list(list("Pattern", { pattern = "\\r?\\n"; flags = "" }))
+                                })
+                            }),
+                          list("Binding", {
+                              id = list("NameReference", { name = "bb" });
+                              init = list("Invoke", {
+                                  optional = false;
+                                  callee = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("NameReference", { name = "b" });
+                                      property = list("NameReference", { name = "split" })
+                                    });
+                                  arguments = list(list("Pattern", { pattern = "\\r?\\n"; flags = "" }))
+                                })
+                            })
+                        )
+                      }),
+                    list("Yield", {
+                        argument = list("ShortCircuit", {
+                            operator = "||";
+                            left = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Invoke", {
+                                        optional = false;
+                                        callee = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "aa" });
+                                            property = list("NameReference", { name = "flatMap" })
+                                          });
+                                        arguments = list(
+                                          list("Procedure", {
+                                              generator = false;
+                                              async = false;
+                                              block = false;
+                                              id = null;
+                                              params = list(list("NameReference", { name = "line" }), list("NameReference", { name = "i" }));
+                                              body = list("Choose", {
+                                                  test = list("Calculate", {
+                                                      operator = "===";
+                                                      left = list("NameReference", { name = "line" });
+                                                      right = list("Select", {
+                                                          computed = true;
+                                                          optional = false;
+                                                          object = list("NameReference", { name = "bb" });
+                                                          property = list("NameReference", { name = "i" })
+                                                        })
+                                                    });
+                                                  consequent = list("List", { elements = list() });
+                                                  alternate = list("List", {
+                                                      elements = list(
+                                                        list("ComposeText", {
+                                                            parts = list(
+                                                              list("LiteralValue", { value = "− " }),
+                                                              list("NameReference", { name = "line" }),
+                                                              list("LiteralValue", { value = "" })
+                                                            )
+                                                          }),
+                                                        list("ComposeText", {
+                                                            parts = list(
+                                                              list("LiteralValue", { value = "+ " }),
+                                                              list("ShortCircuit", { operator = "??"; left = { fragment = "part0001" }; right = { fragment = "part0002" } }),
+                                                              list("LiteralValue", { value = "" })
+                                                            )
+                                                          })
+                                                      )
+                                                    })
+                                                })
+                                            })
+                                        )
+                                      });
+                                    property = list("NameReference", { name = "join" })
+                                  });
+                                arguments = list(list("LiteralValue", { value = "\n" }))
+                              });
+                            right = list("LiteralValue", { value = "No change." })
+                          })
+                      })
+                  )
+                })
+            }),
+          list("Publish", {
+              declaration = null;
+              specifiers = list(
+                list("ExportBinding", { local = list("NameReference", { name = "diff" }); exported = list("NameReference", { name = "diff" }) })
+              );
+              source = null;
+              attributes = list()
+            })
+        )
+      })
+  }

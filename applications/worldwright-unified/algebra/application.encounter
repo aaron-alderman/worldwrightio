@@ -1,0 +1,43 @@
+process-module "temple/surface-process-module/1"
+
+process application.compose:
+  assert eq($definition.protocol, "worldwright/application/1")
+    otherwise "APP-T001: Unsupported application definition."
+  assert includes($sceneIds, $definition.hostScene)
+    otherwise "APP-T002: The Encounter host must be an existing journey identity."
+  port record.fromEntries { entries = fold($definition.routes, "route", "entries", list(), append($entries, list(list($route.hash, { scene = $route.scene; view = $route.view; focus = at($route, "focus") })))) } → routes
+  each $definition.routes as route:
+    assert includes($sceneIds, $route.scene)
+      otherwise "APP-T003: A view route must preserve a real scene identity."
+    port record.get { record = $definition.views; key = $route.view } → view
+    assert if(eq($view, null), false, true)
+      otherwise "APP-T004: A route references a missing view."
+  let navigationTree = fold($definition.navigation, "item", "tree", list(), append($tree, list({ tag = if(eq($item.kind, "route"), "a", "button"); attrs = if(eq($item.kind, "route"), { href = at($item, "href"); "data-inspect-key" = "application" }, { "data-action" = at($item, "action"); "data-inspect-key" = "application" }); children = list($item.label) })))
+  let result = { definition = $definition; routes = $routes; sceneIds = $sceneIds; navigationTree = $navigationTree; model = { entry = "application.activate"; queries = $model.queries }; interfaces = { resolve = "application.resolve"; mount = "application.activate"; leave = "application.leave" } }
+
+process application.resolve:
+  port record.get { record = $data.routes; key = $eventInput.hash } → route
+  let result = if(eq($route, null), { scene = if(includes($data.sceneIds, $eventInput.hash), $eventInput.hash, "home"); view = null }, $route)
+
+process application.activate:
+  call application.leave
+  port record.get { record = $data.definition.views; key = $eventInput.view } → view
+  assert if(eq($view, null), false, true)
+    otherwise "APP-V001: Select a declared application view."
+  port programme.service { definition = $data.definition.session } → service
+  port view.open { host = $eventInput.host; definition = $view; service = $service; chrome = { tag = "nav"; attrs = { "aria-label" = "Encounter journey"; class = "encounter-journey" }; children = fold($data.definition.journey, "step", "children", list(), append($children, list({ tag = "a"; attrs = { href = $step.href; "data-application-route" = ""; "data-inspect-key" = "application"; title = $step.reason; "aria-current" = if(eq($step.view, $eventInput.view), "page", "false") }; children = list($step.label) }))) } } → scope
+  each $view.modules as module:
+    port programme.mount { scope = $scope; definition = $module } → _
+  port view.focus { scope = $scope; identity = at($eventInput, "focus") } → _
+  let result = true
+
+process application.leave:
+  port view.close {} → _
+  let result = true
+
+process application.view:
+  call application.selection
+  let result = fold($result, "ref", "html", "", concat($html, at($compiled, $ref)))
+
+process application.selection:
+  let result = fold($parts, "part", "ids", list(), append($ids, fold($document.nodes, "node", "selected", list(), append($selected, if(eq($part.select, "identity"), if(eq(at(at($node, "meaning"), "identity"), $part.value), list($node.id), list()), if(eq($node.op, "Main"), fold($node.links.children, "child", "children", list(), if(includes($part.exclude, at(at($document.nodes, $child), "op")), $children, append($children, list($child)))), list()))))))

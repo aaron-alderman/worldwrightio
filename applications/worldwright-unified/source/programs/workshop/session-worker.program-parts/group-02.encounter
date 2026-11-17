@@ -1,0 +1,72 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    readFixture = list("Define", {
+      async = false; generator = false; id = list("NameReference", { name = "readFixture" }); params = list();
+      body = list("Sequence", { body = list(
+        list("Branch", {
+          test = list("Calculate", {
+            operator = "!==";
+            left = list("Select", { computed = false; optional = false; object = list("NameReference", { name = "location" }); property = list("NameReference", { name = "search" }) });
+            right = list("LiteralValue", { value = "?transport=life-board" })
+          });
+          consequent = list("Yield", { argument = list("Invoke", {
+            optional = false; callee = list("NameReference", { name = "fetch" }); arguments = list(list("LiteralValue", { value = "./fixture.json" }))
+          }) });
+          alternate = null
+        }),
+        list("Yield", { argument = list("Construct", {
+          callee = list("NameReference", { name = "Promise" });
+          arguments = list(list("Procedure", {
+            async = false; generator = false; block = true; id = null;
+            params = list(list("NameReference", { name = "resolve" }), list("NameReference", { name = "reject" }));
+            body = list("Sequence", { body = list(
+              list("BindGroup", { kind = "const"; terminate = true; declarations = list(list("Binding", {
+                id = list("NameReference", { name = "socket" });
+                init = list("Construct", { callee = list("NameReference", { name = "WebSocket" }); arguments = list(
+                  list("Calculate", { operator = "+";
+                    left = list("Calculate", { operator = "+";
+                      left = list("Choose", {
+                        test = list("Calculate", { operator = "===";
+                          left = list("Select", { computed = false; optional = false; object = list("NameReference", { name = "location" }); property = list("NameReference", { name = "protocol" }) });
+                          right = list("LiteralValue", { value = "https:" })
+                        });
+                        consequent = list("LiteralValue", { value = "wss://" }); alternate = list("LiteralValue", { value = "ws://" })
+                      });
+                      right = list("Select", { computed = false; optional = false; object = list("NameReference", { name = "location" }); property = list("NameReference", { name = "host" }) })
+                    });
+                    right = list("LiteralValue", { value = "/_encounter/browser" })
+                  })
+                ) })
+              })) }),
+              list("Do", { expression = list("Set", {
+                operator = "=";
+                left = list("Select", { computed = false; optional = false; object = list("NameReference", { name = "socket" }); property = list("NameReference", { name = "onmessage" }) });
+                right = list("Procedure", {
+                  async = false; generator = false; block = false; id = null; params = list(list("NameReference", { name = "event" }));
+                  body = list("Invoke", { optional = false; callee = list("NameReference", { name = "resolve" }); arguments = list(
+                    list("Construct", { callee = list("NameReference", { name = "Response" }); arguments = list(
+                      list("Select", { computed = false; optional = false; object = list("NameReference", { name = "event" }); property = list("NameReference", { name = "data" }) })
+                    ) })
+                  ) })
+                })
+              }) }),
+              list("Do", { expression = list("Set", {
+                operator = "=";
+                left = list("Select", { computed = false; optional = false; object = list("NameReference", { name = "socket" }); property = list("NameReference", { name = "onclose" }) });
+                right = list("Procedure", {
+                  async = false; generator = false; block = false; id = null; params = list();
+                  body = list("Invoke", { optional = false; callee = list("NameReference", { name = "reject" }); arguments = list(
+                    list("Construct", { callee = list("NameReference", { name = "Error" }); arguments = list(
+                      list("LiteralValue", { value = "The pinned workshop fixture connection closed. Reload to try again." })
+                    ) })
+                  ) })
+                })
+              }) })
+            ) })
+          }))
+        }) })
+      ) })
+    })
+  }

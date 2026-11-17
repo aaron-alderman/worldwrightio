@@ -1,0 +1,12 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("Select", {
+        computed = true;
+        optional = false;
+        object = list("NameReference", { name = "bb" });
+        property = list("NameReference", { name = "i" })
+      });
+    part0002 = list("LiteralValue", { value = "" })
+  }

@@ -1,0 +1,678 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "projection.reference": [
+      {
+        "let": "result",
+        "value": ""
+      },
+      {
+        "when": [
+          "if",
+          [
+            "eq",
+            "$ref",
+            null
+          ],
+          false,
+          true
+        ],
+        "then": [
+          {
+            "port": "value.describe",
+            "args": {
+              "value": "$ref"
+            },
+            "into": "refType"
+          },
+          {
+            "assert": [
+              "eq",
+              "$refType.type",
+              "number"
+            ],
+            "message": "PROJECT-R001: Child references must be numeric identities. Correct the owning programme/composition node."
+          },
+          {
+            "assert": [
+              "includes",
+              [
+                "range",
+                [
+                  "count",
+                  "$compiled"
+                ]
+              ],
+              [
+                "add",
+                "$ref",
+                1
+              ]
+            ],
+            "message": "PROJECT-R002: Missing, forward or cyclic child reference. Put dependencies before their use in the owning definition."
+          },
+          {
+            "let": "result",
+            "value": [
+              "at",
+              "$compiled",
+              "$ref"
+            ]
+          }
+        ]
+      }
+    ],
+    "projection.escape": [
+      {
+        "let": "escaped",
+        "value": "$text"
+      },
+      {
+        "port": "text.replaceAll",
+        "args": {
+          "value": "$escaped",
+          "search": "&",
+          "replacement": "&amp;"
+        },
+        "into": "escaped"
+      },
+      {
+        "port": "text.replaceAll",
+        "args": {
+          "value": "$escaped",
+          "search": "<",
+          "replacement": "&lt;"
+        },
+        "into": "escaped"
+      },
+      {
+        "port": "text.replaceAll",
+        "args": {
+          "value": "$escaped",
+          "search": ">",
+          "replacement": "&gt;"
+        },
+        "into": "escaped"
+      },
+      {
+        "port": "text.replaceAll",
+        "args": {
+          "value": "$escaped",
+          "search": "\"",
+          "replacement": "&quot;"
+        },
+        "into": "escaped"
+      }
+    ],
+    "projection.node": [
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$node"
+        },
+        "into": "nodeFields"
+      },
+      {
+        "each": "$nodeFields",
+        "as": "field",
+        "steps": [
+          {
+            "assert": [
+              "includes",
+              [
+                "list",
+                "id",
+                "op",
+                "data",
+                "links",
+                "meaning"
+              ],
+              [
+                "at",
+                "$field",
+                0
+              ]
+            ],
+            "message": "PROJECT-T011: Unknown node field. Raw source snippets and hidden passthrough fields are forbidden."
+          }
+        ]
+      },
+      {
+        "port": "record.get",
+        "args": {
+          "record": "$grammar.rules",
+          "key": "$node.op"
+        },
+        "into": "rule"
+      },
+      {
+        "assert": [
+          "if",
+          [
+            "eq",
+            "$rule",
+            null
+          ],
+          false,
+          true
+        ],
+        "message": "PROJECT-T001: Unknown operation. Add an explicit typed projection rule; raw HTML/CSS/JS escape hatches are not permitted."
+      },
+      {
+        "assert": [
+          "eq",
+          "$node.id",
+          [
+            "count",
+            "$compiled"
+          ]
+        ],
+        "message": "PROJECT-R003: Node identity must follow dependency order."
+      },
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$node.data"
+        },
+        "into": "dataEntries"
+      },
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$node.links"
+        },
+        "into": "linkEntries"
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            "$dataEntries"
+          ],
+          [
+            "count",
+            "$rule.data"
+          ]
+        ],
+        "message": "PROJECT-T002: Missing or extra data field. Correct the owner or explicitly revise its grammar."
+      },
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$rule.links"
+        },
+        "into": "schemaLinks"
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            "$linkEntries"
+          ],
+          [
+            "count",
+            "$schemaLinks"
+          ]
+        ],
+        "message": "PROJECT-T003: Missing or extra dependency slot."
+      },
+      {
+        "fold": "$dataEntries",
+        "as": "pair",
+        "accumulator": "quoted",
+        "initial": {},
+        "steps": [
+          {
+            "let": "key",
+            "value": [
+              "at",
+              "$pair",
+              0
+            ]
+          },
+          {
+            "let": "value",
+            "value": [
+              "at",
+              "$pair",
+              1
+            ]
+          },
+          {
+            "assert": [
+              "includes",
+              "$rule.data",
+              "$key"
+            ],
+            "message": "PROJECT-T004: Undeclared value field."
+          },
+          {
+            "port": "value.describe",
+            "args": {
+              "value": "$value"
+            },
+            "into": "description"
+          },
+          {
+            "let": "type",
+            "value": [
+              "if",
+              "$description.null",
+              "null",
+              "$description.type"
+            ]
+          },
+          {
+            "port": "record.get",
+            "args": {
+              "record": "$rule.types",
+              "key": "$key"
+            },
+            "into": "allowedTypes"
+          },
+          {
+            "assert": [
+              "includes",
+              "$allowedTypes",
+              "$type"
+            ],
+            "message": "PROJECT-T005: Value has the wrong declared type."
+          },
+          {
+            "port": "record.get",
+            "args": {
+              "record": "$rule.validators",
+              "key": "$key"
+            },
+            "into": "validator"
+          },
+          {
+            "when": [
+              "if",
+              [
+                "eq",
+                "$validator",
+                null
+              ],
+              false,
+              true
+            ],
+            "then": [
+              {
+                "port": "record.get",
+                "args": {
+                  "record": "$validator",
+                  "key": "enum"
+                },
+                "into": "enum"
+              },
+              {
+                "port": "record.get",
+                "args": {
+                  "record": "$validator",
+                  "key": "pattern"
+                },
+                "into": "pattern"
+              },
+              {
+                "when": [
+                  "if",
+                  [
+                    "eq",
+                    "$enum",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "then": [
+                  {
+                    "assert": [
+                      "includes",
+                      "$enum",
+                      "$value"
+                    ],
+                    "message": "PROJECT-T006: Operator/value is outside its declared vocabulary."
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "if",
+                  [
+                    "eq",
+                    "$pattern",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "then": [
+                  {
+                    "port": "text.matches",
+                    "args": {
+                      "value": "$value",
+                      "pattern": "$pattern"
+                    },
+                    "into": "matches"
+                  },
+                  {
+                    "assert": "$matches",
+                    "message": "PROJECT-T007: Invalid identifier, field name or selector atom. Correct its source; do not inject output syntax."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$value"
+            },
+            "into": "quote"
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$quoted",
+              "key": "$key",
+              "value": "$quote"
+            },
+            "into": "nextQuoted"
+          }
+        ],
+        "yield": "$nextQuoted",
+        "into": "q"
+      },
+      {
+        "fold": "$dataEntries",
+        "as": "pair",
+        "accumulator": "escapedValues",
+        "initial": {},
+        "steps": [
+          {
+            "let": "key",
+            "value": [
+              "at",
+              "$pair",
+              0
+            ]
+          },
+          {
+            "let": "value",
+            "value": [
+              "at",
+              "$pair",
+              1
+            ]
+          },
+          {
+            "port": "value.describe",
+            "args": {
+              "value": "$value"
+            },
+            "into": "description"
+          },
+          {
+            "let": "text",
+            "value": [
+              "if",
+              [
+                "eq",
+                "$description.type",
+                "string"
+              ],
+              "$value",
+              ""
+            ]
+          },
+          {
+            "call": "projection.escape"
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$escapedValues",
+              "key": "$key",
+              "value": "$escaped"
+            },
+            "into": "nextEscaped"
+          }
+        ],
+        "yield": "$nextEscaped",
+        "into": "h"
+      },
+      {
+        "fold": "$linkEntries",
+        "as": "pair",
+        "accumulator": "children",
+        "initial": {},
+        "steps": [
+          {
+            "let": "key",
+            "value": [
+              "at",
+              "$pair",
+              0
+            ]
+          },
+          {
+            "let": "refs",
+            "value": [
+              "at",
+              "$pair",
+              1
+            ]
+          },
+          {
+            "port": "record.get",
+            "args": {
+              "record": "$rule.links",
+              "key": "$key"
+            },
+            "into": "slot"
+          },
+          {
+            "assert": [
+              "if",
+              [
+                "eq",
+                "$slot",
+                null
+              ],
+              false,
+              true
+            ],
+            "message": "PROJECT-T008: Undeclared dependency slot."
+          },
+          {
+            "port": "value.describe",
+            "args": {
+              "value": "$refs"
+            },
+            "into": "description"
+          },
+          {
+            "assert": [
+              "eq",
+              "$description.array",
+              "$slot.many"
+            ],
+            "message": "PROJECT-T009: Singular/ordered-many cardinality mismatch."
+          },
+          {
+            "when": "$slot.many",
+            "then": [
+              {
+                "fold": "$refs",
+                "as": "ref",
+                "accumulator": "items",
+                "initial": [],
+                "steps": [
+                  {
+                    "call": "projection.reference"
+                  }
+                ],
+                "yield": [
+                  "append",
+                  "$items",
+                  [
+                    "list",
+                    "$result"
+                  ]
+                ],
+                "into": "resolved"
+              }
+            ]
+          },
+          {
+            "when": [
+              "if",
+              "$slot.many",
+              false,
+              true
+            ],
+            "then": [
+              {
+                "let": "ref",
+                "value": "$refs"
+              },
+              {
+                "call": "projection.reference"
+              },
+              {
+                "let": "resolved",
+                "value": "$result"
+              }
+            ]
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$children",
+              "key": "$key",
+              "value": "$resolved"
+            },
+            "into": "nextChildren"
+          }
+        ],
+        "yield": "$nextChildren",
+        "into": "c"
+      },
+      {
+        "fold": "$schemaLinks",
+        "as": "pair",
+        "accumulator": "joined",
+        "initial": {},
+        "steps": [
+          {
+            "let": "key",
+            "value": [
+              "at",
+              "$pair",
+              0
+            ]
+          },
+          {
+            "let": "slot",
+            "value": [
+              "at",
+              "$pair",
+              1
+            ]
+          },
+          {
+            "let": "joinedValue",
+            "value": ""
+          },
+          {
+            "when": "$slot.many",
+            "then": [
+              {
+                "port": "record.get",
+                "args": {
+                  "record": "$c",
+                  "key": "$key"
+                },
+                "into": "items"
+              },
+              {
+                "port": "text.join",
+                "args": {
+                  "values": "$items",
+                  "separator": "$slot.separator"
+                },
+                "into": "joinedValue"
+              }
+            ]
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$joined",
+              "key": "$key",
+              "value": "$joinedValue"
+            },
+            "into": "nextJoined"
+          }
+        ],
+        "yield": "$nextJoined",
+        "into": "j"
+      },
+      {
+        "port": "kernel.evaluate",
+        "args": {
+          "expression": "$rule.render",
+          "bindings": {
+            "n": "$node.data",
+            "q": "$q",
+            "h": "$h",
+            "c": "$c",
+            "j": "$j",
+            "slots": "$slots"
+          }
+        },
+        "into": "result"
+      }
+    ],
+    "projection.document": [
+      {
+        "assert": [
+          "eq",
+          "$document.protocol",
+          "$grammar.sourceProtocol"
+        ],
+        "message": "PROJECT-T010: Document and projection grammar profiles do not match."
+      },
+      {
+        "fold": "$document.nodes",
+        "as": "node",
+        "accumulator": "compiled",
+        "initial": [],
+        "steps": [
+          {
+            "call": "projection.node"
+          }
+        ],
+        "yield": [
+          "append",
+          "$compiled",
+          [
+            "list",
+            "$result"
+          ]
+        ],
+        "into": "compiled"
+      },
+      {
+        "let": "ref",
+        "value": "$document.entry"
+      },
+      {
+        "call": "projection.reference"
+      }
+    ]
+  }
+}

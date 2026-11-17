@@ -1,0 +1,709 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "geography.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "geography.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list(
+      "geography.program-parts/group-01.encounter",
+      "geography.program-parts/group-02.encounter",
+      "geography.program-parts/group-03.encounter"
+    );
+    tree = list("Module", {
+        body = list(
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "plainDescriptions" });
+                    init = list("Record", {
+                        properties = list(
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "possibility" });
+                              value = list("LiteralValue", { value = "What can fit the rules? And which allowed places can you actually reach?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "memory" });
+                              value = list("LiteralValue", { value = "What does a record keep, and what does it leave out?" })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "mind" });
+                              value = list("LiteralValue", { value = "Attention, choice and the steps between wanting and acting." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "material" });
+                              value = list("LiteralValue", { value = "Stones, traces and the evidence needed to understand their history." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "pattern" });
+                              value = list("LiteralValue", { value = "Counting patterns and repairing a simple message." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "laboratory" });
+                              value = list("LiteralValue", { value = "Ways to tell competing explanations apart, and the cost of a measurement." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "cosmos" });
+                              value = list("LiteralValue", { value = "Unfinished questions about particles, gravity and the wider universe." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "shared" });
+                              value = list("LiteralValue", { value = "Living together, weighing choices and seeing what a model assumes." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "meaning" });
+                              value = list("LiteralValue", { value = "Optional religious readings about absence, hope and how to read a text." })
+                            }),
+                          list("Field", {
+                              computed = false;
+                              kind = "init";
+                              key = list("LiteralValue", { value = "commons" });
+                              value = list("LiteralValue", { value = "Helping others check work, learn from mistakes and ask the next question." })
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", { imported = list("NameReference", { name = "regions" }); local = list("NameReference", { name = "regions" }) }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "regionFor" });
+                    local = list("NameReference", { name = "regionFor" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "regionKeywords" });
+                    local = list("NameReference", { name = "regionKeywords" })
+                  })
+              );
+              source = list("LiteralValue", { value = "./expansion.js" });
+              attributes = list()
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "escape" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(list("NameReference", { name = "value" }));
+                        body = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("NameReference", { name = "String" });
+                                    arguments = list(list("NameReference", { name = "value" }))
+                                  });
+                                property = list("NameReference", { name = "replace" })
+                              });
+                            arguments = list(
+                              list("Pattern", { pattern = "[&<>\"']"; flags = "g" }),
+                              list("Procedure", {
+                                  generator = false;
+                                  async = false;
+                                  block = false;
+                                  id = null;
+                                  params = list(list("NameReference", { name = "c" }));
+                                  body = list("Select", {
+                                      computed = true;
+                                      optional = false;
+                                      object = list("Record", {
+                                          properties = list(
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "&" });
+                                                value = list("LiteralValue", { value = "&amp;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "<" });
+                                                value = list("LiteralValue", { value = "&lt;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = ">" });
+                                                value = list("LiteralValue", { value = "&gt;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "\"" });
+                                                value = list("LiteralValue", { value = "&quot;" })
+                                              }),
+                                            list("Field", {
+                                                computed = false;
+                                                kind = "init";
+                                                key = list("LiteralValue", { value = "'" });
+                                                value = list("LiteralValue", { value = "&#39;" })
+                                              })
+                                          )
+                                        });
+                                      property = list("NameReference", { name = "c" })
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          { fragment = "part0001" },
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "regionCards" });
+                  params = list(
+                    list("Default", { left = list("NameReference", { name = "visited" }); right = list("List", { elements = list() }) })
+                  );
+                  body = list("Sequence", {
+                      body = list(
+                        list("Yield", {
+                            argument = list("ComposeText", {
+                                parts = list(
+                                  list("MarkupOpen", {
+                                      tag = "div";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "region-cards" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("Invoke", {
+                                              optional = false;
+                                              callee = list("Select", {
+                                                  computed = false;
+                                                  optional = false;
+                                                  object = list("NameReference", { name = "regions" });
+                                                  property = list("NameReference", { name = "map" })
+                                                });
+                                              arguments = list(
+                                                list("Procedure", {
+                                                    generator = false;
+                                                    async = false;
+                                                    block = false;
+                                                    id = null;
+                                                    params = list(list("NameReference", { name = "r" }), list("NameReference", { name = "i" }));
+                                                    body = list("ComposeText", {
+                                                        parts = list(
+                                                          list("MarkupOpen", {
+                                                              tag = "a";
+                                                              closed = false;
+                                                              attributes = list(
+                                                                { fragment = "part0011" },
+                                                                { fragment = "part0012" },
+                                                                { fragment = "part0013" },
+                                                                { fragment = "part0014" },
+                                                                { fragment = "part0015" }
+                                                              )
+                                                            }),
+                                                          list("MarkupOpen", { tag = "div"; closed = false; attributes = list({ fragment = "part0016" }) }),
+                                                          list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                                                          list("Invoke", {
+                                                              optional = false;
+                                                              callee = list("Select", { computed = false; optional = false; object = { fragment = "part0017" }; property = { fragment = "part0018" } });
+                                                              arguments = list({ fragment = "part0019" }, { fragment = "part0020" })
+                                                            }),
+                                                          list("MarkupText", { value = " / " }),
+                                                          list("Choose", {
+                                                              test = list("Select", { computed = false; optional = false; object = { fragment = "part0021" }; property = { fragment = "part0022" } });
+                                                              consequent = list("LiteralValue", { value = "OPTIONAL READING" });
+                                                              alternate = list("LiteralValue", { value = "A DOOR INTO THE WORLD" })
+                                                            }),
+                                                          list("MarkupClose", { tag = "span" }),
+                                                          list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                                                          list("Select", {
+                                                              computed = false;
+                                                              optional = false;
+                                                              object = list("Invoke", { optional = false; callee = { fragment = "part0023" }; arguments = list({ fragment = "part0024" }) });
+                                                              property = list("NameReference", { name = "length" })
+                                                            }),
+                                                          list("MarkupText", { value = "/" }),
+                                                          list("Select", {
+                                                              computed = false;
+                                                              optional = false;
+                                                              object = list("Select", { computed = false; optional = false; object = { fragment = "part0025" }; property = { fragment = "part0026" } });
+                                                              property = list("NameReference", { name = "length" })
+                                                            }),
+                                                          list("MarkupClose", { tag = "span" }),
+                                                          list("MarkupClose", { tag = "div" }),
+                                                          list("Invoke", {
+                                                              optional = false;
+                                                              callee = list("NameReference", { name = "regionMark" });
+                                                              arguments = list({ fragment = "part0027" })
+                                                            }),
+                                                          list("MarkupOpen", { tag = "h3"; closed = false; attributes = list() }),
+                                                          list("Invoke", {
+                                                              optional = false;
+                                                              callee = list("NameReference", { name = "escape" });
+                                                              arguments = list({ fragment = "part0028" })
+                                                            }),
+                                                          list("MarkupClose", { tag = "h3" }),
+                                                          list("MarkupOpen", { tag = "p"; closed = false; attributes = list({ fragment = "part0029" }) }),
+                                                          list("Invoke", {
+                                                              optional = false;
+                                                              callee = list("NameReference", { name = "escape" });
+                                                              arguments = list({ fragment = "part0030" })
+                                                            }),
+                                                          list("MarkupClose", { tag = "p" }),
+                                                          list("MarkupOpen", { tag = "p"; closed = false; attributes = list({ fragment = "part0031" }) }),
+                                                          list("Invoke", {
+                                                              optional = false;
+                                                              callee = list("NameReference", { name = "escape" });
+                                                              arguments = list({ fragment = "part0032" })
+                                                            }),
+                                                          list("MarkupClose", { tag = "p" }),
+                                                          list("MarkupOpen", { tag = "span"; closed = false; attributes = list({ fragment = "part0033" }) }),
+                                                          list("Select", {
+                                                              computed = false;
+                                                              optional = false;
+                                                              object = list("Select", { computed = false; optional = false; object = { fragment = "part0034" }; property = { fragment = "part0035" } });
+                                                              property = list("NameReference", { name = "length" })
+                                                            }),
+                                                          list("MarkupText", { value = " places " }),
+                                                          list("MarkupOpen", { tag = "span"; closed = false; attributes = list({ fragment = "part0036" }) }),
+                                                          list("MarkupText", { value = "↗" }),
+                                                          list("MarkupClose", { tag = "span" }),
+                                                          list("MarkupClose", { tag = "span" }),
+                                                          list("MarkupClose", { tag = "a" })
+                                                        )
+                                                      })
+                                                  })
+                                              )
+                                            });
+                                          property = list("NameReference", { name = "join" })
+                                        });
+                                      arguments = list(list("LiteralValue", { value = "" }))
+                                    }),
+                                  list("MarkupClose", { tag = "div" })
+                                )
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "worldDoors" });
+                  params = list(
+                    list("Default", { left = list("NameReference", { name = "visited" }); right = list("List", { elements = list() }) })
+                  );
+                  body = list("Sequence", {
+                      body = list(
+                        list("Yield", {
+                            argument = list("ComposeText", {
+                                parts = list(
+                                  list("MarkupOpen", {
+                                      tag = "section";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-doors" })) })
+                                          }),
+                                        list("MarkupAttribute", {
+                                            name = "aria-labelledby";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-doors-heading" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupOpen", {
+                                      tag = "div";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-doors-intro" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupOpen", { tag = "div"; closed = false; attributes = list() }),
+                                  list("MarkupOpen", {
+                                      tag = "p";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "eyebrow" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupText", { value = "The world beyond the first trails" }),
+                                  list("MarkupClose", { tag = "p" }),
+                                  list("MarkupOpen", {
+                                      tag = "h2";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "id";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-doors-heading" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupText", { value = "Follow what" }),
+                                  list("MarkupOpen", { tag = "br"; closed = false; attributes = list() }),
+                                  list("MarkupText", { value = "opens." }),
+                                  list("MarkupClose", { tag = "h2" }),
+                                  list("MarkupClose", { tag = "div" }),
+                                  list("MarkupOpen", { tag = "p"; closed = false; attributes = list() }),
+                                  list("MarkupText", { value = "A stone, a pattern, an unfinished question." }),
+                                  list("MarkupOpen", { tag = "br"; closed = false; attributes = list() }),
+                                  list("MarkupText", { value = "Each can become a different way in." }),
+                                  list("MarkupClose", { tag = "p" }),
+                                  list("MarkupClose", { tag = "div" }),
+                                  list("Invoke", {
+                                      optional = false;
+                                      callee = list("NameReference", { name = "regionCards" });
+                                      arguments = list(list("NameReference", { name = "visited" }))
+                                    }),
+                                  list("MarkupOpen", {
+                                      tag = "p";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "world-doors-note" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupText", {
+                                      value = "The lights are ways of finding your bearings. You can cross between them, revisit a place, or stop wherever you like."
+                                    }),
+                                  list("MarkupClose", { tag = "p" }),
+                                  list("MarkupClose", { tag = "section" })
+                                )
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "regionBearing" });
+                  params = list(list("NameReference", { name = "id" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("BindGroup", {
+                            kind = "const";
+                            terminate = true;
+                            declarations = list(
+                              list("Binding", {
+                                  id = list("NameReference", { name = "region" });
+                                  init = list("Invoke", {
+                                      optional = false;
+                                      callee = list("NameReference", { name = "regionFor" });
+                                      arguments = list(list("NameReference", { name = "id" }))
+                                    })
+                                })
+                            )
+                          }),
+                        list("Branch", {
+                            test = list("Unary", { operator = "!"; prefix = true; argument = list("NameReference", { name = "region" }) });
+                            consequent = list("Yield", { argument = list("LiteralValue", { value = "" }) });
+                            alternate = null
+                          }),
+                        list("Yield", {
+                            argument = list("ComposeText", {
+                                parts = list(
+                                  list("MarkupOpen", {
+                                      tag = "div";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "region-bearing" })) })
+                                          }),
+                                        list("MarkupAttribute", {
+                                            name = "data-light";
+                                            quote = "\"";
+                                            value = list("ComposeText", {
+                                                parts = list(
+                                                  list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("NameReference", { name = "region" });
+                                                      property = list("NameReference", { name = "light" })
+                                                    })
+                                                )
+                                              })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupOpen", {
+                                      tag = "span";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "aria-hidden";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("NameReference", { name = "region" });
+                                      property = list("NameReference", { name = "symbol" })
+                                    }),
+                                  list("MarkupClose", { tag = "span" }),
+                                  list("MarkupOpen", {
+                                      tag = "button";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "data-action";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "atlas" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("Invoke", {
+                                      optional = false;
+                                      callee = list("NameReference", { name = "escape" });
+                                      arguments = list(
+                                        list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "region" });
+                                            property = list("NameReference", { name = "name" })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupClose", { tag = "button" }),
+                                  list("MarkupOpen", { tag = "small"; closed = false; attributes = list() }),
+                                  list("Choose", {
+                                      test = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "region" });
+                                          property = list("NameReference", { name = "optional" })
+                                        });
+                                      consequent = list("LiteralValue", { value = "Optional religious reading" });
+                                      alternate = list("LiteralValue", { value = "A region of the wider world" })
+                                    }),
+                                  list("MarkupClose", { tag = "small" }),
+                                  list("MarkupClose", { tag = "div" })
+                                )
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            }),
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "newEncounterKind" });
+                  params = list(list("NameReference", { name = "type" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("Yield", {
+                            argument = list("ShortCircuit", {
+                                operator = "||";
+                                left = list("Select", {
+                                    computed = true;
+                                    optional = false;
+                                    object = list("Record", {
+                                        properties = list(
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "garden" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("LiteralValue", { value = "route-gate" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "memory" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "erasure" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "attention" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "will" });
+                                              value = list("LiteralValue", { value = "object" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "stone" });
+                                              value = list("LiteralValue", { value = "object" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "preservation" });
+                                              value = list("LiteralValue", { value = "comparison" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "tiling" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "code" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "laboratory" });
+                                              value = list("LiteralValue", { value = "decision" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "cost" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "cosmos" });
+                                              value = list("LiteralValue", { value = "object" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "scale" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "scenario" });
+                                              value = list("LiteralValue", { value = "decision" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "weights" });
+                                              value = list("LiteralValue", { value = "experiment" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "horizon" });
+                                              value = list("LiteralValue", { value = "quiet" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "texts" });
+                                              value = list("LiteralValue", { value = "object" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "commons" });
+                                              value = list("LiteralValue", { value = "object" })
+                                            }),
+                                          list("Field", {
+                                              computed = false;
+                                              kind = "init";
+                                              key = list("NameReference", { name = "refusal" });
+                                              value = list("LiteralValue", { value = "comparison" })
+                                            })
+                                        )
+                                      });
+                                    property = list("NameReference", { name = "type" })
+                                  });
+                                right = list("LiteralValue", { value = "reading" })
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            })
+        )
+      })
+  }

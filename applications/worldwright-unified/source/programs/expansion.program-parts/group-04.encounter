@@ -1,0 +1,115 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0012 = list("NameReference", { name = "r" });
+    part0013 = list("NameReference", { name = "scenes" });
+    part0014 = list("NameReference", { name = "sources" });
+    part0015 = list("NameReference", { name = "source" });
+    part0016 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "t" });
+        property = list("NameReference", { name = "id" })
+      });
+    part0017 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "area" });
+        property = list("NameReference", { name = "light" })
+      });
+    part0018 = list("Expand", {
+        argument = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("Invoke", {
+                    optional = false;
+                    callee = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "definitions" });
+                        property = list("NameReference", { name = "filter" })
+                      });
+                    arguments = list(
+                      list("Procedure", {
+                          generator = false;
+                          async = false;
+                          block = false;
+                          id = null;
+                          params = list(list("NameReference", { name = "d" }));
+                          body = list("Invoke", {
+                              optional = false;
+                              callee = list("Select", {
+                                  computed = false;
+                                  optional = false;
+                                  object = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("NameReference", { name = "r" });
+                                      property = list("NameReference", { name = "scenes" })
+                                    });
+                                  property = list("NameReference", { name = "includes" })
+                                });
+                              arguments = list(
+                                list("Select", {
+                                    computed = true;
+                                    optional = false;
+                                    object = list("NameReference", { name = "d" });
+                                    property = list("LiteralValue", { value = 0 })
+                                  })
+                              )
+                            })
+                        })
+                    )
+                  });
+                property = list("NameReference", { name = "map" })
+              });
+            arguments = list(
+              list("Procedure", {
+                  generator = false;
+                  async = false;
+                  block = false;
+                  id = null;
+                  params = list(list("NameReference", { name = "d" }));
+                  body = list("Select", {
+                      computed = true;
+                      optional = false;
+                      object = list("NameReference", { name = "d" });
+                      property = list("LiteralValue", { value = 5 })
+                    })
+                })
+            )
+          })
+      });
+    part0019 = list("Expand", {
+        argument = list("Choose", {
+            test = list("Calculate", {
+                operator = "===";
+                left = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("NameReference", { name = "r" });
+                    property = list("NameReference", { name = "id" })
+                  });
+                right = list("LiteralValue", { value = "possibility" })
+              });
+            consequent = list("List", { elements = list(list("LiteralValue", { value = "frontier" })) });
+            alternate = list("Choose", {
+                test = list("Calculate", {
+                    operator = "===";
+                    left = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "r" });
+                        property = list("NameReference", { name = "id" })
+                      });
+                    right = list("LiteralValue", { value = "commons" })
+                  });
+                consequent = list("List", { elements = list(list("LiteralValue", { value = "contribution" })) });
+                alternate = list("List", { elements = list() })
+              })
+          })
+      })
+  }

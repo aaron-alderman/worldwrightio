@@ -1,0 +1,326 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "workshop/worldbox.js";
+    reason = "Generic form retention using the existing shared notes service.";
+    target = "workshop/worldbox.js";
+    goal = "Keep Encounter planning editable without another session or native application logic.";
+    fragments = list("worldbox.program-parts/group-01.encounter");
+    tree = list("Module", {
+        body = list(
+          list("Publish", {
+              declaration = list("Define", {
+                  generator = false;
+                  async = false;
+                  id = list("NameReference", { name = "mountWorldbox" });
+                  params = list(list("NameReference", { name = "document" }), list("NameReference", { name = "window" }));
+                  body = list("Sequence", {
+                      body = list(
+                        list("BindGroup", {
+                            kind = "const";
+                            terminate = true;
+                            declarations = list(
+                              list("Binding", {
+                                  id = list("NameReference", { name = "notes" });
+                                  init = list("Select", {
+                                      computed = false;
+                                      optional = false;
+                                      object = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "window" });
+                                          property = list("NameReference", { name = "services" })
+                                        });
+                                      property = list("NameReference", { name = "notes" })
+                                    })
+                                })
+                            )
+                          }),
+                        list("BindGroup", {
+                            kind = "const";
+                            terminate = true;
+                            declarations = list(
+                              list("Binding", {
+                                  id = list("NameReference", { name = "fields" });
+                                  init = list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "document" });
+                                          property = list("NameReference", { name = "querySelectorAll" })
+                                        });
+                                      arguments = list(list("LiteralValue", { value = "[data-wb-field]" }))
+                                    })
+                                })
+                            )
+                          }),
+                        list("Each", {
+                            await = false;
+                            left = list("BindGroup", {
+                                kind = "const";
+                                terminate = false;
+                                declarations = list(list("Binding", { id = list("NameReference", { name = "field" }); init = null }))
+                              });
+                            right = list("NameReference", { name = "fields" });
+                            body = list("Sequence", {
+                                body = list(
+                                  list("Branch", {
+                                      test = list("Invoke", {
+                                          optional = false;
+                                          callee = list("Select", {
+                                              computed = false;
+                                              optional = false;
+                                              object = list("NameReference", { name = "notes" });
+                                              property = list("NameReference", { name = "has" })
+                                            });
+                                          arguments = list(
+                                            list("Calculate", {
+                                                operator = "+";
+                                                left = list("LiteralValue", { value = "worldbox:" });
+                                                right = list("Select", {
+                                                    computed = false;
+                                                    optional = false;
+                                                    object = list("NameReference", { name = "field" });
+                                                    property = list("NameReference", { name = "name" })
+                                                  })
+                                              })
+                                          )
+                                        });
+                                      consequent = list("Do", {
+                                          expression = list("Set", {
+                                              operator = "=";
+                                              left = list("Select", {
+                                                  computed = false;
+                                                  optional = false;
+                                                  object = list("NameReference", { name = "field" });
+                                                  property = list("NameReference", { name = "value" })
+                                                });
+                                              right = list("Invoke", {
+                                                  optional = false;
+                                                  callee = list("Select", {
+                                                      computed = false;
+                                                      optional = false;
+                                                      object = list("NameReference", { name = "notes" });
+                                                      property = list("NameReference", { name = "get" })
+                                                    });
+                                                  arguments = list(
+                                                    list("Calculate", {
+                                                        operator = "+";
+                                                        left = list("LiteralValue", { value = "worldbox:" });
+                                                        right = list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "field" });
+                                                            property = list("NameReference", { name = "name" })
+                                                          })
+                                                      })
+                                                  )
+                                                })
+                                            })
+                                        });
+                                      alternate = null
+                                    })
+                                )
+                              })
+                          }),
+                        list("BindGroup", {
+                            kind = "const";
+                            terminate = true;
+                            declarations = list(
+                              list("Binding", {
+                                  id = list("NameReference", { name = "keep" });
+                                  init = list("Procedure", {
+                                      generator = false;
+                                      async = false;
+                                      block = true;
+                                      id = null;
+                                      params = list();
+                                      body = list("Sequence", {
+                                          body = list(
+                                            list("Each", {
+                                                await = false;
+                                                left = list("BindGroup", {
+                                                    kind = "const";
+                                                    terminate = false;
+                                                    declarations = list(list("Binding", { id = list("NameReference", { name = "field" }); init = null }))
+                                                  });
+                                                right = list("NameReference", { name = "fields" });
+                                                body = list("Sequence", {
+                                                    body = list(
+                                                      list("Do", {
+                                                          expression = list("Invoke", {
+                                                              optional = false;
+                                                              callee = list("Select", { computed = false; optional = false; object = { fragment = "part0001" }; property = { fragment = "part0002" } });
+                                                              arguments = list({ fragment = "part0003" }, { fragment = "part0004" })
+                                                            })
+                                                        })
+                                                    )
+                                                  })
+                                              }),
+                                            list("Do", {
+                                                expression = list("Set", {
+                                                    operator = "=";
+                                                    left = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("Invoke", {
+                                                            optional = false;
+                                                            callee = list("Select", { computed = false; optional = false; object = { fragment = "part0005" }; property = { fragment = "part0006" } });
+                                                            arguments = list(list("LiteralValue", { value = "#wb-status" }))
+                                                          });
+                                                        property = list("NameReference", { name = "textContent" })
+                                                      });
+                                                    right = list("LiteralValue", {
+                                                        value = "Planning values kept in the shared Encounter session. Reload resets them; export to retain a snapshot."
+                                                      })
+                                                  })
+                                              })
+                                          )
+                                        })
+                                    })
+                                })
+                            )
+                          }),
+                        list("Do", {
+                            expression = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Invoke", {
+                                        optional = false;
+                                        callee = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "document" });
+                                            property = list("NameReference", { name = "querySelector" })
+                                          });
+                                        arguments = list(list("LiteralValue", { value = "#wb-save" }))
+                                      });
+                                    property = list("NameReference", { name = "addEventListener" })
+                                  });
+                                arguments = list(list("LiteralValue", { value = "click" }), list("NameReference", { name = "keep" }))
+                              })
+                          }),
+                        list("Do", {
+                            expression = list("Invoke", {
+                                optional = false;
+                                callee = list("Select", {
+                                    computed = false;
+                                    optional = false;
+                                    object = list("Invoke", {
+                                        optional = false;
+                                        callee = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "document" });
+                                            property = list("NameReference", { name = "querySelector" })
+                                          });
+                                        arguments = list(list("LiteralValue", { value = "#wb-export" }))
+                                      });
+                                    property = list("NameReference", { name = "addEventListener" })
+                                  });
+                                arguments = list(
+                                  list("LiteralValue", { value = "click" }),
+                                  list("Procedure", {
+                                      generator = false;
+                                      async = false;
+                                      block = true;
+                                      id = null;
+                                      params = list();
+                                      body = list("Sequence", {
+                                          body = list(
+                                            list("Do", {
+                                                expression = list("Invoke", { optional = false; callee = list("NameReference", { name = "keep" }); arguments = list() })
+                                              }),
+                                            list("BindGroup", {
+                                                kind = "const";
+                                                terminate = true;
+                                                declarations = list(
+                                                  list("Binding", { id = list("NameReference", { name = "values" }); init = list("Record", { properties = list() }) })
+                                                )
+                                              }),
+                                            list("Each", {
+                                                await = false;
+                                                left = list("BindGroup", {
+                                                    kind = "const";
+                                                    terminate = false;
+                                                    declarations = list(list("Binding", { id = list("NameReference", { name = "field" }); init = null }))
+                                                  });
+                                                right = list("NameReference", { name = "fields" });
+                                                body = list("Sequence", {
+                                                    body = list(
+                                                      list("Do", {
+                                                          expression = list("Set", {
+                                                              operator = "=";
+                                                              left = list("Select", { computed = true; optional = false; object = { fragment = "part0007" }; property = { fragment = "part0008" } });
+                                                              right = list("Select", { computed = false; optional = false; object = { fragment = "part0009" }; property = { fragment = "part0010" } })
+                                                            })
+                                                        })
+                                                    )
+                                                  })
+                                              }),
+                                            list("Do", {
+                                                expression = list("Set", {
+                                                    operator = "=";
+                                                    left = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("Invoke", {
+                                                            optional = false;
+                                                            callee = list("Select", { computed = false; optional = false; object = { fragment = "part0011" }; property = { fragment = "part0012" } });
+                                                            arguments = list(list("LiteralValue", { value = "#wb-output" }))
+                                                          });
+                                                        property = list("NameReference", { name = "value" })
+                                                      });
+                                                    right = list("Invoke", {
+                                                        optional = false;
+                                                        callee = list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "JSON" });
+                                                            property = list("NameReference", { name = "stringify" })
+                                                          });
+                                                        arguments = list(
+                                                          list("Record", { properties = list({ fragment = "part0013" }, { fragment = "part0014" }, { fragment = "part0015" }) }),
+                                                          list("LiteralValue", { value = null }),
+                                                          list("LiteralValue", { value = 2 })
+                                                        )
+                                                      })
+                                                  })
+                                              }),
+                                            list("Do", {
+                                                expression = list("Set", {
+                                                    operator = "=";
+                                                    left = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("Invoke", {
+                                                            optional = false;
+                                                            callee = list("Select", { computed = false; optional = false; object = { fragment = "part0016" }; property = { fragment = "part0017" } });
+                                                            arguments = list(list("LiteralValue", { value = "#wb-status" }))
+                                                          });
+                                                        property = list("NameReference", { name = "textContent" })
+                                                      });
+                                                    right = list("LiteralValue", { value = "Planning export prepared below. Copy to retain it; no worldbox benchmark has run." })
+                                                  })
+                                              })
+                                          )
+                                        })
+                                    })
+                                )
+                              })
+                          })
+                      )
+                    })
+                });
+              specifiers = list();
+              source = null;
+              attributes = list()
+            })
+        )
+      })
+  }

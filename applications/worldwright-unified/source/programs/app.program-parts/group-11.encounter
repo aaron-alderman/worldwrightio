@@ -1,0 +1,540 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0184 = list("Sequence", {
+        body = list(
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "scene" });
+                      property = list("NameReference", { name = "art" })
+                    });
+                  right = list("LiteralValue", { value = "study" })
+                });
+              consequent = list("Sequence", {
+                  body = list(
+                    list("Sequence", {
+                        body = list(
+                          list("Yield", {
+                              argument = list("Calculate", {
+                                  operator = "+";
+                                  left = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0185" }; right = { fragment = "part0186" } });
+                                                              right = list("Calculate", { operator = "+"; left = { fragment = "part0187" }; right = { fragment = "part0188" } })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0189" }; right = { fragment = "part0190" } });
+                                                              right = list("LiteralValue", { value = ">" })
+                                                            })
+                                                        });
+                                                      right = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0191" }; right = { fragment = "part0192" } });
+                                                              right = list("Calculate", { operator = "+"; left = { fragment = "part0193" }; right = { fragment = "part0194" } })
+                                                            });
+                                                          right = list("LiteralValue", { value = ">" })
+                                                        })
+                                                    });
+                                                  right = list("Invoke", {
+                                                      optional = false;
+                                                      callee = list("Select", {
+                                                          computed = false;
+                                                          optional = false;
+                                                          object = list("Invoke", {
+                                                              optional = false;
+                                                              callee = list("Select", { computed = false; optional = false; object = { fragment = "part0195" }; property = { fragment = "part0196" } });
+                                                              arguments = list({ fragment = "part0197" })
+                                                            });
+                                                          property = list("NameReference", { name = "join" })
+                                                        });
+                                                      arguments = list(list("LiteralValue", { value = "" }))
+                                                    })
+                                                });
+                                              right = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+                                                  right = list("LiteralValue", { value = ">" })
+                                                })
+                                            });
+                                          right = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "p" }) });
+                                                  right = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0204" }; right = { fragment = "part0205" } });
+                                                              right = list("LiteralValue", { value = "\"" })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("LiteralValue", { value = "" });
+                                                              right = list("LiteralValue", { value = "art-caption" })
+                                                            })
+                                                        });
+                                                      right = list("LiteralValue", { value = "\"" })
+                                                    })
+                                                });
+                                              right = list("LiteralValue", { value = ">" })
+                                            })
+                                        });
+                                      right = list("LiteralValue", { value = "A reading of the source. Choose “Where this comes from” to read about its source and limits." })
+                                    });
+                                  right = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+                                      right = list("LiteralValue", { value = ">" })
+                                    })
+                                })
+                            })
+                        )
+                      })
+                  )
+                });
+              alternate = null
+            }),
+          { fragment = "part0206" },
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "scene" });
+                      property = list("NameReference", { name = "art" })
+                    });
+                  right = list("LiteralValue", { value = "detector" })
+                });
+              consequent = list("Sequence", {
+                  body = list(
+                    list("Sequence", {
+                        body = list(
+                          list("Yield", {
+                              argument = list("Invoke", { optional = false; callee = list("NameReference", { name = "detector" }); arguments = list() })
+                            })
+                        )
+                      })
+                  )
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "scene" });
+                      property = list("NameReference", { name = "art" })
+                    });
+                  right = list("LiteralValue", { value = "loop" })
+                });
+              consequent = list("Sequence", {
+                  body = list(
+                    list("Sequence", {
+                        body = list(
+                          list("Yield", {
+                              argument = list("Invoke", { optional = false; callee = list("NameReference", { name = "loop" }); arguments = list() })
+                            })
+                        )
+                      })
+                  )
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "scene" });
+                      property = list("NameReference", { name = "art" })
+                    });
+                  right = list("LiteralValue", { value = "personal" })
+                });
+              consequent = list("Sequence", {
+                  body = list(
+                    list("Sequence", {
+                        body = list(
+                          list("Yield", {
+                              argument = list("Calculate", {
+                                  operator = "+";
+                                  left = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0234" }; right = { fragment = "part0239" } });
+                                                              right = list("Calculate", { operator = "+"; left = { fragment = "part0240" }; right = { fragment = "part0241" } })
+                                                            });
+                                                          right = list("LiteralValue", { value = "when relationships" })
+                                                        });
+                                                      right = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "br" }) });
+                                                          right = list("LiteralValue", { value = ">" })
+                                                        })
+                                                    });
+                                                  right = list("LiteralValue", { value = "change?" })
+                                                });
+                                              right = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+                                                  right = list("LiteralValue", { value = ">" })
+                                                })
+                                            });
+                                          right = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "p" }) });
+                                                  right = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0242" }; right = { fragment = "part0243" } });
+                                                              right = list("LiteralValue", { value = "\"" })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("LiteralValue", { value = "" });
+                                                              right = list("LiteralValue", { value = "marginal" })
+                                                            })
+                                                        });
+                                                      right = list("LiteralValue", { value = "\"" })
+                                                    })
+                                                });
+                                              right = list("LiteralValue", { value = ">" })
+                                            })
+                                        });
+                                      right = list("LiteralValue", { value = "A QUESTION LIVED, STILL UNFINISHED." })
+                                    });
+                                  right = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+                                      right = list("LiteralValue", { value = ">" })
+                                    })
+                                })
+                            })
+                        )
+                      })
+                  )
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "scene" });
+                      property = list("NameReference", { name = "art" })
+                    });
+                  right = list("LiteralValue", { value = "care" })
+                });
+              consequent = list("Sequence", {
+                  body = list(
+                    list("Sequence", {
+                        body = list(
+                          list("Yield", {
+                              argument = list("Calculate", {
+                                  operator = "+";
+                                  left = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0244" }; right = { fragment = "part0247" } });
+                                                              right = list("Calculate", { operator = "+"; left = { fragment = "part0248" }; right = { fragment = "part0249" } })
+                                                            });
+                                                          right = list("LiteralValue", { value = "Who is carrying" })
+                                                        });
+                                                      right = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "br" }) });
+                                                          right = list("LiteralValue", { value = ">" })
+                                                        })
+                                                    });
+                                                  right = list("LiteralValue", { value = "the cost?" })
+                                                });
+                                              right = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+                                                  right = list("LiteralValue", { value = ">" })
+                                                })
+                                            });
+                                          right = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "p" }) });
+                                                  right = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0250" }; right = { fragment = "part0251" } });
+                                                              right = list("LiteralValue", { value = "\"" })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("LiteralValue", { value = "" });
+                                                              right = list("LiteralValue", { value = "marginal" })
+                                                            })
+                                                        });
+                                                      right = list("LiteralValue", { value = "\"" })
+                                                    })
+                                                });
+                                              right = list("LiteralValue", { value = ">" })
+                                            })
+                                        });
+                                      right = list("LiteralValue", { value = "ATTENTION · PROTECTION · RESPONSIBILITY" })
+                                    });
+                                  right = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+                                      right = list("LiteralValue", { value = ">" })
+                                    })
+                                })
+                            })
+                        )
+                      })
+                  )
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "scene" });
+                      property = list("NameReference", { name = "art" })
+                    });
+                  right = list("LiteralValue", { value = "contact" })
+                });
+              consequent = list("Sequence", {
+                  body = list(
+                    list("Sequence", {
+                        body = list(
+                          list("Yield", {
+                              argument = list("Calculate", {
+                                  operator = "+";
+                                  left = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0252" }; right = { fragment = "part0259" } });
+                                                              right = list("LiteralValue", { value = "The earlier interpretation was withdrawn. The next inquiry began with the mismatch." })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0260" }; right = { fragment = "part0261" } });
+                                                              right = list("LiteralValue", { value = ">" })
+                                                            })
+                                                        });
+                                                      right = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0262" }; right = { fragment = "part0263" } });
+                                                              right = list("Calculate", { operator = "+"; left = { fragment = "part0264" }; right = { fragment = "part0265" } })
+                                                            });
+                                                          right = list("LiteralValue", { value = ">" })
+                                                        })
+                                                    });
+                                                  right = list("LiteralValue", { value = "Open the correction " })
+                                                });
+                                              right = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "span" }) });
+                                                  right = list("LiteralValue", { value = ">" })
+                                                })
+                                            });
+                                          right = list("LiteralValue", { value = "↗" })
+                                        });
+                                      right = list("Calculate", {
+                                          operator = "+";
+                                          left = list("Calculate", {
+                                              operator = "+";
+                                              left = list("LiteralValue", { value = "</" });
+                                              right = list("LiteralValue", { value = "span" })
+                                            });
+                                          right = list("LiteralValue", { value = ">" })
+                                        })
+                                    });
+                                  right = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("LiteralValue", { value = "</" });
+                                          right = list("LiteralValue", { value = "button" })
+                                        });
+                                      right = list("LiteralValue", { value = ">" })
+                                    })
+                                })
+                            })
+                        )
+                      })
+                  )
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("Select", {
+                      computed = false;
+                      optional = false;
+                      object = list("NameReference", { name = "scene" });
+                      property = list("NameReference", { name = "art" })
+                    });
+                  right = list("LiteralValue", { value = "sourcery" })
+                });
+              consequent = list("Sequence", {
+                  body = list(
+                    list("Sequence", {
+                        body = list(
+                          list("Yield", {
+                              argument = list("Calculate", {
+                                  operator = "+";
+                                  left = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0266" }; right = { fragment = "part0279" } });
+                                                              right = list("LiteralValue", { value = "PEOPLE REMAIN ACCOUNTABLE" })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0280" }; right = { fragment = "part0281" } });
+                                                              right = list("LiteralValue", { value = ">" })
+                                                            })
+                                                        });
+                                                      right = list("LiteralValue", { value = "Choose · revise · take responsibility" })
+                                                    });
+                                                  right = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+                                                      right = list("LiteralValue", { value = ">" })
+                                                    })
+                                                });
+                                              right = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+                                                  right = list("LiteralValue", { value = ">" })
+                                                })
+                                            });
+                                          right = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "p" }) });
+                                                  right = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0282" }; right = { fragment = "part0283" } });
+                                                              right = list("LiteralValue", { value = "\"" })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("LiteralValue", { value = "" });
+                                                              right = list("LiteralValue", { value = "art-caption" })
+                                                            })
+                                                        });
+                                                      right = list("LiteralValue", { value = "\"" })
+                                                    })
+                                                });
+                                              right = list("LiteralValue", { value = ">" })
+                                            })
+                                        });
+                                      right = list("LiteralValue", { value = "A representation makes some things explicit. It should keep its assumptions and limits within reach." })
+                                    });
+                                  right = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+                                      right = list("LiteralValue", { value = ">" })
+                                    })
+                                })
+                            })
+                        )
+                      })
+                  )
+                });
+              alternate = null
+            }),
+          { fragment = "part0284" }
+        )
+      })
+  }

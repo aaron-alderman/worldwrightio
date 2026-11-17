@@ -1,0 +1,113 @@
+process-module "temple/surface-process-module/1"
+
+process html.escape:
+  port value.string { value = $input } → escaped
+  fold list(list("&", "&amp;"), list("<", "&lt;"), list(">", "&gt;"), list("\"", "&quot;")) as replacement; escaped starts $escaped:
+    port text.replaceAll { value = $escaped; search = at($replacement, 0); replacement = at($replacement, 1) } → escaped
+    yield $escaped → result
+
+process html.serialize:
+  port value.describe { value = $input } → kind
+  let result = ""
+  when and(not(eq($input, null)), not(eq($input, false)), not(eq($kind.type, "undefined"))):
+    when $kind.array:
+      fold $input as part; rendered starts "":
+        let input = $part
+        call html.serialize
+        yield concat($rendered, $result) → result
+    when and(not($kind.array), not(eq($kind.type, "object"))):
+      call html.escape
+    when and(not($kind.array), eq($kind.type, "object")):
+      let element = $input
+      let tag = at($element, "tag")
+      port text.matches { value = $tag; pattern = "^[a-z][a-z0-9-]*$" } → valid
+      assert $valid
+        otherwise "Invalid HTML tag"
+      port record.entries { value = or(at($element, "attrs"), {}) } → attributes
+      fold $attributes as attribute; attributesText starts "":
+        let key = at($attribute, 0)
+        let value = at($attribute, 1)
+        let attributeText = ""
+        when and(not(eq($value, null)), not(eq($value, false)), not(eq($value, at({}, "absent")))):
+          port text.matches { value = $key; pattern = "^[a-zA-Z_:][a-zA-Z0-9_:.-]*$" } → valid
+          assert $valid
+            otherwise "Invalid HTML attribute"
+          port text.matches { value = $key; pattern = "^on"; flags = "i" } → eventHandler
+          assert not($eventHandler)
+            otherwise "Invalid HTML attribute"
+          when includes(list("href", "src", "action"), $key):
+            port value.string { value = $value } → url
+            port text.matches { value = $url; pattern = "^\\s*(javascript|data):"; flags = "i" } → unsafe
+            assert not($unsafe)
+              otherwise "Unsafe URL"
+          let input = if(eq($value, true), "", $value)
+          call html.escape
+          let attributeText = concat(" ", $key, "=\"", $result, "\"")
+        yield concat($attributesText, $attributeText) → attributesText
+      let void = includes(list("area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"), $tag)
+      let childrenText = ""
+      when not($void):
+        fold list(or(at($element, "children"), list())) as child; ignored starts "":
+          let input = $child
+          when eq($tag, "style"):
+            call html.cssText
+          when not(eq($tag, "style")):
+            call html.serialize
+          yield $result → childrenText
+      let result = concat("<", $tag, $attributesText, ">", if($void, "", concat($childrenText, "</", $tag, ">")))
+
+process html.observe:
+  port value.describe { value = $input } → kind
+  let result = { nodes = list(); text = "" }
+  when and(not(eq($input, null)), not(eq($input, false)), not(eq($kind.type, "undefined"))):
+    when $kind.array:
+      fold $input as part; observed starts { nodes = list(); text = "" }:
+        let input = $part
+        call html.observe
+        yield { nodes = append($observed.nodes, $result.nodes); text = concat($observed.text, $result.text) } → result
+    when and(not($kind.array), not(eq($kind.type, "object"))):
+      port value.string { value = $input } → string
+      let result = { nodes = list(); text = $string }
+    when and(not($kind.array), eq($kind.type, "object")):
+      let element = $input
+      let attrs = or(at($element, "attrs"), {})
+      let tag = at($element, "tag")
+      fold list(or(at($element, "children"), list())) as child; ignored starts null:
+        let input = $child
+        let parents = append($parents, if(at($attrs, "id"), list(at($attrs, "id")), list()))
+        call html.observe
+        yield $result → children
+      port text.trim { value = $children.text } → trimmed
+      let label = and(eq($tag, "label"), not(eq($trimmed, "")))
+      let result = { text = $children.text; nodes = append(list({ tag = $tag; attrs = $attrs; text = $children.text; named = not(eq($trimmed, "")); parents = $parents; wrapped = false }), map($children.nodes, "n", { tag = $n.tag; attrs = $n.attrs; text = $n.text; named = $n.named; parents = $n.parents; wrapped = or($label, $n.wrapped) })) }
+
+process html.inspect:
+  let parents = list()
+  call html.observe
+  let nodes = $result.nodes
+  let ids = map(filter($nodes, "n", at($n.attrs, "id")), "n", at($n.attrs, "id"))
+  fold $ids as id; duplicates starts { seen = list(); repeated = list() }:
+    yield { seen = append($duplicates.seen, list($id)); repeated = if(includes($duplicates.seen, $id), append($duplicates.repeated, list($id)), $duplicates.repeated) } → duplicates
+  let controls = filter($nodes, "n", includes(list("button", "input", "select", "textarea"), $n.tag))
+  fold $controls as control; unnamed starts list():
+    let attrs = $control.attrs
+    let named = or(eq(at($attrs, "type"), "hidden"), $control.wrapped, and(eq($control.tag, "button"), $control.named), and(at($attrs, "id"), some($nodes, "label", and(eq($label.tag, "label"), $label.named, eq(at($label.attrs, "for"), at($attrs, "id"))))))
+    when at($attrs, "aria-label"):
+      port text.trim { value = at($attrs, "aria-label") } → label
+      let named = or($named, $label)
+    when at($attrs, "aria-labelledby"):
+      port text.split { value = at($attrs, "aria-labelledby"); pattern = "\\s+" } → labelIds
+      let named = or($named, every($labelIds, "id", some($nodes, "label", and(eq(at($label.attrs, "id"), $id), $label.named))))
+    yield if($named, $unnamed, append($unnamed, list($control.tag))) → unnamed
+  let result = { main = count(filter($nodes, "n", eq($n.tag, "main"))); h1 = count(filter($nodes, "n", eq($n.tag, "h1"))); ids = $ids; duplicateIds = $duplicates.repeated; links = map(filter($nodes, "n", and(eq($n.tag, "a"), at($n.attrs, "href"))), "n", at($n.attrs, "href")); unnamed = $unnamed; navigation = map(filter($nodes, "n", and(eq($n.tag, "nav"), eq(at($n.attrs, "id"), "site-nav"))), "nav", map(filter($nodes, "link", and(eq($link.tag, "a"), includes($link.parents, "site-nav"))), "link", { href = at($link.attrs, "href"); label = $link.text })) }
+
+process html.cssText:
+  port value.describe { value = $input } → cssInputKind
+  assert $cssInputKind.array
+    otherwise "Style content must be text children."
+  each $input as cssPart:
+    port value.type { value = $cssPart } → cssPartType
+    assert eq($cssPartType, "string")
+      otherwise "Style content must contain text only."
+  port text.join { values = $input; separator = "" } → cssInput
+  port text.replaceAll { value = $cssInput; search = "<"; replacement = "\\3C " } → result

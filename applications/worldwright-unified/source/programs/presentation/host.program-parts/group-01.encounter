@@ -1,0 +1,195 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("NameReference", { name = "crypto" });
+                property = list("NameReference", { name = "subtle" })
+              });
+            property = list("NameReference", { name = "digest" })
+          });
+        arguments = list(
+          list("LiteralValue", { value = "SHA-256" }),
+          list("Invoke", {
+              optional = false;
+              callee = list("Select", {
+                  computed = false;
+                  optional = false;
+                  object = list("Construct", { callee = list("NameReference", { name = "TextEncoder" }); arguments = list() });
+                  property = list("NameReference", { name = "encode" })
+                });
+              arguments = list(list("NameReference", { name = "text" }))
+            })
+        )
+      });
+    part0002 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "Object" });
+            property = list("NameReference", { name = "hasOwn" })
+          });
+        arguments = list(list("NameReference", { name = "available" }), list("NameReference", { name = "name" }))
+      });
+    part0003 = list("Invoke", {
+        optional = false;
+        callee = list("NameReference", { name = "Error" });
+        arguments = list(list("LiteralValue", { value = "Unknown presentation mechanism" }))
+      });
+    part0004 = list("NameReference", { name = "name" });
+    part0005 = list("Select", {
+        computed = true;
+        optional = false;
+        object = list("NameReference", { name = "available" });
+        property = list("NameReference", { name = "name" })
+      });
+    part0006 = list("NameReference", { name = "eventInput" });
+    part0007 = list("NameReference", { name = "eventInput" });
+    part0008 = list("NameReference", { name = "spPolicy" });
+    part0009 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "bundle" });
+        property = list("NameReference", { name = "presentationPolicy" })
+      });
+    part0010 = list("NameReference", { name = "spGrammar" });
+    part0011 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "bundle" });
+        property = list("NameReference", { name = "grammarSource" })
+      });
+    part0012 = list("ModuleContext", { meta = list("NameReference", { name = "import" }); property = list("NameReference", { name = "meta" }) });
+    part0013 = list("NameReference", { name = "url" });
+    part0014 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Invoke", {
+            optional = false;
+            callee = list("NameReference", { name = "fetch" });
+            arguments = list(
+              list("Construct", {
+                  callee = list("NameReference", { name = "URL" });
+                  arguments = list(list("LiteralValue", { value = "manifest.json" }), list("NameReference", { name = "base" }))
+                }),
+              list("Record", {
+                  properties = list(
+                    list("Field", {
+                        computed = false;
+                        kind = "init";
+                        key = list("NameReference", { name = "cache" });
+                        value = list("LiteralValue", { value = "no-store" })
+                      })
+                  )
+                })
+            )
+          });
+        property = list("NameReference", { name = "then" })
+      });
+    part0015 = list("Procedure", {
+        generator = false;
+        async = false;
+        block = true;
+        id = null;
+        params = list(list("NameReference", { name = "r" }));
+        body = list("Sequence", {
+            body = list(
+              list("Branch", {
+                  test = list("Unary", {
+                      operator = "!";
+                      prefix = true;
+                      argument = list("Select", {
+                          computed = false;
+                          optional = false;
+                          object = list("NameReference", { name = "r" });
+                          property = list("NameReference", { name = "ok" })
+                        })
+                    });
+                  consequent = list("Refuse", {
+                      argument = list("Invoke", {
+                          optional = false;
+                          callee = list("NameReference", { name = "Error" });
+                          arguments = list(list("LiteralValue", { value = "Source presentation manifest unavailable" }))
+                        })
+                    });
+                  alternate = null
+                }),
+              list("Yield", {
+                  argument = list("Invoke", {
+                      optional = false;
+                      callee = list("Select", {
+                          computed = false;
+                          optional = false;
+                          object = list("NameReference", { name = "r" });
+                          property = list("NameReference", { name = "json" })
+                        });
+                      arguments = list()
+                    })
+                })
+            )
+          })
+      });
+    part0016 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "manifest" });
+        property = list("NameReference", { name = "files" })
+      });
+    part0017 = list("NameReference", { name = "find" });
+    part0018 = list("NameReference", { name = "f" });
+    part0019 = list("Calculate", {
+        operator = "===";
+        left = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "f" });
+            property = list("NameReference", { name = "file" })
+          });
+        right = list("LiteralValue", { value = "inspection/model.json" })
+      });
+    part0020 = list("NameReference", { name = "fetch" });
+    part0021 = list("Construct", {
+        callee = list("NameReference", { name = "URL" });
+        arguments = list(list("LiteralValue", { value = "model.json" }), list("NameReference", { name = "base" }))
+      });
+    part0022 = list("Record", {
+        properties = list(
+          list("Field", {
+              computed = false;
+              kind = "init";
+              key = list("NameReference", { name = "cache" });
+              value = list("LiteralValue", { value = "no-store" })
+            })
+        )
+      });
+    part0023 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "response" });
+        property = list("NameReference", { name = "text" })
+      });
+    part0024 = list("NameReference", { name = "textHash" });
+    part0025 = list("NameReference", { name = "text" });
+    part0026 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Construct", { callee = list("NameReference", { name = "TextEncoder" }); arguments = list() });
+        property = list("NameReference", { name = "encode" })
+      });
+    part0027 = list("NameReference", { name = "text" });
+    part0028 = list("NameReference", { name = "JSON" });
+    part0029 = list("NameReference", { name = "parse" });
+    part0030 = list("NameReference", { name = "value" });
+    part0031 = list("NameReference", { name = "tag" });
+    part0032 = list("NameReference", { name = "name" });
+    part0033 = list("NameReference", { name = "text" });
+    part0034 = list("NameReference", { name = "child" })
+  }

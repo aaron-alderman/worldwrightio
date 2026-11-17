@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="3730" viewBox="0 0 1800 3730"><title>TheStory through the actual algebra</title><desc>An executable source-backed trace from REL and Encounter through typed process compilation, pure expressions, contextual overlays, HTML serialization and verified source patch proposals.</desc>
+<rect x="0" y="0" width="1800" height="3730" rx="17" fill="#F5F3EC" stroke="none"/>
+<rect x="0" y="0" width="1800" height="16" rx="17" fill="#086C68" stroke="none"/>
+<text x="70" y="75" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">ENCOUNTER / BELOW THE PROJECTION</text>
+<text x="65" y="160" font-family="Segoe UI,Arial,sans-serif" font-size="71" fill="#182D39" font-weight="650">TheStory through the actual algebra</text>
+<text x="70" y="214" font-family="Segoe UI,Arial,sans-serif" font-size="30" fill="#50636D" font-weight="400">Source → typed process → resolved tree → HTML. An edit takes a checked route back.</text>
+<rect x="70" y="250" width="1660" height="55" rx="17" fill="#E3EFEB" stroke="none"/>
+<text x="93" y="286" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#086C68" font-weight="400">Notation: faithful excerpts in readable call form; omissions are marked. Complete generated listings accompany this diagram.</text>
+<rect x="70" y="356" width="46" height="46" rx="17" fill="#182D39" stroke="none"/>
+<text x="84" y="389" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">1</text>
+<text x="136" y="390" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Parse, index, compile and admit</text>
+<rect x="70" y="430" width="810" height="295" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<rect x="910" y="430" width="820" height="295" rx="17" fill="#E3EFEB" stroke="none"/>
+<text x="100" y="472" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">ACTUAL INPUTS</text>
+<text x="100" y="515" font-family="Consolas,monospace" font-size="25" fill="#182D39" font-weight="400">("TheStory", "isa", "Story")</text>
+<text x="100" y="552" font-family="Consolas,monospace" font-size="25" fill="#182D39" font-weight="400">("TheStory", "S.Title", "What happened")</text>
+<text x="100" y="610" font-family="Consolas,monospace" font-size="25" fill="#182D39" font-weight="400">N.label: source.S.Title</text>
+<text x="100" y="647" font-family="Consolas,monospace" font-size="25" fill="#182D39" font-weight="400">edit N.label through source.S.Title</text>
+<text x="100" y="695" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#50636D" font-weight="400">Types: contracts.rel · values: story.rel · rules: story.encounter</text>
+<text x="940" y="472" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">EC.PREPARE · ORDERED PROCESS</text>
+<text x="940" y="515" font-family="Segoe UI,Arial,sans-serif" font-size="27" fill="#182D39" font-weight="400">source.rel → facts.index → ec.compile → lower.start</text>
+<text x="940" y="559" font-family="Segoe UI,Arial,sans-serif" font-size="27" fill="#182D39" font-weight="400">admit.model → admit.effects → validate facts</text>
+<text x="940" y="620" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#086C68" font-weight="400">Story title: exactly one nonempty string.</text>
+<text x="940" y="654" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#086C68" font-weight="400">Source and generated identities checked.</text>
+<text x="940" y="688" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#086C68" font-weight="400">Only the declared native ports are granted.</text>
+<rect x="70" y="781" width="46" height="46" rx="17" fill="#182D39" stroke="none"/>
+<text x="84" y="814" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">2</text>
+<text x="136" y="815" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Pure expressions live inside the generated process</text>
+<rect x="70" y="855" width="1660" height="320" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<text x="100" y="897" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">CODE.STORY.VIEW.EXPERIMENT.NAV.STORY · GENERATED, LOWERED PROCESS</text>
+<text x="100" y="943" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">port kernel.invoke { query = "ec.argument"; input = { type = "Story"; value = "TheStory" } } → ecSourceCarrier</text>
+<text x="100" y="977" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">let bindings = { source = $ecSourceCarrier }</text>
+<text x="100" y="1011" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">let ecViewValues = {</text>
+<text x="100" y="1045" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  N.label  = at(at(at($bindings, "source"), "values"), "S.Title");</text>
+<text x="100" y="1079" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  N.target = at(at($bindings, "source"), "id") }</text>
+<text x="100" y="1120" font-family="Consolas,monospace" font-size="22" fill="#182D39" font-weight="400">port kernel.invoke { query = "ec.check"; input = { type = "NavigationItem"; values = $ecViewValues } } → ecChecked</text>
+<text x="100" y="1154" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#086C68" font-weight="400">Result carrier: id = experiment.nav.story · type = NavigationItem · label = “What happened” · target = TheStory</text>
+<rect x="70" y="1231" width="46" height="46" rx="17" fill="#182D39" stroke="none"/>
+<text x="84" y="1264" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">3</text>
+<text x="136" y="1265" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Resolve the overlay — values and edit routes together</text>
+<rect x="70" y="1305" width="810" height="345" rx="17" fill="#F6E8BF" stroke="none"/>
+<rect x="910" y="1305" width="820" height="345" rx="17" fill="#EDE7F3" stroke="none"/>
+<text x="100" y="1347" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A66F12" font-weight="700">EC.RESOLVE · PROCESS EXCERPT</text>
+<text x="100" y="1392" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">let ecEffective = $ecBase.values</text>
+<text x="100" y="1426" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">fold $ecContribution.fields.fields …</text>
+<text x="100" y="1460" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  port kernel.evaluate … → ecOverlayValue</text>
+<text x="100" y="1494" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  port record.put … → ecEffective</text>
+<text x="100" y="1528" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  yield $ecEffective</text>
+<text x="100" y="1562" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">port kernel.invoke { query = "ec.check"; … }</text>
+<text x="100" y="1620" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#A66F12" font-weight="400">Web effective N.label = “The story”; row = “What happened”.</text>
+<text x="940" y="1347" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#674B89" font-weight="700">PURE ROUTE SELECTION INSIDE THAT PROCESS</text>
+<text x="940" y="1392" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">append(</text>
+<text x="940" y="1426" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  filter($ecEffectiveEdits, ecE,</text>
+<text x="940" y="1460" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">    not(some($ecContribution.fields.fields,</text>
+<text x="940" y="1494" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">      ecF, eq($ecF.name, $ecE.field)))),</text>
+<text x="940" y="1528" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  $ecContribution.edits)</text>
+<text x="940" y="1592" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#674B89" font-weight="400">A replaced field loses its inherited edit route.</text>
+<text x="940" y="1624" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#674B89" font-weight="400">The web’s explicit “edit here” supplies its local route.</text>
+<text x="70" y="1696" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#50636D" font-weight="400">filter / some / not are derived expressions; lower.start expands them into the primitive expression core.</text>
+<rect x="70" y="1751" width="46" height="46" rx="17" fill="#182D39" stroke="none"/>
+<text x="84" y="1784" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">4</text>
+<text x="136" y="1785" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Compute representation values, then construct a tree</text>
+<rect x="70" y="1825" width="810" height="335" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<rect x="910" y="1825" width="820" height="335" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<text x="100" y="1867" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A66F12" font-weight="700">WEBLINK · GENERATED EXPRESSION AND GUARD</text>
+<text x="100" y="1912" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">W.text = at(at(at($bindings,</text>
+<text x="100" y="1946" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">  "navigation"), "values"), "N.label")</text>
+<text x="100" y="1980" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">W.href = at(at(at($bindings,</text>
+<text x="100" y="2014" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">  "page"), "values"), "P.route")</text>
+<text x="100" y="2082" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">assert page subject equals navigation target.</text>
+<text x="100" y="2114" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">ec.check validates WebLink; tree reads W.text / W.href.</text>
+<text x="940" y="1867" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#674B89" font-weight="700">MAINFRAMEROW · SAME SOURCE, OTHER REPRESENTATION</text>
+<text x="940" y="1912" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">R.label = at(at(at($bindings,</text>
+<text x="940" y="1946" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">  "navigation"), "values"), "N.label")</text>
+<text x="940" y="1980" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">R.target uses N.target; R.option uses option.</text>
+<text x="940" y="2032" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">children = append(list(), list(…))</text>
+<text x="940" y="2082" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">ec.check validates MainframeRow.</text>
+<text x="940" y="2114" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">Tree: table → tbody → tr → td + td/button.</text>
+<rect x="70" y="2216" width="46" height="46" rx="17" fill="#182D39" stroke="none"/>
+<text x="84" y="2249" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">5</text>
+<text x="136" y="2250" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Serialize the tree — these are the actual outputs</text>
+<rect x="70" y="2290" width="1660" height="380" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<text x="100" y="2332" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">HTML.SERIALIZE · RECURSIVE PROCESS + PURE CONCATENATION</text>
+<text x="100" y="2375" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">fold children: call html.serialize; concatenate the results</text>
+<text x="100" y="2409" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">concat("&lt;", $tag, $attributesText, "&gt;",</text>
+<text x="100" y="2443" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">  if($void, "", concat($childrenText, "&lt;/", $tag, "&gt;")))</text>
+<text x="100" y="2500" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">&lt;a id="experiment-web-link" href="encounter-story.html"&gt;The story&lt;/a&gt;</text>
+<text x="100" y="2534" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">&lt;table class="experiment-row"&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;01&lt;/td&gt;&lt;td&gt;</text>
+<text x="100" y="2568" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">  &lt;button id="experiment-mainframe-row" type="button"&gt;What happened&lt;/button&gt;</text>
+<text x="100" y="2602" font-family="Consolas,monospace" font-size="24" fill="#182D39" font-weight="400">&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</text>
+<text x="100" y="2644" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">Row HTML is line-broken here for reading. Serialized files contain the exact output. Text and attributes are escaped.</text>
+<rect x="70" y="2726" width="46" height="46" rx="17" fill="#182D39" stroke="none"/>
+<text x="84" y="2759" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">6</text>
+<text x="136" y="2760" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Edit a semantic field — patch its owned source span</text>
+<rect x="70" y="2800" width="810" height="370" rx="17" fill="#EDE7F3" stroke="none"/>
+<rect x="910" y="2800" width="820" height="370" rx="17" fill="#F6E8BF" stroke="none"/>
+<text x="100" y="2842" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#674B89" font-weight="700">ROW EDIT · EC.PATCH</text>
+<text x="100" y="2887" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">field = "N.label"; value = "A better title"</text>
+<text x="100" y="2921" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">filter($ecProjection.edits, ecE,</text>
+<text x="100" y="2955" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">  eq($ecE.field, $eventInput.field))</text>
+<text x="100" y="2989" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">assert eq(count($ecRoutes), 1)</text>
+<text x="100" y="3050" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">source.rel locates one owned value span for</text>
+<text x="100" y="3084" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">TheStory / S.Title. Encode the new string; slice</text>
+<text x="100" y="3118" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">before and after; concat into candidate factText.</text>
+<text x="940" y="2842" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A66F12" font-weight="700">WEB EDIT · SAME PROCESS, LITERAL DESTINATION</text>
+<text x="940" y="2887" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">field = "N.label"; value = "Our story"</text>
+<text x="940" y="2921" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">destination.kind = "literal"</text>
+<text x="940" y="2955" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">ecStart = add($ecNode.offset, $ecTokenStart)</text>
+<text x="940" y="2989" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">codeText = concat(before, encoded, after)</text>
+<text x="940" y="3050" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Uses the overlay’s recorded literal location.</text>
+<text x="940" y="3084" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Changes N.label in the WebMainMenu contribution.</text>
+<text x="940" y="3118" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">TheStory’s REL facts are unchanged.</text>
+<rect x="70" y="3210" width="1660" height="190" rx="17" fill="#182D39" stroke="none"/>
+<text x="100" y="3252" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A8DAD0" font-weight="700">FORWARD VERIFICATION — NOT AN ASSUMED INVERSE</text>
+<text x="100" y="3297" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#FFFEFA" font-weight="400">kernel.invoke ec.prepare(candidate inputs) → kernel.invoke ec.run(checked candidate)</text>
+<text x="100" y="3333" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#FFFEFA" font-weight="400">assert eq(at($ecObserved.values, $eventInput.field), $ecNewText)</text>
+<text x="100" y="3369" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#FFFEFA" font-weight="400">Return candidate + projections + destination. Refuse if the requested value cannot be reproduced.</text>
+<rect x="70" y="3440" width="810" height="145" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<rect x="910" y="3440" width="820" height="145" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<text x="100" y="3480" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#674B89" font-weight="700">OBSERVED AFTER THE ROW EDIT</text>
+<text x="100" y="3523" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">REL title + row + page: “A better title”.</text>
+<text x="100" y="3557" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Web label remains “The story”. Encounter text unchanged.</text>
+<text x="940" y="3480" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A66F12" font-weight="700">OBSERVED AFTER THE INDEPENDENT WEB EDIT</text>
+<text x="940" y="3523" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Web literal + link: “Our story”.</text>
+<text x="940" y="3557" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Row + page remain “What happened”. REL unchanged.</text>
+<text x="70" y="3635" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">Boundary: this trace explicitly calls the existing serializer after ec.run. Event descriptors are separate from HTML.</text>
+<text x="70" y="3671" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">No DOM-edit listener or repository write is implied. ec.patch returns candidate text in memory; persistence is a separate port.</text>
+<text x="70" y="3707" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">Reproduced from the unchanged headless fixture. Full process listings, source diffs and generated HTML are supplied alongside.</text>
+</svg>
