@@ -74,3 +74,8 @@ Set `WORLDWRIGHT_ENCOUNTER_LIBRARY` to the absolute path to
 Platform checkout. This compiler is shared with the hub build. Run
 `npm --prefix applications/worldwright-unified run build` followed by
 `npm --prefix applications/worldwright-unified test`.
+
+The Unified tests verify the pinned corpus excerpts in the app's authored
+source assets. Set `WORLDWRIGHT_CORPUS_ROOT` to an independent corpus
+checkout containing the exact cited revisions to verify the published source
+paths and hashes against those originals.

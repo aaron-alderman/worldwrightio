@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { scenes, sources, entrances, territories } from './dist/world.js';
 import { encounterKinds, echoes, horizons, calibrationReading, projectionVisibility } from './dist/encounter-data.js';
+import {sourceReceipts} from './dist/source-receipts.js';
 const root=path.dirname(fileURLToPath(import.meta.url));
 test('encounters and paths beyond a territory preserve real destinations and source identity',()=>{
  for(const id of Object.keys(encounterKinds))assert.ok(scenes[id],id);
@@ -47,7 +48,13 @@ test('all passages resolve, all scenes are reachable, and every scene has a rout
 });
 test('each scene retains source identity and every cited local corpus file exists',()=>{
  for(const scene of Object.values(scenes))assert.ok(sources[scene.source],scene.source);
- for(const source of Object.values(sources))if(source.path)assert.ok(fs.existsSync(path.resolve(root,'../..',source.path)),source.path);
+ for(const [id,source] of Object.entries(sources))if(source.path){
+  const receipt=sourceReceipts[id];assert.ok(receipt,source.path);assert.equal(receipt.path,source.path);
+  const file=process.env.WORLDWRIGHT_CORPUS_ROOT
+   ?path.resolve(process.env.WORLDWRIGHT_CORPUS_ROOT,source.path)
+   :path.join(root,'source/assets',receipt.href);
+  assert.ok(fs.existsSync(file),source.path);
+ }
 });
 test('personal passages are marked as personal and cannot be mistaken for model results',()=>{
  for(const id of ['personal','care']){assert.equal(scenes[id].source,'personal');assert.equal(scenes[id].personal,true);}

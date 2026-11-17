@@ -30,7 +30,10 @@ test('every selected corpus source is bundled byte-for-byte with its exact hash'
  for(const [key,source] of Object.entries(sources)){
   if(!source.path)continue;
   const receipt=sourceReceipts[key];assert.ok(receipt,key);assert.equal(receipt.path,source.path);
-  const original=fs.readFileSync(path.resolve(root,'../..',source.path)),bundled=fs.readFileSync(path.join(root,'dist',receipt.href));
+  const sourcePath=process.env.WORLDWRIGHT_CORPUS_ROOT
+   ?path.resolve(process.env.WORLDWRIGHT_CORPUS_ROOT,source.path)
+   :path.join(root,'source/assets',receipt.href);
+  const original=fs.readFileSync(sourcePath),bundled=fs.readFileSync(path.join(root,'dist',receipt.href));
   assert.deepEqual(bundled,original,key);assert.equal(bundled.length,receipt.bytes);
   assert.equal(crypto.createHash('sha256').update(bundled).digest('hex'),receipt.sha256,key);
  }
