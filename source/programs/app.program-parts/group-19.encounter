@@ -1,0 +1,637 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0345 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0346" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", {
+                    operator = "+";
+                    left = list("LiteralValue", { value = "<" });
+                    right = list("LiteralValue", { value = "section" })
+                  });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("LiteralValue", { value = " " });
+                                    right = list("LiteralValue", { value = "class" })
+                                  });
+                                right = list("LiteralValue", { value = "=" })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "" });
+                            right = list("LiteralValue", { value = "home-note" })
+                          })
+                      });
+                    right = list("LiteralValue", { value = "\"" })
+                  })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0346 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0347" };
+        right = list("Invoke", {
+            optional = false;
+            callee = list("NameReference", { name = "worldDoors" });
+            arguments = list(list("NameReference", { name = "visited" }))
+          })
+      });
+    part0347 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0348" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("LiteralValue", { value = "</" });
+                right = list("LiteralValue", { value = "section" })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0348 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0349" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0349 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0350" };
+        right = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("Invoke", {
+                    optional = false;
+                    callee = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "entrances" });
+                        property = list("NameReference", { name = "map" })
+                      });
+                    arguments = list(
+                      list("Procedure", {
+                          generator = false;
+                          async = false;
+                          block = false;
+                          id = null;
+                          params = list(list("NameReference", { name = "e" }));
+                          body = list("Calculate", {
+                              operator = "+";
+                              left = list("Calculate", {
+                                  operator = "+";
+                                  left = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0400" }; right = { fragment = "part0411" } });
+                                                              right = list("Invoke", { optional = false; callee = { fragment = "part0412" }; arguments = list({ fragment = "part0413" }) })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0414" }; right = { fragment = "part0415" } });
+                                                              right = list("LiteralValue", { value = ">" })
+                                                            })
+                                                        });
+                                                      right = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "p" }) });
+                                                          right = list("LiteralValue", { value = ">" })
+                                                        })
+                                                    });
+                                                  right = list("Invoke", {
+                                                      optional = false;
+                                                      callee = list("NameReference", { name = "escape" });
+                                                      arguments = list(
+                                                        list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "e" });
+                                                            property = list("NameReference", { name = "note" })
+                                                          })
+                                                      )
+                                                    })
+                                                });
+                                              right = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+                                                  right = list("LiteralValue", { value = ">" })
+                                                })
+                                            });
+                                          right = list("Calculate", {
+                                              operator = "+";
+                                              left = list("Calculate", {
+                                                  operator = "+";
+                                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "span" }) });
+                                                  right = list("Calculate", {
+                                                      operator = "+";
+                                                      left = list("Calculate", {
+                                                          operator = "+";
+                                                          left = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("Calculate", { operator = "+"; left = { fragment = "part0416" }; right = { fragment = "part0417" } });
+                                                              right = list("LiteralValue", { value = "\"" })
+                                                            });
+                                                          right = list("Calculate", {
+                                                              operator = "+";
+                                                              left = list("LiteralValue", { value = "" });
+                                                              right = list("LiteralValue", { value = "trail-arrow" })
+                                                            })
+                                                        });
+                                                      right = list("LiteralValue", { value = "\"" })
+                                                    })
+                                                });
+                                              right = list("LiteralValue", { value = ">" })
+                                            })
+                                        });
+                                      right = list("LiteralValue", { value = "↗" })
+                                    });
+                                  right = list("Calculate", {
+                                      operator = "+";
+                                      left = list("Calculate", {
+                                          operator = "+";
+                                          left = list("LiteralValue", { value = "</" });
+                                          right = list("LiteralValue", { value = "span" })
+                                        });
+                                      right = list("LiteralValue", { value = ">" })
+                                    })
+                                });
+                              right = list("Calculate", {
+                                  operator = "+";
+                                  left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "a" }) });
+                                  right = list("LiteralValue", { value = ">" })
+                                })
+                            })
+                        })
+                    )
+                  });
+                property = list("NameReference", { name = "join" })
+              });
+            arguments = list(list("LiteralValue", { value = "" }))
+          })
+      });
+    part0350 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0351" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "div" }) });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("LiteralValue", { value = " " });
+                                    right = list("LiteralValue", { value = "class" })
+                                  });
+                                right = list("LiteralValue", { value = "=" })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "" });
+                            right = list("LiteralValue", { value = "trail-grid" })
+                          })
+                      });
+                    right = list("LiteralValue", { value = "\"" })
+                  })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0351 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0352" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0352 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0353" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "p" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0353 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0354" };
+        right = list("LiteralValue", { value = "Begin wherever something catches." })
+      });
+    part0354 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0355" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "p" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0355 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0356" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "h2" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0356 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0357" };
+        right = list("LiteralValue", { value = "Three ways into the same world" })
+      });
+    part0357 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0358" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "h2" }) });
+                    right = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("Calculate", {
+                                        operator = "+";
+                                        left = list("LiteralValue", { value = " " });
+                                        right = list("LiteralValue", { value = "class" })
+                                      });
+                                    right = list("LiteralValue", { value = "=" })
+                                  });
+                                right = list("LiteralValue", { value = "\"" })
+                              });
+                            right = list("Calculate", {
+                                operator = "+";
+                                left = list("LiteralValue", { value = "" });
+                                right = list("LiteralValue", { value = "eyebrow" })
+                              })
+                          });
+                        right = list("LiteralValue", { value = "\"" })
+                      })
+                  });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = " " }); right = list("LiteralValue", { value = "id" }) });
+                                right = list("LiteralValue", { value = "=" })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "" });
+                            right = list("LiteralValue", { value = "trails-heading" })
+                          })
+                      });
+                    right = list("LiteralValue", { value = "\"" })
+                  })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0358 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0359" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "div" }) });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("LiteralValue", { value = " " });
+                                    right = list("LiteralValue", { value = "class" })
+                                  });
+                                right = list("LiteralValue", { value = "=" })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "" });
+                            right = list("LiteralValue", { value = "section-intro" })
+                          })
+                      });
+                    right = list("LiteralValue", { value = "\"" })
+                  })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0359 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0360" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "<" });
+                            right = list("LiteralValue", { value = "section" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("Calculate", {
+                                        operator = "+";
+                                        left = list("Calculate", {
+                                            operator = "+";
+                                            left = list("LiteralValue", { value = " " });
+                                            right = list("LiteralValue", { value = "class" })
+                                          });
+                                        right = list("LiteralValue", { value = "=" })
+                                      });
+                                    right = list("LiteralValue", { value = "\"" })
+                                  });
+                                right = list("Calculate", {
+                                    operator = "+";
+                                    left = list("LiteralValue", { value = "" });
+                                    right = list("LiteralValue", { value = "trails" })
+                                  })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          })
+                      });
+                    right = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = " " }); right = list("LiteralValue", { value = "id" }) });
+                                    right = list("LiteralValue", { value = "=" })
+                                  });
+                                right = list("LiteralValue", { value = "\"" })
+                              });
+                            right = list("Calculate", {
+                                operator = "+";
+                                left = list("LiteralValue", { value = "" });
+                                right = list("LiteralValue", { value = "entrances" })
+                              })
+                          });
+                        right = list("LiteralValue", { value = "\"" })
+                      })
+                  });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("LiteralValue", { value = " " });
+                                    right = list("LiteralValue", { value = "aria-labelledby" })
+                                  });
+                                right = list("LiteralValue", { value = "=" })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "" });
+                            right = list("LiteralValue", { value = "trails-heading" })
+                          })
+                      });
+                    right = list("LiteralValue", { value = "\"" })
+                  })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0360 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0361" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0361 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0362" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0362 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0363" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("LiteralValue", { value = "</" });
+                right = list("LiteralValue", { value = "span" })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0363 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0364" };
+        right = list("LiteralValue", { value = "LEAVE ROOM TO CHANGE YOUR MIND" })
+      });
+    part0364 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0365" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "span" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0365 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0366" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("LiteralValue", { value = "</" });
+                right = list("LiteralValue", { value = "span" })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0366 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0367" };
+        right = list("LiteralValue", { value = "✧ KEEP YOUR CURIOSITY" })
+      });
+    part0367 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0368" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "span" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0368 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0369" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "div" }) });
+                right = list("Calculate", {
+                    operator = "+";
+                    left = list("Calculate", {
+                        operator = "+";
+                        left = list("Calculate", {
+                            operator = "+";
+                            left = list("Calculate", {
+                                operator = "+";
+                                left = list("Calculate", {
+                                    operator = "+";
+                                    left = list("LiteralValue", { value = " " });
+                                    right = list("LiteralValue", { value = "class" })
+                                  });
+                                right = list("LiteralValue", { value = "=" })
+                              });
+                            right = list("LiteralValue", { value = "\"" })
+                          });
+                        right = list("Calculate", {
+                            operator = "+";
+                            left = list("LiteralValue", { value = "" });
+                            right = list("LiteralValue", { value = "hero-bottom" })
+                          })
+                      });
+                    right = list("LiteralValue", { value = "\"" })
+                  })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0369 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0370" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "</" }); right = list("LiteralValue", { value = "div" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0370 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0371" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("LiteralValue", { value = "</" });
+                right = list("LiteralValue", { value = "span" })
+              });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0371 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0372" };
+        right = list("LiteralValue", { value = "THE MAP IS STILL UNFOLDING." })
+      });
+    part0372 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0373" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "br" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      });
+    part0373 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0374" };
+        right = list("LiteralValue", { value = "THE TERRITORY IS REAL." })
+      });
+    part0374 = list("Calculate", {
+        operator = "+";
+        left = { fragment = "part0375" };
+        right = list("Calculate", {
+            operator = "+";
+            left = list("Calculate", { operator = "+"; left = list("LiteralValue", { value = "<" }); right = list("LiteralValue", { value = "span" }) });
+            right = list("LiteralValue", { value = ">" })
+          })
+      })
+  }

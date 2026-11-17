@@ -1,0 +1,65 @@
+{
+  "protocol": "worldwright/source-inspection-bindings/2",
+  "authority": "supplied-read-only-source-projection;not-application-state",
+  "data": {
+    "world": "world.js",
+    "expansion": "expansion.js",
+    "reading": "reading-guide.js"
+  },
+  "exports": {
+    "scenes": "scenes",
+    "sources": "sources",
+    "expansionSources": "expansionSources",
+    "definitions": "definitions"
+  },
+  "tuple": {
+    "id": 0,
+    "region": 1,
+    "title": 2,
+    "lead": 3,
+    "body": 4,
+    "source": 5,
+    "encounter": 6,
+    "choices": 7
+  },
+  "passage": {
+    "to": 0,
+    "label": 1,
+    "detail": 2,
+    "type": 3
+  },
+  "native": "workshop/temple-native.js",
+  "syntaxExpansion": [
+    "world.js",
+    "expansion.js",
+    "reading-guide.js",
+    "encounter-data.js",
+    "world-models.js",
+    "app.js",
+    "inspection/client.js",
+    "inspection/host.js",
+    "inspection/sources/algebra/inspection-document.process.json",
+    "inspection/sources/source/inspection/document-schema.json",
+    "application.json",
+    "application/definition.json",
+    "application/compose.process.json",
+    "application-runtime.js",
+    "workshop/app.js",
+    "workshop/lightning.js"
+  ],
+  "reading": {
+    "entries": "readings",
+    "titles": "readerTitles",
+    "guides": "sourceGuides",
+    "sourceTitles": "sourceTitles",
+    "choiceFunction": "choiceLabel",
+    "entryLead": 0,
+    "entryBody": 1
+  },
+  "limits": [
+    "Definition inspection is not an execution trace.",
+    "Display agreement is an attributed native observation.",
+    "Source projections have no editing or acceptance authority."
+  ],
+  "basisCommit": "6f538173ecc3832550f80e5eb91a462d1c115db1"
+}

@@ -1,0 +1,22 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import {createSession} from './dist/workshop/engine.js';
+const bundle=()=>JSON.parse(fs.readFileSync(new URL('./dist/workshop/fixture.json',import.meta.url),'utf8'));
+test('lightning records are evaluated from current projections and retain their limits',async()=>{
+ const session=await createSession(bundle()),state=session.state(),plan=state.lightning;
+ assert.equal(plan.stages.length,8);assert.equal(plan.facets.length,8);
+ assert.equal(plan.paths.find(p=>p.id==='web-label').route[0].destination.kind,'literal');
+ assert.equal(plan.paths.find(p=>p.id==='title').route[0].destination.kind,'source');
+ assert.deepEqual(plan.observed,{title:state.title,web:state.webLabel,row:state.title});
+ assert.match(plan.page.unresolved,/generated from typed/);
+ assert.match(plan.page.unresolved,/not yet a humane Encounter frontend/);
+ assert.match(plan.basis,/not an automatically discovered plan/);
+ const next=await session.edit({revision:0,kind:'web-label',value:'How we got here'});
+ assert.deepEqual(next.lightning.observed,{title:state.title,web:'How we got here',row:state.title});
+ assert.equal(next.lightning.paths.find(p=>p.id==='web-label').current,'How we got here');
+ await assert.rejects(session.edit({revision:1,kind:'title',value:''}),/EC-T007/);
+ assert.equal(session.state(),next);
+ const title=await session.edit({revision:1,kind:'title',value:'A different title'});
+ assert.deepEqual(title.lightning.observed,{title:'A different title',web:'How we got here',row:'A different title'});
+});

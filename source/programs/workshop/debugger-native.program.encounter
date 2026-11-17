@@ -1,0 +1,350 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "workshop/debugger-native.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "workshop/debugger-native.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list(
+      "debugger-native.program-parts/group-01.encounter",
+      "debugger-native.program-parts/group-02.encounter",
+      "debugger-native.program-parts/group-03.encounter"
+    );
+    tree = list("Module", {
+        body = list(
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", { imported = list("NameReference", { name = "invoke" }); local = list("NameReference", { name = "invoke" }) }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "valuePorts" });
+                    local = list("NameReference", { name = "valuePorts" })
+                  })
+              );
+              source = list("LiteralValue", { value = "./temple-native.js" });
+              attributes = list()
+            }),
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "createPresenter" });
+                    local = list("NameReference", { name = "createPresenter" })
+                  })
+              );
+              source = list("LiteralValue", { value = "../presentation/host.js" });
+              attributes = list()
+            }),
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "preview" });
+              params = list(list("NameReference", { name = "value" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("Branch", {
+                        test = list("Calculate", {
+                            operator = "===";
+                            left = list("NameReference", { name = "value" });
+                            right = list("NameReference", { name = "undefined" })
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Yield", {
+                                  argument = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "kind" });
+                                            value = list("LiteralValue", { value = "absence" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("LiteralValue", { value = "not present" })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          });
+                        alternate = null
+                      }),
+                    list("Branch", {
+                        test = list("Calculate", {
+                            operator = "===";
+                            left = list("NameReference", { name = "value" });
+                            right = list("LiteralValue", { value = null })
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Yield", {
+                                  argument = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "kind" });
+                                            value = list("LiteralValue", { value = "null" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("LiteralValue", { value = "null" })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          });
+                        alternate = null
+                      }),
+                    list("Branch", {
+                        test = list("Calculate", {
+                            operator = "===";
+                            left = list("Unary", { operator = "typeof"; prefix = true; argument = list("NameReference", { name = "value" }) });
+                            right = list("LiteralValue", { value = "string" })
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Yield", {
+                                  argument = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "kind" });
+                                            value = list("LiteralValue", { value = "text" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("Choose", {
+                                                test = list("Calculate", {
+                                                    operator = ">";
+                                                    left = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("NameReference", { name = "value" });
+                                                        property = list("NameReference", { name = "length" })
+                                                      });
+                                                    right = list("LiteralValue", { value = 120 })
+                                                  });
+                                                consequent = list("Calculate", {
+                                                    operator = "+";
+                                                    left = list("Invoke", {
+                                                        optional = false;
+                                                        callee = list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "value" });
+                                                            property = list("NameReference", { name = "slice" })
+                                                          });
+                                                        arguments = list(list("LiteralValue", { value = 0 }), list("LiteralValue", { value = 120 }))
+                                                      });
+                                                    right = list("LiteralValue", { value = "…" })
+                                                  });
+                                                alternate = list("NameReference", { name = "value" })
+                                              })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          });
+                        alternate = null
+                      }),
+                    list("Branch", {
+                        test = list("ShortCircuit", {
+                            operator = "||";
+                            left = list("Calculate", {
+                                operator = "===";
+                                left = list("Unary", { operator = "typeof"; prefix = true; argument = list("NameReference", { name = "value" }) });
+                                right = list("LiteralValue", { value = "number" })
+                              });
+                            right = list("Calculate", {
+                                operator = "===";
+                                left = list("Unary", { operator = "typeof"; prefix = true; argument = list("NameReference", { name = "value" }) });
+                                right = list("LiteralValue", { value = "boolean" })
+                              })
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Yield", {
+                                  argument = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "kind" });
+                                            value = list("Unary", { operator = "typeof"; prefix = true; argument = list("NameReference", { name = "value" }) })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("Invoke", {
+                                                optional = false;
+                                                callee = list("NameReference", { name = "String" });
+                                                arguments = list(list("NameReference", { name = "value" }))
+                                              })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          });
+                        alternate = null
+                      }),
+                    list("Branch", {
+                        test = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("NameReference", { name = "Array" });
+                                property = list("NameReference", { name = "isArray" })
+                              });
+                            arguments = list(list("NameReference", { name = "value" }))
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Yield", {
+                                  argument = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "kind" });
+                                            value = list("LiteralValue", { value = "list" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("Calculate", {
+                                                operator = "+";
+                                                left = list("Select", {
+                                                    computed = false;
+                                                    optional = false;
+                                                    object = list("NameReference", { name = "value" });
+                                                    property = list("NameReference", { name = "length" })
+                                                  });
+                                                right = list("LiteralValue", { value = " items" })
+                                              })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "count" });
+                                            value = list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("NameReference", { name = "value" });
+                                                property = list("NameReference", { name = "length" })
+                                              })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          });
+                        alternate = null
+                      }),
+                    list("Branch", {
+                        test = list("Calculate", {
+                            operator = "===";
+                            left = list("Unary", { operator = "typeof"; prefix = true; argument = list("NameReference", { name = "value" }) });
+                            right = list("LiteralValue", { value = "object" })
+                          });
+                        consequent = list("Sequence", {
+                            body = list(
+                              list("Yield", {
+                                  argument = list("Record", {
+                                      properties = list(
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "kind" });
+                                            value = list("LiteralValue", { value = "record" })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "text" });
+                                            value = list("Calculate", {
+                                                operator = "+";
+                                                left = list("Select", {
+                                                    computed = false;
+                                                    optional = false;
+                                                    object = list("Invoke", {
+                                                        optional = false;
+                                                        callee = list("Select", {
+                                                            computed = false;
+                                                            optional = false;
+                                                            object = list("NameReference", { name = "Object" });
+                                                            property = list("NameReference", { name = "keys" })
+                                                          });
+                                                        arguments = list(list("NameReference", { name = "value" }))
+                                                      });
+                                                    property = list("NameReference", { name = "length" })
+                                                  });
+                                                right = list("LiteralValue", { value = " fields" })
+                                              })
+                                          }),
+                                        list("Field", {
+                                            computed = false;
+                                            kind = "init";
+                                            key = list("NameReference", { name = "count" });
+                                            value = list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("Invoke", {
+                                                    optional = false;
+                                                    callee = list("Select", {
+                                                        computed = false;
+                                                        optional = false;
+                                                        object = list("NameReference", { name = "Object" });
+                                                        property = list("NameReference", { name = "keys" })
+                                                      });
+                                                    arguments = list(list("NameReference", { name = "value" }))
+                                                  });
+                                                property = list("NameReference", { name = "length" })
+                                              })
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          });
+                        alternate = null
+                      }),
+                    list("Yield", {
+                        argument = list("Record", {
+                            properties = list(
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "kind" });
+                                  value = list("Unary", { operator = "typeof"; prefix = true; argument = list("NameReference", { name = "value" }) })
+                                }),
+                              list("Field", {
+                                  computed = false;
+                                  kind = "init";
+                                  key = list("NameReference", { name = "text" });
+                                  value = list("LiteralValue", { value = "Not an inspectable data value" })
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          { fragment = "part0001" }
+        )
+      })
+  }

@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="2860" viewBox="0 0 1800 2860"><title>One story, two representations, explicit ways back</title><desc>A source-backed walkthrough of TheStory through typed navigation, contextual overlays, WebLink and MainframeRow. Web edits return to the contextual literal; row and page title edits return to the source title. Includes observed tests and limits.</desc>
+<rect x="0" y="0" width="1800" height="2860" rx="0" fill="#F5F3EC" stroke="none"/>
+<rect x="0" y="0" width="1800" height="16" rx="0" fill="#086C68" stroke="none"/>
+<text x="70" y="75" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">ENCOUNTER / A SOURCE-BACKED WORKED EXAMPLE</text>
+<text x="66" y="162" font-family="Segoe UI,Arial,sans-serif" font-size="75" fill="#182D39" font-weight="650">One story. Two ways to meet it.</text>
+<text x="70" y="214" font-family="Segoe UI,Arial,sans-serif" font-size="31" fill="#50636D" font-weight="400">Types tell us what fits. Context chooses a view. Edit routes tell us what changes.</text>
+<rect x="70" y="276" width="46" height="46" rx="23" fill="#182D39" stroke="none"/>
+<text x="84" y="309" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">1</text>
+<text x="136" y="310" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Start with a story — not a screen</text>
+<rect x="70" y="350" width="1000" height="282" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<rect x="1100" y="350" width="630" height="282" rx="17" fill="#E3EFEB" stroke="none"/>
+<text x="100" y="391" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">SOURCE · STORY.REL</text>
+<text x="100" y="440" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">TheStory isa Story</text>
+<text x="100" y="480" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">S.Title: "What happened"</text>
+<text x="100" y="520" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">S.Content: @TheStory.first, @TheStory.second</text>
+<text x="100" y="566" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">TextEntry values: “The story is long and complicated”</text>
+<text x="100" y="600" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">and “It started 150 years ago”. Each occurrence has an identity.</text>
+<text x="1130" y="391" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">TYPE ASSURANCE</text>
+<text x="1130" y="438" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#182D39" font-weight="400">Story is a closed contract.</text>
+<text x="1130" y="476" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#182D39" font-weight="400">S.Title: one nonempty string.</text>
+<text x="1130" y="514" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#182D39" font-weight="400">S.Content: many strings, stored as</text>
+<text x="1130" y="552" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#182D39" font-weight="400">TextEntry references with E.value.</text>
+<text x="1130" y="606" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#086C68" font-weight="400">Fact display is abbreviated; storage is REL.</text>
+<path d="M900 651 L900 690" stroke="#086C68" stroke-width="4" fill="none"/>
+<path d="M892 678 L900 690 L908 678" stroke="#086C68" stroke-width="4" fill="none"/>
+<rect x="70" y="720" width="46" height="46" rx="23" fill="#182D39" stroke="none"/>
+<text x="84" y="753" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">2</text>
+<text x="136" y="754" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Give it a navigation role and a page</text>
+<rect x="70" y="795" width="810" height="280" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<rect x="910" y="795" width="820" height="280" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<text x="100" y="835" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">EXPERIMENT.NAV.STORY ISA NAVIGATIONITEM</text>
+<text x="100" y="884" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">N.label: source.S.Title</text>
+<text x="100" y="926" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">N.target: source</text>
+<text x="100" y="968" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">edit N.label through source.S.Title</text>
+<text x="100" y="1022" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">label: one nonempty string · target: one Story reference</text>
+<text x="940" y="835" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">EXPERIMENT.PAGE.STORY ISA PAGE</text>
+<text x="940" y="884" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">P.subject: source</text>
+<text x="940" y="926" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">P.title: source.S.Title</text>
+<text x="940" y="968" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">P.route: "encounter-story.html"</text>
+<text x="940" y="1022" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">P.paragraphs follows content; P.title edits the source title.</text>
+<text x="70" y="1120" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#50636D" font-weight="400">Both views refer to @TheStory. The navigation object is a projection with its own identity.</text>
+<rect x="70" y="1176" width="46" height="46" rx="23" fill="#182D39" stroke="none"/>
+<text x="84" y="1209" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">3</text>
+<text x="136" y="1210" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Apply an explicit context — keep the base intact</text>
+<rect x="70" y="1250" width="810" height="360" rx="17" fill="#F6E8BF" stroke="none"/>
+<rect x="910" y="1250" width="820" height="360" rx="17" fill="#EDE7F3" stroke="none"/>
+<text x="100" y="1292" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A66F12" font-weight="700">WEB CONTEXT · @EXPERIMENT.WEBMAINMENU</text>
+<text x="100" y="1340" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">N.label: "The story"</text>
+<text x="100" y="1382" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">edit N.label here</text>
+<text x="100" y="1424" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">show as WebLink:</text>
+<text x="100" y="1466" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">  page: @experiment.page.story</text>
+<text x="100" y="1540" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">The local label replaces the visible value in this context.</text>
+<text x="100" y="1575" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">“here” explicitly owns the edit at this literal.</text>
+<text x="940" y="1292" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#674B89" font-weight="700">ROW CONTEXT · @EXPERIMENT.MAINFRAMESTORIES</text>
+<text x="940" y="1340" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">show as MainframeRow:</text>
+<text x="940" y="1382" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">  option: "01"</text>
+<text x="940" y="1424" font-family="Consolas,monospace" font-size="27" fill="#182D39" font-weight="400">  open: @experiment.openStory</text>
+<text x="940" y="1500" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">No label overlay: inherit the base label and its edit route.</text>
+<text x="940" y="1535" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">The open action is typed StoryPanelAction.</text>
+<text x="940" y="1570" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">It accepts Story and declares local-navigation.</text>
+<path d="M475 1628 L475 1672" stroke="#A66F12" stroke-width="4" fill="none"/>
+<path d="M467 1660 L475 1672 L483 1660" stroke="#A66F12" stroke-width="4" fill="none"/>
+<path d="M1320 1628 L1320 1672" stroke="#674B89" stroke-width="4" fill="none"/>
+<path d="M1312 1660 L1320 1672 L1328 1660" stroke="#674B89" stroke-width="4" fill="none"/>
+<rect x="70" y="1701" width="46" height="46" rx="23" fill="#182D39" stroke="none"/>
+<text x="84" y="1734" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">4</text>
+<text x="136" y="1735" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Lower the resolved values into each representation</text>
+<rect x="70" y="1775" width="810" height="390" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<rect x="910" y="1775" width="820" height="390" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<text x="100" y="1817" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A66F12" font-weight="700">WEBLINK</text>
+<rect x="100" y="1847" width="750" height="75" rx="17" fill="#F5F3EC" stroke="none"/>
+<text x="125" y="1897" font-family="Segoe UI,Arial,sans-serif" font-size="36" fill="#086C68" font-weight="600">The story</text>
+<text x="650" y="1895" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#086C68" font-weight="400">↗</text>
+<text x="100" y="1966" font-family="Consolas,monospace" font-size="26" fill="#182D39" font-weight="400">W.text = "The story"</text>
+<text x="100" y="2003" font-family="Consolas,monospace" font-size="26" fill="#182D39" font-weight="400">W.href = "encounter-story.html"</text>
+<text x="100" y="2062" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">Rendered as an &lt;a&gt; with href and text.</text>
+<text x="100" y="2096" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">Guard: page.P.subject = navigation.N.target.</text>
+<text x="100" y="2130" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">Opening it selects the page for TheStory.</text>
+<text x="940" y="1817" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#674B89" font-weight="700">MAINFRAMEROW</text>
+<rect x="940" y="1847" width="760" height="75" rx="17" fill="#182D39" stroke="none"/>
+<text x="965" y="1897" font-family="Consolas,monospace" font-size="33" fill="#FFFEFA" font-weight="500">01   What happened</text>
+<text x="940" y="1966" font-family="Consolas,monospace" font-size="25" fill="#182D39" font-weight="400">R.option = "01"; R.label = "What happened"</text>
+<text x="940" y="2003" font-family="Consolas,monospace" font-size="25" fill="#182D39" font-weight="400">R.target = @TheStory</text>
+<text x="940" y="2062" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">Fixture renderer: table → row → button.</text>
+<text x="940" y="2096" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">Selecting it runs OpenStory(story: @TheStory).</text>
+<text x="940" y="2130" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#50636D" font-weight="400">OpenStory produces a typed StoryPanel.</text>
+<rect x="70" y="2221" width="46" height="46" rx="23" fill="#182D39" stroke="none"/>
+<text x="84" y="2254" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="700">5</text>
+<text x="136" y="2255" font-family="Segoe UI,Arial,sans-serif" font-size="37" fill="#182D39" font-weight="650">Follow the edit back to its declared owner</text>
+<rect x="70" y="2295" width="1660" height="295" rx="17" fill="#FFFEFA" stroke="#CBD3CF"/>
+<text x="100" y="2337" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">EDIT OFFERED THROUGH THE VIEW</text>
+<text x="670" y="2337" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">WRITE DESTINATION</text>
+<text x="1255" y="2337" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#086C68" font-weight="700">AFTER RECOMPUTING</text>
+<text x="100" y="2390" font-family="Segoe UI,Arial,sans-serif" font-size="27" fill="#A66F12" font-weight="600">Web label → “Our story”</text>
+<text x="670" y="2390" font-family="Consolas,monospace" font-size="23" fill="#182D39" font-weight="400">WebMainMenu’s N.label literal</text>
+<text x="1255" y="2390" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Only the web label changes.</text>
+<text x="100" y="2450" font-family="Segoe UI,Arial,sans-serif" font-size="27" fill="#674B89" font-weight="600">Row label → “A better title”</text>
+<text x="670" y="2450" font-family="Consolas,monospace" font-size="25" fill="#182D39" font-weight="400">TheStory / S.Title</text>
+<text x="1255" y="2450" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Row + page title change.</text>
+<text x="1255" y="2483" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Web stays “The story”.</text>
+<text x="100" y="2528" font-family="Segoe UI,Arial,sans-serif" font-size="26" fill="#086C68" font-weight="600">Page title → source title</text>
+<text x="670" y="2528" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">Same source slot; same propagation.</text>
+<text x="1255" y="2540" font-family="Segoe UI,Arial,sans-serif" font-size="24" fill="#182D39" font-weight="400">No HTML or row patching.</text>
+<rect x="70" y="2630" width="1660" height="140" rx="17" fill="#182D39" stroke="none"/>
+<text x="100" y="2671" font-family="Segoe UI,Arial,sans-serif" font-size="21" fill="#A8DAD0" font-weight="700">EXPLICIT ROUTES — NOT A UNIVERSAL INVERSE</text>
+<text x="100" y="2713" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="400">ec.patch targets N.label or P.title, then recompiles, checks and verifies the forward result.</text>
+<text x="100" y="2748" font-family="Segoe UI,Arial,sans-serif" font-size="25" fill="#FFFEFA" font-weight="400">No declared edit route means refusal. Remove both web label + local edit to reveal the base route again.</text>
+<text x="70" y="2810" font-family="Segoe UI,Arial,sans-serif" font-size="23" fill="#50636D" font-weight="400">Verified: 29 fixture checks passed. This is a retained headless semantic example, not a rebuilt editor or mainframe.</text>
+<text x="70" y="2842" font-family="Segoe UI,Arial,sans-serif" font-size="22" fill="#50636D" font-weight="400">Sources: story.rel · contracts.rel · story.encounter · encounter-code-runtime.process.json · encounter-code.test.cjs</text>
+</svg>

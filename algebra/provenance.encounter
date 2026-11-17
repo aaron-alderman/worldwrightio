@@ -1,0 +1,345 @@
+process-module "temple/surface-process-module/1"
+
+process provenance.expression:
+  let expression = $eventInput.expression
+  let path = $eventInput.path
+  let result = null
+  when isArray($expression):
+    let operator = at($expression, 0)
+    assert includes(list("concat", "if", "at"), $operator)
+      otherwise "PROV-GRAMMAR: Rendering operation needs an explicit provenance law."
+    when eq($operator, "concat"):
+      fold range(add(count($expression), -1)) as index; joined starts { text = ""; parts = list() }:
+        port kernel.invoke { query = "provenance.expression"; input = { expression = at($expression, $index); path = append($path, list($index)) } } → part
+        yield { text = concat($joined.text, $part.text); parts = append($joined.parts, fold($part.parts, "p", "items", list(), append($items, list({ start = add($p.start, count($joined.text)); end = add($p.end, count($joined.text)); origin = $p.origin; child = $p.child; external = $p.external })))) } → result
+    when eq($operator, "if"):
+      port kernel.evaluate { expression = at($expression, 1); bindings = $bindings } → test
+      let branch = if($test, 2, 3)
+      port kernel.invoke { query = "provenance.expression"; input = { expression = at($expression, $branch); path = append($path, list($branch)) } } → result
+    when eq($operator, "at"):
+      port text.matches { value = at($expression, 1); pattern = "^\\$slots$" } → isSlot
+      assert $isSlot
+        otherwise "PROV-SLOT: Only declared composition slots may be external provenance inputs."
+      port kernel.evaluate { expression = at($expression, 2); bindings = $bindings } → slotName
+      port record.get { record = $slotSources; key = $slotName } → slotSource
+      assert if(eq($slotSource, null), false, true)
+        otherwise "PROV-SLOT: A composed slot requires an explicit source map."
+      port kernel.evaluate { expression = $expression; bindings = $bindings } → text
+      let result = { text = $text; parts = list({ start = 0; end = count($text); origin = null; child = null; external = $slotSource }) }
+  when if(isArray($expression), false, true):
+    port kernel.evaluate { expression = $expression; bindings = $bindings } → raw
+    port value.string { value = $raw } → text
+    let origin = { owner = $grammarOwner; pointer = append(list("rules", $node.op, "render"), $path) }
+    let kind = "rule"
+    port text.matches { value = $expression; pattern = "^\\$(?:n|q|h|c|j)\\." } → reference
+    when $reference:
+      port text.split { value = $expression; pattern = "\\." } → referencePath
+      port text.slice { value = at($referencePath, 0); start = 1 } → namespace
+      let field = at($referencePath, 1)
+      when includes(list("n", "q", "h"), $namespace):
+        let kind = "source"
+        let origin = { owner = $sourceOwner; pointer = list("nodes", $node.id, "data", $field) }
+        port record.get { record = at(at($node, "meaning"), "origins"); key = $field } → explicitOrigin
+        when if(eq($explicitOrigin, null), false, true):
+          let origin = $explicitOrigin
+      when includes(list("c", "j"), $namespace):
+        let kind = "children"
+    let result = { text = $text; parts = if(eq(count($text), 0), list(), list({ start = 0; end = count($text); origin = $origin; child = null; external = null })) }
+    when eq($kind, "children"):
+      let refs = if(eq($namespace, "c"), list(at($node.links, $field)), at($node.links, $field))
+      let separator = if(eq($namespace, "j"), at(at($rule.links, $field), "separator"), "")
+      fold $refs as ref; children starts { text = ""; parts = list(); index = 0 }:
+        let separatorText = if(eq($children.index, 0), "", $separator)
+        let offset = add(count($children.text), count($separatorText))
+        let childText = if(eq($ref, null), "", at($compiled, $ref))
+        let separatorParts = if(eq(count($separatorText), 0), list(), list({ start = count($children.text); end = $offset; origin = { owner = $grammarOwner; pointer = list("rules", $node.op, "links", $field, "separator") }; child = null; external = null }))
+        let childParts = if(eq(count($childText), 0), list(), list({ start = $offset; end = add($offset, count($childText)); origin = null; child = $ref; external = null }))
+        yield { text = concat($children.text, $separatorText, $childText); parts = append($children.parts, append($separatorParts, $childParts)); index = add($children.index, 1) } → children
+      assert eq($children.text, $text)
+        otherwise "PROV-JOIN: Child provenance must reproduce the exact rendered dependency."
+      let result = { text = $children.text; parts = $children.parts }
+
+process provenance.document:
+  fold $document.nodes as node; state starts { compiled = list(); nodes = list() }:
+    let compiled = $state.compiled
+    call projection.node
+    let projected = $result
+    let bindings = { n = $node.data; q = $q; h = $h; c = $c; j = $j; slots = $slots }
+    port kernel.invoke { query = "provenance.expression"; input = { expression = $rule.render; path = list() } } → trace
+    assert eq($trace.text, $projected)
+      otherwise "PROV-REPRODUCTION: Provenance does not reproduce the projection. Refuse the build."
+    yield { compiled = append($state.compiled, list($projected)); nodes = append($state.nodes, list({ id = $node.id; op = $node.op; length = count($projected); source = { owner = $sourceOwner; pointer = list("nodes", $node.id) }; rule = { owner = $grammarOwner; pointer = list("rules", $node.op) }; pieces = $trace.parts })) } → state
+  let result = { protocol = "encounter/derivation-map/1"; units = "utf16"; sourceOwner = $sourceOwner; grammarOwner = $grammarOwner; root = $document.entry; length = count(at($state.compiled, $document.entry)); nodes = $state.nodes }
+
+process provenance.locate:
+  let id = $eventInput.node
+  let offset = $eventInput.offset
+  let current = at($graph.nodes, $id)
+  port text.slice { value = $artifactText; start = 0; end = $offset } → prefix
+  assert eq(count($prefix), $offset)
+    otherwise "PROV-OFFSET: Use an in-range nonnegative integer coordinate."
+  port text.slice { value = $artifactText; start = $offset; end = $current.length } → remaining
+  assert if(eq(count($remaining), 0), false, true)
+    otherwise "PROV-OFFSET: Offset is outside this generated node."
+  fold $current.pieces as p; found starts null:
+    port text.slice { value = $artifactText; start = $offset; end = $p.end } → beforeEnd
+    port text.slice { value = $artifactText; start = $p.start; end = add($offset, 1) } → afterStart
+    yield if(eq(count($beforeEnd), 0), $found, if(eq(count($afterStart), 0), $found, $p)) → piece
+  assert if(eq($piece, null), false, true)
+    otherwise "PROV-COVERAGE: This generated character has no derivation."
+  let result = { origin = $piece.origin; external = $piece.external; path = list({ node = $id; source = $current.source; rule = $current.rule }); offset = $offset }
+  when if(eq($piece.child, null), false, true):
+    port text.slice { value = $artifactText; start = $piece.start; end = $offset } → relativePrefix
+    port kernel.invoke { query = "provenance.locate"; input = { node = $piece.child; offset = count($relativePrefix) } } → nested
+    let result = { origin = $nested.origin; external = $nested.external; path = append(list({ node = $id; source = $current.source; rule = $current.rule }), $nested.path); offset = $nested.offset }
+
+process provenance.describe:
+  let result = { boundary = "Exact generated definition; no inverse edit is claimed."; source = $eventInput.source; rule = $eventInput.rule; mapping = $eventInput.mapping }
+
+process provenance.cssDocument:
+  fold range(count($policy.themes)) as themeNumber; origins starts list():
+    let themeIndex = add($themeNumber, -1)
+    let theme = at($policy.themes, $themeIndex)
+    port record.entries { value = $theme.roles } → roles
+    yield append($origins, fold($roles, "role", "items", list(), append($items, list({ pointer = list("themes", $themeIndex, "roles", at($role, 0)); theme = list("themes", $themeIndex, "id") })))) → tokenOrigins
+  fold range(count($plan.tokens)) as tokenNumber; tokens starts list():
+    let tokenIndex = add($tokenNumber, -1)
+    let token = at($plan.tokens, $tokenIndex)
+    let tokenOrigin = at($tokenOrigins, $tokenIndex)
+    yield append($tokens, list({ id = $tokenIndex; op = "Declaration"; data = { property = concat("--", $token.name); value = $token.value }; links = {}; meaning = { origins = { property = { owner = "source/inspection/algebra/source-presentation.process.json"; pointer = list("queries", "sp.stylePlan", 2, "steps", 3, "steps", 0, "value"); transform = "generated-custom-property-name"; derivation = { owner = "source/inspection/algebra/source-presentation.process.json"; pointer = list("queries", "sp.stylePlan") }; inputs = list({ owner = "source/inspection/source/presentation/source-presentation.json"; pointer = $tokenOrigin.theme }, { owner = "source/inspection/source/presentation/source-presentation.json"; pointer = $tokenOrigin.pointer; facet = "key" }) }; value = { owner = "source/inspection/source/presentation/source-presentation.json"; pointer = $tokenOrigin.pointer } } } })) → nodes
+  let rootId = count($nodes)
+  let rootRule = { id = $rootId; op = "StyleRule"; data = { selector = ":root" }; links = { children = fold(range($rootId), "n", "ids", list(), append($ids, list(add($n, -1)))) }; meaning = { origins = { selector = { owner = "source/inspection/algebra/css.process.json"; pointer = list("queries", "css.renderPlan", 3, "value", 2) } } } }
+  fold range(count($plan.rules)) as ruleNumber; state starts { nodes = append($nodes, list($rootRule)); rules = list($rootId) }:
+    let ruleIndex = add($ruleNumber, -1)
+    let cssRule = at($plan.rules, $ruleIndex)
+    let layout = includes(range(count($policy.layoutRules)), $ruleNumber)
+    let roleIndex = add($ruleIndex, if($layout, 0, add(-1, add(count($policy.layoutRules), -1))))
+    port text.slice { value = concat(fold($policy.layoutRules, "r", "s", "", concat($s, "x"))); start = 0; end = $ruleIndex } → unused
+    let roleOrigin = at(at($tokenOrigins, add($ruleIndex, -1)), "pointer")
+    when if($layout, false, true):
+      port text.slice { value = fold($plan.rules, "r", "s", "", concat($s, "x")); start = count($policy.layoutRules); end = $ruleIndex } → palettePrefix
+      let roleOrigin = at(at($tokenOrigins, count($palettePrefix)), "pointer")
+    fold range(count($cssRule.declarations)) as declarationNumber; declarations starts { nodes = $state.nodes; children = list() }:
+      let declarationIndex = add($declarationNumber, -1)
+      let declaration = at($cssRule.declarations, $declarationIndex)
+      let id = count($declarations.nodes)
+      yield { nodes = append($declarations.nodes, list({ id = $id; op = "Declaration"; data = { property = $declaration.property; value = $declaration.value }; links = {}; meaning = { origins = { property = if($layout, { owner = "source/inspection/source/presentation/source-presentation.json"; pointer = append(list("layoutRules", $ruleIndex, "declarations", $declarationIndex), list("property")) }, { owner = "source/inspection/algebra/source-presentation.process.json"; pointer = list("queries", "sp.stylePlan", 2, "steps", 3, "steps", 2, "value", 2, 1, "declarations", 1, "property"); transform = "derived-expression"; inputs = list({ owner = "source/inspection/source/presentation/source-presentation.json"; pointer = $roleOrigin; facet = "key" }) }); value = if($layout, { owner = "source/inspection/source/presentation/source-presentation.json"; pointer = append(list("layoutRules", $ruleIndex, "declarations", $declarationIndex), list("value")) }, { owner = "source/inspection/algebra/source-presentation.process.json"; pointer = list("queries", "sp.stylePlan", 2, "steps", 3, "steps", 2, "value", 2, 1, "declarations", 1, "value"); transform = "derived-expression"; inputs = list({ owner = "source/inspection/source/presentation/source-presentation.json"; pointer = $roleOrigin; facet = "key" }) }) } } })); children = append($declarations.children, list($id)) } → declarations
+    let id = count($declarations.nodes)
+    let styleRule = { id = $id; op = "StyleRule"; data = { selector = $cssRule.selector }; links = { children = $declarations.children }; meaning = { origins = { selector = if($layout, { owner = "source/inspection/source/presentation/source-presentation.json"; pointer = list("layoutRules", $ruleIndex, "selector") }, { owner = "source/inspection/algebra/source-presentation.process.json"; pointer = list("queries", "sp.stylePlan", 2, "steps", 3, "steps", 2, "value", 2, 1, "selector"); transform = "generated-theme-selector"; derivation = { owner = "source/inspection/algebra/source-presentation.process.json"; pointer = list("queries", "sp.stylePlan") }; inputs = list({ owner = "source/inspection/source/presentation/source-presentation.json"; pointer = $roleOrigin; facet = "key" }) }) } } }
+    let nextNodes = append($declarations.nodes, list($styleRule))
+    let ruleId = $id
+    when if(eq($cssRule.context, null), false, true):
+      let ruleId = add($id, 1)
+      let nextNodes = append($nextNodes, list({ id = $ruleId; op = "MediaRule"; data = { condition = $cssRule.context }; links = { children = list($id) }; meaning = { origins = { condition = { owner = "source/inspection/source/presentation/source-presentation.json"; pointer = list("layoutRules", $ruleIndex, "context") } } } }))
+    yield { nodes = $nextNodes; rules = append($state.rules, list($ruleId)) } → state
+  let entry = count($state.nodes)
+  let result = { protocol = "encounter/style-projection/1"; identity = "presentation/style.css"; nodes = append($state.nodes, list({ id = $entry; op = "StyleStream"; data = {}; links = { children = $state.rules } })); entry = $entry }
+
+process provenance.navigationDocument:
+  fold range(count($definition.navigation)) as number; nav starts { nodes = list(); children = list() }:
+    let index = add($number, -1)
+    let item = at($definition.navigation, $index)
+    let id = count($nav.nodes)
+    let route = eq($item.kind, "route")
+    yield { nodes = append($nav.nodes, list({ id = $id; op = "Attribute"; data = { name = if($route, "href", "data-action"); value = if($route, at($item, "href"), at($item, "action")) }; links = {}; meaning = { origins = { value = { owner = "source/application.encounter"; pointer = list("navigation", $index, if($route, "href", "action")) } } } }, { id = add($id, 1); op = "Attribute"; data = { name = "data-inspect-key"; value = concat("application/navigation/", $index) }; links = {} }, { id = add($id, 2); op = "Text"; data = { value = $item.label }; links = {}; meaning = { origins = { value = { owner = "source/application.encounter"; pointer = list("navigation", $index, "label") } } } }, { id = add($id, 3); op = if($route, "Link", "Action"); data = {}; links = { attributes = list($id, add($id, 1)); children = list(add($id, 2)) } })); children = append($nav.children, list(add($id, 3))) } → nav
+  let entry = count($nav.nodes)
+  let result = { protocol = "encounter/composition-projection/1"; identity = "application/navigation.html"; nodes = append($nav.nodes, list({ id = $entry; op = "Fragment"; data = {}; links = { children = $nav.children } })); entry = $entry }
+
+process provenance.envelope:
+  let profile = at($policy.envelopes, $kind)
+  let prefix = if(eq($profile.before, ""), "", concat($profile.before, $owner, $profile.after))
+  let result = { text = concat($prefix, $body, $profile.suffix); map = { protocol = "encounter/derivation-map/1"; units = "utf16"; artifact = $artifact; sourceOwner = $graph.sourceOwner; grammarOwner = $graph.grammarOwner; root = $graph.root; nodes = $graph.nodes; length = $graph.length; bodyStart = count($prefix); bodyEnd = add(count($prefix), $graph.length); envelope = { owner = "source/provenance.policy.json"; pointer = list("envelopes", $kind); rule = { owner = "algebra/provenance.process.json"; pointer = list("queries", "provenance.envelope") } } } }
+
+process provenance.resolve:
+  let offset = $eventInput.offset
+  let graph = at($maps, $eventInput.artifact)
+  let artifactText = at($texts, $eventInput.artifact)
+  port value.describe { value = $graph } → graphType
+  assert if($graphType.null, false, eq($graphType.type, "object"))
+    otherwise "PROV-MAP: Select an artifact with a character map."
+  port text.slice { value = $artifactText; start = 0; end = add($offset, 1) } → validPrefix
+  assert eq(count($validPrefix), add($offset, 1))
+    otherwise "PROV-OFFSET: Offset is outside the artifact."
+  port text.slice { value = $artifactText; start = $offset; end = $graph.bodyEnd } → beforeBodyEnd
+  port text.slice { value = $artifactText; start = $graph.bodyStart; end = add($offset, 1) } → afterBodyStart
+  let isBody = if(eq(count($beforeBodyEnd), 0), false, if(eq(count($afterBodyStart), 0), false, true))
+  let result = { origin = $graph.envelope; external = null; path = list(); offset = $offset }
+  when $isBody:
+    port text.slice { value = $artifactText; start = $graph.bodyStart; end = $offset } → bodyPrefix
+    port kernel.invoke { query = "provenance.locate"; input = { node = $graph.root; offset = count($bodyPrefix) } } → result
+    when if(eq($result.external, null), false, true):
+      let prior = $result
+      port kernel.invoke { query = "provenance.resolve"; input = { artifact = $prior.external.artifact; offset = $prior.offset } } → result
+      let result = { origin = $result.origin; external = null; path = append($prior.path, $result.path); offset = $result.offset }
+
+process provenance.accept:
+  assert eq(count(distinct(fold($producers, "p", "paths", list(), append($paths, list($p.artifact))))), count($producers))
+    otherwise "PROV-PRODUCER: More than one producer claims an artifact."
+  each $observed as output:
+    let matches = fold($producers, "p", "found", list(), if(eq($p.artifact, $output.path), append($found, list($p)), $found))
+    assert eq(count($matches), 1)
+      otherwise "PROV-UNDECLARED: Output has no declared producer. Refuse automatic admission."
+  each $producers as producer:
+    let matches = fold($observed, "o", "found", list(), if(eq($o.path, $producer.artifact), append($found, list($o)), $found))
+    assert eq(count($matches), 1)
+      otherwise "PROV-MISSING: A declared producer did not emit its artifact."
+    each $producer.sources as source:
+      let input = fold($inputs, "i", "found", null, if(eq($i.path, $source), $i, $found))
+      assert if(eq($input, null), false, true)
+        otherwise "PROV-SOURCE: Producer refers to an undeclared source owner."
+    when eq($producer.kind, "byte-copy"):
+      assert eq(count($producer.sources), 1)
+        otherwise "PROV-COPY: A byte copy requires exactly one owner."
+      let copyOwner = fold($inputs, "i", "found", null, if(eq($i.path, at($producer.sources, 0)), $i, $found))
+      assert eq($copyOwner.sha256, at(at($matches, 0), "sha256"))
+        otherwise "PROV-COPY: Copied bytes do not agree with their canonical owner."
+  let result = true
+
+process provenance.plan:
+  fold list("programs", "styles", "pages", "assets", "semantics", "data") as kind; plan starts $policy.fixed:
+    let projected = includes(list("programs", "styles", "pages"), $kind)
+    let grammar = if(eq($kind, "programs"), "algebra/program-grammar.json", if(eq($kind, "styles"), "algebra/style-grammar.json", "algebra/composition-grammar.json"))
+    fold at($manifest, $kind) as item; records starts $plan:
+      yield if(eq($item.output, null), $records, append($records, list({ artifact = $item.output; kind = if($projected, "typed-projection", "byte-copy"); sources = if($projected, list($item.owner, $grammar, "algebra/projection.process.json", "algebra/provenance.process.json", "source/provenance.policy.json"), list($item.owner)); rules = if($projected, list({ owner = "algebra/projection.process.json"; pointer = list("queries", "projection.document") }), list()); coverage = if($projected, "character-map", "byte-identity"); inverse = "none" }))) → next
+    yield $next → plan
+  fold $manifest.programs as programme; programmeGraphs starts $plan:
+    yield append($programmeGraphs, list({ artifact = $programme.graph; kind = "programme-node-graph"; sources = append(at($programInputs, $programme.owner), list("bootstrap/program-source.cjs", "algebra/program-grammar.json")); rules = list(); coverage = "declared-inputs"; inverse = "none" })) → plan
+  fold $manifest.styles as style; styleGraphs starts $plan:
+    yield append($styleGraphs, list({ artifact = $style.graph; kind = "style-node-graph"; sources = list($style.owner, "bootstrap/style-source.cjs", "algebra/style-grammar.json"); rules = list(); coverage = "declared-inputs"; inverse = "none" })) → plan
+  fold $manifest.pages as page; graphs starts $plan:
+    yield append($graphs, list({ artifact = $page.graph; kind = "page-node-graph"; sources = list($page.owner, "bootstrap/page-source.cjs", "algebra/composition-grammar.json"); rules = list(); coverage = "declared-inputs"; inverse = "none" })) → plan
+  port record.entries { value = $definition.views } → views
+  fold $views as pair; viewsPlan starts $plan:
+    let view = at($pair, 1)
+    yield append($viewsPlan, list({ artifact = $view.fragment; kind = "composition-slice"; sources = list($view.composition, "source/application.encounter", "algebra/application.process.json", "algebra/composition-grammar.json", "algebra/projection.process.json", "algebra/provenance.process.json", "source/provenance.policy.json"); rules = list({ owner = "algebra/application.process.json"; pointer = list("queries", "application.selection") }, { owner = "algebra/projection.process.json"; pointer = list("queries", "projection.document") }); coverage = "character-map"; inverse = "none" })) → plan
+  fold $definition.compatibility as alias; aliases starts { items = list(); paths = list() }:
+    port text.matches { value = $alias.path; pattern = "/$" } → directory
+    let artifact = if($directory, concat($alias.path, "index.html"), $alias.path)
+    yield if(includes($aliases.paths, $artifact), $aliases, { items = append($aliases.items, list({ artifact = $artifact; kind = "compatibility-route"; sources = list("source/application.encounter", "bootstrap/build.cjs", "source/semantics/algebra/html.process.json"); rules = list({ owner = "source/semantics/algebra/html.process.json"; pointer = list("queries", "html.serialize") }); coverage = "declared-inputs"; inverse = "none" })); paths = append($aliases.paths, list($artifact)) }) → aliases
+  let plan = append($plan, $aliases.items)
+  let plan = append($plan, list({ artifact = "application/navigation.html"; kind = "semantic-projection"; sources = list("source/application.encounter", "algebra/provenance.process.json", "algebra/composition-grammar.json", "algebra/projection.process.json", "source/provenance.policy.json"); rules = list({ owner = "algebra/provenance.process.json"; pointer = list("queries", "provenance.navigationDocument") }); coverage = "character-map"; inverse = "none" }, { artifact = "presentation/style.css"; kind = "semantic-style"; sources = list("source/inspection/source/presentation/source-presentation.json", "source/inspection/algebra/source-presentation.process.json", "source/inspection/algebra/css.process.json", "algebra/provenance.process.json", "algebra/style-grammar.json", "algebra/projection.process.json", "source/provenance.policy.json"); rules = list({ owner = "source/inspection/algebra/source-presentation.process.json"; pointer = list("queries", "sp.stylePlan") }, { owner = "algebra/provenance.process.json"; pointer = list("queries", "provenance.cssDocument") }, { owner = "source/inspection/algebra/css.process.json"; pointer = list("queries", "css.renderPlan") }); coverage = "character-map"; inverse = "none" }))
+  let maps = fold($plan, "p", "records", list(), if(eq($p.coverage, "character-map"), append($records, list({ artifact = concat("ownership/maps/", $p.artifact, ".map.json"); kind = "derivation-map"; sources = append($p.sources, list("algebra/provenance.process.json", "bootstrap/provenance.cjs")); rules = list({ owner = "algebra/provenance.process.json"; pointer = list("queries", "provenance.document") }); coverage = "declared-inputs"; inverse = "none" })), $records))
+  let snapshots = fold($inputs, "input", "records", list(), append($records, list({ artifact = concat("ownership/sources/", $input.path); kind = "byte-copy"; sources = list($input.path); rules = list(); coverage = "byte-identity"; inverse = "none" })))
+  let result = append(append($plan, $maps), append($snapshots, list({ artifact = "ownership/index.json"; kind = "provenance-index"; sources = list("algebra/provenance.process.json", "source/provenance.policy.json", "source/build.json", "source/application.encounter"); rules = list({ owner = "algebra/provenance.process.json"; pointer = list("queries", "provenance.index") }); coverage = "declared-inputs"; inverse = "none" })))
+
+process provenance.fragment:
+  fold $refs as ref; fragment starts { text = ""; parts = list() }:
+    let text = at($compiled, $ref)
+    yield { text = concat($fragment.text, $text); parts = append($fragment.parts, if(eq(count($text), 0), list(), list({ start = count($fragment.text); end = add(count($fragment.text), count($text)); origin = null; child = $ref; external = null }))) } → fragment
+  let id = count($graph.nodes)
+  let result = { text = $fragment.text; graph = { protocol = "encounter/derivation-map/1"; units = "utf16"; sourceOwner = $graph.sourceOwner; grammarOwner = $graph.grammarOwner; root = $id; length = count($fragment.text); nodes = append($graph.nodes, list({ id = $id; op = "CompositionSlice"; length = count($fragment.text); source = { owner = "source/application.encounter"; pointer = $partsPointer }; rule = { owner = "algebra/application.process.json"; pointer = list("queries", "application.selection") }; pieces = $fragment.parts })) } }
+
+process provenance.recordLinks:
+  let record = $eventInput.record
+  port record.get { record = $producerIndex; key = $record.source.file } → producer
+  let result = { record = $record; nodes = list() }
+  when if(eq($producer, null), false, true):
+    let origins = if(eq($record.kind, "SourceFile"), append(fold($producer.sources, "owner", "refs", list(), append($refs, list({ owner = $owner; pointer = list() }))), $producer.rules), list())
+    port record.get { record = $maps; key = $record.source.file } → mapped
+    port value.describe { value = $mapped } → mapType
+    when if($mapType.null, false, if(eq($record.kind, "SourceFile"), false, true)):
+      port kernel.invoke { query = "provenance.resolve"; input = { artifact = $record.source.file; offset = $record.source.startUtf16 } } → location
+      let last = if(eq(count($location.path), 0), null, at($location.path, add(count($location.path), -1)))
+      port record.get { record = $location.origin; key = "inputs" } → originInputs
+      when if(eq($originInputs, null), false, true):
+        let origins = append($origins, $originInputs)
+      let origins = append($origins, if(eq($location.origin, null), list(), list($location.origin)))
+      when if(eq($last, null), false, true):
+        let origins = append($origins, list($last.source, $last.rule))
+    fold $origins as origin; paired starts list():
+      port record.get { record = $authorityOwners; key = $origin.owner } → authority
+      let next = append($paired, list($origin))
+      when if(eq($authority, null), false, true):
+        let authorityRef = { owner = $authority; pointer = $origin.pointer; facet = at($origin, "facet") }
+        port source.hasSpan { owner = $authorityRef.owner; pointer = $authorityRef.pointer; facet = $authorityRef.facet } → exact
+        when $exact:
+          let next = append($next, list($authorityRef))
+      yield $next → sources
+    fold $sources as origin; attribution starts { nodes = list(); links = $record.links }:
+      port source.observe { owner = $origin.owner; pointer = $origin.pointer; facet = at($origin, "facet") } → observed
+      let label = concat($origin.owner, " · ", $observed.pointerText)
+      let node = { id = $observed.id; label = $label; kind = "Canonical source / derivation rule"; literalType = null; source = $observed.source; links = list() }
+      yield { nodes = append($attribution.nodes, list($node)); links = if(eq($observed.id, $record.id), $attribution.links, append($attribution.links, list({ label = concat("Derived from → ", $label); target = $observed.id; relation = "derivation" }))) } → attribution
+    port record.put { record = $record; key = "links"; value = $attribution.links } → record
+    let result = { record = $record; nodes = $attribution.nodes }
+
+process provenance.cataloguePaths:
+  let result = fold($paths, "file", "selected", list(), let("producer", at($producerIndex, $file), if(eq(at($producer, "kind"), "derivation-map"), $selected, append($selected, list($file)))))
+
+process provenance.pointer:
+  port record.get { record = $sourceValues; key = $eventInput.owner } → sourceValue
+  port value.describe { value = $sourceValue } → sourceType
+  assert if($sourceType.null, false, true)
+    otherwise "PROV-SOURCE: Missing declared source value for provenance."
+  let point = fold($eventInput.pointer, "key", "value", $sourceValue, at($value, $key))
+  port value.describe { value = $point } → pointType
+  assert if(eq($pointType.type, "undefined"), false, true)
+    otherwise "PROV-POINTER: Attribution points to a missing source field or algebra rule."
+  let result = true
+
+process provenance.checkMap:
+  each $graph.nodes as node:
+    port kernel.invoke { query = "provenance.pointer"; input = $node.source } → _
+    port kernel.invoke { query = "provenance.pointer"; input = $node.rule } → _
+    each $node.pieces as piece:
+      when if(eq($piece.origin, null), false, true):
+        port kernel.invoke { query = "provenance.pointer"; input = $piece.origin } → _
+  let result = true
+
+process provenance.receipt:
+  call provenance.accept
+  let result = fold($observed, "output", "artifacts", list(), let("producer", fold($producers, "p", "found", null, if(eq($p.artifact, $output.path), $p, $found)), append($artifacts, list({ path = $output.path; sha256 = $output.sha256; owner = $producer.sources; producer = $producer }))))
+
+process provenance.index:
+  let result = { protocol = "encounter/provenance-index/1"; units = "utf16"; sources = $inputs; producers = $producers; inverse = $policy.inverse; boundary = "Character maps identify source nodes and rules. Declared-input records for native and composed snapshots do not assert character-level derivation." }
+
+
+process provenance.applicationBindings:
+  port record.entries { value = $definition.views } → views
+  let groups = list(
+    { key = "navigation"; entries = range(count($definition.navigation)) },
+    { key = "routes"; entries = range(count($definition.routes)) },
+    { key = "views"; entries = fold($views, "pair", "names", list(), append($names, list(at($pair, 0)))) }
+  )
+  fold $groups as group; state starts { bindings = {}; nodes = list(); links = list() }:
+    fold $group.entries as entry; groupState starts { bindings = {}; nodes = $state.nodes; links = $state.links }:
+      let key = if(eq($group.key, "views"), $entry, add($entry, -1))
+      let item = at(at($definition, $group.key), $key)
+      let label = concat($group.key, " · ", if(eq($group.key, "views"), $key, if(eq($group.key, "routes"), $item.hash, $item.label)))
+      port source.observe { owner = "source/application.encounter"; pointer = list($group.key, $key) } → observed
+      port record.put { record = $groupState.bindings; key = concat("", $key); value = $observed.id } → groupBindings
+      let node = { id = $observed.id; label = $label; kind = "Encounter declaration"; literalType = null; source = $observed.source; links = list() }
+      yield { bindings = $groupBindings; nodes = append($groupState.nodes, list($node)); links = append($groupState.links, list({ label = $label; target = $observed.id; relation = "source" })) } → groupResult
+    port record.put { record = $state.bindings; key = $group.key; value = $groupResult.bindings } → bindings
+    yield { bindings = $bindings; nodes = $groupResult.nodes; links = $groupResult.links } → result
+
+
+process provenance.renderedRanges:
+  let node = at($graph.nodes, $eventInput.node)
+  let offset = $eventInput.offset
+  fold $node.pieces as piece; ranges starts list():
+    let start = add($offset, $piece.start)
+    let next = $ranges
+    when if(eq($piece.child, null), false, true):
+      port kernel.invoke { query = "provenance.renderedRanges"; input = { node = $piece.child; offset = $start } } → children
+      let next = append($ranges, $children)
+    when includes($renderedOwners, at($piece.origin, "owner")):
+      let cssProperty = if(eq($recordKind, "Rendered style value"), eq(at($piece.origin.pointer, 3), "property"), false)
+      when if($cssProperty, false, true):
+        let next = append($ranges, list({ start = $start; end = add($offset, $piece.end); origin = $piece.origin }))
+    yield $next → result
+
+process provenance.renderedRecords:
+  port kernel.invoke { query = "provenance.renderedRanges"; input = { node = $graph.root; offset = $graph.bodyStart } } → ranges
+  fold $ranges as range; collected starts { nodes = list(); links = list() }:
+    port output.observe { start = $range.start; end = $range.end } → output
+    let next = $collected
+    port text.matches { value = $output.text; pattern = "\\S" } → visible
+    when $visible:
+      port text.slice { value = $output.text; start = 0; end = 90 } → excerpt
+      port source.observe { owner = $range.origin.owner; pointer = $range.origin.pointer } → authored
+      let label = concat($range.origin.owner, " · ", $authored.pointerText)
+      let sourceNode = { id = $authored.id; label = $label; kind = "Encounter declaration"; literalType = null; source = $authored.source; links = list() }
+      let rendered = { id = $output.id; label = $excerpt; kind = $recordKind; literalType = "string"; source = $output.source; links = list({ label = concat("Derived from → ", $label); target = $authored.id; relation = "derivation" }) }
+      let next = { nodes = append($collected.nodes, list($sourceNode, $rendered)); links = append($collected.links, list({ label = $excerpt; target = $output.id; relation = "contains" })) }
+    yield $next → result

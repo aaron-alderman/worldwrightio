@@ -1,0 +1,9 @@
+const fs=require('node:fs'),{author}=require('./ir-authoring.cjs');const file='source/styles/style.style.json',d=JSON.parse(fs.readFileSync(file)),a=author(d);
+const rule=(selector,values)=>a.add('StyleRule',{selector},{children:Object.entries(values).map(([property,value])=>a.add('Declaration',{property,value},{}))});
+const root=d.nodes[d.entry].links[Object.keys(d.nodes[d.entry].links)[0]];
+root.push(rule('.application-scene',{'margin':'0 5.2%','max-width':'1440px'}),rule('.header nav a',{'font-size':'12px','letter-spacing':'.3px','padding':'12px 0','color':'#c7bfca','text-decoration':'none'}));
+const mobile=[rule('.header',{'height':'auto','min-height':'100px','flex-wrap':'wrap','gap':'8px','padding':'18px 0'}),rule('.header nav',{'order':'3','width':'100%','flex-wrap':'wrap','gap':'16px'}),rule('.header nav button,.header nav a,.header nav button:nth-child(2),.header nav button:nth-child(3)',{'display':'inline-flex','font-size':'11px'}),rule('.header nav button:nth-child(3)::after',{'content':'none'}),rule('.application-scene',{'margin':'0 6%'})];
+const context=d.nodes.find(n=>n.data.condition?.includes('max-width:740px'));if(!context)throw Error('Missing style context');root.push(a.add(context.op,{...context.data},{children:mobile}));a.finish(file);
+const p='source/programs/app.program.json',programme=JSON.parse(fs.readFileSync(p)),b=author(programme);
+const event=b.name('event'),callback=b.arrow(['event'],b.block([b.expr(b.call(b.member(event,'preventDefault'))),b.expr(b.call(b.member(b.name('main'),'focus'),[b.record({preventScroll:b.literal(false)})]))]),false,true);
+programme.nodes[programme.entry].links.body.push(b.expr(b.call(b.member(b.call(b.member(b.name('document'),'querySelector'),[b.literal('.skip-link')]),'addEventListener'),[b.literal('click'),callback])));b.finish(p);

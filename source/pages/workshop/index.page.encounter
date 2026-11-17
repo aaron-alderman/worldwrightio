@@ -1,0 +1,1089 @@
+process-module "temple/surface-process-module/1"
+
+process page.definition:
+  let result = {
+    protocol = "encounter/composition-projection/1";
+    identity = "workshop/index.html";
+    reason = "Compose the page from named presentation roles and explicit control/source identities.";
+    target = "workshop/index.html";
+    goal = "Project HTML without importing a handwritten page.";
+    identify = true;
+    page = list("Document", {
+      children = list(
+        "\n",
+        list("DocumentElement", {
+          attributes = { lang = "en" };
+          children = list(
+            list("Metadata", {
+              children = list(
+                list("MetaValue", { attributes = { charset = "utf-8" } }),
+                list("MetaValue", { attributes = { name = "viewport"; content = "width=device-width,initial-scale=1" } }),
+                list("PageTitle", { children = list("TheStory · a living infographic") }),
+                list("Resource", { attributes = { rel = "icon"; href = "data:," } }),
+                list("Resource", { attributes = { rel = "stylesheet"; href = "./style.css" } }),
+                list("Runtime", { attributes = { type = "module"; src = "./browser-host.js" } })
+              )
+            }),
+            "\n",
+            list("PageBody", {
+              children = list(
+                list("Link", {
+                  attributes = { class = "skip"; href = "#source-story" };
+                  children = list("Skip to the story")
+                }),
+                list("Main", {
+                  children = list(
+                    "\n",
+                    list("Header", {
+                      children = list(
+                        list("Paragraph", {
+                          attributes = { class = "tour-back" };
+                          children = list(
+                            list("Link", { attributes = { href = "../#workshop" }; children = list("← Back to the Worldwright trail") }),
+                            list("Inline", { children = list("THE WORKSHOP · AN ENCOUNTER EXAMPLE") })
+                          )
+                        }),
+                        list("Paragraph", {
+                          attributes = { class = "eyebrow" };
+                          children = list(
+                            "Encounter ",
+                            list("Inline", { children = list("/") }),
+                            " a living infographic"
+                          )
+                        }),
+                        list("Group", {
+                          attributes = { class = "title-row" };
+                          children = list(
+                            list("Group", {
+                              children = list(
+                                list("HeadingOne", { children = list("One story.", list("LineBreak"), "Follow the thread.") }),
+                                list("Paragraph", {
+                                  attributes = { class = "hero-note" };
+                                  children = list("Meaning → projection → context → HTML → source.")
+                                })
+                              )
+                            }),
+                            list("Group", {
+                              attributes = { class = "intro" };
+                              children = list(
+                                list("Paragraph", {
+                                  children = list(
+                                    "AI can help with the work.",
+                                    list("LineBreak"),
+                                    "You decide what is worth making."
+                                  )
+                                }),
+                                list("Paragraph", {
+                                  attributes = { class = "quiet" };
+                                  children = list(
+                                    "Change a value. Follow its meaning, rules and consequences. The example makes human choices visible and machine work inspectable."
+                                  )
+                                }),
+                                list("Inline", { attributes = { class = "badge"; id = "revision" }; children = list("Connecting…") })
+                              )
+                            })
+                          )
+                        }),
+                        list("Paragraph", {
+                          attributes = { class = "infographic-entry" };
+                          children = list(
+                            list("Link", {
+                              attributes = { href = "./lightning.html"; target = "_blank"; rel = "opener" };
+                              children = list("Follow the lightning method ↗")
+                            }),
+                            list("Link", {
+                              attributes = { href = "./infographics.html" };
+                              children = list("View & print the infographics ↗")
+                            }),
+                            list("Inline", { children = list("Three diagrams · zoom · print or save PDF") })
+                          )
+                        })
+                      )
+                    }),
+                    "\n",
+                    list("Disclosure", {
+                      attributes = { class = "authorship-note" };
+                      children = list(
+                        list("DisclosureLabel", { children = list("Less unnecessary labour. More room for human authorship.") }),
+                        list("Group", {
+                          children = list(
+                            list("Paragraph", {
+                              children = list(
+                                list("Emphasis", { children = list("You choose the purpose.") }),
+                                " Taste, usefulness, care and responsibility remain human work. A functioning application is a beginning; people decide whether it serves them well."
+                              )
+                            }),
+                            list("Paragraph", {
+                              children = list(
+                                list("Emphasis", { children = list("You can understand and change the workings.") }),
+                                " The wider aim is architecture you can inspect, revise, replace and take with you. Here, two editable values demonstrate explicit source ownership; general programme and contract editing remain future work."
+                              )
+                            }),
+                            list("Paragraph", {
+                              children = list(
+                                list("Emphasis", { children = list("You can ask what was checked.") }),
+                                " Assurance should fit the consequences and retain essential safeguards. This example checks a bounded typed edit and its forward result. That is evidence for this slice, not independent verification or a guarantee of a larger application."
+                              )
+                            }),
+                            list("Paragraph", {
+                              children = list(
+                                "Remove unnecessary labour. Preserve human authorship. Make the consequences understandable and the evidence inspectable."
+                              )
+                            })
+                          )
+                        })
+                      )
+                    }),
+                    list("Group", {
+                      attributes = { class = "live-status" };
+                      children = list(
+                        list("Inline", { attributes = { class = "live-dot"; "aria-hidden" = "true" } }),
+                        list("Paragraph", {
+                          attributes = { id = "status"; role = "status"; "aria-live" = "polite" };
+                          children = list("Preparing the checked example…")
+                        }),
+                        list("Link", { attributes = { href = "#return-path" }; children = list("Follow the last edit ↓") })
+                      )
+                    }),
+                    list("Paragraph", { attributes = { id = "error"; role = "alert"; hidden = null } }),
+                    "\n\n",
+                    list("Group", {
+                      attributes = { class = "flow" };
+                      children = list(
+                        "\n",
+                        list("Section", {
+                          attributes = { id = "source-story"; class = "stage"; "aria-labelledby" = "meaning-heading" };
+                          children = list(
+                            list("Group", {
+                              attributes = { class = "stage-heading" };
+                              children = list(
+                                list("Inline", { attributes = { class = "step"; "aria-hidden" = "true" }; children = list("1") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", { attributes = { class = "eyebrow" }; children = list("Meaning / the source") }),
+                                    list("HeadingTwo", { attributes = { id = "meaning-heading" }; children = list("Start with the story") })
+                                  )
+                                }),
+                                list("Inline", { attributes = { class = "kind" }; children = list("Story") })
+                              )
+                            }),
+                            "\n",
+                            list("Group", {
+                              attributes = { class = "source-grid" };
+                              children = list(
+                                list("Form", {
+                                  attributes = { id = "title-form"; class = "edit-card story" };
+                                  children = list(
+                                    list("Paragraph", { attributes = { class = "object-id" }; children = list("@TheStory") }),
+                                    list("Label", { attributes = { for = "story-title" }; children = list("What is its title?") }),
+                                    list("Group", {
+                                      attributes = { class = "input-row" };
+                                      children = list(
+                                        list("Input", {
+                                          attributes = {
+                                            id = "story-title";
+                                            name = "title";
+                                            type = "text";
+                                            autocomplete = "off";
+                                            "aria-describedby" = "title-route";
+                                            disabled = null
+                                          }
+                                        }),
+                                        list("Action", {
+                                          attributes = { type = "submit"; disabled = null };
+                                          children = list(
+                                            "Apply title ",
+                                            list("Inline", { attributes = { "aria-hidden" = "true" }; children = list("↗") })
+                                          )
+                                        })
+                                      )
+                                    }),
+                                    list("CodeBlock", { attributes = { id = "fact-inline"; class = "compact"; "data-presentation-theme" = "dark" } }),
+                                    list("Paragraph", {
+                                      attributes = { class = "explain" };
+                                      children = list("Change this title and the row and story page follow.")
+                                    }),
+                                    list("Action", {
+                                      attributes = { id = "title-route"; class = "route-link"; type = "button"; "data-route" = "title" };
+                                      children = list("Loading route…")
+                                    }),
+                                    list("Disclosure", {
+                                      children = list(
+                                        list("DisclosureLabel", { children = list("Read the two content entries") }),
+                                        list("Group", { attributes = { id = "content-inline" } })
+                                      )
+                                    })
+                                  )
+                                }),
+                                "\n",
+                                list("Aside", {
+                                  attributes = { class = "type-card" };
+                                  children = list(
+                                    list("Paragraph", { attributes = { class = "eyebrow" }; children = list("What may belong here?") }),
+                                    list("HeadingThree", { children = list("A typed, named thing") }),
+                                    list("NamedValues", {
+                                      children = list(
+                                        list("ValueName", { children = list("S.Title") }),
+                                        list("ValueDescription", { children = list("One nonempty string") }),
+                                        list("ValueName", { children = list("S.Content") }),
+                                        list("ValueDescription", { children = list("Many strings, with named TextEntry occurrences") }),
+                                        list("ValueName", { children = list("Contract") }),
+                                        list("ValueDescription", { children = list("Closed: undeclared fields are refused") })
+                                      )
+                                    }),
+                                    list("Paragraph", {
+                                      attributes = { class = "quiet" };
+                                      children = list(
+                                        "These are the fixture’s Story contract. The full declarations are inspectable below."
+                                      )
+                                    }),
+                                    list("Action", {
+                                      attributes = { type = "button"; class = "text-link"; "data-source" = "contracts" };
+                                      children = list("Read the type contract ↗")
+                                    })
+                                  )
+                                })
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Group", {
+                          attributes = { class = "connector"; "aria-hidden" = "true" };
+                          children = list(
+                            list("Inline", { children = list("parse · index · compile · check") }),
+                            list("Element_b", { children = list("↓") })
+                          )
+                        }),
+                        "\n",
+                        list("Section", {
+                          attributes = { class = "stage"; "aria-labelledby" = "projection-heading" };
+                          children = list(
+                            list("Group", {
+                              attributes = { class = "stage-heading" };
+                              children = list(
+                                list("Inline", { attributes = { class = "step"; "aria-hidden" = "true" }; children = list("2") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", {
+                                      attributes = { class = "eyebrow" };
+                                      children = list("Projection / a role for the same thing")
+                                    }),
+                                    list("HeadingTwo", {
+                                      attributes = { id = "projection-heading" };
+                                      children = list("Give the story a way to be found")
+                                    })
+                                  )
+                                }),
+                                list("Inline", { attributes = { class = "kind" }; children = list("NavigationItem") })
+                              )
+                            }),
+                            "\n",
+                            list("Group", {
+                              attributes = { class = "projection-grid" };
+                              children = list(
+                                list("Article", {
+                                  attributes = { class = "projection-card" };
+                                  children = list(
+                                    list("Paragraph", { attributes = { class = "object-id" }; children = list("@experiment.nav.story") }),
+                                    list("Group", {
+                                      attributes = { class = "mapping" };
+                                      children = list(
+                                        list("Inline", { children = list("source.S.Title") }),
+                                        list("Element_b", { attributes = { "aria-hidden" = "true" }; children = list("→") }),
+                                        list("Group", {
+                                          children = list(
+                                            list("SmallPrint", { children = list("N.label") }),
+                                            list("Emphasis", { attributes = { id = "base-label" } })
+                                          )
+                                        })
+                                      )
+                                    }),
+                                    list("Group", {
+                                      attributes = { class = "mapping" };
+                                      children = list(
+                                        list("Inline", { children = list("source") }),
+                                        list("Element_b", { attributes = { "aria-hidden" = "true" }; children = list("→") }),
+                                        list("Group", {
+                                          children = list(
+                                            list("SmallPrint", { children = list("N.target") }),
+                                            list("Emphasis", { children = list("@TheStory") })
+                                          )
+                                        })
+                                      )
+                                    }),
+                                    list("Paragraph", {
+                                      attributes = { class = "explain" };
+                                      children = list("A label and a Story reference. The story keeps its identity.")
+                                    })
+                                  )
+                                }),
+                                list("Article", {
+                                  attributes = { class = "page-card" };
+                                  children = list(
+                                    list("Paragraph", {
+                                      attributes = { class = "object-id" };
+                                      children = list(
+                                        "@experiment.page.story ",
+                                        list("Inline", { attributes = { class = "kind" }; children = list("Page") })
+                                      )
+                                    }),
+                                    list("HeadingThree", { attributes = { id = "page-title" } }),
+                                    list("Paragraph", { attributes = { class = "mono" }; children = list("P.subject → @TheStory") }),
+                                    list("Paragraph", { attributes = { class = "mono"; id = "page-route" } }),
+                                    list("Paragraph", {
+                                      attributes = { class = "quiet" };
+                                      children = list(
+                                        "Its title follows the same source. Its route gives the web link somewhere to go."
+                                      )
+                                    })
+                                  )
+                                })
+                              )
+                            }),
+                            "\n",
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("See the pure expressions and generated process") }),
+                                list("Group", { attributes = { id = "inline-pure" } }),
+                                list("HeadingThree", { children = list("The generated NavigationItem process") }),
+                                list("CodeBlock", { attributes = { id = "inline-navigation" } }),
+                                list("Paragraph", {
+                                  attributes = { class = "panel-note" };
+                                  children = list("Readable call notation for the stored algebra; ports remain explicit.")
+                                })
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Group", {
+                          attributes = { class = "fork"; "aria-hidden" = "true" };
+                          children = list(
+                            list("Vector", {
+                              attributes = { viewBox = "0 0 1000 90"; preserveAspectRatio = "none" };
+                              children = list(
+                                list("VectorPath", { attributes = { d = "M500 0 V35 H250 V82 M500 35 H750 V82" } }),
+                                list("VectorPath", { attributes = { d = "M242 72 L250 82 L258 72 M742 72 L750 82 L758 72" } })
+                              )
+                            }),
+                            list("Inline", { children = list("one base · two explicit contexts") })
+                          )
+                        }),
+                        "\n",
+                        list("Section", {
+                          attributes = { class = "stage"; "aria-labelledby" = "context-heading" };
+                          children = list(
+                            list("Group", {
+                              attributes = { class = "stage-heading" };
+                              children = list(
+                                list("Inline", { attributes = { class = "step"; "aria-hidden" = "true" }; children = list("3") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", {
+                                      attributes = { class = "eyebrow" };
+                                      children = list("Context / choose how it meets the world")
+                                    }),
+                                    list("HeadingTwo", {
+                                      attributes = { id = "context-heading" };
+                                      children = list("Two views, with visible differences")
+                                    })
+                                  )
+                                })
+                              )
+                            }),
+                            "\n",
+                            list("Group", {
+                              attributes = { class = "lanes" };
+                              children = list(
+                                list("Article", {
+                                  attributes = { class = "lane web" };
+                                  children = list(
+                                    list("Group", {
+                                      attributes = { class = "lane-header" };
+                                      children = list(
+                                        list("Inline", { attributes = { class = "lane-mark"; "aria-hidden" = "true" }; children = list("↗") }),
+                                        list("Group", {
+                                          children = list(
+                                            list("Paragraph", { attributes = { class = "eyebrow" }; children = list("The web menu") }),
+                                            list("Paragraph", { attributes = { class = "object-id" }; children = list("@experiment.WebMainMenu") })
+                                          )
+                                        })
+                                      )
+                                    }),
+                                    list("Form", {
+                                      attributes = { id = "web-form"; class = "edit-card" };
+                                      children = list(
+                                        list("Label", { attributes = { for = "web-label" }; children = list("What should the menu say?") }),
+                                        list("Group", {
+                                          attributes = { class = "input-row" };
+                                          children = list(
+                                            list("Input", {
+                                              attributes = {
+                                                id = "web-label";
+                                                name = "label";
+                                                type = "text";
+                                                autocomplete = "off";
+                                                "aria-describedby" = "web-route";
+                                                disabled = null
+                                              }
+                                            }),
+                                            list("Action", {
+                                              attributes = { type = "submit"; disabled = null };
+                                              children = list(
+                                                "Apply label ",
+                                                list("Inline", { attributes = { "aria-hidden" = "true" }; children = list("↗") })
+                                              )
+                                            })
+                                          )
+                                        }),
+                                        list("CodeBlock", { attributes = { id = "overlay-inline"; class = "compact" } }),
+                                        list("Paragraph", {
+                                          attributes = { class = "explain" };
+                                          children = list("An explicit local overlay. The base title stays intact.")
+                                        }),
+                                        list("Action", {
+                                          attributes = { id = "web-route"; class = "route-link"; type = "button"; "data-route" = "web-label" };
+                                          children = list("Loading route…")
+                                        })
+                                      )
+                                    }),
+                                    list("Paragraph", {
+                                      attributes = { class = "lane-law" };
+                                      children = list(
+                                        list("Emphasis", { children = list("edit here") }),
+                                        " writes to this context’s literal."
+                                      )
+                                    })
+                                  )
+                                }),
+                                "\n",
+                                list("Article", {
+                                  attributes = { class = "lane row" };
+                                  children = list(
+                                    list("Group", {
+                                      attributes = { class = "lane-header" };
+                                      children = list(
+                                        list("Inline", { attributes = { class = "lane-mark"; "aria-hidden" = "true" }; children = list("≡") }),
+                                        list("Group", {
+                                          children = list(
+                                            list("Paragraph", { attributes = { class = "eyebrow" }; children = list("The mainframe row") }),
+                                            list("Paragraph", { attributes = { class = "object-id" }; children = list("@experiment.MainframeStories") })
+                                          )
+                                        })
+                                      )
+                                    }),
+                                    list("Group", {
+                                      attributes = { class = "inherited-value" };
+                                      children = list(
+                                        list("SmallPrint", { children = list("Inherited N.label") }),
+                                        list("Emphasis", { attributes = { id = "row-label" } }),
+                                        list("Inline", { attributes = { class = "inheritance" }; children = list("↑ follows TheStory.S.Title") })
+                                      )
+                                    }),
+                                    list("CodeBlock", {
+                                      attributes = { class = "compact"; "data-language" = "encounter" };
+                                      children = list("show as MainframeRow:\n  option: \"01\"\n  open: @experiment.openStory")
+                                    }),
+                                    list("Paragraph", {
+                                      attributes = { class = "explain" };
+                                      children = list("No label replacement. The source value and its edit route flow through.")
+                                    }),
+                                    list("Paragraph", {
+                                      attributes = { class = "lane-law" };
+                                      children = list(
+                                        list("Emphasis", { children = list("edit through source.S.Title") }),
+                                        " keeps the route home."
+                                      )
+                                    })
+                                  )
+                                })
+                              )
+                            }),
+                            "\n",
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("How are overlays and edit routes resolved?") }),
+                                list("CodeBlock", { attributes = { id = "inline-resolve" } }),
+                                list("Paragraph", {
+                                  attributes = { class = "panel-note" };
+                                  children = list(
+                                    "A replaced field loses its inherited route. A local edit route must be declared explicitly."
+                                  )
+                                })
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Group", {
+                          attributes = { class = "connector dual"; "aria-hidden" = "true" };
+                          children = list(
+                            list("Inline", { children = list("check representation · build tree · serialize") }),
+                            list("Element_b", { children = list("↓ ", list("Element_i"), " ↓") })
+                          )
+                        }),
+                        "\n",
+                        list("Section", {
+                          attributes = { class = "stage"; "aria-labelledby" = "html-heading" };
+                          children = list(
+                            list("Group", {
+                              attributes = { class = "stage-heading" };
+                              children = list(
+                                list("Inline", { attributes = { class = "step"; "aria-hidden" = "true" }; children = list("4") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", { attributes = { class = "eyebrow" }; children = list("Lowering / the generated output") }),
+                                    list("HeadingTwo", { attributes = { id = "html-heading" }; children = list("Now it is a link and a row") })
+                                  )
+                                }),
+                                list("Inline", { attributes = { class = "kind" }; children = list("HTML") })
+                              )
+                            }),
+                            list("Paragraph", {
+                              attributes = { class = "stage-note" };
+                              children = list(
+                                "These previews render the actual serializer output. Open the folds to compare the markup and the process."
+                              )
+                            }),
+                            list("Group", { attributes = { id = "diagram-outputs"; class = "lanes" } }),
+                            list("Disclosure", {
+                              attributes = { class = "page-preview" };
+                              children = list(
+                                list("DisclosureLabel", {
+                                  children = list(
+                                    "The story page follows too ",
+                                    list("Inline", { attributes = { id = "page-current" } })
+                                  )
+                                }),
+                                list("Group", { attributes = { id = "diagram-page" } })
+                              )
+                            }),
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("How does the tree become HTML?") }),
+                                list("CodeBlock", { attributes = { id = "inline-serialize" } }),
+                                list("Paragraph", {
+                                  attributes = { class = "panel-note" };
+                                  children = list(
+                                    "Text and attributes are escaped. Event descriptors are separate from the HTML; the row action is not bound in these previews."
+                                  )
+                                })
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Group", {
+                          attributes = { class = "return-connector"; "aria-hidden" = "true" };
+                          children = list(
+                            list("Inline", { children = list("↶") }),
+                            list("Paragraph", { children = list("And when a person changes a value…") })
+                          )
+                        }),
+                        "\n",
+                        list("Section", {
+                          attributes = { id = "return-path"; class = "stage return-stage"; "aria-labelledby" = "return-heading" };
+                          children = list(
+                            list("Group", {
+                              attributes = { class = "stage-heading" };
+                              children = list(
+                                list("Inline", { attributes = { class = "step"; "aria-hidden" = "true" }; children = list("5") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", { attributes = { class = "eyebrow" }; children = list("The return path / change the owner") }),
+                                    list("HeadingTwo", { attributes = { id = "return-heading" }; children = list("Follow the edit back") })
+                                  )
+                                })
+                              )
+                            }),
+                            list("Group", {
+                              attributes = { class = "return-map" };
+                              children = list(
+                                list("Group", {
+                                  children = list(
+                                    list("SmallPrint", { children = list("Story title") }),
+                                    list("Emphasis", { children = list("TheStory / S.Title") }),
+                                    list("Inline", { children = list("story.rel") })
+                                  )
+                                }),
+                                list("Element_b", { attributes = { "aria-hidden" = "true" }; children = list("or") }),
+                                list("Group", {
+                                  children = list(
+                                    list("SmallPrint", { children = list("Web label") }),
+                                    list("Emphasis", { children = list("WebMainMenu / N.label") }),
+                                    list("Inline", { children = list("story.encounter") })
+                                  )
+                                })
+                              )
+                            }),
+                            list("Group", {
+                              attributes = { class = "check-strip" };
+                              children = list(
+                                list("Inline", { children = list("one declared route") }),
+                                list("Element_b", { children = list("→") }),
+                                list("Inline", { children = list("patch owned source") }),
+                                list("Element_b", { children = list("→") }),
+                                list("Inline", { children = list("rebuild + type-check") }),
+                                list("Element_b", { children = list("→") }),
+                                list("Inline", { children = list("verify visible value") })
+                              )
+                            }),
+                            list("Group", { attributes = { id = "diagram-receipt" } }),
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("See the checked reverse process") }),
+                                list("CodeBlock", { attributes = { id = "inline-patch" } })
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Group", {
+                          attributes = { class = "connector"; "aria-hidden" = "true" };
+                          children = list(
+                            list("Inline", { children = list("look closer before changing anything") }),
+                            list("Element_b", { children = list("↓") })
+                          )
+                        }),
+                        "\n",
+                        list("Section", {
+                          attributes = { class = "stage debugger-stage"; "aria-labelledby" = "debug-heading" };
+                          children = list(
+                            list("Group", {
+                              attributes = { class = "stage-heading" };
+                              children = list(
+                                list("Inline", { attributes = { class = "step"; "aria-hidden" = "true" }; children = list("6") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", { attributes = { class = "eyebrow" }; children = list("Execution / a paused trial") }),
+                                    list("HeadingTwo", { attributes = { id = "debug-heading" }; children = list("Walk through the work") })
+                                  )
+                                }),
+                                list("Inline", { attributes = { class = "kind" }; children = list("debugger") })
+                              )
+                            }),
+                            "\n",
+                            list("Paragraph", {
+                              attributes = { class = "stage-note" };
+                              children = list(
+                                "Pause the real process. See which statement comes next and what its bindings contain. A trial never applies an edit to the example."
+                              )
+                            }),
+                            "\n",
+                            list("Group", {
+                              attributes = { class = "debug-setup" };
+                              children = list(
+                                list("Label", { attributes = { for = "debug-program" }; children = list("What would you like to follow?") }),
+                                list("SelectControl", {
+                                  attributes = { id = "debug-program" };
+                                  children = list(
+                                    list("Choice", {
+                                      attributes = { value = "navigation" };
+                                      children = list("Read the story title → NavigationItem")
+                                    }),
+                                    list("Choice", { attributes = { value = "web" }; children = list("Build the web link") }),
+                                    list("Choice", { attributes = { value = "row" }; children = list("Build the mainframe row") }),
+                                    list("Choice", { attributes = { value = "edit-title" }; children = list("Try a source-title edit") }),
+                                    list("Choice", { attributes = { value = "edit-label" }; children = list("Try a web-label edit") })
+                                  )
+                                }),
+                                list("Group", {
+                                  attributes = { id = "debug-value-row"; hidden = null };
+                                  children = list(
+                                    list("Label", { attributes = { for = "debug-value" }; children = list("Trial text") }),
+                                    list("Input", {
+                                      attributes = { id = "debug-value"; type = "text"; value = "A different title"; autocomplete = "off" }
+                                    }),
+                                    list("Paragraph", {
+                                      attributes = { class = "panel-note" };
+                                      children = list(
+                                        "This value belongs to the trial only. Use the earlier edit control when you want to apply a change."
+                                      )
+                                    })
+                                  )
+                                })
+                              )
+                            }),
+                            "\n",
+                            list("Group", {
+                              attributes = { class = "debug-controls" };
+                              children = list(
+                                list("Action", { attributes = { type = "button"; id = "debug-start" }; children = list("Start a trial") }),
+                                list("Action", { attributes = { type = "button"; id = "debug-step" }; children = list("Step") }),
+                                list("Action", { attributes = { type = "button"; id = "debug-continue" }; children = list("Continue") }),
+                                list("Action", { attributes = { type = "button"; id = "debug-pause" }; children = list("Pause") }),
+                                list("Action", { attributes = { type = "button"; id = "debug-stop" }; children = list("Stop") }),
+                                list("Link", { attributes = { href = "#debug-heading" }; children = list("↑ Process and values") })
+                              )
+                            }),
+                            "\n",
+                            list("Paragraph", { attributes = { id = "debug-status"; role = "status"; "aria-live" = "polite" } }),
+                            list("Paragraph", { attributes = { id = "debug-basis"; class = "panel-note" } }),
+                            list("Paragraph", { attributes = { id = "debug-failure"; class = "form-error"; role = "alert"; hidden = null } }),
+                            "\n",
+                            list("Group", {
+                              attributes = { class = "debug-grid" };
+                              children = list(
+                                list("Group", {
+                                  attributes = { class = "debug-program-panel" };
+                                  children = list(
+                                    list("HeadingThree", {
+                                      children = list("The process ", list("SmallPrint", { children = list("○ sets a breakpoint") }))
+                                    }),
+                                    list("OrderedCollection", { attributes = { id = "debug-instructions"; "aria-label" = "Process statements" } })
+                                  )
+                                }),
+                                list("Group", {
+                                  attributes = { class = "debug-values-panel" };
+                                  children = list(
+                                    list("HeadingThree", { children = list("Bindings here") }),
+                                    list("Paragraph", {
+                                      attributes = { class = "panel-note" };
+                                      children = list(
+                                        "Open a value to follow its fields. Inspection reads data; it does not evaluate an expression."
+                                      )
+                                    }),
+                                    list("Group", {
+                                      attributes = { id = "debug-bindings" };
+                                      children = list(
+                                        list("Paragraph", {
+                                          attributes = { class = "panel-note" };
+                                          children = list("Start a trial to inspect its bindings.")
+                                        })
+                                      )
+                                    })
+                                  )
+                                })
+                              )
+                            }),
+                            "\n",
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("The current statement, in full") }),
+                                list("CodeBlock", {
+                                  attributes = { id = "debug-next" };
+                                  children = list("The next statement will appear here.")
+                                })
+                              )
+                            }),
+                            "\n",
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("Where did this process come from?") }),
+                                list("Paragraph", {
+                                  attributes = { id = "debug-source-label"; class = "panel-note" };
+                                  children = list("Choose a process first.")
+                                }),
+                                list("CodeBlock", { attributes = { id = "debug-source" } }),
+                                list("Link", {
+                                  attributes = { id = "debug-source-link"; class = "text-link"; target = "_blank"; rel = "noopener" };
+                                  children = list("Read its authored source ↗")
+                                })
+                              )
+                            }),
+                            "\n",
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("How the algebra adds observation points") }),
+                                list("Paragraph", {
+                                  attributes = { class = "panel-note" };
+                                  children = list(
+                                    "The pass reads nested-program fields from the existing kernel profile. It gives each original statement an address and places explicit observation ports around it, then the trial copy is admitted. The native adapter supplies pausing and read-only inspection."
+                                  )
+                                }),
+                                list("CodeBlock", {
+                                  attributes = { id = "debug-instrumentation" };
+                                  children = list("Start a trial to see its observation pass.")
+                                }),
+                                list("Paragraph", {
+                                  attributes = { class = "panel-note" };
+                                  children = list(
+                                    list("Link", {
+                                      attributes = { href = "./sources/algebra/lab.process.json"; target = "_blank"; rel = "noopener" };
+                                      children = list("Read the algebra owner ↗")
+                                    }),
+                                    " · ",
+                                    list("Link", {
+                                      attributes = { href = "./debugger-native.js"; target = "_blank"; rel = "noopener" };
+                                      children = list("Read the native observation boundary ↗")
+                                    })
+                                  )
+                                })
+                              )
+                            }),
+                            list("Disclosure", {
+                              attributes = { class = "algebra-fold" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("What this debugger can show") }),
+                                list("Paragraph", {
+                                  attributes = { class = "panel-note" };
+                                  children = list(
+                                    "It pauses before statements in the selected process and its inline branches and loops. Helper queries and pure expressions execute as one step. A dedicated worker runs the unchanged Temple kernel with explicit observation ports. Breakpoints stop before a statement. Stop discards the trial worker. Expression microsteps, reverse execution and variable mutation are not implemented."
+                                  )
+                                }),
+                                list("Paragraph", { attributes = { id = "debug-budget"; class = "panel-note" } })
+                              )
+                            }),
+                            "\n"
+                          )
+                        }),
+                        "\n"
+                      )
+                    }),
+                    "\n",
+                    list("Section", {
+                      attributes = { id = "inspect"; "aria-labelledby" = "inspect-heading" };
+                      children = list(
+                        list("Disclosure", {
+                          attributes = { id = "technical" };
+                          children = list(
+                            list("DisclosureLabel", {
+                              children = list(
+                                list("Inline", {
+                                  attributes = { id = "inspect-heading" };
+                                  children = list("Keep following: full source, algebra and receipts")
+                                }),
+                                list("Inline", { attributes = { class = "detail-tag" }; children = list("inspect") })
+                              )
+                            }),
+                            list("Paragraph", {
+                              attributes = { class = "panel-note" };
+                              children = list("Every fold above leads into these same source documents and processes.")
+                            }),
+                            list("Group", {
+                              attributes = { class = "inspector" };
+                              children = list(
+                                list("Paragraph", {
+                                  attributes = { class = "syntax-key"; "aria-label" = "Code colour key" };
+                                  children = list(
+                                    list("Inline", { attributes = { class = "syntax-reference" }; children = list("References") }),
+                                    list("Inline", { attributes = { class = "syntax-field" }; children = list("Fields") }),
+                                    list("Inline", { attributes = { class = "syntax-string" }; children = list("Text") }),
+                                    list("Inline", { attributes = { class = "syntax-keyword" }; children = list("Keywords") }),
+                                    list("Inline", { attributes = { class = "syntax-operator" }; children = list("Expressions") }),
+                                    list("Inline", { attributes = { class = "syntax-port" }; children = list("Ports") })
+                                  )
+                                }),
+                                list("Group", {
+                                  attributes = { class = "tabs"; role = "tablist"; "aria-label" = "Inspect the example" };
+                                  children = list(
+                                    list("Action", {
+                                      attributes = {
+                                        id = "tab-source";
+                                        role = "tab";
+                                        "aria-controls" = "panel-source";
+                                        "aria-selected" = "true";
+                                        "data-tab" = "source"
+                                      };
+                                      children = list("Source")
+                                    }),
+                                    list("Action", {
+                                      attributes = {
+                                        id = "tab-pure";
+                                        role = "tab";
+                                        "aria-controls" = "panel-pure";
+                                        "aria-selected" = "false";
+                                        tabindex = "-1";
+                                        "data-tab" = "pure"
+                                      };
+                                      children = list("Pure expressions")
+                                    }),
+                                    list("Action", {
+                                      attributes = {
+                                        id = "tab-process";
+                                        role = "tab";
+                                        "aria-controls" = "panel-process";
+                                        "aria-selected" = "false";
+                                        tabindex = "-1";
+                                        "data-tab" = "process"
+                                      };
+                                      children = list("Process")
+                                    }),
+                                    list("Action", {
+                                      attributes = {
+                                        id = "tab-html";
+                                        role = "tab";
+                                        "aria-controls" = "panel-html";
+                                        "aria-selected" = "false";
+                                        tabindex = "-1";
+                                        "data-tab" = "html"
+                                      };
+                                      children = list("HTML")
+                                    }),
+                                    list("Action", {
+                                      attributes = {
+                                        id = "tab-receipt";
+                                        role = "tab";
+                                        "aria-controls" = "panel-receipt";
+                                        "aria-selected" = "false";
+                                        tabindex = "-1";
+                                        "data-tab" = "receipt"
+                                      };
+                                      children = list("Last change")
+                                    })
+                                  )
+                                }),
+                                "\n",
+                                list("Group", {
+                                  attributes = { id = "panel-source"; role = "tabpanel"; "aria-labelledby" = "tab-source"; tabindex = "0" };
+                                  children = list(
+                                    list("Group", {
+                                      attributes = { class = "panel-toolbar" };
+                                      children = list(
+                                        list("Label", { attributes = { for = "source-file" }; children = list("Source file") }),
+                                        list("SelectControl", {
+                                          attributes = { id = "source-file" };
+                                          children = list(
+                                            list("Choice", { attributes = { value = "facts" }; children = list("story.rel · facts") }),
+                                            list("Choice", {
+                                              attributes = { value = "encounter" };
+                                              children = list("story.encounter · projections and overlays")
+                                            }),
+                                            list("Choice", { attributes = { value = "contracts" }; children = list("contracts.rel · type contracts") })
+                                          )
+                                        })
+                                      )
+                                    }),
+                                    list("Paragraph", {
+                                      attributes = { class = "panel-note" };
+                                      children = list("Current candidate source. Edit at the named owner, then regenerate.")
+                                    }),
+                                    list("CodeBlock", { attributes = { id = "source-code"; class = "source-code" } })
+                                  )
+                                }),
+                                "\n",
+                                list("Group", {
+                                  attributes = {
+                                    id = "panel-pure";
+                                    role = "tabpanel";
+                                    "aria-labelledby" = "tab-pure";
+                                    tabindex = "0";
+                                    hidden = null
+                                  };
+                                  children = list(
+                                    list("Paragraph", {
+                                      attributes = { class = "panel-note" };
+                                      children = list("Actual expressions from the generated, lowered process.")
+                                    }),
+                                    list("Group", { attributes = { id = "pure-values" } })
+                                  )
+                                }),
+                                "\n",
+                                list("Group", {
+                                  attributes = {
+                                    id = "panel-process";
+                                    role = "tabpanel";
+                                    "aria-labelledby" = "tab-process";
+                                    tabindex = "0";
+                                    hidden = null
+                                  };
+                                  children = list(
+                                    list("Group", {
+                                      attributes = { class = "panel-toolbar" };
+                                      children = list(
+                                        list("Label", { attributes = { for = "process-file" }; children = list("Process") }),
+                                        list("SelectControl", {
+                                          attributes = { id = "process-file" };
+                                          children = list(
+                                            list("Choice", { attributes = { value = "navigation" }; children = list("Generated NavigationItem") }),
+                                            list("Choice", { attributes = { value = "web" }; children = list("Generated WebLink") }),
+                                            list("Choice", { attributes = { value = "row" }; children = list("Generated MainframeRow") }),
+                                            list("Choice", { attributes = { value = "resolve" }; children = list("ec.resolve · contextual resolution") }),
+                                            list("Choice", {
+                                              attributes = { value = "patch" };
+                                              children = list("ec.patch · source edit and forward check")
+                                            }),
+                                            list("Choice", {
+                                              attributes = { value = "corePatch" };
+                                              children = list("ec.patch · lowered primitive expressions")
+                                            }),
+                                            list("Choice", {
+                                              attributes = { value = "serialize" };
+                                              children = list("html.serialize · lowered HTML serializer")
+                                            }),
+                                            list("Choice", {
+                                              attributes = { value = "lightning" };
+                                              children = list("lab.lightning · reason, route and page explanation")
+                                            }),
+                                            list("Choice", { attributes = { value = "live" }; children = list("lab.edit · this example’s entry point") })
+                                          )
+                                        })
+                                      )
+                                    }),
+                                    list("CodeBlock", { attributes = { id = "process-code" } })
+                                  )
+                                }),
+                                "\n",
+                                list("Group", {
+                                  attributes = {
+                                    id = "panel-html";
+                                    role = "tabpanel";
+                                    "aria-labelledby" = "tab-html";
+                                    tabindex = "0";
+                                    hidden = null
+                                  };
+                                  children = list(
+                                    list("Paragraph", {
+                                      attributes = { class = "panel-note" };
+                                      children = list("Exact HTML with separate event descriptors.")
+                                    }),
+                                    list("Group", { attributes = { id = "html-values" } })
+                                  )
+                                }),
+                                "\n",
+                                list("Group", {
+                                  attributes = {
+                                    id = "panel-receipt";
+                                    role = "tabpanel";
+                                    "aria-labelledby" = "tab-receipt";
+                                    tabindex = "0";
+                                    hidden = null
+                                  };
+                                  children = list(list("Group", { attributes = { id = "receipt" } }))
+                                })
+                              )
+                            })
+                          )
+                        })
+                      )
+                    }),
+                    "\n",
+                    list("Footer", {
+                      children = list(
+                        list("Paragraph", {
+                          children = list(
+                            "One valid change at a time. The existing Temple kernel checks this supplied example. Changes stay in this tab’s memory; no account, shared record or repository is edited. Reload to begin again."
+                          )
+                        }),
+                        list("Disclosure", {
+                          children = list(
+                            list("DisclosureLabel", { children = list("Source identities and boundaries") }),
+                            list("Paragraph", {
+                              children = list(
+                                "This is a live explanatory fixture, not the authoring bootstrap or a complete mainframe. The interface is generated from owned composition, style and programme definitions through the process algebra. The existing algebra also owns language semantics and source patches. The unchanged Temple kernel and existing algebra run locally in a Web Worker. Reloading starts a fresh example. Hashes and source links identify the supplied starting snapshot; candidate edits and their basis revisions appear in the return-path receipt."
+                              )
+                            }),
+                            list("Group", { attributes = { id = "hashes" } })
+                          )
+                        })
+                      )
+                    }),
+                    "\n"
+                  )
+                })
+              )
+            })
+          )
+        }),
+        "\r\n"
+      )
+    })
+  }

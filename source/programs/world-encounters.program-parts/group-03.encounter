@@ -1,0 +1,72 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0032 = list("MarkupText", { value = "possibility-seed " });
+    part0033 = list("Choose", {
+        test = list("Calculate", {
+            operator = "<=";
+            left = list("Calculate", {
+                operator = "+";
+                left = list("Calculate", { operator = "%"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 5 }) });
+                right = list("Invoke", {
+                    optional = false;
+                    callee = list("Select", {
+                        computed = false;
+                        optional = false;
+                        object = list("NameReference", { name = "Math" });
+                        property = list("NameReference", { name = "floor" })
+                      });
+                    arguments = list(
+                      list("Calculate", { operator = "/"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 5 }) })
+                    )
+                  })
+              });
+            right = list("LiteralValue", { value = 4 })
+          });
+        consequent = list("LiteralValue", { value = "admitted" });
+        alternate = list("LiteralValue", { value = "" })
+      });
+    part0034 = list("Calculate", { operator = "%"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 5 }) });
+    part0035 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "Math" });
+            property = list("NameReference", { name = "floor" })
+          });
+        arguments = list(
+          list("Calculate", { operator = "/"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 5 }) })
+        )
+      });
+    part0036 = list("MarkupText", { value = "canopy-detail detail-" });
+    part0037 = list("NameReference", { name = "id" });
+    part0038 = list("MarkupText", { value = "--i:" });
+    part0039 = list("NameReference", { name = "i" });
+    part0040 = list("MarkupText", { value = "true" });
+    part0041 = list("MarkupText", { value = "flip-bit" });
+    part0042 = list("NameReference", { name = "i" });
+    part0043 = list("MarkupText", { value = "false" });
+    part0044 = list("MarkupText", { value = "Received bit " });
+    part0045 = list("Calculate", { operator = "+"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 1 }) });
+    part0046 = list("MarkupText", { value = ": zero" });
+    part0047 = list("MarkupText", { value = "rate" });
+    part0048 = list("NameReference", { name = "i" });
+    part0049 = list("Calculate", { operator = "==="; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 1 }) });
+    part0050 = list("MarkupText", { value = "--cell:" });
+    part0051 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "c" });
+        property = list("NameReference", { name = "mean" })
+      });
+    part0052 = list("Publish", { declaration = { fragment = "part0053" }; specifiers = list(); source = null; attributes = list() });
+    part0053 = list("Define", {
+        generator = false;
+        async = false;
+        id = list("NameReference", { name = "handleWorldEncounter" });
+        params = list(list("NameReference", { name = "event" }));
+        body = { fragment = "part0054" }
+      })
+  }

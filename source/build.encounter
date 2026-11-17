@@ -1,0 +1,284 @@
+process-module "temple/surface-process-module/1"
+
+process value.definition:
+  let result = {
+    protocol = "encounter/projection-build/1";
+    reason = "Worldwright and Encounter are one application, with a shared authored composition and replaceable views.";
+    target = "The complete Worldwright reader, Encounter workspace, navigation, journey and inspection.";
+    goal = "Build and inspect the same application through the existing algebra, preserving all current reader material and explicit edit ownership.";
+    programs = list(
+      { owner = "source/programs/workshop/app.program.encounter"; graph = "ownership/intermediates/programs/workshop/app.program.json"; output = "workshop/app.js" },
+      { owner = "source/programs/workshop/browser-transport.program.encounter"; graph = "ownership/intermediates/programs/workshop/browser-transport.program.json"; output = "workshop/browser-transport.js" },
+      { owner = "source/programs/workshop/debug-worker.program.encounter"; graph = "ownership/intermediates/programs/workshop/debug-worker.program.json"; output = "workshop/debug-worker.js" },
+      { owner = "source/programs/workshop/debugger-native.program.encounter"; graph = "ownership/intermediates/programs/workshop/debugger-native.program.json"; output = "workshop/debugger-native.js" },
+      { owner = "source/programs/workshop/debugger-ui.program.encounter"; graph = "ownership/intermediates/programs/workshop/debugger-ui.program.json"; output = "workshop/debugger-ui.js" },
+      { owner = "source/programs/workshop/engine.program.encounter"; graph = "ownership/intermediates/programs/workshop/engine.program.json"; output = "workshop/engine.js" },
+      { owner = "source/programs/workshop/highlight.program.encounter"; graph = "ownership/intermediates/programs/workshop/highlight.program.json"; output = "workshop/highlight.js" },
+      { owner = "source/programs/workshop/infographics.program.encounter"; graph = "ownership/intermediates/programs/workshop/infographics.program.json"; output = "workshop/infographics.js" },
+      { owner = "source/programs/workshop/lightning.program.encounter"; graph = "ownership/intermediates/programs/workshop/lightning.program.json"; output = "workshop/lightning.js" },
+      { owner = "source/programs/workshop/listing.program.encounter"; graph = "ownership/intermediates/programs/workshop/listing.program.json"; output = "workshop/listing.js" },
+      { owner = "source/programs/workshop/session-worker.program.encounter"; graph = "ownership/intermediates/programs/workshop/session-worker.program.json"; output = "workshop/session-worker.js" },
+      { owner = "source/programs/app.program.encounter"; graph = "ownership/intermediates/programs/app.program.json"; output = "app.js" },
+      { owner = "source/programs/encounter-data.program.encounter"; graph = "ownership/intermediates/programs/encounter-data.program.json"; output = "encounter-data.js" },
+      { owner = "source/programs/encounters.program.encounter"; graph = "ownership/intermediates/programs/encounters.program.json"; output = "encounters.js" },
+      { owner = "source/programs/expansion.program.encounter"; graph = "ownership/intermediates/programs/expansion.program.json"; output = "expansion.js" },
+      { owner = "source/programs/geography.program.encounter"; graph = "ownership/intermediates/programs/geography.program.json"; output = "geography.js" },
+      { owner = "source/programs/reading-experience.program.encounter"; graph = "ownership/intermediates/programs/reading-experience.program.json"; output = "reading-experience.js" },
+      { owner = "source/programs/reading-guide.program.encounter"; graph = "ownership/intermediates/programs/reading-guide.program.json"; output = "reading-guide.js" },
+      { owner = "source/programs/source-receipts.program.encounter"; graph = "ownership/intermediates/programs/source-receipts.program.json"; output = "source-receipts.js" },
+      { owner = "source/programs/world-encounters.program.encounter"; graph = "ownership/intermediates/programs/world-encounters.program.json"; output = "world-encounters.js" },
+      { owner = "source/programs/world-models.program.encounter"; graph = "ownership/intermediates/programs/world-models.program.json"; output = "world-models.js" },
+      { owner = "source/programs/world.program.encounter"; graph = "ownership/intermediates/programs/world.program.json"; output = "world.js" },
+      { owner = "source/programs/inspection/client.program.encounter"; graph = "ownership/intermediates/programs/inspection/client.program.json"; output = "inspection/client.js" },
+      { owner = "source/programs/inspection/host.program.encounter"; graph = "ownership/intermediates/programs/inspection/host.program.json"; output = "inspection/host.js" },
+      { owner = "source/programs/presentation/host.program.encounter"; graph = "ownership/intermediates/programs/presentation/host.program.json"; output = "presentation/host.js" },
+      { owner = "source/programs/application-runtime.program.encounter"; graph = "ownership/intermediates/programs/application-runtime.program.json"; output = "application-runtime.js" },
+      { owner = "source/programs/workshop/worldbox.program.encounter"; graph = "ownership/intermediates/programs/workshop/worldbox.program.json"; output = "workshop/worldbox.js" }
+    );
+    pages = list(
+      {
+        owner = "source/pages/index.page.encounter";
+        graph = "ownership/intermediates/pages/index.page.json";
+        output = "index.html"
+      },
+      {
+        owner = "source/pages/workshop/index.page.encounter";
+        graph = "ownership/intermediates/pages/workshop/index.page.json";
+        output = null
+      },
+      {
+        owner = "source/pages/workshop/infographics.page.encounter";
+        graph = "ownership/intermediates/pages/workshop/infographics.page.json";
+        output = null
+      },
+      {
+        owner = "source/pages/workshop/lightning.page.encounter";
+        graph = "ownership/intermediates/pages/workshop/lightning.page.json";
+        output = null
+      },
+      {
+        owner = "source/pages/workshop/worldbox.page.encounter";
+        graph = "ownership/intermediates/pages/workshop/worldbox.page.json";
+        output = null
+      }
+    );
+    styles = list(
+      {
+        owner = "source/styles/workshop/infographics.style.encounter";
+        graph = "ownership/intermediates/styles/workshop/infographics.style.json";
+        output = "workshop/infographics.css"
+      },
+      {
+        owner = "source/styles/workshop/lightning.style.encounter";
+        graph = "ownership/intermediates/styles/workshop/lightning.style.json";
+        output = "workshop/lightning.css"
+      },
+      {
+        owner = "source/styles/workshop/style.style.encounter";
+        graph = "ownership/intermediates/styles/workshop/style.style.json";
+        output = "workshop/style.css"
+      },
+      {
+        owner = "source/styles/enchantment.style.encounter";
+        graph = "ownership/intermediates/styles/enchantment.style.json";
+        output = "enchantment.css"
+      },
+      {
+        owner = "source/styles/reading.style.encounter";
+        graph = "ownership/intermediates/styles/reading.style.json";
+        output = "reading.css"
+      },
+      {
+        owner = "source/styles/style.style.encounter";
+        graph = "ownership/intermediates/styles/style.style.json";
+        output = "style.css"
+      },
+      {
+        owner = "source/styles/territories.style.encounter";
+        graph = "ownership/intermediates/styles/territories.style.json";
+        output = "territories.css"
+      },
+      {
+        owner = "source/styles/wider-world.style.encounter";
+        graph = "ownership/intermediates/styles/wider-world.style.json";
+        output = "wider-world.css"
+      },
+      {
+        owner = "source/styles/inspection/style.style.encounter";
+        graph = "ownership/intermediates/styles/inspection/style.style.json";
+        output = "inspection/style.css"
+      },
+      {
+        owner = "source/styles/workshop/worldbox.style.encounter";
+        graph = "ownership/intermediates/styles/workshop/worldbox.style.json";
+        output = "workshop/worldbox.css"
+      }
+    );
+    assets = list(
+      { owner = "source/assets/world/atlas-grid.svg"; output = "assets/atlas-grid.svg" },
+      { owner = "source/assets/world/mark.svg"; output = "assets/mark.svg" },
+      { owner = "source/assets/world/paper-grain.svg"; output = "assets/paper-grain.svg" },
+      { owner = "source/assets/world/terrain.svg"; output = "assets/terrain.svg" },
+      { owner = "source/assets/infographics/algebra-trace.txt"; output = "workshop/infographics/algebra-trace.txt" },
+      {
+        owner = "source/assets/infographics/encounter-algebra-infographic.svg";
+        output = "workshop/infographics/encounter-algebra-infographic.svg"
+      },
+      { owner = "source/assets/infographics/source-notes.txt"; output = "workshop/infographics/source-notes.txt" },
+      {
+        owner = "source/assets/infographics/story-actual-algebra.svg";
+        output = "workshop/infographics/story-actual-algebra.svg"
+      },
+      {
+        owner = "source/assets/infographics/story-to-two-views.svg";
+        output = "workshop/infographics/story-to-two-views.svg"
+      },
+      { owner = "source/assets/library/codes.txt"; output = "library/codes.txt" },
+      { owner = "source/assets/library/contact.txt"; output = "library/contact.txt" },
+      { owner = "source/assets/library/contribution.txt"; output = "library/contribution.txt" },
+      { owner = "source/assets/library/correction.txt"; output = "library/correction.txt" },
+      { owner = "source/assets/library/correspondence.txt"; output = "library/correspondence.txt" },
+      { owner = "source/assets/library/cosmos.txt"; output = "library/cosmos.txt" },
+      { owner = "source/assets/library/costs.txt"; output = "library/costs.txt" },
+      { owner = "source/assets/library/detector.txt"; output = "library/detector.txt" },
+      { owner = "source/assets/library/erasure.txt"; output = "library/erasure.txt" },
+      { owner = "source/assets/library/frontier.txt"; output = "library/frontier.txt" },
+      { owner = "source/assets/library/instrument.txt"; output = "library/instrument.txt" },
+      { owner = "source/assets/library/invariant.txt"; output = "library/invariant.txt" },
+      { owner = "source/assets/library/kenosis.txt"; output = "library/kenosis.txt" },
+      { owner = "source/assets/library/laboratory.txt"; output = "library/laboratory.txt" },
+      { owner = "source/assets/library/material.txt"; output = "library/material.txt" },
+      { owner = "source/assets/library/meanings.txt"; output = "library/meanings.txt" },
+      { owner = "source/assets/library/memory.txt"; output = "library/memory.txt" },
+      { owner = "source/assets/library/mind.txt"; output = "library/mind.txt" },
+      { owner = "source/assets/library/monster.txt"; output = "library/monster.txt" },
+      { owner = "source/assets/library/negatives.txt"; output = "library/negatives.txt" },
+      { owner = "source/assets/library/patterns.txt"; output = "library/patterns.txt" },
+      { owner = "source/assets/library/possibilities.txt"; output = "library/possibilities.txt" },
+      { owner = "source/assets/library/reflection.txt"; output = "library/reflection.txt" },
+      { owner = "source/assets/library/relations.txt"; output = "library/relations.txt" },
+      { owner = "source/assets/library/scenarios.txt"; output = "library/scenarios.txt" },
+      { owner = "source/assets/library/sourcery.txt"; output = "library/sourcery.txt" },
+      { owner = "source/assets/library/texts.txt"; output = "library/texts.txt" }
+    );
+    native = list(
+      {
+        owner = "source/inspection/native/acorn.cjs";
+        mechanism = "build-time lexical/syntax observation; no browser parser"
+      },
+      { owner = "source/inspection/native/ACORN-LICENSE.txt"; mechanism = "native parser licence" },
+      {
+        owner = "source/native/application-host.cjs";
+        mechanism = "DOM, import, event and view lifetime mechanisms; no route or composition defaults"
+      }
+    );
+    semantics = list(
+      {
+        owner = "source/semantics/algebra/admission.process.json";
+        output = "workshop/sources/algebra/admission.process.json"
+      },
+      {
+        owner = "source/semantics/algebra/encounter-code-compiler.process.json";
+        output = "workshop/sources/algebra/encounter-code-compiler.process.json"
+      },
+      {
+        owner = "source/semantics/algebra/encounter-code-runtime.process.json";
+        output = "workshop/sources/algebra/encounter-code-runtime.process.json"
+      },
+      {
+        owner = "source/semantics/algebra/encounter-code-types.process.json";
+        output = "workshop/sources/algebra/encounter-code-types.process.json"
+      },
+      {
+        owner = "source/semantics/algebra/fact-index.process.json";
+        output = "workshop/sources/algebra/fact-index.process.json"
+      },
+      { owner = "source/semantics/algebra/html.process.json"; output = "workshop/sources/algebra/html.process.json" },
+      { owner = "source/semantics/algebra/lab.process.json"; output = "workshop/sources/algebra/lab.process.json" },
+      { owner = "source/semantics/algebra/language.process.json"; output = "workshop/sources/algebra/language.process.json" },
+      { owner = "source/semantics/algebra/lowering.process.json"; output = "workshop/sources/algebra/lowering.process.json" },
+      {
+        owner = "source/semantics/algebra/operators.expression.json";
+        output = "workshop/sources/algebra/operators.expression.json"
+      },
+      { owner = "source/semantics/algebra/source.process.json"; output = "workshop/sources/algebra/source.process.json" },
+      {
+        owner = "source/semantics/bootstrap/encounter-code-fixture.cjs";
+        output = "workshop/sources/bootstrap/encounter-code-fixture.cjs"
+      },
+      { owner = "source/semantics/bootstrap/kernel-profile.json"; output = "workshop/sources/bootstrap/kernel-profile.json" },
+      {
+        owner = "source/semantics/bootstrap/ports/algebra-lower.cjs";
+        output = "workshop/sources/bootstrap/ports/algebra-lower.cjs"
+      },
+      { owner = "source/semantics/bootstrap/ports/kernel.cjs"; output = "workshop/sources/bootstrap/ports/kernel.cjs" },
+      { owner = "source/semantics/bootstrap/ports/programme.cjs"; output = "workshop/sources/bootstrap/ports/programme.cjs" },
+      { owner = "source/semantics/bootstrap/ports/value.cjs"; output = "workshop/sources/bootstrap/ports/value.cjs" },
+      { owner = "source/semantics/bootstrap/temple-seed.cjs"; output = "workshop/sources/bootstrap/temple-seed.cjs" },
+      { owner = "source/semantics/lightning-method.txt"; output = "workshop/sources/lightning-method.txt" },
+      {
+        owner = "source/semantics/source/experiment/contracts.rel";
+        output = "workshop/sources/source/experiment/contracts.rel"
+      },
+      {
+        owner = "source/semantics/source/experiment/story.encounter";
+        output = "workshop/sources/source/experiment/story.encounter"
+      },
+      { owner = "source/semantics/source/experiment/story.rel"; output = "workshop/sources/source/experiment/story.rel" },
+      {
+        owner = "source/inspection/algebra/admission.process.json";
+        output = "inspection/sources/algebra/admission.process.json"
+      },
+      { owner = "source/inspection/algebra/css.process.json"; output = "inspection/sources/algebra/css.process.json" },
+      {
+        owner = "source/inspection/algebra/inspection-document.process.json";
+        output = "inspection/sources/algebra/inspection-document.process.json"
+      },
+      {
+        owner = "source/inspection/algebra/inspection.process.json";
+        output = "inspection/sources/algebra/inspection.process.json"
+      },
+      {
+        owner = "source/inspection/algebra/lowering.process.json";
+        output = "inspection/sources/algebra/lowering.process.json"
+      },
+      {
+        owner = "source/inspection/algebra/operators.expression.json";
+        output = "inspection/sources/algebra/operators.expression.json"
+      },
+      {
+        owner = "source/inspection/algebra/reflection.process.json";
+        output = "inspection/sources/algebra/reflection.process.json"
+      },
+      {
+        owner = "source/inspection/algebra/slice-01.process.json";
+        output = "inspection/sources/algebra/slice-01.process.json"
+      },
+      {
+        owner = "source/inspection/algebra/source-presentation.process.json";
+        output = "inspection/sources/algebra/source-presentation.process.json"
+      },
+      { owner = "source/inspection/algebra/source.process.json"; output = "inspection/sources/algebra/source.process.json" },
+      {
+        owner = "source/inspection/bootstrap/kernel-profile.json";
+        output = "inspection/sources/bootstrap/kernel-profile.json"
+      },
+      { owner = "source/inspection/bootstrap/ports/kernel.cjs"; output = "inspection/sources/bootstrap/ports/kernel.cjs" },
+      {
+        owner = "source/inspection/bootstrap/ports/programme.cjs";
+        output = "inspection/sources/bootstrap/ports/programme.cjs"
+      },
+      { owner = "source/inspection/bootstrap/ports/value.cjs"; output = "inspection/sources/bootstrap/ports/value.cjs" },
+      { owner = "source/inspection/bootstrap/temple-seed.cjs"; output = "inspection/sources/bootstrap/temple-seed.cjs" },
+      { owner = "source/inspection/profile.json"; output = "inspection/sources/profile.json" },
+      {
+        owner = "source/inspection/source/inspection/document-schema.json";
+        output = "inspection/sources/source/inspection/document-schema.json"
+      },
+      {
+        owner = "source/inspection/source/presentation/source-presentation.json";
+        output = "inspection/sources/source/presentation/source-presentation.json"
+      }
+    );
+    data = list({ owner = "source/coverage.json"; output = "coverage.json" })
+  }

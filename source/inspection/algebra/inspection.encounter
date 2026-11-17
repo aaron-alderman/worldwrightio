@@ -1,0 +1,209 @@
+process-module "temple/surface-process-module/1"
+
+process inspection.recordShape:
+  port value.describe { value = at($eventInput, "value") } → description
+  let result = false
+  when and(at($description, "plain"), at($description, "dataOnly")):
+    port record.entries { value = at($eventInput, "value") } → entries
+    let keys = map($entries, "entry", at($entry, 0))
+    let result = and(every($keys, "key", includes(at($eventInput, "keys"), $key)), every(at($eventInput, "required"), "key", includes($keys, $key)))
+
+process inspection.literal:
+  let raw = at($eventInput, "text")
+  let decoded = null
+  let error = null
+  port text.matches { value = $raw; pattern = "^\"(?:[^\"\\\\\\u0000-\\u001f]|\\\\(?:[\"\\\\/bfnrt]|u[0-9a-fA-F]{4}))*\"$" } → doubleValid
+  port text.matches { value = $raw; pattern = "^'(?:[^'\\\\\\u0000-\\u001f]|\\\\(?:['\"\\\\/bfnrt]|u[0-9a-fA-F]{4}))*'$" } → singleValid
+  when and(not($error), not(or($doubleValid, $singleValid))):
+    let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Unsupported source string literal" }
+  let jsonText = $raw
+  when not($error):
+    when $singleValid:
+      port text.slice { value = $raw; start = 1; end = add(count($raw), -1) } → inner
+      fold range(count($inner)) as oneIndex; literalState starts { out = "\""; escaped = false }:
+        let charIndex = add($oneIndex, -1)
+        port text.slice { value = $inner; start = $charIndex; end = $oneIndex } → character
+        let out = at($literalState, "out")
+        let escaped = at($literalState, "escaped")
+        let piece = ""
+        let nextEscaped = false
+        when $escaped:
+          let piece = if(eq($character, "'"), "'", concat("\\", $character))
+        when not($escaped):
+          let piece = if(eq($character, "\\"), "", if(eq($character, "\""), "\\\"", $character))
+          let nextEscaped = eq($character, "\\")
+        yield { out = concat($out, $piece); escaped = $nextEscaped } → literalState
+      let jsonText = concat(at($literalState, "out"), "\"")
+    port json.parse { text = $jsonText } → decoded
+  let result = { ok = not($error); value = if($error, null, at({ value = $decoded }, "value")); error = $error }
+
+process inspection.sourceSpan:
+  let source = at($eventInput, "source")
+  let excerpts = at($eventInput, "excerpts")
+  let error = null
+  let text = ""
+  let matches = filter($excerpts, "excerpt", and(eq(at(at($excerpt, "source"), "file"), at($source, "file")), eq(at(at($excerpt, "source"), "fileSha256"), at($source, "fileSha256")), eq(at(at($excerpt, "source"), "revision"), at($source, "revision"))))
+  fold $matches as excerpt; spanState starts { found = false; text = "" }:
+    let base = at($excerpt, "source")
+    let start = add(at($source, "startUtf16"), concat("-", at($base, "startUtf16")))
+    let end = add(at($source, "endUtf16Exclusive"), concat("-", at($base, "startUtf16")))
+    let valid = and(includes(range(add(count(at($excerpt, "text")), 1)), add($start, 1)), includes(range(add(count(at($excerpt, "text")), 1)), add($end, 1)))
+    when $valid:
+      let valid = includes(range(add($end, 1)), add($start, 1))
+    let candidate = ""
+    when $valid:
+      port text.slice { value = at($excerpt, "text"); start = $start; end = $end } → candidate
+    yield { found = or(at($spanState, "found"), $valid); text = if($valid, $candidate, at($spanState, "text")) } → spanState
+  when and(not($error), not(at($spanState, "found"))):
+    let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Source span is not covered by the verified excerpts" }
+  when not($error):
+    let text = at($spanState, "text")
+    port text.sha256 { text = $text } → digest
+    when and(not($error), not(eq($digest, at($source, "lexemeSha256")))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Source lexeme digest mismatch" }
+  let result = { ok = not($error); text = $text; error = $error }
+
+process inspection.run:
+  let error = null
+  let request = at($eventInput, "request")
+  let snapshot = at($eventInput, "snapshot")
+  port kernel.invoke { query = "s01.portable"; input = { value = $request; ancestors = list() } } → portableRequest
+  when and(not($error), not($portableRequest)):
+    let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Inspection request must be finite own-data" }
+  when not($error):
+    port kernel.invoke { query = "inspection.recordShape"; input = { value = $request; keys = list("status", "principal", "context", "selection", "expectedBasis", "intent", "limits"); required = list("principal", "context", "selection", "expectedBasis") } } → requestShape
+    when and(not($error), not($requestShape)):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Unknown or missing inspection request field" }
+  when not($error):
+    port kernel.invoke { query = "inspection.recordShape"; input = { value = at($request, "selection"); keys = list("subject", "predicate"); required = list("subject", "predicate") } } → selectionShape
+    when and(not($error), not($selectionShape)):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Selection must identify one subject and predicate" }
+    port value.describe { value = at($request, "principal") } → principalDescription
+    port value.describe { value = at($request, "context") } → contextDescription
+    when and(not($error), not(and(eq(at($principalDescription, "type"), "string"), not(eq(at($request, "principal"), "")), eq(at($contextDescription, "type"), "string"), not(eq(at($request, "context"), ""))))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Principal and viewing context must be explicit strings" }
+  when not($error):
+    port kernel.invoke { query = "s01.portable"; input = { value = $snapshot; ancestors = list() } } → portableSnapshot
+    when and(not($error), not($portableSnapshot)):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Supplied snapshot must be finite own-data" }
+  when not($error):
+    port kernel.invoke { query = "inspection.recordShape"; input = { value = $snapshot; keys = list("basis", "selection", "facts", "managedSubjects", "schemaFacts", "witnesses", "bindingDeclarations", "excerpts", "renderer"); required = list("basis", "selection", "facts", "managedSubjects", "schemaFacts", "witnesses", "bindingDeclarations", "excerpts", "renderer") } } → snapshotShape
+    when and(not($error), not($snapshotShape)):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Missing or unknown supplied inspection record" }
+    when and(not($error), not(and(isArray(at($snapshot, "witnesses")), isArray(at($snapshot, "bindingDeclarations")), isArray(at($snapshot, "excerpts"))))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Source witnesses and declarations must be ordered arrays" }
+  when not($error):
+    let basis = at($snapshot, "basis")
+    port record.entries { value = $basis } → basisEntries
+    let basisKeys = map($basisEntries, "entry", at($entry, 0))
+    port kernel.invoke { query = "inspection.recordShape"; input = { value = at($request, "expectedBasis"); keys = $basisKeys; required = $basisKeys } } → basisShape
+    when and(not($error), not($basisShape)):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-BASIS"; message = "Expected basis has missing or extra identities" }
+    when and(not($error), not(every($basisEntries, "entry", eq(at(at($request, "expectedBasis"), at($entry, 0)), at($entry, 1))))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-BASIS"; message = "Inspection selection and supplied snapshot have different bases" }
+  when not($error):
+    let selection = at($request, "selection")
+    when and(not($error), not(and(eq(at($selection, "subject"), at(at($snapshot, "selection"), "subject")), eq(at($selection, "predicate"), at(at($snapshot, "selection"), "predicate"))))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SELECTION"; message = "Selected cell is outside the supplied inspection scope" }
+    let facts = at($snapshot, "facts")
+    let schemaFacts = at($snapshot, "schemaFacts")
+    let managed = at($snapshot, "managedSubjects")
+    when and(not($error), not(and(isArray($facts), isArray($schemaFacts), isArray($managed)))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-INPUT"; message = "Snapshot requires ordered facts, definitions and managed subjects" }
+  when not($error):
+    port kernel.invoke { query = "s01.active"; input = $facts } → active
+    port kernel.invoke { query = "s01.compile"; input = $schemaFacts } → compiled
+    when and(not($error), not(at($compiled, "ok"))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SCHEMA"; message = "Supplied definitions failed compilation"; cause = at($compiled, "error") }
+  when not($error):
+    when and(not($error), not(eq(distinct(map($active, "fact", at($fact, "s"))), $managed))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SCHEMA"; message = "Managed subjects must cover the complete ordered domain" }
+    port kernel.invoke { query = "s01.validate"; input = { facts = $active; interfaces = at($compiled, "interfaces"); managed = $managed } } → issues
+    when and(not($error), not(eq(count($issues), 0))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SCHEMA"; message = "Managed scene validation failed"; issues = $issues }
+  when not($error):
+    port kernel.invoke { query = "s01.project"; input = $active } → projection
+    port kernel.invoke { query = "s01.typed"; input = { projection = $projection; interfaces = at($compiled, "interfaces") } } → typed
+    when and(not($error), not(not(at($typed, "error")))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SCHEMA"; message = "Typed projection failed"; cause = at($typed, "error") }
+  when not($error):
+    let selectedFacts = filter($active, "fact", and(eq(at($fact, "s"), at($selection, "subject")), eq(at($fact, "p"), at($selection, "predicate"))))
+    when and(not($error), not(eq(count($selectedFacts), 1))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SELECTION"; message = "Selection must resolve to one existing scalar" }
+    let matchingInterfaces = filter(at($compiled, "interfaces"), "iface", includes(map(filter($active, "fact", and(eq(at($fact, "s"), at($selection, "subject")), eq(at($fact, "p"), "isa"))), "fact", at($fact, "o")), at($iface, "type")))
+    when and(not($error), not(eq(count($matchingInterfaces), 1))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SCHEMA"; message = "Selection requires exactly one governing interface" }
+  when not($error):
+    let interface = at($matchingInterfaces, 0)
+    let slots = filter(at($interface, "slots"), "slot", eq(at($slot, "predicate"), at($selection, "predicate")))
+    when and(not($error), not(eq(count($slots), 1))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SELECTION"; message = "No unique direct selected slot" }
+  when not($error):
+    let slot = at($slots, 0)
+    when and(not($error), not(and(eq(at($slot, "cardinality"), "one"), eq(at($slot, "valueType"), "string")))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-SELECTION"; message = "Inspection profile selects one direct string slot" }
+    let witnesses = at($snapshot, "witnesses")
+    let bindingDeclarations = at($snapshot, "bindingDeclarations")
+    when and(not($error), not(and(eq(count($witnesses), count($facts)), eq(count($bindingDeclarations), count($facts))))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Every ordered fact needs a complete supplied source witness" }
+  when not($error):
+    fold range(count($facts)) as oneIndex; bindingState starts { error = null; selected = null }:
+      let error = at($bindingState, "error")
+      let selectedWitness = at($bindingState, "selected")
+      let index = add($oneIndex, -1)
+      let fact = at($facts, $index)
+      let witness = at($witnesses, $index)
+      let declaration = at($bindingDeclarations, $index)
+      when and(not($error), not(eq(at($witness, "factIndex"), $index))):
+        let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Fact/source binding order mismatch" }
+      when and(not($error), not(every(list("factIndex", "derivation", "logicalLocator", "source"), "coordinate", eq(at($witness, $coordinate), at($declaration, $coordinate))))):
+        let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Witness differs from the pinned source declaration" }
+      when and(not($error), not(every(list("s", "p", "o", "pol"), "coordinate", eq(at($fact, $coordinate), at(at($witness, "fact"), $coordinate))))):
+        let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Fact differs from the sealed source-normalization witness" }
+      when not($error):
+        port kernel.invoke { query = "inspection.sourceSpan"; input = { source = at($witness, "source"); excerpts = at($snapshot, "excerpts") } } → spanResult
+        when and(not($error), not(at($spanResult, "ok"))):
+          let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Source witness does not resolve"; cause = at($spanResult, "error") }
+      when not($error):
+        when and(not($error), not(includes(list("decoded-literal", "supplied-domain-type", "array-membership", "array-index", "array-product", "number-to-canonical-storage-string", "source-key-resolution"), at($witness, "derivation")))):
+          let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Unsupported source derivation" }
+        when eq(at($witness, "derivation"), "array-membership"):
+          let childOrdinals = filter($witnesses, "child", and(eq(at($child, "derivation"), "array-index"), eq(at(at($child, "fact"), "s"), at($fact, "o"))))
+          when and(not($error), not(and(eq(count($childOrdinals), 1), eq(at(at($childOrdinals, 0), "logicalLocator"), at($witness, "logicalLocator"))))):
+            let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Array member identity disagrees with source occurrence" }
+        when eq(at($witness, "derivation"), "source-key-resolution"):
+          let sourceKeys = filter($witnesses, "keyWitness", and(eq(at($keyWitness, "derivation"), "decoded-literal"), eq(at($keyWitness, "logicalLocator"), at($witness, "logicalLocator")), eq(at(at($keyWitness, "fact"), "s"), at($fact, "s"))))
+          let sourceTargets = filter($witnesses, "targetWitness", and(eq(at($targetWitness, "derivation"), "supplied-domain-type"), eq(at(at($targetWitness, "fact"), "s"), at($fact, "o"))))
+          when and(not($error), not(and(eq(count($sourceKeys), 1), eq(count($sourceTargets), 1)))):
+            let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Source key requires one declared note target" }
+          when not($error):
+            port text.split { value = at(at($sourceTargets, 0), "logicalLocator"); pattern = "/" } → targetLocator
+            when and(not($error), not(eq(at($targetLocator, add(count($targetLocator), -1)), at(at(at($sourceKeys, 0), "fact"), "o")))):
+              let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Resolved source key differs from its note" }
+        when eq(at($witness, "derivation"), "decoded-literal"):
+          port kernel.invoke { query = "inspection.literal"; input = { text = at($spanResult, "text") } } → literal
+          when and(not($error), not(and(at($literal, "ok"), eq(at($literal, "value"), at($fact, "o"))))):
+            let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Decoded source value disagrees with the fact" }
+        when eq(at($witness, "derivation"), "number-to-canonical-storage-string"):
+          when and(not($error), not(eq(at($spanResult, "text"), at($fact, "o")))):
+            let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Canonical numeric source text differs" }
+        when eq(at($witness, "derivation"), "array-index"):
+          port text.split { value = at($witness, "logicalLocator"); pattern = "/" } → locatorParts
+          when and(not($error), not(eq(at($locatorParts, add(count($locatorParts), -1)), at($fact, "o")))):
+            let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Array ordinal differs from its source occurrence" }
+        when and(eq(at($fact, "s"), at($selection, "subject")), eq(at($fact, "p"), at($selection, "predicate"))):
+          let selectedWitness = $witness
+      yield { error = $error; selected = $selectedWitness } → bindingState
+    let error = at($bindingState, "error")
+    let selectedWitness = at($bindingState, "selected")
+  when not($error):
+    let renderer = at($snapshot, "renderer")
+    port kernel.invoke { query = "inspection.sourceSpan"; input = { source = at($renderer, "source"); excerpts = at($snapshot, "excerpts") } } → rendererDefinition
+    when and(not($error), not(at($rendererDefinition, "ok"))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Renderer definition source mismatch" }
+    port kernel.invoke { query = "inspection.sourceSpan"; input = { source = at($renderer, "read"); excerpts = at($snapshot, "excerpts") } } → rendererRead
+    when and(not($error), not(and(at($rendererRead, "ok"), eq(at($rendererRead, "text"), at($renderer, "expression"))))):
+      let error = { kind = "inspection-refusal"; code = "ENC-INSP-BINDING"; message = "Renderer read binding mismatch" }
+  let result = { ok = false; status = "inspection-refused"; failure = $error }
+  when not($error):
+    let result = { ok = true; status = "inspection-only"; basis = $basis; principal = at($request, "principal"); context = at($request, "context"); selection = $selection; storedValue = at(at($selectedFacts, 0), "o"); typedValue = at(at(at($typed, "projection"), at($selection, "subject")), at($selection, "predicate")); subject = { identity = at($selection, "subject"); facts = filter($active, "fact", eq(at($fact, "s"), at($selection, "subject"))); rawProjection = at($projection, at($selection, "subject")); typedProjection = at(at($typed, "projection"), at($selection, "subject")) }; contextGraph = { facts = $active; managedSubjects = $managed; rawProjection = $projection; typedProjection = at($typed, "projection") }; slot = $slot; source = $selectedWitness; renderer = { definition = at($renderer, "source"); read = at($renderer, "read"); scope = "static-definition-binding;not-DOM-or-execution" }; coverage = { facts = count($facts); managedSubjects = count($managed); interfaces = count(at($compiled, "interfaces")) }; actionDiscovery = "not-requested"; authority = "read-only-host-supplied-snapshot"; sourceScope = "explicit-historical-snapshot"; limitations = list("No browser selection or executed render witnessed.", "No edit, proposal, commit, authentication or publication authority.", "Normalization declarations and source extraction remain attributed supplied input.", "Raw and typed projection observations do not replace the complete ordered context facts.") }

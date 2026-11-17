@@ -1,0 +1,47 @@
+process-module "temple/surface-process-module/1"
+
+process value.definition:
+  let result = {
+    status = "supplied-read-only-source-projection-definition";
+    type = "SourceFragment";
+    facts = list(
+      { s = "document.interface"; p = "isa"; o = "Interface"; pol = "is" },
+      { s = "document.interface"; p = "type"; o = "SourceFragment"; pol = "is" },
+      { s = "document.interface"; p = "mode"; o = "closed"; pol = "is" },
+      { s = "document.interface"; p = "slot"; o = "document.slot.label"; pol = "is" },
+      { s = "document.slot.label"; p = "isa"; o = "Slot"; pol = "is" },
+      { s = "document.slot.label"; p = "predicate"; o = "label"; pol = "is" },
+      { s = "document.slot.label"; p = "valueType"; o = "string"; pol = "is" },
+      { s = "document.slot.label"; p = "cardinality"; o = "one"; pol = "is" },
+      { s = "document.interface"; p = "slot"; o = "document.slot.kind"; pol = "is" },
+      { s = "document.slot.kind"; p = "isa"; o = "Slot"; pol = "is" },
+      { s = "document.slot.kind"; p = "predicate"; o = "kind"; pol = "is" },
+      { s = "document.slot.kind"; p = "valueType"; o = "string"; pol = "is" },
+      { s = "document.slot.kind"; p = "cardinality"; o = "one"; pol = "is" },
+      { s = "document.interface"; p = "slot"; o = "document.slot.file"; pol = "is" },
+      { s = "document.slot.file"; p = "isa"; o = "Slot"; pol = "is" },
+      { s = "document.slot.file"; p = "predicate"; o = "file"; pol = "is" },
+      { s = "document.slot.file"; p = "valueType"; o = "string"; pol = "is" },
+      { s = "document.slot.file"; p = "cardinality"; o = "one"; pol = "is" },
+      { s = "document.interface"; p = "slot"; o = "document.slot.sourceHash"; pol = "is" },
+      { s = "document.slot.sourceHash"; p = "isa"; o = "Slot"; pol = "is" },
+      { s = "document.slot.sourceHash"; p = "predicate"; o = "sourceHash"; pol = "is" },
+      { s = "document.slot.sourceHash"; p = "valueType"; o = "string"; pol = "is" },
+      { s = "document.slot.sourceHash"; p = "cardinality"; o = "one"; pol = "is" },
+      { s = "document.interface"; p = "slot"; o = "document.slot.start"; pol = "is" },
+      { s = "document.slot.start"; p = "isa"; o = "Slot"; pol = "is" },
+      { s = "document.slot.start"; p = "predicate"; o = "start"; pol = "is" },
+      { s = "document.slot.start"; p = "valueType"; o = "integer"; pol = "is" },
+      { s = "document.slot.start"; p = "cardinality"; o = "one"; pol = "is" },
+      { s = "document.interface"; p = "slot"; o = "document.slot.end"; pol = "is" },
+      { s = "document.slot.end"; p = "isa"; o = "Slot"; pol = "is" },
+      { s = "document.slot.end"; p = "predicate"; o = "end"; pol = "is" },
+      { s = "document.slot.end"; p = "valueType"; o = "integer"; pol = "is" },
+      { s = "document.slot.end"; p = "cardinality"; o = "one"; pol = "is" },
+      { s = "document.interface"; p = "slot"; o = "document.slot.text"; pol = "is" },
+      { s = "document.slot.text"; p = "isa"; o = "Slot"; pol = "is" },
+      { s = "document.slot.text"; p = "predicate"; o = "text"; pol = "is" },
+      { s = "document.slot.text"; p = "valueType"; o = "string"; pol = "is" },
+      { s = "document.slot.text"; p = "cardinality"; o = "one"; pol = "is" }
+    )
+  }

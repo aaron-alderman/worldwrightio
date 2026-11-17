@@ -1,0 +1,101 @@
+{
+  "protocol": "encounter/source-presentation-verification/1",
+  "authority": "local-engineering-evidence;not-independent-or-scientific-admission",
+  "executionBudget": 20000000,
+  "semanticOwners": [
+    {
+      "file": "algebra/source-presentation.process.json",
+      "bytes": 74510,
+      "sha256": "b56a6237750711d1f9cc6642c0d24741d672d42a73b519119d8496c3c0e85223"
+    },
+    {
+      "file": "source/presentation/source-presentation.json",
+      "bytes": 6294,
+      "sha256": "f442e601462beb6d7e38ec6bcb4b9f89e2858806ff13e392c4022b97486460f2"
+    },
+    {
+      "file": "algebra/source.process.json",
+      "bytes": 49038,
+      "sha256": "27d5b5a43e7bf6eac502e7096770bf871c6e6ea5a68d9b35e6df40012d5c6246"
+    },
+    {
+      "file": "algebra/css.process.json",
+      "bytes": 8603,
+      "sha256": "12dc9aca9f4c3d9d61588105246e6ae7194f638768f2d5718d0730ebecb6b4f1"
+    }
+  ],
+  "runtime": [
+    {
+      "file": "dist/presentation/host.js",
+      "bytes": 2248,
+      "sha256": "c8a80f0e55838b90b44a3e7c09df1e233a91e5b14cc22671b3920ceb05b8ce94"
+    },
+    {
+      "file": "dist/presentation/style.css",
+      "bytes": 3171,
+      "sha256": "e4d5e69b50349261e2689af86deb02e20ccd956cba57cdb82e9c035e521fdbcb"
+    },
+    {
+      "file": "dist/inspection/model.json",
+      "bytes": 205695,
+      "sha256": "4b303ae1ad796a3c9e3bcd880dc7f2c51625f5bdcf78aa1718ffda02bba5023f"
+    },
+    {
+      "file": "dist/inspection/catalogue.json",
+      "bytes": 11469255,
+      "sha256": "0084c3bf789bd23263157a3555327f3b8e7cd17b8938949ca42c5a36595d6592"
+    },
+    {
+      "file": "dist/inspection/manifest.json",
+      "bytes": 2070,
+      "sha256": "f3083c6b0ceea2ece535d5c8ffc9d07a26c398357192400a97f8f086af34f08a"
+    },
+    {
+      "file": "dist/workshop/temple-native.js",
+      "bytes": 11050,
+      "sha256": "ad06b65cf894dfd330cac3624c879b1e2ca99bb0431ad53e03d9e496a0d9e0f0"
+    }
+  ],
+  "checks": {
+    "focused": {
+      "pass": 13,
+      "fail": 0,
+      "receipt": {
+        "file": "generated/source-presentation-tests.txt",
+        "bytes": 1276,
+        "sha256": "96bd36eb3cf41efabf09e43b8df8999fcb667e0b3567f809dadd664054291774"
+      }
+    },
+    "integration": {
+      "pass": 50,
+      "fail": 0,
+      "receipt": {
+        "file": "source-presentation-integration-tests.txt",
+        "bytes": 4737,
+        "sha256": "5357e1a02ac345ac93926706b2feca46353cc69f140bda7a47d2f69705ef954d"
+      }
+    },
+    "browser": [
+      "observation source modal: dark roles and exact source excerpt",
+      "inspection process outline: generated definition and roles",
+      "workshop source route: selected owning line and light roles",
+      "workshop process panel: generated notation and reference roles",
+      "existing title edit: revision 0 to 1, page and row updated; menu unchanged"
+    ]
+  },
+  "capture": {
+    "files": 104,
+    "nodes": 6949,
+    "scenes": 40,
+    "notes": 29,
+    "queries": 31,
+    "observedJavaScriptFiles": 32
+  },
+  "limits": [
+    "Lexical presentation only",
+    "Supplied bootstrap definitions, not authored state",
+    "JavaScript parser observations are build-time native evidence",
+    "Inline illustrative excerpts retain plain presentation",
+    "Generated listings do not imply raw-source character maps or execution history"
+  ]
+}

@@ -1,0 +1,780 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "reflection.walk": [
+      {
+        "assert": [
+          "isArray",
+          "$programme"
+        ],
+        "message": "ENCOUNTER-R001: Reflection requires a process array."
+      },
+      {
+        "assert": [
+          "includes",
+          [
+            "range",
+            [
+              "add",
+              "$maxDepth",
+              1
+            ]
+          ],
+          [
+            "add",
+            "$depth",
+            1
+          ]
+        ],
+        "message": "ENCOUNTER-R002: Process nesting exceeds this declared graphics profile; choose a deeper profile instead of flattening the definition."
+      },
+      {
+        "fold": [
+          "range",
+          [
+            "count",
+            "$programme"
+          ]
+        ],
+        "as": "position",
+        "accumulator": "state",
+        "initial": "$state",
+        "steps": [
+          {
+            "let": "step",
+            "value": [
+              "at",
+              "$programme",
+              [
+                "add",
+                "$position",
+                -1
+              ]
+            ]
+          },
+          {
+            "port": "record.entries",
+            "args": {
+              "value": "$step"
+            },
+            "into": "fields"
+          },
+          {
+            "let": "keys",
+            "value": [
+              "map",
+              "$fields",
+              "field",
+              [
+                "at",
+                "$field",
+                0
+              ]
+            ]
+          },
+          {
+            "port": "record.entries",
+            "args": {
+              "value": "$profile.statements"
+            },
+            "into": "schemas"
+          },
+          {
+            "let": "kinds",
+            "value": [
+              "filter",
+              "$schemas",
+              "schema",
+              [
+                "includes",
+                "$keys",
+                [
+                  "at",
+                  "$schema",
+                  0
+                ]
+              ]
+            ]
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                "$kinds"
+              ],
+              1
+            ],
+            "message": "ENCOUNTER-R003: Unknown or ambiguous statement; reflection cannot invent its meaning."
+          },
+          {
+            "let": "kind",
+            "value": [
+              "at",
+              [
+                "at",
+                "$kinds",
+                0
+              ],
+              0
+            ]
+          },
+          {
+            "let": "schema",
+            "value": [
+              "at",
+              [
+                "at",
+                "$kinds",
+                0
+              ],
+              1
+            ]
+          },
+          {
+            "assert": [
+              "and",
+              [
+                "eq",
+                [
+                  "count",
+                  "$keys"
+                ],
+                [
+                  "count",
+                  "$schema.fields"
+                ]
+              ],
+              [
+                "every",
+                "$keys",
+                "key",
+                [
+                  "includes",
+                  "$schema.fields",
+                  "$key"
+                ]
+              ]
+            ],
+            "message": "ENCOUNTER-R004: Unknown or missing fields cannot be silently omitted by the process projection."
+          },
+          {
+            "let": "sourcePointer",
+            "value": [
+              "concat",
+              "$pointer",
+              "/",
+              [
+                "add",
+                "$position",
+                -1
+              ]
+            ]
+          },
+          {
+            "let": "nodeId",
+            "value": [
+              "concat",
+              "$processId",
+              "$sourcePointer"
+            ]
+          },
+          {
+            "let": "label",
+            "value": [
+              "if",
+              [
+                "eq",
+                "$kind",
+                "port"
+              ],
+              "$step.port",
+              [
+                "if",
+                [
+                  "eq",
+                  "$kind",
+                  "call"
+                ],
+                "$step.call",
+                [
+                  "if",
+                  [
+                    "eq",
+                    "$kind",
+                    "let"
+                  ],
+                  "$step.let",
+                  "$kind"
+                ]
+              ]
+            ]
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": [
+                "if",
+                [
+                  "eq",
+                  "$kind",
+                  "port"
+                ],
+                "$step.args",
+                [
+                  "at",
+                  "$step",
+                  "$kind"
+                ]
+              ]
+            },
+            "into": "detail"
+          },
+          {
+            "let": "order",
+            "value": [
+              "add",
+              [
+                "count",
+                "$state.nodes"
+              ],
+              1
+            ]
+          },
+          {
+            "let": "node",
+            "value": {
+              "id": "$nodeId",
+              "kind": "$kind",
+              "label": "$label",
+              "detail": "$detail",
+              "order": "$order",
+              "depth": "$depth",
+              "parent": "$parent",
+              "file": "$origin.file",
+              "sourceSha256": "$origin.sha256",
+              "pointer": "$sourcePointer",
+              "granted": [
+                "if",
+                [
+                  "eq",
+                  "$kind",
+                  "port"
+                ],
+                [
+                  "includes",
+                  "$grants",
+                  "$step.port"
+                ],
+                false
+              ]
+            }
+          },
+          {
+            "let": "state",
+            "value": {
+              "nodes": [
+                "append",
+                "$state.nodes",
+                [
+                  "list",
+                  "$node"
+                ]
+              ],
+              "facts": [
+                "append",
+                "$state.facts",
+                [
+                  "list",
+                  {
+                    "s": "$nodeId",
+                    "p": "isa",
+                    "o": [
+                      "concat",
+                      "ProcessStatement"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "kind",
+                    "o": [
+                      "concat",
+                      "$kind"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "label",
+                    "o": [
+                      "concat",
+                      "$label"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "detail",
+                    "o": [
+                      "concat",
+                      "$detail"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "order",
+                    "o": [
+                      "concat",
+                      "$order"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "depth",
+                    "o": [
+                      "concat",
+                      "$depth"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "parent",
+                    "o": [
+                      "concat",
+                      "$parent"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "sourceModule",
+                    "o": [
+                      "concat",
+                      "$origin.file"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "sourceSha256",
+                    "o": [
+                      "concat",
+                      "$origin.sha256"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$nodeId",
+                    "p": "sourcePointer",
+                    "o": [
+                      "concat",
+                      "$sourcePointer"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$parent",
+                    "p": "contains",
+                    "o": [
+                      "concat",
+                      "$nodeId"
+                    ],
+                    "pol": "is"
+                  },
+                  {
+                    "s": "$processId",
+                    "p": "statement",
+                    "o": "$nodeId",
+                    "pol": "is"
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "when": [
+              "eq",
+              "$kind",
+              "call"
+            ],
+            "then": [
+              {
+                "assert": [
+                  "at",
+                  "$target.queries",
+                  "$step.call"
+                ],
+                "message": "ENCOUNTER-R005: Reflected call has no target in the admitted source closure."
+              },
+              {
+                "let": "state",
+                "value": {
+                  "nodes": "$state.nodes",
+                  "facts": [
+                    "append",
+                    "$state.facts",
+                    [
+                      "list",
+                      {
+                        "s": "$nodeId",
+                        "p": "calls",
+                        "o": [
+                          "concat",
+                          [
+                            "concat",
+                            "process.",
+                            "$step.call"
+                          ]
+                        ],
+                        "pol": "is"
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$kind",
+              "port"
+            ],
+            "then": [
+              {
+                "let": "state",
+                "value": {
+                  "nodes": "$state.nodes",
+                  "facts": [
+                    "append",
+                    "$state.facts",
+                    [
+                      "list",
+                      {
+                        "s": "$nodeId",
+                        "p": "port",
+                        "o": [
+                          "concat",
+                          "$step.port"
+                        ],
+                        "pol": "is"
+                      },
+                      {
+                        "s": "$nodeId",
+                        "p": "declaredGrant",
+                        "o": [
+                          "concat",
+                          [
+                            "if",
+                            [
+                              "includes",
+                              "$grants",
+                              "$step.port"
+                            ],
+                            "true",
+                            "false"
+                          ]
+                        ],
+                        "pol": "is"
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "fold": "$schema.programmes",
+            "as": "field",
+            "accumulator": "state",
+            "initial": "$state",
+            "steps": [
+              {
+                "fold": [
+                  "list",
+                  null
+                ],
+                "as": "frame",
+                "accumulator": "returned",
+                "initial": null,
+                "steps": [
+                  {
+                    "let": "programme",
+                    "value": [
+                      "at",
+                      "$step",
+                      "$field"
+                    ]
+                  },
+                  {
+                    "let": "parent",
+                    "value": "$nodeId"
+                  },
+                  {
+                    "let": "pointer",
+                    "value": [
+                      "concat",
+                      "$sourcePointer",
+                      "/",
+                      "$field"
+                    ]
+                  },
+                  {
+                    "let": "depth",
+                    "value": [
+                      "add",
+                      "$depth",
+                      1
+                    ]
+                  },
+                  {
+                    "call": "reflection.walk"
+                  }
+                ],
+                "yield": "$state",
+                "into": "state"
+              }
+            ],
+            "yield": "$state",
+            "into": "state"
+          }
+        ],
+        "yield": "$state",
+        "into": "state"
+      }
+    ],
+    "reflection.project": [
+      {
+        "let": "programme",
+        "value": [
+          "at",
+          "$target.queries",
+          "$root"
+        ]
+      },
+      {
+        "assert": [
+          "isArray",
+          "$programme"
+        ],
+        "message": "ENCOUNTER-R006: Reflection root is absent. Point to an actual declared process."
+      },
+      {
+        "let": "origin",
+        "value": [
+          "at",
+          "$origins",
+          "$root"
+        ]
+      },
+      {
+        "assert": "$origin",
+        "message": "ENCOUNTER-R007: Reflection requires an exact source origin."
+      },
+      {
+        "let": "processId",
+        "value": [
+          "concat",
+          "process.",
+          "$root"
+        ]
+      },
+      {
+        "port": "text.replaceAll",
+        "args": {
+          "value": "$root",
+          "search": "~",
+          "replacement": "~0"
+        },
+        "into": "escaped"
+      },
+      {
+        "port": "text.replaceAll",
+        "args": {
+          "value": "$escaped",
+          "search": "/",
+          "replacement": "~1"
+        },
+        "into": "escaped"
+      },
+      {
+        "let": "pointer",
+        "value": [
+          "concat",
+          "/queries/",
+          "$escaped"
+        ]
+      },
+      {
+        "let": "parent",
+        "value": "$processId"
+      },
+      {
+        "let": "depth",
+        "value": 0
+      },
+      {
+        "let": "state",
+        "value": {
+          "nodes": [
+            "list"
+          ],
+          "facts": [
+            "list",
+            {
+              "s": "$processId",
+              "p": "isa",
+              "o": [
+                "concat",
+                "ProcessDefinition"
+              ],
+              "pol": "is"
+            },
+            {
+              "s": "$processId",
+              "p": "query",
+              "o": [
+                "concat",
+                "$root"
+              ],
+              "pol": "is"
+            },
+            {
+              "s": "$processId",
+              "p": "sourceModule",
+              "o": [
+                "concat",
+                "$origin.file"
+              ],
+              "pol": "is"
+            },
+            {
+              "s": "$processId",
+              "p": "sourceSha256",
+              "o": [
+                "concat",
+                "$origin.sha256"
+              ],
+              "pol": "is"
+            },
+            {
+              "s": "$processId",
+              "p": "sourcePointer",
+              "o": [
+                "concat",
+                "$pointer"
+              ],
+              "pol": "is"
+            },
+            {
+              "s": "$processId",
+              "p": "observation",
+              "o": [
+                "concat",
+                "definition, not an execution trace"
+              ],
+              "pol": "is"
+            },
+            {
+              "s": "$processId",
+              "p": "maxDepth",
+              "o": [
+                "concat",
+                "$maxDepth"
+              ],
+              "pol": "is"
+            }
+          ]
+        }
+      },
+      {
+        "let": "state",
+        "value": {
+          "nodes": "$state.nodes",
+          "facts": [
+            "append",
+            "$state.facts",
+            [
+              "map",
+              "$grants",
+              "grant",
+              {
+                "s": "$processId",
+                "p": "declaredPort",
+                "o": "$grant",
+                "pol": "is"
+              }
+            ]
+          ]
+        }
+      },
+      {
+        "call": "reflection.walk"
+      },
+      {
+        "fold": "$state.facts",
+        "as": "fact",
+        "accumulator": "rel",
+        "initial": "",
+        "steps": [
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$fact.s"
+            },
+            "into": "s"
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$fact.p"
+            },
+            "into": "predicate"
+          },
+          {
+            "port": "json.stringify",
+            "args": {
+              "value": "$fact.o"
+            },
+            "into": "o"
+          }
+        ],
+        "yield": [
+          "concat",
+          "$rel",
+          "(",
+          "$s",
+          ", ",
+          "$predicate",
+          ", ",
+          "$o",
+          ")\n"
+        ],
+        "into": "rel"
+      },
+      {
+        "let": "result",
+        "value": {
+          "protocol": "encounter/process-reflection/1",
+          "root": "$processId",
+          "query": "$root",
+          "source": "$origin",
+          "facts": "$state.facts",
+          "nodes": "$state.nodes",
+          "rel": "$rel",
+          "limitations": [
+            "list",
+            "Definition only: no branch is marked as having run.",
+            "Called processes are named references, not transitively expanded.",
+            "Value expressions are shown as source descriptions, not fully expanded expression graphs.",
+            "Statement coordinates are scoped to the exact source hash; cross-version matching is not inferred."
+          ]
+        }
+      }
+    ]
+  }
+}

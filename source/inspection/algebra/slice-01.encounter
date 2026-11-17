@@ -1,0 +1,736 @@
+process-module "temple/surface-process-module/1"
+
+process s01.portable:
+  port value.describe { value = at($eventInput, "value") } → d
+  let yes = or(at($d, "null"), eq(at($d, "type"), "string"), eq(at($d, "type"), "boolean"), at($d, "finite"))
+  when and(not($yes), at($d, "dataOnly"), or(at($d, "plain"), and(at($d, "array"), at($d, "dense"))), not(includes(if(isArray(at($eventInput, "ancestors")), at($eventInput, "ancestors"), list()), at($eventInput, "value")))):
+    port record.entries { value = at($eventInput, "value") } → es
+    fold $es as e; ok starts true:
+      port kernel.invoke { query = "s01.portable"; input = { value = at($e, 1); ancestors = append(at($eventInput, "ancestors"), list(at($eventInput, "value"))) } } → child
+      yield and($ok, $child) → yes
+  let result = $yes
+
+process s01.active:
+  fold $eventInput as f; state starts list():
+    let same = filter($state, "r", and(eq(at($r, "s"), at($f, "s")), eq(at($r, "p"), at($f, "p")), eq(at($r, "o"), at($f, "o"))))
+    let next = if(count($same), map($state, "r", if(and(eq(at($r, "s"), at($f, "s")), eq(at($r, "p"), at($f, "p")), eq(at($r, "o"), at($f, "o"))), $f, $r)), append($state, list($f)))
+    yield $next → all
+  let result = filter($all, "r", not(eq(at($r, "pol"), "is-not")))
+
+process s01.project:
+  port kernel.invoke { query = "s01.active"; input = $eventInput } → active
+  let out = {}
+  fold distinct(map($active, "f", at($f, "s"))) as s; loop1State starts { out = $out }:
+    let out = at($loop1State, "out")
+    let ts = map(filter($active, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o"))
+    when count($ts):
+      port record.put { record = $out; key = $s; value = { isa = $ts } } → out
+    yield { out = $out } → loop1
+  let out = at($loop1, "out")
+  fold $eventInput as f; loop2State starts { out = $out }:
+    let out = at($loop2State, "out")
+    when not(eq(at($f, "p"), "isa")):
+      port record.get { record = $out; key = at($f, "s") } → record
+      let record = if($record, $record, {})
+      when eq(at($f, "pol"), "is"):
+        port record.put { record = $record; key = at($f, "p"); value = at($f, "o") } → record
+        port record.put { record = $out; key = at($f, "s"); value = $record } → out
+      when eq(at($f, "pol"), "is-not"):
+        port record.entries { value = $record } → entries
+        port record.fromEntries { entries = filter($entries, "e", not(eq(at($e, 0), at($f, "p")))) } → record
+        port record.put { record = $out; key = at($f, "s"); value = $record } → out
+    yield { out = $out } → loop2
+  let out = at($loop2, "out")
+  let result = $out
+
+process s01.canonical:
+  let t = at($eventInput, "type")
+  let v = at($eventInput, "value")
+  port value.describe { value = $v } → d
+  let stored = null
+  let message = null
+  let mime = null
+  when eq($t, "string"):
+    let message = if(eq(at($d, "type"), "string"), null, "String values must be strings.")
+    let stored = $v
+  when eq($t, "boolean"):
+    let message = if(or(eq($v, true), eq($v, false), eq($v, "true"), eq($v, "false")), null, concat("Invalid boolean value: ", $v))
+    let stored = if(or(eq($v, true), eq($v, "true")), "true", "false")
+  when eq($t, "ref"):
+    when eq(at($d, "type"), "string"):
+      port text.trim { value = $v } → trim
+    let message = if(not(eq(at($d, "type"), "string")), "Reference values must be strings.", if(eq($trim, ""), "Reference values must not be empty.", if(not(eq($trim, $v)), concat("Reference value must not contain leading or trailing whitespace: ", $v), null)))
+    let stored = $v
+  when eq($t, "blob"):
+    port value.describe { value = at($eventInput, "mimeType") } → md
+    let message = if(not(eq(at($md, "type"), "string")), "MIME types must be strings.", null)
+    when not($message):
+      port text.trim { value = at($eventInput, "mimeType") } → mime
+      port text.lowerCase { value = $mime } → mime
+      port text.matches { value = $mime; pattern = "^[a-z0-9!#$&^_.+-]+/[a-z0-9!#$&^_.+-]+(?:\\s*;\\s*[a-z0-9!#$&^_.+-]+=(?:[a-z0-9!#$&^_.+-]+|\"[^\"]*\"))*$" } → mimeOK
+      when not($mimeOK):
+        let message = concat("Invalid MIME type: ", $mime)
+    when not($message):
+      let message = if(eq(at($d, "type"), "string"), null, "Blob storage values must be base64 strings.")
+      when not($message):
+        port text.matches { value = $v; pattern = "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/][AQgw]==|[A-Za-z0-9+/]{2}[AEIMQUYcgkosw048]=)?$" } → blobOK
+        when not($blobOK):
+          let message = "Blob storage values must be canonical base64."
+    let stored = $v
+  when or(eq($t, "number"), eq($t, "integer")):
+    let numeric = add(0, $v)
+    port value.describe { value = $numeric } → nd
+    port value.string { value = $v } → str
+    port text.matches { value = $str; pattern = if(eq($t, "integer"), "^-?(0|[1-9]\\d*)$", "^[\\s\\S]+$") } → syntax
+    let message = if(not(or(eq(at($d, "type"), "string"), eq(at($d, "type"), "number"))), if(eq($t, "integer"), "Integer values must be strings or numbers.", "Number values must be strings or numbers."), if(not(at($nd, "finite")), if(eq($t, "integer"), "Integer values must be whole numbers.", concat("Invalid number value: ", $str)), null))
+    when not($message):
+      port json.stringify { value = $numeric } → canonicalNumber
+      let stored = if(eq($t, "integer"), $str, $canonicalNumber)
+      when and(eq($t, "integer"), not($syntax)):
+        let message = if(eq(at($d, "type"), "number"), "Integer values must be whole numbers.", concat("Invalid integer value: ", $str))
+      when and(eq($t, "number"), eq(at($d, "type"), "string"), not(eq($v, $canonicalNumber))):
+        let message = concat("Number value must already be canonical: ", $v)
+  when not(includes(if(isArray(list("string", "boolean", "integer", "number", "ref", "blob")), list("string", "boolean", "integer", "number", "ref", "blob"), list()), $t)):
+    let message = concat("Unsupported canonical value type: ", $t)
+  let result = { ok = not($message); value = $stored; typed = if(eq($t, "blob"), { mimeType = $mime; stored = $stored }, if(eq($t, "boolean"), eq($stored, "true"), if(or(eq($t, "integer"), eq($t, "number")), $numeric, $stored))); message = $message }
+
+process s01.compile:
+  port kernel.invoke { query = "s01.active"; input = $eventInput } → facts
+  let error = null
+  let interfaces = list()
+  fold distinct(map(filter($facts, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "Interface"))), "z", at($z, "s"))) as i; loop3State starts { error = $error; interfaces = $interfaces }:
+    let error = at($loop3State, "error")
+    let interfaces = at($loop3State, "interfaces")
+    let type = let("v", map(filter($facts, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), "type"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))
+    let mode = let("v", map(filter($facts, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), "mode"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))
+    let slots = list()
+    fold list("type", "mode") as field; loop4State starts { error = $error }:
+      let error = at($loop4State, "error")
+      when not(eq(count(map(filter($facts, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), $field))), "z", at($z, "o"))), 1)):
+        when not($error):
+          let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "schema-compile"; message = concat("Interface ", $i, " must have exactly one \"", $field, "\" fact; found ", count(map(filter($facts, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), $field))), "z", at($z, "o"))), "."); statusCode = 400; issues = list({ code = "schema-compile"; message = concat("Interface ", $i, " must have exactly one \"", $field, "\" fact; found ", count(map(filter($facts, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), $field))), "z", at($z, "o"))), "."); severity = "error" }); delta = list() }
+      yield { error = $error } → loop4
+    let error = at($loop4, "error")
+    fold map(filter($facts, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), "slot"))), "z", at($z, "o")) as s; loop5State starts { error = $error; slots = $slots }:
+      let error = at($loop5State, "error")
+      let slots = at($loop5State, "slots")
+      fold list("valueType", "cardinality", "predicate") as field; loop6State starts { error = $error }:
+        let error = at($loop6State, "error")
+        when not(eq(count(map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), $field))), "z", at($z, "o"))), 1)):
+          when not($error):
+            let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "schema-compile"; message = concat("Slot ", $s, " must have exactly one \"", $field, "\" fact; found ", count(map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), $field))), "z", at($z, "o"))), "."); statusCode = 400; issues = list({ code = "schema-compile"; message = concat("Slot ", $s, " must have exactly one \"", $field, "\" fact; found ", count(map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), $field))), "z", at($z, "o"))), "."); severity = "error" }); delta = list() }
+        yield { error = $error } → loop6
+      let error = at($loop6, "error")
+      let vt = let("v", map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "valueType"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))
+      let card = let("v", map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "cardinality"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))
+      when not(includes(if(isArray(list("string", "boolean", "integer", "number", "ref", "blob")), list("string", "boolean", "integer", "number", "ref", "blob"), list()), $vt)):
+        when not($error):
+          let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "schema-compile"; message = concat("Slot ", $s, " declares unsupported valueType \"", $vt, "\"."); statusCode = 400; issues = list({ code = "schema-compile"; message = concat("Slot ", $s, " declares unsupported valueType \"", $vt, "\"."); severity = "error" }); delta = list() }
+      when not(includes(if(isArray(list("one", "optional", "many", "min1")), list("one", "optional", "many", "min1"), list()), $card)):
+        when not($error):
+          let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "schema-compile"; message = concat("Slot ", $s, " declares unsupported cardinality \"", $card, "\"."); statusCode = 400; issues = list({ code = "schema-compile"; message = concat("Slot ", $s, " declares unsupported cardinality \"", $card, "\"."); severity = "error" }); delta = list() }
+      let slot = { subject = $s; predicate = let("v", map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "predicate"))), "z", at($z, "o")), if(count($v), at($v, 0), "")); cardinality = $card; valueType = $vt; allowed = map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "allowed"))), "z", at($z, "o")) }
+      fold list("editorKind", "canonicalValueType", "expects", "mimeSlot") as opt; loop7State starts { slot = $slot }:
+        let slot = at($loop7State, "slot")
+        when count(map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), $opt))), "z", at($z, "o"))):
+          port record.put { record = $slot; key = $opt; value = let("v", map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), $opt))), "z", at($z, "o")), if(count($v), at($v, 0), "")) } → slot
+        yield { slot = $slot } → loop7
+      let slot = at($loop7, "slot")
+      when eq($vt, "blob"):
+        when not(count(map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "mimeSlot"))), "z", at($z, "o")))):
+          when not($error):
+            let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "schema-compile"; message = concat("Slot ", $s, " with valueType \"blob\" must declare exactly one mimeSlot."); statusCode = 400; issues = list({ code = "schema-compile"; message = concat("Slot ", $s, " with valueType \"blob\" must declare exactly one mimeSlot."); severity = "error" }); delta = list() }
+        port record.put { record = $slot; key = "mimePredicate"; value = let("v", map(filter($facts, "z", and(eq(at($z, "s"), let("v", map(filter($facts, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "mimeSlot"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), eq(at($z, "p"), "predicate"))), "z", at($z, "o")), if(count($v), at($v, 0), "")) } → slot
+      let slots = append($slots, list($slot))
+      yield { error = $error; slots = $slots } → loop5
+    let error = at($loop5, "error")
+    let slots = at($loop5, "slots")
+    let interfaces = append(filter($interfaces, "x", not(eq(at($x, "type"), $type))), list({ subject = $i; type = $type; mode = $mode; slots = $slots }))
+    yield { error = $error; interfaces = $interfaces } → loop3
+  let error = at($loop3, "error")
+  let interfaces = at($loop3, "interfaces")
+  fold $interfaces as i; loop8State starts { error = $error }:
+    let error = at($loop8State, "error")
+    fold at($i, "slots") as slot; loop9State starts { error = $error }:
+      let error = at($loop9State, "error")
+      when at($slot, "expects"):
+        when not(eq(at($slot, "valueType"), "ref")):
+          when not($error):
+            let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "schema-compile"; message = concat("Slot ", at($slot, "subject"), " declares expects \"", at($slot, "expects"), "\" but its valueType is \"", at($slot, "valueType"), "\"; expects is valid only for ref slots."); statusCode = 400; issues = list({ code = "schema-compile"; message = concat("Slot ", at($slot, "subject"), " declares expects \"", at($slot, "expects"), "\" but its valueType is \"", at($slot, "valueType"), "\"; expects is valid only for ref slots."); severity = "error" }); delta = list() }
+        when not(some($interfaces, "target", eq(at($target, "type"), at($slot, "expects")))):
+          when not($error):
+            let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "schema-compile"; message = concat("Slot ", at($slot, "subject"), " expects unknown interface type \"", at($slot, "expects"), "\"."); statusCode = 400; issues = list({ code = "schema-compile"; message = concat("Slot ", at($slot, "subject"), " expects unknown interface type \"", at($slot, "expects"), "\"."); severity = "error" }); delta = list() }
+      yield { error = $error } → loop9
+    let error = at($loop9, "error")
+    yield { error = $error } → loop8
+  let error = at($loop8, "error")
+  let result = { ok = not($error); interfaces = $interfaces; error = $error }
+
+process s01.authority:
+  let f = at($eventInput, "facts")
+  let actor = at($eventInput, "actor")
+  let target = at($eventInput, "subject")
+  port kernel.invoke { query = "s01.principals"; input = { facts = $f; actor = $actor } } → principals
+  let result = some(distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "SubjectAuthorityGrant"))), "z", at($z, "s"))), "g", and(includes(if(isArray($principals), $principals, list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "principal"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $target), includes(if(isArray(objects("program.semanticMutationAuthority", "directRole")), objects("program.semanticMutationAuthority", "directRole"), list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "authority"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), includes(if(isArray(map(filter($f, "z", and(eq(at($z, "s"), "sem.semanticAuthorityPolicy"), eq(at($z, "p"), "subjectAuthority"))), "z", at($z, "o"))), map(filter($f, "z", and(eq(at($z, "s"), "sem.semanticAuthorityPolicy"), eq(at($z, "p"), "subjectAuthority"))), "z", at($z, "o")), list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "authority"))), "z", at($z, "o")), if(count($v), at($v, 0), "")))))
+
+process s01.typed:
+  port record.entries { value = at($eventInput, "projection") } → records
+  let out = {}
+  let error = null
+  fold $records as entry; loop10State starts { error = $error; out = $out }:
+    let error = at($loop10State, "error")
+    let out = at($loop10State, "out")
+    let s = at($entry, 0)
+    let record = at($entry, 1)
+    let matches = filter(at($eventInput, "interfaces"), "i", includes(if(isArray(at($record, "isa")), at($record, "isa"), list()), at($i, "type")))
+    when eq(count($matches), 1):
+      fold at(at($matches, 0), "slots") as slot; loop11State starts { record = $record; error = $error }:
+        let record = at($loop11State, "record")
+        let error = at($loop11State, "error")
+        port record.entries { value = $record } → fields
+        when some($fields, "e", eq(at($e, 0), at($slot, "predicate"))):
+          port kernel.invoke { query = "s01.canonical"; input = { type = at($slot, "valueType"); value = at($record, at($slot, "predicate")); mimeType = at($record, at($slot, "mimePredicate")) } } → c
+          when at($c, "ok"):
+            port record.put { record = $record; key = at($slot, "predicate"); value = at($c, "typed") } → record
+          when not(at($c, "ok")):
+            let error = $c
+        yield { record = $record; error = $error } → loop11
+      let record = at($loop11, "record")
+      let error = at($loop11, "error")
+    port record.put { record = $out; key = $s; value = $record } → out
+    yield { error = $error; out = $out } → loop10
+  let error = at($loop10, "error")
+  let out = at($loop10, "out")
+  let result = { projection = $out; error = $error }
+
+process s01.validate:
+  let issues = list()
+  let f = at($eventInput, "facts")
+  fold at($eventInput, "managed") as s; loop12State starts { issues = $issues }:
+    let issues = at($loop12State, "issues")
+    let ts = map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o"))
+    let matches = filter(at($eventInput, "interfaces"), "i", includes(if(isArray($ts), $ts, list()), at($i, "type")))
+    when not(eq(count($matches), 1)):
+      let issues = append($issues, list({ code = if(count($matches), "ambiguous-interface", "subject-has-no-interface"); subject = $s }))
+    when eq(count($matches), 1):
+      let iface = at($matches, 0)
+      let allowed = append(list("isa"), map(at($iface, "slots"), "x", at($x, "predicate")))
+      when eq(at($iface, "mode"), "closed"):
+        fold filter($f, "x", eq(at($x, "s"), $s)) as fact; loop13State starts { issues = $issues }:
+          let issues = at($loop13State, "issues")
+          when not(includes(if(isArray($allowed), $allowed, list()), at($fact, "p"))):
+            let issues = append($issues, list({ code = "unknown-predicate"; subject = $s; predicate = at($fact, "p") }))
+          yield { issues = $issues } → loop13
+        let issues = at($loop13, "issues")
+      fold at($iface, "slots") as slot; loop14State starts { issues = $issues }:
+        let issues = at($loop14State, "issues")
+        let vs = map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), at($slot, "predicate")))), "z", at($z, "o"))
+        when or(and(eq(at($slot, "cardinality"), "one"), not(eq(count($vs), 1))), and(eq(at($slot, "cardinality"), "optional"), not(includes(if(isArray(list(0, 1)), list(0, 1), list()), count($vs)))), and(eq(at($slot, "cardinality"), "min1"), not(count($vs)))):
+          let issues = append($issues, list({ code = "invalid-slot-cardinality"; subject = $s; predicate = at($slot, "predicate") }))
+        fold $vs as v; loop15State starts { issues = $issues }:
+          let issues = at($loop15State, "issues")
+          port kernel.invoke { query = "s01.canonical"; input = { type = at($slot, "valueType"); value = $v; mimeType = let("v", map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), at($slot, "mimePredicate")))), "z", at($z, "o")), if(count($v), at($v, 0), "")) } } → c
+          when not(at($c, "ok")):
+            let issues = append($issues, list({ code = "invalid-mutation-value"; subject = $s; predicate = at($slot, "predicate") }))
+          when and(count(at($slot, "allowed")), not(includes(if(isArray(at($slot, "allowed")), at($slot, "allowed"), list()), $v))):
+            let issues = append($issues, list({ code = "invalid-allowed-value"; subject = $s; predicate = at($slot, "predicate") }))
+          when at($slot, "expects"):
+            when not(includes(if(isArray(map(filter($f, "z", and(eq(at($z, "s"), $v), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($f, "z", and(eq(at($z, "s"), $v), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), at($slot, "expects"))):
+              let issues = append($issues, list({ code = "invalid-slot-reference-type"; subject = $s; predicate = at($slot, "predicate") }))
+          yield { issues = $issues } → loop15
+        let issues = at($loop15, "issues")
+        yield { issues = $issues } → loop14
+      let issues = at($loop14, "issues")
+    yield { issues = $issues } → loop12
+  let issues = at($loop12, "issues")
+  let result = $issues
+
+process s01.prompt:
+  let slot = at($eventInput, "slot")
+  let s = at($eventInput, "subject")
+  port record.entries { value = at($eventInput, "record") } → recordEntries
+  let present = some($recordEntries, "e", eq(at($e, 0), at($slot, "predicate")))
+  let adding = or(not($present), includes(if(isArray(list("many", "min1")), list("many", "min1"), list()), at($slot, "cardinality")))
+  let ref = eq(at($slot, "valueType"), optional("program.semanticMutationPresentation", "referenceValueType"))
+  let title = if($ref, if($adding, optional("program.semanticMutationPresentation", "referenceAddTitle"), optional("program.semanticMutationPresentation", "referenceSetTitle")), if($adding, optional("program.semanticMutationPresentation", "ordinaryAddTitle"), optional("program.semanticMutationPresentation", "ordinarySetTitle")))
+  let message = if($ref, if($adding, optional("program.semanticMutationPresentation", "referenceAddMessage"), optional("program.semanticMutationPresentation", "referenceSetMessage")), if($adding, optional("program.semanticMutationPresentation", "ordinaryAddMessage"), optional("program.semanticMutationPresentation", "ordinarySetMessage")))
+  let default = if($present, at(at($eventInput, "record"), at($slot, "predicate")), if(eq(at($slot, "valueType"), "boolean"), "false", if(count(at($slot, "allowed")), at(at($slot, "allowed"), 0), "")))
+  let prompt = { fieldLabel = at($slot, "predicate"); message = concat($message, " ", at($slot, "predicate"), " ", if(and($ref, $adding), "to", "for"), " ", $s); defaultValue = $default; allowBlank = and(not($adding), eq(at($slot, "cardinality"), "optional")); editorKind = if(count(at($slot, "allowed")), "choice", at($slot, "valueType")); valueType = at($slot, "valueType") }
+  when count(at($slot, "allowed")):
+    port record.put { record = $prompt; key = "choices"; value = at($slot, "allowed") } → prompt
+    port record.put { record = $prompt; key = "choiceDetails"; value = map(at($slot, "allowed"), "v", { value = $v; label = $v; disabled = and($adding, includes(if(isArray(list("many", "min1")), list("many", "min1"), list()), at($slot, "cardinality")), eq($v, at(at($eventInput, "record"), at($slot, "predicate")))); reason = if(and($adding, includes(if(isArray(list("many", "min1")), list("many", "min1"), list()), at($slot, "cardinality")), eq($v, at(at($eventInput, "record"), at($slot, "predicate")))), optional("program.semanticMutationChoice", "enumerationExistingReason"), "") }) } → prompt
+  let result = { prompt = $prompt; title = concat($title, " ", at($slot, "predicate")); operation = if($adding, "addFact", "setProperty") }
+
+process s01.discover:
+  let f = at($eventInput, "facts")
+  let s = at($eventInput, "subject")
+  let actions = list()
+  port kernel.invoke { query = "s01.authority"; input = { facts = $f; actor = at($eventInput, "actor"); subject = $s } } → authorized
+  port record.get { record = at($eventInput, "projection"); key = $s } → record
+  let matches = filter(at($eventInput, "interfaces"), "i", includes(if(isArray(map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), at($i, "type")))
+  when and($authorized, eq(count($matches), 1)):
+    fold at(at($matches, 0), "slots") as slot; loop16State starts { actions = $actions }:
+      let actions = at($loop16State, "actions")
+      port kernel.invoke { query = "s01.prompt"; input = { facts = $f; slot = $slot; subject = $s; record = $record } } → p
+      port record.entries { value = $record } → recordFields
+      let present = some($recordFields, "e", eq(at($e, 0), at($slot, "predicate")))
+      let reference = eq(at($slot, "valueType"), "ref")
+      let label = if($reference, if(includes(if(isArray(list("many", "min1")), list("many", "min1"), list()), at($slot, "cardinality")), "attach", if($present, "change", "attach")), if($present, if(includes(if(isArray(list("many", "min1")), list("many", "min1"), list()), at($slot, "cardinality")), "append", "set"), "add"))
+      let actions = append($actions, list({ kind = optional("program.semanticMutationActionDiscovery", "rowKind"); text = concat($label, " ", at($slot, "predicate"), "..."); action = { kind = optional("program.semanticMutationActionDiscovery", "actionKind"); title = at($p, "title"); mutation = { operation = at($p, "operation"); subject = $s; predicate = at($slot, "predicate"); valueType = at($slot, "valueType") }; prompt = at($p, "prompt") }; semanticColorRole = optional("program.semanticMutationActionDiscovery", "rowColor") }))
+      when and($present, includes(if(isArray(list("optional", "many")), list("optional", "many"), list()), at($slot, "cardinality"))):
+        let actions = append($actions, list({ kind = "context"; text = concat(if($reference, "Detach", "Remove"), " ", at($slot, "predicate")); action = { kind = "semanticMutation"; title = concat(if($reference, "Detach", "Remove"), " ", at($slot, "predicate")); mutation = { operation = if($reference, "detachRelation", "removeFact"); subject = $s; predicate = at($slot, "predicate"); valueType = at($slot, "valueType"); value = at($record, at($slot, "predicate")) } }; semanticColorRole = "commandFg" }))
+      yield { actions = $actions } → loop16
+    let actions = at($loop16, "actions")
+  port kernel.invoke { query = "s01.terminalActions"; input = $eventInput } → terminalActions
+  let actions = append($actions, $terminalActions)
+  port kernel.invoke { query = "s01.contextActions"; input = $eventInput } → contextActions
+  let actions = append($actions, $contextActions)
+  let result = $actions
+
+process s01.observe:
+  port kernel.invoke { query = "s01.active"; input = append(at($eventInput, "schemaFacts"), append(at($eventInput, "programme"), at($eventInput, "facts"))) } → facts
+  port kernel.invoke { query = "s01.compile"; input = at($eventInput, "schemaFacts") } → schema
+  port kernel.invoke { query = "s01.project"; input = append(at($eventInput, "schemaFacts"), append(at($eventInput, "programme"), at($eventInput, "facts"))) } → projection
+  port kernel.invoke { query = "s01.typed"; input = { projection = $projection; interfaces = at($schema, "interfaces") } } → typed
+  port kernel.invoke { query = "s01.discover"; input = { facts = $facts; interfaces = at($schema, "interfaces"); projection = $projection; subject = at(at($eventInput, "request"), "subject"); actor = at($eventInput, "actor"); context = if(at($eventInput, "context"), at($eventInput, "context"), "") } } → actions
+  port record.get { record = $projection; key = at(at($eventInput, "request"), "subject") } → selectedRecord
+  when and(at($eventInput, "actor"), $selectedRecord, isArray(at($selectedRecord, "isa"))):
+    port record.get { record = at($typed, "projection"); key = at(at($eventInput, "request"), "subject") } → typedRecord
+    let shared = eq($selectedRecord, $typedRecord)
+    port record.put { record = $selectedRecord; key = "subject"; value = at(at($eventInput, "request"), "subject") } → selectedRecord
+    port record.put { record = $projection; key = at(at($eventInput, "request"), "subject"); value = $selectedRecord } → projection
+    when $shared:
+      port record.put { record = at($typed, "projection"); key = at(at($eventInput, "request"), "subject"); value = $selectedRecord } → typedProjection
+      port record.put { record = $typed; key = "projection"; value = $typedProjection } → typed
+  let matchingInterfaces = filter(at($schema, "interfaces"), "i", includes(if(isArray(map(filter($facts, "z", and(eq(at($z, "s"), at(at($eventInput, "request"), "subject")), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($facts, "z", and(eq(at($z, "s"), at(at($eventInput, "request"), "subject")), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), at($i, "type")))
+  let contract = null
+  when eq(count($matchingInterfaces), 1):
+    let selectedInterface = at($matchingInterfaces, 0)
+    let selectedSlots = filter(at($selectedInterface, "slots"), "s", eq(at($s, "predicate"), at(at($eventInput, "request"), "predicate")))
+    when eq(count($selectedSlots), 1):
+      port record.put { record = $selectedRecord; key = "subject"; value = at(at($eventInput, "request"), "subject") } → contractRecord
+      let contract = { subject = at(at($eventInput, "request"), "subject"); record = $contractRecord; iface = $selectedInterface; slot = at($selectedSlots, 0); parentSubject = ""; viaAssignment = false }
+  port kernel.invoke { query = "s01.diagnostics"; input = { facts = $facts; actor = at($eventInput, "actor"); subject = at(at($eventInput, "request"), "subject"); context = if(at($eventInput, "context"), at($eventInput, "context"), ""); actions = $actions; interfaces = at($schema, "interfaces") } } → diagnostics
+  port kernel.invoke { query = "s01.checkActionPolicies"; input = { facts = $facts; actions = $actions } } → policyError
+  let result = { schema = $schema; projection = $projection; typedProjection = at($typed, "projection"); actions = $actions; contract = $contract; diagnostics = $diagnostics }
+  when $policyError:
+    port record.put { record = $result; key = "policyError"; value = $policyError } → result
+
+process s01.run:
+  let input = $eventInput
+  let error = null
+  let hasSourceResult = false
+  port kernel.invoke { query = "s01.portable"; input = { value = $input; ancestors = list() } } → portable
+  when not($portable):
+    let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "Slice 01 accepts finite own-data values only."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when $portable:
+    port record.entries { value = $input } → fields
+    when some($fields, "e", includes(if(isArray(list("projection", "interfaces", "typedProjection")), list("projection", "interfaces", "typedProjection"), list()), at($e, 0))):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-BASIS"; message = "Projections and interfaces must be derived from the identified basis."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not($error):
+    when or(not(isArray(at($input, "schemaFacts"))), not(isArray(at($input, "programme"))), not(isArray(at($input, "facts"))), not(isArray(at($input, "managedSubjects"))), not(at($input, "actor")), not(at($input, "vector")), not(at($input, "request"))):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "Supply schemaFacts, programme, facts, managedSubjects, actor and an attributed vector."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not($error):
+    port kernel.invoke { query = "s01.shape"; input = $input } → shapeError
+    when $shapeError:
+      let error = $shapeError
+    fold list("createFactsHandlers", "choiceDetailsProviders", "contractPolicyProviders") as option; loop17State starts { error = $error }:
+      let error = at($loop17State, "error")
+      when some($fields, "field", eq(at($field, 0), $option)):
+        when not(eq(at($input, $option), list())):
+          let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-UNSUPPORTED"; message = "Provider callbacks are outside the sealed profile."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+      yield { error = $error } → loop17
+    let error = at($loop17, "error")
+    when and(some($fields, "field", eq(at($field, 0), "profiler")), not(eq(at($input, "profiler"), null))):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-UNSUPPORTED"; message = "Profiler callbacks are outside the sealed profile."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+    when some($fields, "field", eq(at($field, 0), "provenance")):
+      when not(eq(at($input, "provenance"), {})):
+        let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-PROVENANCE"; message = "Extra provenance cannot replace actor, authorship or fact coordinates."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+    when not(eq(at(at($input, "request"), "operation"), "setProperty")):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCOPE"; message = "Only one setProperty scalar replacement is admitted by this profile."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+    when not(and(at(at($input, "vector"), "reason"), at(at($input, "vector"), "target"), at(at($input, "vector"), "goal"), at(at($input, "vector"), "source"))):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "Reason, target, goal and source attribution are required."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not($error):
+    port json.stringify { value = { schemaFacts = at($input, "schemaFacts"); programme = at($input, "programme"); facts = at($input, "facts"); managedSubjects = at($input, "managedSubjects"); source = $sourceIdentity; profile = $profileIdentity } } → basis
+    when at($input, "expectedBasis"):
+      when not(eq(at($input, "expectedBasis"), $basis)):
+        let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-BASIS"; message = "The supplied basis no longer matches the current schema, grants or history."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not($error):
+    port kernel.invoke { query = "s01.observe"; input = $input } → observation
+    when not(at(at($observation, "schema"), "ok")):
+      let error = at(at($observation, "schema"), "error")
+    when at($observation, "policyError"):
+      let error = at($observation, "policyError")
+  when not($error):
+    port kernel.invoke { query = "s01.active"; input = append(at($input, "schemaFacts"), append(at($input, "programme"), at($input, "facts"))) } → combined
+    port kernel.invoke { query = "s01.validate"; input = { facts = $combined; interfaces = at(at($observation, "schema"), "interfaces"); managed = at($input, "managedSubjects") } } → beforeIssues
+    when count($beforeIssues):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCHEMA"; message = "The managed before-state is not valid under its complete schema."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+      port record.put { record = $error; key = "issues"; value = $beforeIssues } → error
+  when not($error):
+    let matches = filter(at(at($observation, "schema"), "interfaces"), "i", includes(if(isArray(map(filter($combined, "z", and(eq(at($z, "s"), at(at($input, "request"), "subject")), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($combined, "z", and(eq(at($z, "s"), at(at($input, "request"), "subject")), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), at($i, "type")))
+    let iface = at($matches, 0)
+    let slots = filter(at($iface, "slots"), "s", eq(at($s, "predicate"), at(at($input, "request"), "predicate")))
+    when not(eq(count($slots), 1)):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCOPE"; message = "The request must resolve to one direct typed slot."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+    when not($error):
+      let slot = at($slots, 0)
+      when or(not(includes(if(isArray(list("one", "optional")), list("one", "optional"), list()), at($slot, "cardinality"))), not(eq(count(map(filter($combined, "z", and(eq(at($z, "s"), at(at($input, "request"), "subject")), eq(at($z, "p"), at($slot, "predicate")))), "z", at($z, "o"))), 1)), not(includes(if(isArray(list("string", "boolean", "integer", "number", "ref")), list("string", "boolean", "integer", "number", "ref"), list()), at($slot, "valueType"))), at($slot, "editorKind"), at($slot, "canonicalValueType")):
+        let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-UNSUPPORTED"; message = "The target is outside the existing direct scalar profile."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not($error):
+    when not(includes(if(isArray(at($input, "managedSubjects")), at($input, "managedSubjects"), list()), at(at($input, "request"), "subject"))):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCOPE"; message = "The target must belong to the managed schema-validation scope."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not($error):
+    port kernel.invoke { query = "s01.resolveAuthority"; input = { facts = $combined; actor = at($input, "actor"); subject = at(at($input, "request"), "subject") } } → resolvedAuthority
+    let authority = at($resolvedAuthority, "allowed")
+    when not($authority):
+      let error = { ok = false; kind = "source-refusal"; name = "SemanticMutationError"; code = "semantic-authority-denied"; message = concat("Actor ", at($input, "actor"), " lacks subject mutation authority for ", at(at($input, "request"), "subject"), "."); statusCode = 403; issues = list({ code = "semantic-authority-denied"; message = concat("Actor ", at($input, "actor"), " lacks subject mutation authority for ", at(at($input, "request"), "subject"), "."); severity = "error"; actor = at($input, "actor"); subject = at(at($input, "request"), "subject"); operation = "setProperty" }); delta = list() }
+      when count(at($resolvedAuthority, "helperTargets")):
+        port record.put { record = at(at($error, "issues"), 0); key = "helperTargets"; value = at($resolvedAuthority, "helperTargets") } → authorityIssue
+        port record.put { record = $error; key = "issues"; value = list($authorityIssue) } → error
+  when not($error):
+    port kernel.invoke { query = "s01.canonical"; input = { type = at($slot, "valueType"); value = at(at($input, "request"), "value") } } → canonical
+    when not(at($canonical, "ok")):
+      let error = { ok = false; kind = "source-refusal"; name = "SemanticMutationError"; code = "invalid-mutation-value"; message = concat("Mutation value for ", at(at($input, "request"), "subject"), ".", at($slot, "predicate"), " is not a canonical ", at($slot, "valueType"), ": ", at($canonical, "message")); statusCode = 400; issues = list({ code = "invalid-mutation-value"; message = concat("Mutation value for ", at(at($input, "request"), "subject"), ".", at($slot, "predicate"), " is not a canonical ", at($slot, "valueType"), ": ", at($canonical, "message")); severity = "error"; subject = at(at($input, "request"), "subject"); predicate = at($slot, "predicate"); valueType = at($slot, "valueType"); value = at(at($input, "request"), "value") }); delta = list() }
+    when and(at($canonical, "ok"), count(at($slot, "allowed")), not(includes(if(isArray(at($slot, "allowed")), at($slot, "allowed"), list()), at($canonical, "value")))):
+      let error = { ok = false; kind = "source-refusal"; name = "SemanticMutationError"; code = "invalid-mutation-value"; message = concat("Mutation value for ", at(at($input, "request"), "subject"), ".", at($slot, "predicate"), " failed allowed-value validation."); statusCode = 400; issues = list({ code = "invalid-mutation-value"; message = concat("Mutation value for ", at(at($input, "request"), "subject"), ".", at($slot, "predicate"), " failed allowed-value validation."); severity = "error"; subject = at(at($input, "request"), "subject"); predicate = at($slot, "predicate"); value = at($canonical, "value"); allowed = at($slot, "allowed") }); delta = list() }
+  when and(not($error), eq(at($slot, "valueType"), "integer")):
+    port text.matches { value = at($canonical, "value"); pattern = "^-?(?:[0-9]{1,15}|9007199254740991|[0-8][0-9]{15}|900[0-6][0-9]{12}|9007[0-0][0-9]{11}|90071[0-8][0-9]{10}|900719[0-8][0-9]{9}|9007199[0-1][0-9]{8}|90071992[0-4][0-9]{7}|900719925[0-3][0-9]{6}|9007199254[0-6][0-9]{5}|90071992547[0-3][0-9]{4}|9007199254740[0-8][0-9]{2}|90071992547409[0-8][0-9]{1}|900719925474099[0-0][0-9]{0})$" } → safeInteger
+    when not($safeInteger):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-UNSUPPORTED"; message = "Integer conversion must preserve an exact safe integer."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not($error):
+    let meta = { actor = at($input, "actor"); authoredBy = { mutation = "setProperty"; predicate = at($slot, "predicate") } }
+    let delta = append(map(map(filter($combined, "z", and(eq(at($z, "s"), at(at($input, "request"), "subject")), eq(at($z, "p"), at($slot, "predicate")))), "z", at($z, "o")), "previous", { s = at(at($input, "request"), "subject"); p = at($slot, "predicate"); o = $previous; pol = "is-not"; actor = at($input, "actor"); authoredBy = at($meta, "authoredBy") }), list({ s = at(at($input, "request"), "subject"); p = at($slot, "predicate"); o = at($canonical, "value"); pol = "is"; actor = at($input, "actor"); authoredBy = at($meta, "authoredBy") }))
+    port kernel.invoke { query = "s01.project"; input = append(at($input, "facts"), $delta) } → dynamicProjection
+    let hasSourceResult = true
+    port kernel.invoke { query = "s01.active"; input = append($combined, $delta) } → afterFacts
+    port kernel.invoke { query = "s01.validate"; input = { facts = $afterFacts; interfaces = at(at($observation, "schema"), "interfaces"); managed = at($input, "managedSubjects") } } → afterIssues
+    when count($afterIssues):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCHEMA"; message = "The source-local success fails complete managed after-state validation."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+      port record.put { record = $error; key = "issues"; value = $afterIssues } → error
+  let result = if($error, { ok = false; status = "refused"; failure = $error; vector = if($portable, at($input, "vector"), null); sourceObservation = if($hasSourceResult, { delta = $delta; projection = $dynamicProjection; admissionInterfaces = list() }, null) }, { ok = true; status = "proposal-only"; basis = $basis; sourceIdentity = $sourceIdentity; profile = $profileIdentity; target = { subject = at(at($input, "request"), "subject"); predicate = at(at($input, "request"), "predicate"); basis = $basis }; vector = at($input, "vector"); delta = $delta; sourceObservation = { delta = $delta; projection = $dynamicProjection; admissionInterfaces = list() }; observation = $observation; checks = { before = true; after = true; authority = true }; stages = map(list("identify", "definitions", "discovery", "request", "plan", "consequence", "proposal"), "stage", { stage = $stage; vector = at($input, "vector") }) })
+  port kernel.invoke { query = "s01.cleanData"; input = $result } → result
+
+process s01.shape:
+  let error = null
+  let v = $eventInput
+  port value.describe { value = at($v, "actor") } → actorKind
+  when not(eq(at($actorKind, "type"), "string")):
+    let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "Actor identity must be a nonempty text reference."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  fold list("operation", "subject", "predicate") as field; loop18State starts { error = $error }:
+    let error = at($loop18State, "error")
+    port value.describe { value = at(at($v, "request"), $field) } → requestKind
+    when or(not(eq(at($requestKind, "type"), "string")), not(at(at($v, "request"), $field))):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "Operation, subject and predicate require explicit text identities."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+    yield { error = $error } → loop18
+  let error = at($loop18, "error")
+  fold list("schemaFacts", "programme", "facts") as listName; loop19State starts { error = $error }:
+    let error = at($loop19State, "error")
+    fold at($v, $listName) as f; loop20State starts { error = $error }:
+      let error = at($loop20State, "error")
+      fold list("s", "p", "o") as field; loop21State starts { error = $error }:
+        let error = at($loop21State, "error")
+        port value.describe { value = at($f, $field) } → fd
+        when not(eq(at($fd, "type"), "string")):
+          let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "Fact subject, predicate and object must be explicit strings."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+        yield { error = $error } → loop21
+      let error = at($loop21, "error")
+      when or(not(at($f, "s")), not(at($f, "p")), not(includes(if(isArray(list("is", "is-not")), list("is", "is-not"), list()), at($f, "pol")))):
+        let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "Fact identity and polarity must be explicit."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+      yield { error = $error } → loop20
+    let error = at($loop20, "error")
+    yield { error = $error } → loop19
+  let error = at($loop19, "error")
+  fold list("reason", "target", "goal", "source") as field; loop22State starts { error = $error }:
+    let error = at($loop22State, "error")
+    port value.describe { value = at(at($v, "vector"), $field) } → vd
+    when or(not(eq(at($vd, "type"), "string")), eq(at(at($v, "vector"), $field), "")):
+      let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "The reason/target/goal/source vector requires nonempty text references."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+    yield { error = $error } → loop22
+  let error = at($loop22, "error")
+  when not(eq(at(at($v, "vector"), "target"), concat(at(at($v, "request"), "subject"), ".", at(at($v, "request"), "predicate")))):
+    let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCOPE"; message = "The vector target does not identify the requested field."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  port record.entries { value = at($v, "request") } → requestFields
+  when some($requestFields, "field", not(includes(if(isArray(list("operation", "subject", "predicate", "value", "valueType")), list("operation", "subject", "predicate", "value", "valueType"), list()), at($field, 0)))):
+    let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCOPE"; message = "A scalar request cannot contain additional changes or fields."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  when not(some($requestFields, "field", eq(at($field, 0), "value"))):
+    let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-INPUT"; message = "The scalar request requires an explicit value."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  let declared = distinct(map(filter(at($v, "schemaFacts"), "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "Interface"))), "z", at($z, "s")))
+  let names = map($declared, "id", let("v", map(filter(at($v, "schemaFacts"), "z", and(eq(at($z, "s"), $id), eq(at($z, "p"), "type"))), "z", at($z, "o")), if(count($v), at($v, 0), "")))
+  when not(eq(count($names), count(distinct($names)))):
+    let error = { ok = false; kind = "profile-refusal"; code = "ENC-S01-SCHEMA"; message = "Duplicate interface type keys require explicit resolution."; owner = "Slice01"; correction = "Correct the owning input and rerun Slice 01 against the same sealed profile." }
+  let entries = distinct(map(filter(at($v, "programme"), "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "SemanticMutationActionPolicyEntry"))), "z", at($z, "s")))
+  let setPolicies = filter($entries, "id", eq(let("v", map(filter(at($v, "programme"), "z", and(eq(at($z, "s"), $id), eq(at($z, "p"), "operation"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), "setProperty"))
+  when not(eq(count($setPolicies), 1)):
+    let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "policy-compile"; message = "Expected exactly one authored mutation action policy for setProperty."; statusCode = 400; issues = list({ code = "policy-compile"; message = "Expected exactly one authored mutation action policy for setProperty."; severity = "error" }); delta = list() }
+  when not(count(map(filter(at($v, "programme"), "z", and(eq(at($z, "s"), "sem.semanticAuthorityPolicy"), eq(at($z, "p"), "subjectAuthority"))), "z", at($z, "o")))):
+    let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "policy-compile"; message = "sem.semanticAuthorityPolicy.subjectAuthority requires authored values."; statusCode = 400; issues = list({ code = "policy-compile"; message = "sem.semanticAuthorityPolicy.subjectAuthority requires authored values."; severity = "error" }); delta = list() }
+  let result = $error
+
+process s01.cleanData:
+  port value.describe { value = $eventInput } → d
+  let result = $eventInput
+  when or(at($d, "plain"), at($d, "array")):
+    port record.entries { value = $eventInput } → entries
+    fold $entries as e; out starts list():
+      port value.describe { value = at($e, 1) } → ed
+      when not(eq(at($ed, "type"), "undefined")):
+        let clean = null
+        when not(at($ed, "null")):
+          port kernel.invoke { query = "s01.cleanData"; input = at($e, 1) } → clean
+        let out = append($out, list(list(at($e, 0), $clean)))
+      yield $out → entriesOut
+    when at($d, "array"):
+      let result = map($entriesOut, "e", at($e, 1))
+    when at($d, "plain"):
+      port record.fromEntries { entries = $entriesOut } → result
+
+process s01.principals:
+  let f = at($eventInput, "facts")
+  let actor = at($eventInput, "actor")
+  let principals = list($actor)
+  when includes(if(isArray(map(filter($f, "z", and(eq(at($z, "s"), $actor), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($f, "z", and(eq(at($z, "s"), $actor), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), "Actor"):
+    fold range(count(distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "Steward"))), "z", at($z, "s"))))) as round; loop23State starts { principals = $principals }:
+      let principals = at($loop23State, "principals")
+      fold distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "Steward"))), "z", at($z, "s"))) as steward; loop24State starts { principals = $principals }:
+        let principals = at($loop24State, "principals")
+        let participants = append(map(filter($f, "z", and(eq(at($z, "s"), $steward), eq(at($z, "p"), "participant"))), "z", at($z, "o")), distinct(map(filter($f, "z", and(eq(at($z, "p"), "steward"), eq(at($z, "o"), $steward))), "z", at($z, "s"))))
+        when some($participants, "p", includes(if(isArray($principals), $principals, list()), $p)):
+          let principals = distinct(append($principals, list($steward)))
+        yield { principals = $principals } → loop24
+      let principals = at($loop24, "principals")
+      yield { principals = $principals } → loop23
+    let principals = at($loop23, "principals")
+  let result = $principals
+
+process s01.sort:
+  fold $eventInput as item; ordered starts list():
+    let before = list()
+    let after = list()
+    let placed = false
+    fold $ordered as old; loop25State starts { placed = $placed; before = $before; after = $after }:
+      let placed = at($loop25State, "placed")
+      let before = at($loop25State, "before")
+      let after = at($loop25State, "after")
+      port text.compare { left = at($item, "key"); right = at($old, "key") } → cmp
+      port value.string { value = $cmp } → cmpText
+      port text.matches { value = $cmpText; pattern = "^-" } → less
+      when $less:
+        let placed = true
+      when not($placed):
+        let before = append($before, list($old))
+      when $placed:
+        let after = append($after, list($old))
+      yield { placed = $placed; before = $before; after = $after } → loop25
+    let placed = at($loop25, "placed")
+    let before = at($loop25, "before")
+    let after = at($loop25, "after")
+    yield append($before, append(list($item), $after)) → ordered
+  let result = $ordered
+
+process s01.taxonomy:
+  let f = at($eventInput, "facts")
+  let all = map(filter($f, "z", and(eq(at($z, "s"), at($eventInput, "subject")), eq(at($z, "p"), "isa"))), "z", at($z, "o"))
+  fold range(count(distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "Interface"))), "z", at($z, "s"))))) as round; loop26State starts { all = $all }:
+    let all = at($loop26State, "all")
+    fold distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "Interface"))), "z", at($z, "s"))) as i; loop27State starts { all = $all }:
+      let all = at($loop27State, "all")
+      when includes(if(isArray($all), $all, list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), "type"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))):
+        when let("v", map(filter($f, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), "parentType"))), "z", at($z, "o")), if(count($v), at($v, 0), "")):
+          let all = distinct(append($all, list(let("v", map(filter($f, "z", and(eq(at($z, "s"), $i), eq(at($z, "p"), "parentType"))), "z", at($z, "o")), if(count($v), at($v, 0), "")))))
+      yield { all = $all } → loop27
+    let all = at($loop27, "all")
+    yield { all = $all } → loop26
+  let all = at($loop26, "all")
+  let result = $all
+
+process s01.contextAuthority:
+  let f = at($eventInput, "facts")
+  let ctx = at($eventInput, "context")
+  let role = at($eventInput, "role")
+  port kernel.invoke { query = "s01.principals"; input = { facts = $f; actor = at($eventInput, "actor") } } → principals
+  port kernel.invoke { query = "s01.taxonomy"; input = { facts = $f; subject = at($eventInput, "subject") } } → taxonomy
+  let roles = distinct(append(list($role), map(filter($f, "z", and(eq(at($z, "s"), "sem.semanticAuthorityPolicy"), eq(at($z, "p"), "contextOwnershipAuthority"))), "z", at($z, "o"))))
+  let result = some(distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "ContextAuthorityGrant"))), "z", at($z, "s"))), "g", and(eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "context"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $ctx), includes(if(isArray($principals), $principals, list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "principal"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), includes(if(isArray($roles), $roles, list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "authority"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), or(not(let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), at($eventInput, "subject"))), or(not(let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "memberIsa"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), includes(if(isArray($taxonomy), $taxonomy, list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "memberIsa"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))))))
+
+process s01.contextActions:
+  let f = at($eventInput, "facts")
+  let s = at($eventInput, "subject")
+  let actions = list()
+  when and(at($eventInput, "actor"), count(map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o")))):
+    port kernel.invoke { query = "s01.sort"; input = map(distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "Context"))), "z", at($z, "s"))), "ctx", { key = if(let("v", map(filter($f, "z", and(eq(at($z, "s"), $ctx), eq(at($z, "p"), "name"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), let("v", map(filter($f, "z", and(eq(at($z, "s"), $ctx), eq(at($z, "p"), "name"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $ctx); value = $ctx }) } → contexts
+    fold $contexts as ctxRow; loop28State starts { actions = $actions }:
+      let actions = at($loop28State, "actions")
+      let ctx = at($ctxRow, "value")
+      let name = at($ctxRow, "key")
+      let bindings = filter(map(filter($f, "z", and(eq(at($z, "s"), $ctx), eq(at($z, "p"), "binding"))), "z", at($z, "o")), "b", includes(if(isArray(map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), "ContextBinding"))
+      port kernel.invoke { query = "s01.taxonomy"; input = { facts = $f; subject = $s } } → tax
+      let matching = filter($bindings, "b", or(eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $s), and(let("v", map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "memberIsa"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), includes(if(isArray(if(eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "includeDerived"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), "true"), $tax, map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o")))), if(eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "includeDerived"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), "true"), $tax, map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "memberIsa"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))))))
+      let references = filter(map(filter($f, "z", and(eq(at($z, "s"), $ctx), eq(at($z, "p"), "reference"))), "z", at($z, "o")), "r", and(includes(if(isArray(map(filter($f, "z", and(eq(at($z, "s"), $r), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($f, "z", and(eq(at($z, "s"), $r), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), "ContextReference"), eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $r), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $s)))
+      when not(count($matching)):
+        port kernel.invoke { query = "s01.contextAuthority"; input = { facts = $f; subject = $s; actor = at($eventInput, "actor"); context = $ctx; role = "authority.attach" } } → canAttach
+        when $canAttach:
+          let actions = append($actions, list({ kind = optional("program.semanticMutationActionDiscovery", "rowKind"); text = concat("attach to [", $name, "]..."); action = { kind = optional("program.semanticMutationActionDiscovery", "actionKind"); mutation = { operation = optional("program.semanticMutationActionDiscovery", "attachOperation"); subject = $s; context = $ctx }; prompt = { message = concat("Attach ", $s, " to ", $name, ". Optional scoped name"); defaultValue = ""; allowBlank = true } }; semanticColorRole = optional("program.semanticMutationActionDiscovery", "rowColor") }))
+        port kernel.invoke { query = "s01.contextAuthority"; input = { facts = $f; subject = $s; actor = at($eventInput, "actor"); context = $ctx; role = "authority.name" } } → canReference
+        when and($canReference, not(count($references))):
+          let actions = append($actions, list({ kind = optional("program.semanticMutationActionDiscovery", "rowKind"); text = concat("reference in [", $name, "]..."); action = { kind = optional("program.semanticMutationActionDiscovery", "actionKind"); mutation = { operation = optional("program.semanticMutationActionDiscovery", "referenceOperation"); subject = $s; context = $ctx }; prompt = { message = concat("Create a reference to ", $s, " in ", $name); defaultValue = "" } }; semanticColorRole = optional("program.semanticMutationActionDiscovery", "rowColor") }))
+      when eq($ctx, at($eventInput, "context")):
+        let binding = let("v", map(filter($f, "z", and(eq(at($z, "s"), at($matching, 0)), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), ""))
+        let explicitBindings = filter($matching, "b", eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $b), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $s))
+        let entry = if(count($matching), if(count($explicitBindings), at($explicitBindings, 0), ""), if(count($references), at($references, 0), ""))
+        when or(count($matching), count($references)):
+          fold list("rename", "represent", "remove") as kind; loop29State starts { actions = $actions }:
+            let actions = at($loop29State, "actions")
+            port kernel.invoke { query = "s01.contextAuthority"; input = { facts = $f; subject = $s; actor = at($eventInput, "actor"); context = $ctx; role = if(eq($kind, "represent"), "authority.represent", if(and(eq($kind, "remove"), count($matching)), "authority.attach", "authority.name")) } } → can
+            let isBinding = count($matching)
+            let isRemove = eq($kind, "remove")
+            let isRepresent = eq($kind, "represent")
+            let operation = if($isBinding, if($isRemove, optional("program.semanticMutationActionDiscovery", "detachBindingOperation"), if($isRepresent, optional("program.semanticMutationActionDiscovery", "representBindingOperation"), optional("program.semanticMutationActionDiscovery", "renameBindingOperation"))), if($isRemove, optional("program.semanticMutationActionDiscovery", "removeReferenceOperation"), if($isRepresent, optional("program.semanticMutationActionDiscovery", "representReferenceOperation"), optional("program.semanticMutationActionDiscovery", "renameReferenceOperation"))))
+            let label = if($isBinding, if($isRemove, concat("detach from [", $name, "]"), if($isRepresent, concat("set representation in [", $name, "]..."), concat("rename in [", $name, "]..."))), if($isRemove, concat("remove reference from [", $name, "]"), if($isRepresent, concat("set reference representation in [", $name, "]..."), concat("rename reference in [", $name, "]..."))))
+            let mutation = { operation = $operation; subject = $s; context = $ctx }
+            when or(not($isBinding), not($isRemove)):
+              port record.put { record = $mutation; key = if($isBinding, "binding", "reference"); value = $entry } → mutation
+            let action = { kind = "semanticMutation"; mutation = $mutation }
+            when not($isRemove):
+              let message = if($isBinding, if($isRepresent, concat("Set representation for ", $s, " in ", $ctx), concat("Rename ", $s, " in ", $ctx)), if($isRepresent, concat("Set reference representation for ", $s, " in ", $ctx), concat("Rename reference for ", $s, " in ", $ctx)))
+              port record.put { record = $action; key = "prompt"; value = { message = $message; defaultValue = let("v", map(filter($f, "z", and(eq(at($z, "s"), $entry), eq(at($z, "p"), if($isRepresent, "representation", "name")))), "z", at($z, "o")), if(count($v), at($v, 0), "")) } } → action
+            when and($can, or(not($isBinding), not($isRemove), $entry)):
+              let actions = append($actions, list({ kind = "context"; text = $label; action = $action; semanticColorRole = "commandFg" }))
+            yield { actions = $actions } → loop29
+          let actions = at($loop29, "actions")
+      yield { actions = $actions } → loop28
+    let actions = at($loop28, "actions")
+  let result = $actions
+
+process s01.diagnostics:
+  let s = at($eventInput, "subject")
+  let a = at($eventInput, "actor")
+  let diagnostics = list()
+  when not($s):
+    let diagnostics = append($diagnostics, list({ code = "missing-subject"; message = "Semantic action discovery requires a subject." }))
+  when not($a):
+    let diagnostics = append($diagnostics, list({ code = "missing-actor"; message = "Semantic action discovery requires an actor." }))
+  when not(count($diagnostics)):
+    port kernel.invoke { query = "s01.authority"; input = { facts = at($eventInput, "facts"); actor = $a; subject = $s } } → authorized
+    port kernel.invoke { query = "s01.contextActions"; input = $eventInput } → contextActions
+    let allowed = or($authorized, count($contextActions))
+    let diagnostic = null
+    when not(count(map(filter(at($eventInput, "facts"), "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o")))):
+      let diagnostic = { code = "subject-not-visible"; subject = $s; message = concat("Subject ", $s, " is not visible in the current projection.") }
+    when and(not($diagnostic), not($allowed)):
+      let diagnostic = { code = "actor-lacks-authority"; actor = $a; subject = $s; message = concat("Actor ", $a, " does not have subject or context mutation authority for ", $s, ".") }
+    when and(not($diagnostic), not(count(at($eventInput, "actions")))):
+      let diagnostic = { code = "no-discoverable-actions"; actor = $a; subject = $s; message = concat("No semantic actions are discoverable for ", $s, ".") }
+    when $diagnostic:
+      when and(at($eventInput, "context"), not(eq(at($diagnostic, "code"), "subject-not-visible"))):
+        port record.put { record = $diagnostic; key = "context"; value = at($eventInput, "context") } → diagnostic
+      let diagnostics = list($diagnostic)
+  let result = $diagnostics
+
+process s01.terminalActions:
+  let f = at($eventInput, "facts")
+  let s = at($eventInput, "subject")
+  let rows = list()
+  port kernel.invoke { query = "s01.authority"; input = { facts = $f; actor = at($eventInput, "actor"); subject = $s } } → own
+  port kernel.invoke { query = "s01.principals"; input = { facts = $f; actor = at($eventInput, "actor") } } → principals
+  let classify = some(distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "SubjectAuthorityGrant"))), "z", at($z, "s"))), "g", and(eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "subject"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $s), eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "authority"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), "authority.classify"), includes(if(isArray($principals), $principals, list()), let("v", map(filter($f, "z", and(eq(at($z, "s"), $g), eq(at($z, "p"), "principal"))), "z", at($z, "o")), if(count($v), at($v, 0), "")))))
+  when and($own, $classify, not(includes(if(isArray(list(0, 1)), list(0, 1), list()), count(at($eventInput, "interfaces"))))):
+    port record.get { record = at($eventInput, "projection"); key = $s } → record
+    port record.entries { value = $record } → fields
+    port kernel.invoke { query = "s01.sort"; input = map(at($eventInput, "interfaces"), "i", { key = at($i, "type"); value = $i }) } → sorted
+    let choices = list()
+    fold $sorted as item; loop30State starts { choices = $choices }:
+      let choices = at($loop30State, "choices")
+      let iface = at($item, "value")
+      let reason = ""
+      let current = includes(if(isArray(map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o"))), map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o")), list()), at($iface, "type"))
+      when not($current):
+        fold $fields as field; loop31State starts { reason = $reason }:
+          let reason = at($loop31State, "reason")
+          let key = at($field, 0)
+          when and(not($reason), not(includes(if(isArray(list("isa", "subject")), list("isa", "subject"), list()), $key))):
+            let slots = filter(at($iface, "slots"), "slot", eq(at($slot, "predicate"), $key))
+            when and(not(count($slots)), eq(at($iface, "mode"), "closed")):
+              let reason = concat($key, " is not allowed on ", at($iface, "type"))
+            when count($slots):
+              let slot = at($slots, 0)
+              port kernel.invoke { query = "s01.canonical"; input = { type = at($slot, "valueType"); value = at($field, 1) } } → c
+              when not(at($c, "ok")):
+                let reason = concat("value ", at($field, 1), " is not a valid ", at($slot, "valueType"))
+              when and(not($reason), count(at($slot, "allowed")), not(includes(if(isArray(at($slot, "allowed")), at($slot, "allowed"), list()), at($field, 1)))):
+                let reason = concat("value ", at($field, 1), " is not an allowed ", $key)
+          yield { reason = $reason } → loop31
+        let reason = at($loop31, "reason")
+        fold at($iface, "slots") as slot; loop32State starts { reason = $reason }:
+          let reason = at($loop32State, "reason")
+          when and(not($reason), includes(if(isArray(list("one", "min1")), list("one", "min1"), list()), at($slot, "cardinality")), not(some($fields, "field", eq(at($field, 0), at($slot, "predicate"))))):
+            let reason = concat(at($slot, "predicate"), " is required by ", at($iface, "type"))
+          yield { reason = $reason } → loop32
+        let reason = at($loop32, "reason")
+      let choices = append($choices, list({ value = at($iface, "type"); label = at($iface, "type"); disabled = not(eq($reason, "")); reason = $reason }))
+      yield { choices = $choices } → loop30
+    let choices = at($loop30, "choices")
+    port text.join { values = map($choices, "choice", at($choice, "value")); separator = ", " } → names
+    let enabled = filter($choices, "choice", not(at($choice, "disabled")))
+    let rows = list({ kind = "context"; text = "reclassify..."; action = { kind = "semanticMutation"; mutation = { operation = "reclassify"; subject = $s }; prompt = { message = concat("Reclassify ", $s, ". Known types: ", $names); defaultValue = if(count($enabled), at(at($enabled, 0), "value"), if(count($choices), at(at($choices, 0), "value"), "")); editorKind = "choice"; choices = map($choices, "choice", at($choice, "value")); choiceDetails = $choices } }; semanticColorRole = "commandFg" })
+  let result = $rows
+
+process s01.scopeTargets:
+  let f = at($eventInput, "facts")
+  let s = at($eventInput, "subject")
+  let seen = at($eventInput, "seen")
+  let targets = list()
+  when and($s, not(includes(if(isArray($seen), $seen, list()), $s))):
+    let seen = append($seen, list($s))
+    let scope = let("v", map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), optional("program.semanticMutationAuthority", "scopePredicate")))), "z", at($z, "o")), if(count($v), at($v, 0), ""))
+    when $scope:
+      let targets = list($scope)
+    when not($scope):
+      let related = distinct(append(filter(map(objects("program.semanticMutationAuthority", "scopeRelation"), "p", let("v", map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), $p))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), "id", $id), map(filter($f, "fact", and(eq(at($fact, "o"), $s), not(eq(at($fact, "s"), $s)), includes(if(isArray(objects("program.semanticMutationAuthority", "incomingScopeRelation")), objects("program.semanticMutationAuthority", "incomingScopeRelation"), list()), at($fact, "p")))), "fact", at($fact, "s"))))
+      fold $related as id; loop33State starts { seen = $seen; targets = $targets }:
+        let seen = at($loop33State, "seen")
+        let targets = at($loop33State, "targets")
+        port kernel.invoke { query = "s01.scopeTargets"; input = { facts = $f; subject = $id; seen = $seen } } → next
+        let seen = at($next, "seen")
+        let targets = distinct(append($targets, at($next, "targets")))
+        yield { seen = $seen; targets = $targets } → loop33
+      let seen = at($loop33, "seen")
+      let targets = at($loop33, "targets")
+  let result = { targets = $targets; seen = $seen }
+
+process s01.resolveAuthority:
+  let f = at($eventInput, "facts")
+  let s = at($eventInput, "subject")
+  port kernel.invoke { query = "s01.authority"; input = $eventInput } → direct
+  let allowed = $direct
+  let targets = list()
+  when not($direct):
+    let parents = distinct(map(filter($f, "z", and(eq(at($z, "p"), optional("program.semanticMutationAuthority", "helperParentPredicate")), eq(at($z, "o"), $s))), "z", at($z, "s")))
+    let helpers = filter($parents, "p", some(map(filter($f, "z", and(eq(at($z, "s"), $p), eq(at($z, "p"), "isa"))), "z", at($z, "o")), "t", includes(if(isArray(objects("program.semanticMutationAuthority", "helperConstructor")), objects("program.semanticMutationAuthority", "helperConstructor"), list()), $t)))
+    when some(map(filter($f, "z", and(eq(at($z, "s"), $s), eq(at($z, "p"), "isa"))), "z", at($z, "o")), "t", includes(if(isArray(objects("program.semanticMutationAuthority", "helperConstructor")), objects("program.semanticMutationAuthority", "helperConstructor"), list()), $t)):
+      let helpers = list($s)
+    let targets = distinct(filter(map($helpers, "h", let("v", map(filter($f, "z", and(eq(at($z, "s"), $h), eq(at($z, "p"), optional("program.semanticMutationAuthority", "helperTargetPredicate")))), "z", at($z, "o")), if(count($v), at($v, 0), ""))), "t", $t))
+    port kernel.invoke { query = "s01.scopeTargets"; input = { facts = $f; subject = $s; seen = list() } } → scope
+    let targets = distinct(append($targets, at($scope, "targets")))
+    fold $targets as target; loop34State starts { allowed = $allowed }:
+      let allowed = at($loop34State, "allowed")
+      port kernel.invoke { query = "s01.authority"; input = { facts = $f; actor = at($eventInput, "actor"); subject = $target } } → authorized
+      let allowed = or($allowed, $authorized)
+      yield { allowed = $allowed } → loop34
+    let allowed = at($loop34, "allowed")
+  let result = { allowed = $allowed; helperTargets = $targets }
+
+process s01.checkActionPolicies:
+  let error = null
+  let f = at($eventInput, "facts")
+  let entries = distinct(map(filter($f, "z", and(eq(at($z, "p"), "isa"), eq(at($z, "o"), "SemanticMutationActionPolicyEntry"))), "z", at($z, "s")))
+  fold at($eventInput, "actions") as row; loop35State starts { error = $error }:
+    let error = at($loop35State, "error")
+    let op = at(at(at($row, "action"), "mutation"), "operation")
+    when includes(if(isArray(list("setProperty", "addFact", "removeFact", "detachRelation", "reclassify", "deleteSubject")), list("setProperty", "addFact", "removeFact", "detachRelation", "reclassify", "deleteSubject"), list()), $op):
+      let matches = filter($entries, "id", eq(let("v", map(filter($f, "z", and(eq(at($z, "s"), $id), eq(at($z, "p"), "operation"))), "z", at($z, "o")), if(count($v), at($v, 0), "")), $op))
+      when and(not($error), not(eq(count($matches), 1))):
+        let error = { ok = false; kind = "source-refusal"; name = "Error"; code = "policy-compile"; message = concat("Expected exactly one authored mutation action policy for ", $op, "."); statusCode = 400; issues = list({ code = "policy-compile"; message = concat("Expected exactly one authored mutation action policy for ", $op, "."); severity = "error" }); delta = list() }
+    yield { error = $error } → loop35
+  let error = at($loop35, "error")
+  let result = $error

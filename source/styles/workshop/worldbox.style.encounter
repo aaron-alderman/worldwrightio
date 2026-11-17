@@ -1,0 +1,106 @@
+process-module "temple/surface-process-module/1"
+
+process style.definition:
+  let result = {
+    protocol = "encounter/style-projection/1";
+    identity = "workshop/worldbox.css";
+    reason = "Readable Encounter planning fields at desktop and narrow widths.";
+    target = "workshop/worldbox.css";
+    goal = "Author and review worldbox targets.";
+    sheet = list("StyleSheet", list(
+      list("StyleRule", ".worldbox-planner", list(
+        list("Declaration", "max-width", "1100px"),
+        list("Declaration", "margin", "0 auto"),
+        list("Declaration", "padding", "32px 20px 80px"),
+        list("Declaration", "color", "#213733"),
+        list("Declaration", "font-family", "system-ui, sans-serif"),
+        list("Declaration", "background", "#f2f4ed"),
+        list("Declaration", "border-radius", "16px")
+      )),
+      list("StyleRule", ".wb-eyebrow", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "letter-spacing", ".12em"),
+        list("Declaration", "color", "#3d6e63")
+      )),
+      list("StyleRule", ".worldbox-planner h1", list(
+        list("Declaration", "font-size", "clamp(28px, 4vw, 44px)"),
+        list("Declaration", "line-height", "1.15")
+      )),
+      list("StyleRule", ".wb-lead", list(
+        list("Declaration", "font-size", "20px"),
+        list("Declaration", "line-height", "1.6")
+      )),
+      list("StyleRule", ".wb-status", list(
+        list("Declaration", "color", "#735718"),
+        list("Declaration", "font-weight", "700"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".wb-card", list(
+        list("Declaration", "padding", "24px"),
+        list("Declaration", "margin", "20px 0"),
+        list("Declaration", "border", "1px solid #bccfc5"),
+        list("Declaration", "border-radius", "12px"),
+        list("Declaration", "background", "#fafbf7")
+      )),
+      list("StyleRule", ".wb-card h2", list(
+        list("Declaration", "margin-top", "0"),
+        list("Declaration", "font-size", "25px")
+      )),
+      list("StyleRule", ".wb-card p", list(
+        list("Declaration", "line-height", "1.6")
+      )),
+      list("StyleRule", ".wb-card label", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-weight", "600"),
+        list("Declaration", "margin", "16px 0 8px")
+      )),
+      list("StyleRule", ".wb-card textarea", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "box-sizing", "border-box"),
+        list("Declaration", "width", "100%"),
+        list("Declaration", "padding", "14px"),
+        list("Declaration", "font", "15px/1.65 system-ui, sans-serif"),
+        list("Declaration", "color", "#213733"),
+        list("Declaration", "background", "#fff"),
+        list("Declaration", "border", "1px solid #9db8ad"),
+        list("Declaration", "border-radius", "6px"),
+        list("Declaration", "resize", "vertical")
+      )),
+      list("StyleRule", ".wb-toolbar", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "gap", "12px"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "margin", "24px 0")
+      )),
+      list("StyleRule", ".wb-toolbar button", list(
+        list("Declaration", "padding", "12px 16px"),
+        list("Declaration", "border", "1px solid #3b685c"),
+        list("Declaration", "border-radius", "6px"),
+        list("Declaration", "background", "#244d42"),
+        list("Declaration", "color", "white"),
+        list("Declaration", "cursor", "pointer")
+      )),
+      list("StyleRule", ".worldbox-planner :focus-visible", list(
+        list("Declaration", "outline", "3px solid #b27b20"),
+        list("Declaration", "outline-offset", "3px")
+      )),
+      list("StyleRule", "#wb-status", list(
+        list("Declaration", "padding", "12px"),
+        list("Declaration", "background", "#edf2e9"),
+        list("Declaration", "border-radius", "6px")
+      )),
+      list("StyleRule", "nav", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "gap", "16px"),
+        list("Declaration", "padding", "16px 20px"),
+        list("Declaration", "background", "#f2f4ed"),
+        list("Declaration", "border-radius", "8px")
+      )),
+      list("StyleRule", "nav a", list(
+        list("Declaration", "color", "#244d42"),
+        list("Declaration", "font", "15px/1.5 system-ui, sans-serif")
+      ))
+    ))
+  }

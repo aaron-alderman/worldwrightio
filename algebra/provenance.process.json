@@ -1,0 +1,4419 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "provenance.expression": [
+      {
+        "let": "expression",
+        "value": "$eventInput.expression"
+      },
+      {
+        "let": "path",
+        "value": "$eventInput.path"
+      },
+      {
+        "let": "result",
+        "value": null
+      },
+      {
+        "when": [
+          "isArray",
+          "$expression"
+        ],
+        "then": [
+          {
+            "let": "operator",
+            "value": [
+              "at",
+              "$expression",
+              0
+            ]
+          },
+          {
+            "assert": [
+              "includes",
+              [
+                "list",
+                "concat",
+                "if",
+                "at"
+              ],
+              "$operator"
+            ],
+            "message": "PROV-GRAMMAR: Rendering operation needs an explicit provenance law."
+          },
+          {
+            "when": [
+              "eq",
+              "$operator",
+              "concat"
+            ],
+            "then": [
+              {
+                "fold": [
+                  "range",
+                  [
+                    "add",
+                    [
+                      "count",
+                      "$expression"
+                    ],
+                    -1
+                  ]
+                ],
+                "as": "index",
+                "accumulator": "joined",
+                "initial": {
+                  "text": "",
+                  "parts": [
+                    "list"
+                  ]
+                },
+                "steps": [
+                  {
+                    "port": "kernel.invoke",
+                    "args": {
+                      "query": "provenance.expression",
+                      "input": {
+                        "expression": [
+                          "at",
+                          "$expression",
+                          "$index"
+                        ],
+                        "path": [
+                          "append",
+                          "$path",
+                          [
+                            "list",
+                            "$index"
+                          ]
+                        ]
+                      }
+                    },
+                    "into": "part"
+                  }
+                ],
+                "yield": {
+                  "text": [
+                    "concat",
+                    "$joined.text",
+                    "$part.text"
+                  ],
+                  "parts": [
+                    "append",
+                    "$joined.parts",
+                    [
+                      "fold",
+                      "$part.parts",
+                      "p",
+                      "items",
+                      [
+                        "list"
+                      ],
+                      [
+                        "append",
+                        "$items",
+                        [
+                          "list",
+                          {
+                            "start": [
+                              "add",
+                              "$p.start",
+                              [
+                                "count",
+                                "$joined.text"
+                              ]
+                            ],
+                            "end": [
+                              "add",
+                              "$p.end",
+                              [
+                                "count",
+                                "$joined.text"
+                              ]
+                            ],
+                            "origin": "$p.origin",
+                            "child": "$p.child",
+                            "external": "$p.external"
+                          }
+                        ]
+                      ]
+                    ]
+                  ]
+                },
+                "into": "result"
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$operator",
+              "if"
+            ],
+            "then": [
+              {
+                "port": "kernel.evaluate",
+                "args": {
+                  "expression": [
+                    "at",
+                    "$expression",
+                    1
+                  ],
+                  "bindings": "$bindings"
+                },
+                "into": "test"
+              },
+              {
+                "let": "branch",
+                "value": [
+                  "if",
+                  "$test",
+                  2,
+                  3
+                ]
+              },
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "provenance.expression",
+                  "input": {
+                    "expression": [
+                      "at",
+                      "$expression",
+                      "$branch"
+                    ],
+                    "path": [
+                      "append",
+                      "$path",
+                      [
+                        "list",
+                        "$branch"
+                      ]
+                    ]
+                  }
+                },
+                "into": "result"
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$operator",
+              "at"
+            ],
+            "then": [
+              {
+                "port": "text.matches",
+                "args": {
+                  "value": [
+                    "at",
+                    "$expression",
+                    1
+                  ],
+                  "pattern": "^\\$slots$"
+                },
+                "into": "isSlot"
+              },
+              {
+                "assert": "$isSlot",
+                "message": "PROV-SLOT: Only declared composition slots may be external provenance inputs."
+              },
+              {
+                "port": "kernel.evaluate",
+                "args": {
+                  "expression": [
+                    "at",
+                    "$expression",
+                    2
+                  ],
+                  "bindings": "$bindings"
+                },
+                "into": "slotName"
+              },
+              {
+                "port": "record.get",
+                "args": {
+                  "record": "$slotSources",
+                  "key": "$slotName"
+                },
+                "into": "slotSource"
+              },
+              {
+                "assert": [
+                  "if",
+                  [
+                    "eq",
+                    "$slotSource",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "message": "PROV-SLOT: A composed slot requires an explicit source map."
+              },
+              {
+                "port": "kernel.evaluate",
+                "args": {
+                  "expression": "$expression",
+                  "bindings": "$bindings"
+                },
+                "into": "text"
+              },
+              {
+                "let": "result",
+                "value": {
+                  "text": "$text",
+                  "parts": [
+                    "list",
+                    {
+                      "start": 0,
+                      "end": [
+                        "count",
+                        "$text"
+                      ],
+                      "origin": null,
+                      "child": null,
+                      "external": "$slotSource"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "when": [
+          "if",
+          [
+            "isArray",
+            "$expression"
+          ],
+          false,
+          true
+        ],
+        "then": [
+          {
+            "port": "kernel.evaluate",
+            "args": {
+              "expression": "$expression",
+              "bindings": "$bindings"
+            },
+            "into": "raw"
+          },
+          {
+            "port": "value.string",
+            "args": {
+              "value": "$raw"
+            },
+            "into": "text"
+          },
+          {
+            "let": "origin",
+            "value": {
+              "owner": "$grammarOwner",
+              "pointer": [
+                "append",
+                [
+                  "list",
+                  "rules",
+                  "$node.op",
+                  "render"
+                ],
+                "$path"
+              ]
+            }
+          },
+          {
+            "let": "kind",
+            "value": "rule"
+          },
+          {
+            "port": "text.matches",
+            "args": {
+              "value": "$expression",
+              "pattern": "^\\$(?:n|q|h|c|j)\\."
+            },
+            "into": "reference"
+          },
+          {
+            "when": "$reference",
+            "then": [
+              {
+                "port": "text.split",
+                "args": {
+                  "value": "$expression",
+                  "pattern": "\\."
+                },
+                "into": "referencePath"
+              },
+              {
+                "port": "text.slice",
+                "args": {
+                  "value": [
+                    "at",
+                    "$referencePath",
+                    0
+                  ],
+                  "start": 1
+                },
+                "into": "namespace"
+              },
+              {
+                "let": "field",
+                "value": [
+                  "at",
+                  "$referencePath",
+                  1
+                ]
+              },
+              {
+                "when": [
+                  "includes",
+                  [
+                    "list",
+                    "n",
+                    "q",
+                    "h"
+                  ],
+                  "$namespace"
+                ],
+                "then": [
+                  {
+                    "let": "kind",
+                    "value": "source"
+                  },
+                  {
+                    "let": "origin",
+                    "value": {
+                      "owner": "$sourceOwner",
+                      "pointer": [
+                        "list",
+                        "nodes",
+                        "$node.id",
+                        "data",
+                        "$field"
+                      ]
+                    }
+                  },
+                  {
+                    "port": "record.get",
+                    "args": {
+                      "record": [
+                        "at",
+                        [
+                          "at",
+                          "$node",
+                          "meaning"
+                        ],
+                        "origins"
+                      ],
+                      "key": "$field"
+                    },
+                    "into": "explicitOrigin"
+                  },
+                  {
+                    "when": [
+                      "if",
+                      [
+                        "eq",
+                        "$explicitOrigin",
+                        null
+                      ],
+                      false,
+                      true
+                    ],
+                    "then": [
+                      {
+                        "let": "origin",
+                        "value": "$explicitOrigin"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "when": [
+                  "includes",
+                  [
+                    "list",
+                    "c",
+                    "j"
+                  ],
+                  "$namespace"
+                ],
+                "then": [
+                  {
+                    "let": "kind",
+                    "value": "children"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "let": "result",
+            "value": {
+              "text": "$text",
+              "parts": [
+                "if",
+                [
+                  "eq",
+                  [
+                    "count",
+                    "$text"
+                  ],
+                  0
+                ],
+                [
+                  "list"
+                ],
+                [
+                  "list",
+                  {
+                    "start": 0,
+                    "end": [
+                      "count",
+                      "$text"
+                    ],
+                    "origin": "$origin",
+                    "child": null,
+                    "external": null
+                  }
+                ]
+              ]
+            }
+          },
+          {
+            "when": [
+              "eq",
+              "$kind",
+              "children"
+            ],
+            "then": [
+              {
+                "let": "refs",
+                "value": [
+                  "if",
+                  [
+                    "eq",
+                    "$namespace",
+                    "c"
+                  ],
+                  [
+                    "list",
+                    [
+                      "at",
+                      "$node.links",
+                      "$field"
+                    ]
+                  ],
+                  [
+                    "at",
+                    "$node.links",
+                    "$field"
+                  ]
+                ]
+              },
+              {
+                "let": "separator",
+                "value": [
+                  "if",
+                  [
+                    "eq",
+                    "$namespace",
+                    "j"
+                  ],
+                  [
+                    "at",
+                    [
+                      "at",
+                      "$rule.links",
+                      "$field"
+                    ],
+                    "separator"
+                  ],
+                  ""
+                ]
+              },
+              {
+                "fold": "$refs",
+                "as": "ref",
+                "accumulator": "children",
+                "initial": {
+                  "text": "",
+                  "parts": [
+                    "list"
+                  ],
+                  "index": 0
+                },
+                "steps": [
+                  {
+                    "let": "separatorText",
+                    "value": [
+                      "if",
+                      [
+                        "eq",
+                        "$children.index",
+                        0
+                      ],
+                      "",
+                      "$separator"
+                    ]
+                  },
+                  {
+                    "let": "offset",
+                    "value": [
+                      "add",
+                      [
+                        "count",
+                        "$children.text"
+                      ],
+                      [
+                        "count",
+                        "$separatorText"
+                      ]
+                    ]
+                  },
+                  {
+                    "let": "childText",
+                    "value": [
+                      "if",
+                      [
+                        "eq",
+                        "$ref",
+                        null
+                      ],
+                      "",
+                      [
+                        "at",
+                        "$compiled",
+                        "$ref"
+                      ]
+                    ]
+                  },
+                  {
+                    "let": "separatorParts",
+                    "value": [
+                      "if",
+                      [
+                        "eq",
+                        [
+                          "count",
+                          "$separatorText"
+                        ],
+                        0
+                      ],
+                      [
+                        "list"
+                      ],
+                      [
+                        "list",
+                        {
+                          "start": [
+                            "count",
+                            "$children.text"
+                          ],
+                          "end": "$offset",
+                          "origin": {
+                            "owner": "$grammarOwner",
+                            "pointer": [
+                              "list",
+                              "rules",
+                              "$node.op",
+                              "links",
+                              "$field",
+                              "separator"
+                            ]
+                          },
+                          "child": null,
+                          "external": null
+                        }
+                      ]
+                    ]
+                  },
+                  {
+                    "let": "childParts",
+                    "value": [
+                      "if",
+                      [
+                        "eq",
+                        [
+                          "count",
+                          "$childText"
+                        ],
+                        0
+                      ],
+                      [
+                        "list"
+                      ],
+                      [
+                        "list",
+                        {
+                          "start": "$offset",
+                          "end": [
+                            "add",
+                            "$offset",
+                            [
+                              "count",
+                              "$childText"
+                            ]
+                          ],
+                          "origin": null,
+                          "child": "$ref",
+                          "external": null
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                "yield": {
+                  "text": [
+                    "concat",
+                    "$children.text",
+                    "$separatorText",
+                    "$childText"
+                  ],
+                  "parts": [
+                    "append",
+                    "$children.parts",
+                    [
+                      "append",
+                      "$separatorParts",
+                      "$childParts"
+                    ]
+                  ],
+                  "index": [
+                    "add",
+                    "$children.index",
+                    1
+                  ]
+                },
+                "into": "children"
+              },
+              {
+                "assert": [
+                  "eq",
+                  "$children.text",
+                  "$text"
+                ],
+                "message": "PROV-JOIN: Child provenance must reproduce the exact rendered dependency."
+              },
+              {
+                "let": "result",
+                "value": {
+                  "text": "$children.text",
+                  "parts": "$children.parts"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "provenance.document": [
+      {
+        "fold": "$document.nodes",
+        "as": "node",
+        "accumulator": "state",
+        "initial": {
+          "compiled": [
+            "list"
+          ],
+          "nodes": [
+            "list"
+          ]
+        },
+        "steps": [
+          {
+            "let": "compiled",
+            "value": "$state.compiled"
+          },
+          {
+            "call": "projection.node"
+          },
+          {
+            "let": "projected",
+            "value": "$result"
+          },
+          {
+            "let": "bindings",
+            "value": {
+              "n": "$node.data",
+              "q": "$q",
+              "h": "$h",
+              "c": "$c",
+              "j": "$j",
+              "slots": "$slots"
+            }
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "provenance.expression",
+              "input": {
+                "expression": "$rule.render",
+                "path": [
+                  "list"
+                ]
+              }
+            },
+            "into": "trace"
+          },
+          {
+            "assert": [
+              "eq",
+              "$trace.text",
+              "$projected"
+            ],
+            "message": "PROV-REPRODUCTION: Provenance does not reproduce the projection. Refuse the build."
+          }
+        ],
+        "yield": {
+          "compiled": [
+            "append",
+            "$state.compiled",
+            [
+              "list",
+              "$projected"
+            ]
+          ],
+          "nodes": [
+            "append",
+            "$state.nodes",
+            [
+              "list",
+              {
+                "id": "$node.id",
+                "op": "$node.op",
+                "length": [
+                  "count",
+                  "$projected"
+                ],
+                "source": {
+                  "owner": "$sourceOwner",
+                  "pointer": [
+                    "list",
+                    "nodes",
+                    "$node.id"
+                  ]
+                },
+                "rule": {
+                  "owner": "$grammarOwner",
+                  "pointer": [
+                    "list",
+                    "rules",
+                    "$node.op"
+                  ]
+                },
+                "pieces": "$trace.parts"
+              }
+            ]
+          ]
+        },
+        "into": "state"
+      },
+      {
+        "let": "result",
+        "value": {
+          "protocol": "encounter/derivation-map/1",
+          "units": "utf16",
+          "sourceOwner": "$sourceOwner",
+          "grammarOwner": "$grammarOwner",
+          "root": "$document.entry",
+          "length": [
+            "count",
+            [
+              "at",
+              "$state.compiled",
+              "$document.entry"
+            ]
+          ],
+          "nodes": "$state.nodes"
+        }
+      }
+    ],
+    "provenance.locate": [
+      {
+        "let": "id",
+        "value": "$eventInput.node"
+      },
+      {
+        "let": "offset",
+        "value": "$eventInput.offset"
+      },
+      {
+        "let": "current",
+        "value": [
+          "at",
+          "$graph.nodes",
+          "$id"
+        ]
+      },
+      {
+        "port": "text.slice",
+        "args": {
+          "value": "$artifactText",
+          "start": 0,
+          "end": "$offset"
+        },
+        "into": "prefix"
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            "$prefix"
+          ],
+          "$offset"
+        ],
+        "message": "PROV-OFFSET: Use an in-range nonnegative integer coordinate."
+      },
+      {
+        "port": "text.slice",
+        "args": {
+          "value": "$artifactText",
+          "start": "$offset",
+          "end": "$current.length"
+        },
+        "into": "remaining"
+      },
+      {
+        "assert": [
+          "if",
+          [
+            "eq",
+            [
+              "count",
+              "$remaining"
+            ],
+            0
+          ],
+          false,
+          true
+        ],
+        "message": "PROV-OFFSET: Offset is outside this generated node."
+      },
+      {
+        "fold": "$current.pieces",
+        "as": "p",
+        "accumulator": "found",
+        "initial": null,
+        "steps": [
+          {
+            "port": "text.slice",
+            "args": {
+              "value": "$artifactText",
+              "start": "$offset",
+              "end": "$p.end"
+            },
+            "into": "beforeEnd"
+          },
+          {
+            "port": "text.slice",
+            "args": {
+              "value": "$artifactText",
+              "start": "$p.start",
+              "end": [
+                "add",
+                "$offset",
+                1
+              ]
+            },
+            "into": "afterStart"
+          }
+        ],
+        "yield": [
+          "if",
+          [
+            "eq",
+            [
+              "count",
+              "$beforeEnd"
+            ],
+            0
+          ],
+          "$found",
+          [
+            "if",
+            [
+              "eq",
+              [
+                "count",
+                "$afterStart"
+              ],
+              0
+            ],
+            "$found",
+            "$p"
+          ]
+        ],
+        "into": "piece"
+      },
+      {
+        "assert": [
+          "if",
+          [
+            "eq",
+            "$piece",
+            null
+          ],
+          false,
+          true
+        ],
+        "message": "PROV-COVERAGE: This generated character has no derivation."
+      },
+      {
+        "let": "result",
+        "value": {
+          "origin": "$piece.origin",
+          "external": "$piece.external",
+          "path": [
+            "list",
+            {
+              "node": "$id",
+              "source": "$current.source",
+              "rule": "$current.rule"
+            }
+          ],
+          "offset": "$offset"
+        }
+      },
+      {
+        "when": [
+          "if",
+          [
+            "eq",
+            "$piece.child",
+            null
+          ],
+          false,
+          true
+        ],
+        "then": [
+          {
+            "port": "text.slice",
+            "args": {
+              "value": "$artifactText",
+              "start": "$piece.start",
+              "end": "$offset"
+            },
+            "into": "relativePrefix"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "provenance.locate",
+              "input": {
+                "node": "$piece.child",
+                "offset": [
+                  "count",
+                  "$relativePrefix"
+                ]
+              }
+            },
+            "into": "nested"
+          },
+          {
+            "let": "result",
+            "value": {
+              "origin": "$nested.origin",
+              "external": "$nested.external",
+              "path": [
+                "append",
+                [
+                  "list",
+                  {
+                    "node": "$id",
+                    "source": "$current.source",
+                    "rule": "$current.rule"
+                  }
+                ],
+                "$nested.path"
+              ],
+              "offset": "$nested.offset"
+            }
+          }
+        ]
+      }
+    ],
+    "provenance.describe": [
+      {
+        "let": "result",
+        "value": {
+          "boundary": "Exact generated definition; no inverse edit is claimed.",
+          "source": "$eventInput.source",
+          "rule": "$eventInput.rule",
+          "mapping": "$eventInput.mapping"
+        }
+      }
+    ],
+    "provenance.cssDocument": [
+      {
+        "fold": [
+          "range",
+          [
+            "count",
+            "$policy.themes"
+          ]
+        ],
+        "as": "themeNumber",
+        "accumulator": "origins",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "let": "themeIndex",
+            "value": [
+              "add",
+              "$themeNumber",
+              -1
+            ]
+          },
+          {
+            "let": "theme",
+            "value": [
+              "at",
+              "$policy.themes",
+              "$themeIndex"
+            ]
+          },
+          {
+            "port": "record.entries",
+            "args": {
+              "value": "$theme.roles"
+            },
+            "into": "roles"
+          }
+        ],
+        "yield": [
+          "append",
+          "$origins",
+          [
+            "fold",
+            "$roles",
+            "role",
+            "items",
+            [
+              "list"
+            ],
+            [
+              "append",
+              "$items",
+              [
+                "list",
+                {
+                  "pointer": [
+                    "list",
+                    "themes",
+                    "$themeIndex",
+                    "roles",
+                    [
+                      "at",
+                      "$role",
+                      0
+                    ]
+                  ],
+                  "theme": [
+                    "list",
+                    "themes",
+                    "$themeIndex",
+                    "id"
+                  ]
+                }
+              ]
+            ]
+          ]
+        ],
+        "into": "tokenOrigins"
+      },
+      {
+        "fold": [
+          "range",
+          [
+            "count",
+            "$plan.tokens"
+          ]
+        ],
+        "as": "tokenNumber",
+        "accumulator": "tokens",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "let": "tokenIndex",
+            "value": [
+              "add",
+              "$tokenNumber",
+              -1
+            ]
+          },
+          {
+            "let": "token",
+            "value": [
+              "at",
+              "$plan.tokens",
+              "$tokenIndex"
+            ]
+          },
+          {
+            "let": "tokenOrigin",
+            "value": [
+              "at",
+              "$tokenOrigins",
+              "$tokenIndex"
+            ]
+          }
+        ],
+        "yield": [
+          "append",
+          "$tokens",
+          [
+            "list",
+            {
+              "id": "$tokenIndex",
+              "op": "Declaration",
+              "data": {
+                "property": [
+                  "concat",
+                  "--",
+                  "$token.name"
+                ],
+                "value": "$token.value"
+              },
+              "links": {},
+              "meaning": {
+                "origins": {
+                  "property": {
+                    "owner": "source/inspection/algebra/source-presentation.process.json",
+                    "pointer": [
+                      "list",
+                      "queries",
+                      "sp.stylePlan",
+                      2,
+                      "steps",
+                      3,
+                      "steps",
+                      0,
+                      "value"
+                    ],
+                    "transform": "generated-custom-property-name",
+                    "derivation": {
+                      "owner": "source/inspection/algebra/source-presentation.process.json",
+                      "pointer": [
+                        "list",
+                        "queries",
+                        "sp.stylePlan"
+                      ]
+                    },
+                    "inputs": [
+                      "list",
+                      {
+                        "owner": "source/inspection/source/presentation/source-presentation.json",
+                        "pointer": "$tokenOrigin.theme"
+                      },
+                      {
+                        "owner": "source/inspection/source/presentation/source-presentation.json",
+                        "pointer": "$tokenOrigin.pointer",
+                        "facet": "key"
+                      }
+                    ]
+                  },
+                  "value": {
+                    "owner": "source/inspection/source/presentation/source-presentation.json",
+                    "pointer": "$tokenOrigin.pointer"
+                  }
+                }
+              }
+            }
+          ]
+        ],
+        "into": "nodes"
+      },
+      {
+        "let": "rootId",
+        "value": [
+          "count",
+          "$nodes"
+        ]
+      },
+      {
+        "let": "rootRule",
+        "value": {
+          "id": "$rootId",
+          "op": "StyleRule",
+          "data": {
+            "selector": ":root"
+          },
+          "links": {
+            "children": [
+              "fold",
+              [
+                "range",
+                "$rootId"
+              ],
+              "n",
+              "ids",
+              [
+                "list"
+              ],
+              [
+                "append",
+                "$ids",
+                [
+                  "list",
+                  [
+                    "add",
+                    "$n",
+                    -1
+                  ]
+                ]
+              ]
+            ]
+          },
+          "meaning": {
+            "origins": {
+              "selector": {
+                "owner": "source/inspection/algebra/css.process.json",
+                "pointer": [
+                  "list",
+                  "queries",
+                  "css.renderPlan",
+                  3,
+                  "value",
+                  2
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "fold": [
+          "range",
+          [
+            "count",
+            "$plan.rules"
+          ]
+        ],
+        "as": "ruleNumber",
+        "accumulator": "state",
+        "initial": {
+          "nodes": [
+            "append",
+            "$nodes",
+            [
+              "list",
+              "$rootRule"
+            ]
+          ],
+          "rules": [
+            "list",
+            "$rootId"
+          ]
+        },
+        "steps": [
+          {
+            "let": "ruleIndex",
+            "value": [
+              "add",
+              "$ruleNumber",
+              -1
+            ]
+          },
+          {
+            "let": "cssRule",
+            "value": [
+              "at",
+              "$plan.rules",
+              "$ruleIndex"
+            ]
+          },
+          {
+            "let": "layout",
+            "value": [
+              "includes",
+              [
+                "range",
+                [
+                  "count",
+                  "$policy.layoutRules"
+                ]
+              ],
+              "$ruleNumber"
+            ]
+          },
+          {
+            "let": "roleIndex",
+            "value": [
+              "add",
+              "$ruleIndex",
+              [
+                "if",
+                "$layout",
+                0,
+                [
+                  "add",
+                  -1,
+                  [
+                    "add",
+                    [
+                      "count",
+                      "$policy.layoutRules"
+                    ],
+                    -1
+                  ]
+                ]
+              ]
+            ]
+          },
+          {
+            "port": "text.slice",
+            "args": {
+              "value": [
+                "concat",
+                [
+                  "fold",
+                  "$policy.layoutRules",
+                  "r",
+                  "s",
+                  "",
+                  [
+                    "concat",
+                    "$s",
+                    "x"
+                  ]
+                ]
+              ],
+              "start": 0,
+              "end": "$ruleIndex"
+            },
+            "into": "unused"
+          },
+          {
+            "let": "roleOrigin",
+            "value": [
+              "at",
+              [
+                "at",
+                "$tokenOrigins",
+                [
+                  "add",
+                  "$ruleIndex",
+                  -1
+                ]
+              ],
+              "pointer"
+            ]
+          },
+          {
+            "when": [
+              "if",
+              "$layout",
+              false,
+              true
+            ],
+            "then": [
+              {
+                "port": "text.slice",
+                "args": {
+                  "value": [
+                    "fold",
+                    "$plan.rules",
+                    "r",
+                    "s",
+                    "",
+                    [
+                      "concat",
+                      "$s",
+                      "x"
+                    ]
+                  ],
+                  "start": [
+                    "count",
+                    "$policy.layoutRules"
+                  ],
+                  "end": "$ruleIndex"
+                },
+                "into": "palettePrefix"
+              },
+              {
+                "let": "roleOrigin",
+                "value": [
+                  "at",
+                  [
+                    "at",
+                    "$tokenOrigins",
+                    [
+                      "count",
+                      "$palettePrefix"
+                    ]
+                  ],
+                  "pointer"
+                ]
+              }
+            ]
+          },
+          {
+            "fold": [
+              "range",
+              [
+                "count",
+                "$cssRule.declarations"
+              ]
+            ],
+            "as": "declarationNumber",
+            "accumulator": "declarations",
+            "initial": {
+              "nodes": "$state.nodes",
+              "children": [
+                "list"
+              ]
+            },
+            "steps": [
+              {
+                "let": "declarationIndex",
+                "value": [
+                  "add",
+                  "$declarationNumber",
+                  -1
+                ]
+              },
+              {
+                "let": "declaration",
+                "value": [
+                  "at",
+                  "$cssRule.declarations",
+                  "$declarationIndex"
+                ]
+              },
+              {
+                "let": "id",
+                "value": [
+                  "count",
+                  "$declarations.nodes"
+                ]
+              }
+            ],
+            "yield": {
+              "nodes": [
+                "append",
+                "$declarations.nodes",
+                [
+                  "list",
+                  {
+                    "id": "$id",
+                    "op": "Declaration",
+                    "data": {
+                      "property": "$declaration.property",
+                      "value": "$declaration.value"
+                    },
+                    "links": {},
+                    "meaning": {
+                      "origins": {
+                        "property": [
+                          "if",
+                          "$layout",
+                          {
+                            "owner": "source/inspection/source/presentation/source-presentation.json",
+                            "pointer": [
+                              "append",
+                              [
+                                "list",
+                                "layoutRules",
+                                "$ruleIndex",
+                                "declarations",
+                                "$declarationIndex"
+                              ],
+                              [
+                                "list",
+                                "property"
+                              ]
+                            ]
+                          },
+                          {
+                            "owner": "source/inspection/algebra/source-presentation.process.json",
+                            "pointer": [
+                              "list",
+                              "queries",
+                              "sp.stylePlan",
+                              2,
+                              "steps",
+                              3,
+                              "steps",
+                              2,
+                              "value",
+                              2,
+                              1,
+                              "declarations",
+                              1,
+                              "property"
+                            ],
+                            "transform": "derived-expression",
+                            "inputs": [
+                              "list",
+                              {
+                                "owner": "source/inspection/source/presentation/source-presentation.json",
+                                "pointer": "$roleOrigin",
+                                "facet": "key"
+                              }
+                            ]
+                          }
+                        ],
+                        "value": [
+                          "if",
+                          "$layout",
+                          {
+                            "owner": "source/inspection/source/presentation/source-presentation.json",
+                            "pointer": [
+                              "append",
+                              [
+                                "list",
+                                "layoutRules",
+                                "$ruleIndex",
+                                "declarations",
+                                "$declarationIndex"
+                              ],
+                              [
+                                "list",
+                                "value"
+                              ]
+                            ]
+                          },
+                          {
+                            "owner": "source/inspection/algebra/source-presentation.process.json",
+                            "pointer": [
+                              "list",
+                              "queries",
+                              "sp.stylePlan",
+                              2,
+                              "steps",
+                              3,
+                              "steps",
+                              2,
+                              "value",
+                              2,
+                              1,
+                              "declarations",
+                              1,
+                              "value"
+                            ],
+                            "transform": "derived-expression",
+                            "inputs": [
+                              "list",
+                              {
+                                "owner": "source/inspection/source/presentation/source-presentation.json",
+                                "pointer": "$roleOrigin",
+                                "facet": "key"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                ]
+              ],
+              "children": [
+                "append",
+                "$declarations.children",
+                [
+                  "list",
+                  "$id"
+                ]
+              ]
+            },
+            "into": "declarations"
+          },
+          {
+            "let": "id",
+            "value": [
+              "count",
+              "$declarations.nodes"
+            ]
+          },
+          {
+            "let": "styleRule",
+            "value": {
+              "id": "$id",
+              "op": "StyleRule",
+              "data": {
+                "selector": "$cssRule.selector"
+              },
+              "links": {
+                "children": "$declarations.children"
+              },
+              "meaning": {
+                "origins": {
+                  "selector": [
+                    "if",
+                    "$layout",
+                    {
+                      "owner": "source/inspection/source/presentation/source-presentation.json",
+                      "pointer": [
+                        "list",
+                        "layoutRules",
+                        "$ruleIndex",
+                        "selector"
+                      ]
+                    },
+                    {
+                      "owner": "source/inspection/algebra/source-presentation.process.json",
+                      "pointer": [
+                        "list",
+                        "queries",
+                        "sp.stylePlan",
+                        2,
+                        "steps",
+                        3,
+                        "steps",
+                        2,
+                        "value",
+                        2,
+                        1,
+                        "selector"
+                      ],
+                      "transform": "generated-theme-selector",
+                      "derivation": {
+                        "owner": "source/inspection/algebra/source-presentation.process.json",
+                        "pointer": [
+                          "list",
+                          "queries",
+                          "sp.stylePlan"
+                        ]
+                      },
+                      "inputs": [
+                        "list",
+                        {
+                          "owner": "source/inspection/source/presentation/source-presentation.json",
+                          "pointer": "$roleOrigin",
+                          "facet": "key"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "let": "nextNodes",
+            "value": [
+              "append",
+              "$declarations.nodes",
+              [
+                "list",
+                "$styleRule"
+              ]
+            ]
+          },
+          {
+            "let": "ruleId",
+            "value": "$id"
+          },
+          {
+            "when": [
+              "if",
+              [
+                "eq",
+                "$cssRule.context",
+                null
+              ],
+              false,
+              true
+            ],
+            "then": [
+              {
+                "let": "ruleId",
+                "value": [
+                  "add",
+                  "$id",
+                  1
+                ]
+              },
+              {
+                "let": "nextNodes",
+                "value": [
+                  "append",
+                  "$nextNodes",
+                  [
+                    "list",
+                    {
+                      "id": "$ruleId",
+                      "op": "MediaRule",
+                      "data": {
+                        "condition": "$cssRule.context"
+                      },
+                      "links": {
+                        "children": [
+                          "list",
+                          "$id"
+                        ]
+                      },
+                      "meaning": {
+                        "origins": {
+                          "condition": {
+                            "owner": "source/inspection/source/presentation/source-presentation.json",
+                            "pointer": [
+                              "list",
+                              "layoutRules",
+                              "$ruleIndex",
+                              "context"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                ]
+              }
+            ]
+          }
+        ],
+        "yield": {
+          "nodes": "$nextNodes",
+          "rules": [
+            "append",
+            "$state.rules",
+            [
+              "list",
+              "$ruleId"
+            ]
+          ]
+        },
+        "into": "state"
+      },
+      {
+        "let": "entry",
+        "value": [
+          "count",
+          "$state.nodes"
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "protocol": "encounter/style-projection/1",
+          "identity": "presentation/style.css",
+          "nodes": [
+            "append",
+            "$state.nodes",
+            [
+              "list",
+              {
+                "id": "$entry",
+                "op": "StyleStream",
+                "data": {},
+                "links": {
+                  "children": "$state.rules"
+                }
+              }
+            ]
+          ],
+          "entry": "$entry"
+        }
+      }
+    ],
+    "provenance.navigationDocument": [
+      {
+        "fold": [
+          "range",
+          [
+            "count",
+            "$definition.navigation"
+          ]
+        ],
+        "as": "number",
+        "accumulator": "nav",
+        "initial": {
+          "nodes": [
+            "list"
+          ],
+          "children": [
+            "list"
+          ]
+        },
+        "steps": [
+          {
+            "let": "index",
+            "value": [
+              "add",
+              "$number",
+              -1
+            ]
+          },
+          {
+            "let": "item",
+            "value": [
+              "at",
+              "$definition.navigation",
+              "$index"
+            ]
+          },
+          {
+            "let": "id",
+            "value": [
+              "count",
+              "$nav.nodes"
+            ]
+          },
+          {
+            "let": "route",
+            "value": [
+              "eq",
+              "$item.kind",
+              "route"
+            ]
+          }
+        ],
+        "yield": {
+          "nodes": [
+            "append",
+            "$nav.nodes",
+            [
+              "list",
+              {
+                "id": "$id",
+                "op": "Attribute",
+                "data": {
+                  "name": [
+                    "if",
+                    "$route",
+                    "href",
+                    "data-action"
+                  ],
+                  "value": [
+                    "if",
+                    "$route",
+                    [
+                      "at",
+                      "$item",
+                      "href"
+                    ],
+                    [
+                      "at",
+                      "$item",
+                      "action"
+                    ]
+                  ]
+                },
+                "links": {},
+                "meaning": {
+                  "origins": {
+                    "value": {
+                      "owner": "source/application.encounter",
+                      "pointer": [
+                        "list",
+                        "navigation",
+                        "$index",
+                        [
+                          "if",
+                          "$route",
+                          "href",
+                          "action"
+                        ]
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "id": [
+                  "add",
+                  "$id",
+                  1
+                ],
+                "op": "Attribute",
+                "data": {
+                  "name": "data-inspect-key",
+                  "value": [
+                    "concat",
+                    "application/navigation/",
+                    "$index"
+                  ]
+                },
+                "links": {}
+              },
+              {
+                "id": [
+                  "add",
+                  "$id",
+                  2
+                ],
+                "op": "Text",
+                "data": {
+                  "value": "$item.label"
+                },
+                "links": {},
+                "meaning": {
+                  "origins": {
+                    "value": {
+                      "owner": "source/application.encounter",
+                      "pointer": [
+                        "list",
+                        "navigation",
+                        "$index",
+                        "label"
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "id": [
+                  "add",
+                  "$id",
+                  3
+                ],
+                "op": [
+                  "if",
+                  "$route",
+                  "Link",
+                  "Action"
+                ],
+                "data": {},
+                "links": {
+                  "attributes": [
+                    "list",
+                    "$id",
+                    [
+                      "add",
+                      "$id",
+                      1
+                    ]
+                  ],
+                  "children": [
+                    "list",
+                    [
+                      "add",
+                      "$id",
+                      2
+                    ]
+                  ]
+                }
+              }
+            ]
+          ],
+          "children": [
+            "append",
+            "$nav.children",
+            [
+              "list",
+              [
+                "add",
+                "$id",
+                3
+              ]
+            ]
+          ]
+        },
+        "into": "nav"
+      },
+      {
+        "let": "entry",
+        "value": [
+          "count",
+          "$nav.nodes"
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "protocol": "encounter/composition-projection/1",
+          "identity": "application/navigation.html",
+          "nodes": [
+            "append",
+            "$nav.nodes",
+            [
+              "list",
+              {
+                "id": "$entry",
+                "op": "Fragment",
+                "data": {},
+                "links": {
+                  "children": "$nav.children"
+                }
+              }
+            ]
+          ],
+          "entry": "$entry"
+        }
+      }
+    ],
+    "provenance.envelope": [
+      {
+        "let": "profile",
+        "value": [
+          "at",
+          "$policy.envelopes",
+          "$kind"
+        ]
+      },
+      {
+        "let": "prefix",
+        "value": [
+          "if",
+          [
+            "eq",
+            "$profile.before",
+            ""
+          ],
+          "",
+          [
+            "concat",
+            "$profile.before",
+            "$owner",
+            "$profile.after"
+          ]
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "text": [
+            "concat",
+            "$prefix",
+            "$body",
+            "$profile.suffix"
+          ],
+          "map": {
+            "protocol": "encounter/derivation-map/1",
+            "units": "utf16",
+            "artifact": "$artifact",
+            "sourceOwner": "$graph.sourceOwner",
+            "grammarOwner": "$graph.grammarOwner",
+            "root": "$graph.root",
+            "nodes": "$graph.nodes",
+            "length": "$graph.length",
+            "bodyStart": [
+              "count",
+              "$prefix"
+            ],
+            "bodyEnd": [
+              "add",
+              [
+                "count",
+                "$prefix"
+              ],
+              "$graph.length"
+            ],
+            "envelope": {
+              "owner": "source/provenance.policy.json",
+              "pointer": [
+                "list",
+                "envelopes",
+                "$kind"
+              ],
+              "rule": {
+                "owner": "algebra/provenance.process.json",
+                "pointer": [
+                  "list",
+                  "queries",
+                  "provenance.envelope"
+                ]
+              }
+            }
+          }
+        }
+      }
+    ],
+    "provenance.resolve": [
+      {
+        "let": "offset",
+        "value": "$eventInput.offset"
+      },
+      {
+        "let": "graph",
+        "value": [
+          "at",
+          "$maps",
+          "$eventInput.artifact"
+        ]
+      },
+      {
+        "let": "artifactText",
+        "value": [
+          "at",
+          "$texts",
+          "$eventInput.artifact"
+        ]
+      },
+      {
+        "port": "value.describe",
+        "args": {
+          "value": "$graph"
+        },
+        "into": "graphType"
+      },
+      {
+        "assert": [
+          "if",
+          "$graphType.null",
+          false,
+          [
+            "eq",
+            "$graphType.type",
+            "object"
+          ]
+        ],
+        "message": "PROV-MAP: Select an artifact with a character map."
+      },
+      {
+        "port": "text.slice",
+        "args": {
+          "value": "$artifactText",
+          "start": 0,
+          "end": [
+            "add",
+            "$offset",
+            1
+          ]
+        },
+        "into": "validPrefix"
+      },
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            "$validPrefix"
+          ],
+          [
+            "add",
+            "$offset",
+            1
+          ]
+        ],
+        "message": "PROV-OFFSET: Offset is outside the artifact."
+      },
+      {
+        "port": "text.slice",
+        "args": {
+          "value": "$artifactText",
+          "start": "$offset",
+          "end": "$graph.bodyEnd"
+        },
+        "into": "beforeBodyEnd"
+      },
+      {
+        "port": "text.slice",
+        "args": {
+          "value": "$artifactText",
+          "start": "$graph.bodyStart",
+          "end": [
+            "add",
+            "$offset",
+            1
+          ]
+        },
+        "into": "afterBodyStart"
+      },
+      {
+        "let": "isBody",
+        "value": [
+          "if",
+          [
+            "eq",
+            [
+              "count",
+              "$beforeBodyEnd"
+            ],
+            0
+          ],
+          false,
+          [
+            "if",
+            [
+              "eq",
+              [
+                "count",
+                "$afterBodyStart"
+              ],
+              0
+            ],
+            false,
+            true
+          ]
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "origin": "$graph.envelope",
+          "external": null,
+          "path": [
+            "list"
+          ],
+          "offset": "$offset"
+        }
+      },
+      {
+        "when": "$isBody",
+        "then": [
+          {
+            "port": "text.slice",
+            "args": {
+              "value": "$artifactText",
+              "start": "$graph.bodyStart",
+              "end": "$offset"
+            },
+            "into": "bodyPrefix"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "provenance.locate",
+              "input": {
+                "node": "$graph.root",
+                "offset": [
+                  "count",
+                  "$bodyPrefix"
+                ]
+              }
+            },
+            "into": "result"
+          },
+          {
+            "when": [
+              "if",
+              [
+                "eq",
+                "$result.external",
+                null
+              ],
+              false,
+              true
+            ],
+            "then": [
+              {
+                "let": "prior",
+                "value": "$result"
+              },
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "provenance.resolve",
+                  "input": {
+                    "artifact": "$prior.external.artifact",
+                    "offset": "$prior.offset"
+                  }
+                },
+                "into": "result"
+              },
+              {
+                "let": "result",
+                "value": {
+                  "origin": "$result.origin",
+                  "external": null,
+                  "path": [
+                    "append",
+                    "$prior.path",
+                    "$result.path"
+                  ],
+                  "offset": "$result.offset"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "provenance.accept": [
+      {
+        "assert": [
+          "eq",
+          [
+            "count",
+            [
+              "distinct",
+              [
+                "fold",
+                "$producers",
+                "p",
+                "paths",
+                [
+                  "list"
+                ],
+                [
+                  "append",
+                  "$paths",
+                  [
+                    "list",
+                    "$p.artifact"
+                  ]
+                ]
+              ]
+            ]
+          ],
+          [
+            "count",
+            "$producers"
+          ]
+        ],
+        "message": "PROV-PRODUCER: More than one producer claims an artifact."
+      },
+      {
+        "each": "$observed",
+        "as": "output",
+        "steps": [
+          {
+            "let": "matches",
+            "value": [
+              "fold",
+              "$producers",
+              "p",
+              "found",
+              [
+                "list"
+              ],
+              [
+                "if",
+                [
+                  "eq",
+                  "$p.artifact",
+                  "$output.path"
+                ],
+                [
+                  "append",
+                  "$found",
+                  [
+                    "list",
+                    "$p"
+                  ]
+                ],
+                "$found"
+              ]
+            ]
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                "$matches"
+              ],
+              1
+            ],
+            "message": "PROV-UNDECLARED: Output has no declared producer. Refuse automatic admission."
+          }
+        ]
+      },
+      {
+        "each": "$producers",
+        "as": "producer",
+        "steps": [
+          {
+            "let": "matches",
+            "value": [
+              "fold",
+              "$observed",
+              "o",
+              "found",
+              [
+                "list"
+              ],
+              [
+                "if",
+                [
+                  "eq",
+                  "$o.path",
+                  "$producer.artifact"
+                ],
+                [
+                  "append",
+                  "$found",
+                  [
+                    "list",
+                    "$o"
+                  ]
+                ],
+                "$found"
+              ]
+            ]
+          },
+          {
+            "assert": [
+              "eq",
+              [
+                "count",
+                "$matches"
+              ],
+              1
+            ],
+            "message": "PROV-MISSING: A declared producer did not emit its artifact."
+          },
+          {
+            "each": "$producer.sources",
+            "as": "source",
+            "steps": [
+              {
+                "let": "input",
+                "value": [
+                  "fold",
+                  "$inputs",
+                  "i",
+                  "found",
+                  null,
+                  [
+                    "if",
+                    [
+                      "eq",
+                      "$i.path",
+                      "$source"
+                    ],
+                    "$i",
+                    "$found"
+                  ]
+                ]
+              },
+              {
+                "assert": [
+                  "if",
+                  [
+                    "eq",
+                    "$input",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "message": "PROV-SOURCE: Producer refers to an undeclared source owner."
+              }
+            ]
+          },
+          {
+            "when": [
+              "eq",
+              "$producer.kind",
+              "byte-copy"
+            ],
+            "then": [
+              {
+                "assert": [
+                  "eq",
+                  [
+                    "count",
+                    "$producer.sources"
+                  ],
+                  1
+                ],
+                "message": "PROV-COPY: A byte copy requires exactly one owner."
+              },
+              {
+                "let": "copyOwner",
+                "value": [
+                  "fold",
+                  "$inputs",
+                  "i",
+                  "found",
+                  null,
+                  [
+                    "if",
+                    [
+                      "eq",
+                      "$i.path",
+                      [
+                        "at",
+                        "$producer.sources",
+                        0
+                      ]
+                    ],
+                    "$i",
+                    "$found"
+                  ]
+                ]
+              },
+              {
+                "assert": [
+                  "eq",
+                  "$copyOwner.sha256",
+                  [
+                    "at",
+                    [
+                      "at",
+                      "$matches",
+                      0
+                    ],
+                    "sha256"
+                  ]
+                ],
+                "message": "PROV-COPY: Copied bytes do not agree with their canonical owner."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ],
+    "provenance.plan": [
+      {
+        "fold": [
+          "list",
+          "programs",
+          "styles",
+          "pages",
+          "assets",
+          "semantics",
+          "data"
+        ],
+        "as": "kind",
+        "accumulator": "plan",
+        "initial": "$policy.fixed",
+        "steps": [
+          {
+            "let": "projected",
+            "value": [
+              "includes",
+              [
+                "list",
+                "programs",
+                "styles",
+                "pages"
+              ],
+              "$kind"
+            ]
+          },
+          {
+            "let": "grammar",
+            "value": [
+              "if",
+              [
+                "eq",
+                "$kind",
+                "programs"
+              ],
+              "algebra/program-grammar.json",
+              [
+                "if",
+                [
+                  "eq",
+                  "$kind",
+                  "styles"
+                ],
+                "algebra/style-grammar.json",
+                "algebra/composition-grammar.json"
+              ]
+            ]
+          },
+          {
+            "fold": [
+              "at",
+              "$manifest",
+              "$kind"
+            ],
+            "as": "item",
+            "accumulator": "records",
+            "initial": "$plan",
+            "steps": [],
+            "yield": [
+              "if",
+              [
+                "eq",
+                "$item.output",
+                null
+              ],
+              "$records",
+              [
+                "append",
+                "$records",
+                [
+                  "list",
+                  {
+                    "artifact": "$item.output",
+                    "kind": [
+                      "if",
+                      "$projected",
+                      "typed-projection",
+                      "byte-copy"
+                    ],
+                    "sources": [
+                      "if",
+                      "$projected",
+                      [
+                        "list",
+                        "$item.owner",
+                        "$grammar",
+                        "algebra/projection.process.json",
+                        "algebra/provenance.process.json",
+                        "source/provenance.policy.json"
+                      ],
+                      [
+                        "list",
+                        "$item.owner"
+                      ]
+                    ],
+                    "rules": [
+                      "if",
+                      "$projected",
+                      [
+                        "list",
+                        {
+                          "owner": "algebra/projection.process.json",
+                          "pointer": [
+                            "list",
+                            "queries",
+                            "projection.document"
+                          ]
+                        }
+                      ],
+                      [
+                        "list"
+                      ]
+                    ],
+                    "coverage": [
+                      "if",
+                      "$projected",
+                      "character-map",
+                      "byte-identity"
+                    ],
+                    "inverse": "none"
+                  }
+                ]
+              ]
+            ],
+            "into": "next"
+          }
+        ],
+        "yield": "$next",
+        "into": "plan"
+      },
+      {
+        "fold": "$manifest.programs",
+        "as": "programme",
+        "accumulator": "programmeGraphs",
+        "initial": "$plan",
+        "steps": [],
+        "yield": [
+          "append",
+          "$programmeGraphs",
+          [
+            "list",
+            {
+              "artifact": "$programme.graph",
+              "kind": "programme-node-graph",
+              "sources": [
+                "append",
+                [
+                  "at",
+                  "$programInputs",
+                  "$programme.owner"
+                ],
+                [
+                  "list",
+                  "bootstrap/program-source.cjs",
+                  "algebra/program-grammar.json"
+                ]
+              ],
+              "rules": [
+                "list"
+              ],
+              "coverage": "declared-inputs",
+              "inverse": "none"
+            }
+          ]
+        ],
+        "into": "plan"
+      },
+      {
+        "fold": "$manifest.styles",
+        "as": "style",
+        "accumulator": "styleGraphs",
+        "initial": "$plan",
+        "steps": [],
+        "yield": [
+          "append",
+          "$styleGraphs",
+          [
+            "list",
+            {
+              "artifact": "$style.graph",
+              "kind": "style-node-graph",
+              "sources": [
+                "list",
+                "$style.owner",
+                "bootstrap/style-source.cjs",
+                "algebra/style-grammar.json"
+              ],
+              "rules": [
+                "list"
+              ],
+              "coverage": "declared-inputs",
+              "inverse": "none"
+            }
+          ]
+        ],
+        "into": "plan"
+      },
+      {
+        "fold": "$manifest.pages",
+        "as": "page",
+        "accumulator": "graphs",
+        "initial": "$plan",
+        "steps": [],
+        "yield": [
+          "append",
+          "$graphs",
+          [
+            "list",
+            {
+              "artifact": "$page.graph",
+              "kind": "page-node-graph",
+              "sources": [
+                "list",
+                "$page.owner",
+                "bootstrap/page-source.cjs",
+                "algebra/composition-grammar.json"
+              ],
+              "rules": [
+                "list"
+              ],
+              "coverage": "declared-inputs",
+              "inverse": "none"
+            }
+          ]
+        ],
+        "into": "plan"
+      },
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$definition.views"
+        },
+        "into": "views"
+      },
+      {
+        "fold": "$views",
+        "as": "pair",
+        "accumulator": "viewsPlan",
+        "initial": "$plan",
+        "steps": [
+          {
+            "let": "view",
+            "value": [
+              "at",
+              "$pair",
+              1
+            ]
+          }
+        ],
+        "yield": [
+          "append",
+          "$viewsPlan",
+          [
+            "list",
+            {
+              "artifact": "$view.fragment",
+              "kind": "composition-slice",
+              "sources": [
+                "list",
+                "$view.composition",
+                "source/application.encounter",
+                "algebra/application.process.json",
+                "algebra/composition-grammar.json",
+                "algebra/projection.process.json",
+                "algebra/provenance.process.json",
+                "source/provenance.policy.json"
+              ],
+              "rules": [
+                "list",
+                {
+                  "owner": "algebra/application.process.json",
+                  "pointer": [
+                    "list",
+                    "queries",
+                    "application.selection"
+                  ]
+                },
+                {
+                  "owner": "algebra/projection.process.json",
+                  "pointer": [
+                    "list",
+                    "queries",
+                    "projection.document"
+                  ]
+                }
+              ],
+              "coverage": "character-map",
+              "inverse": "none"
+            }
+          ]
+        ],
+        "into": "plan"
+      },
+      {
+        "fold": "$definition.compatibility",
+        "as": "alias",
+        "accumulator": "aliases",
+        "initial": {
+          "items": [
+            "list"
+          ],
+          "paths": [
+            "list"
+          ]
+        },
+        "steps": [
+          {
+            "port": "text.matches",
+            "args": {
+              "value": "$alias.path",
+              "pattern": "/$"
+            },
+            "into": "directory"
+          },
+          {
+            "let": "artifact",
+            "value": [
+              "if",
+              "$directory",
+              [
+                "concat",
+                "$alias.path",
+                "index.html"
+              ],
+              "$alias.path"
+            ]
+          }
+        ],
+        "yield": [
+          "if",
+          [
+            "includes",
+            "$aliases.paths",
+            "$artifact"
+          ],
+          "$aliases",
+          {
+            "items": [
+              "append",
+              "$aliases.items",
+              [
+                "list",
+                {
+                  "artifact": "$artifact",
+                  "kind": "compatibility-route",
+                  "sources": [
+                    "list",
+                    "source/application.encounter",
+                    "bootstrap/build.cjs",
+                    "source/semantics/algebra/html.process.json"
+                  ],
+                  "rules": [
+                    "list",
+                    {
+                      "owner": "source/semantics/algebra/html.process.json",
+                      "pointer": [
+                        "list",
+                        "queries",
+                        "html.serialize"
+                      ]
+                    }
+                  ],
+                  "coverage": "declared-inputs",
+                  "inverse": "none"
+                }
+              ]
+            ],
+            "paths": [
+              "append",
+              "$aliases.paths",
+              [
+                "list",
+                "$artifact"
+              ]
+            ]
+          }
+        ],
+        "into": "aliases"
+      },
+      {
+        "let": "plan",
+        "value": [
+          "append",
+          "$plan",
+          "$aliases.items"
+        ]
+      },
+      {
+        "let": "plan",
+        "value": [
+          "append",
+          "$plan",
+          [
+            "list",
+            {
+              "artifact": "application/navigation.html",
+              "kind": "semantic-projection",
+              "sources": [
+                "list",
+                "source/application.encounter",
+                "algebra/provenance.process.json",
+                "algebra/composition-grammar.json",
+                "algebra/projection.process.json",
+                "source/provenance.policy.json"
+              ],
+              "rules": [
+                "list",
+                {
+                  "owner": "algebra/provenance.process.json",
+                  "pointer": [
+                    "list",
+                    "queries",
+                    "provenance.navigationDocument"
+                  ]
+                }
+              ],
+              "coverage": "character-map",
+              "inverse": "none"
+            },
+            {
+              "artifact": "presentation/style.css",
+              "kind": "semantic-style",
+              "sources": [
+                "list",
+                "source/inspection/source/presentation/source-presentation.json",
+                "source/inspection/algebra/source-presentation.process.json",
+                "source/inspection/algebra/css.process.json",
+                "algebra/provenance.process.json",
+                "algebra/style-grammar.json",
+                "algebra/projection.process.json",
+                "source/provenance.policy.json"
+              ],
+              "rules": [
+                "list",
+                {
+                  "owner": "source/inspection/algebra/source-presentation.process.json",
+                  "pointer": [
+                    "list",
+                    "queries",
+                    "sp.stylePlan"
+                  ]
+                },
+                {
+                  "owner": "algebra/provenance.process.json",
+                  "pointer": [
+                    "list",
+                    "queries",
+                    "provenance.cssDocument"
+                  ]
+                },
+                {
+                  "owner": "source/inspection/algebra/css.process.json",
+                  "pointer": [
+                    "list",
+                    "queries",
+                    "css.renderPlan"
+                  ]
+                }
+              ],
+              "coverage": "character-map",
+              "inverse": "none"
+            }
+          ]
+        ]
+      },
+      {
+        "let": "maps",
+        "value": [
+          "fold",
+          "$plan",
+          "p",
+          "records",
+          [
+            "list"
+          ],
+          [
+            "if",
+            [
+              "eq",
+              "$p.coverage",
+              "character-map"
+            ],
+            [
+              "append",
+              "$records",
+              [
+                "list",
+                {
+                  "artifact": [
+                    "concat",
+                    "ownership/maps/",
+                    "$p.artifact",
+                    ".map.json"
+                  ],
+                  "kind": "derivation-map",
+                  "sources": [
+                    "append",
+                    "$p.sources",
+                    [
+                      "list",
+                      "algebra/provenance.process.json",
+                      "bootstrap/provenance.cjs"
+                    ]
+                  ],
+                  "rules": [
+                    "list",
+                    {
+                      "owner": "algebra/provenance.process.json",
+                      "pointer": [
+                        "list",
+                        "queries",
+                        "provenance.document"
+                      ]
+                    }
+                  ],
+                  "coverage": "declared-inputs",
+                  "inverse": "none"
+                }
+              ]
+            ],
+            "$records"
+          ]
+        ]
+      },
+      {
+        "let": "snapshots",
+        "value": [
+          "fold",
+          "$inputs",
+          "input",
+          "records",
+          [
+            "list"
+          ],
+          [
+            "append",
+            "$records",
+            [
+              "list",
+              {
+                "artifact": [
+                  "concat",
+                  "ownership/sources/",
+                  "$input.path"
+                ],
+                "kind": "byte-copy",
+                "sources": [
+                  "list",
+                  "$input.path"
+                ],
+                "rules": [
+                  "list"
+                ],
+                "coverage": "byte-identity",
+                "inverse": "none"
+              }
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "result",
+        "value": [
+          "append",
+          [
+            "append",
+            "$plan",
+            "$maps"
+          ],
+          [
+            "append",
+            "$snapshots",
+            [
+              "list",
+              {
+                "artifact": "ownership/index.json",
+                "kind": "provenance-index",
+                "sources": [
+                  "list",
+                  "algebra/provenance.process.json",
+                  "source/provenance.policy.json",
+                  "source/build.json",
+                  "source/application.encounter"
+                ],
+                "rules": [
+                  "list",
+                  {
+                    "owner": "algebra/provenance.process.json",
+                    "pointer": [
+                      "list",
+                      "queries",
+                      "provenance.index"
+                    ]
+                  }
+                ],
+                "coverage": "declared-inputs",
+                "inverse": "none"
+              }
+            ]
+          ]
+        ]
+      }
+    ],
+    "provenance.fragment": [
+      {
+        "fold": "$refs",
+        "as": "ref",
+        "accumulator": "fragment",
+        "initial": {
+          "text": "",
+          "parts": [
+            "list"
+          ]
+        },
+        "steps": [
+          {
+            "let": "text",
+            "value": [
+              "at",
+              "$compiled",
+              "$ref"
+            ]
+          }
+        ],
+        "yield": {
+          "text": [
+            "concat",
+            "$fragment.text",
+            "$text"
+          ],
+          "parts": [
+            "append",
+            "$fragment.parts",
+            [
+              "if",
+              [
+                "eq",
+                [
+                  "count",
+                  "$text"
+                ],
+                0
+              ],
+              [
+                "list"
+              ],
+              [
+                "list",
+                {
+                  "start": [
+                    "count",
+                    "$fragment.text"
+                  ],
+                  "end": [
+                    "add",
+                    [
+                      "count",
+                      "$fragment.text"
+                    ],
+                    [
+                      "count",
+                      "$text"
+                    ]
+                  ],
+                  "origin": null,
+                  "child": "$ref",
+                  "external": null
+                }
+              ]
+            ]
+          ]
+        },
+        "into": "fragment"
+      },
+      {
+        "let": "id",
+        "value": [
+          "count",
+          "$graph.nodes"
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "text": "$fragment.text",
+          "graph": {
+            "protocol": "encounter/derivation-map/1",
+            "units": "utf16",
+            "sourceOwner": "$graph.sourceOwner",
+            "grammarOwner": "$graph.grammarOwner",
+            "root": "$id",
+            "length": [
+              "count",
+              "$fragment.text"
+            ],
+            "nodes": [
+              "append",
+              "$graph.nodes",
+              [
+                "list",
+                {
+                  "id": "$id",
+                  "op": "CompositionSlice",
+                  "length": [
+                    "count",
+                    "$fragment.text"
+                  ],
+                  "source": {
+                    "owner": "source/application.encounter",
+                    "pointer": "$partsPointer"
+                  },
+                  "rule": {
+                    "owner": "algebra/application.process.json",
+                    "pointer": [
+                      "list",
+                      "queries",
+                      "application.selection"
+                    ]
+                  },
+                  "pieces": "$fragment.parts"
+                }
+              ]
+            ]
+          }
+        }
+      }
+    ],
+    "provenance.recordLinks": [
+      {
+        "let": "record",
+        "value": "$eventInput.record"
+      },
+      {
+        "port": "record.get",
+        "args": {
+          "record": "$producerIndex",
+          "key": "$record.source.file"
+        },
+        "into": "producer"
+      },
+      {
+        "let": "result",
+        "value": {
+          "record": "$record",
+          "nodes": [
+            "list"
+          ]
+        }
+      },
+      {
+        "when": [
+          "if",
+          [
+            "eq",
+            "$producer",
+            null
+          ],
+          false,
+          true
+        ],
+        "then": [
+          {
+            "let": "origins",
+            "value": [
+              "if",
+              [
+                "eq",
+                "$record.kind",
+                "SourceFile"
+              ],
+              [
+                "append",
+                [
+                  "fold",
+                  "$producer.sources",
+                  "owner",
+                  "refs",
+                  [
+                    "list"
+                  ],
+                  [
+                    "append",
+                    "$refs",
+                    [
+                      "list",
+                      {
+                        "owner": "$owner",
+                        "pointer": [
+                          "list"
+                        ]
+                      }
+                    ]
+                  ]
+                ],
+                "$producer.rules"
+              ],
+              [
+                "list"
+              ]
+            ]
+          },
+          {
+            "port": "record.get",
+            "args": {
+              "record": "$maps",
+              "key": "$record.source.file"
+            },
+            "into": "mapped"
+          },
+          {
+            "port": "value.describe",
+            "args": {
+              "value": "$mapped"
+            },
+            "into": "mapType"
+          },
+          {
+            "when": [
+              "if",
+              "$mapType.null",
+              false,
+              [
+                "if",
+                [
+                  "eq",
+                  "$record.kind",
+                  "SourceFile"
+                ],
+                false,
+                true
+              ]
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "provenance.resolve",
+                  "input": {
+                    "artifact": "$record.source.file",
+                    "offset": "$record.source.startUtf16"
+                  }
+                },
+                "into": "location"
+              },
+              {
+                "let": "last",
+                "value": [
+                  "if",
+                  [
+                    "eq",
+                    [
+                      "count",
+                      "$location.path"
+                    ],
+                    0
+                  ],
+                  null,
+                  [
+                    "at",
+                    "$location.path",
+                    [
+                      "add",
+                      [
+                        "count",
+                        "$location.path"
+                      ],
+                      -1
+                    ]
+                  ]
+                ]
+              },
+              {
+                "port": "record.get",
+                "args": {
+                  "record": "$location.origin",
+                  "key": "inputs"
+                },
+                "into": "originInputs"
+              },
+              {
+                "when": [
+                  "if",
+                  [
+                    "eq",
+                    "$originInputs",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "then": [
+                  {
+                    "let": "origins",
+                    "value": [
+                      "append",
+                      "$origins",
+                      "$originInputs"
+                    ]
+                  }
+                ]
+              },
+              {
+                "let": "origins",
+                "value": [
+                  "append",
+                  "$origins",
+                  [
+                    "if",
+                    [
+                      "eq",
+                      "$location.origin",
+                      null
+                    ],
+                    [
+                      "list"
+                    ],
+                    [
+                      "list",
+                      "$location.origin"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "when": [
+                  "if",
+                  [
+                    "eq",
+                    "$last",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "then": [
+                  {
+                    "let": "origins",
+                    "value": [
+                      "append",
+                      "$origins",
+                      [
+                        "list",
+                        "$last.source",
+                        "$last.rule"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "fold": "$origins",
+            "as": "origin",
+            "accumulator": "paired",
+            "initial": [
+              "list"
+            ],
+            "steps": [
+              {
+                "port": "record.get",
+                "args": {
+                  "record": "$authorityOwners",
+                  "key": "$origin.owner"
+                },
+                "into": "authority"
+              },
+              {
+                "let": "next",
+                "value": [
+                  "append",
+                  "$paired",
+                  [
+                    "list",
+                    "$origin"
+                  ]
+                ]
+              },
+              {
+                "when": [
+                  "if",
+                  [
+                    "eq",
+                    "$authority",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "then": [
+                  {
+                    "let": "authorityRef",
+                    "value": {
+                      "owner": "$authority",
+                      "pointer": "$origin.pointer",
+                      "facet": [
+                        "at",
+                        "$origin",
+                        "facet"
+                      ]
+                    }
+                  },
+                  {
+                    "port": "source.hasSpan",
+                    "args": {
+                      "owner": "$authorityRef.owner",
+                      "pointer": "$authorityRef.pointer",
+                      "facet": "$authorityRef.facet"
+                    },
+                    "into": "exact"
+                  },
+                  {
+                    "when": "$exact",
+                    "then": [
+                      {
+                        "let": "next",
+                        "value": [
+                          "append",
+                          "$next",
+                          [
+                            "list",
+                            "$authorityRef"
+                          ]
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "yield": "$next",
+            "into": "sources"
+          },
+          {
+            "fold": "$sources",
+            "as": "origin",
+            "accumulator": "attribution",
+            "initial": {
+              "nodes": [
+                "list"
+              ],
+              "links": "$record.links"
+            },
+            "steps": [
+              {
+                "port": "source.observe",
+                "args": {
+                  "owner": "$origin.owner",
+                  "pointer": "$origin.pointer",
+                  "facet": [
+                    "at",
+                    "$origin",
+                    "facet"
+                  ]
+                },
+                "into": "observed"
+              },
+              {
+                "let": "label",
+                "value": [
+                  "concat",
+                  "$origin.owner",
+                  " · ",
+                  "$observed.pointerText"
+                ]
+              },
+              {
+                "let": "node",
+                "value": {
+                  "id": "$observed.id",
+                  "label": "$label",
+                  "kind": "Canonical source / derivation rule",
+                  "literalType": null,
+                  "source": "$observed.source",
+                  "links": [
+                    "list"
+                  ]
+                }
+              }
+            ],
+            "yield": {
+              "nodes": [
+                "append",
+                "$attribution.nodes",
+                [
+                  "list",
+                  "$node"
+                ]
+              ],
+              "links": [
+                "if",
+                [
+                  "eq",
+                  "$observed.id",
+                  "$record.id"
+                ],
+                "$attribution.links",
+                [
+                  "append",
+                  "$attribution.links",
+                  [
+                    "list",
+                    {
+                      "label": [
+                        "concat",
+                        "Derived from → ",
+                        "$label"
+                      ],
+                      "target": "$observed.id",
+                      "relation": "derivation"
+                    }
+                  ]
+                ]
+              ]
+            },
+            "into": "attribution"
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$record",
+              "key": "links",
+              "value": "$attribution.links"
+            },
+            "into": "record"
+          },
+          {
+            "let": "result",
+            "value": {
+              "record": "$record",
+              "nodes": "$attribution.nodes"
+            }
+          }
+        ]
+      }
+    ],
+    "provenance.cataloguePaths": [
+      {
+        "let": "result",
+        "value": [
+          "fold",
+          "$paths",
+          "file",
+          "selected",
+          [
+            "list"
+          ],
+          [
+            "let",
+            "producer",
+            [
+              "at",
+              "$producerIndex",
+              "$file"
+            ],
+            [
+              "if",
+              [
+                "eq",
+                [
+                  "at",
+                  "$producer",
+                  "kind"
+                ],
+                "derivation-map"
+              ],
+              "$selected",
+              [
+                "append",
+                "$selected",
+                [
+                  "list",
+                  "$file"
+                ]
+              ]
+            ]
+          ]
+        ]
+      }
+    ],
+    "provenance.pointer": [
+      {
+        "port": "record.get",
+        "args": {
+          "record": "$sourceValues",
+          "key": "$eventInput.owner"
+        },
+        "into": "sourceValue"
+      },
+      {
+        "port": "value.describe",
+        "args": {
+          "value": "$sourceValue"
+        },
+        "into": "sourceType"
+      },
+      {
+        "assert": [
+          "if",
+          "$sourceType.null",
+          false,
+          true
+        ],
+        "message": "PROV-SOURCE: Missing declared source value for provenance."
+      },
+      {
+        "let": "point",
+        "value": [
+          "fold",
+          "$eventInput.pointer",
+          "key",
+          "value",
+          "$sourceValue",
+          [
+            "at",
+            "$value",
+            "$key"
+          ]
+        ]
+      },
+      {
+        "port": "value.describe",
+        "args": {
+          "value": "$point"
+        },
+        "into": "pointType"
+      },
+      {
+        "assert": [
+          "if",
+          [
+            "eq",
+            "$pointType.type",
+            "undefined"
+          ],
+          false,
+          true
+        ],
+        "message": "PROV-POINTER: Attribution points to a missing source field or algebra rule."
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ],
+    "provenance.checkMap": [
+      {
+        "each": "$graph.nodes",
+        "as": "node",
+        "steps": [
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "provenance.pointer",
+              "input": "$node.source"
+            },
+            "into": "_"
+          },
+          {
+            "port": "kernel.invoke",
+            "args": {
+              "query": "provenance.pointer",
+              "input": "$node.rule"
+            },
+            "into": "_"
+          },
+          {
+            "each": "$node.pieces",
+            "as": "piece",
+            "steps": [
+              {
+                "when": [
+                  "if",
+                  [
+                    "eq",
+                    "$piece.origin",
+                    null
+                  ],
+                  false,
+                  true
+                ],
+                "then": [
+                  {
+                    "port": "kernel.invoke",
+                    "args": {
+                      "query": "provenance.pointer",
+                      "input": "$piece.origin"
+                    },
+                    "into": "_"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ],
+    "provenance.receipt": [
+      {
+        "call": "provenance.accept"
+      },
+      {
+        "let": "result",
+        "value": [
+          "fold",
+          "$observed",
+          "output",
+          "artifacts",
+          [
+            "list"
+          ],
+          [
+            "let",
+            "producer",
+            [
+              "fold",
+              "$producers",
+              "p",
+              "found",
+              null,
+              [
+                "if",
+                [
+                  "eq",
+                  "$p.artifact",
+                  "$output.path"
+                ],
+                "$p",
+                "$found"
+              ]
+            ],
+            [
+              "append",
+              "$artifacts",
+              [
+                "list",
+                {
+                  "path": "$output.path",
+                  "sha256": "$output.sha256",
+                  "owner": "$producer.sources",
+                  "producer": "$producer"
+                }
+              ]
+            ]
+          ]
+        ]
+      }
+    ],
+    "provenance.index": [
+      {
+        "let": "result",
+        "value": {
+          "protocol": "encounter/provenance-index/1",
+          "units": "utf16",
+          "sources": "$inputs",
+          "producers": "$producers",
+          "inverse": "$policy.inverse",
+          "boundary": "Character maps identify source nodes and rules. Declared-input records for native and composed snapshots do not assert character-level derivation."
+        }
+      }
+    ],
+    "provenance.applicationBindings": [
+      {
+        "port": "record.entries",
+        "args": {
+          "value": "$definition.views"
+        },
+        "into": "views"
+      },
+      {
+        "let": "groups",
+        "value": [
+          "list",
+          {
+            "key": "navigation",
+            "entries": [
+              "range",
+              [
+                "count",
+                "$definition.navigation"
+              ]
+            ]
+          },
+          {
+            "key": "routes",
+            "entries": [
+              "range",
+              [
+                "count",
+                "$definition.routes"
+              ]
+            ]
+          },
+          {
+            "key": "views",
+            "entries": [
+              "fold",
+              "$views",
+              "pair",
+              "names",
+              [
+                "list"
+              ],
+              [
+                "append",
+                "$names",
+                [
+                  "list",
+                  [
+                    "at",
+                    "$pair",
+                    0
+                  ]
+                ]
+              ]
+            ]
+          }
+        ]
+      },
+      {
+        "fold": "$groups",
+        "as": "group",
+        "accumulator": "state",
+        "initial": {
+          "bindings": {},
+          "nodes": [
+            "list"
+          ],
+          "links": [
+            "list"
+          ]
+        },
+        "steps": [
+          {
+            "fold": "$group.entries",
+            "as": "entry",
+            "accumulator": "groupState",
+            "initial": {
+              "bindings": {},
+              "nodes": "$state.nodes",
+              "links": "$state.links"
+            },
+            "steps": [
+              {
+                "let": "key",
+                "value": [
+                  "if",
+                  [
+                    "eq",
+                    "$group.key",
+                    "views"
+                  ],
+                  "$entry",
+                  [
+                    "add",
+                    "$entry",
+                    -1
+                  ]
+                ]
+              },
+              {
+                "let": "item",
+                "value": [
+                  "at",
+                  [
+                    "at",
+                    "$definition",
+                    "$group.key"
+                  ],
+                  "$key"
+                ]
+              },
+              {
+                "let": "label",
+                "value": [
+                  "concat",
+                  "$group.key",
+                  " · ",
+                  [
+                    "if",
+                    [
+                      "eq",
+                      "$group.key",
+                      "views"
+                    ],
+                    "$key",
+                    [
+                      "if",
+                      [
+                        "eq",
+                        "$group.key",
+                        "routes"
+                      ],
+                      "$item.hash",
+                      "$item.label"
+                    ]
+                  ]
+                ]
+              },
+              {
+                "port": "source.observe",
+                "args": {
+                  "owner": "source/application.encounter",
+                  "pointer": [
+                    "list",
+                    "$group.key",
+                    "$key"
+                  ]
+                },
+                "into": "observed"
+              },
+              {
+                "port": "record.put",
+                "args": {
+                  "record": "$groupState.bindings",
+                  "key": [
+                    "concat",
+                    "",
+                    "$key"
+                  ],
+                  "value": "$observed.id"
+                },
+                "into": "groupBindings"
+              },
+              {
+                "let": "node",
+                "value": {
+                  "id": "$observed.id",
+                  "label": "$label",
+                  "kind": "Encounter declaration",
+                  "literalType": null,
+                  "source": "$observed.source",
+                  "links": [
+                    "list"
+                  ]
+                }
+              }
+            ],
+            "yield": {
+              "bindings": "$groupBindings",
+              "nodes": [
+                "append",
+                "$groupState.nodes",
+                [
+                  "list",
+                  "$node"
+                ]
+              ],
+              "links": [
+                "append",
+                "$groupState.links",
+                [
+                  "list",
+                  {
+                    "label": "$label",
+                    "target": "$observed.id",
+                    "relation": "source"
+                  }
+                ]
+              ]
+            },
+            "into": "groupResult"
+          },
+          {
+            "port": "record.put",
+            "args": {
+              "record": "$state.bindings",
+              "key": "$group.key",
+              "value": "$groupResult.bindings"
+            },
+            "into": "bindings"
+          }
+        ],
+        "yield": {
+          "bindings": "$bindings",
+          "nodes": "$groupResult.nodes",
+          "links": "$groupResult.links"
+        },
+        "into": "result"
+      }
+    ],
+    "provenance.renderedRanges": [
+      {
+        "let": "node",
+        "value": [
+          "at",
+          "$graph.nodes",
+          "$eventInput.node"
+        ]
+      },
+      {
+        "let": "offset",
+        "value": "$eventInput.offset"
+      },
+      {
+        "fold": "$node.pieces",
+        "as": "piece",
+        "accumulator": "ranges",
+        "initial": [
+          "list"
+        ],
+        "steps": [
+          {
+            "let": "start",
+            "value": [
+              "add",
+              "$offset",
+              "$piece.start"
+            ]
+          },
+          {
+            "let": "next",
+            "value": "$ranges"
+          },
+          {
+            "when": [
+              "if",
+              [
+                "eq",
+                "$piece.child",
+                null
+              ],
+              false,
+              true
+            ],
+            "then": [
+              {
+                "port": "kernel.invoke",
+                "args": {
+                  "query": "provenance.renderedRanges",
+                  "input": {
+                    "node": "$piece.child",
+                    "offset": "$start"
+                  }
+                },
+                "into": "children"
+              },
+              {
+                "let": "next",
+                "value": [
+                  "append",
+                  "$ranges",
+                  "$children"
+                ]
+              }
+            ]
+          },
+          {
+            "when": [
+              "includes",
+              "$renderedOwners",
+              [
+                "at",
+                "$piece.origin",
+                "owner"
+              ]
+            ],
+            "then": [
+              {
+                "let": "cssProperty",
+                "value": [
+                  "if",
+                  [
+                    "eq",
+                    "$recordKind",
+                    "Rendered style value"
+                  ],
+                  [
+                    "eq",
+                    [
+                      "at",
+                      "$piece.origin.pointer",
+                      3
+                    ],
+                    "property"
+                  ],
+                  false
+                ]
+              },
+              {
+                "when": [
+                  "if",
+                  "$cssProperty",
+                  false,
+                  true
+                ],
+                "then": [
+                  {
+                    "let": "next",
+                    "value": [
+                      "append",
+                      "$ranges",
+                      [
+                        "list",
+                        {
+                          "start": "$start",
+                          "end": [
+                            "add",
+                            "$offset",
+                            "$piece.end"
+                          ],
+                          "origin": "$piece.origin"
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "yield": "$next",
+        "into": "result"
+      }
+    ],
+    "provenance.renderedRecords": [
+      {
+        "port": "kernel.invoke",
+        "args": {
+          "query": "provenance.renderedRanges",
+          "input": {
+            "node": "$graph.root",
+            "offset": "$graph.bodyStart"
+          }
+        },
+        "into": "ranges"
+      },
+      {
+        "fold": "$ranges",
+        "as": "range",
+        "accumulator": "collected",
+        "initial": {
+          "nodes": [
+            "list"
+          ],
+          "links": [
+            "list"
+          ]
+        },
+        "steps": [
+          {
+            "port": "output.observe",
+            "args": {
+              "start": "$range.start",
+              "end": "$range.end"
+            },
+            "into": "output"
+          },
+          {
+            "let": "next",
+            "value": "$collected"
+          },
+          {
+            "port": "text.matches",
+            "args": {
+              "value": "$output.text",
+              "pattern": "\\S"
+            },
+            "into": "visible"
+          },
+          {
+            "when": "$visible",
+            "then": [
+              {
+                "port": "text.slice",
+                "args": {
+                  "value": "$output.text",
+                  "start": 0,
+                  "end": 90
+                },
+                "into": "excerpt"
+              },
+              {
+                "port": "source.observe",
+                "args": {
+                  "owner": "$range.origin.owner",
+                  "pointer": "$range.origin.pointer"
+                },
+                "into": "authored"
+              },
+              {
+                "let": "label",
+                "value": [
+                  "concat",
+                  "$range.origin.owner",
+                  " · ",
+                  "$authored.pointerText"
+                ]
+              },
+              {
+                "let": "sourceNode",
+                "value": {
+                  "id": "$authored.id",
+                  "label": "$label",
+                  "kind": "Encounter declaration",
+                  "literalType": null,
+                  "source": "$authored.source",
+                  "links": [
+                    "list"
+                  ]
+                }
+              },
+              {
+                "let": "rendered",
+                "value": {
+                  "id": "$output.id",
+                  "label": "$excerpt",
+                  "kind": "$recordKind",
+                  "literalType": "string",
+                  "source": "$output.source",
+                  "links": [
+                    "list",
+                    {
+                      "label": [
+                        "concat",
+                        "Derived from → ",
+                        "$label"
+                      ],
+                      "target": "$authored.id",
+                      "relation": "derivation"
+                    }
+                  ]
+                }
+              },
+              {
+                "let": "next",
+                "value": {
+                  "nodes": [
+                    "append",
+                    "$collected.nodes",
+                    [
+                      "list",
+                      "$sourceNode",
+                      "$rendered"
+                    ]
+                  ],
+                  "links": [
+                    "append",
+                    "$collected.links",
+                    [
+                      "list",
+                      {
+                        "label": "$excerpt",
+                        "target": "$output.id",
+                        "relation": "contains"
+                      }
+                    ]
+                  ]
+                }
+              }
+            ]
+          }
+        ],
+        "yield": "$next",
+        "into": "result"
+      }
+    ]
+  }
+}

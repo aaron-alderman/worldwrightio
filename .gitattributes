@@ -1,0 +1,15 @@
+# Preserve the pinned workshop source/artifact bytes across checkout platforms.
+dist/workshop/** -text
+dist/library/** -text
+dist/inspection/** -text
+dist/presentation/** -text
+
+# Stable bytes for the generated join and retained pinned source identities.
+encounter/** -text
+dist/** -text
+integration/*.json -text
+source/** -text
+algebra/** -text
+bootstrap/** -text
+generated/** -text
+package.json -text

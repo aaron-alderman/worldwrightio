@@ -1,0 +1,14 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0181 = list("LiteralValue", { value = " " });
+    part0182 = list("LiteralValue", { value = "id" });
+    part0183 = list("Define", {
+        generator = false;
+        async = false;
+        id = list("NameReference", { name = "illustration" });
+        params = list(list("NameReference", { name = "scene" }));
+        body = { fragment = "part0184" }
+      })
+  }

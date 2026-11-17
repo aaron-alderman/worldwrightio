@@ -1,0 +1,1159 @@
+{
+  "protocol": "encounter/projection-grammar/1",
+  "rules": {
+    "Document": {
+      "render": [
+        "concat",
+        "<!doctype html>\n",
+        "$j.children"
+      ],
+      "data": [],
+      "links": {
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Text": {
+      "render": "$h.value",
+      "data": [
+        "value"
+      ],
+      "links": {},
+      "validators": {},
+      "types": {
+        "value": [
+          "string"
+        ]
+      }
+    },
+    "Attribute": {
+      "render": [
+        "concat",
+        " ",
+        "$n.name",
+        [
+          "if",
+          [
+            "eq",
+            "$n.value",
+            null
+          ],
+          "",
+          [
+            "concat",
+            "=\"",
+            "$h.value",
+            "\""
+          ]
+        ]
+      ],
+      "data": [
+        "name",
+        "value"
+      ],
+      "links": {},
+      "validators": {
+        "name": {
+          "pattern": "^[A-Za-z_:][A-Za-z0-9_:.-]*$"
+        }
+      },
+      "types": {
+        "name": [
+          "string"
+        ],
+        "value": [
+          "string",
+          "null"
+        ]
+      }
+    },
+    "DocumentElement": {
+      "render": [
+        "concat",
+        "<html",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</html>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Metadata": {
+      "render": [
+        "concat",
+        "<head",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</head>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "MetaValue": {
+      "render": [
+        "concat",
+        "<meta",
+        "$j.attributes",
+        ">"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "PageTitle": {
+      "render": [
+        "concat",
+        "<title",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</title>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Resource": {
+      "render": [
+        "concat",
+        "<link",
+        "$j.attributes",
+        ">"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Runtime": {
+      "render": [
+        "concat",
+        "<script",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</script>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "PageBody": {
+      "render": [
+        "concat",
+        "<body",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</body>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Link": {
+      "render": [
+        "concat",
+        "<a",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</a>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Header": {
+      "render": [
+        "concat",
+        "<header",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</header>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Vector": {
+      "render": [
+        "concat",
+        "<svg",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</svg>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "VectorPath": {
+      "render": [
+        "concat",
+        "<path",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</path>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Inline": {
+      "render": [
+        "concat",
+        "<span",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</span>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Navigation": {
+      "render": [
+        "concat",
+        "<nav",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</nav>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Action": {
+      "render": [
+        "concat",
+        "<button",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</button>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Main": {
+      "render": [
+        "concat",
+        "<main",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</main>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Footer": {
+      "render": [
+        "concat",
+        "<footer",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</footer>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Element_i": {
+      "render": [
+        "concat",
+        "<i",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</i>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Dialog": {
+      "render": [
+        "concat",
+        "<dialog",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</dialog>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Group": {
+      "render": [
+        "concat",
+        "<div",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</div>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Paragraph": {
+      "render": [
+        "concat",
+        "<p",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</p>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "HeadingOne": {
+      "render": [
+        "concat",
+        "<h1",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</h1>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "LineBreak": {
+      "render": [
+        "concat",
+        "<br",
+        "$j.attributes",
+        ">"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Disclosure": {
+      "render": [
+        "concat",
+        "<details",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</details>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "DisclosureLabel": {
+      "render": [
+        "concat",
+        "<summary",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</summary>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Emphasis": {
+      "render": [
+        "concat",
+        "<strong",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</strong>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Section": {
+      "render": [
+        "concat",
+        "<section",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</section>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "HeadingTwo": {
+      "render": [
+        "concat",
+        "<h2",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</h2>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Form": {
+      "render": [
+        "concat",
+        "<form",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</form>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Label": {
+      "render": [
+        "concat",
+        "<label",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</label>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Input": {
+      "render": [
+        "concat",
+        "<input",
+        "$j.attributes",
+        ">"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "CodeBlock": {
+      "render": [
+        "concat",
+        "<pre",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</pre>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Aside": {
+      "render": [
+        "concat",
+        "<aside",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</aside>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "HeadingThree": {
+      "render": [
+        "concat",
+        "<h3",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</h3>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "NamedValues": {
+      "render": [
+        "concat",
+        "<dl",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</dl>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "ValueName": {
+      "render": [
+        "concat",
+        "<dt",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</dt>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "ValueDescription": {
+      "render": [
+        "concat",
+        "<dd",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</dd>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Element_b": {
+      "render": [
+        "concat",
+        "<b",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</b>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Article": {
+      "render": [
+        "concat",
+        "<article",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</article>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "SmallPrint": {
+      "render": [
+        "concat",
+        "<small",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</small>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "SelectControl": {
+      "render": [
+        "concat",
+        "<select",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</select>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Choice": {
+      "render": [
+        "concat",
+        "<option",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</option>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "OrderedCollection": {
+      "render": [
+        "concat",
+        "<ol",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</ol>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Image": {
+      "render": [
+        "concat",
+        "<img",
+        "$j.attributes",
+        ">"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Collection": {
+      "render": [
+        "concat",
+        "<ul",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</ul>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "TextArea": {
+      "render": [
+        "concat",
+        "<textarea",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</textarea>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Element_circle": {
+      "render": [
+        "concat",
+        "<circle",
+        "$j.attributes",
+        ">",
+        "$j.children",
+        "</circle>"
+      ],
+      "data": [],
+      "links": {
+        "attributes": {
+          "many": true,
+          "separator": ""
+        },
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "validators": {},
+      "types": {}
+    },
+    "Slot": {
+      "render": [
+        "at",
+        "$slots",
+        "$n.name"
+      ],
+      "data": [
+        "name"
+      ],
+      "links": {},
+      "types": {
+        "name": [
+          "string"
+        ]
+      },
+      "validators": {
+        "name": {
+          "enum": [
+            "application.navigation"
+          ]
+        }
+      }
+    },
+    "Fragment": {
+      "render": "$j.children",
+      "data": [],
+      "links": {
+        "children": {
+          "many": true,
+          "separator": ""
+        }
+      },
+      "types": {},
+      "validators": {}
+    }
+  },
+  "sourceProtocol": "encounter/composition-projection/1"
+}

@@ -1,0 +1,57 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0009 = list("NameReference", { name = "basis" });
+    part0010 = list("NameReference", { name = "basis" });
+    part0011 = list("NameReference", { name = "record" });
+    part0012 = list("LiteralValue", { value = null });
+    part0013 = list("NameReference", { name = "file" });
+    part0014 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "record" });
+            property = list("NameReference", { name = "source" })
+          });
+        property = list("NameReference", { name = "file" })
+      });
+    part0015 = list("NameReference", { name = "revision" });
+    part0016 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "record" });
+            property = list("NameReference", { name = "source" })
+          });
+        property = list("NameReference", { name = "revision" })
+      });
+    part0017 = list("NameReference", { name = "fileSha256" });
+    part0018 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "file" });
+        property = list("NameReference", { name = "sha256" })
+      });
+    part0019 = list("NameReference", { name = "startUtf16" });
+    part0020 = list("LiteralValue", { value = 0 });
+    part0021 = list("NameReference", { name = "r" });
+    part0022 = list("NameReference", { name = "ok" });
+    part0023 = list("NameReference", { name = "Error" });
+    part0024 = list("LiteralValue", { value = "Inspection manifest unavailable" });
+    part0025 = list("NameReference", { name = "r" });
+    part0026 = list("NameReference", { name = "json" });
+    part0027 = list("LiteralValue", { value = "../" });
+    part0028 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "identity" });
+        property = list("NameReference", { name = "file" })
+      });
+    part0029 = list("NameReference", { name = "cache" });
+    part0030 = list("LiteralValue", { value = "no-store" })
+  }

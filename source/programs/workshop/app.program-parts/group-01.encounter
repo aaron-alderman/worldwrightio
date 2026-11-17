@@ -1,0 +1,17 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("Publish", { declaration = { fragment = "part0002" }; specifiers = list(); source = null; attributes = list() });
+    part0002 = list("Define", {
+        async = true;
+        generator = false;
+        id = list("NameReference", { name = "mountExample" });
+        params = list(
+          list("NameReference", { name = "document" }),
+          list("NameReference", { name = "window" }),
+          list("NameReference", { name = "location" })
+        );
+        body = { fragment = "part0003" }
+      })
+  }

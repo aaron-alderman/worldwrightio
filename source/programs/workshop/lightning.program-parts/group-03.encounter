@@ -1,0 +1,34 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0006 = list("Each", {
+        await = false;
+        left = list("BindGroup", {
+            kind = "const";
+            terminate = false;
+            declarations = list(
+              list("Binding", {
+                  id = list("DestructureList", { elements = list(list("NameReference", { name = "i" }), list("NameReference", { name = "s" })) });
+                  init = null
+                })
+            )
+          });
+        right = list("Invoke", {
+            optional = false;
+            callee = list("Select", {
+                computed = false;
+                optional = false;
+                object = list("Select", {
+                    computed = false;
+                    optional = false;
+                    object = list("NameReference", { name = "plan" });
+                    property = list("NameReference", { name = "stages" })
+                  });
+                property = list("NameReference", { name = "entries" })
+              });
+            arguments = list()
+          });
+        body = { fragment = "part0007" }
+      })
+  }

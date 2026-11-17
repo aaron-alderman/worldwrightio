@@ -1,0 +1,106 @@
+process-module "temple/surface-process-module/1"
+
+process projection.reference:
+  let result = ""
+  when if(eq($ref, null), false, true):
+    port value.describe { value = $ref } → refType
+    assert eq($refType.type, "number")
+      otherwise "PROJECT-R001: Child references must be numeric identities. Correct the owning programme/composition node."
+    assert includes(range(count($compiled)), add($ref, 1))
+      otherwise "PROJECT-R002: Missing, forward or cyclic child reference. Put dependencies before their use in the owning definition."
+    let result = at($compiled, $ref)
+
+process projection.escape:
+  let escaped = $text
+  port text.replaceAll { value = $escaped; search = "&"; replacement = "&amp;" } → escaped
+  port text.replaceAll { value = $escaped; search = "<"; replacement = "&lt;" } → escaped
+  port text.replaceAll { value = $escaped; search = ">"; replacement = "&gt;" } → escaped
+  port text.replaceAll { value = $escaped; search = "\""; replacement = "&quot;" } → escaped
+
+process projection.node:
+  port record.entries { value = $node } → nodeFields
+  each $nodeFields as field:
+    assert includes(list("id", "op", "data", "links", "meaning"), at($field, 0))
+      otherwise "PROJECT-T011: Unknown node field. Raw source snippets and hidden passthrough fields are forbidden."
+  port record.get { record = $grammar.rules; key = $node.op } → rule
+  assert if(eq($rule, null), false, true)
+    otherwise "PROJECT-T001: Unknown operation. Add an explicit typed projection rule; raw HTML/CSS/JS escape hatches are not permitted."
+  assert eq($node.id, count($compiled))
+    otherwise "PROJECT-R003: Node identity must follow dependency order."
+  port record.entries { value = $node.data } → dataEntries
+  port record.entries { value = $node.links } → linkEntries
+  assert eq(count($dataEntries), count($rule.data))
+    otherwise "PROJECT-T002: Missing or extra data field. Correct the owner or explicitly revise its grammar."
+  port record.entries { value = $rule.links } → schemaLinks
+  assert eq(count($linkEntries), count($schemaLinks))
+    otherwise "PROJECT-T003: Missing or extra dependency slot."
+  fold $dataEntries as pair; quoted starts {}:
+    let key = at($pair, 0)
+    let value = at($pair, 1)
+    assert includes($rule.data, $key)
+      otherwise "PROJECT-T004: Undeclared value field."
+    port value.describe { value = $value } → description
+    let type = if($description.null, "null", $description.type)
+    port record.get { record = $rule.types; key = $key } → allowedTypes
+    assert includes($allowedTypes, $type)
+      otherwise "PROJECT-T005: Value has the wrong declared type."
+    port record.get { record = $rule.validators; key = $key } → validator
+    when if(eq($validator, null), false, true):
+      port record.get { record = $validator; key = "enum" } → enum
+      port record.get { record = $validator; key = "pattern" } → pattern
+      when if(eq($enum, null), false, true):
+        assert includes($enum, $value)
+          otherwise "PROJECT-T006: Operator/value is outside its declared vocabulary."
+      when if(eq($pattern, null), false, true):
+        port text.matches { value = $value; pattern = $pattern } → matches
+        assert $matches
+          otherwise "PROJECT-T007: Invalid identifier, field name or selector atom. Correct its source; do not inject output syntax."
+    port json.stringify { value = $value } → quote
+    port record.put { record = $quoted; key = $key; value = $quote } → nextQuoted
+    yield $nextQuoted → q
+  fold $dataEntries as pair; escapedValues starts {}:
+    let key = at($pair, 0)
+    let value = at($pair, 1)
+    port value.describe { value = $value } → description
+    let text = if(eq($description.type, "string"), $value, "")
+    call projection.escape
+    port record.put { record = $escapedValues; key = $key; value = $escaped } → nextEscaped
+    yield $nextEscaped → h
+  fold $linkEntries as pair; children starts {}:
+    let key = at($pair, 0)
+    let refs = at($pair, 1)
+    port record.get { record = $rule.links; key = $key } → slot
+    assert if(eq($slot, null), false, true)
+      otherwise "PROJECT-T008: Undeclared dependency slot."
+    port value.describe { value = $refs } → description
+    assert eq($description.array, $slot.many)
+      otherwise "PROJECT-T009: Singular/ordered-many cardinality mismatch."
+    when $slot.many:
+      fold $refs as ref; items starts list():
+        call projection.reference
+        yield append($items, list($result)) → resolved
+    when if($slot.many, false, true):
+      let ref = $refs
+      call projection.reference
+      let resolved = $result
+    port record.put { record = $children; key = $key; value = $resolved } → nextChildren
+    yield $nextChildren → c
+  fold $schemaLinks as pair; joined starts {}:
+    let key = at($pair, 0)
+    let slot = at($pair, 1)
+    let joinedValue = ""
+    when $slot.many:
+      port record.get { record = $c; key = $key } → items
+      port text.join { values = $items; separator = $slot.separator } → joinedValue
+    port record.put { record = $joined; key = $key; value = $joinedValue } → nextJoined
+    yield $nextJoined → j
+  port kernel.evaluate { expression = $rule.render; bindings = { n = $node.data; q = $q; h = $h; c = $c; j = $j; slots = $slots } } → result
+
+process projection.document:
+  assert eq($document.protocol, $grammar.sourceProtocol)
+    otherwise "PROJECT-T010: Document and projection grammar profiles do not match."
+  fold $document.nodes as node; compiled starts list():
+    call projection.node
+    yield append($compiled, list($result)) → compiled
+  let ref = $document.entry
+  call projection.reference

@@ -1,0 +1,56 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("NameReference", { name = "notes" });
+    part0002 = list("NameReference", { name = "set" });
+    part0003 = list("Calculate", {
+        operator = "+";
+        left = list("LiteralValue", { value = "worldbox:" });
+        right = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "field" });
+            property = list("NameReference", { name = "name" })
+          })
+      });
+    part0004 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "field" });
+        property = list("NameReference", { name = "value" })
+      });
+    part0005 = list("NameReference", { name = "document" });
+    part0006 = list("NameReference", { name = "querySelector" });
+    part0007 = list("NameReference", { name = "values" });
+    part0008 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "field" });
+        property = list("NameReference", { name = "name" })
+      });
+    part0009 = list("NameReference", { name = "field" });
+    part0010 = list("NameReference", { name = "value" });
+    part0011 = list("NameReference", { name = "document" });
+    part0012 = list("NameReference", { name = "querySelector" });
+    part0013 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "protocol" });
+        value = list("LiteralValue", { value = "worldwright/worldbox-planning-snapshot/1" })
+      });
+    part0014 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "status" });
+        value = list("LiteralValue", { value = "proposed-targets-not-benchmark-results" })
+      });
+    part0015 = list("Field", {
+        computed = false;
+        kind = "init";
+        key = list("NameReference", { name = "values" });
+        value = list("NameReference", { name = "values" })
+      });
+    part0016 = list("NameReference", { name = "document" });
+    part0017 = list("NameReference", { name = "querySelector" })
+  }

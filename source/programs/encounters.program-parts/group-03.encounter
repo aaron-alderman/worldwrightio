@@ -1,0 +1,21 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0004 = list("MarkupText", { value = "reply" });
+    part0005 = list("NameReference", { name = "i" });
+    part0006 = list("MarkupText", { value = "false" });
+    part0007 = list("MarkupText", { value = "true" });
+    part0008 = list("MarkupText", { value = "decision-door" });
+    part0009 = list("MarkupText", { value = "door" });
+    part0010 = list("NameReference", { name = "key" });
+    part0011 = list("MarkupText", { value = "false" });
+    part0012 = list("Publish", { declaration = { fragment = "part0013" }; specifiers = list(); source = null; attributes = list() });
+    part0013 = list("Define", {
+        generator = false;
+        async = false;
+        id = list("NameReference", { name = "handleEncounter" });
+        params = list(list("NameReference", { name = "event" }));
+        body = { fragment = "part0014" }
+      })
+  }

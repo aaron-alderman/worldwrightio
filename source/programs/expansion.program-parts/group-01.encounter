@@ -1,0 +1,699 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0001 = list("Publish", { declaration = { fragment = "part0002" }; specifiers = list(); source = null; attributes = list() });
+    part0002 = list("BindGroup", { kind = "const"; terminate = true; declarations = list({ fragment = "part0003" }) });
+    part0003 = list("Binding", { id = list("NameReference", { name = "regions" }); init = { fragment = "part0004" } });
+    part0004 = list("List", {
+        elements = list(
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "possibility" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The garden of possibilities" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "unseen" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "❋" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "What can exist together?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Compatibility before motion. A space of possibilities is only the beginning." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", {
+                        elements = list(list("LiteralValue", { value = "possibility" }), list("LiteralValue", { value = "reachable" }))
+                      })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "memory" }),
+                                list("LiteralValue", { value = "What survives the narrowing?" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "permission" }),
+                                list("LiteralValue", { value = "Who chooses among the possible?" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "memory" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The echo chambers" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "unseen" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "◎" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "What remains when something disappears?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Hidden influences, retained records, and the honest limits of recovery." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "memory" }), list("LiteralValue", { value = "erasure" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "preservation" }),
+                                list("LiteralValue", { value = "Follow a trace into stone" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "care" }),
+                                list("LiteralValue", { value = "What have you stopped noticing?" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "mind" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The living canopy" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "human" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "✺" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "What comes into attention?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "A changing field of attention, intention, action, and awareness." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "attention" }), list("LiteralValue", { value = "will" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "listening" }),
+                                list("LiteralValue", { value = "Make room for another person" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "coexistence" }),
+                                list("LiteralValue", { value = "A world with other centres" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "material" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The house of stone" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "human" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "▱" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "How did this come to be here?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "A stone opens into minerals, craft, landscape, time, and evidence." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "stone" }), list("LiteralValue", { value = "preservation" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "tiling" }),
+                                list("LiteralValue", { value = "Follow a pattern into architecture" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "laboratory" }),
+                                list("LiteralValue", { value = "Ask what an instrument can recover" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "pattern" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The pattern workshop" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "unseen" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "✧" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "What changes while the pattern holds?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Count, transform, repair. Similar shapes still need a map between them." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "tiling" }), list("LiteralValue", { value = "code" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "possibility" }),
+                                list("LiteralValue", { value = "What makes a pattern admissible?" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "stone" }),
+                                list("LiteralValue", { value = "Return to the material carrying it" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "laboratory" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The working laboratory" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "unseen" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "⌁" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "What would make the explanations disagree?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Carriers, controls, resource costs, and useful results when an anomaly disappears." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "laboratory" }), list("LiteralValue", { value = "cost" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "cosmos" }),
+                                list("LiteralValue", { value = "Look toward the unfinished observatories" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "commons" }),
+                                list("LiteralValue", { value = "Leave a record another person can use" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "cosmos" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The unfinished observatories" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "unseen" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "☉" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "How far does this explanation reach?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Gravity, matter, cosmic history, and the scales between them. Open questions stay open." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "cosmos" }), list("LiteralValue", { value = "scale" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "laboratory" }),
+                                list("LiteralValue", { value = "Come back to a measurable distinction" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "hope" }),
+                                list("LiteralValue", { value = "An optional reading beyond the scientific claim" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "shared" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The crossing of paths" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "boundary" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "⋈" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "Who lives with the consequences?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Urgency, delay, competing goods, and the assumptions inside a shared-world model." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "coexistence" }), list("LiteralValue", { value = "weights" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "restraint" }),
+                                list("LiteralValue", { value = "Who has room to act?" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "will" }),
+                                list("LiteralValue", { value = "From an intention to an action" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "meaning" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The quiet horizon" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "boundary" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "✦" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "What may we hope for?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Optional theological and literary readings. Their assumptions remain visible." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "optional" });
+                    value = list("LiteralValue", { value = true })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", {
+                        elements = list(
+                          list("LiteralValue", { value = "hiddenness" }),
+                          list("LiteralValue", { value = "hope" }),
+                          list("LiteralValue", { value = "texts" })
+                        )
+                      })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "care" }),
+                                list("LiteralValue", { value = "Return to the particular person" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "cosmos" }),
+                                list("LiteralValue", { value = "Return to the scientific boundary" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            }),
+          list("Record", {
+              properties = list(
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "id" });
+                    value = list("LiteralValue", { value = "commons" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "name" });
+                    value = list("LiteralValue", { value = "The unfinished commons" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "light" });
+                    value = list("LiteralValue", { value = "boundary" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "symbol" });
+                    value = list("LiteralValue", { value = "⌂" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "question" });
+                    value = list("LiteralValue", { value = "What can we leave for one another?" })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "description" });
+                    value = list("LiteralValue", { value = "Corrections, disagreement, useful failures, and work another person can continue." })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "scenes" });
+                    value = list("List", { elements = list(list("LiteralValue", { value = "commons" }), list("LiteralValue", { value = "closedpath" })) })
+                  }),
+                list("Field", {
+                    computed = false;
+                    kind = "init";
+                    key = list("NameReference", { name = "routes" });
+                    value = list("List", {
+                        elements = list(
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "workshop" }),
+                                list("LiteralValue", { value = "Make a small inspectable change" })
+                              )
+                            }),
+                          list("List", {
+                              elements = list(
+                                list("LiteralValue", { value = "possibility" }),
+                                list("LiteralValue", { value = "Begin again with what remains possible" })
+                              )
+                            })
+                        )
+                      })
+                  })
+              )
+            })
+        )
+      });
+    part0005 = list("Publish", { declaration = { fragment = "part0006" }; specifiers = list(); source = null; attributes = list() });
+    part0006 = list("BindGroup", { kind = "const"; terminate = true; declarations = list({ fragment = "part0007" }) });
+    part0007 = list("Binding", { id = list("NameReference", { name = "expansionSources" }); init = { fragment = "part0008" } })
+  }

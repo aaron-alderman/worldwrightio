@@ -1,0 +1,1081 @@
+process-module "temple/surface-process-module/1"
+
+process page.definition:
+  let result = {
+    protocol = "encounter/composition-projection/1";
+    identity = "workshop/infographics.html";
+    reason = "Compose the page from named presentation roles and explicit control/source identities.";
+    target = "workshop/infographics.html";
+    goal = "Project HTML without importing a handwritten page.";
+    identify = true;
+    page = list("Document", {
+      children = list(
+        "\n",
+        list("DocumentElement", {
+          attributes = { lang = "en" };
+          children = list(
+            list("Metadata", {
+              children = list(
+                list("MetaValue", { attributes = { charset = "utf-8" } }),
+                list("MetaValue", { attributes = { name = "viewport"; content = "width=device-width,initial-scale=1" } }),
+                list("PageTitle", { children = list("Infographics · Encounter workshop") }),
+                list("Resource", { attributes = { rel = "icon"; href = "data:," } }),
+                list("Resource", { attributes = { rel = "stylesheet"; href = "./style.css" } }),
+                list("Resource", { attributes = { rel = "stylesheet"; href = "./infographics.css" } }),
+                list("Runtime", { attributes = { type = "module"; src = "./infographics.js" } })
+              )
+            }),
+            "\n",
+            list("PageBody", {
+              attributes = { "data-paper" = "a3"; "data-print-scope" = "current" };
+              children = list(
+                list("Link", {
+                  attributes = { class = "skip"; href = "#diagram-controls" };
+                  children = list("Skip to infographic controls")
+                }),
+                list("Main", {
+                  attributes = { class = "print-library" };
+                  children = list(
+                    "\n",
+                    list("Header", {
+                      attributes = { class = "library-header" };
+                      children = list(
+                        list("Paragraph", {
+                          attributes = { class = "tour-back" };
+                          children = list(
+                            list("Link", { attributes = { href = "./index.html" }; children = list("← Back to the live example") }),
+                            list("Link", { attributes = { href = "../#workshop" }; children = list("Worldwright trail ↗") })
+                          )
+                        }),
+                        list("Paragraph", { attributes = { class = "eyebrow" }; children = list("Encounter / The reading room") }),
+                        list("HeadingOne", { children = list("Follow it on paper.") }),
+                        list("Paragraph", {
+                          attributes = { class = "library-intro" };
+                          children = list(
+                            "Three diagrams to explore, keep or share. Zoom in to follow a detail, or print a clear copy."
+                          )
+                        }),
+                        list("Paragraph", {
+                          attributes = { class = "quiet snapshot-note" };
+                          children = list(
+                            "These are explanatory snapshots from 5 November 2026. They retain their original scope notes and check counts; they do not change when you edit the live example."
+                          )
+                        })
+                      )
+                    }),
+                    "\n",
+                    list("Navigation", {
+                      attributes = { class = "diagram-picker"; "aria-label" = "Choose an infographic" };
+                      children = list(
+                        list("Link", {
+                          attributes = { href = "#architecture"; "data-diagram" = "architecture" };
+                          children = list(list("Inline", { children = list("01") }), "From intent to a working system")
+                        }),
+                        list("Link", {
+                          attributes = { href = "#story"; "data-diagram" = "story" };
+                          children = list(list("Inline", { children = list("02") }), "One story. Two ways to meet it.")
+                        }),
+                        list("Link", {
+                          attributes = { href = "#algebra"; "data-diagram" = "algebra" };
+                          children = list(
+                            list("Inline", { children = list("03") }),
+                            "TheStory through the actual algebra"
+                          )
+                        })
+                      )
+                    }),
+                    "\n",
+                    list("Form", {
+                      attributes = {
+                        id = "diagram-controls";
+                        class = "diagram-controls";
+                        "aria-label" = "View and print settings"
+                      };
+                      children = list(
+                        list("Label", {
+                          children = list(
+                            "View",
+                            list("SelectControl", {
+                              attributes = { id = "diagram-zoom" };
+                              children = list(
+                                list("Choice", { attributes = { value = "fit" }; children = list("Fit to width") }),
+                                list("Choice", { attributes = { value = "100" }; children = list("Original size") }),
+                                list("Choice", { attributes = { value = "150" }; children = list("150%") }),
+                                list("Choice", { attributes = { value = "200" }; children = list("200%") })
+                              )
+                            })
+                          )
+                        }),
+                        list("Label", {
+                          children = list(
+                            "Paper",
+                            list("SelectControl", {
+                              attributes = { id = "diagram-paper" };
+                              children = list(
+                                list("Choice", { attributes = { value = "a3" }; children = list("A3 · recommended for detail") }),
+                                list("Choice", { attributes = { value = "a4" }; children = list("A4 · compact copy") })
+                              )
+                            })
+                          )
+                        }),
+                        list("Label", {
+                          children = list(
+                            "Print",
+                            list("SelectControl", {
+                              attributes = { id = "diagram-scope" };
+                              children = list(
+                                list("Choice", { attributes = { value = "current" }; children = list("Current infographic") }),
+                                list("Choice", { attributes = { value = "all" }; children = list("All three infographics") })
+                              )
+                            })
+                          )
+                        }),
+                        list("Action", {
+                          attributes = { type = "button"; id = "print-diagrams" };
+                          children = list("Print / save PDF")
+                        }),
+                        list("Action", { attributes = { type = "button"; id = "reset-diagram" }; children = list("Reset view") }),
+                        list("Paragraph", {
+                          attributes = { class = "print-help" };
+                          children = list(
+                            "One infographic per sheet. Check paper size and scale in your print dialog. A3 keeps the smaller labels easier to read."
+                          )
+                        })
+                      )
+                    }),
+                    "\n",
+                    list("Paragraph", {
+                      attributes = { id = "diagram-status"; class = "quiet"; role = "status"; "aria-live" = "polite" }
+                    }),
+                    list("Group", {
+                      attributes = { class = "diagram-sheets" };
+                      children = list(
+                        list("Article", {
+                          attributes = { class = "print-sheet"; id = "architecture"; "aria-labelledby" = "architecture-title" };
+                          children = list(
+                            list("Header", {
+                              attributes = { class = "sheet-heading" };
+                              children = list(
+                                list("Paragraph", { attributes = { class = "eyebrow" }; children = list("01 / Encounter") }),
+                                list("HeadingTwo", {
+                                  attributes = { id = "architecture-title" };
+                                  children = list("From intent to a working system")
+                                }),
+                                list("Paragraph", {
+                                  attributes = { class = "sheet-description" };
+                                  children = list(
+                                    "Semantic decomposition, the lightning principle, pure expressions, process algebra and examples of lowering."
+                                  )
+                                })
+                              )
+                            }),
+                            list("Group", {
+                              attributes = {
+                                class = "viewer-canvas";
+                                tabindex = "0";
+                                role = "region";
+                                "aria-label" = "From intent to a working system — scroll to explore"
+                              };
+                              children = list(
+                                list("Image", {
+                                  attributes = {
+                                    src = "./infographics/encounter-algebra-infographic.svg";
+                                    alt = "Semantic decomposition, the lightning principle, pure expressions, process algebra and examples of lowering.";
+                                    decoding = "async"
+                                  }
+                                })
+                              )
+                            }),
+                            list("Paragraph", {
+                              attributes = { class = "sheet-footer" };
+                              children = list("Encounter · Worldwright · Explanatory snapshot, 5 November 2026 · 1 of 3")
+                            }),
+                            list("Group", {
+                              attributes = { class = "sheet-tools" };
+                              children = list(
+                                list("Link", {
+                                  attributes = { href = "./infographics/encounter-algebra-infographic.svg"; download = null };
+                                  children = list("Download SVG ↧")
+                                }),
+                                list("Link", {
+                                  attributes = {
+                                    href = "./infographics/encounter-algebra-infographic.svg";
+                                    target = "_blank";
+                                    rel = "noopener"
+                                  };
+                                  children = list("Open original ↗")
+                                })
+                              )
+                            }),
+                            list("Disclosure", {
+                              attributes = { class = "text-version" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("Read this diagram as text") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", { children = list("ENCOUNTER / A MAP OF THE ARCHITECTURE") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("From intent to an executable world") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Keep the meaning. Expose the path. Make every step answerable.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("1") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Open the whole") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Semantic decomposition — an intelligible entry point, with the wider purpose still attached."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("INTENT · PARAPHRASED") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("“Let me build and change an app,") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("one valid action at a time.”") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Reason → target → goal stays attached.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Purpose") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Boundary") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Components") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Relations") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Variation") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Authority") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Evidence") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Continuity") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "LLM proposals: inspect, challenge, correct. Meaning is not admitted by fluency."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Strike → Bound → Differentiate → Relate → Project → Test → Recompose → Correct"
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("2") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Find a lightning path") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list("Work backwards from the goal and forwards from what is actually available.")
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("HERE") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Declared kernel +") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("authoring basis") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("NEEDED CAPABILITY") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Construct typed") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("definitions") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("NEEDED CAPABILITY") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Compose behaviour") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("and projections") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("END") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Build app + extend") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("its authoring tools") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Alternatives remain available") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Missing bridge: prove it, don’t skip it.") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list("MECE cuts partition the obligations. Dependencies connect across the cuts.")
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Shortest plausible typed route — including every missing edge. A candidate path, not a proof of completion."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("3") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Two algebras, one accountable system") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list("Values and actions are distinct; both carry structure that can be inspected.")
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("PURE ALGEBRA") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("PROCESS ALGEBRA") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Calculate a value") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Compose a course of action") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Inputs + rules → result") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Bind, compare, select, fold, combine.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("No external effects.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Bind → assert → branch → call → explicit port") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("A process may be entirely pure.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Effects require a granted native boundary.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Concrete kernel: 15 expression primitives.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Concrete kernel: 8 process statements.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("4") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Lower the meaning — three examples") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Readable notation below explains the rules; it does not settle Encounter’s future syntax."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("A / EXECUTABLE OPERATOR") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("A collection operation") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("“Add one to each number.”") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Assume numeric array inputs.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("map(xs, x, add(x, 1))") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("↓ derived from smaller operators") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("if isArray(xs)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  fold(xs, x, acc, [],") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("    append(acc, [add(x, 1)]))") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("else raise(arrayError)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("The fold carries the result.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("The existing guard checks array shape.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("B / EXECUTABLE FACT QUERY") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("A story title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("REL fact: subject / predicate / object") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TheStory / S.Title / \"What happened\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("one(\"TheStory\", \"S.Title\")") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("↓ index lookup + cardinality rule") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("vs = objects(subject, predicate)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("if count(vs) = 1") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  at(vs, 0)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("else raise(cardinalityError)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Result: “What happened”") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Zero or several matches: refuse.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("C / DESIGN TARGET") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("A typed change") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("“Add one required field.”") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Supply a policy for existing data.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("One admissible semantic action") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("↓ declared process + authorized port") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("validate field + resolution policy") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("check affected data + dependants") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("form and admit candidate state") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("commit atomically; record witness") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Unresolved obligations: refuse.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Current valid state remains intact.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("THE RETURN PATH MATTERS") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Output → rule → source → reason. Lowering preserves declared meaning and names any loss."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Semantic decompilation proposes that meaning; lowering implements it. They are different operations."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Grounded in Claimipedia’s Lightning Decomposition v2, the corpus Lightning Path definition, and Encounter’s kernel."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "A–B: existing mechanisms. C and the full authoring endpoint: design targets. Types do not confer permission."
+                                      )
+                                    })
+                                  )
+                                })
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Article", {
+                          attributes = { class = "print-sheet"; id = "story"; "aria-labelledby" = "story-title" };
+                          children = list(
+                            list("Header", {
+                              attributes = { class = "sheet-heading" };
+                              children = list(
+                                list("Paragraph", { attributes = { class = "eyebrow" }; children = list("02 / Encounter") }),
+                                list("HeadingTwo", { attributes = { id = "story-title" }; children = list("One story. Two ways to meet it.") }),
+                                list("Paragraph", {
+                                  attributes = { class = "sheet-description" };
+                                  children = list(
+                                    "Follow TheStory through types, explicit overlays, a web link, a mainframe row and the route an edit takes home."
+                                  )
+                                })
+                              )
+                            }),
+                            list("Group", {
+                              attributes = {
+                                class = "viewer-canvas";
+                                tabindex = "0";
+                                role = "region";
+                                "aria-label" = "One story. Two ways to meet it. — scroll to explore"
+                              };
+                              children = list(
+                                list("Image", {
+                                  attributes = {
+                                    src = "./infographics/story-to-two-views.svg";
+                                    alt = "Follow TheStory through types, explicit overlays, a web link, a mainframe row and the route an edit takes home.";
+                                    decoding = "async"
+                                  }
+                                })
+                              )
+                            }),
+                            list("Paragraph", {
+                              attributes = { class = "sheet-footer" };
+                              children = list("Encounter · Worldwright · Explanatory snapshot, 5 November 2026 · 2 of 3")
+                            }),
+                            list("Group", {
+                              attributes = { class = "sheet-tools" };
+                              children = list(
+                                list("Link", {
+                                  attributes = { href = "./infographics/story-to-two-views.svg"; download = null };
+                                  children = list("Download SVG ↧")
+                                }),
+                                list("Link", {
+                                  attributes = { href = "./infographics/story-to-two-views.svg"; target = "_blank"; rel = "noopener" };
+                                  children = list("Open original ↗")
+                                })
+                              )
+                            }),
+                            list("Disclosure", {
+                              attributes = { class = "text-version" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("Read this diagram as text") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", { children = list("ENCOUNTER / A SOURCE-BACKED WORKED EXAMPLE") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("One story. Two ways to meet it.") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Types tell us what fits. Context chooses a view. Edit routes tell us what changes."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("1") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Start with a story — not a screen") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("SOURCE · STORY.REL") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TheStory isa Story") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("S.Title: \"What happened\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("S.Content: @TheStory.first, @TheStory.second") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TextEntry values: “The story is long and complicated”") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("and “It started 150 years ago”. Each occurrence has an identity.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TYPE ASSURANCE") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Story is a closed contract.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("S.Title: one nonempty string.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("S.Content: many strings, stored as") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TextEntry references with E.value.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Fact display is abbreviated; storage is REL.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("2") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Give it a navigation role and a page") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("EXPERIMENT.NAV.STORY ISA NAVIGATIONITEM") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("N.label: source.S.Title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("N.target: source") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("edit N.label through source.S.Title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("label: one nonempty string · target: one Story reference") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("EXPERIMENT.PAGE.STORY ISA PAGE") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("P.subject: source") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("P.title: source.S.Title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("P.route: \"encounter-story.html\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("P.paragraphs follows content; P.title edits the source title.") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Both views refer to @TheStory. The navigation object is a projection with its own identity."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("3") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Apply an explicit context — keep the base intact") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("WEB CONTEXT · @EXPERIMENT.WEBMAINMENU") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("N.label: \"The story\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("edit N.label here") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("show as WebLink:") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  page: @experiment.page.story") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("The local label replaces the visible value in this context.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("“here” explicitly owns the edit at this literal.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("ROW CONTEXT · @EXPERIMENT.MAINFRAMESTORIES") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("show as MainframeRow:") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  option: \"01\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  open: @experiment.openStory") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("No label overlay: inherit the base label and its edit route.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("The open action is typed StoryPanelAction.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("It accepts Story and declares local-navigation.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("4") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Lower the resolved values into each representation") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("WEBLINK") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("The story") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("↗") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("W.text = \"The story\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("W.href = \"encounter-story.html\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Rendered as an <a> with href and text.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Guard: page.P.subject = navigation.N.target.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Opening it selects the page for TheStory.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("MAINFRAMEROW") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("01   What happened") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("R.option = \"01\"; R.label = \"What happened\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("R.target = @TheStory") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Fixture renderer: table → row → button.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Selecting it runs OpenStory(story: @TheStory).") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("OpenStory produces a typed StoryPanel.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("5") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Follow the edit back to its declared owner") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("EDIT OFFERED THROUGH THE VIEW") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("WRITE DESTINATION") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("AFTER RECOMPUTING") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Web label → “Our story”") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("WebMainMenu’s N.label literal") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Only the web label changes.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Row label → “A better title”") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TheStory / S.Title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Row + page title change.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Web stays “The story”.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Page title → source title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Same source slot; same propagation.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("No HTML or row patching.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("EXPLICIT ROUTES — NOT A UNIVERSAL INVERSE") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "ec.patch targets N.label or P.title, then recompiles, checks and verifies the forward result."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "No declared edit route means refusal. Remove both web label + local edit to reveal the base route again."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Verified: 29 fixture checks passed. This is a retained headless semantic example, not a rebuilt editor or mainframe."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Sources: story.rel · contracts.rel · story.encounter · encounter-code-runtime.process.json · encounter-code.test.cjs"
+                                      )
+                                    })
+                                  )
+                                })
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Article", {
+                          attributes = { class = "print-sheet"; id = "algebra"; "aria-labelledby" = "algebra-title" };
+                          children = list(
+                            list("Header", {
+                              attributes = { class = "sheet-heading" };
+                              children = list(
+                                list("Paragraph", { attributes = { class = "eyebrow" }; children = list("03 / Encounter") }),
+                                list("HeadingTwo", {
+                                  attributes = { id = "algebra-title" };
+                                  children = list("TheStory through the actual algebra")
+                                }),
+                                list("Paragraph", {
+                                  attributes = { class = "sheet-description" };
+                                  children = list(
+                                    "A deeper trace through compilation, pure expressions, process execution, generated HTML and checked source edits."
+                                  )
+                                })
+                              )
+                            }),
+                            list("Group", {
+                              attributes = {
+                                class = "viewer-canvas";
+                                tabindex = "0";
+                                role = "region";
+                                "aria-label" = "TheStory through the actual algebra — scroll to explore"
+                              };
+                              children = list(
+                                list("Image", {
+                                  attributes = {
+                                    src = "./infographics/story-actual-algebra.svg";
+                                    alt = "A deeper trace through compilation, pure expressions, process execution, generated HTML and checked source edits.";
+                                    decoding = "async"
+                                  }
+                                })
+                              )
+                            }),
+                            list("Paragraph", {
+                              attributes = { class = "sheet-footer" };
+                              children = list("Encounter · Worldwright · Explanatory snapshot, 5 November 2026 · 3 of 3")
+                            }),
+                            list("Group", {
+                              attributes = { class = "sheet-tools" };
+                              children = list(
+                                list("Link", {
+                                  attributes = { href = "./infographics/story-actual-algebra.svg"; download = null };
+                                  children = list("Download SVG ↧")
+                                }),
+                                list("Link", {
+                                  attributes = { href = "./infographics/story-actual-algebra.svg"; target = "_blank"; rel = "noopener" };
+                                  children = list("Open original ↗")
+                                })
+                              )
+                            }),
+                            list("Disclosure", {
+                              attributes = { class = "text-version" };
+                              children = list(
+                                list("DisclosureLabel", { children = list("Read this diagram as text") }),
+                                list("Group", {
+                                  children = list(
+                                    list("Paragraph", { children = list("ENCOUNTER / BELOW THE PROJECTION") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("TheStory through the actual algebra") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Source → typed process → resolved tree → HTML. An edit takes a checked route back."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Notation: faithful excerpts in readable call form; omissions are marked. Complete generated listings accompany this diagram."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("1") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Parse, index, compile and admit") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("ACTUAL INPUTS") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("(\"TheStory\", \"isa\", \"Story\")") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("(\"TheStory\", \"S.Title\", \"What happened\")") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("N.label: source.S.Title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("edit N.label through source.S.Title") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Types: contracts.rel · values: story.rel · rules: story.encounter") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("EC.PREPARE · ORDERED PROCESS") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("source.rel → facts.index → ec.compile → lower.start") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("admit.model → admit.effects → validate facts") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Story title: exactly one nonempty string.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Source and generated identities checked.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Only the declared native ports are granted.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("2") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Pure expressions live inside the generated process") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("CODE.STORY.VIEW.EXPERIMENT.NAV.STORY · GENERATED, LOWERED PROCESS") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "port kernel.invoke { query = \"ec.argument\"; input = { type = \"Story\"; value = \"TheStory\" } } → ecSourceCarrier"
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("let bindings = { source = $ecSourceCarrier }") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("let ecViewValues = {") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list("  N.label  = at(at(at($bindings, \"source\"), \"values\"), \"S.Title\");")
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  N.target = at(at($bindings, \"source\"), \"id\") }") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "port kernel.invoke { query = \"ec.check\"; input = { type = \"NavigationItem\"; values = $ecViewValues } } → ecChecked"
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Result carrier: id = experiment.nav.story · type = NavigationItem · label = “What happened” · target = TheStory"
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("3") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Resolve the overlay — values and edit routes together") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("EC.RESOLVE · PROCESS EXCERPT") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("let ecEffective = $ecBase.values") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("fold $ecContribution.fields.fields …") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  port kernel.evaluate … → ecOverlayValue") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  port record.put … → ecEffective") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  yield $ecEffective") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("port kernel.invoke { query = \"ec.check\"; … }") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Web effective N.label = “The story”; row = “What happened”.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("PURE ROUTE SELECTION INSIDE THAT PROCESS") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("append(") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  filter($ecEffectiveEdits, ecE,") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("    not(some($ecContribution.fields.fields,") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("      ecF, eq($ecF.name, $ecE.field)))),") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  $ecContribution.edits)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("A replaced field loses its inherited edit route.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("The web’s explicit “edit here” supplies its local route.") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "filter / some / not are derived expressions; lower.start expands them into the primitive expression core."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("4") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Compute representation values, then construct a tree") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("WEBLINK · GENERATED EXPRESSION AND GUARD") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("W.text = at(at(at($bindings,") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  \"navigation\"), \"values\"), \"N.label\")") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("W.href = at(at(at($bindings,") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  \"page\"), \"values\"), \"P.route\")") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("assert page subject equals navigation target.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("ec.check validates WebLink; tree reads W.text / W.href.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("MAINFRAMEROW · SAME SOURCE, OTHER REPRESENTATION") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("R.label = at(at(at($bindings,") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  \"navigation\"), \"values\"), \"N.label\")") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("R.target uses N.target; R.option uses option.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("children = append(list(), list(…))") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("ec.check validates MainframeRow.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Tree: table → tbody → tr → td + td/button.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("5") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Serialize the tree — these are the actual outputs") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("HTML.SERIALIZE · RECURSIVE PROCESS + PURE CONCATENATION") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("fold children: call html.serialize; concatenate the results") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("concat(\"<\", $tag, $attributesText, \">\",") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  if($void, \"\", concat($childrenText, \"</\", $tag, \">\")))") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list("<a id=\"experiment-web-link\" href=\"encounter-story.html\">The story</a>")
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("<table class=\"experiment-row\"><tbody><tr><td>01</td><td>") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "  <button id=\"experiment-mainframe-row\" type=\"button\">What happened</button>"
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("</td></tr></tbody></table>") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Row HTML is line-broken here for reading. Serialized files contain the exact output. Text and attributes are escaped."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("6") }),
+                                    "\n",
+                                    list("HeadingThree", { children = list("Edit a semantic field — patch its owned source span") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("ROW EDIT · EC.PATCH") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("field = \"N.label\"; value = \"A better title\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("filter($ecProjection.edits, ecE,") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("  eq($ecE.field, $eventInput.field))") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("assert eq(count($ecRoutes), 1)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("source.rel locates one owned value span for") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TheStory / S.Title. Encode the new string; slice") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("before and after; concat into candidate factText.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("WEB EDIT · SAME PROCESS, LITERAL DESTINATION") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("field = \"N.label\"; value = \"Our story\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("destination.kind = \"literal\"") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("ecStart = add($ecNode.offset, $ecTokenStart)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("codeText = concat(before, encoded, after)") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Uses the overlay’s recorded literal location.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Changes N.label in the WebMainMenu contribution.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("TheStory’s REL facts are unchanged.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("FORWARD VERIFICATION — NOT AN ASSUMED INVERSE") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "kernel.invoke ec.prepare(candidate inputs) → kernel.invoke ec.run(checked candidate)"
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("assert eq(at($ecObserved.values, $eventInput.field), $ecNewText)") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Return candidate + projections + destination. Refuse if the requested value cannot be reproduced."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", { children = list("OBSERVED AFTER THE ROW EDIT") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("REL title + row + page: “A better title”.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Web label remains “The story”. Encounter text unchanged.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("OBSERVED AFTER THE INDEPENDENT WEB EDIT") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Web literal + link: “Our story”.") }),
+                                    "\n",
+                                    list("Paragraph", { children = list("Row + page remain “What happened”. REL unchanged.") }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Boundary: this trace explicitly calls the existing serializer after ec.run. Event descriptors are separate from HTML."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "No DOM-edit listener or repository write is implied. ec.patch returns candidate text in memory; persistence is a separate port."
+                                      )
+                                    }),
+                                    "\n",
+                                    list("Paragraph", {
+                                      children = list(
+                                        "Reproduced from the unchanged headless fixture. Full process listings, source diffs and generated HTML are supplied alongside."
+                                      )
+                                    })
+                                  )
+                                })
+                              )
+                            })
+                          )
+                        })
+                      )
+                    }),
+                    "\n",
+                    list("Footer", {
+                      attributes = { class = "library-footer" };
+                      children = list(
+                        list("Paragraph", {
+                          children = list(
+                            "The vector originals stay sharp when enlarged or printed. Text versions are available beneath each diagram."
+                          )
+                        }),
+                        list("Paragraph", {
+                          children = list(
+                            list("Link", {
+                              attributes = { href = "./infographics/source-notes.txt" };
+                              children = list("Sources and scope notes ↗")
+                            }),
+                            " · ",
+                            list("Link", {
+                              attributes = { href = "./infographics/algebra-trace.txt" };
+                              children = list("Captured algebra execution trace ↗")
+                            }),
+                            " · ",
+                            list("Link", {
+                              attributes = { href = "./index.html#inspect" };
+                              children = list("Inspect the live source ↗")
+                            })
+                          )
+                        })
+                      )
+                    })
+                  )
+                })
+              )
+            })
+          )
+        })
+      )
+    })
+  }

@@ -1,0 +1,65 @@
+process-module "temple/surface-process-module/1"
+
+process reflection.walk:
+  assert isArray($programme)
+    otherwise "ENCOUNTER-R001: Reflection requires a process array."
+  assert includes(range(add($maxDepth, 1)), add($depth, 1))
+    otherwise "ENCOUNTER-R002: Process nesting exceeds this declared graphics profile; choose a deeper profile instead of flattening the definition."
+  fold range(count($programme)) as position; state starts $state:
+    let step = at($programme, add($position, -1))
+    port record.entries { value = $step } → fields
+    let keys = map($fields, "field", at($field, 0))
+    port record.entries { value = $profile.statements } → schemas
+    let kinds = filter($schemas, "schema", includes($keys, at($schema, 0)))
+    assert eq(count($kinds), 1)
+      otherwise "ENCOUNTER-R003: Unknown or ambiguous statement; reflection cannot invent its meaning."
+    let kind = at(at($kinds, 0), 0)
+    let schema = at(at($kinds, 0), 1)
+    assert and(eq(count($keys), count($schema.fields)), every($keys, "key", includes($schema.fields, $key)))
+      otherwise "ENCOUNTER-R004: Unknown or missing fields cannot be silently omitted by the process projection."
+    let sourcePointer = concat($pointer, "/", add($position, -1))
+    let nodeId = concat($processId, $sourcePointer)
+    let label = if(eq($kind, "port"), $step.port, if(eq($kind, "call"), $step.call, if(eq($kind, "let"), $step.let, $kind)))
+    port json.stringify { value = if(eq($kind, "port"), $step.args, at($step, $kind)) } → detail
+    let order = add(count($state.nodes), 1)
+    let node = { id = $nodeId; kind = $kind; label = $label; detail = $detail; order = $order; depth = $depth; parent = $parent; file = $origin.file; sourceSha256 = $origin.sha256; pointer = $sourcePointer; granted = if(eq($kind, "port"), includes($grants, $step.port), false) }
+    let state = { nodes = append($state.nodes, list($node)); facts = append($state.facts, list({ s = $nodeId; p = "isa"; o = concat("ProcessStatement"); pol = "is" }, { s = $nodeId; p = "kind"; o = concat($kind); pol = "is" }, { s = $nodeId; p = "label"; o = concat($label); pol = "is" }, { s = $nodeId; p = "detail"; o = concat($detail); pol = "is" }, { s = $nodeId; p = "order"; o = concat($order); pol = "is" }, { s = $nodeId; p = "depth"; o = concat($depth); pol = "is" }, { s = $nodeId; p = "parent"; o = concat($parent); pol = "is" }, { s = $nodeId; p = "sourceModule"; o = concat($origin.file); pol = "is" }, { s = $nodeId; p = "sourceSha256"; o = concat($origin.sha256); pol = "is" }, { s = $nodeId; p = "sourcePointer"; o = concat($sourcePointer); pol = "is" }, { s = $parent; p = "contains"; o = concat($nodeId); pol = "is" }, { s = $processId; p = "statement"; o = $nodeId; pol = "is" })) }
+    when eq($kind, "call"):
+      assert at($target.queries, $step.call)
+        otherwise "ENCOUNTER-R005: Reflected call has no target in the admitted source closure."
+      let state = { nodes = $state.nodes; facts = append($state.facts, list({ s = $nodeId; p = "calls"; o = concat(concat("process.", $step.call)); pol = "is" })) }
+    when eq($kind, "port"):
+      let state = { nodes = $state.nodes; facts = append($state.facts, list({ s = $nodeId; p = "port"; o = concat($step.port); pol = "is" }, { s = $nodeId; p = "declaredGrant"; o = concat(if(includes($grants, $step.port), "true", "false")); pol = "is" })) }
+    fold $schema.programmes as field; state starts $state:
+      fold list(null) as frame; returned starts null:
+        let programme = at($step, $field)
+        let parent = $nodeId
+        let pointer = concat($sourcePointer, "/", $field)
+        let depth = add($depth, 1)
+        call reflection.walk
+        yield $state → state
+      yield $state → state
+    yield $state → state
+
+process reflection.project:
+  let programme = at($target.queries, $root)
+  assert isArray($programme)
+    otherwise "ENCOUNTER-R006: Reflection root is absent. Point to an actual declared process."
+  let origin = at($origins, $root)
+  assert $origin
+    otherwise "ENCOUNTER-R007: Reflection requires an exact source origin."
+  let processId = concat("process.", $root)
+  port text.replaceAll { value = $root; search = "~"; replacement = "~0" } → escaped
+  port text.replaceAll { value = $escaped; search = "/"; replacement = "~1" } → escaped
+  let pointer = concat("/queries/", $escaped)
+  let parent = $processId
+  let depth = 0
+  let state = { nodes = list(); facts = list({ s = $processId; p = "isa"; o = concat("ProcessDefinition"); pol = "is" }, { s = $processId; p = "query"; o = concat($root); pol = "is" }, { s = $processId; p = "sourceModule"; o = concat($origin.file); pol = "is" }, { s = $processId; p = "sourceSha256"; o = concat($origin.sha256); pol = "is" }, { s = $processId; p = "sourcePointer"; o = concat($pointer); pol = "is" }, { s = $processId; p = "observation"; o = concat("definition, not an execution trace"); pol = "is" }, { s = $processId; p = "maxDepth"; o = concat($maxDepth); pol = "is" }) }
+  let state = { nodes = $state.nodes; facts = append($state.facts, map($grants, "grant", { s = $processId; p = "declaredPort"; o = $grant; pol = "is" })) }
+  call reflection.walk
+  fold $state.facts as fact; rel starts "":
+    port json.stringify { value = $fact.s } → s
+    port json.stringify { value = $fact.p } → predicate
+    port json.stringify { value = $fact.o } → o
+    yield concat($rel, "(", $s, ", ", $predicate, ", ", $o, ")\n") → rel
+  let result = { protocol = "encounter/process-reflection/1"; root = $processId; query = $root; source = $origin; facts = $state.facts; nodes = $state.nodes; rel = $rel; limitations = list("Definition only: no branch is marked as having run.", "Called processes are named references, not transitively expanded.", "Value expressions are shown as source descriptions, not fully expanded expression graphs.", "Statement coordinates are scoped to the exact source hash; cross-version matching is not inferred.") }

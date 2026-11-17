@@ -1,0 +1,156 @@
+process-module "temple/surface-process-module/1"
+
+process value.definition:
+  let result = {
+    protocol = "temple/derived-expression-definitions/1";
+    referenceSigil = { dollarPrefix = "" };
+    sourceRefs = list(
+      "@sourcerytech/expression-algebra:operations/let.mjs",
+      "@sourcerytech/expression-algebra:operations/fold.mjs",
+      "@sourcerytech/expression-algebra:operations/raise.mjs",
+      "claimipedia-core:components/process-interpreter/src/surface-process-state-operators.mjs",
+      "claimipedia-core:components/process-interpreter/src/surface-process-collection-operators.mjs"
+    );
+    scope = "Lowering laws for admitted dense JSON arrays and string-valued REL facts. Core membership and equality semantics remain native. Non-array map/filter/some/every inputs refuse.";
+    statementFields = {
+      programmes = list("steps", "then", "try", "catch");
+      expressions = list("value", "assert", "when", "each", "fold", "initial", "yield", "args")
+    };
+    operators = {
+      record = { arity = 1; body = { arg = 0 } };
+      not = { arity = 1; body = list("if", { arg = 0 }, false, true) };
+      has = { arity = 3; body = list("includes", list("objects", { arg = 0 }, { arg = 1 }), { arg = 2 }) };
+      map = {
+        arity = 3;
+        body = list(
+          "if",
+          list("isArray", { arg = 0 }),
+          list(
+            "fold",
+            { arg = 0 },
+            { arg = 1 },
+            { bind = "result" },
+            list("list"),
+            list("append", { ref = "result" }, list("list", { arg = 2 }))
+          ),
+          list("raise", "map requires an array")
+        )
+      };
+      filter = {
+        arity = 3;
+        body = list(
+          "if",
+          list("isArray", { arg = 0 }),
+          list(
+            "fold",
+            { arg = 0 },
+            { arg = 1 },
+            { bind = "result" },
+            list("list"),
+            list("if", { arg = 2 }, list("append", { ref = "result" }, list("list", { refArg = 1 })), { ref = "result" })
+          ),
+          list("raise", "filter requires an array")
+        )
+      };
+      some = {
+        arity = 3;
+        body = list(
+          "if",
+          list("isArray", { arg = 0 }),
+          list(
+            "fold",
+            { arg = 0 },
+            { arg = 1 },
+            { bind = "result" },
+            false,
+            list("if", { ref = "result" }, true, list("if", { arg = 2 }, true, false))
+          ),
+          list("raise", "some requires an array")
+        )
+      };
+      every = {
+        arity = 3;
+        body = list(
+          "if",
+          list("isArray", { arg = 0 }),
+          list(
+            "fold",
+            { arg = 0 },
+            { arg = 1 },
+            { bind = "result" },
+            true,
+            list("if", { ref = "result" }, list("if", { arg = 2 }, true, false), false)
+          ),
+          list("raise", "every requires an array")
+        )
+      };
+      one = {
+        arity = 2;
+        body = list(
+          "let",
+          { bind = "found" },
+          list("objects", { arg = 0 }, { arg = 1 }),
+          list(
+            "if",
+            list("eq", list("count", { ref = "found" }), 1),
+            list("at", { ref = "found" }, 0),
+            list("raise", list("concat", "Fact cardinality: ", { arg = 0 }, ".", { arg = 1 }))
+          )
+        )
+      };
+      optional = {
+        arity = 2;
+        body = list(
+          "let",
+          { bind = "found" },
+          list("objects", { arg = 0 }, { arg = 1 }),
+          list(
+            "if",
+            list("eq", list("count", { ref = "found" }), 0),
+            null,
+            list(
+              "if",
+              list("eq", list("count", { ref = "found" }), 1),
+              list("at", { ref = "found" }, 0),
+              list("raise", list("concat", "Fact cardinality: ", { arg = 0 }, ".", { arg = 1 }))
+            )
+          )
+        )
+      };
+      and = {
+        minimumArity = 0;
+        body = {
+          foldArgs = { initial = true; item = "test"; accumulator = "rest"; body = list("if", { term = "test" }, { term = "rest" }, false) }
+        }
+      };
+      or = {
+        minimumArity = 0;
+        body = list(
+          "fold",
+          { arguments = true },
+          { bind = "value" },
+          { bind = "result" },
+          null,
+          list("if", { ref = "result" }, { ref = "result" }, list("if", { ref = "value" }, { ref = "value" }, null))
+        )
+      };
+      objects = {
+        arity = 2;
+        body = list(
+          "let",
+          { bind = "indexed" },
+          list("at", list("at", list("at", $factIndex, "objects"), { arg = 0 }), { arg = 1 }),
+          list("if", { ref = "indexed" }, list("append", { ref = "indexed" }, list("list")), list("list"))
+        )
+      };
+      subjects = {
+        arity = 2;
+        body = list(
+          "let",
+          { bind = "indexed" },
+          list("at", list("at", list("at", $factIndex, "subjects"), { arg = 0 }), { arg = 1 }),
+          list("if", { ref = "indexed" }, list("append", { ref = "indexed" }, list("list")), list("list"))
+        )
+      }
+    }
+  }

@@ -1,0 +1,287 @@
+process-module "temple/surface-process-module/1"
+
+process style.definition:
+  let result = {
+    protocol = "encounter/style-projection/1";
+    identity = "workshop/lightning.css";
+    reason = "Own selectors, contexts and individual declarations as editable values.";
+    target = "workshop/lightning.css";
+    goal = "Generate CSS from rules without a latent stylesheet.";
+    sheet = list("StyleSheet", list(
+      list("StyleRule", ".lightning-stage", list(
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-top", "4px solid var(--teal)"),
+        list("Declaration", "border-radius", "12px"),
+        list("Declaration", "padding", "26px"),
+        list("Declaration", "background", "#fffefa"),
+        list("Declaration", "margin-top", "30px")
+      )),
+      list("StyleRule", ".lightning-desire", list(
+        list("Declaration", "font", "24px/1.4 Georgia,serif"),
+        list("Declaration", "max-width", "900px"),
+        list("Declaration", "margin", "14px 0")
+      )),
+      list("StyleRule", ".lightning-stage h3", list(
+        list("Declaration", "font-size", "20px"),
+        list("Declaration", "margin", "12px 0")
+      )),
+      list("StyleRule", ".lightning-stage details", list(
+        list("Declaration", "margin-top", "18px")
+      )),
+      list("StyleRule", ".lightning-stage summary", list(
+        list("Declaration", "cursor", "pointer"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "font-size", "14px")
+      )),
+      list("StyleRule", ".lightning-paths", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "gap", "10px"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "margin", "18px 0")
+      )),
+      list("StyleRule", ".lightning-paths button", list(
+        list("Declaration", "padding", "10px 14px"),
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".lightning-paths [aria-pressed=true]", list(
+        list("Declaration", "background", "var(--teal)"),
+        list("Declaration", "color", "white")
+      )),
+      list("StyleRule", ".lightning-stage dl", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "gap", "12px"),
+        list("Declaration", "margin", "18px 0")
+      )),
+      list("StyleRule", ".lightning-stage dl>div", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "145px minmax(0,1fr)"),
+        list("Declaration", "gap", "14px")
+      )),
+      list("StyleRule", ".lightning-stage dt", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "font-weight", "650"),
+        list("Declaration", "color", "var(--teal)")
+      )),
+      list("StyleRule", ".lightning-stage dd", list(
+        list("Declaration", "margin", "0"),
+        list("Declaration", "font-size", "14px"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".lightning-facets", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "1fr 1fr"),
+        list("Declaration", "gap", "12px"),
+        list("Declaration", "list-style", "none"),
+        list("Declaration", "padding", "0"),
+        list("Declaration", "margin", "18px 0")
+      )),
+      list("StyleRule", ".lightning-facets li", list(
+        list("Declaration", "padding", "12px"),
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "border-radius", "6px")
+      )),
+      list("StyleRule", ".lightning-facets strong", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".lightning-facets span", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "color", "var(--muted)")
+      )),
+      list("StyleRule", ".lightning-live", list(
+        list("Declaration", "border-left", "3px solid var(--gold)"),
+        list("Declaration", "padding", "8px 0 8px 20px"),
+        list("Declaration", "margin", "22px 0")
+      )),
+      list("StyleRule", ".lightning-live .mono", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".lightning-live>p", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "margin", "8px 0")
+      )),
+      list("StyleRule", ".lightning-challenge", list(
+        list("Declaration", "padding", "12px"),
+        list("Declaration", "background", "#f8e8da"),
+        list("Declaration", "border-left", "3px solid #8b3c27"),
+        list("Declaration", "margin-top", "14px")
+      )),
+      list("StyleRule", "#lightning-review label", list(
+        list("Declaration", "display", "block"),
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "font-weight", "600"),
+        list("Declaration", "margin", "18px 0 8px")
+      )),
+      list("StyleRule", "#lightning-review textarea", list(
+        list("Declaration", "width", "100%"),
+        list("Declaration", "min-height", "85px"),
+        list("Declaration", "padding", "12px"),
+        list("Declaration", "border", "1px solid #899a96"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "color", "var(--ink)"),
+        list("Declaration", "font", "14px/1.6 'Segoe UI',sans-serif")
+      )),
+      list("StyleRule", "#lightning-review button", list(
+        list("Declaration", "padding", "9px 13px"),
+        list("Declaration", "margin", "10px 8px 0 0"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", "#lightning-review-clear", list(
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "color", "var(--ink)")
+      )),
+      list("StyleRule", "#lightning-review-status", list(
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "margin-top", "10px"),
+        list("Declaration", "color", "var(--muted)")
+      )),
+      list("StyleRule", ".lightning-stage dl", list(
+        list("Declaration", "grid-template-columns", "minmax(0,1fr)")
+      )),
+      list("StyleRule", ".lightning-page", list(
+        list("Declaration", "max-width", "1080px")
+      )),
+      list("StyleRule", ".lightning-intro", list(
+        list("Declaration", "font-size", "19px"),
+        list("Declaration", "max-width", "740px"),
+        list("Declaration", "margin", "18px 0")
+      )),
+      list("StyleRule", ".lightning-page #lightning-connection", list(
+        list("Declaration", "margin-top", "14px")
+      )),
+      list("StyleRule", ".lightning-stage dl", list(
+        list("Declaration", "grid-template-columns", "minmax(0,1fr)")
+      )),
+      list("StyleRule", ".lightning-chain", list(
+        list("Declaration", "list-style", "none"),
+        list("Declaration", "padding", "0"),
+        list("Declaration", "margin", "30px 0 0"),
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-direction", "column"),
+        list("Declaration", "gap", "30px")
+      )),
+      list("StyleRule", ".lightning-chain>li", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "40px minmax(0,1fr)"),
+        list("Declaration", "gap", "18px"),
+        list("Declaration", "position", "relative"),
+        list("Declaration", "align-items", "start")
+      )),
+      list("StyleRule", ".lightning-chain>li:not(:last-child)::before", list(
+        list("Declaration", "content", "''"),
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "left", "19px"),
+        list("Declaration", "top", "42px"),
+        list("Declaration", "bottom", "-30px"),
+        list("Declaration", "border-left", "1px solid #a8bfb7")
+      )),
+      list("StyleRule", ".lightning-chain>li:not(:last-child)::after", list(
+        list("Declaration", "content", "'↓'"),
+        list("Declaration", "position", "absolute"),
+        list("Declaration", "left", "13px"),
+        list("Declaration", "bottom", "-24px"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "font-size", "18px"),
+        list("Declaration", "background", "var(--white)"),
+        list("Declaration", "padding", "0 0 4px")
+      )),
+      list("StyleRule", ".lightning-number", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "align-items", "center"),
+        list("Declaration", "justify-content", "center"),
+        list("Declaration", "width", "40px"),
+        list("Declaration", "height", "40px"),
+        list("Declaration", "border-radius", "50%"),
+        list("Declaration", "background", "var(--teal)"),
+        list("Declaration", "color", "white"),
+        list("Declaration", "font", "13px Consolas,monospace"),
+        list("Declaration", "position", "relative"),
+        list("Declaration", "z-index", "1")
+      )),
+      list("StyleRule", ".lightning-step-card", list(
+        list("Declaration", "border", "1px solid var(--line)"),
+        list("Declaration", "border-radius", "9px"),
+        list("Declaration", "padding", "22px"),
+        list("Declaration", "background", "var(--paper)"),
+        list("Declaration", "min-width", "0")
+      )),
+      list("StyleRule", ".lightning-step-card>p:not(.eyebrow)", list(
+        list("Declaration", "font-size", "14px")
+      )),
+      list("StyleRule", ".lightning-step-card .eyebrow", list(
+        list("Declaration", "font-size", "11px")
+      )),
+      list("StyleRule", ".lightning-step-card h3", list(
+        list("Declaration", "font-size", "22px"),
+        list("Declaration", "margin", "8px 0 12px")
+      )),
+      list("StyleRule", ".lightning-step-card summary", list(
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".lightning-question", list(
+        list("Declaration", "background", "transparent"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "border", "0"),
+        list("Declaration", "text-decoration", "underline"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "margin-top", "18px"),
+        list("Declaration", "padding", "0")
+      )),
+      list("StyleRule", ".lightning-return", list(
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "color", "var(--teal)"),
+        list("Declaration", "margin", "24px 0"),
+        list("Declaration", "border-bottom", "1px dashed var(--line)"),
+        list("Declaration", "padding-bottom", "18px")
+      )),
+      list("StyleGroup", "media", "(max-width:600px)", list(
+        list("StyleRule", ".lightning-stage", list(
+          list("Declaration", "padding", "20px 14px")
+        )),
+        list("StyleRule", ".lightning-desire", list(
+          list("Declaration", "font-size", "21px")
+        )),
+        list("StyleRule", ".lightning-stage dl>div", list(
+          list("Declaration", "grid-template-columns", "1fr"),
+          list("Declaration", "gap", "4px")
+        )),
+        list("StyleRule", ".lightning-facets", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        )),
+        list("StyleRule", ".lightning-live", list(
+          list("Declaration", "padding-left", "12px")
+        )),
+        list("StyleRule", ".lightning-chain>li", list(
+          list("Declaration", "grid-template-columns", "30px minmax(0,1fr)"),
+          list("Declaration", "gap", "10px")
+        )),
+        list("StyleRule", ".lightning-number", list(
+          list("Declaration", "width", "30px"),
+          list("Declaration", "height", "30px"),
+          list("Declaration", "font-size", "11px")
+        )),
+        list("StyleRule", ".lightning-chain>li:not(:last-child)::before", list(
+          list("Declaration", "left", "14px"),
+          list("Declaration", "top", "32px")
+        )),
+        list("StyleRule", ".lightning-chain>li:not(:last-child)::after", list(
+          list("Declaration", "left", "8px")
+        )),
+        list("StyleRule", ".lightning-step-card", list(
+          list("Declaration", "padding", "16px 12px")
+        )),
+        list("StyleRule", ".lightning-step-card h3", list(
+          list("Declaration", "font-size", "20px")
+        )),
+        list("StyleRule", ".lightning-stage", list(
+          list("Declaration", "padding-left", "12px"),
+          list("Declaration", "padding-right", "12px")
+        ))
+      ))
+    ))
+  }

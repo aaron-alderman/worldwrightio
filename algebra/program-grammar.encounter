@@ -1,0 +1,580 @@
+process-module "temple/surface-process-module/1"
+
+process value.definition:
+  let result = {
+    protocol = "encounter/projection-grammar/1";
+    rules = {
+      Module = {
+        render = $j.body;
+        validators = {  };
+        data = list();
+        links = { body = { many = true; separator = "\n" } };
+        types = {  }
+      };
+      NameReference = {
+        render = $n.name;
+        validators = { name = { pattern = "^(?!(?:eval|Function)$)[A-Za-z_$][A-Za-z0-9_$]*$" } };
+        data = list("name");
+        links = {  };
+        types = { name = list("string") }
+      };
+      LiteralValue = {
+        render = $q.value;
+        validators = {  };
+        data = list("value");
+        links = {  };
+        types = { value = list("string", "null", "boolean", "number") }
+      };
+      Pattern = {
+        render = list("concat", "new RegExp(", $q.pattern, ",", $q.flags, ")");
+        validators = {  };
+        data = list("pattern", "flags");
+        links = {  };
+        types = { pattern = list("string"); flags = list("string") }
+      };
+      BindGroup = {
+        render = list("concat", $n.kind, " ", $j.declarations, list("if", $n.terminate, ";", ""));
+        validators = { kind = { enum = list("let", "const", "var") } };
+        data = list("kind", "terminate");
+        links = { declarations = { many = true; separator = "," } };
+        types = { kind = list("string"); terminate = list("boolean") }
+      };
+      Binding = {
+        render = list("concat", $c.id, list("if", $c.init, list("concat", " = ", $c.init), ""));
+        validators = {  };
+        data = list();
+        links = { id = { many = false; separator = "," }; init = { many = false; separator = "," } };
+        types = {  }
+      };
+      Invoke = {
+        render = list("concat", $c.callee, list("if", $n.optional, "?.", ""), "(", $j.arguments, ")");
+        validators = {  };
+        data = list("optional");
+        links = { arguments = { many = true; separator = "," }; callee = { many = false; separator = "," } };
+        types = { optional = list("boolean") }
+      };
+      Select = {
+        render = list(
+          "concat",
+          $c.object,
+          list(
+            "if",
+            $n.computed,
+            list("concat", list("if", $n.optional, "?.", ""), "[", $c.property, "]"),
+            list("concat", list("if", $n.optional, "?.", "."), $c.property)
+          )
+        );
+        validators = {  };
+        data = list("computed", "optional");
+        links = { object = { many = false; separator = "," }; property = { many = false; separator = "," } };
+        types = { computed = list("boolean"); optional = list("boolean") }
+      };
+      Procedure = {
+        render = list(
+          "concat",
+          "(",
+          list("if", $n.async, "async ", ""),
+          "(",
+          $j.params,
+          ") => ",
+          list("if", $n.block, $c.body, list("concat", "(", $c.body, ")")),
+          ")"
+        );
+        validators = {  };
+        data = list("generator", "async", "block");
+        links = {
+          body = { many = false; separator = "\n" };
+          id = { many = false; separator = "," };
+          params = { many = true; separator = "," }
+        };
+        types = { generator = list("boolean"); async = list("boolean"); block = list("boolean") }
+      };
+      Record = {
+        render = list("concat", "({", $j.properties, "})");
+        validators = {  };
+        data = list();
+        links = { properties = { many = true; separator = "," } };
+        types = {  }
+      };
+      DestructureRecord = {
+        render = list("concat", "{", $j.properties, "}");
+        validators = {  };
+        data = list();
+        links = { properties = { many = true; separator = "," } };
+        types = {  }
+      };
+      Field = {
+        render = list("concat", list("if", $n.computed, list("concat", "[", $c.key, "]"), $c.key), ":", $c.value);
+        validators = {  };
+        data = list("computed", "kind");
+        links = { key = { many = false; separator = "," }; value = { many = false; separator = "," } };
+        types = { computed = list("boolean"); kind = list("string") }
+      };
+      Method = {
+        render = list(
+          "concat",
+          list("if", list("eq", $n.kind, "init"), "", list("concat", $n.kind, " ")),
+          list("if", $n.async, "async ", ""),
+          list("if", $n.generator, "*", ""),
+          list("if", $n.computed, list("concat", "[", $c.key, "]"), $c.key),
+          "(",
+          $j.params,
+          ")",
+          $c.body
+        );
+        validators = {  };
+        data = list("kind", "computed", "async", "generator");
+        links = {
+          body = { many = false; separator = "\n" };
+          key = { many = false; separator = "," };
+          params = { many = true; separator = "," }
+        };
+        types = { kind = list("string"); computed = list("boolean"); async = list("boolean"); generator = list("boolean") }
+      };
+      List = {
+        render = list("concat", "[", $j.elements, "]");
+        validators = {  };
+        data = list();
+        links = { elements = { many = true; separator = "," } };
+        types = {  }
+      };
+      DestructureList = {
+        render = list("concat", "[", $j.elements, "]");
+        validators = {  };
+        data = list();
+        links = { elements = { many = true; separator = "," } };
+        types = {  }
+      };
+      Recover = {
+        render = list(
+          "concat",
+          "try ",
+          $c.block,
+          list("if", $c.handler, list("concat", " ", $c.handler), ""),
+          list("if", $c.finalizer, list("concat", " finally ", $c.finalizer), "")
+        );
+        validators = {  };
+        data = list();
+        links = {
+          block = { many = false; separator = "," };
+          finalizer = { many = false; separator = "," };
+          handler = { many = false; separator = "," }
+        };
+        types = {  }
+      };
+      Sequence = {
+        render = list("concat", "{\n", $j.body, "\n}");
+        validators = {  };
+        data = list();
+        links = { body = { many = true; separator = "\n" } };
+        types = {  }
+      };
+      Branch = {
+        render = list(
+          "concat",
+          "if (",
+          $c.test,
+          ") {",
+          $c.consequent,
+          "}",
+          list("if", $c.alternate, list("concat", " else {", $c.alternate, "}"), "")
+        );
+        validators = {  };
+        data = list();
+        links = {
+          alternate = { many = false; separator = "," };
+          consequent = { many = false; separator = "," };
+          test = { many = false; separator = "," }
+        };
+        types = {  }
+      };
+      Do = {
+        render = list("concat", $c.expression, ";");
+        validators = {  };
+        data = list();
+        links = { expression = { many = false; separator = "," } };
+        types = {  }
+      };
+      Set = {
+        render = list("concat", "(", $c.left, " ", $n.operator, " ", $c.right, ")");
+        validators = { operator = { enum = list("=", "+=", "-=", "*=", "/=", "??=", "||=", "&&=", "%=") } };
+        data = list("operator");
+        links = { left = { many = false; separator = "," }; right = { many = false; separator = "," } };
+        types = { operator = list("string") }
+      };
+      Expand = {
+        render = list("concat", "...", $c.argument);
+        validators = {  };
+        data = list();
+        links = { argument = { many = false; separator = "," } };
+        types = {  }
+      };
+      Rest = {
+        render = list("concat", "...", $c.argument);
+        validators = {  };
+        data = list();
+        links = { argument = { many = false; separator = "," } };
+        types = {  }
+      };
+      Construct = {
+        render = list("concat", "new (", $c.callee, ")(", $j.arguments, ")");
+        validators = {  };
+        data = list();
+        links = { arguments = { many = true; separator = "," }; callee = { many = false; separator = "," } };
+        types = {  }
+      };
+      Catch = {
+        render = list("concat", "catch", list("if", $c.param, list("concat", " (", $c.param, ")"), ""), " ", $c.body);
+        validators = {  };
+        data = list();
+        links = { body = { many = false; separator = "\n" }; param = { many = false; separator = "," } };
+        types = {  }
+      };
+      Define = {
+        render = list(
+          "concat",
+          list("if", $n.async, "async ", ""),
+          "function",
+          list("if", $n.generator, "*", ""),
+          " ",
+          $c.id,
+          "(",
+          $j.params,
+          ") ",
+          $c.body
+        );
+        validators = {  };
+        data = list("generator", "async");
+        links = {
+          body = { many = false; separator = "\n" };
+          id = { many = false; separator = "," };
+          params = { many = true; separator = "," }
+        };
+        types = { generator = list("boolean"); async = list("boolean") }
+      };
+      FunctionValue = {
+        render = list(
+          "concat",
+          "(",
+          list("if", $n.async, "async ", ""),
+          "function",
+          list("if", $n.generator, "*", ""),
+          list("if", $c.id, list("concat", " ", $c.id), ""),
+          "(",
+          $j.params,
+          ") ",
+          $c.body,
+          ")"
+        );
+        validators = {  };
+        types = {  };
+        data = list();
+        links = {  }
+      };
+      Default = {
+        render = list("concat", $c.left, " = ", $c.right);
+        validators = {  };
+        data = list();
+        links = { left = { many = false; separator = "," }; right = { many = false; separator = "," } };
+        types = {  }
+      };
+      Yield = {
+        render = list("concat", "return", list("if", $c.argument, list("concat", " ", $c.argument), ""), ";");
+        validators = {  };
+        data = list();
+        links = { argument = { many = false; separator = "," } };
+        types = {  }
+      };
+      ComposeText = {
+        render = list("concat", "(\"\"", list("if", $j.parts, list("concat", " + ", $j.parts), ""), ")");
+        validators = {  };
+        data = list();
+        links = { parts = { many = true; separator = " + " } };
+        types = {  }
+      };
+      Calculate = {
+        render = list("concat", "(", $c.left, " ", $n.operator, " ", $c.right, ")");
+        validators = {
+          operator = {
+            enum = list(
+              "===",
+              "!==",
+              "==",
+              "!=",
+              "+",
+              "-",
+              "*",
+              "/",
+              "%",
+              "**",
+              "<",
+              "<=",
+              ">",
+              ">=",
+              "in",
+              "instanceof",
+              "|",
+              "&",
+              "^",
+              "<<",
+              ">>",
+              ">>>",
+              "&&",
+              "||",
+              "??"
+            )
+          }
+        };
+        data = list("operator");
+        links = { left = { many = false; separator = "," }; right = { many = false; separator = "," } };
+        types = { operator = list("string") }
+      };
+      ShortCircuit = {
+        render = list("concat", "(", $c.left, " ", $n.operator, " ", $c.right, ")");
+        validators = {
+          operator = {
+            enum = list(
+              "===",
+              "!==",
+              "==",
+              "!=",
+              "+",
+              "-",
+              "*",
+              "/",
+              "%",
+              "**",
+              "<",
+              "<=",
+              ">",
+              ">=",
+              "in",
+              "instanceof",
+              "|",
+              "&",
+              "^",
+              "<<",
+              ">>",
+              ">>>",
+              "&&",
+              "||",
+              "??"
+            )
+          }
+        };
+        data = list("operator");
+        links = { left = { many = false; separator = "," }; right = { many = false; separator = "," } };
+        types = { operator = list("string") }
+      };
+      Choose = {
+        render = list("concat", "(", $c.test, " ? ", $c.consequent, " : ", $c.alternate, ")");
+        validators = {  };
+        data = list();
+        links = {
+          alternate = { many = false; separator = "," };
+          consequent = { many = false; separator = "," };
+          test = { many = false; separator = "," }
+        };
+        types = {  }
+      };
+      Unary = {
+        render = list("concat", "(", $n.operator, " ", $c.argument, ")");
+        validators = { operator = { enum = list("!", "~", "-", "+", "typeof", "void", "delete") } };
+        data = list("operator", "prefix");
+        links = { argument = { many = false; separator = "," } };
+        types = { operator = list("string"); prefix = list("boolean") }
+      };
+      OptionalResult = {
+        render = list("concat", "(", $c.expression, ")");
+        validators = {  };
+        data = list();
+        links = { expression = { many = false; separator = "," } };
+        types = {  }
+      };
+      Await = {
+        render = list("concat", "(await ", $c.argument, ")");
+        validators = {  };
+        data = list();
+        links = { argument = { many = false; separator = "," } };
+        types = {  }
+      };
+      Publish = {
+        render = list(
+          "if",
+          $c.declaration,
+          list("concat", "export ", $c.declaration),
+          list(
+            "concat",
+            "export {",
+            $j.specifiers,
+            "}",
+            list("if", $c.source, list("concat", " from ", $c.source), ""),
+            ";"
+          )
+        );
+        validators = {  };
+        data = list();
+        links = {
+          attributes = { many = true; separator = " + " };
+          declaration = { many = false; separator = "," };
+          source = { many = false; separator = "," };
+          specifiers = { many = true; separator = "," }
+        };
+        types = {  }
+      };
+      Each = {
+        render = list("concat", "for ", list("if", $n.await, "await ", ""), "(", $c.left, " of ", $c.right, ") ", $c.body);
+        validators = {  };
+        data = list("await");
+        links = {
+          body = { many = false; separator = "\n" };
+          left = { many = false; separator = "," };
+          right = { many = false; separator = "," }
+        };
+        types = { await = list("boolean") }
+      };
+      Refuse = {
+        render = list("concat", "throw ", $c.argument, ";");
+        validators = {  };
+        data = list();
+        links = { argument = { many = false; separator = "," } };
+        types = {  }
+      };
+      Load = {
+        render = list("concat", "import(", $c.source, ")");
+        validators = {  };
+        data = list();
+        links = { source = { many = false; separator = "," } };
+        types = {  }
+      };
+      ModuleContext = {
+        render = list("concat", $c.meta, ".", $c.property);
+        validators = {  };
+        data = list();
+        links = { meta = { many = false; separator = "," }; property = { many = false; separator = "," } };
+        types = {  }
+      };
+      Update = {
+        render = list(
+          "concat",
+          "(",
+          list("if", $n.prefix, $n.operator, ""),
+          $c.argument,
+          list("if", $n.prefix, "", $n.operator),
+          ")"
+        );
+        validators = { operator = { enum = list("++", "--") } };
+        data = list("operator", "prefix");
+        links = { argument = { many = false; separator = "," } };
+        types = { operator = list("string"); prefix = list("boolean") }
+      };
+      RepeatWhile = {
+        render = list("concat", "while (", $c.test, ") ", $c.body);
+        validators = {  };
+        data = list();
+        links = { body = { many = false; separator = "\n" }; test = { many = false; separator = "," } };
+        types = {  }
+      };
+      Continue = {
+        render = "continue;";
+        validators = {  };
+        data = list();
+        links = { label = { many = false; separator = "," } };
+        types = {  }
+      };
+      ExportBinding = {
+        render = list("concat", $c.local, " as ", $c.exported);
+        validators = {  };
+        data = list();
+        links = { exported = { many = false; separator = "," }; local = { many = false; separator = "," } };
+        types = {  }
+      };
+      ImportBinding = {
+        render = list("concat", $c.imported, " as ", $c.local);
+        validators = {  };
+        data = list();
+        links = { imported = { many = false; separator = "," }; local = { many = false; separator = "," } };
+        types = {  }
+      };
+      Use = {
+        render = list(
+          "concat",
+          "import ",
+          list("if", $j.specifiers, list("concat", "{", $j.specifiers, "} from "), ""),
+          $c.source,
+          ";"
+        );
+        validators = {  };
+        data = list();
+        links = {
+          attributes = { many = true; separator = " + " };
+          source = { many = false; separator = "," };
+          specifiers = { many = true; separator = "," }
+        };
+        types = {  }
+      };
+      MarkupText = { render = $q.value; validators = {  }; data = list("value"); links = {  }; types = { value = list("string") } };
+      MarkupOpen = {
+        render = list(
+          "concat",
+          "(\"<\" + ",
+          $q.tag,
+          list("if", $j.attributes, list("concat", " + ", $j.attributes), ""),
+          " + ",
+          list("if", $n.closed, "\"/>\"", "\">\""),
+          ")"
+        );
+        validators = { tag = { pattern = "^[A-Za-z][A-Za-z0-9:_-]*$" } };
+        data = list("tag", "closed");
+        links = { attributes = { many = true; separator = " + " } };
+        types = { tag = list("string"); closed = list("boolean") }
+      };
+      MarkupClose = {
+        render = list("concat", "(\"</\" + ", $q.tag, " + \">\")");
+        validators = { tag = { pattern = "^[A-Za-z][A-Za-z0-9:_-]*$" } };
+        data = list("tag");
+        links = {  };
+        types = { tag = list("string") }
+      };
+      MarkupAttribute = {
+        render = list(
+          "concat",
+          "(\" \" + ",
+          $q.name,
+          list("if", $c.value, list("concat", " + \"=\" + ", $q.quote, " + ", $c.value, " + ", $q.quote), ""),
+          ")"
+        );
+        validators = { name = { pattern = "^[^\\s<>=\"'/]+$" } };
+        data = list("name", "quote");
+        links = { value = { many = false; separator = "," } };
+        types = { name = list("string"); quote = list("string") }
+      };
+      InlineStyle = {
+        render = list("concat", "(", $j.declarations, ")");
+        data = list();
+        links = { declarations = { many = true; separator = " + " } };
+        types = {  };
+        validators = {  }
+      };
+      InlineDeclaration = {
+        render = list("concat", "(", $q.property, " + \":\" + ", $c.value, " + \";\")");
+        data = list("property");
+        links = { value = { many = false; separator = "," } };
+        types = { property = list("string") };
+        validators = { property = { pattern = "^(?:--)?[A-Za-z_-][A-Za-z0-9_-]*$" } }
+      };
+      RepeatFor = {
+        render = list("concat", "for (", $c.init, ";", $c.test, ";", $c.update, ") ", $c.body);
+        validators = {  };
+        data = list();
+        links = {
+          init = { many = false; separator = "," };
+          test = { many = false; separator = "," };
+          update = { many = false; separator = "," };
+          body = { many = false; separator = "\n" }
+        };
+        types = {  }
+      }
+    };
+    sourceProtocol = "encounter/program-projection/1"
+  }

@@ -1,0 +1,260 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "ownership.compare": [
+      {
+        "port": "record.fromEntries",
+        "args": {
+          "entries": [
+            "fold",
+            "$expected",
+            "item",
+            "pairs",
+            [],
+            [
+              "append",
+              "$pairs",
+              [
+                "list",
+                [
+                  "list",
+                  "$item.path",
+                  "$item"
+                ]
+              ]
+            ]
+          ]
+        },
+        "into": "expectedIndex"
+      },
+      {
+        "port": "record.fromEntries",
+        "args": {
+          "entries": [
+            "fold",
+            "$actual",
+            "item",
+            "pairs",
+            [],
+            [
+              "append",
+              "$pairs",
+              [
+                "list",
+                [
+                  "list",
+                  "$item.path",
+                  "$item"
+                ]
+              ]
+            ]
+          ]
+        },
+        "into": "actualIndex"
+      },
+      {
+        "each": "$actual",
+        "as": "observed",
+        "steps": [
+          {
+            "port": "record.get",
+            "args": {
+              "record": "$expectedIndex",
+              "key": "$observed.path"
+            },
+            "into": "owner"
+          },
+          {
+            "assert": [
+              "if",
+              [
+                "if",
+                [
+                  "eq",
+                  "$owner",
+                  null
+                ],
+                false,
+                true
+              ],
+              true,
+              [
+                "raise",
+                [
+                  "concat",
+                  "$prefix",
+                  "-UNOWNED: ",
+                  "$observed.path",
+                  " has no declared owner. Add an admitted definition and rebuild; do not author generated files."
+                ]
+              ]
+            ],
+            "message": "Ownership check failed"
+          },
+          {
+            "assert": [
+              "if",
+              [
+                "eq",
+                "$observed.sha256",
+                "$owner.sha256"
+              ],
+              true,
+              [
+                "raise",
+                [
+                  "concat",
+                  "$prefix",
+                  "-DRIFT: ",
+                  "$observed.path",
+                  " differs from its receipt. Owner: ",
+                  [
+                    "if",
+                    [
+                      "eq",
+                      "$prefix",
+                      "GUARD-OUTPUT"
+                    ],
+                    "$owner.owner",
+                    "$owner.path"
+                  ],
+                  ". Correct that owner and rebuild. If output itself was edited, review it and use --repair-output to quarantine it; it will never be imported as source."
+                ]
+              ]
+            ],
+            "message": "Ownership check failed"
+          }
+        ]
+      },
+      {
+        "each": "$expected",
+        "as": "item",
+        "steps": [
+          {
+            "port": "record.get",
+            "args": {
+              "record": "$actualIndex",
+              "key": "$item.path"
+            },
+            "into": "observed"
+          },
+          {
+            "assert": [
+              "if",
+              [
+                "if",
+                [
+                  "eq",
+                  "$observed",
+                  null
+                ],
+                false,
+                true
+              ],
+              true,
+              [
+                "raise",
+                [
+                  "concat",
+                  "$prefix",
+                  "-MISSING: ",
+                  "$item.path",
+                  " is absent. Restore its source and rebuild."
+                ]
+              ]
+            ],
+            "message": "Ownership check failed"
+          }
+        ]
+      }
+    ],
+    "ownership.check": [
+      {
+        "assert": [
+          "if",
+          [
+            "eq",
+            "$receipt.protocol",
+            "encounter/build-receipt/1"
+          ],
+          true,
+          [
+            "raise",
+            "GUARD-RECEIPT: Missing or unsupported build receipt. Rebuild from the owned definitions."
+          ]
+        ],
+        "message": "Ownership check failed"
+      },
+      {
+        "let": "expected",
+        "value": "$receipt.artifacts"
+      },
+      {
+        "let": "actual",
+        "value": "$actualOutputs"
+      },
+      {
+        "let": "prefix",
+        "value": "GUARD-OUTPUT"
+      },
+      {
+        "call": "ownership.compare"
+      },
+      {
+        "when": "$checkInputs",
+        "then": [
+          {
+            "let": "expected",
+            "value": "$receipt.inputs"
+          },
+          {
+            "let": "actual",
+            "value": "$actualInputs"
+          },
+          {
+            "let": "prefix",
+            "value": "GUARD-SOURCE"
+          },
+          {
+            "call": "ownership.compare"
+          }
+        ]
+      },
+      {
+        "each": "$manifest.assets",
+        "as": "asset",
+        "steps": [
+          {
+            "port": "text.matches",
+            "args": {
+              "value": "$asset.owner",
+              "pattern": "^source/assets/.+\\.(?:svg|png|jpg|jpeg|webp|ico|txt)$"
+            },
+            "into": "allowed"
+          },
+          {
+            "assert": [
+              "if",
+              "$allowed",
+              true,
+              [
+                "raise",
+                [
+                  "concat",
+                  "GUARD-ASSET: ",
+                  "$asset.owner",
+                  " cannot bypass projection as an executable asset. Use a typed page/style/programme owner."
+                ]
+              ]
+            ],
+            "message": "Ownership check failed"
+          }
+        ]
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ]
+  }
+}

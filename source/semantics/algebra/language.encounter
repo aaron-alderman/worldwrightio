@@ -1,0 +1,122 @@
+process-module "temple/surface-process-module/1"
+
+process language.refuse:
+  let state = { module = $state.module; subject = $state.subject; seen = $state.seen; facts = $state.facts; origins = $state.origins; ok = false; diagnostic = { code = $code; phase = "language"; boundary = "encounter-rel/1"; summary = $summary; correction = $correction; span = $span; check = "node --test bootstrap/language.test.cjs" } }
+
+process language.line:
+  port text.trim { value = $raw } → line
+  port text.matches { value = $line; pattern = "^(?:#.*)?$" } → skip
+  let matched = false
+  port text.matches { value = $line; pattern = "^module (\"(?:\\\\[\"\\\\/bfnrt]|\\\\u[0-9a-fA-F]{4}|[^\"\\\\\\x00-\\x1f])*\")$" } → moduleMatch
+  when and($state.ok, not($skip), not($matched), $moduleMatch):
+    let matched = true
+    port text.split { value = $line; pattern = "^module (\"(?:\\\\[\"\\\\/bfnrt]|\\\\u[0-9a-fA-F]{4}|[^\"\\\\\\x00-\\x1f])*\")$" } → tokens
+    call language.module
+  port text.matches { value = $line; pattern = "^entity (\"(?:\\\\[\"\\\\/bfnrt]|\\\\u[0-9a-fA-F]{4}|[^\"\\\\\\x00-\\x1f])*\") \\{$" } → entityMatch
+  when and($state.ok, not($skip), not($matched), $entityMatch):
+    let matched = true
+    port text.split { value = $line; pattern = "^entity (\"(?:\\\\[\"\\\\/bfnrt]|\\\\u[0-9a-fA-F]{4}|[^\"\\\\\\x00-\\x1f])*\") \\{$" } → tokens
+    call language.entity
+  port text.matches { value = $line; pattern = "^(!?)([A-Za-z_][A-Za-z0-9_.-]*) (\"(?:\\\\[\"\\\\/bfnrt]|\\\\u[0-9a-fA-F]{4}|[^\"\\\\\\x00-\\x1f])*\")$" } → propertyMatch
+  when and($state.ok, not($skip), not($matched), $propertyMatch):
+    let matched = true
+    port text.split { value = $line; pattern = "^(!?)([A-Za-z_][A-Za-z0-9_.-]*) (\"(?:\\\\[\"\\\\/bfnrt]|\\\\u[0-9a-fA-F]{4}|[^\"\\\\\\x00-\\x1f])*\")$" } → tokens
+    call language.property
+  when and($state.ok, not($skip), not($matched), eq($line, "}")):
+    let matched = true
+    when not($state.subject):
+      let code = "TEMPLE-M004"
+      let summary = "Closing brace has no entity."
+      let correction = "Open an entity block before closing it."
+      call language.refuse
+    when $state.ok:
+      let state = { module = $state.module; subject = null; seen = $state.seen; facts = $state.facts; origins = $state.origins; ok = $state.ok; diagnostic = $state.diagnostic }
+  when and($state.ok, not($skip), not($matched)):
+    let code = "TEMPLE-M001"
+    let summary = "Unrecognized language statement."
+    let correction = "Use module \"name\", entity \"id\" {, predicate \"JSON string\", or }. Put each statement on its own line."
+    call language.refuse
+
+process language.module:
+  when not(and(eq($state.module, null), eq($state.subject, null), eq(count($state.seen), 0))):
+    let code = "TEMPLE-M002"
+    let summary = "Module declaration must be first and unique."
+    let correction = "Declare exactly one module before any entity."
+    call language.refuse
+  when $state.ok:
+    port json.parse { text = at($tokens, 1) } → decoded
+    when not(not(eq($decoded, ""))):
+      let code = "TEMPLE-M002"
+      let summary = "Module name is empty."
+      let correction = "Supply a nonempty module identity."
+      call language.refuse
+    when $state.ok:
+      let state = { module = $decoded; subject = $state.subject; seen = $state.seen; facts = $state.facts; origins = $state.origins; ok = $state.ok; diagnostic = $state.diagnostic }
+
+process language.entity:
+  when not(and(not(eq($state.module, null)), eq($state.subject, null))):
+    let code = "TEMPLE-M003"
+    let summary = "Entity requires a module and cannot be nested."
+    let correction = "Declare a module, then close the previous entity before opening another."
+    call language.refuse
+  when $state.ok:
+    port json.parse { text = at($tokens, 1) } → decoded
+    when not(and(not(eq($decoded, "")), not(includes($state.seen, $decoded)))):
+      let code = "TEMPLE-M005"
+      let summary = "Entity identity is empty or declared twice."
+      let correction = "Give each entity one nonempty identity in this module."
+      call language.refuse
+    when $state.ok:
+      let state = { module = $state.module; subject = $decoded; seen = append($state.seen, list($decoded)); facts = $state.facts; origins = $state.origins; ok = $state.ok; diagnostic = $state.diagnostic }
+
+process language.property:
+  when not(not(eq($state.subject, null))):
+    let code = "TEMPLE-M006"
+    let summary = "Relation appears outside an entity."
+    let correction = "Place the relation inside its owning entity block."
+    call language.refuse
+  when $state.ok:
+    port json.parse { text = at($tokens, 3) } → decoded
+    let fact = { s = $state.subject; p = at($tokens, 2); o = $decoded; pol = if(eq(at($tokens, 1), "!"), "is-not", "is") }
+    when not(not(some($state.facts, "previous", eq($previous, $fact)))):
+      let code = "TEMPLE-M007"
+      let summary = "Duplicate fact in this module."
+      let correction = "Keep a single authored assertion; repeated distinct values remain ordered."
+      call language.refuse
+    when $state.ok:
+      let state = { module = $state.module; subject = $state.subject; seen = $state.seen; facts = append($state.facts, list($fact)); origins = append($state.origins, list({ index = count($state.facts); module = $state.module; span = $span })); ok = $state.ok; diagnostic = $state.diagnostic }
+
+process language.compile:
+  port text.split { value = $text; pattern = "\\r?\\n" } → lines
+  let state = { module = null; subject = null; seen = list(); facts = list(); origins = list(); ok = true; diagnostic = null }
+  fold range(count($lines)) as number; state starts $state:
+    let raw = at($lines, add($number, -1))
+    port text.split { value = $raw; pattern = "\\S" } → indent
+    let span = { file = $file; line = $number; column = add(count(at($indent, 0)), 1); endColumn = add(count($raw), 1) }
+    fold list(null) as frame; ignored starts null:
+      when $state.ok:
+        call language.line
+      yield $state → state
+    yield $state → state
+  let span = { file = $file; line = count($lines); column = 1; endColumn = 1 }
+  when $state.ok:
+    when not(not(eq($state.module, null))):
+      let code = "TEMPLE-M002"
+      let summary = "Missing module declaration."
+      let correction = "Start with module \"name\"."
+      call language.refuse
+    when $state.ok:
+      when not(eq($state.subject, null)):
+        let code = "TEMPLE-M008"
+        let summary = "Entity block is not closed."
+        let correction = "Add the closing brace before the end of the source."
+        call language.refuse
+  let rel = ""
+  when $state.ok:
+    fold $state.facts as fact; rel starts "":
+      port json.stringify { value = $fact.s } → s
+      port json.stringify { value = $fact.p } → predicate
+      port json.stringify { value = $fact.o } → o
+      port json.stringify { value = $fact.pol } → polarity
+      yield concat($rel, "(", $s, ", ", $predicate, ", ", $o, ", ", $polarity, ")\n") → rel
+  let result = { ok = $state.ok; module = $state.module; facts = if($state.ok, $state.facts, list()); origins = if($state.ok, $state.origins, list()); rel = if($state.ok, $rel, ""); diagnostic = $state.diagnostic }

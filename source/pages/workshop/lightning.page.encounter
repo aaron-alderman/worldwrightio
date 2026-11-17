@@ -1,0 +1,239 @@
+process-module "temple/surface-process-module/1"
+
+process page.definition:
+  let result = {
+    protocol = "encounter/composition-projection/1";
+    identity = "workshop/lightning.html";
+    reason = "Compose the page from named presentation roles and explicit control/source identities.";
+    target = "workshop/lightning.html";
+    goal = "Project HTML without importing a handwritten page.";
+    identify = true;
+    page = list("Document", {
+      children = list(
+        "\n",
+        list("DocumentElement", {
+          attributes = { lang = "en" };
+          children = list(
+            list("Metadata", {
+              children = list(
+                list("MetaValue", { attributes = { charset = "utf-8" } }),
+                list("MetaValue", { attributes = { name = "viewport"; content = "width=device-width,initial-scale=1" } }),
+                list("PageTitle", { children = list("The lightning method · Encounter") }),
+                list("Resource", { attributes = { rel = "icon"; href = "data:," } }),
+                list("Resource", { attributes = { rel = "stylesheet"; href = "./style.css" } }),
+                list("Resource", { attributes = { rel = "stylesheet"; href = "./lightning.css" } }),
+                list("Runtime", { attributes = { type = "module"; src = "./lightning-page.js" } })
+              )
+            }),
+            list("PageBody", {
+              children = list(
+                list("Link", {
+                  attributes = { class = "skip"; href = "#lightning" };
+                  children = list("Skip to the lightning path")
+                }),
+                list("Main", {
+                  attributes = { class = "lightning-page" };
+                  children = list(
+                    list("Header", {
+                      children = list(
+                        list("Paragraph", {
+                          attributes = { class = "tour-back" };
+                          children = list(
+                            list("Link", {
+                              attributes = { href = "./index.html"; "data-example-link" = null };
+                              children = list("← Back to the live example")
+                            }),
+                            list("Link", {
+                              attributes = { href = "./infographics.html" };
+                              children = list("View & print the infographics ↗")
+                            })
+                          )
+                        }),
+                        list("Paragraph", { attributes = { class = "eyebrow" }; children = list("Encounter / The lightning method") }),
+                        list("HeadingOne", { children = list("From a reason", list("LineBreak"), "to a real change.") }),
+                        list("Paragraph", {
+                          attributes = { class = "lightning-intro" };
+                          children = list(
+                            "Begin with what matters. Follow the necessary links down to the result. Return to the first broken link when something does not hold."
+                          )
+                        }),
+                        list("Paragraph", {
+                          attributes = { id = "lightning-connection"; class = "panel-note"; role = "status" };
+                          children = list("Connecting to the example…")
+                        })
+                      )
+                    }),
+                    list("Section", {
+                      attributes = { id = "lightning"; class = "lightning-stage"; "aria-labelledby" = "lightning-heading" };
+                      children = list(
+                        list("Paragraph", {
+                          attributes = { class = "eyebrow" };
+                          children = list("Purpose / a lightning path you can question")
+                        }),
+                        list("HeadingTwo", {
+                          attributes = { id = "lightning-heading" };
+                          children = list("Why this change? Follow the missing links.")
+                        }),
+                        list("Group", { attributes = { id = "lightning-purpose" } }),
+                        list("Paragraph", {
+                          attributes = { class = "panel-note" };
+                          children = list(
+                            "A proposed route from a human desire to a checked change. Read from top to bottom. Open a link to inspect its obligation, evidence and reason to reopen it."
+                          )
+                        }),
+                        list("Group", {
+                          attributes = {
+                            id = "lightning-paths";
+                            class = "lightning-paths";
+                            role = "group";
+                            "aria-label" = "Choose the scope of the change"
+                          }
+                        }),
+                        list("NamedValues", { attributes = { id = "lightning-vector" } }),
+                        "\n",
+                        list("Disclosure", {
+                          children = list(
+                            list("DisclosureLabel", { children = list("Open the whole: eight questions before choosing a route") }),
+                            list("Paragraph", {
+                              attributes = { class = "panel-note" };
+                              children = list(
+                                "These facets overlap. They are perspectives for finding obligations, not a proof that this decomposition is exhaustive or MECE."
+                              )
+                            }),
+                            list("Collection", { attributes = { id = "lightning-facets"; class = "lightning-facets" } })
+                          )
+                        }),
+                        "\n",
+                        list("OrderedCollection", {
+                          attributes = { id = "lightning-chain"; class = "lightning-chain"; "aria-label" = "Lightning method links" }
+                        }),
+                        list("Paragraph", {
+                          attributes = { class = "lightning-return" };
+                          children = list(
+                            "↶ A failed link sends us back to the earliest affected choice. Upstream work can still be useful."
+                          )
+                        }),
+                        "\n",
+                        list("Group", {
+                          attributes = { class = "lightning-live" };
+                          children = list(
+                            list("Paragraph", { attributes = { class = "eyebrow" }; children = list("Values behind this example") }),
+                            list("NamedValues", { attributes = { id = "lightning-observations" } }),
+                            list("Group", { attributes = { id = "lightning-route" } }),
+                            list("Paragraph", { attributes = { id = "lightning-next" } }),
+                            list("Link", { attributes = { id = "lightning-go"; class = "text-link" } }),
+                            list("Paragraph", { attributes = { id = "lightning-receipt"; role = "status" } }),
+                            list("Link", {
+                              attributes = { href = "./index.html#return-path"; "data-example-link" = null; class = "text-link" };
+                              children = list("Follow the actual source diff ↓")
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Disclosure", {
+                          children = list(
+                            list("DisclosureLabel", { children = list("Turn the same questions onto this page") }),
+                            list("Paragraph", {
+                              attributes = { class = "panel-note" };
+                              children = list(
+                                "This page is another projection with a purpose, source, omissions and consequences. It cannot certify its own usefulness."
+                              )
+                            }),
+                            list("NamedValues", { attributes = { id = "lightning-page-vector" } }),
+                            list("Paragraph", {
+                              attributes = { class = "panel-note" };
+                              children = list(
+                                "The process algebra evaluates the explanation records and projects the page, styling and browser programmes from owned definitions. The native browser supplies the actual display and event mechanisms."
+                              )
+                            }),
+                            list("Paragraph", {
+                              attributes = { class = "panel-note" };
+                              children = list(
+                                list("Link", {
+                                  attributes = { href = "./sources/algebra/lab.process.json"; target = "_blank"; rel = "noopener" };
+                                  children = list("Semantic owner: lab.lightning ↗")
+                                }),
+                                " · ",
+                                list("Link", {
+                                  attributes = { href = "./lightning.js"; target = "_blank"; rel = "noopener" };
+                                  children = list("Presentation adapter ↗")
+                                }),
+                                " · ",
+                                list("Link", {
+                                  attributes = { href = "./lightning.css"; target = "_blank"; rel = "noopener" };
+                                  children = list("Visual hierarchy ↗")
+                                }),
+                                " · ",
+                                list("Link", {
+                                  attributes = { href = "./sources/lightning-method.txt"; target = "_blank"; rel = "noopener" };
+                                  children = list("Method source and adaptation ↗")
+                                })
+                              )
+                            }),
+                            list("Paragraph", {
+                              attributes = { class = "panel-note" };
+                              children = list(
+                                "The choices and stage order are authored, not inferred. Their own revision history and a general self-editing page projection remain unimplemented."
+                              )
+                            })
+                          )
+                        }),
+                        "\n",
+                        list("Disclosure", {
+                          children = list(
+                            list("DisclosureLabel", { children = list("Challenge a link in this explanation") }),
+                            list("Form", {
+                              attributes = { id = "lightning-review" };
+                              children = list(
+                                list("Label", {
+                                  attributes = { id = "lightning-review-label"; for = "lightning-review-text" };
+                                  children = list("What should reopen this link?")
+                                }),
+                                list("TextArea", {
+                                  attributes = {
+                                    id = "lightning-review-text";
+                                    maxlength = "2000";
+                                    "aria-describedby" = "lightning-review-help"
+                                  }
+                                }),
+                                list("Paragraph", {
+                                  attributes = { id = "lightning-review-help"; class = "panel-note" };
+                                  children = list(
+                                    "Select a link above, then name a missing obligation, mistaken purpose or confusing explanation. Notes remain in this tab and reset on reload."
+                                  )
+                                }),
+                                list("Action", { attributes = { type = "submit" }; children = list("Mark this link for review") }),
+                                list("Action", {
+                                  attributes = { type = "button"; id = "lightning-review-clear" };
+                                  children = list("Clear this note")
+                                }),
+                                list("Paragraph", { attributes = { id = "lightning-review-status"; role = "status"; "aria-live" = "polite" } })
+                              )
+                            })
+                          )
+                        }),
+                        list("Paragraph", { attributes = { id = "lightning-basis"; class = "panel-note" } })
+                      )
+                    }),
+                    list("Footer", {
+                      children = list(
+                        list("Paragraph", {
+                          children = list(
+                            "This walkthrough explains one bounded example. The ordering, purpose and decomposition remain open to correction."
+                          )
+                        }),
+                        list("Link", {
+                          attributes = { href = "./index.html"; "data-example-link" = null };
+                          children = list("Return to the live example ↗")
+                        })
+                      )
+                    })
+                  )
+                })
+              )
+            })
+          )
+        })
+      )
+    })
+  }

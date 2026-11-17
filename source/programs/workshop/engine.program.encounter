@@ -1,0 +1,44 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "workshop/engine.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "workshop/engine.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list(
+      "engine.program-parts/group-01.encounter",
+      "engine.program-parts/group-02.encounter",
+      "engine.program-parts/group-03.encounter"
+    );
+    tree = list("Module", {
+        body = list(
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", { imported = list("NameReference", { name = "invoke" }); local = list("NameReference", { name = "invoke" }) })
+              );
+              source = list("LiteralValue", { value = "./temple-native.js" });
+              attributes = list()
+            }),
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", { imported = list("NameReference", { name = "diff" }); local = list("NameReference", { name = "diff" }) })
+              );
+              source = list("LiteralValue", { value = "./listing.js" });
+              attributes = list()
+            }),
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "createPresenter" });
+                    local = list("NameReference", { name = "createPresenter" })
+                  })
+              );
+              source = list("LiteralValue", { value = "../presentation/host.js" });
+              attributes = list()
+            }),
+          { fragment = "part0001" }
+        )
+      })
+  }

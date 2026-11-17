@@ -1,0 +1,1642 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0003 = list("Sequence", {
+        body = list(
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("NameReference", { name = "id" });
+                  right = list("LiteralValue", { value = "calibration" })
+                });
+              consequent = list("Yield", {
+                  argument = list("ComposeText", {
+                      parts = list(
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "label" });
+                            arguments = list(list("LiteralValue", { value = "THE LENS BENCH / TRY A DIFFERENT AXIS" }))
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "lens-bench" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "svg";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "viewBox";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "0 0 400 340" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "role";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "img" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-label";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "An illustrative axis rotates toward a hidden difference" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "defs"; closed = false; attributes = list() }),
+                        list("MarkupOpen", {
+                            tag = "radialGradient";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "lensLight" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "stop";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "stop-color";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "#78d8ff" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "stop-opacity";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = ".22" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "stop";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "offset";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "1" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "stop-color";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "#78d8ff" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "stop-opacity";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "0" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "radialGradient" }),
+                        list("MarkupClose", { tag = "defs" }),
+                        list("MarkupOpen", {
+                            tag = "circle";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "cx";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "200" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "cy";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "165" })) })
+                                }),
+                              list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "145" })) }) }),
+                              list("MarkupAttribute", {
+                                  name = "fill";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "url(#lensLight)" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "g";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "bench-grid" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "circle";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "cx";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "200" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "cy";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "165" })) })
+                                }),
+                              list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "110" })) }) })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "circle";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "cx";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "200" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "cy";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "165" })) })
+                                }),
+                              list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "70" })) }) })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "path";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "d";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "M40 165h320M200 15v300" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "g" }),
+                        list("MarkupOpen", {
+                            tag = "g";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "lens-axis" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "transform";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "rotate(0 200 165)" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "path";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "d";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "M65 165h270" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "axis-light" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "path";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "d";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "m325 159 10 6-10 6" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "axis-light" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "g" }),
+                        list("MarkupOpen", {
+                            tag = "circle";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "cx";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "200" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "cy";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "165" })) })
+                                }),
+                              list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "5" })) }) }),
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "origin" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "circle";
+                            closed = true;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "cx";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "200" })) })
+                                }),
+                              list("MarkupAttribute", { name = "cy"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "55" })) }) }),
+                              list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "6" })) }) }),
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "difference" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "text";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", { name = "x"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "217" })) }) }),
+                              list("MarkupAttribute", { name = "y"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "53" })) }) }),
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "bench-text" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "HIDDEN DIFFERENCE" }),
+                        list("MarkupClose", { tag = "text" }),
+                        list("MarkupClose", { tag = "svg" }),
+                        list("MarkupOpen", {
+                            tag = "label";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "range-label" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "for";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "lens-angle" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "Turn the measuring line " }),
+                        list("MarkupOpen", {
+                            tag = "output";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "angle-value" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "0°" }),
+                        list("MarkupClose", { tag = "output" }),
+                        list("MarkupClose", { tag = "label" }),
+                        list("MarkupOpen", {
+                            tag = "input";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "lens-angle" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "type";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "range" })) })
+                                }),
+                              list("MarkupAttribute", { name = "min"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "0" })) }) }),
+                              list("MarkupAttribute", {
+                                  name = "max";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "90" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "value";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "0" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "step";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "1" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "bench-reading" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "DIFFERENCE THIS VIEW SHOWS" }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupOpen", {
+                            tag = "output";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "lens-value" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "0.00" }),
+                        list("MarkupClose", { tag = "output" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "lens-caption" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "readout" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-live";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "polite" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "At this angle, two different points share one reading." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "demo-note" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "A UNIT-VECTOR ILLUSTRATION · NOT THE FOUR-MODE EXPERIMENT" }),
+                        list("MarkupClose", { tag = "p" })
+                      )
+                    })
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("NameReference", { name = "id" });
+                  right = list("LiteralValue", { value = "listening" })
+                });
+              consequent = list("Yield", {
+                  argument = list("ComposeText", {
+                      parts = list(
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "label" });
+                            arguments = list(list("LiteralValue", { value = "A SMALL CONVERSATION / CHOOSE A RESPONSE" }))
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "conversation" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "speaker-orbit" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupOpen", { tag = "i"; closed = false; attributes = list() }),
+                        list("MarkupClose", { tag = "i" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "conversation-line" })) })
+                                })
+                            )
+                          }),
+                        list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("NameReference", { name = "conversation" });
+                            property = list("NameReference", { name = "opening" })
+                          }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "reply-options" })) })
+                                })
+                            )
+                          }),
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("Select", {
+                                            computed = false;
+                                            optional = false;
+                                            object = list("NameReference", { name = "conversation" });
+                                            property = list("NameReference", { name = "replies" })
+                                          });
+                                        property = list("NameReference", { name = "map" })
+                                      });
+                                    arguments = list(
+                                      list("Procedure", {
+                                          generator = false;
+                                          async = false;
+                                          block = false;
+                                          id = null;
+                                          params = list(list("NameReference", { name = "r" }), list("NameReference", { name = "i" }));
+                                          body = list("ComposeText", {
+                                              parts = list(
+                                                list("MarkupOpen", {
+                                                    tag = "button";
+                                                    closed = false;
+                                                    attributes = list(
+                                                      list("MarkupAttribute", {
+                                                          name = "data-encounter";
+                                                          quote = "\"";
+                                                          value = list("ComposeText", { parts = list({ fragment = "part0004" }) })
+                                                        }),
+                                                      list("MarkupAttribute", { name = "data-reply"; quote = "\""; value = list("ComposeText", { parts = list({ fragment = "part0005" }) }) }),
+                                                      list("MarkupAttribute", { name = "aria-pressed"; quote = "\""; value = list("ComposeText", { parts = list({ fragment = "part0006" }) }) })
+                                                    )
+                                                  }),
+                                                list("Select", {
+                                                    computed = false;
+                                                    optional = false;
+                                                    object = list("NameReference", { name = "r" });
+                                                    property = list("NameReference", { name = "label" })
+                                                  }),
+                                                list("MarkupOpen", {
+                                                    tag = "span";
+                                                    closed = false;
+                                                    attributes = list(
+                                                      list("MarkupAttribute", { name = "aria-hidden"; quote = "\""; value = list("ComposeText", { parts = list({ fragment = "part0007" }) }) })
+                                                    )
+                                                  }),
+                                                list("MarkupText", { value = "↳" }),
+                                                list("MarkupClose", { tag = "span" }),
+                                                list("MarkupClose", { tag = "button" })
+                                              )
+                                            })
+                                        })
+                                    )
+                                  });
+                                property = list("NameReference", { name = "join" })
+                              });
+                            arguments = list(list("LiteralValue", { value = "" }))
+                          }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "conversation-answer" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-live";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "polite" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "encounter-hint" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "Try a response. You can take the conversation another way." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "demo-note" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "FICTIONAL DIALOGUE · NO SCORE · NO ANSWER SAVED" }),
+                        list("MarkupClose", { tag = "p" })
+                      )
+                    })
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("NameReference", { name = "id" });
+                  right = list("LiteralValue", { value = "permission" })
+                });
+              consequent = list("Yield", {
+                  argument = list("ComposeText", {
+                      parts = list(
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "label" });
+                            arguments = list(list("LiteralValue", { value = "THREE DOORS / AN ORDINARY DECISION" }))
+                          }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "decision-premise" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "A capable assistant has drafted a message that would change someone’s plans." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "decision-doors" })) })
+                                })
+                            )
+                          }),
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("List", {
+                                            elements = list(
+                                              list("List", {
+                                                  elements = list(
+                                                    list("LiteralValue", { value = "can" }),
+                                                    list("LiteralValue", { value = "I can" }),
+                                                    list("LiteralValue", { value = "The message is ready." })
+                                                  )
+                                                }),
+                                              list("List", {
+                                                  elements = list(
+                                                    list("LiteralValue", { value = "may" }),
+                                                    list("LiteralValue", { value = "May I?" }),
+                                                    list("LiteralValue", { value = "Who gets to authorize it?" })
+                                                  )
+                                                }),
+                                              list("List", {
+                                                  elements = list(
+                                                    list("LiteralValue", { value = "should" }),
+                                                    list("LiteralValue", { value = "Should I?" }),
+                                                    list("LiteralValue", { value = "What does the situation call for?" })
+                                                  )
+                                                })
+                                            )
+                                          });
+                                        property = list("NameReference", { name = "map" })
+                                      });
+                                    arguments = list(
+                                      list("Procedure", {
+                                          generator = false;
+                                          async = false;
+                                          block = false;
+                                          id = null;
+                                          params = list(
+                                            list("DestructureList", {
+                                                elements = list(
+                                                  list("NameReference", { name = "key" }),
+                                                  list("NameReference", { name = "title" }),
+                                                  list("NameReference", { name = "sub" })
+                                                )
+                                              }),
+                                            list("NameReference", { name = "i" })
+                                          );
+                                          body = list("ComposeText", {
+                                              parts = list(
+                                                list("MarkupOpen", {
+                                                    tag = "button";
+                                                    closed = false;
+                                                    attributes = list(
+                                                      list("MarkupAttribute", { name = "class"; quote = "\""; value = list("ComposeText", { parts = list({ fragment = "part0008" }) }) }),
+                                                      list("MarkupAttribute", {
+                                                          name = "data-encounter";
+                                                          quote = "\"";
+                                                          value = list("ComposeText", { parts = list({ fragment = "part0009" }) })
+                                                        }),
+                                                      list("MarkupAttribute", { name = "data-door"; quote = "\""; value = list("ComposeText", { parts = list({ fragment = "part0010" }) }) }),
+                                                      list("MarkupAttribute", { name = "aria-pressed"; quote = "\""; value = list("ComposeText", { parts = list({ fragment = "part0011" }) }) })
+                                                    )
+                                                  }),
+                                                list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                                                list("MarkupText", { value = "0" }),
+                                                list("Calculate", { operator = "+"; left = list("NameReference", { name = "i" }); right = list("LiteralValue", { value = 1 }) }),
+                                                list("MarkupClose", { tag = "span" }),
+                                                list("MarkupOpen", { tag = "strong"; closed = false; attributes = list() }),
+                                                list("NameReference", { name = "title" }),
+                                                list("MarkupClose", { tag = "strong" }),
+                                                list("MarkupOpen", { tag = "small"; closed = false; attributes = list() }),
+                                                list("NameReference", { name = "sub" }),
+                                                list("MarkupClose", { tag = "small" }),
+                                                list("MarkupClose", { tag = "button" })
+                                              )
+                                            })
+                                        })
+                                    )
+                                  });
+                                property = list("NameReference", { name = "join" })
+                              });
+                            arguments = list(list("LiteralValue", { value = "" }))
+                          }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "door-answer" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "door-answer" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-live";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "polite" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "Open a door. Each answers a different question." }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "demo-note" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "A FICTIONAL DECISION · THESE DOORS SEND NOTHING" }),
+                        list("MarkupClose", { tag = "p" })
+                      )
+                    })
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("ShortCircuit", {
+                  operator = "||";
+                  left = list("Calculate", {
+                      operator = "===";
+                      left = list("NameReference", { name = "id" });
+                      right = list("LiteralValue", { value = "water" })
+                    });
+                  right = list("Calculate", {
+                      operator = "===";
+                      left = list("NameReference", { name = "id" });
+                      right = list("LiteralValue", { value = "care" })
+                    })
+                });
+              consequent = list("Yield", {
+                  argument = list("ComposeText", {
+                      parts = list(
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "label" });
+                            arguments = list(
+                              list("Choose", {
+                                  test = list("Calculate", {
+                                      operator = "===";
+                                      left = list("NameReference", { name = "id" });
+                                      right = list("LiteralValue", { value = "water" })
+                                    });
+                                  consequent = list("LiteralValue", { value = "THE WATER’S EDGE / A PLACE TO LINGER" });
+                                  alternate = list("LiteralValue", { value = "A CLEARING / NOTHING TO COMPLETE" })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-landscape" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-quiet";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("NameReference", { name = "id" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-moon" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-hills" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-water" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "i"; closed = false; attributes = list() }),
+                        list("MarkupClose", { tag = "i" }),
+                        list("MarkupOpen", { tag = "i"; closed = false; attributes = list() }),
+                        list("MarkupClose", { tag = "i" }),
+                        list("MarkupOpen", { tag = "i"; closed = false; attributes = list() }),
+                        list("MarkupClose", { tag = "i" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("Choose", {
+                            test = list("Calculate", {
+                                operator = "===";
+                                left = list("NameReference", { name = "id" });
+                                right = list("LiteralValue", { value = "water" })
+                              });
+                            consequent = list("ComposeText", {
+                                parts = list(
+                                  list("MarkupOpen", {
+                                      tag = "svg";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-horse" })) })
+                                          }),
+                                        list("MarkupAttribute", {
+                                            name = "viewBox";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "0 0 180 180" })) })
+                                          }),
+                                        list("MarkupAttribute", {
+                                            name = "aria-hidden";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupOpen", {
+                                      tag = "path";
+                                      closed = true;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "d";
+                                            quote = "\"";
+                                            value = list("ComposeText", {
+                                                parts = list(list("MarkupText", { value = "m45 165 9-64 22-34 1-34 21 28 24-7 24 21 20 29-11 17-30-13-9 57" }))
+                                              })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupOpen", {
+                                      tag = "circle";
+                                      closed = true;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "cx";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "132" })) })
+                                          }),
+                                        list("MarkupAttribute", { name = "cy"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "83" })) }) }),
+                                        list("MarkupAttribute", { name = "r"; quote = "\""; value = list("ComposeText", { parts = list(list("MarkupText", { value = "2" })) }) })
+                                      )
+                                    }),
+                                  list("MarkupClose", { tag = "svg" })
+                                )
+                              });
+                            alternate = list("ComposeText", {
+                                parts = list(
+                                  list("MarkupOpen", {
+                                      tag = "div";
+                                      closed = false;
+                                      attributes = list(
+                                        list("MarkupAttribute", {
+                                            name = "class";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-lantern" })) })
+                                          }),
+                                        list("MarkupAttribute", {
+                                            name = "aria-hidden";
+                                            quote = "\"";
+                                            value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                          })
+                                      )
+                                    }),
+                                  list("MarkupText", { value = "✧" }),
+                                  list("MarkupClose", { tag = "div" })
+                                )
+                              })
+                          }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-words" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-words" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-live";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "polite" })) })
+                                })
+                            )
+                          }),
+                        list("Choose", {
+                            test = list("Calculate", {
+                                operator = "===";
+                                left = list("NameReference", { name = "id" });
+                                right = list("LiteralValue", { value = "water" })
+                              });
+                            consequent = list("LiteralValue", { value = "Even the guide has a reflection." });
+                            alternate = list("LiteralValue", { value = "There is nothing to finish here." })
+                          }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet-button" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-encounter";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "quiet" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-pressed";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "false" })) })
+                                })
+                            )
+                          }),
+                        list("Choose", {
+                            test = list("Calculate", {
+                                operator = "===";
+                                left = list("NameReference", { name = "id" });
+                                right = list("LiteralValue", { value = "water" })
+                              });
+                            consequent = list("LiteralValue", { value = "Look into the water" });
+                            alternate = list("LiteralValue", { value = "Leave a little room" })
+                          }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "art-caption" })) })
+                                })
+                            )
+                          }),
+                        list("Choose", {
+                            test = list("Calculate", {
+                                operator = "===";
+                                left = list("NameReference", { name = "id" });
+                                right = list("LiteralValue", { value = "water" })
+                              });
+                            consequent = list("LiteralValue", { value = "A small fable. No horse was consulted." });
+                            alternate = list("LiteralValue", { value = "Stay as long as you like. The other paths will wait." })
+                          }),
+                        list("MarkupClose", { tag = "p" })
+                      )
+                    })
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("NameReference", { name = "id" });
+                  right = list("LiteralValue", { value = "monster" })
+                });
+              consequent = list("Yield", {
+                  argument = list("ComposeText", {
+                      parts = list(
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "label" });
+                            arguments = list(list("LiteralValue", { value = "THE CABINET / CHANGE THE DETECTOR" }))
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "cabinet" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "specimen" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "E₈³" }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "LEECH" }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "MOONSHINE" }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "specimen-values" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "specimen-values" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "strong"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "≈" }),
+                        list("MarkupClose", { tag = "strong" }),
+                        list("MarkupOpen", { tag = "strong"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "≈" }),
+                        list("MarkupClose", { tag = "strong" }),
+                        list("MarkupOpen", { tag = "strong"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "≈" }),
+                        list("MarkupClose", { tag = "strong" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "cabinet-caption" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-live";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "polite" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "These three mathematical structures look alike in the broad measurement." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "art-controls" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "control" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-encounter";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "cabinet" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-view";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "thermal" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-pressed";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "Broad measurement" }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "control" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-encounter";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "cabinet" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-view";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "currents" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-pressed";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "false" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "Detailed count" }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "cabinet-rays" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "demo-note" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "DECLARED CANDIDATE FAMILY · NOT PHYSICAL IDENTIFICATION" }),
+                        list("MarkupClose", { tag = "p" })
+                      )
+                    })
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("NameReference", { name = "id" });
+                  right = list("LiteralValue", { value = "representation" })
+                });
+              consequent = list("Yield", {
+                  argument = list("ComposeText", {
+                      parts = list(
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "label" });
+                            arguments = list(list("LiteralValue", { value = "AN OBJECT WITH LAYERS / LIFT THE SURFACE" }))
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "map-object" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "map-sheet sheet-back" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "map-sheet sheet-middle" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "map-sheet sheet-front" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "THE MAP" }),
+                        list("MarkupOpen", { tag = "br"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "IS A VIEW." }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "object-controls" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "control" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-encounter";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "layer" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-layer";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "surface" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-pressed";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "What it shows" }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "control" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-encounter";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "layer" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-layer";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "conditions" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-pressed";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "false" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "What it assumes" }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "control" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-encounter";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "layer" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-layer";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "limits" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-pressed";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "false" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "What it cannot prove" }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "layer-notes" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-live";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "polite" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "p"; closed = false; attributes = list() }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "RECORD" }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupText", { value = "A story based on a source." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "layer-conditions" })) })
+                                }),
+                              list("MarkupAttribute", { name = "hidden"; quote = ""; value = null })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "CONDITIONS" }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupText", { value = "Its meaning depends on its definitions, starting assumptions and source." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "layer-limits" })) })
+                                }),
+                              list("MarkupAttribute", { name = "hidden"; quote = ""; value = null })
+                            )
+                          }),
+                        list("MarkupOpen", { tag = "span"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "LIMITS" }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupText", { value = "A written plan for an experiment does not prove that it was carried out." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupClose", { tag = "div" })
+                      )
+                    })
+                });
+              alternate = null
+            }),
+          list("Branch", {
+              test = list("Calculate", {
+                  operator = "===";
+                  left = list("NameReference", { name = "id" });
+                  right = list("LiteralValue", { value = "revision" })
+                });
+              consequent = list("Yield", {
+                  argument = list("ComposeText", {
+                      parts = list(
+                        list("Invoke", {
+                            optional = false;
+                            callee = list("NameReference", { name = "label" });
+                            arguments = list(list("LiteralValue", { value = "THE VISIBLE SEAM / COMPARE TWO READINGS" }))
+                          }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "revision-object" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "seam-before" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "An elegant framework" }),
+                        list("MarkupOpen", { tag = "br"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "for the new question." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "span";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "seam-line" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-hidden";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "true" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupClose", { tag = "span" }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "control" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-encounter";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "revision" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-expanded";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "false" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "aria-controls";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "revision-after" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "Open the correction" }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupOpen", {
+                            tag = "div";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "id";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "revision-after" })) })
+                                }),
+                              list("MarkupAttribute", { name = "hidden"; quote = ""; value = null })
+                            )
+                          }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "seam-after" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "The framework came" }),
+                        list("MarkupOpen", { tag = "br"; closed = false; attributes = list() }),
+                        list("MarkupText", { value = "from another inquiry." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "p";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "art-caption" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "The interpretation was withdrawn. The next inquiry began with the mismatch." }),
+                        list("MarkupClose", { tag = "p" }),
+                        list("MarkupOpen", {
+                            tag = "button";
+                            closed = false;
+                            attributes = list(
+                              list("MarkupAttribute", {
+                                  name = "class";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "source-button" })) })
+                                }),
+                              list("MarkupAttribute", {
+                                  name = "data-source";
+                                  quote = "\"";
+                                  value = list("ComposeText", { parts = list(list("MarkupText", { value = "correction" })) })
+                                })
+                            )
+                          }),
+                        list("MarkupText", { value = "Read the retained correction ↗" }),
+                        list("MarkupClose", { tag = "button" }),
+                        list("MarkupClose", { tag = "div" }),
+                        list("MarkupClose", { tag = "div" })
+                      )
+                    })
+                });
+              alternate = null
+            }),
+          list("Yield", { argument = list("LiteralValue", { value = "" }) })
+        )
+      })
+  }

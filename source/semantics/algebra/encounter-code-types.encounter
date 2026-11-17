@@ -1,0 +1,143 @@
+process-module "temple/surface-process-module/1"
+
+process ec.schema:
+  let ecType = $eventInput.type
+  let ecInterfaces = filter(subjects("isa", "Interface"), "ecI", eq(optional($ecI, "type"), $ecType))
+  assert eq(count($ecInterfaces), 1)
+    otherwise "EC-T001: A type must resolve to exactly one declared interface in this contract profile."
+  let ecInterface = at($ecInterfaces, 0)
+  assert eq(one($ecInterface, "mode"), "closed")
+    otherwise "EC-T002: This experiment requires an explicitly closed interface."
+  let result = { type = $ecType; slots = map(objects($ecInterface, "slot"), "ecS", { id = $ecS; name = one($ecS, "predicate"); kind = one($ecS, "valueType"); cardinality = one($ecS, "cardinality"); expects = or(optional($ecS, "expects"), null); allowed = objects($ecS, "allowed"); storage = or(optional($ecS, "storage"), null); entryType = or(optional($ecS, "entryType"), null); entryField = or(optional($ecS, "entryField"), null); nonempty = eq(optional($ecS, "nonempty"), "true"); pattern = or(optional($ecS, "pattern"), null) }) }
+
+process ec.slot:
+  port kernel.invoke { query = "ec.schema"; input = { type = $eventInput.type } } → ecSchema
+  let ecRequested = $eventInput.name
+  let ecMatches = filter($ecSchema.slots, "ecS", eq($ecS.name, $ecRequested))
+  when eq(count($ecMatches), 0):
+    port text.matches { value = $ecRequested; pattern = "^[A-Za-z_][A-Za-z0-9_-]*$" } → ecBare
+    when $ecBare:
+      fold $ecSchema.slots as ecSlot; ecMatches starts list():
+        port text.split { value = $ecSlot.name; pattern = "\\." } → ecParts
+        yield if(eq(at($ecParts, add(count($ecParts), -1)), $ecRequested), append($ecMatches, list($ecSlot)), $ecMatches) → ecMatches
+  assert not(eq(count($ecMatches), 0))
+    otherwise "EC-T003: Unknown field. Use a field declared by the input/output interface."
+  assert eq(count($ecMatches), 1)
+    otherwise "EC-T004: Ambiguous field. Qualify it with its type participation alias."
+  let result = at($ecMatches, 0)
+
+process ec.scalar:
+  let ecSlot = $eventInput.slot
+  let ecValue = $eventInput.value
+  port value.describe { value = $ecValue } → ecKind
+  assert includes(list("string", "ref"), $ecSlot.kind)
+    otherwise "EC-T005: Unsupported value kind in this experiment; it cannot be treated as assured."
+  assert eq($ecKind.type, "string")
+    otherwise "EC-T006: This field requires text or an explicit reference; no implicit coercion is permitted."
+  when $ecSlot.nonempty:
+    assert not(eq($ecValue, ""))
+      otherwise "EC-T007: Give this field a non-empty value."
+  when $ecSlot.pattern:
+    port text.matches { value = $ecValue; pattern = $ecSlot.pattern } → ecPattern
+    assert $ecPattern
+      otherwise "EC-T008: This value does not satisfy the declared format. Correct the source value."
+  when not(eq(count($ecSlot.allowed), 0)):
+    assert includes($ecSlot.allowed, $ecValue)
+      otherwise "EC-T009: This value is outside the declared allowed choices."
+  when eq($ecSlot.kind, "ref"):
+    port kernel.invoke { query = "ec.referenceType"; input = { id = $ecValue } } → ecTargetType
+    assert eq($ecTargetType, $ecSlot.expects)
+      otherwise "EC-T010: The reference exists but its target does not satisfy the expected type."
+  let result = true
+
+process ec.check:
+  port kernel.invoke { query = "ec.schema"; input = { type = $eventInput.type } } → ecCheckSchema
+  let ecCheckValues = $eventInput.values
+  port value.describe { value = $ecCheckValues } → ecRecordKind
+  assert and($ecRecordKind.plain, not($ecRecordKind.array), $ecRecordKind.dataOnly)
+    otherwise "EC-T011: A typed value must be an own-data record."
+  port record.entries { value = $ecCheckValues } → ecValueEntries
+  assert every($ecValueEntries, "ecEntry", some($ecCheckSchema.slots, "ecS", eq($ecS.name, at($ecEntry, 0))))
+    otherwise "EC-T012: This closed interface contains an undeclared field."
+  each $ecCheckSchema.slots as ecCheckSlot:
+    let ecCheckValue = at($ecCheckValues, $ecCheckSlot.name)
+    port value.describe { value = $ecCheckValue } → ecCheckKind
+    assert includes(list("one", "optional", "many"), $ecCheckSlot.cardinality)
+      otherwise "EC-T013: Unknown slot cardinality; assurance cannot be inferred."
+    assert or(not(eq($ecCheckKind.type, "undefined")), eq($ecCheckSlot.cardinality, "optional"))
+      otherwise "EC-T014: A required field is missing."
+    when not(eq($ecCheckKind.type, "undefined")):
+      when eq($ecCheckSlot.cardinality, "many"):
+        assert $ecCheckKind.array
+          otherwise "EC-T015: This field requires an ordered collection."
+        each $ecCheckValue as ecItem:
+          port kernel.invoke { query = "ec.scalar"; input = { slot = $ecCheckSlot; value = $ecItem } } → _
+      when not(eq($ecCheckSlot.cardinality, "many")):
+        port kernel.invoke { query = "ec.scalar"; input = { slot = $ecCheckSlot; value = $ecCheckValue } } → _
+  let result = true
+
+process ec.referenceType:
+  let ecRef = $eventInput.id
+  let ecViews = filter($codePlan.views, "ecV", eq($ecV.id, $ecRef))
+  let ecMemberships = objects($ecRef, "isa")
+  assert or(eq(count($ecViews), 1), eq(count($ecMemberships), 1))
+    otherwise "EC-T016: A reference must resolve uniquely in the explicit programme/fact scope."
+  assert not(and(eq(count($ecViews), 1), not(eq(count($ecMemberships), 0))))
+    otherwise "EC-T017: A generated view identity collides with an authored fact identity."
+  let result = if(eq(count($ecViews), 1), at(at($ecViews, 0), "type"), at($ecMemberships, 0))
+
+process ec.fact:
+  let ecFactId = $eventInput.id
+  let ecFactType = $eventInput.type
+  port kernel.invoke { query = "ec.referenceType"; input = { id = $ecFactId } } → ecObservedType
+  assert eq($ecObservedType, $ecFactType)
+    otherwise "EC-T010: This reference does not satisfy the required interface."
+  port kernel.invoke { query = "ec.schema"; input = { type = $ecFactType } } → ecFactSchema
+  port record.entries { value = at($factIndex.objects, $ecFactId) } → ecFactFields
+  assert every($ecFactFields, "ecF", or(eq(at($ecF, 0), "isa"), some($ecFactSchema.slots, "ecS", eq($ecS.name, at($ecF, 0)))))
+    otherwise "EC-T018: The authored fact has fields outside its closed type."
+  fold $ecFactSchema.slots as ecFactSlot; ecFactValues starts {}:
+    let ecRawValues = objects($ecFactId, $ecFactSlot.name)
+    assert or(eq($ecFactSlot.cardinality, "many"), or(eq(count($ecRawValues), 1), and(eq($ecFactSlot.cardinality, "optional"), eq(count($ecRawValues), 0))))
+      otherwise "EC-T019: The authored field has the wrong cardinality."
+    when eq($ecFactSlot.storage, "entries"):
+      fold $ecRawValues as ecEntryId; ecDecodedEntries starts list():
+        port kernel.invoke { query = "ec.fact"; input = { id = $ecEntryId; type = $ecFactSlot.entryType } } → ecEntryCarrier
+        yield append($ecDecodedEntries, list(at($ecEntryCarrier.values, $ecFactSlot.entryField))) → ecRawValues
+    let ecNextValue = if(eq($ecFactSlot.cardinality, "many"), $ecRawValues, at($ecRawValues, 0))
+    when or(not(eq(count($ecRawValues), 0)), eq($ecFactSlot.cardinality, "many")):
+      port record.put { record = $ecFactValues; key = $ecFactSlot.name; value = $ecNextValue } → ecFactValues
+    yield $ecFactValues → ecFactValues
+  port kernel.invoke { query = "ec.check"; input = { type = $ecFactType; values = $ecFactValues } } → _
+  let result = { id = $ecFactId; type = $ecFactType; values = $ecFactValues }
+
+process ec.reference:
+  port kernel.invoke { query = "ec.referenceType"; input = { id = $eventInput.id } } → ecRefType
+  assert eq($ecRefType, $eventInput.type)
+    otherwise "EC-T010: The reference has the wrong type."
+  let ecRefViews = filter($codePlan.views, "ecV", eq($ecV.id, $eventInput.id))
+  when eq(count($ecRefViews), 0):
+    port kernel.invoke { query = "ec.fact"; input = $eventInput } → ecRefResult
+  when eq(count($ecRefViews), 1):
+    port kernel.execute { model = $codeModel; entry = at(at($ecRefViews, 0), "entry"); input = {} } → ecRefResult
+  let result = $ecRefResult
+
+process ec.argument:
+  let ecArgType = $eventInput.type
+  let ecArgValue = $eventInput.value
+  port value.describe { value = $ecArgValue } → ecArgKind
+  when eq($ecArgType, "text"):
+    assert eq($ecArgKind.type, "string")
+      otherwise "EC-T020: This argument needs text."
+    let ecArgResult = { id = null; type = "text"; value = $ecArgValue }
+  when not(eq($ecArgType, "text")):
+    when eq($ecArgKind.type, "string"):
+      port kernel.invoke { query = "ec.reference"; input = { id = $ecArgValue; type = $ecArgType } } → ecArgResult
+    when not(eq($ecArgKind.type, "string")):
+      assert and($ecArgKind.plain, not($ecArgKind.array))
+        otherwise "EC-T021: This argument needs a typed value or reference."
+      assert eq(at($ecArgValue, "type"), $ecArgType)
+        otherwise "EC-T022: The supplied value has a different type."
+      port kernel.invoke { query = "ec.check"; input = { type = $ecArgType; values = at($ecArgValue, "values") } } → _
+      let ecArgResult = $ecArgValue
+  let result = $ecArgResult

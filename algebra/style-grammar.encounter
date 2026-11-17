@@ -1,0 +1,65 @@
+process-module "temple/surface-process-module/1"
+
+process value.definition:
+  let result = {
+    protocol = "encounter/projection-grammar/1";
+    rules = {
+      StyleSheet = {
+        render = $j.children;
+        data = list();
+        links = { children = { many = true; separator = "\n" } };
+        validators = {  };
+        types = {  }
+      };
+      Declaration = {
+        render = list("concat", $n.property, ":", $n.value, ";");
+        data = list("property", "value");
+        links = {  };
+        validators = { property = { pattern = "^(?:--)?[A-Za-z_-][A-Za-z0-9_-]*$" } };
+        types = { property = list("string"); value = list("string") }
+      };
+      StyleRule = {
+        render = list("concat", $n.selector, "{", $j.children, "}");
+        data = list("selector");
+        links = { children = { many = true; separator = "" } };
+        validators = {  };
+        types = { selector = list("string") }
+      };
+      StyleGroup = {
+        render = list("concat", "@", $n.name, " ", $n.condition, "{", $j.children, "}");
+        data = list("name", "condition");
+        links = { children = { many = true; separator = "\n" } };
+        validators = {  };
+        types = { name = list("string"); condition = list("string") }
+      };
+      StyleDescriptor = {
+        render = list("concat", "@", $n.name, " ", $n.condition, "{", $j.children, "}");
+        data = list("name", "condition");
+        links = { children = { many = true; separator = "" } };
+        validators = {  };
+        types = { name = list("string"); condition = list("string") }
+      };
+      StyleStatement = {
+        render = list("concat", "@", $n.name, " ", $n.condition, ";");
+        data = list("name", "condition");
+        links = {  };
+        validators = {  };
+        types = { name = list("string"); condition = list("string") }
+      };
+      StyleStream = {
+        render = $j.children;
+        data = list();
+        links = { children = { many = true; separator = "" } };
+        validators = {  };
+        types = {  }
+      };
+      MediaRule = {
+        render = list("concat", "@media", $n.condition, "{", $j.children, "}");
+        data = list("condition");
+        links = { children = { many = true; separator = "" } };
+        validators = {  };
+        types = { condition = list("string") }
+      }
+    };
+    sourceProtocol = "encounter/style-projection/1"
+  }

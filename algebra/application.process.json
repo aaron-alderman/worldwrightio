@@ -1,0 +1,459 @@
+{
+  "protocol": "temple/surface-process-module/1",
+  "queries": {
+    "application.compose": [
+      {
+        "assert": [
+          "eq",
+          "$definition.protocol",
+          "worldwright/application/1"
+        ],
+        "message": "APP-T001: Unsupported application definition."
+      },
+      {
+        "assert": [
+          "includes",
+          "$sceneIds",
+          "$definition.hostScene"
+        ],
+        "message": "APP-T002: The Encounter host must be an existing journey identity."
+      },
+      {
+        "port": "record.fromEntries",
+        "args": {
+          "entries": [
+            "fold",
+            "$definition.routes",
+            "route",
+            "entries",
+            [],
+            [
+              "append",
+              "$entries",
+              [
+                "list",
+                [
+                  "list",
+                  "$route.hash",
+                  {
+                    "scene": "$route.scene",
+                    "view": "$route.view",
+                    "focus": [
+                      "at",
+                      "$route",
+                      "focus"
+                    ]
+                  }
+                ]
+              ]
+            ]
+          ]
+        },
+        "into": "routes"
+      },
+      {
+        "each": "$definition.routes",
+        "as": "route",
+        "steps": [
+          {
+            "assert": [
+              "includes",
+              "$sceneIds",
+              "$route.scene"
+            ],
+            "message": "APP-T003: A view route must preserve a real scene identity."
+          },
+          {
+            "port": "record.get",
+            "args": {
+              "record": "$definition.views",
+              "key": "$route.view"
+            },
+            "into": "view"
+          },
+          {
+            "assert": [
+              "if",
+              [
+                "eq",
+                "$view",
+                null
+              ],
+              false,
+              true
+            ],
+            "message": "APP-T004: A route references a missing view."
+          }
+        ]
+      },
+      {
+        "let": "navigationTree",
+        "value": [
+          "fold",
+          "$definition.navigation",
+          "item",
+          "tree",
+          [],
+          [
+            "append",
+            "$tree",
+            [
+              "list",
+              {
+                "tag": [
+                  "if",
+                  [
+                    "eq",
+                    "$item.kind",
+                    "route"
+                  ],
+                  "a",
+                  "button"
+                ],
+                "attrs": [
+                  "if",
+                  [
+                    "eq",
+                    "$item.kind",
+                    "route"
+                  ],
+                  {
+                    "href": [
+                      "at",
+                      "$item",
+                      "href"
+                    ],
+                    "data-inspect-key": "application"
+                  },
+                  {
+                    "data-action": [
+                      "at",
+                      "$item",
+                      "action"
+                    ],
+                    "data-inspect-key": "application"
+                  }
+                ],
+                "children": [
+                  "list",
+                  "$item.label"
+                ]
+              }
+            ]
+          ]
+        ]
+      },
+      {
+        "let": "result",
+        "value": {
+          "definition": "$definition",
+          "routes": "$routes",
+          "sceneIds": "$sceneIds",
+          "navigationTree": "$navigationTree",
+          "model": {
+            "entry": "application.activate",
+            "queries": "$model.queries"
+          },
+          "interfaces": {
+            "resolve": "application.resolve",
+            "mount": "application.activate",
+            "leave": "application.leave"
+          }
+        }
+      }
+    ],
+    "application.resolve": [
+      {
+        "port": "record.get",
+        "args": {
+          "record": "$data.routes",
+          "key": "$eventInput.hash"
+        },
+        "into": "route"
+      },
+      {
+        "let": "result",
+        "value": [
+          "if",
+          [
+            "eq",
+            "$route",
+            null
+          ],
+          {
+            "scene": [
+              "if",
+              [
+                "includes",
+                "$data.sceneIds",
+                "$eventInput.hash"
+              ],
+              "$eventInput.hash",
+              "home"
+            ],
+            "view": null
+          },
+          "$route"
+        ]
+      }
+    ],
+    "application.activate": [
+      {
+        "call": "application.leave"
+      },
+      {
+        "port": "record.get",
+        "args": {
+          "record": "$data.definition.views",
+          "key": "$eventInput.view"
+        },
+        "into": "view"
+      },
+      {
+        "assert": [
+          "if",
+          [
+            "eq",
+            "$view",
+            null
+          ],
+          false,
+          true
+        ],
+        "message": "APP-V001: Select a declared application view."
+      },
+      {
+        "port": "programme.service",
+        "args": {
+          "definition": "$data.definition.session"
+        },
+        "into": "service"
+      },
+      {
+        "port": "view.open",
+        "args": {
+          "host": "$eventInput.host",
+          "definition": "$view",
+          "service": "$service",
+          "chrome": {
+            "tag": "nav",
+            "attrs": {
+              "aria-label": "Encounter journey",
+              "class": "encounter-journey"
+            },
+            "children": [
+              "fold",
+              "$data.definition.journey",
+              "step",
+              "children",
+              [],
+              [
+                "append",
+                "$children",
+                [
+                  "list",
+                  {
+                    "tag": "a",
+                    "attrs": {
+                      "href": "$step.href",
+                      "data-application-route": "",
+                      "data-inspect-key": "application",
+                      "title": "$step.reason",
+                      "aria-current": [
+                        "if",
+                        [
+                          "eq",
+                          "$step.view",
+                          "$eventInput.view"
+                        ],
+                        "page",
+                        "false"
+                      ]
+                    },
+                    "children": [
+                      "list",
+                      "$step.label"
+                    ]
+                  }
+                ]
+              ]
+            ]
+          }
+        },
+        "into": "scope"
+      },
+      {
+        "each": "$view.modules",
+        "as": "module",
+        "steps": [
+          {
+            "port": "programme.mount",
+            "args": {
+              "scope": "$scope",
+              "definition": "$module"
+            },
+            "into": "_"
+          }
+        ]
+      },
+      {
+        "port": "view.focus",
+        "args": {
+          "scope": "$scope",
+          "identity": [
+            "at",
+            "$eventInput",
+            "focus"
+          ]
+        },
+        "into": "_"
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ],
+    "application.leave": [
+      {
+        "port": "view.close",
+        "args": {},
+        "into": "_"
+      },
+      {
+        "let": "result",
+        "value": true
+      }
+    ],
+    "application.view": [
+      {
+        "call": "application.selection"
+      },
+      {
+        "let": "result",
+        "value": [
+          "fold",
+          "$result",
+          "ref",
+          "html",
+          "",
+          [
+            "concat",
+            "$html",
+            [
+              "at",
+              "$compiled",
+              "$ref"
+            ]
+          ]
+        ]
+      }
+    ],
+    "application.selection": [
+      {
+        "let": "result",
+        "value": [
+          "fold",
+          "$parts",
+          "part",
+          "ids",
+          [
+            "list"
+          ],
+          [
+            "append",
+            "$ids",
+            [
+              "fold",
+              "$document.nodes",
+              "node",
+              "selected",
+              [
+                "list"
+              ],
+              [
+                "append",
+                "$selected",
+                [
+                  "if",
+                  [
+                    "eq",
+                    "$part.select",
+                    "identity"
+                  ],
+                  [
+                    "if",
+                    [
+                      "eq",
+                      [
+                        "at",
+                        [
+                          "at",
+                          "$node",
+                          "meaning"
+                        ],
+                        "identity"
+                      ],
+                      "$part.value"
+                    ],
+                    [
+                      "list",
+                      "$node.id"
+                    ],
+                    [
+                      "list"
+                    ]
+                  ],
+                  [
+                    "if",
+                    [
+                      "eq",
+                      "$node.op",
+                      "Main"
+                    ],
+                    [
+                      "fold",
+                      "$node.links.children",
+                      "child",
+                      "children",
+                      [
+                        "list"
+                      ],
+                      [
+                        "if",
+                        [
+                          "includes",
+                          "$part.exclude",
+                          [
+                            "at",
+                            [
+                              "at",
+                              "$document.nodes",
+                              "$child"
+                            ],
+                            "op"
+                          ]
+                        ],
+                        "$children",
+                        [
+                          "append",
+                          "$children",
+                          [
+                            "list",
+                            "$child"
+                          ]
+                        ]
+                      ]
+                    ],
+                    [
+                      "list"
+                    ]
+                  ]
+                ]
+              ]
+            ]
+          ]
+        ]
+      }
+    ]
+  }
+}

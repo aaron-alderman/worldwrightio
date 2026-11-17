@@ -1,0 +1,98 @@
+{
+  "protocol": "encounter/world-inspection-verification/2",
+  "observedAt": "2026-11-05T17:00:12.302Z",
+  "authority": "same-run-author-verification;not-independent-admission",
+  "sourceBaseline": "278c28e81723d80d972a1c92ce14dda2c943c394",
+  "files": 98,
+  "fragments": 6882,
+  "encounters": 40,
+  "notes": 29,
+  "runtime": {
+    "file": "dist/inspection/manifest.json",
+    "bytes": 1645,
+    "sha256": "67834a12425ddf6f93630648c011f34b996dd48ec24a288d815ea22770b0f89d"
+  },
+  "capture": {
+    "file": "inspection-capture.json",
+    "bytes": 727,
+    "sha256": "84b9e9a507059f16d20789800c14c9dabb7d65ff619ef47ccbebe43594dc7a52"
+  },
+  "semantic": {
+    "file": "dist/inspection/sources/algebra/inspection-document.process.json",
+    "bytes": 27181,
+    "sha256": "775929ce9ea8d650b8906857c96cd61c900af498d1c17159f506cf49168de6df"
+  },
+  "profile": {
+    "file": "inspection-profile.json",
+    "bytes": 1203,
+    "sha256": "1361e07bb7abe77428e676b3f1e576f2971151954b56a105e93d8202838d532c"
+  },
+  "tests": {
+    "file": "inspection-regression-tests.txt",
+    "bytes": 4336,
+    "sha256": "3d4e7c612c440b93b2ee242336751802d35d7f056d89ab61f63ca58f6d848637",
+    "pass": 46,
+    "fail": 0,
+    "command": "node --test inspection.test.cjs expedition.test.mjs expansion.test.mjs workshop.test.mjs reading.test.mjs"
+  },
+  "testSource": {
+    "file": "inspection.test.cjs",
+    "bytes": 9751,
+    "sha256": "736528f2506f6b5fcf10c2a8caac982186f829376b572bdfc245740f94cb4be7"
+  },
+  "originalInspectionAndReflection": {
+    "file": "perth-revival-2027/generated/inspection-experience-preservation-tests.txt",
+    "sha256": "1c2b8cb777b85a0c95da2e07350d99fdbf872cd91efe0e230439f8a189fe65d5",
+    "passed": 53
+  },
+  "preservedSeals": [
+    {
+      "path": "docs/authoring-reconstitution/reference-apps/worldwright-observation-inspection-01",
+      "manifestSha256": "ceda7fb7d31957d38f369d4909f4b156e1925e45957f4cbea2d74f0bc61cc358",
+      "artifacts": 14,
+      "status": "unchanged-and-verified"
+    },
+    {
+      "path": "docs/authoring-reconstitution/slice-01",
+      "manifestSha256": "4b6a9901dc027ba7d951bd9958ae76c009f0acfbceb43c677927f57f420890e5",
+      "artifacts": 11,
+      "status": "unchanged-and-verified"
+    },
+    {
+      "path": "docs/authoring-reconstitution/slice-02",
+      "manifestSha256": "1c51d86ef5529bffe7da8af07aa41defc43f0aae366f85d3ae16d832e82044ad",
+      "artifacts": 15,
+      "status": "unchanged-and-verified"
+    }
+  ],
+  "initialFailure": {
+    "file": "inspection-tests-initial.txt",
+    "bytes": 2763,
+    "sha256": "95b324bcb1c73b4cd393ed2f0256ad2b7138232c3ea9a3a17ce64fa39d6b209b",
+    "passed": 7,
+    "failed": 2,
+    "corrections": [
+      "Respect existing array-valued typed isa observation.",
+      "Capture later Object.assign overrides at their exact source."
+    ]
+  },
+  "example": {
+    "file": "inspection-example.json",
+    "bytes": 3838,
+    "sha256": "2aa5756c0d3ee1ffbbd365a1c87c3d2eea528436ccada8720ecda19f6112a203",
+    "steps": 106903
+  },
+  "browserChecks": [
+    "Original and expansion title display/source agreement",
+    "Pointer and Enter reach same inspection",
+    "Inspecting a passage does not navigate",
+    "Source, parent, inspector and process definition traversal",
+    "Mobile control separated from map control and dialog fits",
+    "After reconciliation, reader title maps to reading-guide.js and fuller paragraph to world.js"
+  ],
+  "limits": [
+    "Source fragments are generated read-only projections, not admitted Worldwright application state.",
+    "DOM observations are attributed host input, not authenticated execution traces.",
+    "Static definition inspection does not prove a branch ran or a scientific result."
+  ]
+}

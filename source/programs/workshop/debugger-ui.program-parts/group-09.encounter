@@ -1,0 +1,29 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0035 = list("NameReference", { name = "i" });
+    part0036 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "i" });
+        property = list("NameReference", { name = "id" })
+      });
+    part0037 = list("Expand", { argument = list("NameReference", { name = "breakpoints" }) });
+    part0038 = list("NameReference", { name = "id" });
+    part0039 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "valid" });
+        property = list("NameReference", { name = "has" })
+      });
+    part0040 = list("NameReference", { name = "id" });
+    part0041 = list("Expand", { argument = list("NameReference", { name = "breakpoints" }) });
+    part0042 = list("NameReference", { name = "message" });
+    part0043 = list("Select", {
+        computed = false;
+        optional = false;
+        object = list("NameReference", { name = "data" });
+        property = list("NameReference", { name = "error" })
+      })
+  }

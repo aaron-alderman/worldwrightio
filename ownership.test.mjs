@@ -1,0 +1,43 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import {createRequire} from 'node:module';
+import {fileURLToPath} from 'node:url';
+const require=createRequire(import.meta.url),root=path.dirname(fileURLToPath(import.meta.url));
+const {verify}=require('./bootstrap/guard.cjs'),{build}=require('./bootstrap/build.cjs');
+
+test('drift gate refuses changed, missing and unowned output; cannot be silently rebuilt away',async()=>{
+ const temp=path.join(root,'.guard-test-'+crypto.randomUUID());fs.mkdirSync(temp);
+ for(const name of ['source','algebra','bootstrap','dist','generated'])fs.cpSync(path.join(root,name),path.join(temp,name),{recursive:true});
+ fs.copyFileSync(path.join(root,'package.json'),path.join(temp,'package.json'));
+ await verify(temp);
+ const file=path.join(temp,'dist/views/reason.html'),original=fs.readFileSync(file,'utf8');
+ fs.writeFileSync(file,original+'\n<!-- hand edit -->');
+ await assert.rejects(verify(temp),/GUARD-OUTPUT-DRIFT.*source\/pages\/workshop\/lightning\.page\.encounter/s);
+ await assert.rejects(build(temp),/GUARD-OUTPUT-DRIFT/);
+ assert.match(fs.readFileSync(file,'utf8'),/hand edit/);
+ fs.writeFileSync(file,original);
+ const stray=path.join(temp,'dist/unowned.js');fs.writeFileSync(stray,'arbitrary()');
+ await assert.rejects(verify(temp),/GUARD-OUTPUT-UNOWNED.*unowned.js/s);fs.unlinkSync(stray);
+ const missing=path.join(temp,'dist/workshop/style.css'),css=fs.readFileSync(missing);fs.unlinkSync(missing);
+ await assert.rejects(verify(temp),/GUARD-OUTPUT-MISSING/);fs.writeFileSync(missing,css);
+ const owner=path.join(temp,'source/styles/workshop/style.style.encounter'),source=fs.readFileSync(owner,'utf8');fs.writeFileSync(owner,source+'\n');
+ await assert.rejects(verify(temp),/GUARD-SOURCE-DRIFT/);fs.writeFileSync(owner,source);
+ const unownedSource=path.join(temp,'source/handwritten.js');fs.writeFileSync(unownedSource,'arbitrary()');
+ await assert.rejects(verify(temp),/GUARD-SOURCE-UNOWNED/);fs.unlinkSync(unownedSource);
+ const manifestFile=path.join(temp,'source/build.json'),manifestText=fs.readFileSync(manifestFile,'utf8'),manifest=JSON.parse(manifestText);
+ const manifestAuthority=path.join(temp,'source/build.encounter'),authorityText=fs.readFileSync(manifestAuthority,'utf8');
+ const executable=path.join(temp,'source/assets/unadmitted.js');fs.writeFileSync(executable,'arbitrary()');
+ manifest.assets.unshift({owner:'source/assets/unadmitted.js',output:'unadmitted.js'});fs.writeFileSync(manifestFile,JSON.stringify(manifest));
+ fs.writeFileSync(manifestAuthority,authorityText.replace('assets = list(','assets = list(\n      { owner = "source/assets/unadmitted.js"; output = "unadmitted.js" },'));
+ await assert.rejects(build(temp),/GUARD-ASSET/);
+ assert.equal(fs.existsSync(path.join(temp,'dist/unadmitted.js')),false);
+ fs.writeFileSync(manifestFile,manifestText);fs.writeFileSync(manifestAuthority,authorityText);fs.unlinkSync(executable);
+ // Recovery is explicit and retains the edited output in history, never source.
+ fs.writeFileSync(file,original+'\n<!-- quarantined edit -->');
+ await build(temp,path.join(temp,'dist'),{repairOutput:true});await verify(temp);
+ assert.doesNotMatch(fs.readFileSync(file,'utf8'),/quarantined edit/);
+ const history=path.join(temp,'.build-history');assert(fs.readdirSync(history).some(dir=>fs.readFileSync(path.join(history,dir,'views/reason.html'),'utf8').includes('quarantined edit')));
+});

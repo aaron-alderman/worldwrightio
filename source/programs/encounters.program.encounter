@@ -1,0 +1,176 @@
+process-module "temple/surface-process-module/1"
+
+process programme.definition:
+  let result = {
+    protocol = "encounter/program-projection/1";
+    identity = "encounters.js";
+    reason = "Preserve the current behaviour while transferring ownership out of generated JavaScript.";
+    target = "encounters.js";
+    goal = "A typed programme projected through the shared algebra grammar.";
+    fragments = list(
+      "encounters.program-parts/group-01.encounter",
+      "encounters.program-parts/group-02.encounter",
+      "encounters.program-parts/group-03.encounter",
+      "encounters.program-parts/group-04.encounter"
+    );
+    tree = list("Module", {
+        body = list(
+          list("Use", {
+              specifiers = list(
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "conversation" });
+                    local = list("NameReference", { name = "conversation" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "calibrationReading" });
+                    local = list("NameReference", { name = "calibrationReading" })
+                  }),
+                list("ImportBinding", {
+                    imported = list("NameReference", { name = "projectionVisibility" });
+                    local = list("NameReference", { name = "projectionVisibility" })
+                  })
+              );
+              source = list("LiteralValue", { value = "./encounter-data.js" });
+              attributes = list()
+            }),
+          list("BindGroup", {
+              kind = "const";
+              terminate = true;
+              declarations = list(
+                list("Binding", {
+                    id = list("NameReference", { name = "label" });
+                    init = list("Procedure", {
+                        generator = false;
+                        async = false;
+                        block = false;
+                        id = null;
+                        params = list(list("NameReference", { name = "text" }));
+                        body = list("ComposeText", {
+                            parts = list(
+                              list("MarkupOpen", {
+                                  tag = "p";
+                                  closed = false;
+                                  attributes = list(
+                                    list("MarkupAttribute", {
+                                        name = "class";
+                                        quote = "\"";
+                                        value = list("ComposeText", { parts = list(list("MarkupText", { value = "encounter-label" })) })
+                                      })
+                                  )
+                                }),
+                              list("NameReference", { name = "text" }),
+                              list("MarkupClose", { tag = "p" })
+                            )
+                          })
+                      })
+                  })
+              )
+            }),
+          { fragment = "part0001" },
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "pressWithin" });
+              params = list(list("NameReference", { name = "button" }), list("NameReference", { name = "selector" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("Do", {
+                        expression = list("Invoke", {
+                            optional = false;
+                            callee = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("Invoke", {
+                                            optional = false;
+                                            callee = list("Select", {
+                                                computed = false;
+                                                optional = false;
+                                                object = list("NameReference", { name = "button" });
+                                                property = list("NameReference", { name = "closest" })
+                                              });
+                                            arguments = list(list("LiteralValue", { value = ".art-panel" }))
+                                          });
+                                        property = list("NameReference", { name = "querySelectorAll" })
+                                      });
+                                    arguments = list(list("NameReference", { name = "selector" }))
+                                  });
+                                property = list("NameReference", { name = "forEach" })
+                              });
+                            arguments = list(
+                              list("Procedure", {
+                                  generator = false;
+                                  async = false;
+                                  block = false;
+                                  id = null;
+                                  params = list(list("NameReference", { name = "b" }));
+                                  body = list("Invoke", {
+                                      optional = false;
+                                      callee = list("Select", {
+                                          computed = false;
+                                          optional = false;
+                                          object = list("NameReference", { name = "b" });
+                                          property = list("NameReference", { name = "setAttribute" })
+                                        });
+                                      arguments = list(
+                                        list("LiteralValue", { value = "aria-pressed" }),
+                                        list("Invoke", {
+                                            optional = false;
+                                            callee = list("NameReference", { name = "String" });
+                                            arguments = list(
+                                              list("Calculate", {
+                                                  operator = "===";
+                                                  left = list("NameReference", { name = "b" });
+                                                  right = list("NameReference", { name = "button" })
+                                                })
+                                            )
+                                          })
+                                      )
+                                    })
+                                })
+                            )
+                          })
+                      })
+                  )
+                })
+            }),
+          { fragment = "part0012" },
+          list("Define", {
+              generator = false;
+              async = false;
+              id = list("NameReference", { name = "currentQuiet" });
+              params = list(list("NameReference", { name = "panel" }));
+              body = list("Sequence", {
+                  body = list(
+                    list("Yield", {
+                        argument = list("Select", {
+                            computed = false;
+                            optional = false;
+                            object = list("Select", {
+                                computed = false;
+                                optional = false;
+                                object = list("Invoke", {
+                                    optional = false;
+                                    callee = list("Select", {
+                                        computed = false;
+                                        optional = false;
+                                        object = list("NameReference", { name = "panel" });
+                                        property = list("NameReference", { name = "querySelector" })
+                                      });
+                                    arguments = list(list("LiteralValue", { value = "[data-quiet]" }))
+                                  });
+                                property = list("NameReference", { name = "dataset" })
+                              });
+                            property = list("NameReference", { name = "quiet" })
+                          })
+                      })
+                  )
+                })
+            })
+        )
+      })
+  }

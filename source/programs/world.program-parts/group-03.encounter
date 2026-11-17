@@ -1,0 +1,16 @@
+process-module "temple/surface-process-module/1"
+
+process programme.fragments:
+  let result = {
+    part0005 = list("Do", { expression = { fragment = "part0006" } });
+    part0006 = list("Invoke", {
+        optional = false;
+        callee = list("Select", {
+            computed = false;
+            optional = false;
+            object = list("NameReference", { name = "Object" });
+            property = list("NameReference", { name = "assign" })
+          });
+        arguments = list(list("NameReference", { name = "scenes" }), { fragment = "part0007" })
+      })
+  }

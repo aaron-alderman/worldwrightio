@@ -1,0 +1,82 @@
+process-module "temple/surface-process-module/1"
+
+process lab.snapshot:
+  port kernel.invoke { query = "ec.run"; input = { candidate = $eventInput.candidate } } → labProjections
+  fold $labProjections as labP; labRendered starts list():
+    let input = $labP.output.tree
+    call html.serialize
+    yield append($labRendered, list({ projection = $labP; html = $result })) → labRendered
+  call lab.lightning
+  let labLightning = $result
+  let result = { rendered = $labRendered; lightning = $labLightning }
+
+process lab.edit:
+  assert includes(list("title", "web-label"), $eventInput.kind)
+    otherwise "LAB-E001: Choose a story-title or web-label edit."
+  port kernel.invoke { query = "ec.run"; input = { candidate = $eventInput.candidate } } → labCurrent
+  let labMatches = filter($labCurrent, "labP", eq($labP.output.type, if(eq($eventInput.kind, "title"), "Page", "WebLink")))
+  assert eq(count($labMatches), 1)
+    otherwise "LAB-E002: The edit needs one current, derived projection. Reopen the example."
+  port kernel.invoke { query = "ec.patch"; input = { candidate = $eventInput.candidate; projection = at($labMatches, 0); field = if(eq($eventInput.kind, "title"), "P.title", "N.label"); value = $eventInput.value } } → labPatched
+  let result = $labPatched
+
+process lab.debugPlan:
+  assert includes(list("navigation", "web", "row", "edit-title", "edit-label"), $eventInput.program)
+    otherwise "DEBUG-P001: Choose one of the named inspection processes."
+  let debugCandidate = $eventInput.candidate
+  when eq($eventInput.program, "navigation"):
+    let debugView = at(filter($debugCandidate.plan.views, "v", eq($v.id, "experiment.nav.story")), 0)
+    let result = { model = $debugCandidate.model; entry = $debugView.entry; eventInput = {}; bindings = { factIndex = $debugCandidate.factIndex; codePlan = $debugCandidate.plan; codeModel = $debugCandidate.model }; profile = $debugCandidate.inputs.profile; source = { file = "source/experiment/story.encounter"; line = $debugView.node.line }; admissionModel = $model }
+  when includes(list("web", "row"), $eventInput.program):
+    port kernel.invoke { query = "ec.run"; input = { candidate = $debugCandidate } } → debugProjections
+    let debugProjection = at(filter($debugProjections, "p", eq($p.output.type, if(eq($eventInput.program, "web"), "WebLink", "MainframeRow"))), 0)
+    let debugRepresentation = at(filter($debugCandidate.plan.representations, "r", eq($r.entry, $debugProjection.execution.entry)), 0)
+    let result = { model = $debugCandidate.model; entry = $debugProjection.execution.entry; eventInput = $debugProjection.execution.input; bindings = { factIndex = $debugCandidate.factIndex; codePlan = $debugCandidate.plan; codeModel = $debugCandidate.model }; profile = $debugCandidate.inputs.profile; source = { file = "source/experiment/story.encounter"; line = $debugRepresentation.node.line }; admissionModel = $model }
+  when includes(list("edit-title", "edit-label"), $eventInput.program):
+    port kernel.invoke { query = "ec.run"; input = { candidate = $debugCandidate } } → debugProjections
+    let debugProjection = at(filter($debugProjections, "p", eq($p.output.type, if(eq($eventInput.program, "edit-title"), "Page", "WebLink"))), 0)
+    let result = { model = $model; entry = "ec.patch"; eventInput = { candidate = $debugCandidate; projection = $debugProjection; field = if(eq($eventInput.program, "edit-title"), "P.title", "N.label"); value = $eventInput.value }; bindings = { factIndex = $debugCandidate.factIndex; codePlan = $debugCandidate.plan; codeModel = $debugCandidate.model }; profile = $debugCandidate.inputs.profile; source = { file = "algebra/encounter-code-runtime.process.json"; query = "ec.patch" }; admissionModel = $model }
+
+process lab.debugFresh:
+  let dfName = concat("__encounterDebug", $eventInput.index)
+  port text.indexOf { value = $eventInput.text; search = $dfName } → dfFound
+  when eq($dfFound, -1):
+    let result = $dfName
+  when not(eq($dfFound, -1)):
+    port kernel.invoke { query = "lab.debugFresh"; input = { text = $eventInput.text; index = add($eventInput.index, 1) } } → result
+
+process lab.debugInstrument:
+  port json.stringify { value = { model = $eventInput.model; bindings = $eventInput.bindings } } → diText
+  port kernel.invoke { query = "lab.debugFresh"; input = { text = $diText; index = 0 } } → diSlot
+  port kernel.invoke { query = "lab.debugVisit"; input = { steps = at($eventInput.model.queries, $eventInput.entry); entry = $eventInput.entry; path = list(); depth = 0; slot = $diSlot; profile = $eventInput.profile } } → diVisited
+  port record.put { record = $eventInput.model.queries; key = $eventInput.entry; value = $diVisited.program } → diQueries
+  port record.put { record = $eventInput.model; key = "queries"; value = $diQueries } → diModel
+  let result = { model = $diModel; instructions = $diVisited.instructions; slot = $diSlot }
+
+process lab.debugVisit:
+  port record.entries { value = $eventInput.profile.statements } → diSchemas
+  fold range(count($eventInput.steps)) as diOrdinal; diState starts { program = list(); instructions = list() }:
+    let diStep = at($eventInput.steps, add($diOrdinal, -1))
+    let diPath = append($eventInput.path, list(add($diOrdinal, -1)))
+    port text.join { values = $diPath; separator = "/" } → diPathText
+    let diId = concat($eventInput.entry, "/", $diPathText)
+    port record.entries { value = $diStep } → diStepEntries
+    let diKinds = filter($diSchemas, "diS", some($diStepEntries, "diE", eq(at($diE, 0), at($diS, 0))))
+    assert eq(count($diKinds), 1)
+      otherwise "DEBUG-G001: A statement must match exactly one kind in the declared kernel profile."
+    let diKind = at(at($diKinds, 0), 0)
+    let diFields = at(at($eventInput.profile.statements, $diKind), "programmes")
+    fold $diFields as diField; diChildren starts { step = $diStep; instructions = list() }:
+      port kernel.invoke { query = "lab.debugVisit"; input = { steps = at($diStep, $diField); entry = $eventInput.entry; path = append($diPath, list($diField)); depth = add($eventInput.depth, 1); slot = $eventInput.slot; profile = $eventInput.profile } } → diChild
+      port record.put { record = $diChildren.step; key = $diField; value = $diChild.program } → diWrapped
+      let diChildState = { step = $diWrapped; instructions = append($diChildren.instructions, $diChild.instructions) }
+      yield $diChildState → diChildren
+    let diNext = { program = append($diState.program, list({ port = "debug.before"; args = { id = $diId }; into = $eventInput.slot }, $diChildren.step, { port = "debug.after"; args = { id = $diId }; into = $eventInput.slot })); instructions = append($diState.instructions, append(list({ id = $diId; path = $diPath; depth = $eventInput.depth; kind = $diKind; step = $diStep }), $diChildren.instructions)) }
+    yield $diNext → diVisited
+  let result = $diVisited
+
+process lab.lightning:
+  let lightningWeb = at(filter($labRendered, "p", eq($p.projection.output.type, "WebLink")), 0)
+  let lightningPage = at(filter($labRendered, "p", eq($p.projection.output.type, "Page")), 0)
+  let lightningRow = at(filter($labRendered, "p", eq($p.projection.output.type, "MainframeRow")), 0)
+  let result = { basis = "Authored explanatory plan, adapted from Aaron’s requests and Claimipedia’s lightning method. It is not an automatically discovered plan or a proof of minimality."; desire = "Help people find and recognise this story while keeping the meaning, choice of context and consequences inspectable."; owner = "Aaron supplies the purpose. This proposed decomposition was authored by the assistant and remains open to correction."; facets = list({ name = "Purpose"; question = "Help a reader recognise and find this story." }, { name = "Boundary"; question = "Local web wording or shared story title?" }, { name = "Components"; question = "Story, typed role, contextual overlay, representation and source owner." }, { name = "Relations"; question = "Reads from, overlays, represents and edits through." }, { name = "Behaviour"; question = "Resolve, check, render, patch and regenerate." }, { name = "Projections"; question = "Web link, row, story page and this explanation." }, { name = "Evidence"; question = "Live values, source diffs, checked routes and remaining human questions." }, { name = "Change"; question = "Retain identity and expose what changed, why and what should reopen." }); stages = list({ id = "strike"; name = "Strike"; question = "What are we trying to make possible?"; body = "A reader should recognise and find this story. A clearer menu label is one proposed way to help."; obligation = "Name a useful outcome for a person before choosing a representation."; breaks = "If readers need something else, revise the desire before polishing the label."; evidence = "Proposed purpose, adapted from the discussion. Reader understanding has not been tested."; source = "index.html#source-story" }, { id = "bound"; name = "Bound"; question = "Which change do we mean?"; body = "Choose between a label local to the web menu and a title shared by the story page and row."; obligation = "State what may change and what must be preserved."; breaks = "A local label request must not silently become a shared title edit."; evidence = "Two existing edit destinations; choosing between them remains a human decision."; source = "sources/source/experiment/story.encounter" }, { id = "differentiate"; name = "Differentiate"; question = "What has to be distinguished?"; body = "TheStory is the subject. NavigationItem gives it a role. WebMainMenu adds a context. WebLink gives that result a representation."; obligation = "Keep identity, role, context and representation distinct; retain the Story and NavigationItem contracts."; breaks = "Treating the visible HTML as the source loses these distinctions."; evidence = "Named objects and closed contracts in the supplied fixture."; source = "sources/source/experiment/contracts.rel" }, { id = "relate"; name = "Relate"; question = "What depends on what?"; body = "The base N.label reads S.Title. A web literal can overlay N.label. A declared edit route identifies the owner."; obligation = "Every dependency crossing this boundary needs a named mapping and edit destination."; breaks = "An overlay with no declared local edit route cannot inherit an edit route by accident."; evidence = "Inspect the current edit destinations below; no universal inverse is claimed."; source = "sources/algebra/encounter-code-runtime.process.json" }, { id = "project"; name = "Project"; question = "How does the same meaning meet the reader?"; body = "The admitted process resolves a WebLink or MainframeRow and the serializer emits HTML. The rendering is downstream of the owned meaning."; obligation = "Project the selected value while preserving its source identity and declared route."; breaks = "Editing a generated HTML string is not an admitted source edit."; evidence = "Live values and generated output are shown below."; source = "index.html#html-heading" }, { id = "test"; name = "Test"; question = "What could show that this route is wrong?"; body = "Apply a value through the existing control. Follow the source diff, regenerated outputs and forward-value check. Try an empty title to see a typed refusal."; obligation = "Distinguish mechanical reproduction, preserved boundaries and human usefulness."; breaks = "A type-correct label can still confuse the reader. A successful fixture is not general verification."; evidence = "Accepted edits produce real receipts. A refusal leaves the accepted revision unchanged. Reader comprehension remains open."; source = "index.html#return-path" }, { id = "recompose"; name = "Recompose"; question = "Does the whole still keep its promise?"; body = "Compare the page, row and menu after the edit. Keep the local overlay or shared title choice visible."; obligation = "Reassemble the views without silently changing the declared scope."; breaks = "If an unrelated view changes, reopen the ownership or preservation link."; evidence = "The comparison uses current session outputs; previous values appear only after an accepted edit."; source = "index.html#context-heading" }, { id = "correct"; name = "Correct"; question = "What would make us change our mind?"; body = "A missing link, a confusing label or a mistaken purpose sends us back to the earliest affected decision. Keep alternatives available."; obligation = "Retain a route for challenge; do not call this chain globally shortest or complete."; breaks = "If the page can only confirm its own explanation, its explanation has failed."; evidence = "You can mark a link for review below. That note stays in this tab and is not an admitted source change."; source = "lightning.js" }); paths = list({ id = "web-label"; name = "Change only the web menu"; reason = "Try clearer wording for this menu without renaming the story."; target = "experiment.WebMainMenu / N.label"; goal = "A local label changes; the shared story title stays intact."; preserve = "TheStory identity, the shared title, page and row."; next = "Use Apply label in the web menu card."; route = $lightningWeb.projection.edits; current = at($lightningWeb.projection.output.values, "W.text"); source = "source/experiment/story.encounter" }, { id = "title"; name = "Change the shared story title"; reason = "Give the story a new title and let the inheriting views follow."; target = "TheStory / S.Title"; goal = "The page and row follow the title; the web menu keeps its local wording."; preserve = "TheStory identity, content and the explicit web label overlay."; next = "Use Apply title in the story card."; route = $lightningPage.projection.edits; current = at($lightningPage.projection.output.values, "P.title"); source = "source/experiment/story.rel" }); observed = { title = at($lightningPage.projection.output.values, "P.title"); web = at($lightningWeb.projection.output.values, "W.text"); row = at($lightningRow.projection.output.values, "R.label") }; page = { subject = "This explanation, including its chosen facets, order, colours and claim to be helpful."; reason = "Make the reasoning inspectable without making the reader learn the entire implementation first."; target = "The dedicated lightning-method page, read from intent down to evidence and correction."; goal = "A reader can follow a choice, find its source and identify a reason to revise it."; unresolved = "This page is generated from typed composition, style and browser-programme definitions through the process algebra. The supplied kernel and native mechanisms remain explicit dependencies. This backend IR is not yet a humane Encounter frontend; domain completeness and reader understanding still need review."; reopen = "If a reader cannot find the reason, source or next action, reopen the page’s design. Passing the fixture cannot settle that challenge." } }

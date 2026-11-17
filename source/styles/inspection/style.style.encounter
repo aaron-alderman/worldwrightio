@@ -1,0 +1,155 @@
+process-module "temple/surface-process-module/1"
+
+process style.definition:
+  let result = {
+    protocol = "encounter/style-projection/1";
+    identity = "inspection/style.css";
+    reason = "Own selectors, contexts and individual declarations as editable values.";
+    target = "inspection/style.css";
+    goal = "Generate CSS from rules without a latent stylesheet.";
+    sheet = list("StyleSheet", list(
+      list("StyleRule", ".inspection-toggle,.inspection-composition", list(
+        list("Declaration", "border", "1px solid #a8c9c66b"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "padding", "8px 12px"),
+        list("Declaration", "background", "#10242a"),
+        list("Declaration", "color", "#d6e7dc"),
+        list("Declaration", "font", "inherit"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "cursor", "pointer")
+      )),
+      list("StyleRule", ".inspection-toggle[aria-pressed=true]", list(
+        list("Declaration", "background", "#c7e5d8"),
+        list("Declaration", "color", "#142227")
+      )),
+      list("StyleRule", ".inspecting [data-inspect-key]", list(
+        list("Declaration", "outline", "1px dashed #a4ded5"),
+        list("Declaration", "outline-offset", "5px"),
+        list("Declaration", "cursor", "help")
+      )),
+      list("StyleRule", ".inspecting [data-inspect-key]:focus-visible", list(
+        list("Declaration", "outline", "3px solid #c9f3df")
+      )),
+      list("StyleRule", ".inspection-toolbar,.inspection-links", list(
+        list("Declaration", "display", "flex"),
+        list("Declaration", "flex-wrap", "wrap"),
+        list("Declaration", "gap", "10px"),
+        list("Declaration", "margin", "15px 0")
+      )),
+      list("StyleRule", ".inspection-toolbar button,.inspection-links button,.inspection-index button", list(
+        list("Declaration", "color", "#d9e8dc"),
+        list("Declaration", "background", "#17252a"),
+        list("Declaration", "border", "1px solid #6c928e"),
+        list("Declaration", "padding", "11px 14px"),
+        list("Declaration", "border-radius", "5px"),
+        list("Declaration", "font", "inherit"),
+        list("Declaration", "font-size", "13px"),
+        list("Declaration", "text-align", "left"),
+        list("Declaration", "cursor", "pointer")
+      )),
+      list("StyleRule", ".inspection-toolbar button:disabled", list(
+        list("Declaration", "opacity", ".45"),
+        list("Declaration", "cursor", "default")
+      )),
+      list("StyleRule", ".inspection-boundary", list(
+        list("Declaration", "font-size", "17px"),
+        list("Declaration", "line-height", "1.6"),
+        list("Declaration", "max-width", "65ch")
+      )),
+      list("StyleRule", ".inspection-coordinate", list(
+        list("Declaration", "font-family", "monospace"),
+        list("Declaration", "font-size", "12px"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "color", "#bfd4d0")
+      )),
+      list("StyleRule", ".inspection-source", list(
+        list("Declaration", "background", "#0b141c"),
+        list("Declaration", "border", "1px solid #55797555"),
+        list("Declaration", "border-radius", "8px"),
+        list("Declaration", "white-space", "pre-wrap"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "padding", "20px"),
+        list("Declaration", "color", "#d8e7e3"),
+        list("Declaration", "font", "13px/1.7 ui-monospace,monospace"),
+        list("Declaration", "max-height", "52vh"),
+        list("Declaration", "overflow", "auto"),
+        list("Declaration", "tab-size", "2")
+      )),
+      list("StyleRule", ".inspection-index", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "repeat(auto-fit,minmax(min(100%,260px),1fr))"),
+        list("Declaration", "gap", "9px"),
+        list("Declaration", "margin", "18px 0")
+      )),
+      list("StyleRule", ".inspection-index button", list(
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".inspection-index button[hidden]", list(
+        list("Declaration", "display", "none")
+      )),
+      list("StyleRule", ".inspection-search", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "gap", "8px"),
+        list("Declaration", "margin-top", "20px")
+      )),
+      list("StyleRule", ".inspection-search input", list(
+        list("Declaration", "padding", "12px"),
+        list("Declaration", "border", "1px solid #779a91"),
+        list("Declaration", "background", "#101c24"),
+        list("Declaration", "color", "#e8f2eb"),
+        list("Declaration", "font", "inherit"),
+        list("Declaration", "border-radius", "5px")
+      )),
+      list("StyleRule", ".inspection-facts", list(
+        list("Declaration", "display", "grid"),
+        list("Declaration", "grid-template-columns", "auto minmax(0,1fr)"),
+        list("Declaration", "gap", "8px 15px"),
+        list("Declaration", "overflow-wrap", "anywhere"),
+        list("Declaration", "font-size", "13px")
+      )),
+      list("StyleRule", ".inspection-facts dd", list(
+        list("Declaration", "margin", "0")
+      )),
+      list("StyleRule", ".inspection-digest", list(
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleRule", ".inspection-error", list(
+        list("Declaration", "color", "#f4c5ab")
+      )),
+      list("StyleRule", ".inspection-source:focus-visible,.inspection-index button:focus-visible,.inspection-toolbar button:focus-visible", list(
+        list("Declaration", "outline", "3px solid #c9f3df"),
+        list("Declaration", "outline-offset", "3px")
+      )),
+      list("StyleGroup", "media", "(max-width:750px)", list(
+        list("StyleRule", ".inspection-toggle", list(
+          list("Declaration", "padding", "7px")
+        )),
+        list("StyleRule", ".inspection-toolbar button", list(
+          list("Declaration", "flex", "1")
+        )),
+        list("StyleRule", ".inspection-source", list(
+          list("Declaration", "padding", "14px")
+        )),
+        list("StyleRule", ".inspection-facts", list(
+          list("Declaration", "grid-template-columns", "1fr")
+        ))
+      )),
+      list("StyleRule", ".atlas-modal .dialog-header h2", list(
+        list("Declaration", "overflow-wrap", "anywhere")
+      )),
+      list("StyleGroup", "media", "(max-width:740px)", list(
+        list("StyleRule", ".header nav .inspection-toggle", list(
+          list("Declaration", "position", "fixed"),
+          list("Declaration", "bottom", "78px"),
+          list("Declaration", "left", "16px"),
+          list("Declaration", "z-index", "21"),
+          list("Declaration", "max-width", "230px"),
+          list("Declaration", "box-shadow", "0 3px 18px #0008")
+        )),
+        list("StyleRule", ".inspection-composition", list(
+          list("Declaration", "max-width", "140px"),
+          list("Declaration", "line-height", "1.5")
+        ))
+      ))
+    ))
+  }
