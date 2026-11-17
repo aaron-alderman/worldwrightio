@@ -7,12 +7,24 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/encounter-source.process.json",
-    "algebra/source.process.json",
-    "algebra/inspector.process.json"
+    {
+      "source": "algebra/encounter-source.encounter",
+      "target": "algebra/encounter-source.process.json"
+    },
+    {
+      "source": "algebra/source.encounter",
+      "target": "algebra/source.process.json"
+    },
+    {
+      "source": "algebra/inspector.encounter",
+      "target": "algebra/inspector.process.json"
+    }
   ],
   "sources": [
-    "source/inspector.rel"
+    {
+      "source": "source/inspector.encounter",
+      "target": "source/inspector.rel"
+    }
   ],
   "assets": [],
   "build": "inspector.build",

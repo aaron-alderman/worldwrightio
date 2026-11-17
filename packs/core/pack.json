@@ -5,11 +5,17 @@
   "requires": [],
   "conflicts": [],
   "modules": [
-    "algebra/core.process.json"
+    {
+      "source": "algebra/core.encounter",
+      "target": "algebra/core.process.json"
+    }
   ],
   "sources": [
     "source/world.rel",
-    "source/presentation.rel"
+    {
+      "source": "source/presentation.encounter",
+      "target": "source/presentation.rel"
+    }
   ],
   "assets": [],
   "build": "core.build",

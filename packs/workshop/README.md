@@ -1,6 +1,6 @@
 # Notebook workshop
 
-Select with --features workshop. Dependencies are resolved from pack.json; unselected packs are not copied. source/workshop.rel owns the configuration JSON. workshop.view is a reusable HTML projection; add a FeatureBlock with feature workshop and placement home or a Place identity. One mount per feature per page. workshop.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
+Select with --features workshop. Dependencies are resolved from pack.json; unselected packs are not copied. source/workshop.encounter owns the typed Encounter configuration. workshop.view is a reusable HTML projection; add a FeatureBlock with feature workshop and placement home or a Place identity. One mount per feature per page. workshop.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
 
 The configuration contains `inputs: {codeText, factText, contractText, definitions, primitives, profile}` and the inspector's `presentation` policy. The default `ShoreNote` is a fictional inlet notebook. The actual extracted `ec.prepare`, `ec.run`, `ec.patch` compiler/type/runtime engines remain executable; the input text, contracts, labels and notebook views are new.
 

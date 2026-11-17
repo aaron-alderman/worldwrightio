@@ -8,16 +8,22 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/activities.process.json"
+    {
+      "source": "algebra/activities.encounter",
+      "target": "algebra/activities.process.json"
+    }
   ],
   "sources": [
-    "source/activities.rel"
+    {
+      "source": "source/activities.encounter",
+      "target": "source/activities.rel"
+    }
   ],
   "assets": [
     "assets/activities.css"
   ],
   "build": "activities.build",
-  "render": "activities.view",
+  "render": "activities.render",
   "navigation": {
     "label": "Interactions",
     "route": "activities.html"

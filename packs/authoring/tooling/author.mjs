@@ -10,6 +10,7 @@ const {lower}=require('../bootstrap/ports/algebra-lower.cjs');
 const {createKernel}=require('../bootstrap/temple-seed.cjs');
 const {valuePorts}=require('../bootstrap/ports/value.cjs');
 const {invoke}=require('../bootstrap/ports/programme.cjs');
+const {decode}=require('../bootstrap/ports/rel-values.cjs');
 const root=path.resolve(fileURLToPath(new URL('..',import.meta.url)));
 const digest=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 const json=file=>JSON.parse(fs.readFileSync(path.join(root,file),'utf8'));
@@ -28,13 +29,13 @@ function checked(base,file) {
 const read=file=>fs.readFileSync(checked(root,file));
 
 export async function author(request) {
-  const contractBytes=read('source/authoring-contract.json');
-  const contract=JSON.parse(contractBytes);
+  const contractBytes=read('source/authoring-contract.rel');
+  const contract=decode(contractBytes.toString('utf8'));
   const processBytes=read(contract.process),mechanismBytes=read('tooling/author.mjs');
   const surface=JSON.parse(processBytes);
-  const model=await lower({compiler:json('algebra/lowering.process.json'),definitions:json('algebra/operators.expression.json'),primitives:createKernel.operators,input:{...surface,entry:'author.run'},mode:'model',ports:valuePorts(),limit:contract.budget});
-  const admission=await lower({compiler:json('algebra/lowering.process.json'),definitions:json('algebra/operators.expression.json'),primitives:createKernel.operators,input:json('algebra/admission.process.json'),mode:'model',ports:valuePorts(),limit:contract.budget});
-  for(const entry of ['admit.model','admit.effects'])await invoke({model:admission,entry,input:{target:model,profile:json('bootstrap/kernel-profile.json'),grants:contract.grants},ports:valuePorts(),limit:contract.budget});
+  const model=await lower({compiler:json('algebra/lowering.process.json'),definitions:decode(read('algebra/operators.expression.rel').toString('utf8')),primitives:createKernel.operators,input:{...surface,entry:'author.run'},mode:'model',ports:valuePorts(),limit:contract.budget});
+  const admission=await lower({compiler:json('algebra/lowering.process.json'),definitions:decode(read('algebra/operators.expression.rel').toString('utf8')),primitives:createKernel.operators,input:json('algebra/admission.process.json'),mode:'model',ports:valuePorts(),limit:contract.budget});
+  for(const entry of ['admit.model','admit.effects'])await invoke({model:admission,entry,input:{target:model,profile:decode(read('bootstrap/kernel-profile.rel').toString('utf8')),grants:contract.grants},ports:valuePorts(),limit:contract.budget});
   const workspace=checked(root,'.build/authoring');fs.mkdirSync(workspace,{recursive:true});
   const lock=path.join(workspace,'lock');
   const fd=fs.openSync(lock,'wx');
@@ -52,7 +53,7 @@ export async function author(request) {
       for(const directory of contract.inputDirectories)copy(directory);
       for(const file of contract.inputFiles)copy(file);
       for(const file of fs.readdirSync(root).filter(f=>f.endsWith('.test.mjs')))copy(file);
-      for(const [file,bytes]of [[contract.process,processBytes],['source/authoring-contract.json',contractBytes],['tooling/author.mjs',mechanismBytes]]) {
+      for(const [file,bytes]of [[contract.process,processBytes],['source/authoring-contract.rel',contractBytes],['tooling/author.mjs',mechanismBytes]]) {
         if(snapshots.get(file)!==digest(bytes))throw Error('Authoring control changed while staging: '+file);
       }
       // The staged predecessor must be the exact version the algebra observed.
@@ -63,7 +64,7 @@ export async function author(request) {
       return {id:path.relative(root,stage).replaceAll('\\','/')};
     },
     'publication.validate':()=>{
-      const commands=[['bootstrap/run.cjs','.','dist','bootstrap/site.json'],['--test',...contract.checks]];
+      const commands=[['bootstrap/run.cjs','.','dist','bootstrap/site.rel'],['--test',...contract.checks]];
       const runs=commands.map(args=>{
         const env={...process.env};delete env.NODE_TEST_CONTEXT;
         const result=spawnSync(process.execPath,args,{cwd:stage,encoding:'utf8',maxBuffer:8*1024*1024,env});

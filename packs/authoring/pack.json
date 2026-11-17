@@ -7,7 +7,10 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/authoring-page.process.json"
+    {
+      "source": "algebra/authoring-page.encounter",
+      "target": "algebra/authoring-page.process.json"
+    }
   ],
   "sources": [],
   "assets": [],
@@ -22,11 +25,14 @@
   },
   "outputs": [
     "authoring.html",
-    "source/authoring-contract.json"
+    "source/authoring-contract.rel"
   ],
   "render": "authoring.view",
   "files": [
-    "algebra/authoring.process.json",
+    {
+      "source": "algebra/authoring.encounter",
+      "target": "algebra/authoring.process.json"
+    },
     "tooling/author.mjs",
     {
       "source": "README.md",

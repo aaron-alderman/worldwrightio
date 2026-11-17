@@ -37,7 +37,7 @@ test('built hub has valid local links and preserves the introduction and legacy 
 
 test('the admitted algebra owns footer insertion, preserves existing markup and refuses missing footers',async()=>{
  const {projectAlgebra}=await import('./project-algebra.mjs');
- const project=markup=>projectAlgebra('algebra/hub-footer.process.json','hub.footer.project',{markup});
+ const project=markup=>projectAlgebra('algebra/hub-footer.encounter','hub.footer.project',{markup});
  const before='<!doctype html><head><title>Fixture</title></head><body><footer><p>Existing credit</p></footer></body>';
  const after=await project(before);
  assert.equal(after.replace(/<style data-owner="hub.footer">[\s\S]*?<\/style>/,'').replace(/<nav class="stewardship-links"[\s\S]*?<\/nav>/,''),before);

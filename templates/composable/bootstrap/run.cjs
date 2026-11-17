@@ -2,7 +2,11 @@
 'use strict';
 
 const {createKernel} = require('./temple-seed.cjs');
+const {createRequire} = require('node:module');
+const path = require('node:path');
 const {parseRel} = require('./ports/rel-codec.cjs');
+const codec = require('./ports/rel-values.cjs');
+const {decode}=codec;
 const {createNodeHost} = require('./ports/node.cjs');
 const {valuePorts} = require('./ports/value.cjs');
 const {computationalPorts} = require('./ports/browser-effects.cjs');
@@ -13,15 +17,44 @@ const {lower} = require('./ports/algebra-lower.cjs');
 const {indexFacts} = require('./ports/fact-index.cjs');
 const {invoke} = require('./ports/programme.cjs');
 
-async function build({root = __dirname + '/..', output = 'dist', manifestFile = 'bootstrap/site.json'} = {}) {
+async function build({root = __dirname + '/..', output = 'dist', manifestFile = 'bootstrap/site.rel'} = {}) {
   const host = await createNodeHost({root,output});
-  const manifest = JSON.parse(await host.read(manifestFile));
+  const manifest = decode(await host.read(manifestFile));
   if (manifest.protocol !== 'temple/bootstrap-site/1') throw Error('Unknown bootstrap protocol');
-  const native = JSON.parse(await host.read(manifest.nativeSource));
+  const native = decode(await host.read(manifest.nativeSource));
   if (native.protocol !== 'temple/native-port-closure/1') throw Error('Unknown native port closure');
   host.verifyNativeClosure(native.files,native.entry);
   for (const file of native.files) await host.read(file);
-  const policy = JSON.parse(await host.read(manifest.hostPorts));
+  if (manifest.authoredSources?.length) {
+    for (const input of manifest.processCompiler) {
+      if (!(input.file.startsWith('tooling/encounter/') || input.file==='tooling/source-projection.cjs') || host.digest(await host.read(input.file)) !== input.sha256)
+        throw Error('Pinned Encounter compiler changed: '+input.file);
+    }
+    let compiler,projectSource;
+    for (const item of manifest.authoredSources) {
+      if (![...manifest.modules,...manifest.sources].includes(item.projection) || item.file !== item.projection.replace(/(?:\.process\.json|\.rel)$/,'.encounter'))
+        throw Error('Authored module is outside the selected projection closure: '+item.file);
+      const text=await host.read(item.file);
+      const cached=await host.read(item.projection).catch(error=>{if(error.code!=='ENOENT')throw error;return null;});
+      if (cached!==null && host.digest(text)===item.sourceSha256 && host.digest(cached)===item.projectionSha256) continue;
+      if (!compiler) {
+        const load=createRequire(path.join(host.root,'tooling/encounter/bootstrap/foundation.rel'));
+        ({projectSource}=load('../../source-projection.cjs'));
+        const {sourcePolicyMachine,loadSourcePolicyDescriptor}=load('./source-policy-machine.cjs');
+        const effects=load('./ports/browser-effects.cjs').computationalPorts();
+        const refuse=()=>{throw Error('A process compilation cannot observe HTML or URLs.');};
+        compiler=sourcePolicyMachine(loadSourcePolicyDescriptor(),{'markup.parse':refuse,'url.observe':refuse,
+          'text.replace':effects['text.replace'],'text.match':effects['text.match']});
+      }
+      const compile=(file,text)=>{
+        const {value}=compiler.compile(file,text);
+        if(!value.ok)throw Error(file+': '+value.diagnostic.summary);
+        return value.surface;
+      };
+      host.derive(item.projection,projectSource(item.file,text,item.projection,compile,codec));
+    }
+  }
+  const policy = decode(await host.read(manifest.hostPorts));
   if (policy.protocol !== 'temple/native-port-grants/1') throw Error('Unknown native port policy');
   const model = {queries:Object.create(null),entry:manifest.entry};
   for (const file of manifest.modules) {
@@ -33,12 +66,12 @@ async function build({root = __dirname + '/..', output = 'dist', manifestFile = 
       model.queries[name] = programme;
     }
   }
-  const definitions=JSON.parse(await host.read(manifest.operatorDefinitions));
+  const definitions=decode(await host.read(manifest.operatorDefinitions));
   const compiler=JSON.parse(await host.read(manifest.operatorCompiler));
   if(compiler.protocol!=='temple/surface-process-module/1')throw Error('Unknown lowering programme protocol');
   const compile=input=>lower({compiler,definitions,primitives:createKernel.operators,input,mode:'model',ports:valuePorts(),limit:manifest.executionBudget});
   const compiled=await compile(model);
-  const profile=JSON.parse(await host.read(manifest.kernelProfile));
+  const profile=decode(await host.read(manifest.kernelProfile));
   if(profile.protocol!=='temple/kernel-profile/1')throw Error('Unknown kernel profile');
   if(JSON.stringify(Object.keys(profile.operators))!==JSON.stringify(createKernel.operators))throw Error('Kernel/profile vocabulary drift');
   const admission=await compile(JSON.parse(await host.read(manifest.admission)));
@@ -91,7 +124,7 @@ async function build({root = __dirname + '/..', output = 'dist', manifestFile = 
   const receipt = {protocol:'temple/bootstrap-build/1',
     seedSha256:host.sources['bootstrap/temple-seed.cjs'],
     nativeSources:Object.fromEntries(native.files.map(file=>[file,host.sources[file]])),
-    portProfiles:policy.profiles,sources:{...host.sources},artifacts:{...host.artifacts},
+    portProfiles:policy.profiles,sources:{...host.sources},derivedSources:host.derivedSources(),artifacts:{...host.artifacts},
     execution:{indexSteps,applicationSteps:kernel.usage.steps-indexSteps,totalSteps:kernel.usage.steps,limit:kernel.usage.limit},
     factSnapshot:{protocol:factIndex.protocol,factCount:factIndex.factCount},
     kernelProfile:profile.protocol,admission:{passes:admissionUsage.length,steps:admissionUsage},

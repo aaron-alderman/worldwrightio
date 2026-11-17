@@ -7,11 +7,20 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/media.process.json",
-    "algebra/media-stream.process.json"
+    {
+      "source": "algebra/media.encounter",
+      "target": "algebra/media.process.json"
+    },
+    {
+      "source": "algebra/media-stream.encounter",
+      "target": "algebra/media-stream.process.json"
+    }
   ],
   "sources": [
-    "source/media.rel"
+    {
+      "source": "source/media.encounter",
+      "target": "source/media.rel"
+    }
   ],
   "assets": [
     "assets/tide-study.mp4",

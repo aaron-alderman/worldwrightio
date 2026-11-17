@@ -1,7 +1,9 @@
+import {readFacts,decodeConfiguration,readModule} from './module-source.mjs';
 // Independent acceptance checks. Headless effects do not certify browser layout/playback.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
+import {createHash} from "node:crypto";
 import path from 'node:path';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
@@ -18,11 +20,11 @@ const {createKernel}=require('./bootstrap/temple-seed.cjs');
 const {valuePorts}=require('./bootstrap/ports/value.cjs');
 const {computationalPorts}=require('./bootstrap/ports/browser-effects.cjs');
 const {invoke}=require('./bootstrap/ports/programme.cjs');
-function configuration(id){const line=fs.readFileSync(path.join(root,'packs',id,'source',id+'.rel'),'utf8').trim();return JSON.parse(JSON.parse('['+line.slice(1,-1)+']')[2]);}
+function configuration(id){return decodeConfiguration(id,readFacts(root,'packs/'+id+'/source/'+id+'.rel'));}
 async function engine(ids,entry){
  const queries={};
  for(const name of ['html','fact-index','language','admission','lowering','css'])Object.assign(queries,read(path.join(baseline,'algebra',name+'.process.json')).queries);
- for(const id of ids){const descriptor=read(path.join(root,'packs',id,'pack.json'));for(const file of descriptor.modules)Object.assign(queries,read(path.join(root,'packs',id,file)).queries);}
+ for(const id of ['core',...ids]){const descriptor=read(path.join(root,'packs',id,'pack.json'));for(const file of descriptor.modules)Object.assign(queries,readModule(path.join(root,'packs',id),file).queries);}
  const model=await lower({compiler:read(path.join(baseline,'algebra/lowering.process.json')),definitions:read(path.join(baseline,'algebra/operators.expression.json')),primitives:createKernel.operators,input:{queries,entry},mode:'model',ports:valuePorts()});
  const state=new Map(),effects=[];
  const ports={...valuePorts(),...computationalPorts(),'state.get':({key})=>state.get(key),'state.set':({key,value})=>{state.set(key,value);return true;},'browser.write':x=>{effects.push(x);return true;},'browser.content':x=>{effects.push(x);return true;},'browser.attribute':x=>{effects.push(x);return true;},'browser.on':()=>true,'dom.exists':()=>true,'browser.property':()=>''};
@@ -62,27 +64,26 @@ test('programme proposals enforce authority, current basis, witness integrity an
  await assert.rejects(run('programmes.propose',{current:accepted,proposal}),/BASIS|STALE/);
  await assert.rejects(run('programmes.witness',{current:{...accepted,root:'tampered'}}),/HEAD/);
 });
-async function withConfiguration(s,id){return s.run('facts.index',{input:[{s:id,p:'configuration',o:JSON.stringify(configuration(id)),pol:'is'}]});}
 test('media seek clamps configured endpoints, refuses nonnumeric input and reports playback refusal',async()=>{
- const s=await engine(['media'],'media.seek'),factIndex=await withConfiguration(s,'media'),configurationValue=configuration('media');
+ const s=await engine(['media'],'media.seek'),configurationValue=configuration('media');
  let value='9999',status={currentTime:0,paused:true,muted:false,seekable:[[0,100]],currentSrc:'https://example.test/own.mp4'},writes=[],waited=0;
  Object.assign(s.ports,{'browser.property':()=>value,'media.read':()=>status,'media.write':x=>{writes.push(x);status={...status,[x.name]:x.value};return true;},'media.play':()=>({ok:false}),'media.pause':()=>true,'asset.blobURL':()=> 'blob:new-world','browser.once':()=>{waited++;return true;}});
- await s.run('media.seek',{factIndex});assert.equal(writes.at(-1).value,configurationValue.duration);
- value='-100';await s.run('media.seek',{factIndex});assert.equal(writes.at(-1).value,0);
- value='not a time';const before=writes.length;await assert.rejects(s.run('media.seek',{factIndex}),/MEDIA_SEEK/);assert.equal(writes.length,before);
- value='3';status.seekable=[];await s.run('media.seek',{factIndex});assert.equal(waited,1);assert.equal(status.src,'blob:new-world');assert.equal(status.currentTime,3);assert.equal(status.paused,true);
- await s.run('media.action',{factIndex,eventInput:{action:'play'}});assert.ok(s.effects.some(x=>String(x.value).includes('refused')));
+ await s.run('media.seek',{data:configurationValue});assert.equal(writes.at(-1).value,configurationValue.duration);
+ value='-100';await s.run('media.seek',{data:configurationValue});assert.equal(writes.at(-1).value,0);
+ value='not a time';const before=writes.length;await assert.rejects(s.run('media.seek',{data:configurationValue}),/MEDIA_SEEK/);assert.equal(writes.length,before);
+ value='3';status.seekable=[];await s.run('media.seek',{data:configurationValue});assert.equal(waited,1);assert.equal(status.src,'blob:new-world');assert.equal(status.currentTime,3);assert.equal(status.paused,true);
+ await s.run('media.action',{data:configurationValue,eventInput:{action:'play'}});assert.ok(s.effects.some(x=>String(x.value).includes('refused')));
 });
 test('motion starts still for reduced motion, schedules visible frames and cancels on pause/hide',async()=>{
- const s=await engine(['motion'],'motion.boot'),factIndex=await withConfiguration(s,'motion');
+ const s=await engine(['motion'],'motion.boot'),configurationValue=configuration('motion');
  let environment={reduced:true,hidden:false},frames=[],cancelled=[],draws=[];
  Object.assign(s.ports,{'browser.environment':()=>environment,'browser.frame':x=>{frames.push(x);return frames.length;},'browser.cancel':({id})=>{cancelled.push(id);return true;},'canvas.draw':x=>{draws.push(x);return true;}});
- await s.run('motion.boot',{factIndex});assert.equal(s.state.get('motion.active'),false);assert.equal(frames.length,0);assert.equal(draws.length,1);
- await s.run('motion.toggle',{factIndex});assert.equal(frames.length,1);
- await s.run('motion.tick',{factIndex,eventInput:{time:1200}});assert.equal(s.state.get('motion.time'),1200);assert.equal(frames.length,2);
+ await s.run('motion.boot',{data:configurationValue});assert.equal(s.state.get('motion.active'),false);assert.equal(frames.length,0);assert.equal(draws.length,1);
+ await s.run('motion.toggle',{data:configurationValue});assert.equal(frames.length,1);
+ await s.run('motion.tick',{data:configurationValue,eventInput:{time:1200}});assert.equal(s.state.get('motion.time'),1200);assert.equal(frames.length,2);
  assert.ok(draws.at(-1).commands.length>80);
- environment={reduced:false,hidden:true};await s.run('motion.visibility',{factIndex});assert.ok(cancelled.includes(2));assert.equal(frames.length,2);
- await s.run('motion.toggle',{factIndex});assert.equal(s.state.get('motion.active'),false);assert.equal(frames.length,2);
+ environment={reduced:false,hidden:true};await s.run('motion.visibility',{data:configurationValue});assert.ok(cancelled.includes(2));assert.equal(frames.length,2);
+ await s.run('motion.toggle',{data:configurationValue});assert.equal(s.state.get('motion.active'),false);assert.equal(frames.length,2);
 });
 test('all eight selectable mathematical engines retain numerical behavior on new inputs',async()=>{
  const s=await engine(['models'],'models.evaluate'),data=configuration('models');
@@ -174,4 +175,75 @@ test('profile-defined microsite routes refuse static and sibling output collisio
   fs.writeFileSync(path.join(edited,'source/world.rel'),ownWorld+content);const built=spawnSync(process.execPath,['build.mjs'],{cwd:edited,encoding:'utf8',timeout:120000,maxBuffer:4000000});
   assert.notEqual(built.status,0,'Edited route collision must refuse publication');assert.match(built.stderr,/MICROSITE|OUTPUT.*COLLISION/i);assert.equal(fs.readFileSync(path.join(edited,'dist/reader.html'),'utf8'),readerBefore,'Failed build must preserve the previously accepted reader');
  }
+});
+
+test('generated authoring worlds edit Encounter and regenerate the published process',async t=>{
+ const parent=path.join(root,'.build/composition-qa');fs.mkdirSync(parent,{recursive:true});
+ const directory=fs.mkdtempSync(path.join(parent,'author-encounter-')),world=path.join(directory,'world');
+ t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
+ await composeWorld(world,{features:['reader','sources','authoring']});
+ nativeBuild(world);
+ const file='algebra/reader.encounter',projection='algebra/reader.process.json';
+ const source=path.join(world,file),before=fs.readFileSync(source,'utf8');
+ const previous=fs.readFileSync(path.join(world,'dist',projection),'utf8');
+ const label='Read the authored fieldbook',edited=before.replace('Explore the fieldbook',label);
+ assert.notEqual(edited,before);
+ function proposal(target,text,apply){
+  const filename=path.join(world,'proposal.json'),beforeSha256=createHash('sha256').update(fs.readFileSync(path.join(world,target))).digest('hex');
+  fs.writeFileSync(filename,JSON.stringify({protocol:'worldwright/authoring-proposal/1',apply,changes:[{file:target,beforeSha256,text}]}));
+  return spawnSync(process.execPath,['tooling/author.mjs',filename],{cwd:world,encoding:'utf8',timeout:120000,maxBuffer:4000000});
+ }
+ const raw=proposal(projection,previous+'\n',true);
+ assert.notEqual(raw.status,0);assert.match(raw.stderr,/AUTHOR-006/);
+ const invalid=proposal(file,'broken Encounter',true);
+ assert.notEqual(invalid.status,0);assert.match(invalid.stderr,/AUTHOR-011/);
+ assert.equal(fs.readFileSync(source,'utf8'),before);
+ const preview=proposal(file,edited,false);assert.equal(preview.status,0,preview.stderr);
+ const candidate=JSON.parse(preview.stdout).candidate;
+ assert.match(fs.readFileSync(path.join(world,candidate,'dist',projection),'utf8'),/Read the authored fieldbook/);
+ assert.equal(fs.readFileSync(source,'utf8'),before);
+ const apply=proposal(file,edited,true);assert.equal(apply.status,0,apply.stderr);
+ assert.equal(fs.readFileSync(source,'utf8'),edited);
+ nativeBuild(world);
+ assert.match(fs.readFileSync(path.join(world,'dist',projection),'utf8'),/Read the authored fieldbook/);
+ await composeWorld(world,{features:['reader','sources'],replace:true});
+ nativeBuild(world);
+ assert.equal(fs.readFileSync(source,'utf8'),edited);
+ assert.match(fs.readFileSync(path.join(world,projection),'utf8'),/Read the authored fieldbook/);
+ assert.match(fs.readFileSync(path.join(world,'dist',projection),'utf8'),/Read the authored fieldbook/);
+});
+
+test('microsite markup and styles compile from typed Encounter documents',async t=>{
+ const parent=path.join(root,'.build/composition-qa');fs.mkdirSync(parent,{recursive:true});
+ const directory=fs.mkdtempSync(path.join(parent,'microsite-encounter-')),world=path.join(directory,'world');
+ t.after(()=>fs.rmSync(directory,{recursive:true,force:true}));
+ const facts=[
+  ['example','isa','Microsite'],['example','title','A new window'],['example','description','Typed projection'],
+  ['example','reading','Owned material'],['example','route','window.html'],['example','markup','window.markup'],
+  ['example','stylesheet','window.css'],['example','stylesheetRoute','window.css']
+ ].map(row=>'('+row.map(JSON.stringify).join(', ')+')').join('\n')+'\n';
+ fs.writeFileSync(path.join(directory,'world.rel'),ownWorld+facts);
+ fs.writeFileSync(path.join(directory,'microsites.encounter'),`process-module "temple/surface-process-module/1"
+
+process microsites.definition:
+  let result = { documents = list(
+    { owner = "window.markup"; value = { kind = "document"; children = list(
+      { kind = "doctype" },
+      { kind = "element"; tag = "p"; children = list({ kind = "text"; text = "An Encounter-authored window & view" }) }
+    ) } },
+    { owner = "window.css"; value = { kind = "root"; children = list(
+      { kind = "rule"; syntax = { selector = "p" }; children = list(
+        { kind = "decl"; prop = "color"; syntax = { between = ":"; value = "navy"; semicolon = "true" } }
+      ) }
+    ) } }
+  ) }
+`);
+ const profile=path.join(directory,'profile.json');
+ fs.writeFileSync(profile,JSON.stringify({protocol:'worldwright/profile/1',features:['microsites'],files:[
+  {owner:'core',kind:'facts',source:'world.rel',target:'source/world.rel'},
+  {owner:'microsites',kind:'facts',source:'microsites.encounter',target:'source/microsites.rel'}
+ ]}));
+ await composeWorld(world,{profile});nativeBuild(world);
+ assert.equal(fs.readFileSync(path.join(world,'dist/window.html'),'utf8'),'<!doctype html><p>An Encounter-authored window &amp; view</p>');
+ assert.equal(fs.readFileSync(path.join(world,'dist/window.css'),'utf8'),'p{color:navy;}');
 });

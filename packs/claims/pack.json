@@ -7,11 +7,20 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/claim-review.process.json",
-    "algebra/claims.process.json"
+    {
+      "source": "algebra/claim-review.encounter",
+      "target": "algebra/claim-review.process.json"
+    },
+    {
+      "source": "algebra/claims.encounter",
+      "target": "algebra/claims.process.json"
+    }
   ],
   "sources": [
-    "source/claims.rel"
+    {
+      "source": "source/claims.encounter",
+      "target": "source/claims.rel"
+    }
   ],
   "assets": [],
   "build": "claims.build",

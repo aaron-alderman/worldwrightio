@@ -7,11 +7,20 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/microsites.process.json",
-    "algebra/microsite-projection.process.json"
+    {
+      "source": "algebra/microsites.encounter",
+      "target": "algebra/microsites.process.json"
+    },
+    {
+      "source": "algebra/microsite-projection.encounter",
+      "target": "algebra/microsite-projection.process.json"
+    }
   ],
   "sources": [
-    "source/microsites.rel"
+    {
+      "source": "source/microsites.encounter",
+      "target": "source/microsites.rel"
+    }
   ],
   "assets": [],
   "build": "microsites.build",

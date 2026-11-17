@@ -11,7 +11,7 @@ npm run build
 npm run dev
 ```
 
-Edit source/world.rel for your title, purpose, places, choices and attributed sources. Edit source/presentation.rel for ordered style rules. Read selected pack READMEs before changing their source configuration.
+Edit source/world.rel for your title, purpose, places, choices and attributed sources. Edit source/presentation.encounter for ordered style rules. Read selected pack READMEs before changing their source configuration.
 
 The generated world is standalone. Inspect composition-receipt.json for exact selected inputs and permissions and dist/build-receipt.json for its build. Check both a successful interaction and a meaningful refusal for each selected feature.
 

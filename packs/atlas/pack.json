@@ -7,8 +7,14 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/atlas.process.json",
-    "algebra/atlas-journey.process.json"
+    {
+      "source": "algebra/atlas.encounter",
+      "target": "algebra/atlas.process.json"
+    },
+    {
+      "source": "algebra/atlas-journey.encounter",
+      "target": "algebra/atlas-journey.process.json"
+    }
   ],
   "sources": [],
   "assets": [],

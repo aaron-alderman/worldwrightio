@@ -6,7 +6,27 @@ Worldwright is a storytelling application in the wider Temple/Sourcery family. [
 
 Our [operating model](docs/operating-model.md): free software, content and learning material under the applicable licenses; paid hands-on setup and installation; paid in-person training; and voluntary contributions of what people believe is reasonable and fair. We help people learn to bring and manage their own agent, gain independence and reduce their costs. This defines support and stewardship; it introduces no billing or booking system. [Machine-readable agent context](context/operating-model.json).
 
-Select individually reusable packs instead of copying the historical expedition:
+The hub and selectable packs use authored Encounter process modules. Build and
+composition use the pinned Worldwright compiler adapter in the sibling
+`encounter-libraries` directory. Set `WORLDWRIGHT_ENCOUNTER_LIBRARY` to that
+adapter's absolute path when relocating the source checkout. Composed worlds
+carry their compiled process artifacts and still build independently. The
+bundled expedition template remains a historical qualification reference.
+
+Pack configuration records in `packs/*/source/` use typed REL nodes. The
+composer checks the built-in `pack.json` descriptors and example
+`profile.json` files against their adjacent Encounter owners before using
+them. Custom registries and profiles can still supply JSON.
+
+From this checkout, regenerate or check the built-in projections with these
+commands.
+
+```sh
+node tooling/composition-manifests.mjs --write
+node tooling/composition-manifests.mjs --check
+```
+
+Select the packs for your world when you compose it.
 
 ```sh
 node tooling/compose-world.mjs worlds/my-world --features reader,sources,atlas
@@ -25,7 +45,7 @@ The free [Bring your own agent guide](docs/bring-your-own-agent.md) covers explo
 node tooling/compose-world.mjs worlds/tidepool --profile examples/tidepool/profile.json
 ```
 
-Canonical world content is in source/world.rel, presentation in source/presentation.rel and selected pack configuration in its owned source files. Never edit dist. Meaning, rules and presentation remain in facts and process algebra; native adapters provide mechanisms. The original Temple seed and bounded execution remain explicit.
+Canonical world content is in source/world.rel, presentation in source/presentation.encounter and selected pack configuration in its owned source files. Never edit dist. Meaning, rules and presentation remain in facts and process algebra; native adapters provide mechanisms. The original Temple seed and bounded execution remain explicit.
 
 The immutable reference/algebra and templates/expedition preserve the original extraction and its attribution. New composed worlds do not copy its corpus, media or personal identity. See context/composition-coverage.json for current capabilities and evidence boundaries. Earlier trial receipts describe earlier whole-template trials, not the new pack trial.
 
@@ -33,4 +53,14 @@ Maintainers: npm run build builds the documentation hub and examples; npm test q
 
 Repository care: [licensing](LICENSE.md), [Christian stewardship covenant](CHRISTIAN_STEWARDSHIP_COVENANT.md), and [source/evidence hygiene](STEWARDSHIP.md).
 
-The hub’s licence and voluntary Christian stewardship links are projected by algebra/hub-footer.process.json using the retained HTML/CSS algebra. tooling/project-algebra.mjs supplies generic loading, lowering, admission and invocation; the native hub publisher transports the documents. This footer projection does not claim that the entire documentation publisher is algebraic.
+The hub’s licence and voluntary Christian stewardship links are projected by algebra/hub-footer.encounter using the shared composable HTML/CSS algebra. tooling/project-algebra.mjs supplies generic loading, lowering, admission and invocation; the native hub publisher transports the documents. This footer projection does not claim that the entire documentation publisher is algebraic.
+
+The hub footer's ordered module and query selections are authored in
+`algebra/hub-footer.imports.encounter`. The build checks the generated
+`algebra/hub-footer.imports.rel` before linking the selected queries.
+To regenerate, run this from the Worldwright checkout and compare the staged
+output before replacing the projection.
+
+```sh
+node --input-type=module -e "import { readFacts } from './tooling/module-source.mjs'; process.stdout.write(readFacts('.', 'algebra/hub-footer.imports.rel'))" > /tmp/hub-footer.imports.rel
+```

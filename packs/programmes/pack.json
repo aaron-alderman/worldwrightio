@@ -7,15 +7,36 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/canonical.process.json",
-    "algebra/programmes.process.json",
-    "algebra/cell-values.process.json",
-    "algebra/cell-proposals.process.json",
-    "algebra/cell-drafts.process.json",
-    "algebra/cell-tree.process.json"
+    {
+      "source": "algebra/canonical.encounter",
+      "target": "algebra/canonical.process.json"
+    },
+    {
+      "source": "algebra/programmes.encounter",
+      "target": "algebra/programmes.process.json"
+    },
+    {
+      "source": "algebra/cell-values.encounter",
+      "target": "algebra/cell-values.process.json"
+    },
+    {
+      "source": "algebra/cell-proposals.encounter",
+      "target": "algebra/cell-proposals.process.json"
+    },
+    {
+      "source": "algebra/cell-drafts.encounter",
+      "target": "algebra/cell-drafts.process.json"
+    },
+    {
+      "source": "algebra/cell-tree.encounter",
+      "target": "algebra/cell-tree.process.json"
+    }
   ],
   "sources": [
-    "source/programmes.rel"
+    {
+      "source": "source/programmes.encounter",
+      "target": "source/programmes.rel"
+    }
   ],
   "assets": [
     "assets/programmes.css"

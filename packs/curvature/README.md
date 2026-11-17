@@ -4,7 +4,7 @@ An optional, source-defined composition of colours, shapes, mood, chrome, illust
 
 Compose with `node tooling/compose-world.mjs DEST --features reader,curvature`. Open `curvature.html`, or mount its `curvature.view` through an ordinary FeatureBlock on any page. The runtime applies selected presentation tokens throughout the world and keeps browser choices across navigation. Page controls are bound only when mounted. Without JavaScript the authored scene, links, sources and reading remain available.
 
-Edit `source/curvature.rel`. Its JSON configuration declares `dimensions`, `presets`, `defaultPreset` and a world-specific `storageKey`. Each dimension has a unique `id`, a `label`, a `kind`, and named `options`. Every option declares `tokens: [{name,value}]`. Tokens use the `--ww-` namespace and have exactly one dimension owner. Preset selections are `{dimension,option}` pairs with exactly one choice for every included dimension. A custom change replaces one pair; validation completes before state or DOM effects change.
+Edit `source/curvature.encounter`. Its configuration declares `dimensions`, `presets`, `defaultPreset` and a world-specific `storageKey`. Each dimension has a unique `id`, a `label`, a `kind`, and named `options`. Every option declares `tokens: [{name,value}]`. Tokens use the `--ww-` namespace and have exactly one dimension owner. Preset selections are `{dimension,option}` pairs with exactly one choice for every included dimension. A custom change replaces one pair; validation completes before state or DOM effects change.
 
 The kinds are small independent mechanisms:
 
@@ -18,6 +18,6 @@ Use any subset: remove unwanted dimensions and their selection pairs from every 
 
 Artwork belongs to the world profile, not this pack. Declare extra asset files with owner `curvature`; removing this pack also removes its owned assets, runtime, stylesheet, grants and scene. Tidepool demonstrates two original HD illustrations with prompt/provenance receipts, independent layer controls and three composed approaches. Its illustrations are not scientific evidence.
 
-Put optional mount facts in `source/curvature.rel` when they should disappear with this pack. A mount written into a retained core source remains that source owner's responsibility and will correctly refuse if its feature is removed. Tidepool's home mount is curvature-owned, so its kitchen-sink-to-small-reader recomposition needs no manual core edits.
+Put optional mount facts in `source/curvature.mounts.rel` when they should disappear with this pack. A mount written into a retained core source remains that source owner's responsibility and will correctly refuse if its feature is removed. Tidepool's home mount is curvature-owned, so its kitchen-sink-to-small-reader recomposition needs no manual core edits.
 
 Scope: this is concrete visual and journey composition, not a universal curvature calculus, an authoring GUI or a claim of complete equivalence with Aaron’s initial world. Existing media, procedural motion and stateful activity packs remain separately selectable.

@@ -2,11 +2,16 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
+import codec from './bootstrap/ports/rel-values.cjs';
 const read=file=>JSON.parse(fs.readFileSync(new URL(file,import.meta.url),'utf8'));
 const bytes=file=>fs.readFileSync(new URL(file,import.meta.url));
 const hash=value=>crypto.createHash('sha256').update(value).digest('hex');
 test('The build admits the selected source closure and records current bytes',()=>{
- const manifest=read('bootstrap/site.json'),composition=read('composition-receipt.json'),receipt=read('dist/build-receipt.json');
+ const manifest=codec.decode(bytes('bootstrap/site.rel').toString('utf8')),composition=read('composition-receipt.json'),receipt=read('dist/build-receipt.json');
+ for(const file of ['bootstrap/site.rel',manifest.nativeSource,manifest.hostPorts,manifest.kernelProfile,manifest.operatorDefinitions]){
+  assert.equal(hash(bytes(file)),receipt.sources[file],'Measured typed bootstrap '+file);
+  assert.equal(fs.existsSync(new URL(file.replace(/\.rel$/,'.json'),import.meta.url)),false,'No JSON bootstrap fallback '+file);
+ }
  assert.equal(manifest.executionBudget,20000000);assert.equal(receipt.execution.limit,20000000);
  assert.equal(receipt.seedSha256,composition.files.find(f=>f.target==='bootstrap/temple-seed.cjs').sha256);
  assert.ok(receipt.admission.passes>=4);

@@ -2,6 +2,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
+import {compileEncounter,encodeValue,decodeValue,readModule,library,projectSource} from './module-source.mjs';
+import {packIds,readManifest} from './composition-manifests.mjs';
 import {createRequire} from 'node:module';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 const here=path.dirname(fileURLToPath(import.meta.url)),project=path.dirname(here),base=path.join(project,'templates/composable');
@@ -24,39 +26,69 @@ function walk(root,prefix=''){return fs.readdirSync(path.join(root,prefix),{with
 function observe(root,entry,owner,kind){
  const spec=typeof entry==='string'?{source:entry,target:entry}:entry;
  const filename=safe(root,spec.source),target=spec.target??spec.source;safe(base,target);
- const bytes=fs.readFileSync(filename);return {owner,kind,source:filename,target,sha256:hash(bytes),factRows:kind==='facts'?parseRel(bytes.toString('utf8'),filename):[]};
+ const bytes=fs.readFileSync(filename);
+ if(filename.endsWith('.encounter')&&(target.endsWith('.process.json')||target.endsWith('.rel'))){
+  const inline=projectSource(spec.source,bytes.toString('utf8'),target);
+  return {owner,kind,source:filename,target,sha256:hash(inline),sourceSha256:hash(bytes),derived:true,
+   factRows:kind==='facts'?parseRel(inline,target):[],inline};
+ }
+ return {owner,kind,source:filename,target,sha256:hash(bytes),factRows:kind==='facts'?parseRel(bytes.toString('utf8'),filename):[]};
+}
+function portableCompiler(){
+ const encounter=path.resolve(path.dirname(library),'../encounter');
+ const descriptor='bootstrap/foundation.rel',entry='bootstrap/source-policy-machine.cjs';
+ const modules=parseRel(fs.readFileSync(path.join(encounter,descriptor),'utf8'),descriptor)
+  .filter(f=>f.s==='foundation'&&f.p==='module').map(f=>f.o);
+ const native=[entry,'bootstrap/temple-seed.cjs','bootstrap/seed-sync.cjs','bootstrap/seed-source-reader.cjs',
+  'bootstrap/rel-values.cjs','bootstrap/isolated-regexp.cjs','bootstrap/ports/value.cjs','bootstrap/ports/browser-effects.cjs'];
+ return [...[descriptor,...modules,...native].map(source=>observe(encounter,{source,target:'tooling/encounter/'+source},'foundation','compiler')),
+  observe(project,'tooling/source-projection.cjs','foundation','compiler')];
+}
+function authoredSources(root,id,entries,kind){
+ return entries.flatMap(entry=>{
+  if(typeof entry==='string'||!entry.source.endsWith('.encounter')||!entry.target)return [];
+  const target=entry.target.replace(/(?:\.process\.json|\.rel)$/,'.encounter');
+  return [{...observe(root,{source:entry.source,target},id,kind),projection:entry.target}];
+ });
 }
 function normalise(root,id,withFiles=false){
- const descriptor=json(path.join(root,id,'pack.json'));
+ const bytes=readManifest(path.join(root,id,'pack.json')),descriptor=JSON.parse(bytes);
  const p={title:id,requires:[],conflicts:[],modules:[],sharedModules:[],sources:[],assets:[],files:[],build:null,navigation:null,runtime:null,render:null,stylesheets:[],outputs:[],grants:{build:[],browser:[]},...descriptor};
  p.grants={build:[],browser:[],...p.grants};
- p.descriptorSha256=hash(fs.readFileSync(path.join(root,id,'pack.json')));
- p.observedFiles=withFiles?[...p.modules.map(f=>observe(path.join(root,id),f,id,'module')),...p.sources.map(f=>observe(path.join(root,id),f,id,'facts')),...p.assets.map(f=>observe(path.join(root,id),f,id,'asset')),...p.files.map(f=>observe(path.join(root,id),f,id,'file'))]:[];
+ p.descriptorSha256=hash(bytes);
+ p.observedFiles=withFiles?[...p.modules.map(f=>observe(path.join(root,id),f,id,'module')),...authoredSources(path.join(root,id),id,p.modules,'authored-module'),...p.sources.map(f=>observe(path.join(root,id),f,id,'facts')),...authoredSources(path.join(root,id),id,p.sources,'authored-facts'),...p.assets.map(f=>observe(path.join(root,id),f,id,'asset')),...p.files.map(f=>observe(path.join(root,id),f,id,'file'))]:[];
  p.moduleTargets=[...p.observedFiles.filter(f=>f.kind==='module').map(f=>f.target),...p.sharedModules];p.sourceTargets=p.observedFiles.filter(f=>f.kind==='facts').map(f=>f.target);
  p.outputRecords=p.outputs.map(output=>({path:typeof output==='string'?output:output.path,owner:id}));for(const o of p.outputRecords)safe(base,o.path.replaceAll('*','wildcard'));
  if(p.runtime){p.runtime={output:id+'-runtime.js',allPages:false,...p.runtime};p.grants.build=[...p.grants.build,'runtime.bundle'];}
  return p;
 }
 async function evaluate(entry,input){
- const compiler=json(path.join(base,'algebra/lowering.process.json')),definitions=json(path.join(base,'algebra/operators.expression.json'));
- const surface={queries:{...json(path.join(base,'algebra/fact-index.process.json')).queries,...json(path.join(project,'packs/composition.process.json')).queries}};
+ const compiler=readModule(base,'algebra/lowering.encounter'),definitions=decodeValue(fs.readFileSync(path.join(base,'algebra/operators.expression.rel'),'utf8'));
+ const composition='packs/composition.encounter';
+ const source=compileEncounter(composition,fs.readFileSync(path.join(project,composition),'utf8'));
+ const surface={queries:{...readModule(base,'algebra/fact-index.encounter').queries,...source.queries}};
  const model=await lower({compiler,definitions,primitives:createKernel.operators,input:surface,mode:'model',ports:valuePorts(),limit:20000000});
  return (await invoke({model,entry,input,ports:valuePorts(),nested:['kernel.invoke'],limit:20000000})).value;
 }
 export async function planWorld(options={}){
  const registryRoot=path.resolve(options.registryRoot??path.join(project,'packs'));
- const catalogue=Object.create(null);for(const dir of fs.readdirSync(registryRoot,{withFileTypes:true}).filter(d=>d.isDirectory()).sort((a,b)=>a.name.localeCompare(b.name)))if(fs.existsSync(path.join(registryRoot,dir.name,'pack.json')))catalogue[dir.name]=normalise(registryRoot,dir.name);
- const foundationFiles=walk(base).map(f=>observe(base,f,'foundation','file'));
+ const catalogue=Object.create(null);for(const id of packIds(registryRoot))catalogue[id]=normalise(registryRoot,id);
+ const foundationFiles=walk(base).map(f=>observe(base,{
+  source:f,target:f.replace(/^(algebra\/.*)\.encounter$/,'$1.process.json'),
+ },'foundation','file'));
  const pure=Object.keys(valuePorts());
  const foundation={files:foundationFiles,queryModules:foundationFiles.map(f=>f.target).filter(f=>f.startsWith('algebra/')&&f.endsWith('.process.json')),modules:['algebra/html.process.json','algebra/css.process.json'],buildGrants:[...pure,'file.write','file.copy'],valueGrants:pure,compilationGrants:pure};
- let profile=null,profileFiles=[],profileRoot=null;if(options.profile){const filename=path.resolve(options.profile);profile=json(filename);profileRoot=path.dirname(filename);if(profile.protocol!=='worldwright/profile/1')throw Error('Unknown composition profile');}
+ let profile=null,profileFiles=[],profileRoot=null;if(options.profile){const filename=path.resolve(options.profile);profile=JSON.parse(readManifest(filename));profileRoot=path.dirname(filename);if(profile.protocol!=='worldwright/profile/1')throw Error('Unknown composition profile');}
  const requested=options.features??profile?.features??['reader','sources'];
  const selected=await evaluate('compose.resolve',{catalogue,requested});
  const requests=await evaluate('compose.profileRequests',{catalogue,selected,profileRequests:profile?.files??[]});
- profileFiles=requests.map(f=>f.observe?observe(profileRoot,f,f.owner,f.kind):{...f,source:null,sha256:null,factRows:[]});
+ profileFiles=requests.flatMap(f=>f.observe?
+  [observe(profileRoot,f,f.owner,f.kind),...(f.kind==='facts'?authoredSources(profileRoot,f.owner,[f],'authored-facts'):[])]:
+  [{...f,source:null,sha256:null,factRows:[]}]);
  for(const [key,target] of [['worldSource','source/world.rel'],['presentationSource','source/presentation.rel']])if(options[key]!==undefined){const text=options[key];profileFiles.push({owner:'core',kind:'facts',source:null,target,sha256:hash(text),factRows:parseRel(text,target),inline:text});}
  for(const asset of options.extraAssets??[])profileFiles.push(observe(path.resolve(asset.root??'.'),asset,asset.owner??'core','asset'));
  for(const id of selected)catalogue[id]=normalise(registryRoot,id,true);
+ if(selected.some(id=>catalogue[id].observedFiles.some(file=>file.kind.startsWith('authored-'))))foundation.files.push(...portableCompiler());
  const plan=await evaluate('compose.plan',{catalogue,foundation,requested,profileFiles});
  Object.defineProperties(plan,{catalogue:{value:catalogue},foundation:{value:foundation},overrides:{value:profileFiles}});return plan;
 }
@@ -69,7 +101,13 @@ export async function composeWorld(destination,options={}){
   const prior=json(receiptFile);
   const previous={...prior,files:(prior.files??[]).map(f=>({...f,exists:fs.existsSync(safe(dest,f.target))}))};
   const retainedPaths=await evaluate('compose.retain',{eventInput:{prior:previous,plan}});
-  const retained=retainedPaths.map(f=>observe(dest,{source:f.target,target:f.target},f.owner,f.kind));
+  const retained=retainedPaths.flatMap(f=>{
+   const authored={...observe(dest,{source:f.target,target:f.target},f.owner,f.kind),projection:f.projection??null,retained:true};
+   if(!f.projection)return [authored];
+   const kind=f.kind==='authored-module'?'module':'facts';
+   const projected=observe(dest,{source:f.target,target:f.projection},f.owner,kind);
+   return [{...projected,retained:true},authored];
+  });
   // Retention is the same source-defined profile authority check as explicit overrides.
   if(retained.length)plan=await evaluate('compose.plan',{catalogue:plan.catalogue,foundation:plan.foundation,requested:plan.requested,profileFiles:[...retained,...plan.overrides]});
  }
@@ -80,10 +118,19 @@ export async function composeWorld(destination,options={}){
   const facts=await evaluate('compose.facts',{eventInput:plan});
   fs.writeFileSync(path.join(stage,'algebra/composition.process.json'),JSON.stringify(programme,null,2)+'\n');
   fs.writeFileSync(path.join(stage,'source/composition.rel'),facts.map(f=>'('+[f.s,f.p,f.o].map(JSON.stringify).join(', ')+')').join('\n')+'\n');
-  const manifest={protocol:'temple/bootstrap-site/1',entry:'composition.build',operatorDefinitions:'algebra/operators.expression.json',operatorCompiler:'algebra/lowering.process.json',factIndexer:'algebra/fact-index.process.json',nativeSource:'bootstrap/native.json',hostPorts:'bootstrap/ports.json',executionBudget:20000000,modules:[...plan.modules,'algebra/composition.process.json'],sources:[...plan.sources,'source/composition.rel'],kernelProfile:'bootstrap/kernel-profile.json',admission:'algebra/admission.process.json',languageCompiler:'algebra/language.process.json',languageSources:[]};
-  fs.writeFileSync(path.join(stage,'bootstrap/site.json'),JSON.stringify(manifest,null,2)+'\n');fs.writeFileSync(path.join(stage,'bootstrap/ports.json'),JSON.stringify({protocol:'temple/native-port-grants/1',profiles:plan.profiles},null,2)+'\n');
-  const artifacts=await evaluate('compose.artifacts',{eventInput:plan});for(const artifact of artifacts){const filename=safe(stage,artifact.path);fs.mkdirSync(path.dirname(filename),{recursive:true});fs.writeFileSync(filename,JSON.stringify(artifact.value,null,2)+'\n');}
-  const receipt={protocol:'worldwright/composition-receipt/1',requested:plan.requested,selected:plan.selected,modules:plan.modules,sources:plan.sources,assets:plan.assets,profiles:plan.profiles,outputOwners:plan.outputOwners,skippedProfileOwners:plan.skippedProfileOwners,files:plan.files.map(({factRows,inline,source,...f})=>({...f,sourceSha256:f.sha256,sha256:hash(fs.readFileSync(safe(stage,f.target))),source:source?path.relative(project,source).replaceAll('\\','/'):null})),packs:plan.packs};
+  const manifest={protocol:'temple/bootstrap-site/1',entry:'composition.build',operatorDefinitions:'algebra/operators.expression.rel',operatorCompiler:'algebra/lowering.process.json',factIndexer:'algebra/fact-index.process.json',nativeSource:'bootstrap/native.rel',hostPorts:'bootstrap/ports.rel',executionBudget:20000000,modules:[...plan.modules,'algebra/composition.process.json'],sources:[...plan.sources,'source/composition.rel'],kernelProfile:'bootstrap/kernel-profile.rel',admission:'algebra/admission.process.json',languageCompiler:'algebra/language.process.json',languageSources:[]};
+  if(plan.files.some(file=>file.kind.startsWith('authored-'))){
+   const projected=new Map(plan.files.filter(f=>f.derived).map(f=>[f.target,f]));
+   manifest.authoredSources=plan.files.filter(f=>f.kind.startsWith('authored-')&&projected.has(f.projection)).map(f=>{
+    const model=projected.get(f.projection);
+    return {file:f.target,projection:f.projection,sourceSha256:model.sourceSha256,projectionSha256:model.sha256};
+   });
+   manifest.processCompiler=plan.files.filter(f=>f.kind==='compiler').map(f=>({file:f.target,sha256:f.sha256}));
+  }
+  fs.writeFileSync(path.join(stage,'bootstrap/site.rel'),encodeValue(manifest));
+  fs.writeFileSync(path.join(stage,'bootstrap/ports.rel'),encodeValue({protocol:'temple/native-port-grants/1',profiles:plan.profiles}));
+  const artifacts=await evaluate('compose.artifacts',{eventInput:plan});for(const artifact of artifacts){const filename=safe(stage,artifact.path);fs.mkdirSync(path.dirname(filename),{recursive:true});fs.writeFileSync(filename,artifact.path.endsWith('.rel')?encodeValue(artifact.value):JSON.stringify(artifact.value,null,2)+'\n');}
+  const receipt={protocol:'worldwright/composition-receipt/1',requested:plan.requested,selected:plan.selected,modules:plan.modules,sources:plan.sources,assets:plan.assets,profiles:plan.profiles,outputOwners:plan.outputOwners,skippedProfileOwners:plan.skippedProfileOwners,files:plan.files.map(({factRows,inline,source,...f})=>({...f,sourceSha256:f.sourceSha256??f.sha256,sha256:hash(fs.readFileSync(safe(stage,f.target))),source:source?path.relative(project,source).replaceAll('\\','/'):null})),packs:plan.packs};
   fs.writeFileSync(path.join(stage,'composition-receipt.json'),JSON.stringify(receipt,null,2)+'\n');fs.writeFileSync(path.join(stage,'source/composition.json'),JSON.stringify(receipt,null,2)+'\n');
   if(fs.existsSync(dest)){const previous=dest+'.previous-'+crypto.randomBytes(4).toString('hex');await rename(dest,previous);try{await rename(stage,dest)}catch(e){await rename(previous,dest);throw e;}if(!previous.startsWith(path.dirname(dest)+path.sep))throw Error('Invalid replacement cleanup');fs.rmSync(previous,{recursive:true,force:true,maxRetries:7,retryDelay:50});}else await rename(stage,dest);
   return {...receipt,destination:dest};

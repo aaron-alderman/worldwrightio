@@ -7,11 +7,20 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/motion.process.json",
-    "algebra/motion-graphics.process.json"
+    {
+      "source": "algebra/motion.encounter",
+      "target": "algebra/motion.process.json"
+    },
+    {
+      "source": "algebra/motion-graphics.encounter",
+      "target": "algebra/motion-graphics.process.json"
+    }
   ],
   "sources": [
-    "source/motion.rel"
+    {
+      "source": "source/motion.encounter",
+      "target": "source/motion.rel"
+    }
   ],
   "assets": [],
   "build": "motion.build",

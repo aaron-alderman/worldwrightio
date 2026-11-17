@@ -1,6 +1,6 @@
 # Evidence review
 
-Select with --features claims. Dependencies are resolved from pack.json; unselected packs are not copied. source/claims.rel owns the configuration JSON. claims.view is a reusable HTML projection; add a FeatureBlock with feature claims and placement home or a Place identity. One mount per feature per page. claims.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
+Select with --features claims. Dependencies are resolved from pack.json; unselected packs are not copied. source/claims.encounter owns the typed Encounter configuration. claims.view is a reusable HTML projection; add a FeatureBlock with feature claims and placement home or a Place identity. One mount per feature per page. claims.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
 
 The configuration contains `claim`, `scope`, `evidence` and `methods`. Evidence has `id`, `name`, `direction` (`Supports` or `Challenges`), `sourceActor`, `sourceIndependent` (`"true"` or `"false"`) and the fields named by method conditions. A method has `id`, `name`, `minimum`, `thresholdUnits` and an ordered `rules` list. Each rule has `conditions: [{field, expected}]`, `weight`, `units` and `reason`.
 

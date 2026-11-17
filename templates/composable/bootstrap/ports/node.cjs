@@ -29,12 +29,13 @@ async function createNodeHost({root: inputRoot, output = 'dist'}) {
   }
   await checked(root, out);
   await fs.mkdir(out, {recursive:true});
-  const sources = Object.create(null), artifacts = Object.create(null);
+  const sources = Object.create(null), artifacts = Object.create(null), projections = new Map();
   const digest = value => crypto.createHash('sha256').update(value).digest('hex');
-  async function read(file) {
+  async function readBytes(file) {
+    if(projections.has(file))return projections.get(file);
     const bytes = await fs.readFile(await checked(root, file));
     sources[file] = digest(bytes);
-    return bytes.toString('utf8');
+    return bytes;
   }
   async function write(file, bytes) {
     const target = await checked(out, file);
@@ -48,9 +49,7 @@ async function createNodeHost({root: inputRoot, output = 'dist'}) {
     'file.read': async ({path: file}) => fs.readFile(await checked(out, file), 'utf8'),
     'file.remove': async ({path:file}) => {try{await fs.unlink(await checked(out,file));}catch(error){if(error.code!=='ENOENT')throw error;}delete artifacts[file];return true;},
     'file.copy': async ({path: file}) => {
-      const bytes = await fs.readFile(await checked(root, file));
-      sources[file] = digest(bytes);
-      return write(file, bytes);
+      return write(file, await readBytes(file));
     },
     'url.resolve': ({href, route}) => {
       const base = new URL(route, 'https://temple.invalid/');
@@ -70,7 +69,9 @@ async function createNodeHost({root: inputRoot, output = 'dist'}) {
     const actual = [...loaded].map(file => path.relative(root,file).replaceAll('\\','/')).sort();
     if (JSON.stringify([...declared].sort()) !== JSON.stringify(actual)) throw Error('Native bootstrap closure differs from its declaration');
   }
-  return {root, out, read, write, ports, sources, artifacts, verifyNativeClosure,
+  return {root, out, read:async file=>(await readBytes(file)).toString('utf8'), write, ports, sources, artifacts, verifyNativeClosure,
+    derive:(file,text)=>{projections.set(file,Buffer.from(text));delete sources[file];},
+    derivedSources:()=>Object.fromEntries([...projections].map(([file,bytes])=>[file,digest(bytes)])),
     outputName:path.relative(root,out), digest};
 }
 

@@ -7,11 +7,20 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/reader-models.process.json",
-    "algebra/models.process.json"
+    {
+      "source": "algebra/reader-models.encounter",
+      "target": "algebra/reader-models.process.json"
+    },
+    {
+      "source": "algebra/models.encounter",
+      "target": "algebra/models.process.json"
+    }
   ],
   "sources": [
-    "source/models.rel"
+    {
+      "source": "source/models.encounter",
+      "target": "source/models.rel"
+    }
   ],
   "assets": [],
   "build": "models.build",

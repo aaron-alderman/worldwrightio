@@ -5,13 +5,14 @@ import assert from 'node:assert/strict';
 import {fileURLToPath,pathToFileURL} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {createRequire} from 'node:module';
+import {readModule,decodeValue} from './module-source.mjs';
 const repository=fileURLToPath(new URL('../',import.meta.url));
 const read=f=>JSON.parse(fs.readFileSync(f,'utf8'));
 const hash=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
 function files(root,prefix=''){if(!fs.existsSync(path.join(root,prefix)))return [];return fs.readdirSync(path.join(root,prefix),{withFileTypes:true}).flatMap(e=>e.isDirectory()?files(root,prefix+e.name+'/'):[prefix+e.name]).sort();}
 /** Structural/corpus audit, independently checks a concrete consumer; no browser claim. */
 export function verifyComposition(directory,{checkCreationHashes=false}={}){
- const root=path.resolve(directory),receipt=read(path.join(root,'composition-receipt.json')),manifest=read(path.join(root,'bootstrap/site.json'));
+ const root=path.resolve(directory),receipt=read(path.join(root,'composition-receipt.json')),manifest=decodeValue(fs.readFileSync(path.join(root,'bootstrap/site.rel'),'utf8'));
  assert.equal(receipt.protocol,'worldwright/composition-receipt/1');assert.equal(manifest.executionBudget,20000000);
  const selected=new Set(receipt.selected),allFiles=files(root),errors=[];
  const expect=(condition,message)=>{if(!condition)errors.push(message);};
@@ -20,7 +21,7 @@ export function verifyComposition(directory,{checkCreationHashes=false}={}){
  for(const directory of fs.readdirSync(path.join(repository,'packs'),{withFileTypes:true}).filter(x=>x.isDirectory())){
   const descriptorPath=path.join(repository,'packs',directory.name,'pack.json');if(!fs.existsSync(descriptorPath))continue;const descriptor=read(descriptorPath);
   if(selected.has(descriptor.id)){for(const dependency of descriptor.requires??[])expect(selected.has(dependency),'Missing dependency '+descriptor.id+' -> '+dependency);continue;}
-  for(const target of [...descriptor.modules??[],...descriptor.sources??[],...descriptor.assets??[]].map(x=>typeof x==='string'?x:x.target??x.source))if(!receipt.files.some(f=>f.target===target))expect(!allFiles.includes(target),'Excluded pack payload '+descriptor.id+': '+target);
+  for(const target of [...descriptor.modules??[],...descriptor.sources??[],...descriptor.assets??[]].map(x=>typeof x==='string'?x:x.target??x.source))if(!receipt.files.some(f=>f.target===target)){expect(!allFiles.includes(target),'Excluded pack payload '+descriptor.id+': '+target);if(target.endsWith('.process.json'))expect(!allFiles.includes(target.replace(/\.process\.json$/,'.encounter')),'Excluded Encounter source '+target);}
   for(const output of descriptor.outputs??[]){const target=typeof output==='string'?output:output.path;if(!target.includes('*'))expect(!allFiles.includes('dist/'+target),'Excluded route '+target);}
   if(descriptor.runtime?.profile)expect(!Object.hasOwn(receipt.profiles,descriptor.runtime.profile),'Excluded runtime grant profile '+descriptor.runtime.profile);
  }
@@ -69,9 +70,9 @@ export function writeCoverage(){
   'encounter-demo':'Own typed notebook workshop source/edit/reset/select and DOM event dispatch replace old story demonstration.',
   microsites:'Variable source-defined windows and actual markup/CSS/metadata projection libraries; original authored project sites are excluded.'
  };
- const foundation=path.join(repository,'templates/composable'),locations=files(foundation).filter(f=>/algebra\/.*\.json$/.test(f)).map(file=>({file:'templates/composable/'+file,owner:'core'}));
- for(const id of fs.readdirSync(path.join(repository,'packs'),{withFileTypes:true}).filter(x=>x.isDirectory()).map(x=>x.name))for(const file of files(path.join(repository,'packs',id)).filter(f=>f.startsWith('algebra/')&&f.endsWith('.json')))locations.push({file:'packs/'+id+'/'+file,owner:id});
- const queries=new Set(),libraries=locations.map(x=>{const module=read(path.join(repository,x.file));for(const name of Object.keys(module.queries??{}))queries.add(name);return {...x,sha256:hash(fs.readFileSync(path.join(repository,x.file))),queries:Object.keys(module.queries??{})};});
+ const foundation=path.join(repository,'templates/composable'),locations=files(foundation).filter(f=>/algebra\/.*\.(?:encounter|json)$/.test(f)).map(file=>({file:'templates/composable/'+file,owner:'core'}));
+ for(const id of fs.readdirSync(path.join(repository,'packs'),{withFileTypes:true}).filter(x=>x.isDirectory()).map(x=>x.name))for(const file of files(path.join(repository,'packs',id)).filter(f=>f.startsWith('algebra/')&&/\.(?:encounter|json)$/.test(f)))locations.push({file:'packs/'+id+'/'+file,owner:id});
+ const queries=new Set(),libraries=locations.map(x=>{const module=readModule(repository,x.file);for(const name of Object.keys(module.queries??{}))queries.add(name);return {...x,sha256:hash(fs.readFileSync(path.join(repository,x.file))),queries:Object.keys(module.queries??{})};});
  function mapped(q,id){if(id==='microsite-media')return q.replace(/^media\./,'media.stream.');if(id==='microsite-motion')return q.replace('motion.sourcery.','motion.scroll.');if(id==='microsite-temple-motion')return q.replace('motion.temple.','motion.chapter.').replace('motion.constellation.temple','motion.constellation.marker');if(id==='microsite-temple-ui')return q.replace('ui.temple.','ui.cells.');if(['microsite-values','microsite-lamp'].includes(id))return q.replace(/^lamp\./,'cells.').replace('cells.freshTemple','cells.freshHub');if(id==='microsite-sourcery')return q.replace(/^sourcery\./,'draft.');if(id==='encounter-demo')return q.replace('encounter.demo.','workshop.');if(id==='reader-activities'&&q==='activity.boot')return 'activities.boot';return q;}
  const features=read(path.join(repository,'context/features.json')).features.map(original=>{const present=[],replaced=[];for(const query of original.queries){const target=mapped(query,original.id);(queries.has(target)?present:replaced).push({original:query,target});}return {originalModule:original.id,originalSha256:original.sha256,pack:owners[original.id],preservedOrRenamedQueryCount:present.length,originalQueryCount:original.queries.length,presentQueries:present,replacedEntryPoints:replaced,note:notes[original.id]??'Source-owned reusable engine; literal query presence is recorded separately from executed behavior.',behaviorEvidence:['tooling/composition.test.mjs','tooling/interactive-packs.test.mjs','evidence/composition/consumers.json']};});
  assert.equal(features.length,36);assert.ok(features.every(x=>x.pack));

@@ -1,6 +1,6 @@
 # Coastal model bench
 
-Select with --features models. Dependencies are resolved from pack.json; unselected packs are not copied. source/models.rel owns the configuration JSON. models.view is a reusable HTML projection; add a FeatureBlock with feature models and placement home or a Place identity. One mount per feature per page. models.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
+Select with --features models. Dependencies are resolved from pack.json; unselected packs are not copied. source/models.encounter owns the typed Encounter configuration. models.view is a reusable HTML projection; add a FeatureBlock with feature models and placement home or a Place identity. One mount per feature per page. models.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
 
 The configuration contains `scope`, `cellPattern` (sixteen numerical cells) and `scenarios: [{id, title, input}]`. Scenario inputs are ordinary JSON arrays/objects. The select control fills the selected source-owned recipe before evaluation.
 

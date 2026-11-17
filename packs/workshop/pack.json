@@ -8,14 +8,32 @@
   ],
   "conflicts": [],
   "modules": [
-    "algebra/encounter-code-types.process.json",
-    "algebra/encounter-code-compiler.process.json",
-    "algebra/encounter-code-runtime.process.json",
-    "algebra/workshop.process.json",
-    "algebra/workshop-lab.process.json"
+    {
+      "source": "algebra/encounter-code-types.encounter",
+      "target": "algebra/encounter-code-types.process.json"
+    },
+    {
+      "source": "algebra/encounter-code-compiler.encounter",
+      "target": "algebra/encounter-code-compiler.process.json"
+    },
+    {
+      "source": "algebra/encounter-code-runtime.encounter",
+      "target": "algebra/encounter-code-runtime.process.json"
+    },
+    {
+      "source": "algebra/workshop.encounter",
+      "target": "algebra/workshop.process.json"
+    },
+    {
+      "source": "algebra/workshop-lab.encounter",
+      "target": "algebra/workshop-lab.process.json"
+    }
   ],
   "sources": [
-    "source/workshop.rel"
+    {
+      "source": "source/workshop.encounter",
+      "target": "source/workshop.rel"
+    }
   ],
   "assets": [],
   "build": "workshop.build",

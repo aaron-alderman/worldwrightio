@@ -22,9 +22,9 @@ Human purpose and attributed content
 
 Meaning belongs in source/world.rel: identity, purpose, places, choices, sources and spatial coordinates. Selected packs own their additional configuration and page mounts. Identity stays distinct from visible title. Relations name exact destinations and source objects.
 
-Composition and policy belong in packs/composition.process.json and each selected pack's process modules. The composer generates bootstrap/site.json from the admitted plan, including the complete selected module and source closure. Validation runs before page projection.
+Composition and policy belong in packs/composition.encounter and each selected pack's process modules. The composer generates bootstrap/site.rel from the admitted plan, including the complete selected module and source closure. Validation runs before page projection.
 
-Presentation belongs in source/presentation.rel and the CSS algebra. Rule order is explicit. Generated styles have one authoring chain.
+Presentation belongs in source/presentation.encounter and the CSS algebra. Rule order is explicit. Generated styles have one authoring chain.
 
 Each pack descriptor owns its assets and stylesheets separately from the replaceable world graph. Profiles can add owned custom assets. Recomposition preserves selected authored sources and assets while removing excluded pack payloads and grants. FeatureBlock facts mount activities and other views beside the reading they support.
 
@@ -34,7 +34,7 @@ Mechanisms belong in bootstrap. Filesystem observation, strings and browser effe
 
 templates/world is the small standalone reader. templates/expedition is the complete reusable expedition, including its input and native-effect closure. templates/features contains concrete contracts for the initial feature families. templates/feature.json remains the common extension contract: purpose, types, invariants, owners, dependencies, effects, projections, correction and verification.
 
-The current composition unit is a pack. packs/composition.process.json resolves selected features, their dependencies, source ownership, modules, outputs and permissions. tooling/compose-world.mjs observes files and applies the admitted plan. templates/composable supplies the unchanged seed and generic adapters. The historical full expedition and reference/algebra retain the original implementation and attribution; they are not copied by the composer.
+The current composition unit is a pack. packs/composition.encounter resolves selected features, their dependencies, source ownership, modules, outputs and permissions. tooling/compose-world.mjs observes files and applies the admitted plan. templates/composable supplies the unchanged seed and generic adapters. The historical full expedition and reference/algebra retain the original implementation and attribution; they are not copied by the composer.
 
 FeatureBlock facts select a pack view, a home or Place placement and an explicit numeric order. The shell invokes those views through process algebra. Pack boot queries guard absent mounts, so a world can compose interactive features inside readings as well as give them separate routes. Profiles override canonical source by owner; unselected owners are skipped. See docs/composition.md and each pack descriptor for the current source contract.
 

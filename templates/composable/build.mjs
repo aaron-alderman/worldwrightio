@@ -19,7 +19,7 @@ async function rename(from,to){
  }
 }
 try{
- await build({root,output:candidate,manifestFile:'bootstrap/site.json'});
+ await build({root,output:candidate,manifestFile:'bootstrap/site.rel'});
  if(fs.existsSync(output))await rename(output,previous);
  try{await rename(candidate,output);}catch(error){if(fs.existsSync(previous))await rename(previous,output);throw error;}
  discard(previous);

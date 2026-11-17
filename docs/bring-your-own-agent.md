@@ -85,8 +85,8 @@ The [composition guide](composition.html) lists packs and their source contracts
 | File or record | What it is for |
 | --- | --- |
 | source/world.rel | Identity, purpose, places, choices, sources and feature mounts |
-| source/presentation.rel | Ordered presentation rules |
-| Selected source/*.rel files | Pack-specific configuration |
+| source/presentation.encounter | Ordered presentation rules |
+| Selected source/*.encounter files | Pack-specific configuration |
 | composition-receipt.json | Selected features, owned inputs, hashes and permissions at composition time |
 | dist/build-receipt.json | Inputs, outputs and execution observations for a build |
 | dist/ | Generated output; rebuild it from the source |

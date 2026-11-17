@@ -1,3 +1,4 @@
+import {readFacts,decodeConfiguration,decodeValue,readModule} from './module-source.mjs';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -8,11 +9,11 @@ import {spawnSync} from 'node:child_process';
 import {composeWorld} from './compose-world.mjs';
 const root=fileURLToPath(new URL('../',import.meta.url)),base=path.join(root,'templates/composable'),require=createRequire(import.meta.url);
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
-const {createKernel}=require(path.join(base,'bootstrap/temple-seed.cjs')),{lower}=require(path.join(base,'bootstrap/ports/algebra-lower.cjs')),{valuePorts}=require(path.join(base,'bootstrap/ports/value.cjs')),{invoke}=require(path.join(base,'bootstrap/ports/programme.cjs')),{parseRel}=require(path.join(base,'bootstrap/ports/rel-codec.cjs'));
-const queries=read(path.join(root,'packs/curvature/algebra/curvature.process.json')).queries;
+const {createKernel}=require(path.join(base,'bootstrap/temple-seed.cjs')),{lower}=require(path.join(base,'bootstrap/ports/algebra-lower.cjs')),{valuePorts}=require(path.join(base,'bootstrap/ports/value.cjs')),{invoke}=require(path.join(base,'bootstrap/ports/programme.cjs'));
+const queries={...readModule(path.join(root,'packs/curvature'),'algebra/curvature.encounter').queries};
 delete queries['curvature.build'];delete queries['curvature.view'];
-const model=await lower({compiler:read(path.join(base,'algebra/lowering.process.json')),definitions:read(path.join(base,'algebra/operators.expression.json')),primitives:createKernel.operators,input:{entry:'curvature.boot',queries},mode:'model',ports:valuePorts(),limit:20000000});
-const data=()=>JSON.parse(parseRel(fs.readFileSync(path.join(root,'examples/tidepool/source/curvature.rel'),'utf8'),'curvature').find(r=>r.p==='configuration').o);
+const model=await lower({compiler:readModule(base,'algebra/lowering.encounter'),definitions:decodeValue(fs.readFileSync(path.join(base,'algebra/operators.expression.rel'),'utf8')),primitives:createKernel.operators,input:{entry:'curvature.boot',queries},mode:'model',ports:valuePorts(),limit:20000000});
+const data=()=>decodeConfiguration('curvature',readFacts(root,'examples/tidepool/source/curvature.rel'));
 function browser({reduced=false,hidden=false,stored=null,mounted=true,storage=true}={}){
  const state=new Map(),effects=[],environment={reduced,hidden};
  const ports={...valuePorts(),'dom.exists':()=>mounted,'browser.environment':()=>environment,'state.get':({key})=>state.get(key)??null,'state.set':({key,value})=>{state.set(key,value);return true},'storage.read':()=>({ok:storage,value:stored}),'storage.write':x=>{effects.push({port:'storage.write',...x});return {ok:storage}},...Object.fromEntries(['attribute','write','style','on'].map(name=>['browser.'+name,x=>{effects.push({port:'browser.'+name,...x});return true}]))};
@@ -65,18 +66,25 @@ test('a source-only small consumer builds without Tidepool, and pack removal dro
  const parent=fs.mkdtempSync(path.join(root,'.build/curvature-consumer-')),world=path.join(parent,'world');
  const receipt=await composeWorld(world,{features:['curvature']});assert.deepEqual(receipt.selected,['core','curvature']);
  // Prove a source author can omit five dimensions and still build a functioning small world.
- const source=path.join(world,'source/curvature.rel');const config=JSON.parse(parseRel(fs.readFileSync(source,'utf8'),'curvature').find(r=>r.p==='configuration').o);
+ const source=path.join(world,'source/curvature.encounter');
+ const config=decodeConfiguration('curvature',readFacts(world,'source/curvature.rel'));
+ function valueText(value){
+  if(Array.isArray(value))return 'list('+value.map(valueText).join(', ')+')';
+  if(value&&typeof value==='object')return '{ '+Object.entries(value).map(([k,v])=>JSON.stringify(k)+' = '+valueText(v)).join('; ')+' }';
+  return JSON.stringify(value);
+ }
+ const configurationSource=value=>'process-module "temple/surface-process-module/1"\n\nprocess configuration.definition:\n  let result = { owner = "curvature"; value = '+valueText(value)+' }\n';
  const build=()=>spawnSync(process.execPath,['build.mjs'],{cwd:world,encoding:'utf8',timeout:120000,maxBuffer:4000000});
  const initial=build();assert.equal(initial.status,0,initial.stdout+initial.stderr);
  const accepted=fs.readFileSync(path.join(world,'dist/curvature.html'),'utf8');
  for(const kind of ['image','action']){
   const invalid=structuredClone(config),option=invalid.dimensions.find(d=>d.kind===kind).options[0];
   if(kind==='image'){option.src='assets/undeclared.webp';option.alt='An unowned illustration';}else option.href='places/undeclared.html';
-  fs.writeFileSync(source,'("curvature","configuration",'+JSON.stringify(JSON.stringify(invalid))+')\n');const refused=build();assert.notEqual(refused.status,0);assert.match(refused.stderr,kind==='image'?/CURVATURE-IMAGE/:/CURVATURE-ACTION/);
+  fs.writeFileSync(source,configurationSource(invalid));const refused=build();assert.notEqual(refused.status,0);assert.match(refused.stderr,kind==='image'?/CURVATURE-IMAGE/:/CURVATURE-ACTION/);
   assert.equal(fs.readFileSync(path.join(world,'dist/curvature.html'),'utf8'),accepted,'Refused configuration must preserve the accepted publication.');
  }
  config.dimensions=config.dimensions.filter(d=>['colours','shapes'].includes(d.id));for(const p of config.presets)p.selections=p.selections.filter(s=>['colours','shapes'].includes(s.dimension));
- fs.writeFileSync(source,'("curvature","configuration",'+JSON.stringify(JSON.stringify(config))+')\n');
+ fs.writeFileSync(source,configurationSource(config));
  const result=build();assert.equal(result.status,0,result.stdout+result.stderr);
  const html=fs.readFileSync(path.join(world,'dist/curvature.html'),'utf8');assert.ok(html.includes('data-dimension="shapes"'));assert.ok(!html.includes('data-dimension="images"'));assert.ok(!html.includes('tidepool-dawn'));
  assert.ok(!fs.existsSync(path.join(world,'assets/tidepool-dawn-v1.webp')));assert.equal(fs.readFileSync(path.join(world,'bootstrap/temple-seed.cjs'),'utf8'),fs.readFileSync(path.join(base,'bootstrap/temple-seed.cjs'),'utf8'));

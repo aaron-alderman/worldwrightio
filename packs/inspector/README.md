@@ -1,6 +1,6 @@
 # Source inspector
 
-Select with --features inspector. Dependencies are resolved from pack.json; unselected packs are not copied. source/inspector.rel owns the configuration JSON. inspector.view is a reusable HTML projection; add a FeatureBlock with feature inspector and placement home or a Place identity. One mount per feature per page. inspector.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
+Select with --features inspector. Dependencies are resolved from pack.json; unselected packs are not copied. source/inspector.encounter owns the typed Encounter configuration. inspector.view is a reusable HTML projection; add a FeatureBlock with feature inspector and placement home or a Place identity. One mount per feature per page. inspector.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
 
 The configuration contains `text`, `file`, `language` and `presentation: {spPolicy, spGrammar, lexPolicy, lexGrammar}`. `inspector.present` takes `{text, file, language}` and returns the real extracted highlighter's tree/metadata plus the SHA-256 digest. The default sample is a new fictional notebook record. File aliases point to notebook sources, not the initial corpus.
 

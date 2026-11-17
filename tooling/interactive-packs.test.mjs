@@ -2,19 +2,58 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
+import {createHash} from 'node:crypto';
+import {readFacts,decodeConfiguration,decodeValue,readModule} from './module-source.mjs';
 import {createRequire} from 'node:module';
 import {fileURLToPath} from 'node:url';
 const root=fileURLToPath(new URL('../',import.meta.url)),base=path.join(root,'templates/composable'),require=createRequire(import.meta.url),read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
 const {createKernel}=require(path.join(base,'bootstrap/temple-seed.cjs')),{lower}=require(path.join(base,'bootstrap/ports/algebra-lower.cjs')),{valuePorts}=require(path.join(base,'bootstrap/ports/value.cjs')),{computationalPorts}=require(path.join(base,'bootstrap/ports/browser-effects.cjs')),{invoke}=require(path.join(base,'bootstrap/ports/programme.cjs')),{parseRel}=require(path.join(base,'bootstrap/ports/rel-codec.cjs'));
 const ids=['inspector','workshop','claims','programmes','models','activities'],queries={};
-for(const f of ['html','css','language','fact-index','lowering','admission'])Object.assign(queries,read(path.join(base,'algebra',f+'.process.json')).queries);
-for(const id of ids)for(const f of read(path.join(root,'packs',id,'pack.json')).modules)Object.assign(queries,read(path.join(root,'packs',id,f)).queries);
+for(const f of ['html','css','language','fact-index','lowering','admission'])Object.assign(queries,readModule(base,'algebra/'+f+'.encounter').queries);
+Object.assign(queries,readModule(path.join(root,'packs/core'),'algebra/core.encounter').queries);
+for(const id of ids)for(const spec of read(path.join(root,'packs',id,'pack.json')).modules)
+ Object.assign(queries,readModule(path.join(root,'packs',id),spec).queries);
 for(const id of ids){delete queries[id+'.build'];delete queries[id+'.view'];}
-const model=await lower({compiler:read(path.join(base,'algebra/lowering.process.json')),definitions:read(path.join(base,'algebra/operators.expression.json')),primitives:createKernel.operators,input:{entry:'claims.evaluate',queries},mode:'model',ports:valuePorts(),limit:20000000});
-const data=id=>JSON.parse(parseRel(fs.readFileSync(path.join(root,'packs',id,'source',id+'.rel'),'utf8'),'configuration').find(r=>r.s===id&&r.p==='configuration').o);
+const model=await lower({compiler:readModule(base,'algebra/lowering.encounter'),definitions:decodeValue(fs.readFileSync(path.join(base,'algebra/operators.expression.rel'),'utf8')),primitives:createKernel.operators,input:{entry:'claims.evaluate',queries},mode:'model',ports:valuePorts(),limit:20000000});
+const {indexFacts}=require(path.join(base,'bootstrap/ports/fact-index.cjs'));
+const indexer=readModule(base,'algebra/fact-index.encounter');
+const sourceFacts=(id,prefix='packs/'+id)=>parseRel(readFacts(root,prefix+'/source/'+id+'.rel'),'configuration');
+async function typedData(id,prefix){
+ const factIndex=await indexFacts(createKernel(valuePorts(),20000000),indexer,sourceFacts(id,prefix));
+ return (await invoke({model,entry:'configuration.read',input:{configurationOwner:id,factIndex},ports:valuePorts(),nested:['kernel.invoke'],limit:20000000})).value;
+}
+const data=id=>decodeConfiguration(id,readFacts(root,'packs/'+id+'/source/'+id+'.rel'));
 const run=async(id,entry,eventInput={},ports={},extra={})=>(await invoke({model,entry,input:{data:data(id),eventInput,...extra},ports:{...valuePorts(),...computationalPorts(),...ports},nested:['kernel.invoke','kernel.execute','kernel.evaluate'],limit:20000000})).value;
 function browser(values={}){const state=new Map(),effects=[];return {state,effects,ports:{'dom.exists':()=>true,'state.get':({key})=>state.has(key)?state.get(key):null,'state.set':({key,value})=>{state.set(key,value);return true},'browser.on':x=>{effects.push(x);return true},'browser.property':({ref,name})=>values[ref]?.[name]??values[ref]??'',...Object.fromEntries(['write','attribute','content','style','class','replace','dialog'].map(p=>['browser.'+p,x=>{effects.push(x);if(p==='write'&&x.name==='value')values[x.ref]=x.value;return true}])),'browser.select':()=>[],'browser.environment':()=>({reduced:false,hidden:false}),'browser.frame':x=>{effects.push(x);return 1},'clock.read':()=>({monotonic:0}),'storage.write':()=>({ok:true})}}}
 
+test('typed REL hydrates the qualified pack configurations',async()=>{
+ const expected={
+  "packs/activities/source/activities.rel": "d443933041265f675ac92ec0515969e6721f6a77ae8dbf3522d9f8cdd974ad7b",
+  "examples/tidepool/source/activities.rel": "d443933041265f675ac92ec0515969e6721f6a77ae8dbf3522d9f8cdd974ad7b",
+  "examples/seed-library/source/claims.rel": "8ea3b751156cda8af9e24b9fa13b58416839917e73116d5d617028c2c1bb7b21",
+  "packs/claims/source/claims.rel": "957591ec2805f782bddd1138301137b762486a3cd130a1e8c85edce4cd4a13ac",
+  "examples/tidepool/source/claims.rel": "957591ec2805f782bddd1138301137b762486a3cd130a1e8c85edce4cd4a13ac",
+  "packs/curvature/source/curvature.rel": "251c1eaf7b5c47a14f6609ec701cc510bb023fa823a4dae8a0359584ab7a17d6",
+  "examples/tidepool/source/curvature.rel": "162f2e9dea3a93b71f83862715b44a5c18f126f38ac080be67159a9c01699082",
+  "packs/media/source/media.rel": "782829a45b2f27824dc9f583608b07ef39c43c3d09777ba8c758a714e180244d",
+  "examples/tidepool/source/media.rel": "782829a45b2f27824dc9f583608b07ef39c43c3d09777ba8c758a714e180244d",
+  "packs/models/source/models.rel": "434c205e594290b697666de568bc6dd9604251d0917a0ff94176a73093838fb5",
+  "examples/tidepool/source/models.rel": "434c205e594290b697666de568bc6dd9604251d0917a0ff94176a73093838fb5",
+  "packs/motion/source/motion.rel": "33a74555955fc4e1ba62f1a5e017cb773ba78b95779d1ec28f1bea2904c9a89a",
+  "examples/tidepool/source/motion.rel": "33a74555955fc4e1ba62f1a5e017cb773ba78b95779d1ec28f1bea2904c9a89a",
+  "packs/programmes/source/programmes.rel": "f5030ec10001dad8d10b9bcb27358ac5186f7137690eb37552235f0eaf54270b",
+  "examples/tidepool/source/programmes.rel": "f5030ec10001dad8d10b9bcb27358ac5186f7137690eb37552235f0eaf54270b",
+  "packs/inspector/source/inspector.rel": "b3684b53e630e88e22e88eb1d850fba072d98e3d374636c6129c70ffc8ae1acc",
+  "examples/tidepool/source/inspector.rel": "b3684b53e630e88e22e88eb1d850fba072d98e3d374636c6129c70ffc8ae1acc",
+  "packs/workshop/source/workshop.rel": "8d53c2bee54056f126e507e654524145066d6c8c19213c0741c26a2d8c8a5f43",
+  "examples/tidepool/source/workshop.rel": "8d53c2bee54056f126e507e654524145066d6c8c19213c0741c26a2d8c8a5f43"
+};
+ for(const [file,digest] of Object.entries(expected)){
+  const id=path.basename(file,'.rel');
+  const configuration=await typedData(id,path.dirname(path.dirname(file)));
+  assert.equal(createHash('sha256').update(JSON.stringify(configuration)).digest('hex'),digest,file);
+ }
+});
 test('review methods preserve independent-source minima and report conflicting evidence',async()=>{
  const all=data('claims').evidence.map(e=>e.id),review=await run('claims','claims.evaluate',{selected:all});assert.equal(review[0].result,'Conflicted');assert.equal(review[1].result,'Accepted');
  const sparse=await run('claims','claims.evaluate',{selected:[all[0]]});assert.equal(sparse[0].result,'Undecided');assert.equal(sparse[0].independentSources,1);

@@ -44,7 +44,7 @@ Use `home` for the world introduction or a Place identifier for its reading. Eac
 
 ## Content, configuration and presentation
 
-Author the world in `source/world.rel`, styles in `source/presentation.rel`, and optional pack configuration in its source file. The examples use a profile to replace those files while retaining the reusable implementations. A profile file declares its owning pack, input path, output path and kind; files belonging to unselected owners are skipped.
+Author the world in `source/world.rel`, styles in `source/presentation.encounter`, and optional pack configuration in its source file. The examples use a profile to replace those files while retaining the reusable implementations. A profile file declares its owning pack, input path, output path and kind; files belonging to unselected owners are skipped.
 
 ```sh
 node tooling/compose-world.mjs worlds/tidepool --profile examples/tidepool/profile.json

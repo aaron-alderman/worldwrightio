@@ -1,6 +1,6 @@
 # Instrument lending
 
-Select with --features programmes. Dependencies are resolved from pack.json; unselected packs are not copied. source/programmes.rel owns the configuration JSON. programmes.view is a reusable HTML projection; add a FeatureBlock with feature programmes and placement home or a Place identity. One mount per feature per page. programmes.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
+Select with --features programmes. Dependencies are resolved from pack.json; unselected packs are not copied. source/programmes.encounter owns the typed Encounter configuration. programmes.view is a reusable HTML projection; add a FeatureBlock with feature programmes and placement home or a Place identity. One mount per feature per page. programmes.boot installs the admitted runtime only when that mount exists. Runtime and build retain the 20,000,000 step ceiling.
 
 The configuration contains `title`, `scope`, `initial: {available, revision}`, `member`, `cellConfiguration` and `draftConfiguration`. The initial availability is also the lending capacity. Identity choices, cell presets, predicates and drafting templates come from that configuration. All examples are fictional; no real booking, message or deployment occurs.
 

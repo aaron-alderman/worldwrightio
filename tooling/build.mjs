@@ -69,7 +69,7 @@ export async function build(){
   if(worldBuild.status!==0)throw Error(worldBuild.stdout+'\n'+worldBuild.stderr);
   fs.mkdirSync(path.join(output,'examples'),{recursive:true});
   fs.cpSync(path.join(root,'templates/world/dist'),path.join(output,'examples/first-world'),{recursive:true});
-  if(fs.existsSync(path.join(root,'examples/tidepool/profile.json'))){
+  if(['profile.json','profile.encounter'].some(file=>fs.existsSync(path.join(root,'examples/tidepool',file)))){
     const workspace=path.join(root,'.build');fs.mkdirSync(workspace,{recursive:true});
     const parent=fs.mkdtempSync(path.join(workspace,'composed-example-'));
     try {
@@ -84,7 +84,7 @@ export async function build(){
   // The native publisher transports documents; footer selection, markup and style belong to algebra.
   for(const file of ['index.html',...pages.map(([id])=>'docs/'+id+'.html')]){
     const target=path.join(output,file);
-    fs.writeFileSync(target,await projectAlgebra('algebra/hub-footer.process.json','hub.footer.project',{markup:fs.readFileSync(target,'utf8')}));
+    fs.writeFileSync(target,await projectAlgebra('algebra/hub-footer.encounter','hub.footer.project',{markup:fs.readFileSync(target,'utf8')}));
   }
   const sha=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
   const inputs={};

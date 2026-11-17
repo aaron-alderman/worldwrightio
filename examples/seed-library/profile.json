@@ -1,10 +1,34 @@
 {
   "protocol": "worldwright/profile/1",
-  "features": ["reader", "sources", "claims"],
+  "features": [
+    "reader",
+    "sources",
+    "claims"
+  ],
   "files": [
-    {"owner":"core","kind":"facts","source":"source/world.rel","target":"source/world.rel"},
-    {"owner":"core","kind":"facts","source":"source/presentation.rel","target":"source/presentation.rel"},
-    {"owner":"claims","kind":"facts","source":"source/claims.rel","target":"source/claims.rel"},
-    {"owner":"core","kind":"asset","source":"assets/seed-drawer.svg","target":"assets/seed-drawer.svg"}
+    {
+      "owner": "core",
+      "kind": "facts",
+      "source": "source/world.rel",
+      "target": "source/world.rel"
+    },
+    {
+      "owner": "core",
+      "kind": "facts",
+      "source": "source/presentation.encounter",
+      "target": "source/presentation.rel"
+    },
+    {
+      "owner": "claims",
+      "kind": "facts",
+      "source": "source/claims.encounter",
+      "target": "source/claims.rel"
+    },
+    {
+      "owner": "core",
+      "kind": "asset",
+      "source": "assets/seed-drawer.svg",
+      "target": "assets/seed-drawer.svg"
+    }
   ]
 }
