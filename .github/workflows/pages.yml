@@ -13,11 +13,20 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      WORLDWRIGHT_ENCOUNTER_LIBRARY: ${{ github.workspace }}/.encounter-platform/applications/encounter-libraries/worldwright-source.cjs
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v5
+      - name: Check out the pinned Encounter compiler
+        uses: actions/checkout@v5
+        with:
+          repository: aaron-alderman/encounter-platform
+          ref: d0dbabcf375754a1a4920c564ee5face2a2d2e42
+          path: .encounter-platform
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 22
