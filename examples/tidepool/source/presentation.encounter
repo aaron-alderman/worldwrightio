@@ -1,0 +1,252 @@
+process-module "temple/surface-process-module/1"
+
+process presentation.definition:
+  let result = {
+    rules = list(
+      {
+        selector = ":root";
+        declarations = list(
+          { property = "font-family"; value = "Georgia, Cambria, serif" },
+          { property = "color"; value = "#153f42" },
+          { property = "background"; value = "#f3eedf" },
+          { property = "font-size"; value = "18px" },
+          { property = "line-height"; value = "1.65" }
+        )
+      },
+      { selector = "*"; declarations = list({ property = "box-sizing"; value = "border-box" }) },
+      { selector = "body"; declarations = list({ property = "margin"; value = "0" }) },
+      {
+        selector = "a";
+        declarations = list({ property = "color"; value = "#075d65" }, { property = "text-underline-offset"; value = "4px" })
+      },
+      {
+        selector = "header";
+        declarations = list(
+          { property = "display"; value = "flex" },
+          { property = "align-items"; value = "center" },
+          { property = "justify-content"; value = "space-between" },
+          { property = "gap"; value = "24px" },
+          { property = "flex-wrap"; value = "wrap" },
+          { property = "padding"; value = "24px clamp(20px,5vw,80px)" },
+          { property = "border-bottom"; value = "1px solid #b9c0ab" }
+        )
+      },
+      {
+        selector = ".brand";
+        declarations = list(
+          { property = "font-family"; value = "Arial, sans-serif" },
+          { property = "font-weight"; value = "800" },
+          { property = "font-size"; value = "24px" },
+          { property = "letter-spacing"; value = "-.07em" },
+          { property = "text-decoration"; value = "none" },
+          { property = "text-transform"; value = "lowercase" }
+        )
+      },
+      {
+        selector = "nav";
+        declarations = list(
+          { property = "display"; value = "flex" },
+          { property = "gap"; value = "14px" },
+          { property = "flex-wrap"; value = "wrap" },
+          { property = "font-family"; value = "Arial, sans-serif" },
+          { property = "font-size"; value = "12px" }
+        )
+      },
+      {
+        selector = "main";
+        declarations = list(
+          { property = "max-width"; value = "1240px" },
+          { property = "margin"; value = "0 auto" },
+          { property = "padding"; value = "48px clamp(20px,5vw,72px) 96px" }
+        )
+      },
+      {
+        selector = ".eyebrow";
+        declarations = list(
+          { property = "font-family"; value = "Arial, sans-serif" },
+          { property = "font-size"; value = "11px" },
+          { property = "letter-spacing"; value = ".15em" },
+          { property = "font-weight"; value = "700" },
+          { property = "color"; value = "#a24934" },
+          { property = "text-transform"; value = "uppercase" }
+        )
+      },
+      {
+        selector = "h1";
+        declarations = list(
+          { property = "font-size"; value = "clamp(48px,8vw,110px)" },
+          { property = "line-height"; value = ".98" },
+          { property = "font-weight"; value = "400" },
+          { property = "letter-spacing"; value = "-.055em" },
+          { property = "max-width"; value = "900px" },
+          { property = "margin"; value = "30px 0" }
+        )
+      },
+      {
+        selector = "h2";
+        declarations = list(
+          { property = "font-size"; value = "clamp(26px,4vw,44px)" },
+          { property = "font-weight"; value = "400" },
+          { property = "line-height"; value = "1.12" },
+          { property = "letter-spacing"; value = "-.025em" }
+        )
+      },
+      {
+        selector = "h3";
+        declarations = list({ property = "font-size"; value = "24px" }, { property = "font-weight"; value = "400" })
+      },
+      {
+        selector = ".lead";
+        declarations = list(
+          { property = "font-size"; value = "clamp(20px,3vw,28px)" },
+          { property = "line-height"; value = "1.4" },
+          { property = "max-width"; value = "720px" }
+        )
+      },
+      {
+        selector = "img";
+        declarations = list(
+          { property = "display"; value = "block" },
+          { property = "max-width"; value = "100%" },
+          { property = "height"; value = "auto" }
+        )
+      },
+      {
+        selector = ".hero img";
+        declarations = list(
+          { property = "width"; value = "100%" },
+          { property = "margin"; value = "36px 0" },
+          { property = "border"; value = "1px solid #9eaf9b" }
+        )
+      },
+      {
+        selector = ".grid";
+        declarations = list(
+          { property = "display"; value = "grid" },
+          { property = "grid-template-columns"; value = "repeat(auto-fit,minmax(min(100%,260px),1fr))" },
+          { property = "gap"; value = "18px" },
+          { property = "margin"; value = "32px 0" }
+        )
+      },
+      {
+        selector = ".card";
+        declarations = list(
+          { property = "padding"; value = "24px" },
+          { property = "border"; value = "1px solid #b9c0ab" },
+          { property = "background"; value = "#faf6e9" },
+          { property = "border-radius"; value = "2px" }
+        )
+      },
+      {
+        selector = ".button, button";
+        declarations = list(
+          { property = "display"; value = "inline-block" },
+          { property = "padding"; value = "12px 18px" },
+          { property = "border"; value = "1px solid #075d65" },
+          { property = "background"; value = "#075d65" },
+          { property = "color"; value = "#fff9e7" },
+          { property = "font-family"; value = "Arial, sans-serif" },
+          { property = "font-size"; value = "13px" },
+          { property = "text-decoration"; value = "none" },
+          { property = "cursor"; value = "pointer" },
+          { property = "border-radius"; value = "2px" }
+        )
+      },
+      {
+        selector = ".toolbar";
+        declarations = list(
+          { property = "display"; value = "flex" },
+          { property = "gap"; value = "10px" },
+          { property = "flex-wrap"; value = "wrap" },
+          { property = "margin"; value = "20px 0" }
+        )
+      },
+      {
+        selector = ".field, textarea, select, input";
+        declarations = list(
+          { property = "max-width"; value = "100%" },
+          { property = "padding"; value = "10px" },
+          { property = "background"; value = "#fffbed" },
+          { property = "color"; value = "#153f42" },
+          { property = "border"; value = "1px solid #9eaf9b" },
+          { property = "font-size"; value = "16px" }
+        )
+      },
+      {
+        selector = "textarea";
+        declarations = list(
+          { property = "display"; value = "block" },
+          { property = "width"; value = "100%" },
+          { property = "font-family"; value = "Consolas, monospace" },
+          { property = "line-height"; value = "1.5" }
+        )
+      },
+      {
+        selector = "pre";
+        declarations = list(
+          { property = "white-space"; value = "pre-wrap" },
+          { property = "overflow-wrap"; value = "anywhere" },
+          { property = "padding"; value = "20px" },
+          { property = "background"; value = "#e7e5d5" },
+          { property = "font-size"; value = "13px" }
+        )
+      },
+      {
+        selector = ".feature-block";
+        declarations = list(
+          { property = "margin"; value = "42px 0" },
+          { property = "padding"; value = "28px" },
+          { property = "border-top"; value = "2px solid #ca644c" },
+          { property = "background"; value = "#faf6e9" }
+        )
+      },
+      {
+        selector = "video, canvas";
+        declarations = list(
+          { property = "display"; value = "block" },
+          { property = "width"; value = "100%" },
+          { property = "max-width"; value = "800px" },
+          { property = "height"; value = "auto" },
+          { property = "border"; value = "1px solid #a7b9a9" }
+        )
+      },
+      {
+        selector = ".status";
+        declarations = list(
+          { property = "font-family"; value = "Arial, sans-serif" },
+          { property = "font-size"; value = "13px" },
+          { property = "border-left"; value = "3px solid #ca644c" },
+          { property = "padding-left"; value = "12px" }
+        )
+      },
+      {
+        selector = ".muted, footer";
+        declarations = list({ property = "font-size"; value = "13px" }, { property = "color"; value = "#4e6661" })
+      },
+      {
+        selector = "footer";
+        declarations = list(
+          { property = "margin-top"; value = "64px" },
+          { property = "padding-top"; value = "20px" },
+          { property = "border-top"; value = "1px solid #b9c0ab" }
+        )
+      },
+      {
+        selector = ":focus-visible";
+        declarations = list({ property = "outline"; value = "3px solid #ca644c" }, { property = "outline-offset"; value = "4px" })
+      },
+      { selector = ".prose"; declarations = list({ property = "max-width"; value = "760px" }) },
+      {
+        selector = "table";
+        declarations = list({ property = "border-collapse"; value = "collapse" }, { property = "width"; value = "100%" })
+      },
+      {
+        selector = "th, td";
+        declarations = list(
+          { property = "border-bottom"; value = "1px solid #b9c0ab" },
+          { property = "padding"; value = "10px" },
+          { property = "text-align"; value = "left" }
+        )
+      }
+    )
+  }

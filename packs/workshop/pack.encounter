@@ -1,0 +1,97 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "workshop";
+    title = "Notebook workshop";
+    requires = list("core", "inspector");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/encounter-code-types.encounter";
+        target = "algebra/encounter-code-types.process.json"
+      },
+      {
+        source = "algebra/encounter-code-compiler.encounter";
+        target = "algebra/encounter-code-compiler.process.json"
+      },
+      {
+        source = "algebra/encounter-code-runtime.encounter";
+        target = "algebra/encounter-code-runtime.process.json"
+      },
+      {
+        source = "algebra/workshop.encounter";
+        target = "algebra/workshop.process.json"
+      },
+      {
+        source = "algebra/workshop-lab.encounter";
+        target = "algebra/workshop-lab.process.json"
+      }
+    );
+    sources = list(
+      {
+        source = "source/workshop.encounter";
+        target = "source/workshop.rel"
+      }
+    );
+    assets = list();
+    build = "workshop.build";
+    navigation = {
+      label = "Notebook workshop";
+      route = "workshop.html"
+    };
+    grants = {
+      build = list("json.parse", "file.write", "runtime.bundle", "file.read", "file.copy");
+      browser = list(
+        "browser.attribute",
+        "browser.content",
+        "browser.on",
+        "browser.property",
+        "browser.write",
+        "digest.sha256",
+        "dom.exists",
+        "json.parse",
+        "json.stringify",
+        "kernel.evaluate",
+        "kernel.execute",
+        "kernel.invoke",
+        "record.entries",
+        "record.fromEntries",
+        "record.put",
+        "state.get",
+        "state.set",
+        "text.indexOf",
+        "text.join",
+        "text.matches",
+        "text.replaceAll",
+        "text.slice",
+        "text.split",
+        "text.trim",
+        "value.describe",
+        "value.freeze",
+        "value.string",
+        "value.type"
+      )
+    };
+    runtime = {
+      entry = "workshop.boot";
+      queries = list("workshop.boot");
+      profile = "workshopBrowser";
+      allPages = true
+    };
+    outputs = list("workshop.html", "workshop-runtime.js");
+    render = "workshop.view";
+    sharedModules = list(
+      "algebra/language.process.json",
+      "algebra/fact-index.process.json",
+      "algebra/lowering.process.json",
+      "algebra/admission.process.json"
+    );
+    files = list(
+      {
+        source = "README.md";
+        target = "docs/packs/workshop.md"
+      }
+    )
+  }

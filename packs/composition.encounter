@@ -1,0 +1,189 @@
+process-module "temple/surface-process-module/1"
+
+process compose.visit:
+  let id = $eventInput.id
+  port text.matches { value = $id; pattern = "^[a-z][a-z0-9-]*$" } → safeId
+  assert $safeId
+    otherwise "PACK-ID: Feature identifiers must be safe lower-case names."
+  assert not(includes($eventInput.stack, $id))
+    otherwise "PACK-CYCLE: A dependency cycle was found."
+  let pack = at($catalogue, $id)
+  assert $pack
+    otherwise "PACK-UNKNOWN: Requested pack or dependency is not present."
+  assert eq($pack.id, $id)
+    otherwise "PACK-ID: Descriptor identity differs from its registry key."
+  assert eq($pack.protocol, "worldwright/pack/1")
+    otherwise "PACK-PROTOCOL: Unknown feature descriptor."
+  let selected = $eventInput.selected
+  when not(includes($selected, $id)):
+    fold $pack.requires as dependency; selection starts $selected:
+      port kernel.invoke { query = "compose.visit"; input = { id = $dependency; stack = append($eventInput.stack, list($id)); selected = $selection } } → child
+      yield $child → selected
+    let selected = append($selected, list($id))
+  let result = $selected
+
+process compose.resolve:
+  assert isArray($requested)
+    otherwise "PACK-REQUEST: Feature selection must be a list."
+  fold distinct(append(list("core"), $requested)) as requestedId; selection starts list():
+    port kernel.invoke { query = "compose.visit"; input = { id = $requestedId; stack = list(); selected = $selection } } → child
+    yield $child → selected
+  each $selected as id:
+    let pack = at($catalogue, $id)
+    each $pack.conflicts as conflict:
+      assert not(includes($selected, $conflict))
+        otherwise "PACK-CONFLICT: Selected features conflict."
+  let result = $selected
+
+process compose.plan:
+  call compose.resolve
+  let chosen = $result
+  let selectedPacks = map($chosen, "id", at($catalogue, $id))
+  each $selectedPacks as pack:
+    each $pack.sharedModules as shared:
+      assert includes($foundation.queryModules, $shared)
+        otherwise "PACK-SHARED: A shared module must be an observed foundation query library."
+    when $pack.runtime:
+      assert not(includes(list("build", "compilation"), $pack.runtime.profile))
+        otherwise "PACK-PROFILE: A browser profile cannot replace a build authority."
+      assert eq(count(filter($selectedPacks, "other", and($other.runtime, eq($other.runtime.profile, $pack.runtime.profile)))), 1)
+        otherwise "PACK-PROFILE-COLLISION: Runtime profile owners must be unique."
+      assert includes(map($pack.outputRecords, "output", $output.path), $pack.runtime.output)
+        otherwise "PACK-RUNTIME-OUTPUT: A runtime must declare its owned output."
+  fold $selectedPacks as pack; collected starts $foundation.files:
+    yield append($collected, $pack.observedFiles) → files
+  fold $profileFiles as profileFile; acc starts { files = $files; skipped = list() }:
+    assert not(eq($profileFile.target, "source/composition.rel"))
+      otherwise "PROFILE-AUTHORITY: Generated composition source is owned by the planner."
+    assert at($catalogue, $profileFile.owner)
+      otherwise "PROFILE-OWNER: Unknown feature owner."
+    let active = includes($chosen, $profileFile.owner)
+    let nextFiles = $acc.files
+    let skipped = $acc.skipped
+    when $active:
+      assert or(includes(list("facts", "asset", "authored-facts"), $profileFile.kind), and(includes(list("module", "authored-module"), $profileFile.kind), at($profileFile, "retained")))
+        otherwise "PROFILE-AUTHORITY: Profiles may replace owned facts or assets only."
+      let existing = filter($acc.files, "candidate", eq($candidate.target, $profileFile.target))
+      when not(eq(count($existing), 0)):
+        let old = at($existing, 0)
+        assert and(eq($old.owner, $profileFile.owner), eq($old.kind, $profileFile.kind))
+          otherwise "PROFILE-AUTHORITY: Target belongs to another owner or role."
+      when eq($profileFile.kind, "module"):
+        assert and(eq(count($existing), 1), at($profileFile, "derived"))
+          otherwise "PROFILE-AUTHORITY: Retained module projection must be generated from its owned Encounter source."
+      when includes(list("authored-module", "authored-facts"), $profileFile.kind):
+        assert and(eq(count($existing), 1), eq(at(at($existing, 0), "projection"), $profileFile.projection))
+          otherwise "PROFILE-AUTHORITY: Retained Encounter source must retain its declared projection."
+      when eq(count($existing), 0):
+        port text.matches { value = $profileFile.target; pattern = if(eq($profileFile.kind, "asset"), "^assets/[a-zA-Z0-9_./-]+$", "^source/[a-zA-Z0-9_./-]+\\.rel$") } → safeAsset
+        assert $safeAsset
+          otherwise "PROFILE-TARGET: Added profile files must be REL under source/ or assets under assets/."
+      let plainFacts = and(eq($profileFile.kind, "facts"), not(at($profileFile, "derived")))
+      let nextFiles = append(filter($acc.files, "candidate", and(not(eq($candidate.target, $profileFile.target)), not(and($plainFacts, eq(at($candidate, "projection"), $profileFile.target))))), list($profileFile))
+    when not($active):
+      let skipped = append($skipped, list($profileFile.owner))
+    let next = { files = $nextFiles; skipped = $skipped }
+    yield $next → profilePlan
+  let files = $profilePlan.files
+  fold $files as file; owners starts record({}):
+    assert not(at($owners, $file.target))
+      otherwise "PACK-FILE-COLLISION: Two owners declare the same destination."
+    port record.put { record = $owners; key = $file.target; value = $file.owner } → next
+    yield $next → fileOwners
+  let modules = distinct(append($foundation.modules, fold($selectedPacks, "pack", "flattened", list(), append($flattened, $pack.moduleTargets))))
+  let sources = map(filter($files, "file", eq($file.kind, "facts")), "file", $file.target)
+  let assets = map(filter($files, "file", eq($file.kind, "asset")), "file", $file.target)
+  let allFacts = fold(filter($files, "file", eq($file.kind, "facts")), "file", "flattened", list(), append($flattened, $file.factRows))
+  let input = $allFacts
+  call facts.index
+  let factIndex = $result
+  each subjects("isa", "FeatureBlock") as block:
+    let feature = one($block, "feature")
+    assert includes($chosen, $feature)
+      otherwise "PACK-MOUNT: A block selects an unavailable feature."
+    let pack = at($catalogue, $feature)
+    assert $pack.render
+      otherwise "PACK-MOUNT: A selected feature has no embeddable view."
+    let placement = one($block, "placement")
+    assert or(eq($placement, "home"), includes(subjects("isa", "Place"), $placement))
+      otherwise "PACK-MOUNT: Block placement must be home or a declared Place."
+  let outputs = append(fold($selectedPacks, "pack", "flattened", list(), append($flattened, $pack.outputRecords)), map(filter($files, "file", eq($file.kind, "asset")), "file", { path = $file.target; owner = $file.owner }))
+  let outputs = append($outputs, if(includes($chosen, "reader"), map(subjects("isa", "Place"), "place", { path = concat("places/", $place, ".html"); owner = "reader" }), list()))
+  let outputs = append($outputs, if(includes($chosen, "microsites"), map(subjects("isa", "Microsite"), "site", { path = one($site, "route"); owner = "microsites" }), list()))
+  let outputs = append($outputs, if(includes($chosen, "sources"), map(filter($files, "file", includes(list("facts", "module", "authored-module", "authored-facts"), $file.kind)), "file", { path = $file.target; owner = $file.owner }), list()))
+  let outputs = append($outputs, if(includes($chosen, "microsites"), map(filter(subjects("isa", "Microsite"), "site", optional($site, "stylesheet")), "site", { path = one($site, "stylesheetRoute"); owner = "microsites" }), list()))
+  fold $outputs as output; owners starts record({}):
+    assert not(at($owners, $output.path))
+      otherwise "PACK-OUTPUT-COLLISION: Two selected features produce the same output."
+    port record.put { record = $owners; key = $output.path; value = $output.owner } → next
+    yield $next → outputOwners
+  let buildGrants = distinct(append($foundation.buildGrants, fold($selectedPacks, "pack", "flattened", list(), append($flattened, $pack.grants.build))))
+  let browserProfiles = map(filter($selectedPacks, "pack", $pack.runtime), "pack", list($pack.runtime.profile, distinct(append($foundation.valueGrants, $pack.grants.browser))))
+  port record.fromEntries { entries = $browserProfiles } → browserProfiles
+  port record.put { record = $browserProfiles; key = "build"; value = $buildGrants } → profiles
+  port record.put { record = $profiles; key = "compilation"; value = $foundation.compilationGrants } → profiles
+  let navigation = map(filter($selectedPacks, "pack", $pack.navigation), "pack", { id = $pack.id; label = $pack.navigation.label; route = $pack.navigation.route })
+  let runtimes = map(filter($selectedPacks, "pack", $pack.runtime), "pack", { id = $pack.id; route = if($pack.navigation, $pack.navigation.route, ""); output = $pack.runtime.output; allPages = or($pack.runtime.allPages, $pack.render) })
+  let buildQueries = map(filter($selectedPacks, "pack", $pack.build), "pack", $pack.build)
+  let plan = { requested = $requested; selected = $chosen; files = $files; modules = $modules; sources = $sources; assets = $assets; profiles = $profiles; outputOwners = $outputOwners; navigation = $navigation; runtimes = $runtimes; buildQueries = $buildQueries; skippedProfileOwners = distinct($profilePlan.skipped); renderers = map(filter($selectedPacks, "pack", $pack.render), "pack", { id = $pack.id; query = $pack.render }); packs = map($selectedPacks, "pack", { id = $pack.id; title = $pack.title; descriptorSha256 = $pack.descriptorSha256; requires = $pack.requires; modules = $pack.moduleTargets; sources = $pack.sourceTargets; assets = map(filter($files, "file", and(eq($file.owner, $pack.id), eq($file.kind, "asset"))), "file", $file.target); grants = $pack.grants; runtime = $pack.runtime; render = $pack.render; files = map(filter($files, "file", eq($file.owner, $pack.id)), "file", $file.target); outputs = $pack.outputRecords }); stylesheets = fold($selectedPacks, "pack", "sheets", list(), append($sheets, map($pack.stylesheets, "sheet", { owner = $pack.id; path = $sheet }))) }
+  let result = $plan
+
+process compose.programme:
+  let buildSteps = append(
+    list({ call = "shell.validate" }, { call = "css.build" }, { call = "shell.assets" }),
+    map($eventInput.buildQueries, "entry", { call = $entry })
+  )
+  port text.slice { value = "ref:$block"; start = 4 } → blockReference
+  let renderSteps = append(
+    list({ "let" = "result"; value = null }),
+    map($eventInput.renderers, "renderer", {
+      "when" = list("eq", list("one", $blockReference, "feature"), $renderer.id);
+      then = list({ call = $renderer.query })
+    })
+  )
+  let result = {
+    protocol = "temple/surface-process-module/1";
+    queries = { "composition.build" = $buildSteps; "shell.block" = $renderSteps }
+  }
+
+process compose.facts:
+  let plan = $eventInput
+  let rows = list()
+  fold $plan.navigation as item; rows starts $rows:
+    yield append($rows, list({ s = concat("pack.", $item.id); p = "isa"; o = "PackNavigation" }, { s = concat("pack.", $item.id); p = "label"; o = $item.label }, { s = concat("pack.", $item.id); p = "route"; o = $item.route })) → rows
+  fold $plan.runtimes as item; rows starts $rows:
+    yield append($rows, list({ s = concat("runtime.", $item.id); p = "isa"; o = "PackRuntime" }, { s = concat("runtime.", $item.id); p = "output"; o = $item.output }, { s = concat("runtime.", $item.id); p = "route"; o = $item.route }, { s = concat("runtime.", $item.id); p = "allPages"; o = if($item.allPages, "true", "false") })) → rows
+  fold $plan.files as item; rows starts $rows:
+    yield append($rows, if(eq($item.kind, "asset"), list({ s = concat("asset.", $item.target); p = "isa"; o = "PackAsset" }, { s = concat("asset.", $item.target); p = "path"; o = $item.target }), if(includes(list("facts", "module", "authored-module", "authored-facts"), $item.kind), list({ s = concat("source.", $item.target); p = "isa"; o = "SourceFile" }, { s = concat("source.", $item.target); p = "path"; o = $item.target }), list()))) → rows
+  fold $plan.stylesheets as item; rows starts $rows:
+    yield append($rows, list({ s = concat("stylesheet.", $item.path); p = "isa"; o = "PackStylesheet" }, { s = concat("stylesheet.", $item.path); p = "path"; o = $item.path })) → rows
+  fold $plan.packs as pack; rows starts $rows:
+    fold $pack.outputs as output; collected starts $rows:
+      yield append($collected, list({ s = concat("output.", $output.path); p = "isa"; o = "PackOutput" }, { s = concat("output.", $output.path); p = "path"; o = $output.path }, { s = concat("output.", $output.path); p = "owner"; o = $pack.id })) → packOutputRows
+    yield $packOutputRows → rows
+  fold filter($plan.files, "file", eq($file.kind, "asset")) as file; rows starts $rows:
+    yield append($rows, list({ s = concat("asset.", $file.target); p = "owner"; o = $file.owner })) → rows
+  let result = $rows
+
+process compose.authoring:
+  let plan = $eventInput
+  let result = { protocol = "worldwright/authoring-contract/1"; process = "algebra/authoring.process.json"; budget = 20000000; editable = map(filter($plan.files, "file", and(not(at($file, "derived")), includes(list("facts", "authored-module", "authored-facts"), $file.kind))), "file", $file.target); grants = list("value.describe", "document.observe", "publication.stage", "publication.validate", "document.commit", "receipt.write"); inputDirectories = append(list("bootstrap", "algebra", "source", "tooling"), if(count($plan.assets), list("assets"), list())); inputFiles = list("package.json", "build.mjs", "serve.mjs", ".gitattributes", ".gitignore", "README.md", "AGENTS.md", "composition-receipt.json"); checks = list("build.test.mjs"); owners = { facts = $plan.sources; applicationProcesses = $plan.modules; authoringPolicy = "algebra/authoring.process.json"; mechanism = "tooling/author.mjs" }; boundary = "Source proposals use version checks, isolated build and owned-file commit; authored claims still need independent evidence." }
+
+process compose.artifacts:
+  let scripts = { build = "node build.mjs"; test = "node --test build.test.mjs"; dev = "node serve.mjs" }
+  when includes($eventInput.selected, "authoring"):
+    port record.put { record = $scripts; key = "author"; value = "node tooling/author.mjs" } → scripts
+  let artifacts = list({ path = "package.json"; value = { name = "my-composed-world"; version = "0.1.0"; private = true; type = "module"; engines = { node = ">=22" }; scripts = $scripts } })
+  when includes($eventInput.selected, "authoring"):
+    call compose.authoring
+    let artifacts = append($artifacts, list({ path = "source/authoring-contract.rel"; value = $result }))
+  let result = $artifacts
+
+process compose.profileRequests:
+  each $profileRequests as request:
+    assert at($catalogue, $request.owner)
+      otherwise "PROFILE-OWNER: Unknown feature owner."
+  let result = map($profileRequests, "request", { owner = $request.owner; source = $request.source; target = $request.target; kind = $request.kind; observe = includes($selected, $request.owner) })
+
+process compose.retain:
+  let result = filter($eventInput.prior.files, "file", and($file.exists, includes($eventInput.plan.selected, $file.owner), includes(list("facts", "asset", "authored-module", "authored-facts"), $file.kind), not(at($file, "derived"))))

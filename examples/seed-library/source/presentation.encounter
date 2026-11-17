@@ -1,0 +1,100 @@
+process-module "temple/surface-process-module/1"
+
+process presentation.definition:
+  let result = {
+    rules = list(
+      {
+        selector = ":root";
+        declarations = list(
+          { property = "font-family"; value = "Georgia, serif" },
+          { property = "color"; value = "#eadcc3" },
+          { property = "background"; value = "#151928" },
+          { property = "line-height"; value = "1.65" }
+        )
+      },
+      {
+        selector = "body";
+        declarations = list(
+          { property = "margin"; value = "0 auto" },
+          { property = "max-width"; value = "1120px" },
+          { property = "padding"; value = "2rem" }
+        )
+      },
+      {
+        selector = "header";
+        declarations = list(
+          { property = "display"; value = "flex" },
+          { property = "justify-content"; value = "space-between" },
+          { property = "gap"; value = "1rem" },
+          { property = "flex-wrap"; value = "wrap" }
+        )
+      },
+      {
+        selector = "nav";
+        declarations = list(
+          { property = "display"; value = "flex" },
+          { property = "gap"; value = "1rem" },
+          { property = "flex-wrap"; value = "wrap" }
+        )
+      },
+      { selector = "a"; declarations = list({ property = "color"; value = "inherit" }) },
+      { selector = ".brand"; declarations = list({ property = "font-weight"; value = "700" }) },
+      { selector = ".hero"; declarations = list({ property = "padding"; value = "4rem 0" }) },
+      {
+        selector = ".world-title";
+        declarations = list({ property = "font-size"; value = "clamp(2.5rem, 8vw, 6rem)" }, { property = "line-height"; value = "1.05" })
+      },
+      {
+        selector = ".lead";
+        declarations = list({ property = "font-size"; value = "1.35rem" }, { property = "max-width"; value = "55rem" })
+      },
+      {
+        selector = ".eyebrow";
+        declarations = list({ property = "text-transform"; value = "uppercase" }, { property = "letter-spacing"; value = ".15em" })
+      },
+      {
+        selector = ".grid";
+        declarations = list(
+          { property = "display"; value = "grid" },
+          { property = "grid-template-columns"; value = "repeat(auto-fit,minmax(240px,1fr))" },
+          { property = "gap"; value = "1rem" }
+        )
+      },
+      {
+        selector = ".card";
+        declarations = list(
+          { property = "display"; value = "block" },
+          { property = "padding"; value = "1.25rem" },
+          { property = "border"; value = "1px solid #aac2b5" },
+          { property = "border-radius"; value = ".4rem" }
+        )
+      },
+      { selector = "section"; declarations = list({ property = "margin-bottom"; value = "2rem" }) },
+      {
+        selector = "img,video,svg";
+        declarations = list({ property = "max-width"; value = "100%" }, { property = "height"; value = "auto" })
+      },
+      {
+        selector = "textarea,pre";
+        declarations = list({ property = "max-width"; value = "100%" }, { property = "white-space"; value = "pre-wrap" })
+      },
+      { selector = "button"; declarations = list({ property = "padding"; value = ".7rem 1rem" }) },
+      {
+        selector = "footer";
+        declarations = list({ property = "margin-top"; value = "4rem" }, { property = "font-size"; value = ".85rem" })
+      },
+      { selector = ":focus-visible"; declarations = list({ property = "outline"; value = "3px solid #237c69" }) },
+      {
+        id = "night.hero";
+        selector = ".hero";
+        declarations = list(
+          {
+            id = "night.hero.image";
+            property = "background-image";
+            value = "linear-gradient(90deg,#151928e8,#151928cc),url(assets/seed-drawer.svg)"
+          },
+          { property = "padding"; value = "3rem 2rem" }
+        )
+      }
+    )
+  }

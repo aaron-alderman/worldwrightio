@@ -1,0 +1,2280 @@
+process-module "temple/surface-process-module/1"
+
+process configuration.definition:
+  let part1 = { port = "text.trim"; args = { value = { dollarPrefix = "relState.prefix" } }; into = "relPrefix" }
+  let part2 = { assert = list("eq", { dollarPrefix = "relPrefix" }, ""); message = "Use // comments on their own line." }
+  let part3 = {
+    port = "text.matches";
+    args = {
+      value = { dollarPrefix = "relPiece" };
+      pattern = "^\\(\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"(?:\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")?\\s*\\)$"
+    };
+    into = "relTuple"
+  }
+  let part4 = { assert = { dollarPrefix = "relTuple" }; message = "Expected a REL tuple: (\"thing\", \"field\", \"value\")." }
+  let part5 = {
+    port = "text.split";
+    args = { value = { dollarPrefix = "relPiece" }; pattern = "(\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")" };
+    into = "relAtoms"
+  }
+  let part6 = { port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 1) }; into = "relS" }
+  let part7 = { port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 3) }; into = "relP" }
+  let part8 = { port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 5) }; into = "relO" }
+  let part9 = { let = "relPol"; value = "is" }
+  let part10 = {
+    when = list("eq", list("count", { dollarPrefix = "relAtoms" }), 9);
+    then = list({ port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 7) }; into = "relPol" })
+  }
+  let part11 = {
+    assert = list("includes", list("list", "is", "is-not"), { dollarPrefix = "relPol" });
+    message = "Polarity must be is or is-not."
+  }
+  let part12 = {
+    let = "relValueStart";
+    value = list(
+      "add",
+      { dollarPrefix = "relState.offset" },
+      list(
+        "fold",
+        list("list", 0, 1, 2, 3, 4),
+        "relPart",
+        "relSize",
+        0,
+        list(
+          "add",
+          { dollarPrefix = "relSize" },
+          list("count", list("at", { dollarPrefix = "relAtoms" }, { dollarPrefix = "relPart" }))
+        )
+      )
+    )
+  }
+  let part13 = {
+    let = "relOrigins";
+    value = list(
+      "append",
+      { dollarPrefix = "relOrigins" },
+      list(
+        "list",
+        {
+          index = list("count", { dollarPrefix = "relFacts" });
+          span = {
+            file = { dollarPrefix = "file" };
+            line = { dollarPrefix = "relState.line" };
+            column = { dollarPrefix = "relState.column" };
+            offset = { dollarPrefix = "relState.offset" };
+            endOffset = list("add", { dollarPrefix = "relState.offset" }, list("count", { dollarPrefix = "relPiece" }));
+            valueStart = { dollarPrefix = "relValueStart" };
+            valueEnd = list("add", { dollarPrefix = "relValueStart" }, list("count", list("at", { dollarPrefix = "relAtoms" }, 5)))
+          }
+        }
+      )
+    )
+  }
+  let part14 = {
+    let = "relFacts";
+    value = list(
+      "append",
+      { dollarPrefix = "relFacts" },
+      list(
+        "list",
+        {
+          s = { dollarPrefix = "relS" };
+          p = { dollarPrefix = "relP" };
+          o = { dollarPrefix = "relO" };
+          pol = { dollarPrefix = "relPol" }
+        }
+      )
+    )
+  }
+  let part15 = {
+    file = { dollarPrefix = "file" };
+    line = list("add", { dollarPrefix = "relState.line" }, list("add", list("count", { dollarPrefix = "relProblemLines" }), -1));
+    column = list(
+      "if",
+      list("eq", list("count", { dollarPrefix = "relProblemLines" }), 1),
+      list("add", { dollarPrefix = "relState.column" }, { dollarPrefix = "relProblemOffset" }),
+      list(
+        "add",
+        list(
+          "count",
+          list("at", { dollarPrefix = "relProblemLines" }, list("add", list("count", { dollarPrefix = "relProblemLines" }), -1))
+        ),
+        1
+      )
+    )
+  }
+  let part16 = list("count", { dollarPrefix = "sourceLine" })
+  let part17 = {
+    offset = { dollarPrefix = "sourceLocations.offset" };
+    endOffset = list(
+      "add",
+      { dollarPrefix = "sourceLocations.offset" },
+      list("add", list("count", { dollarPrefix = "sourceLine" }), list("if", { dollarPrefix = "sourceLineHasCR" }, -1, 0))
+    )
+  }
+  let part18 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "offset"
+  )
+  let part19 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "endOffset"
+  )
+  let part20 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "offset"
+  )
+  let part21 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "endOffset"
+  )
+  let part22 = list("count", { dollarPrefix = "sourceSubjectPositions" })
+  let part23 = {
+    let = "jsonSpanFound";
+    value = {
+      offset = { dollarPrefix = "jsonSpanFound.offset" };
+      endOffset = list("add", { dollarPrefix = "jsonScan.offset" }, list("count", { dollarPrefix = "jsonToken" }))
+    }
+  }
+  let part24 = { let = "jsonSpanDone"; value = false }
+  let part25 = list("range", list("add", list("count", { dollarPrefix = "jsonSpanStack" }), -1))
+  let part26 = list("at", { dollarPrefix = "jsonSpanStack" }, list("add", { dollarPrefix = "jsonDepth" }, -1))
+  let part27 = list("if", list("eq", { dollarPrefix = "jsonFrame.type" }, "object"), "key", "value")
+  let part28 = list("add", { dollarPrefix = "jsonFrame.index" }, 1)
+  let part29 = list("list", ",", ":")
+  let part30 = list(
+    "and",
+    list("eq", { dollarPrefix = "jsonFrame.type" }, "object"),
+    list("eq", { dollarPrefix = "jsonFrame.phase" }, "key")
+  )
+  let part31 = { port = "json.parse"; args = { text = { dollarPrefix = "jsonToken" } }; into = "jsonFrameKey" }
+  let part32 = {
+    port = "record.put";
+    args = { record = { dollarPrefix = "jsonFrame" }; key = "key"; value = { dollarPrefix = "jsonFrameKey" } };
+    into = "jsonFrame"
+  }
+  let part33 = {
+    port = "record.put";
+    args = { record = { dollarPrefix = "jsonFrame" }; key = "phase"; value = "colon" };
+    into = "jsonFrame"
+  }
+  let part34 = {
+    let = "jsonValuePath";
+    value = list(
+      "if",
+      { dollarPrefix = "jsonFrame" },
+      list(
+        "append",
+        { dollarPrefix = "jsonFrame.path" },
+        list(
+          "list",
+          list(
+            "if",
+            list("eq", { dollarPrefix = "jsonFrame.type" }, "array"),
+            { dollarPrefix = "jsonFrame.index" },
+            { dollarPrefix = "jsonFrame.key" }
+          )
+        )
+      ),
+      list("list")
+    )
+  }
+  let part35 = {
+    let = "jsonPathMatches";
+    value = list("eq", { dollarPrefix = "jsonValuePath" }, { dollarPrefix = "jsonSourcePath" })
+  }
+  let part36 = {
+    when = { dollarPrefix = "jsonPathMatches" };
+    then = list(
+      {
+        let = "jsonSpanFound";
+        value = {
+          offset = { dollarPrefix = "jsonScan.offset" };
+          endOffset = list("add", { dollarPrefix = "jsonScan.offset" }, list("count", { dollarPrefix = "jsonToken" }))
+        }
+      },
+      { when = list("not", { dollarPrefix = "jsonIsOpen" }); then = list({ let = "jsonSpanDone"; value = false }) }
+    )
+  }
+  let part37 = {
+    when = { dollarPrefix = "jsonIsOpen" };
+    then = list(
+      {
+        let = "jsonNewFrame";
+        value = {
+          type = list("if", list("eq", { dollarPrefix = "jsonToken" }, "{"), "object", "array");
+          path = { dollarPrefix = "jsonValuePath" };
+          key = null;
+          index = 0;
+          phase = list("if", list("eq", { dollarPrefix = "jsonToken" }, "{"), "key", "value");
+          match = { dollarPrefix = "jsonPathMatches" }
+        }
+      }
+    )
+  }
+  let part38 = list("range", list("count", { dollarPrefix = "jsonSpanStack" }))
+  let part39 = list(
+    "if",
+    list("eq", { dollarPrefix = "jsonDepth" }, list("count", { dollarPrefix = "jsonSpanStack" })),
+    { dollarPrefix = "jsonFrame" },
+    list("at", { dollarPrefix = "jsonSpanStack" }, list("add", { dollarPrefix = "jsonDepth" }, -1))
+  )
+  let part40 = list("list", { dollarPrefix = "jsonNewFrame" })
+  let part41 = { port = "text.trim"; args = { value = { dollarPrefix = "relState.prefix" } }; into = "relPrefix" }
+  let part42 = { assert = list("eq", { dollarPrefix = "relPrefix" }, ""); message = "Use // comments on their own line." }
+  let part43 = {
+    port = "text.matches";
+    args = {
+      value = { dollarPrefix = "relPiece" };
+      pattern = "^\\(\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"(?:\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")?\\s*\\)$"
+    };
+    into = "relTuple"
+  }
+  let part44 = { assert = { dollarPrefix = "relTuple" }; message = "Expected a REL tuple: (\"thing\", \"field\", \"value\")." }
+  let part45 = {
+    port = "text.split";
+    args = { value = { dollarPrefix = "relPiece" }; pattern = "(\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")" };
+    into = "relAtoms"
+  }
+  let part46 = { port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 1) }; into = "relS" }
+  let part47 = { port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 3) }; into = "relP" }
+  let part48 = { port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 5) }; into = "relO" }
+  let part49 = { let = "relPol"; value = "is" }
+  let part50 = {
+    when = list("eq", list("count", { dollarPrefix = "relAtoms" }), 9);
+    then = list({ port = "json.parse"; args = { text = list("at", { dollarPrefix = "relAtoms" }, 7) }; into = "relPol" })
+  }
+  let part51 = {
+    assert = list("includes", list("list", "is", "is-not"), { dollarPrefix = "relPol" });
+    message = "Polarity must be is or is-not."
+  }
+  let part52 = {
+    let = "relValueStart";
+    value = list(
+      "add",
+      { dollarPrefix = "relState.offset" },
+      list(
+        "fold",
+        list("list", 0, 1, 2, 3, 4),
+        "relPart",
+        "relSize",
+        0,
+        list(
+          "add",
+          { dollarPrefix = "relSize" },
+          list("count", list("at", { dollarPrefix = "relAtoms" }, { dollarPrefix = "relPart" }))
+        )
+      )
+    )
+  }
+  let part53 = {
+    let = "relOrigins";
+    value = list(
+      "append",
+      { dollarPrefix = "relOrigins" },
+      list(
+        "list",
+        {
+          index = list("count", { dollarPrefix = "relFacts" });
+          span = {
+            file = { dollarPrefix = "file" };
+            line = { dollarPrefix = "relState.line" };
+            column = { dollarPrefix = "relState.column" };
+            offset = { dollarPrefix = "relState.offset" };
+            endOffset = list("add", { dollarPrefix = "relState.offset" }, list("count", { dollarPrefix = "relPiece" }));
+            valueStart = { dollarPrefix = "relValueStart" };
+            valueEnd = list("add", { dollarPrefix = "relValueStart" }, list("count", list("at", { dollarPrefix = "relAtoms" }, 5)))
+          }
+        }
+      )
+    )
+  }
+  let part54 = {
+    let = "relFacts";
+    value = list(
+      "append",
+      { dollarPrefix = "relFacts" },
+      list(
+        "list",
+        {
+          s = { dollarPrefix = "relS" };
+          p = { dollarPrefix = "relP" };
+          o = { dollarPrefix = "relO" };
+          pol = { dollarPrefix = "relPol" }
+        }
+      )
+    )
+  }
+  let part55 = {
+    file = { dollarPrefix = "file" };
+    line = list("add", { dollarPrefix = "relState.line" }, list("add", list("count", { dollarPrefix = "relProblemLines" }), -1));
+    column = list(
+      "if",
+      list("eq", list("count", { dollarPrefix = "relProblemLines" }), 1),
+      list("add", { dollarPrefix = "relState.column" }, { dollarPrefix = "relProblemOffset" }),
+      list(
+        "add",
+        list(
+          "count",
+          list("at", { dollarPrefix = "relProblemLines" }, list("add", list("count", { dollarPrefix = "relProblemLines" }), -1))
+        ),
+        1
+      )
+    )
+  }
+  let part56 = list("count", { dollarPrefix = "sourceLine" })
+  let part57 = {
+    offset = { dollarPrefix = "sourceLocations.offset" };
+    endOffset = list(
+      "add",
+      { dollarPrefix = "sourceLocations.offset" },
+      list("add", list("count", { dollarPrefix = "sourceLine" }), list("if", { dollarPrefix = "sourceLineHasCR" }, -1, 0))
+    )
+  }
+  let part58 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "offset"
+  )
+  let part59 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "endOffset"
+  )
+  let part60 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "offset"
+  )
+  let part61 = list(
+    "at",
+    list(
+      "at",
+      { dollarPrefix = "sourceLocations.locations" },
+      list("add", { dollarPrefix = "sourceOrigin.span.line" }, -1)
+    ),
+    "endOffset"
+  )
+  let part62 = list("count", { dollarPrefix = "sourceSubjectPositions" })
+  let part63 = {
+    let = "jsonSpanFound";
+    value = {
+      offset = { dollarPrefix = "jsonSpanFound.offset" };
+      endOffset = list("add", { dollarPrefix = "jsonScan.offset" }, list("count", { dollarPrefix = "jsonToken" }))
+    }
+  }
+  let part64 = { let = "jsonSpanDone"; value = false }
+  let part65 = list("range", list("add", list("count", { dollarPrefix = "jsonSpanStack" }), -1))
+  let part66 = list("at", { dollarPrefix = "jsonSpanStack" }, list("add", { dollarPrefix = "jsonDepth" }, -1))
+  let part67 = list("if", list("eq", { dollarPrefix = "jsonFrame.type" }, "object"), "key", "value")
+  let part68 = list("add", { dollarPrefix = "jsonFrame.index" }, 1)
+  let part69 = list("list", ",", ":")
+  let part70 = list(
+    "and",
+    list("eq", { dollarPrefix = "jsonFrame.type" }, "object"),
+    list("eq", { dollarPrefix = "jsonFrame.phase" }, "key")
+  )
+  let part71 = { port = "json.parse"; args = { text = { dollarPrefix = "jsonToken" } }; into = "jsonFrameKey" }
+  let part72 = {
+    port = "record.put";
+    args = { record = { dollarPrefix = "jsonFrame" }; key = "key"; value = { dollarPrefix = "jsonFrameKey" } };
+    into = "jsonFrame"
+  }
+  let part73 = {
+    port = "record.put";
+    args = { record = { dollarPrefix = "jsonFrame" }; key = "phase"; value = "colon" };
+    into = "jsonFrame"
+  }
+  let part74 = {
+    let = "jsonValuePath";
+    value = list(
+      "if",
+      { dollarPrefix = "jsonFrame" },
+      list(
+        "append",
+        { dollarPrefix = "jsonFrame.path" },
+        list(
+          "list",
+          list(
+            "if",
+            list("eq", { dollarPrefix = "jsonFrame.type" }, "array"),
+            { dollarPrefix = "jsonFrame.index" },
+            { dollarPrefix = "jsonFrame.key" }
+          )
+        )
+      ),
+      list("list")
+    )
+  }
+  let part75 = {
+    let = "jsonPathMatches";
+    value = list("eq", { dollarPrefix = "jsonValuePath" }, { dollarPrefix = "jsonSourcePath" })
+  }
+  let part76 = {
+    when = { dollarPrefix = "jsonPathMatches" };
+    then = list(
+      {
+        let = "jsonSpanFound";
+        value = {
+          offset = { dollarPrefix = "jsonScan.offset" };
+          endOffset = list("add", { dollarPrefix = "jsonScan.offset" }, list("count", { dollarPrefix = "jsonToken" }))
+        }
+      },
+      { when = list("not", { dollarPrefix = "jsonIsOpen" }); then = list({ let = "jsonSpanDone"; value = false }) }
+    )
+  }
+  let part77 = {
+    when = { dollarPrefix = "jsonIsOpen" };
+    then = list(
+      {
+        let = "jsonNewFrame";
+        value = {
+          type = list("if", list("eq", { dollarPrefix = "jsonToken" }, "{"), "object", "array");
+          path = { dollarPrefix = "jsonValuePath" };
+          key = null;
+          index = 0;
+          phase = list("if", list("eq", { dollarPrefix = "jsonToken" }, "{"), "key", "value");
+          match = { dollarPrefix = "jsonPathMatches" }
+        }
+      }
+    )
+  }
+  let part78 = list("range", list("count", { dollarPrefix = "jsonSpanStack" }))
+  let part79 = list(
+    "if",
+    list("eq", { dollarPrefix = "jsonDepth" }, list("count", { dollarPrefix = "jsonSpanStack" })),
+    { dollarPrefix = "jsonFrame" },
+    list("at", { dollarPrefix = "jsonSpanStack" }, list("add", { dollarPrefix = "jsonDepth" }, -1))
+  )
+  let part80 = list("list", { dollarPrefix = "jsonNewFrame" })
+  let result = {
+    owner = "workshop";
+    value = {
+      inputs = {
+        codeText = "# Experimental syntax: facts and type contracts stay in REL.\nmodule notebook\n\nview experiment.page.notebook of @ShoreNote isa Page:\n  P.subject: source\n  P.title: source.S.Title\n  P.paragraphs: source.S.Content\n  P.route: \"encounter-notebook.html\"\n  edit P.title through source.S.Title\n  show as NotebookPage\n\nview experiment.nav.notebook of @ShoreNote isa NavigationItem:\n  N.label: source.S.Title\n  N.target: source\n  edit N.label through source.S.Title\n\n  in @experiment.FieldMenu:\n    N.label: \"Open field note\"\n    edit N.label here\n    show as WebLink:\n      page: @experiment.page.notebook\n\n  in @experiment.NotebookIndex:\n    show as NotebookRow:\n      option: \"01\"\n      open: @experiment.openNotebook\n\nrepresentation WebLink:\n  given navigation as NavigationItem\n  given page as Page\n  require page.P.subject equals navigation.N.target\n  return WebLink:\n    W.text: navigation.N.label\n    W.href: page.P.route\n  render:\n    tag: \"a\"\n    attrs:\n      id: \"experiment-web-link\"\n      href: result.W.href\n    children:\n      - result.W.text\n  events:\n    - selector: \"#experiment-web-link\"\n      open: page\n\nrepresentation NotebookRow:\n  given navigation as NavigationItem\n  given option as text\n  given open as NotebookPanelAction\n  return NotebookRow:\n    R.option: option\n    R.label: navigation.N.label\n    R.target: navigation.N.target\n  render:\n    tag: \"table\"\n    attrs:\n      class: \"experiment-row\"\n    children:\n      - tag: \"tbody\"\n        children:\n          - tag: \"tr\"\n            children:\n              - tag: \"td\"\n                children:\n                  - result.R.option\n              - tag: \"td\"\n                children:\n                  - tag: \"button\"\n                    attrs:\n                      id: \"experiment-mainframe-row\"\n                      type: \"button\"\n                    children:\n                      - result.R.label\n  events:\n    - selector: \"#experiment-mainframe-row\"\n      run: open.A.process\n      arguments:\n        notebook: navigation.N.target\n\nrepresentation NotebookPage:\n  given navigation as Page\n  return Page:\n    P.subject: navigation.P.subject\n    P.title: navigation.P.title\n    P.paragraphs: navigation.P.paragraphs\n    P.route: navigation.P.route\n  render:\n    tag: \"article\"\n    children:\n      - tag: \"h2\"\n        children:\n          - result.P.title\n      - each paragraph in result.P.paragraphs:\n        tag: \"p\"\n        children:\n          - paragraph\n\nrepresentation OpenNotebook:\n  given notebook as FieldNote\n  return NotebookPanel:\n    P.title: notebook.S.Title\n    P.paragraphs: notebook.S.Content\n  render:\n    tag: \"article\"\n    children:\n      - tag: \"h2\"\n        children:\n          - result.P.title\n      - each paragraph in result.P.paragraphs:\n        tag: \"p\"\n        children:\n          - paragraph\n";
+        factText = "// FieldNote data and explicitly addressed contexts. Facts remain REL.\n(\"ShoreNote\", \"isa\", \"FieldNote\")\n(\"ShoreNote\", \"S.Title\", \"At the inlet\")\n(\"ShoreNote\", \"S.Content\", \"ShoreNote.first\")\n(\"ShoreNote\", \"S.Content\", \"ShoreNote.second\")\n(\"experiment.FieldMenu\", \"isa\", \"Context\")\n(\"experiment.FieldMenu\", \"C.view\", \"experiment.nav.notebook\")\n(\"experiment.NotebookIndex\", \"isa\", \"Context\")\n(\"experiment.NotebookIndex\", \"C.view\", \"experiment.nav.notebook\")\n(\"experiment.openNotebook\", \"isa\", \"NotebookPanelAction\")\n(\"experiment.openNotebook\", \"A.process\", \"OpenNotebook\")\n(\"experiment.openNotebook\", \"A.accepts\", \"FieldNote\")\n(\"experiment.openNotebook\", \"A.effect\", \"local-navigation\")\n\n(\"ShoreNote.first\", \"isa\", \"TextEntry\")\n(\"ShoreNote.first\", \"E.value\", \"The waterline crossed the lower marker at dawn.\")\n(\"ShoreNote.second\", \"isa\", \"TextEntry\")\n(\"ShoreNote.second\", \"E.value\", \"A second observer returned after the wind changed.\")\n";
+        contractText = "// Experimental, closed contract profile. Vocabulary recovered from Sourcery; scope is this slice.\n(\"iface.experiment.FieldNote\", \"isa\", \"Interface\")\n(\"iface.experiment.FieldNote\", \"type\", \"FieldNote\")\n(\"iface.experiment.FieldNote\", \"mode\", \"closed\")\n(\"iface.experiment.FieldNote\", \"slot\", \"slot.experiment.FieldNote.S.Title\")\n(\"slot.experiment.FieldNote.S.Title\", \"isa\", \"Slot\")\n(\"slot.experiment.FieldNote.S.Title\", \"predicate\", \"S.Title\")\n(\"slot.experiment.FieldNote.S.Title\", \"valueType\", \"string\")\n(\"slot.experiment.FieldNote.S.Title\", \"cardinality\", \"one\")\n(\"iface.experiment.FieldNote\", \"slot\", \"slot.experiment.FieldNote.S.Content\")\n(\"slot.experiment.FieldNote.S.Content\", \"isa\", \"Slot\")\n(\"slot.experiment.FieldNote.S.Content\", \"predicate\", \"S.Content\")\n(\"slot.experiment.FieldNote.S.Content\", \"valueType\", \"string\")\n(\"slot.experiment.FieldNote.S.Content\", \"cardinality\", \"many\")\n(\"iface.experiment.NavigationItem\", \"isa\", \"Interface\")\n(\"iface.experiment.NavigationItem\", \"type\", \"NavigationItem\")\n(\"iface.experiment.NavigationItem\", \"mode\", \"closed\")\n(\"iface.experiment.NavigationItem\", \"slot\", \"slot.experiment.NavigationItem.N.label\")\n(\"slot.experiment.NavigationItem.N.label\", \"isa\", \"Slot\")\n(\"slot.experiment.NavigationItem.N.label\", \"predicate\", \"N.label\")\n(\"slot.experiment.NavigationItem.N.label\", \"valueType\", \"string\")\n(\"slot.experiment.NavigationItem.N.label\", \"cardinality\", \"one\")\n(\"iface.experiment.NavigationItem\", \"slot\", \"slot.experiment.NavigationItem.N.target\")\n(\"slot.experiment.NavigationItem.N.target\", \"isa\", \"Slot\")\n(\"slot.experiment.NavigationItem.N.target\", \"predicate\", \"N.target\")\n(\"slot.experiment.NavigationItem.N.target\", \"valueType\", \"ref\")\n(\"slot.experiment.NavigationItem.N.target\", \"cardinality\", \"one\")\n(\"slot.experiment.NavigationItem.N.target\", \"expects\", \"FieldNote\")\n(\"iface.experiment.Page\", \"isa\", \"Interface\")\n(\"iface.experiment.Page\", \"type\", \"Page\")\n(\"iface.experiment.Page\", \"mode\", \"closed\")\n(\"iface.experiment.Page\", \"slot\", \"slot.experiment.Page.P.subject\")\n(\"slot.experiment.Page.P.subject\", \"isa\", \"Slot\")\n(\"slot.experiment.Page.P.subject\", \"predicate\", \"P.subject\")\n(\"slot.experiment.Page.P.subject\", \"valueType\", \"ref\")\n(\"slot.experiment.Page.P.subject\", \"cardinality\", \"one\")\n(\"slot.experiment.Page.P.subject\", \"expects\", \"FieldNote\")\n(\"iface.experiment.Page\", \"slot\", \"slot.experiment.Page.P.title\")\n(\"slot.experiment.Page.P.title\", \"isa\", \"Slot\")\n(\"slot.experiment.Page.P.title\", \"predicate\", \"P.title\")\n(\"slot.experiment.Page.P.title\", \"valueType\", \"string\")\n(\"slot.experiment.Page.P.title\", \"cardinality\", \"one\")\n(\"iface.experiment.Page\", \"slot\", \"slot.experiment.Page.P.paragraphs\")\n(\"slot.experiment.Page.P.paragraphs\", \"isa\", \"Slot\")\n(\"slot.experiment.Page.P.paragraphs\", \"predicate\", \"P.paragraphs\")\n(\"slot.experiment.Page.P.paragraphs\", \"valueType\", \"string\")\n(\"slot.experiment.Page.P.paragraphs\", \"cardinality\", \"many\")\n(\"iface.experiment.Page\", \"slot\", \"slot.experiment.Page.P.route\")\n(\"slot.experiment.Page.P.route\", \"isa\", \"Slot\")\n(\"slot.experiment.Page.P.route\", \"predicate\", \"P.route\")\n(\"slot.experiment.Page.P.route\", \"valueType\", \"string\")\n(\"slot.experiment.Page.P.route\", \"cardinality\", \"one\")\n(\"iface.experiment.WebLink\", \"isa\", \"Interface\")\n(\"iface.experiment.WebLink\", \"type\", \"WebLink\")\n(\"iface.experiment.WebLink\", \"mode\", \"closed\")\n(\"iface.experiment.WebLink\", \"slot\", \"slot.experiment.WebLink.W.text\")\n(\"slot.experiment.WebLink.W.text\", \"isa\", \"Slot\")\n(\"slot.experiment.WebLink.W.text\", \"predicate\", \"W.text\")\n(\"slot.experiment.WebLink.W.text\", \"valueType\", \"string\")\n(\"slot.experiment.WebLink.W.text\", \"cardinality\", \"one\")\n(\"iface.experiment.WebLink\", \"slot\", \"slot.experiment.WebLink.W.href\")\n(\"slot.experiment.WebLink.W.href\", \"isa\", \"Slot\")\n(\"slot.experiment.WebLink.W.href\", \"predicate\", \"W.href\")\n(\"slot.experiment.WebLink.W.href\", \"valueType\", \"string\")\n(\"slot.experiment.WebLink.W.href\", \"cardinality\", \"one\")\n(\"iface.experiment.NotebookRow\", \"isa\", \"Interface\")\n(\"iface.experiment.NotebookRow\", \"type\", \"NotebookRow\")\n(\"iface.experiment.NotebookRow\", \"mode\", \"closed\")\n(\"iface.experiment.NotebookRow\", \"slot\", \"slot.experiment.NotebookRow.R.option\")\n(\"slot.experiment.NotebookRow.R.option\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookRow.R.option\", \"predicate\", \"R.option\")\n(\"slot.experiment.NotebookRow.R.option\", \"valueType\", \"string\")\n(\"slot.experiment.NotebookRow.R.option\", \"cardinality\", \"one\")\n(\"iface.experiment.NotebookRow\", \"slot\", \"slot.experiment.NotebookRow.R.label\")\n(\"slot.experiment.NotebookRow.R.label\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookRow.R.label\", \"predicate\", \"R.label\")\n(\"slot.experiment.NotebookRow.R.label\", \"valueType\", \"string\")\n(\"slot.experiment.NotebookRow.R.label\", \"cardinality\", \"one\")\n(\"iface.experiment.NotebookRow\", \"slot\", \"slot.experiment.NotebookRow.R.target\")\n(\"slot.experiment.NotebookRow.R.target\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookRow.R.target\", \"predicate\", \"R.target\")\n(\"slot.experiment.NotebookRow.R.target\", \"valueType\", \"ref\")\n(\"slot.experiment.NotebookRow.R.target\", \"cardinality\", \"one\")\n(\"slot.experiment.NotebookRow.R.target\", \"expects\", \"FieldNote\")\n(\"iface.experiment.NotebookPanel\", \"isa\", \"Interface\")\n(\"iface.experiment.NotebookPanel\", \"type\", \"NotebookPanel\")\n(\"iface.experiment.NotebookPanel\", \"mode\", \"closed\")\n(\"iface.experiment.NotebookPanel\", \"slot\", \"slot.experiment.NotebookPanel.P.title\")\n(\"slot.experiment.NotebookPanel.P.title\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookPanel.P.title\", \"predicate\", \"P.title\")\n(\"slot.experiment.NotebookPanel.P.title\", \"valueType\", \"string\")\n(\"slot.experiment.NotebookPanel.P.title\", \"cardinality\", \"one\")\n(\"iface.experiment.NotebookPanel\", \"slot\", \"slot.experiment.NotebookPanel.P.paragraphs\")\n(\"slot.experiment.NotebookPanel.P.paragraphs\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookPanel.P.paragraphs\", \"predicate\", \"P.paragraphs\")\n(\"slot.experiment.NotebookPanel.P.paragraphs\", \"valueType\", \"string\")\n(\"slot.experiment.NotebookPanel.P.paragraphs\", \"cardinality\", \"many\")\n(\"iface.experiment.NotebookPanelAction\", \"isa\", \"Interface\")\n(\"iface.experiment.NotebookPanelAction\", \"type\", \"NotebookPanelAction\")\n(\"iface.experiment.NotebookPanelAction\", \"mode\", \"closed\")\n(\"iface.experiment.NotebookPanelAction\", \"slot\", \"slot.experiment.NotebookPanelAction.A.process\")\n(\"slot.experiment.NotebookPanelAction.A.process\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookPanelAction.A.process\", \"predicate\", \"A.process\")\n(\"slot.experiment.NotebookPanelAction.A.process\", \"valueType\", \"string\")\n(\"slot.experiment.NotebookPanelAction.A.process\", \"cardinality\", \"one\")\n(\"slot.experiment.NotebookPanelAction.A.process\", \"allowed\", \"OpenNotebook\")\n(\"iface.experiment.NotebookPanelAction\", \"slot\", \"slot.experiment.NotebookPanelAction.A.accepts\")\n(\"slot.experiment.NotebookPanelAction.A.accepts\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookPanelAction.A.accepts\", \"predicate\", \"A.accepts\")\n(\"slot.experiment.NotebookPanelAction.A.accepts\", \"valueType\", \"string\")\n(\"slot.experiment.NotebookPanelAction.A.accepts\", \"cardinality\", \"one\")\n(\"slot.experiment.NotebookPanelAction.A.accepts\", \"allowed\", \"FieldNote\")\n(\"iface.experiment.NotebookPanelAction\", \"slot\", \"slot.experiment.NotebookPanelAction.A.effect\")\n(\"slot.experiment.NotebookPanelAction.A.effect\", \"isa\", \"Slot\")\n(\"slot.experiment.NotebookPanelAction.A.effect\", \"predicate\", \"A.effect\")\n(\"slot.experiment.NotebookPanelAction.A.effect\", \"valueType\", \"string\")\n(\"slot.experiment.NotebookPanelAction.A.effect\", \"cardinality\", \"one\")\n(\"slot.experiment.NotebookPanelAction.A.effect\", \"allowed\", \"local-navigation\")\n(\"iface.experiment.Context\", \"isa\", \"Interface\")\n(\"iface.experiment.Context\", \"type\", \"Context\")\n(\"iface.experiment.Context\", \"mode\", \"closed\")\n(\"iface.experiment.Context\", \"slot\", \"slot.experiment.Context.C.view\")\n(\"slot.experiment.Context.C.view\", \"isa\", \"Slot\")\n(\"slot.experiment.Context.C.view\", \"predicate\", \"C.view\")\n(\"slot.experiment.Context.C.view\", \"valueType\", \"string\")\n(\"slot.experiment.Context.C.view\", \"cardinality\", \"one\")\n\n(\"slot.experiment.FieldNote.S.Content\", \"storage\", \"entries\")\n(\"slot.experiment.FieldNote.S.Content\", \"entryType\", \"TextEntry\")\n(\"slot.experiment.FieldNote.S.Content\", \"entryField\", \"E.value\")\n(\"iface.experiment.TextEntry\", \"isa\", \"Interface\")\n(\"iface.experiment.TextEntry\", \"type\", \"TextEntry\")\n(\"iface.experiment.TextEntry\", \"mode\", \"closed\")\n(\"iface.experiment.TextEntry\", \"slot\", \"slot.experiment.TextEntry.E.value\")\n(\"slot.experiment.TextEntry.E.value\", \"isa\", \"Slot\")\n(\"slot.experiment.TextEntry.E.value\", \"predicate\", \"E.value\")\n(\"slot.experiment.TextEntry.E.value\", \"valueType\", \"string\")\n(\"slot.experiment.TextEntry.E.value\", \"cardinality\", \"one\")\n\n(\"slot.experiment.FieldNote.S.Title\", \"nonempty\", \"true\")\n(\"slot.experiment.NavigationItem.N.label\", \"nonempty\", \"true\")\n(\"slot.experiment.Page.P.route\", \"pattern\", \"^encounter-[a-z0-9-]+\\\\.html$\")\n";
+        definitions = {
+          protocol = "temple/derived-expression-definitions/1";
+          referenceSigil = { dollarPrefix = "" };
+          sourceRefs = list(
+            "@sourcerytech/expression-algebra:operations/let.mjs",
+            "@sourcerytech/expression-algebra:operations/fold.mjs",
+            "@sourcerytech/expression-algebra:operations/raise.mjs",
+            "claimipedia-core:components/process-interpreter/src/surface-process-state-operators.mjs",
+            "claimipedia-core:components/process-interpreter/src/surface-process-collection-operators.mjs"
+          );
+          scope = "Lowering laws for admitted dense JSON arrays and string-valued REL facts. Core membership and equality semantics remain native. Non-array map/filter/some/every inputs refuse.";
+          statementFields = {
+            programmes = list("steps", "then", "try", "catch");
+            expressions = list("value", "assert", "when", "each", "fold", "initial", "yield", "args")
+          };
+          operators = {
+            record = { arity = 1; body = { arg = 0 } };
+            not = { arity = 1; body = list("if", { arg = 0 }, false, true) };
+            has = { arity = 3; body = list("includes", list("objects", { arg = 0 }, { arg = 1 }), { arg = 2 }) };
+            map = {
+              arity = 3;
+              body = list(
+                "if",
+                list("isArray", { arg = 0 }),
+                list(
+                  "fold",
+                  { arg = 0 },
+                  { arg = 1 },
+                  { bind = "result" },
+                  list("list"),
+                  list("append", { ref = "result" }, list("list", { arg = 2 }))
+                ),
+                list("raise", "map requires an array")
+              )
+            };
+            filter = {
+              arity = 3;
+              body = list(
+                "if",
+                list("isArray", { arg = 0 }),
+                list(
+                  "fold",
+                  { arg = 0 },
+                  { arg = 1 },
+                  { bind = "result" },
+                  list("list"),
+                  list("if", { arg = 2 }, list("append", { ref = "result" }, list("list", { refArg = 1 })), { ref = "result" })
+                ),
+                list("raise", "filter requires an array")
+              )
+            };
+            some = {
+              arity = 3;
+              body = list(
+                "if",
+                list("isArray", { arg = 0 }),
+                list(
+                  "fold",
+                  { arg = 0 },
+                  { arg = 1 },
+                  { bind = "result" },
+                  false,
+                  list("if", { ref = "result" }, true, list("if", { arg = 2 }, true, false))
+                ),
+                list("raise", "some requires an array")
+              )
+            };
+            every = {
+              arity = 3;
+              body = list(
+                "if",
+                list("isArray", { arg = 0 }),
+                list(
+                  "fold",
+                  { arg = 0 },
+                  { arg = 1 },
+                  { bind = "result" },
+                  true,
+                  list("if", { ref = "result" }, list("if", { arg = 2 }, true, false), false)
+                ),
+                list("raise", "every requires an array")
+              )
+            };
+            one = {
+              arity = 2;
+              body = list(
+                "let",
+                { bind = "found" },
+                list("objects", { arg = 0 }, { arg = 1 }),
+                list(
+                  "if",
+                  list("eq", list("count", { ref = "found" }), 1),
+                  list("at", { ref = "found" }, 0),
+                  list("raise", list("concat", "Fact cardinality: ", { arg = 0 }, ".", { arg = 1 }))
+                )
+              )
+            };
+            optional = {
+              arity = 2;
+              body = list(
+                "let",
+                { bind = "found" },
+                list("objects", { arg = 0 }, { arg = 1 }),
+                list(
+                  "if",
+                  list("eq", list("count", { ref = "found" }), 0),
+                  null,
+                  list(
+                    "if",
+                    list("eq", list("count", { ref = "found" }), 1),
+                    list("at", { ref = "found" }, 0),
+                    list("raise", list("concat", "Fact cardinality: ", { arg = 0 }, ".", { arg = 1 }))
+                  )
+                )
+              )
+            };
+            and = {
+              minimumArity = 0;
+              body = {
+                foldArgs = { initial = true; item = "test"; accumulator = "rest"; body = list("if", { term = "test" }, { term = "rest" }, false) }
+              }
+            };
+            or = {
+              minimumArity = 0;
+              body = list(
+                "fold",
+                { arguments = true },
+                { bind = "value" },
+                { bind = "result" },
+                null,
+                list("if", { ref = "result" }, { ref = "result" }, list("if", { ref = "value" }, { ref = "value" }, null))
+              )
+            };
+            objects = {
+              arity = 2;
+              body = list(
+                "let",
+                { bind = "indexed" },
+                list("at", list("at", list("at", { dollarPrefix = "factIndex" }, "objects"), { arg = 0 }), { arg = 1 }),
+                list("if", { ref = "indexed" }, list("append", { ref = "indexed" }, list("list")), list("list"))
+              )
+            };
+            subjects = {
+              arity = 2;
+              body = list(
+                "let",
+                { bind = "indexed" },
+                list("at", list("at", list("at", { dollarPrefix = "factIndex" }, "subjects"), { arg = 0 }), { arg = 1 }),
+                list("if", { ref = "indexed" }, list("append", { ref = "indexed" }, list("list")), list("list"))
+              )
+            }
+          }
+        };
+        primitives = list(
+          "fold",
+          "let",
+          "raise",
+          "isArray",
+          "list",
+          "append",
+          "eq",
+          "includes",
+          "if",
+          "count",
+          "at",
+          "concat",
+          "add",
+          "range",
+          "distinct"
+        );
+        profile = {
+          protocol = "temple/kernel-profile/1";
+          valueProfile = "ordered-json-observation/1";
+          operators = {
+            fold = { arities = list(5); binders = list(1, 2) };
+            let = { arities = list(3); binders = list(0) };
+            raise = { arities = list(1); binders = list() };
+            isArray = { arities = list(1); binders = list() };
+            list = {
+              arities = list(
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63
+              );
+              binders = list()
+            };
+            append = { arities = list(2); binders = list() };
+            eq = { arities = list(2); binders = list() };
+            includes = { arities = list(2); binders = list() };
+            if = { arities = list(3); binders = list() };
+            count = { arities = list(1); binders = list() };
+            at = { arities = list(2); binders = list() };
+            concat = {
+              arities = list(
+                0,
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63
+              );
+              binders = list()
+            };
+            add = { arities = list(2); binders = list() };
+            range = { arities = list(1); binders = list() };
+            distinct = { arities = list(1); binders = list() }
+          };
+          statements = {
+            let = {
+              strings = list();
+              bindings = list("let");
+              expressions = list("value");
+              programmes = list();
+              fields = list("let", "value");
+              construction = { let = "value"; value = null }
+            };
+            assert = {
+              strings = list("message");
+              bindings = list();
+              expressions = list("assert");
+              programmes = list();
+              fields = list("assert", "message");
+              construction = { assert = true; message = "Check failed." }
+            };
+            when = {
+              strings = list();
+              bindings = list();
+              expressions = list("when");
+              programmes = list("then");
+              fields = list("when", "then");
+              construction = { when = false; then = list() }
+            };
+            each = {
+              strings = list();
+              bindings = list("as");
+              expressions = list("each");
+              programmes = list("steps");
+              fields = list("each", "as", "steps");
+              construction = { each = list("list"); as = "item"; steps = list() }
+            };
+            fold = {
+              strings = list();
+              bindings = list("as", "accumulator", "into");
+              expressions = list("fold", "initial", "yield");
+              programmes = list("steps");
+              fields = list("fold", "as", "accumulator", "initial", "steps", "yield", "into");
+              construction = {
+                fold = list("list");
+                as = "item";
+                accumulator = "total";
+                initial = null;
+                steps = list();
+                yield = { dollarPrefix = "total" };
+                into = "result"
+              }
+            };
+            call = {
+              strings = list("call");
+              bindings = list();
+              expressions = list();
+              programmes = list();
+              fields = list("call");
+              construction = { call = "" }
+            };
+            port = {
+              strings = list("port");
+              bindings = list("into");
+              expressions = list("args");
+              programmes = list();
+              fields = list("port", "args", "into");
+              construction = { port = ""; args = {  }; into = "result" }
+            };
+            try = {
+              strings = list();
+              bindings = list("error");
+              expressions = list();
+              programmes = list("try", "catch");
+              fields = list("try", "error", "catch");
+              construction = { try = list(); error = "fault"; catch = list() }
+            }
+          };
+          execution = {
+            ordering = "sequential-awaited";
+            budgetFault = "uncatchable";
+            hostFault = "identity-unless-explicit-try";
+            catchProjection = list("name", "message");
+            absence = "undefined-internal-not-transportable";
+            concurrency = "not-in-this-profile";
+            transactions = "explicit-host-protocol";
+            cancellation = "explicit-host-protocol"
+          }
+        }
+      };
+      presentation = {
+        spPolicy = {
+          protocol = "encounter/source-presentation-policy/1";
+          status = "supplied-bootstrap-presentation-definition";
+          roles = list(
+            "plain",
+            "comment",
+            "keyword",
+            "string",
+            "property",
+            "number",
+            "boolean",
+            "reference",
+            "identifier",
+            "operator",
+            "punctuation",
+            "identity",
+            "predicate",
+            "type"
+          );
+          themesAllowed = list("light", "dark");
+          jsonPatternPath = list("queries", "source.jsonSpan", 6, "args", "pattern");
+          maxCodeUnits = 160000;
+          maxParts = 18000;
+          identifierPattern = "[@$]?[A-Za-z_][A-Za-z0-9_.-]*";
+          keywords = list(
+            "module",
+            "entity",
+            "view",
+            "of",
+            "isa",
+            "representation",
+            "given",
+            "as",
+            "require",
+            "equals",
+            "return",
+            "render",
+            "events",
+            "edit",
+            "through",
+            "here",
+            "in",
+            "show",
+            "each",
+            "run",
+            "arguments",
+            "let",
+            "assert",
+            "otherwise",
+            "port",
+            "call",
+            "when",
+            "fold",
+            "starts",
+            "yield",
+            "try",
+            "catch",
+            "type",
+            "valueType",
+            "expects",
+            "process-module",
+            "profile",
+            "process"
+          );
+          punctuation = list("[", "]", "{", "}", ":", ",", "(", ")", ";");
+          operators = list("=", "→", "-");
+          fileProfiles = list(
+            { pattern = "\\.json$"; language = "json" },
+            { pattern = "\\.rel$"; language = "rel" },
+            { pattern = "\\.encounter$"; language = "encounter" },
+            { pattern = "\\.temple$"; language = "temple" },
+            { pattern = "\\.(?:js|mjs|cjs)$"; language = "javascript" }
+          );
+          javascriptRoles = list(
+            { role = "string"; kinds = list("string", "template", "`") },
+            { role = "number"; kinds = list("num", "bigint", "decimal") },
+            { role = "identifier"; kinds = list("name", "privateId") },
+            { role = "punctuation"; kinds = list("(", ")", "{", "}", "[", "]", ",", ";", ":", ".") },
+            {
+              role = "operator";
+              kinds = list(
+                "=",
+                "_=",
+                "==/!=/===/!==",
+                "+/-",
+                "*",
+                "/",
+                "%",
+                "**",
+                "++/--",
+                "!/~",
+                "=>",
+                "?",
+                "?.",
+                "??",
+                "||",
+                "&&",
+                "|",
+                "&",
+                "^",
+                { dollarPrefix = "{" }
+              )
+            },
+            { role = "string"; kinds = list("regexp") }
+          );
+          themes = list(
+            {
+              id = "light";
+              roles = {
+                plain = "#20323f";
+                comment = "#657166";
+                keyword = "#754a91";
+                string = "#196641";
+                property = "#07596c";
+                number = "#96501b";
+                boolean = "#854c88";
+                reference = "#6e4590";
+                identifier = "#20323f";
+                operator = "#7d431c";
+                punctuation = "#52636a";
+                identity = "#07596c";
+                predicate = "#754a91";
+                type = "#8c4b16"
+              }
+            },
+            {
+              id = "dark";
+              roles = {
+                plain = "#d8e7e3";
+                comment = "#94a99e";
+                keyword = "#e6b6fa";
+                string = "#b9e1a1";
+                property = "#91dbe5";
+                number = "#f6c394";
+                boolean = "#e6b6fa";
+                reference = "#f1d293";
+                identifier = "#d8e7e3";
+                operator = "#f6b5a4";
+                punctuation = "#adc6c9";
+                identity = "#91dbe5";
+                predicate = "#e6b6fa";
+                type = "#ffd38b"
+              }
+            }
+          );
+          layoutRules = list(
+            {
+              selector = ".sp-code";
+              context = null;
+              declarations = list(
+                { property = "display"; value = "block" },
+                { property = "font"; value = "inherit" },
+                { property = "white-space"; value = "inherit" },
+                { property = "counter-reset"; value = "sp-line" }
+              )
+            },
+            {
+              selector = ".sp-code .sp-line";
+              context = null;
+              declarations = list(
+                { property = "display"; value = "inline" },
+                { property = "padding"; value = "0" },
+                { property = "min-height"; value = "0" }
+              )
+            },
+            {
+              selector = ".sp-code[data-numbered=\"true\"] .sp-line::before";
+              context = null;
+              declarations = list(
+                { property = "content"; value = "attr(data-line)" },
+                { property = "display"; value = "inline-block" },
+                { property = "width"; value = "3ch" },
+                { property = "padding-right"; value = "1.5ch" },
+                { property = "text-align"; value = "right" },
+                { property = "opacity"; value = ".55" },
+                { property = "user-select"; value = "none" },
+                { property = "font-size"; value = ".85em" }
+              )
+            },
+            {
+              selector = ".sp-code[data-numbered=\"false\"] .sp-line::before";
+              context = null;
+              declarations = list({ property = "content"; value = "none" })
+            },
+            {
+              selector = ".sp-code .highlight";
+              context = null;
+              declarations = list({ property = "background"; value = "#b98b3933" }, { property = "outline"; value = "1px solid #b98b3966" })
+            },
+            {
+              selector = ".sp-code .sp-comment";
+              context = null;
+              declarations = list({ property = "font-style"; value = "italic" })
+            },
+            {
+              selector = ".sp-code:focus-visible";
+              context = null;
+              declarations = list({ property = "outline"; value = "2px solid currentColor" }, { property = "outline-offset"; value = "4px" })
+            },
+            { selector = ".sp-code .sp-type"; context = null; declarations = list({ property = "font-weight"; value = "600" }) }
+          );
+          referenceSigil = { dollarPrefix = "" };
+          fileAliases = { facts = "source/notebook.rel"; encounter = "source/notebook.encounter"; contracts = "source/notebook-contracts.rel" };
+          typeIntroducers = { encounter = list("isa", "representation", "return"); temple = list("isa", "type", "valueType", "expects") };
+          typePredicates = list("isa", "type", "valueType", "expects", "A.accepts")
+        };
+        spGrammar = {
+          protocol = "temple/surface-process-module/1";
+          queries = {
+            "source.rel" = list(
+              {
+                port = "text.split";
+                args = {
+                  value = { dollarPrefix = "text" };
+                  pattern = "(\\(\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"(?:\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")?\\s*\\)|//[^\\r\\n]*)"
+                };
+                into = "relPieces"
+              },
+              {
+                fold = { dollarPrefix = "relPieces" };
+                as = "relPiece";
+                accumulator = "relState";
+                initial = { facts = list("list"); origins = list("list"); offset = 0; line = 1; column = 1; prefix = ""; error = null };
+                steps = list(
+                  { let = "relFacts"; value = { dollarPrefix = "relState.facts" } },
+                  { let = "relOrigins"; value = { dollarPrefix = "relState.origins" } },
+                  { let = "relError"; value = { dollarPrefix = "relState.error" } },
+                  { port = "text.trim"; args = { value = { dollarPrefix = "relPiece" } }; into = "relTrim" },
+                  {
+                    when = list("and", list("not", { dollarPrefix = "relError" }), list("not", list("eq", { dollarPrefix = "relTrim" }, "")));
+                    then = list(
+                      {
+                        try = list(
+                          { port = "text.matches"; args = { value = { dollarPrefix = "relTrim" }; pattern = "^//" }; into = "relComment" },
+                          { when = { dollarPrefix = "relComment" }; then = list($part1, $part2) },
+                          {
+                            when = list("not", { dollarPrefix = "relComment" });
+                            then = list($part3, $part4, $part5, $part6, $part7, $part8, $part9, $part10, $part11, $part12, $part13, $part14)
+                          }
+                        );
+                        error = "relFault";
+                        catch = list(
+                          {
+                            port = "text.indexOf";
+                            args = { value = { dollarPrefix = "relPiece" }; search = { dollarPrefix = "relTrim" }; from = 0 };
+                            into = "relProblemOffset"
+                          },
+                          {
+                            port = "text.slice";
+                            args = { value = { dollarPrefix = "relPiece" }; start = 0; end = { dollarPrefix = "relProblemOffset" } };
+                            into = "relProblemPrefix"
+                          },
+                          {
+                            port = "text.split";
+                            args = { value = { dollarPrefix = "relProblemPrefix" }; pattern = "\\n" };
+                            into = "relProblemLines"
+                          },
+                          {
+                            let = "relError";
+                            value = {
+                              code = "ENCOUNTER-SOURCE-001";
+                              summary = { dollarPrefix = "relFault.message" };
+                              span = $part15;
+                              correction = "Correct this tuple, then try the file again."
+                            }
+                          }
+                        )
+                      }
+                    )
+                  },
+                  { port = "text.split"; args = { value = { dollarPrefix = "relPiece" }; pattern = "\\n" }; into = "relLines" }
+                );
+                yield = {
+                  facts = { dollarPrefix = "relFacts" };
+                  origins = { dollarPrefix = "relOrigins" };
+                  offset = list("add", { dollarPrefix = "relState.offset" }, list("count", { dollarPrefix = "relPiece" }));
+                  line = list("add", { dollarPrefix = "relState.line" }, list("add", list("count", { dollarPrefix = "relLines" }), -1));
+                  column = list(
+                    "if",
+                    list("eq", list("count", { dollarPrefix = "relLines" }), 1),
+                    list("add", { dollarPrefix = "relState.column" }, list("count", { dollarPrefix = "relPiece" })),
+                    list(
+                      "add",
+                      list("count", list("at", { dollarPrefix = "relLines" }, list("add", list("count", { dollarPrefix = "relLines" }), -1))),
+                      1
+                    )
+                  );
+                  prefix = list(
+                    "if",
+                    list("eq", list("count", { dollarPrefix = "relLines" }), 1),
+                    list("concat", { dollarPrefix = "relState.prefix" }, { dollarPrefix = "relPiece" }),
+                    list("at", { dollarPrefix = "relLines" }, list("add", list("count", { dollarPrefix = "relLines" }), -1))
+                  );
+                  error = { dollarPrefix = "relError" }
+                };
+                into = "relState"
+              },
+              {
+                let = "result";
+                value = {
+                  ok = list("not", { dollarPrefix = "relState.error" });
+                  facts = list("if", { dollarPrefix = "relState.error" }, list("list"), { dollarPrefix = "relState.facts" });
+                  origins = list("if", { dollarPrefix = "relState.error" }, list("list"), { dollarPrefix = "relState.origins" });
+                  module = { dollarPrefix = "file" };
+                  diagnostic = { dollarPrefix = "relState.error" }
+                }
+              }
+            );
+            "source.compile" = list(
+              {
+                port = "text.matches";
+                args = { value = { dollarPrefix = "text" }; pattern = "^[\\s\\S]{0,524288}$" };
+                into = "sourceWithinLimit"
+              },
+              {
+                assert = { dollarPrefix = "sourceWithinLimit" };
+                message = "ENCOUNTER-SOURCE-005: This editor tries files up to 524,288 characters. Download the buffer or split the source."
+              },
+              { let = "sourceText"; value = { dollarPrefix = "text" } },
+              { let = "sourceFile"; value = { dollarPrefix = "file" } },
+              { let = "sourceFormat"; value = { dollarPrefix = "format" } },
+              { let = "sourceResult"; value = null },
+              {
+                when = list("eq", { dollarPrefix = "format" }, "rel");
+                then = list({ call = "source.rel" }, { let = "sourceResult"; value = { dollarPrefix = "result" } })
+              },
+              {
+                when = list("eq", { dollarPrefix = "sourceFormat" }, "temple");
+                then = list(
+                  { call = "language.compile" },
+                  { let = "sourceResult"; value = { dollarPrefix = "result" } },
+                  {
+                    when = { dollarPrefix = "sourceResult.ok" };
+                    then = list(
+                      { port = "text.split"; args = { value = { dollarPrefix = "sourceText" }; pattern = "\\n" }; into = "sourceLines" },
+                      {
+                        fold = { dollarPrefix = "sourceLines" };
+                        as = "sourceLine";
+                        accumulator = "sourceLocations";
+                        initial = { offset = 0; locations = list("list") };
+                        steps = list(
+                          {
+                            port = "text.matches";
+                            args = { value = { dollarPrefix = "sourceLine" }; pattern = "\\r$" };
+                            into = "sourceLineHasCR"
+                          }
+                        );
+                        yield = {
+                          offset = list("add", { dollarPrefix = "sourceLocations.offset" }, list("add", $part16, 1));
+                          locations = list("append", { dollarPrefix = "sourceLocations.locations" }, list("list", $part17))
+                        };
+                        into = "sourceLocations"
+                      },
+                      {
+                        let = "sourceOrigins";
+                        value = list(
+                          "map",
+                          { dollarPrefix = "sourceResult.origins" },
+                          "sourceOrigin",
+                          {
+                            index = { dollarPrefix = "sourceOrigin.index" };
+                            span = {
+                              file = { dollarPrefix = "sourceFile" };
+                              line = { dollarPrefix = "sourceOrigin.span.line" };
+                              column = { dollarPrefix = "sourceOrigin.span.column" };
+                              offset = $part18;
+                              endOffset = $part19;
+                              valueStart = $part20;
+                              valueEnd = $part21
+                            }
+                          }
+                        )
+                      },
+                      {
+                        port = "record.put";
+                        args = { record = { dollarPrefix = "sourceResult" }; key = "origins"; value = { dollarPrefix = "sourceOrigins" } };
+                        into = "sourceResult"
+                      }
+                    )
+                  }
+                )
+              },
+              {
+                when = list("includes", list("list", "process", "json"), { dollarPrefix = "sourceFormat" });
+                then = list(
+                  {
+                    try = list(
+                      { port = "json.parse"; args = { text = { dollarPrefix = "sourceText" } }; into = "sourceJson" },
+                      {
+                        let = "sourceResult";
+                        value = {
+                          ok = true;
+                          facts = list("list");
+                          origins = list("list");
+                          module = { dollarPrefix = "sourceFile" };
+                          json = { dollarPrefix = "sourceJson" };
+                          diagnostic = null
+                        }
+                      }
+                    );
+                    error = "sourceJsonError";
+                    catch = list(
+                      {
+                        let = "sourceResult";
+                        value = {
+                          ok = false;
+                          facts = list("list");
+                          origins = list("list");
+                          module = { dollarPrefix = "sourceFile" };
+                          diagnostic = {
+                            code = "ENCOUNTER-SOURCE-002";
+                            summary = { dollarPrefix = "sourceJsonError.message" };
+                            span = { file = { dollarPrefix = "sourceFile" }; line = 1; column = 1 };
+                            correction = "Correct the JSON source and try again."
+                          }
+                        }
+                      }
+                    )
+                  }
+                )
+              },
+              {
+                assert = { dollarPrefix = "sourceResult" };
+                message = "ENCOUNTER-SOURCE-003: This source is derived. Follow its inputs or make a separate example."
+              },
+              {
+                port = "record.put";
+                args = { record = { dollarPrefix = "sourceResult" }; key = "text"; value = { dollarPrefix = "sourceText" } };
+                into = "sourceResult"
+              },
+              {
+                port = "record.put";
+                args = { record = { dollarPrefix = "sourceResult" }; key = "file"; value = { dollarPrefix = "sourceFile" } };
+                into = "sourceResult"
+              },
+              {
+                port = "record.put";
+                args = { record = { dollarPrefix = "sourceResult" }; key = "format"; value = { dollarPrefix = "sourceFormat" } };
+                into = "sourceResult"
+              },
+              { let = "result"; value = { dollarPrefix = "sourceResult" } }
+            );
+            "source.encode" = list(
+              {
+                fold = { dollarPrefix = "sourceFacts" };
+                as = "sourceFact";
+                accumulator = "sourceRows";
+                initial = list("list");
+                steps = list(
+                  { port = "json.stringify"; args = { value = { dollarPrefix = "sourceFact.s" } }; into = "sourceS" },
+                  { port = "json.stringify"; args = { value = { dollarPrefix = "sourceFact.p" } }; into = "sourceP" },
+                  { port = "json.stringify"; args = { value = { dollarPrefix = "sourceFact.o" } }; into = "sourceO" }
+                );
+                yield = list(
+                  "append",
+                  { dollarPrefix = "sourceRows" },
+                  list(
+                    "list",
+                    list(
+                      "if",
+                      list("eq", { dollarPrefix = "format" }, "temple"),
+                      list("concat", "  ", { dollarPrefix = "sourceFact.p" }, " ", { dollarPrefix = "sourceO" }),
+                      list(
+                        "concat",
+                        "(",
+                        { dollarPrefix = "sourceS" },
+                        ", ",
+                        { dollarPrefix = "sourceP" },
+                        ", ",
+                        { dollarPrefix = "sourceO" },
+                        list("if", list("eq", { dollarPrefix = "sourceFact.pol" }, "is-not"), ", \"is-not\"", ""),
+                        ")"
+                      )
+                    )
+                  )
+                );
+                into = "sourceRows"
+              },
+              { port = "text.join"; args = { values = { dollarPrefix = "sourceRows" }; separator = "\n" }; into = "result" }
+            );
+            "source.patch" = list(
+              {
+                let = "sourceMatches";
+                value = list(
+                  "filter",
+                  list("range", list("count", { dollarPrefix = "sourceDocument.facts" })),
+                  "sourcePosition",
+                  list(
+                    "and",
+                    list(
+                      "eq",
+                      list(
+                        "at",
+                        list("at", { dollarPrefix = "sourceDocument.facts" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                        "s"
+                      ),
+                      { dollarPrefix = "sourceSubject" }
+                    ),
+                    list(
+                      "eq",
+                      list(
+                        "at",
+                        list("at", { dollarPrefix = "sourceDocument.facts" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                        "p"
+                      ),
+                      { dollarPrefix = "sourceProperty" }
+                    )
+                  )
+                )
+              },
+              { let = "format"; value = { dollarPrefix = "sourceDocument.format" } },
+              {
+                let = "sourceFacts";
+                value = list(
+                  "map",
+                  { dollarPrefix = "sourceValues" },
+                  "sourceValue",
+                  {
+                    s = { dollarPrefix = "sourceSubject" };
+                    p = { dollarPrefix = "sourceProperty" };
+                    o = { dollarPrefix = "sourceValue" };
+                    pol = "is"
+                  }
+                )
+              },
+              { call = "source.encode" },
+              { let = "sourceReplacement"; value = { dollarPrefix = "result" } },
+              {
+                fold = { dollarPrefix = "sourceMatches" };
+                as = "sourcePosition";
+                accumulator = "sourcePatch";
+                initial = { end = 0; pieces = list("list"); first = true };
+                steps = list(
+                  {
+                    let = "sourceSpan";
+                    value = list(
+                      "at",
+                      list("at", { dollarPrefix = "sourceDocument.origins" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                      "span"
+                    )
+                  },
+                  {
+                    port = "text.slice";
+                    args = {
+                      value = { dollarPrefix = "sourceDocument.text" };
+                      start = { dollarPrefix = "sourcePatch.end" };
+                      end = { dollarPrefix = "sourceSpan.offset" }
+                    };
+                    into = "sourcePrefix"
+                  }
+                );
+                yield = {
+                  end = { dollarPrefix = "sourceSpan.endOffset" };
+                  pieces = list(
+                    "append",
+                    { dollarPrefix = "sourcePatch.pieces" },
+                    list(
+                      "list",
+                      { dollarPrefix = "sourcePrefix" },
+                      list("if", { dollarPrefix = "sourcePatch.first" }, { dollarPrefix = "sourceReplacement" }, "")
+                    )
+                  );
+                  first = false
+                };
+                into = "sourcePatch"
+              },
+              {
+                when = list("not", list("eq", list("count", { dollarPrefix = "sourceMatches" }), 0));
+                then = list(
+                  {
+                    port = "text.slice";
+                    args = {
+                      value = { dollarPrefix = "sourceDocument.text" };
+                      start = { dollarPrefix = "sourcePatch.end" };
+                      end = list("count", { dollarPrefix = "sourceDocument.text" })
+                    };
+                    into = "sourceSuffix"
+                  },
+                  {
+                    port = "text.join";
+                    args = {
+                      values = list("append", { dollarPrefix = "sourcePatch.pieces" }, list("list", { dollarPrefix = "sourceSuffix" }));
+                      separator = ""
+                    };
+                    into = "result"
+                  }
+                )
+              },
+              {
+                when = list("eq", list("count", { dollarPrefix = "sourceMatches" }), 0);
+                then = list(
+                  {
+                    let = "sourceSubjectPositions";
+                    value = list(
+                      "filter",
+                      list("range", list("count", { dollarPrefix = "sourceDocument.facts" })),
+                      "sourcePosition",
+                      list(
+                        "eq",
+                        list(
+                          "at",
+                          list("at", { dollarPrefix = "sourceDocument.facts" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                          "s"
+                        ),
+                        { dollarPrefix = "sourceSubject" }
+                      )
+                    )
+                  },
+                  {
+                    assert = list("not", list("eq", list("count", { dollarPrefix = "sourceSubjectPositions" }), 0));
+                    message = "ENCOUNTER-SOURCE-004: Open the file to add a new identity."
+                  },
+                  {
+                    let = "sourceInsertion";
+                    value = list(
+                      "at",
+                      list(
+                        "at",
+                        { dollarPrefix = "sourceDocument.origins" },
+                        list("add", list("at", { dollarPrefix = "sourceSubjectPositions" }, list("add", $part22, -1)), -1)
+                      ),
+                      "span"
+                    )
+                  },
+                  {
+                    port = "text.slice";
+                    args = { value = { dollarPrefix = "sourceDocument.text" }; start = 0; end = { dollarPrefix = "sourceInsertion.endOffset" } };
+                    into = "sourcePrefix"
+                  },
+                  {
+                    port = "text.slice";
+                    args = {
+                      value = { dollarPrefix = "sourceDocument.text" };
+                      start = { dollarPrefix = "sourceInsertion.endOffset" };
+                      end = list("count", { dollarPrefix = "sourceDocument.text" })
+                    };
+                    into = "sourceSuffix"
+                  },
+                  {
+                    let = "result";
+                    value = list(
+                      "concat",
+                      { dollarPrefix = "sourcePrefix" },
+                      "\n",
+                      { dollarPrefix = "sourceReplacement" },
+                      { dollarPrefix = "sourceSuffix" }
+                    )
+                  }
+                )
+              }
+            );
+            "source.jsonSpan" = list(
+              { port = "json.parse"; args = { text = { dollarPrefix = "jsonSourceText" } }; into = "jsonSpanValue" },
+              {
+                fold = { dollarPrefix = "jsonSourcePath" };
+                as = "jsonPointerPart";
+                accumulator = "jsonPointer";
+                initial = { node = { dollarPrefix = "jsonSpanValue" }; path = list("list") };
+                steps = list(
+                  { port = "value.describe"; args = { value = { dollarPrefix = "jsonPointer.node" } }; into = "jsonPointerType" },
+                  { port = "value.string"; args = { value = { dollarPrefix = "jsonPointerPart" } }; into = "jsonCanonicalPart" },
+                  {
+                    when = { dollarPrefix = "jsonPointerType.array" };
+                    then = list({ port = "json.parse"; args = { text = { dollarPrefix = "jsonCanonicalPart" } }; into = "jsonCanonicalPart" })
+                  }
+                );
+                yield = {
+                  node = list("at", { dollarPrefix = "jsonPointer.node" }, { dollarPrefix = "jsonPointerPart" });
+                  path = list("append", { dollarPrefix = "jsonPointer.path" }, list("list", { dollarPrefix = "jsonCanonicalPart" }))
+                };
+                into = "jsonPointer"
+              },
+              { let = "jsonSourcePath"; value = { dollarPrefix = "jsonPointer.path" } },
+              {
+                let = "jsonPointValue";
+                value = list(
+                  "fold",
+                  { dollarPrefix = "jsonSourcePath" },
+                  "jsonPointKey",
+                  "jsonPointNode",
+                  { dollarPrefix = "jsonSpanValue" },
+                  list("at", { dollarPrefix = "jsonPointNode" }, { dollarPrefix = "jsonPointKey" })
+                )
+              },
+              { port = "value.describe"; args = { value = { dollarPrefix = "jsonPointValue" } }; into = "jsonPointType" },
+              {
+                assert = list("not", list("eq", { dollarPrefix = "jsonPointType.type" }, "undefined"));
+                message = "The source path is absent from the visible JSON."
+              },
+              {
+                port = "text.split";
+                args = {
+                  value = { dollarPrefix = "jsonSourceText" };
+                  pattern = "(\"(?:[^\"\\\\]|\\\\.)*\"|[\\[\\]{}:,]|-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?|true|false|null)"
+                };
+                into = "jsonSpanParts"
+              },
+              {
+                fold = { dollarPrefix = "jsonSpanParts" };
+                as = "jsonToken";
+                accumulator = "jsonScan";
+                initial = { offset = 0; stack = list("list"); span = null; done = false };
+                steps = list(
+                  { let = "jsonSpanStack"; value = { dollarPrefix = "jsonScan.stack" } },
+                  { let = "jsonSpanFound"; value = { dollarPrefix = "jsonScan.span" } },
+                  { let = "jsonSpanDone"; value = { dollarPrefix = "jsonScan.done" } },
+                  {
+                    port = "text.matches";
+                    args = { value = { dollarPrefix = "jsonToken" }; pattern = "^\\s*$" };
+                    into = "jsonSpanWhite"
+                  },
+                  {
+                    when = list("and", list("not", { dollarPrefix = "jsonSpanWhite" }), list("not", { dollarPrefix = "jsonSpanDone" }));
+                    then = list(
+                      {
+                        let = "jsonFrame";
+                        value = list("at", { dollarPrefix = "jsonSpanStack" }, list("add", list("count", { dollarPrefix = "jsonSpanStack" }), -1))
+                      },
+                      { let = "jsonIsClose"; value = list("includes", list("list", "}", "]"), { dollarPrefix = "jsonToken" }) },
+                      { let = "jsonIsOpen"; value = list("includes", list("list", "{", "["), { dollarPrefix = "jsonToken" }) },
+                      {
+                        when = { dollarPrefix = "jsonIsClose" };
+                        then = list(
+                          { when = list("at", { dollarPrefix = "jsonFrame" }, "match"); then = list($part23, $part24) },
+                          { let = "jsonSpanStack"; value = list("map", $part25, "jsonDepth", $part26) }
+                        )
+                      },
+                      {
+                        when = list("eq", { dollarPrefix = "jsonToken" }, ",");
+                        then = list(
+                          {
+                            port = "record.put";
+                            args = { record = { dollarPrefix = "jsonFrame" }; key = "phase"; value = $part27 };
+                            into = "jsonFrame"
+                          },
+                          {
+                            port = "record.put";
+                            args = { record = { dollarPrefix = "jsonFrame" }; key = "index"; value = $part28 };
+                            into = "jsonFrame"
+                          }
+                        )
+                      },
+                      {
+                        when = list("eq", { dollarPrefix = "jsonToken" }, ":");
+                        then = list(
+                          {
+                            port = "record.put";
+                            args = { record = { dollarPrefix = "jsonFrame" }; key = "phase"; value = "value" };
+                            into = "jsonFrame"
+                          }
+                        )
+                      },
+                      {
+                        when = list(
+                          "and",
+                          list("not", { dollarPrefix = "jsonIsClose" }),
+                          list("not", list("includes", $part29, { dollarPrefix = "jsonToken" }))
+                        );
+                        then = list(
+                          { let = "jsonIsKey"; value = list("and", { dollarPrefix = "jsonFrame" }, $part30) },
+                          { when = { dollarPrefix = "jsonIsKey" }; then = list($part31, $part32, $part33) },
+                          { when = list("not", { dollarPrefix = "jsonIsKey" }); then = list($part34, $part35, $part36, $part37) }
+                        )
+                      },
+                      {
+                        when = list("and", { dollarPrefix = "jsonFrame" }, list("not", { dollarPrefix = "jsonIsClose" }));
+                        then = list({ let = "jsonSpanStack"; value = list("map", $part38, "jsonDepth", $part39) })
+                      },
+                      {
+                        when = { dollarPrefix = "jsonIsOpen" };
+                        then = list({ let = "jsonSpanStack"; value = list("append", { dollarPrefix = "jsonSpanStack" }, $part40) })
+                      }
+                    )
+                  }
+                );
+                yield = {
+                  offset = list("add", { dollarPrefix = "jsonScan.offset" }, list("count", { dollarPrefix = "jsonToken" }));
+                  stack = { dollarPrefix = "jsonSpanStack" };
+                  span = { dollarPrefix = "jsonSpanFound" };
+                  done = { dollarPrefix = "jsonSpanDone" }
+                };
+                into = "jsonScan"
+              },
+              { let = "result"; value = { dollarPrefix = "jsonScan.span" } }
+            )
+          }
+        };
+        lexPolicy = {
+          protocol = "encounter/source-lexical-profile/1";
+          status = "supplied-bootstrap-lexical-definition";
+          jsonPatternPath = list("queries", "source.jsonSpan", 6, "args", "pattern");
+          identifierPattern = "[@$]?[A-Za-z_][A-Za-z0-9_.-]*";
+          maxCodeUnits = 160000;
+          maxParts = 18000
+        };
+        lexGrammar = {
+          protocol = "temple/surface-process-module/1";
+          queries = {
+            "source.rel" = list(
+              {
+                port = "text.split";
+                args = {
+                  value = { dollarPrefix = "text" };
+                  pattern = "(\\(\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"(?:\\s*,\\s*\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")?\\s*\\)|//[^\\r\\n]*)"
+                };
+                into = "relPieces"
+              },
+              {
+                fold = { dollarPrefix = "relPieces" };
+                as = "relPiece";
+                accumulator = "relState";
+                initial = { facts = list("list"); origins = list("list"); offset = 0; line = 1; column = 1; prefix = ""; error = null };
+                steps = list(
+                  { let = "relFacts"; value = { dollarPrefix = "relState.facts" } },
+                  { let = "relOrigins"; value = { dollarPrefix = "relState.origins" } },
+                  { let = "relError"; value = { dollarPrefix = "relState.error" } },
+                  { port = "text.trim"; args = { value = { dollarPrefix = "relPiece" } }; into = "relTrim" },
+                  {
+                    when = list("and", list("not", { dollarPrefix = "relError" }), list("not", list("eq", { dollarPrefix = "relTrim" }, "")));
+                    then = list(
+                      {
+                        try = list(
+                          { port = "text.matches"; args = { value = { dollarPrefix = "relTrim" }; pattern = "^//" }; into = "relComment" },
+                          { when = { dollarPrefix = "relComment" }; then = list($part41, $part42) },
+                          {
+                            when = list("not", { dollarPrefix = "relComment" });
+                            then = list($part43, $part44, $part45, $part46, $part47, $part48, $part49, $part50, $part51, $part52, $part53, $part54)
+                          }
+                        );
+                        error = "relFault";
+                        catch = list(
+                          {
+                            port = "text.indexOf";
+                            args = { value = { dollarPrefix = "relPiece" }; search = { dollarPrefix = "relTrim" }; from = 0 };
+                            into = "relProblemOffset"
+                          },
+                          {
+                            port = "text.slice";
+                            args = { value = { dollarPrefix = "relPiece" }; start = 0; end = { dollarPrefix = "relProblemOffset" } };
+                            into = "relProblemPrefix"
+                          },
+                          {
+                            port = "text.split";
+                            args = { value = { dollarPrefix = "relProblemPrefix" }; pattern = "\\n" };
+                            into = "relProblemLines"
+                          },
+                          {
+                            let = "relError";
+                            value = {
+                              code = "ENCOUNTER-SOURCE-001";
+                              summary = { dollarPrefix = "relFault.message" };
+                              span = $part55;
+                              correction = "Correct this tuple, then try the file again."
+                            }
+                          }
+                        )
+                      }
+                    )
+                  },
+                  { port = "text.split"; args = { value = { dollarPrefix = "relPiece" }; pattern = "\\n" }; into = "relLines" }
+                );
+                yield = {
+                  facts = { dollarPrefix = "relFacts" };
+                  origins = { dollarPrefix = "relOrigins" };
+                  offset = list("add", { dollarPrefix = "relState.offset" }, list("count", { dollarPrefix = "relPiece" }));
+                  line = list("add", { dollarPrefix = "relState.line" }, list("add", list("count", { dollarPrefix = "relLines" }), -1));
+                  column = list(
+                    "if",
+                    list("eq", list("count", { dollarPrefix = "relLines" }), 1),
+                    list("add", { dollarPrefix = "relState.column" }, list("count", { dollarPrefix = "relPiece" })),
+                    list(
+                      "add",
+                      list("count", list("at", { dollarPrefix = "relLines" }, list("add", list("count", { dollarPrefix = "relLines" }), -1))),
+                      1
+                    )
+                  );
+                  prefix = list(
+                    "if",
+                    list("eq", list("count", { dollarPrefix = "relLines" }), 1),
+                    list("concat", { dollarPrefix = "relState.prefix" }, { dollarPrefix = "relPiece" }),
+                    list("at", { dollarPrefix = "relLines" }, list("add", list("count", { dollarPrefix = "relLines" }), -1))
+                  );
+                  error = { dollarPrefix = "relError" }
+                };
+                into = "relState"
+              },
+              {
+                let = "result";
+                value = {
+                  ok = list("not", { dollarPrefix = "relState.error" });
+                  facts = list("if", { dollarPrefix = "relState.error" }, list("list"), { dollarPrefix = "relState.facts" });
+                  origins = list("if", { dollarPrefix = "relState.error" }, list("list"), { dollarPrefix = "relState.origins" });
+                  module = { dollarPrefix = "file" };
+                  diagnostic = { dollarPrefix = "relState.error" }
+                }
+              }
+            );
+            "source.compile" = list(
+              {
+                port = "text.matches";
+                args = { value = { dollarPrefix = "text" }; pattern = "^[\\s\\S]{0,524288}$" };
+                into = "sourceWithinLimit"
+              },
+              {
+                assert = { dollarPrefix = "sourceWithinLimit" };
+                message = "ENCOUNTER-SOURCE-005: This editor tries files up to 524,288 characters. Download the buffer or split the source."
+              },
+              { let = "sourceText"; value = { dollarPrefix = "text" } },
+              { let = "sourceFile"; value = { dollarPrefix = "file" } },
+              { let = "sourceFormat"; value = { dollarPrefix = "format" } },
+              { let = "sourceResult"; value = null },
+              {
+                when = list("eq", { dollarPrefix = "format" }, "rel");
+                then = list({ call = "source.rel" }, { let = "sourceResult"; value = { dollarPrefix = "result" } })
+              },
+              {
+                when = list("eq", { dollarPrefix = "sourceFormat" }, "temple");
+                then = list(
+                  { call = "language.compile" },
+                  { let = "sourceResult"; value = { dollarPrefix = "result" } },
+                  {
+                    when = { dollarPrefix = "sourceResult.ok" };
+                    then = list(
+                      { port = "text.split"; args = { value = { dollarPrefix = "sourceText" }; pattern = "\\n" }; into = "sourceLines" },
+                      {
+                        fold = { dollarPrefix = "sourceLines" };
+                        as = "sourceLine";
+                        accumulator = "sourceLocations";
+                        initial = { offset = 0; locations = list("list") };
+                        steps = list(
+                          {
+                            port = "text.matches";
+                            args = { value = { dollarPrefix = "sourceLine" }; pattern = "\\r$" };
+                            into = "sourceLineHasCR"
+                          }
+                        );
+                        yield = {
+                          offset = list("add", { dollarPrefix = "sourceLocations.offset" }, list("add", $part56, 1));
+                          locations = list("append", { dollarPrefix = "sourceLocations.locations" }, list("list", $part57))
+                        };
+                        into = "sourceLocations"
+                      },
+                      {
+                        let = "sourceOrigins";
+                        value = list(
+                          "map",
+                          { dollarPrefix = "sourceResult.origins" },
+                          "sourceOrigin",
+                          {
+                            index = { dollarPrefix = "sourceOrigin.index" };
+                            span = {
+                              file = { dollarPrefix = "sourceFile" };
+                              line = { dollarPrefix = "sourceOrigin.span.line" };
+                              column = { dollarPrefix = "sourceOrigin.span.column" };
+                              offset = $part58;
+                              endOffset = $part59;
+                              valueStart = $part60;
+                              valueEnd = $part61
+                            }
+                          }
+                        )
+                      },
+                      {
+                        port = "record.put";
+                        args = { record = { dollarPrefix = "sourceResult" }; key = "origins"; value = { dollarPrefix = "sourceOrigins" } };
+                        into = "sourceResult"
+                      }
+                    )
+                  }
+                )
+              },
+              {
+                when = list("includes", list("list", "process", "json"), { dollarPrefix = "sourceFormat" });
+                then = list(
+                  {
+                    try = list(
+                      { port = "json.parse"; args = { text = { dollarPrefix = "sourceText" } }; into = "sourceJson" },
+                      {
+                        let = "sourceResult";
+                        value = {
+                          ok = true;
+                          facts = list("list");
+                          origins = list("list");
+                          module = { dollarPrefix = "sourceFile" };
+                          json = { dollarPrefix = "sourceJson" };
+                          diagnostic = null
+                        }
+                      }
+                    );
+                    error = "sourceJsonError";
+                    catch = list(
+                      {
+                        let = "sourceResult";
+                        value = {
+                          ok = false;
+                          facts = list("list");
+                          origins = list("list");
+                          module = { dollarPrefix = "sourceFile" };
+                          diagnostic = {
+                            code = "ENCOUNTER-SOURCE-002";
+                            summary = { dollarPrefix = "sourceJsonError.message" };
+                            span = { file = { dollarPrefix = "sourceFile" }; line = 1; column = 1 };
+                            correction = "Correct the JSON source and try again."
+                          }
+                        }
+                      }
+                    )
+                  }
+                )
+              },
+              {
+                assert = { dollarPrefix = "sourceResult" };
+                message = "ENCOUNTER-SOURCE-003: This source is derived. Follow its inputs or make a separate example."
+              },
+              {
+                port = "record.put";
+                args = { record = { dollarPrefix = "sourceResult" }; key = "text"; value = { dollarPrefix = "sourceText" } };
+                into = "sourceResult"
+              },
+              {
+                port = "record.put";
+                args = { record = { dollarPrefix = "sourceResult" }; key = "file"; value = { dollarPrefix = "sourceFile" } };
+                into = "sourceResult"
+              },
+              {
+                port = "record.put";
+                args = { record = { dollarPrefix = "sourceResult" }; key = "format"; value = { dollarPrefix = "sourceFormat" } };
+                into = "sourceResult"
+              },
+              { let = "result"; value = { dollarPrefix = "sourceResult" } }
+            );
+            "source.encode" = list(
+              {
+                fold = { dollarPrefix = "sourceFacts" };
+                as = "sourceFact";
+                accumulator = "sourceRows";
+                initial = list("list");
+                steps = list(
+                  { port = "json.stringify"; args = { value = { dollarPrefix = "sourceFact.s" } }; into = "sourceS" },
+                  { port = "json.stringify"; args = { value = { dollarPrefix = "sourceFact.p" } }; into = "sourceP" },
+                  { port = "json.stringify"; args = { value = { dollarPrefix = "sourceFact.o" } }; into = "sourceO" }
+                );
+                yield = list(
+                  "append",
+                  { dollarPrefix = "sourceRows" },
+                  list(
+                    "list",
+                    list(
+                      "if",
+                      list("eq", { dollarPrefix = "format" }, "temple"),
+                      list("concat", "  ", { dollarPrefix = "sourceFact.p" }, " ", { dollarPrefix = "sourceO" }),
+                      list(
+                        "concat",
+                        "(",
+                        { dollarPrefix = "sourceS" },
+                        ", ",
+                        { dollarPrefix = "sourceP" },
+                        ", ",
+                        { dollarPrefix = "sourceO" },
+                        list("if", list("eq", { dollarPrefix = "sourceFact.pol" }, "is-not"), ", \"is-not\"", ""),
+                        ")"
+                      )
+                    )
+                  )
+                );
+                into = "sourceRows"
+              },
+              { port = "text.join"; args = { values = { dollarPrefix = "sourceRows" }; separator = "\n" }; into = "result" }
+            );
+            "source.patch" = list(
+              {
+                let = "sourceMatches";
+                value = list(
+                  "filter",
+                  list("range", list("count", { dollarPrefix = "sourceDocument.facts" })),
+                  "sourcePosition",
+                  list(
+                    "and",
+                    list(
+                      "eq",
+                      list(
+                        "at",
+                        list("at", { dollarPrefix = "sourceDocument.facts" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                        "s"
+                      ),
+                      { dollarPrefix = "sourceSubject" }
+                    ),
+                    list(
+                      "eq",
+                      list(
+                        "at",
+                        list("at", { dollarPrefix = "sourceDocument.facts" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                        "p"
+                      ),
+                      { dollarPrefix = "sourceProperty" }
+                    )
+                  )
+                )
+              },
+              { let = "format"; value = { dollarPrefix = "sourceDocument.format" } },
+              {
+                let = "sourceFacts";
+                value = list(
+                  "map",
+                  { dollarPrefix = "sourceValues" },
+                  "sourceValue",
+                  {
+                    s = { dollarPrefix = "sourceSubject" };
+                    p = { dollarPrefix = "sourceProperty" };
+                    o = { dollarPrefix = "sourceValue" };
+                    pol = "is"
+                  }
+                )
+              },
+              { call = "source.encode" },
+              { let = "sourceReplacement"; value = { dollarPrefix = "result" } },
+              {
+                fold = { dollarPrefix = "sourceMatches" };
+                as = "sourcePosition";
+                accumulator = "sourcePatch";
+                initial = { end = 0; pieces = list("list"); first = true };
+                steps = list(
+                  {
+                    let = "sourceSpan";
+                    value = list(
+                      "at",
+                      list("at", { dollarPrefix = "sourceDocument.origins" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                      "span"
+                    )
+                  },
+                  {
+                    port = "text.slice";
+                    args = {
+                      value = { dollarPrefix = "sourceDocument.text" };
+                      start = { dollarPrefix = "sourcePatch.end" };
+                      end = { dollarPrefix = "sourceSpan.offset" }
+                    };
+                    into = "sourcePrefix"
+                  }
+                );
+                yield = {
+                  end = { dollarPrefix = "sourceSpan.endOffset" };
+                  pieces = list(
+                    "append",
+                    { dollarPrefix = "sourcePatch.pieces" },
+                    list(
+                      "list",
+                      { dollarPrefix = "sourcePrefix" },
+                      list("if", { dollarPrefix = "sourcePatch.first" }, { dollarPrefix = "sourceReplacement" }, "")
+                    )
+                  );
+                  first = false
+                };
+                into = "sourcePatch"
+              },
+              {
+                when = list("not", list("eq", list("count", { dollarPrefix = "sourceMatches" }), 0));
+                then = list(
+                  {
+                    port = "text.slice";
+                    args = {
+                      value = { dollarPrefix = "sourceDocument.text" };
+                      start = { dollarPrefix = "sourcePatch.end" };
+                      end = list("count", { dollarPrefix = "sourceDocument.text" })
+                    };
+                    into = "sourceSuffix"
+                  },
+                  {
+                    port = "text.join";
+                    args = {
+                      values = list("append", { dollarPrefix = "sourcePatch.pieces" }, list("list", { dollarPrefix = "sourceSuffix" }));
+                      separator = ""
+                    };
+                    into = "result"
+                  }
+                )
+              },
+              {
+                when = list("eq", list("count", { dollarPrefix = "sourceMatches" }), 0);
+                then = list(
+                  {
+                    let = "sourceSubjectPositions";
+                    value = list(
+                      "filter",
+                      list("range", list("count", { dollarPrefix = "sourceDocument.facts" })),
+                      "sourcePosition",
+                      list(
+                        "eq",
+                        list(
+                          "at",
+                          list("at", { dollarPrefix = "sourceDocument.facts" }, list("add", { dollarPrefix = "sourcePosition" }, -1)),
+                          "s"
+                        ),
+                        { dollarPrefix = "sourceSubject" }
+                      )
+                    )
+                  },
+                  {
+                    assert = list("not", list("eq", list("count", { dollarPrefix = "sourceSubjectPositions" }), 0));
+                    message = "ENCOUNTER-SOURCE-004: Open the file to add a new identity."
+                  },
+                  {
+                    let = "sourceInsertion";
+                    value = list(
+                      "at",
+                      list(
+                        "at",
+                        { dollarPrefix = "sourceDocument.origins" },
+                        list("add", list("at", { dollarPrefix = "sourceSubjectPositions" }, list("add", $part62, -1)), -1)
+                      ),
+                      "span"
+                    )
+                  },
+                  {
+                    port = "text.slice";
+                    args = { value = { dollarPrefix = "sourceDocument.text" }; start = 0; end = { dollarPrefix = "sourceInsertion.endOffset" } };
+                    into = "sourcePrefix"
+                  },
+                  {
+                    port = "text.slice";
+                    args = {
+                      value = { dollarPrefix = "sourceDocument.text" };
+                      start = { dollarPrefix = "sourceInsertion.endOffset" };
+                      end = list("count", { dollarPrefix = "sourceDocument.text" })
+                    };
+                    into = "sourceSuffix"
+                  },
+                  {
+                    let = "result";
+                    value = list(
+                      "concat",
+                      { dollarPrefix = "sourcePrefix" },
+                      "\n",
+                      { dollarPrefix = "sourceReplacement" },
+                      { dollarPrefix = "sourceSuffix" }
+                    )
+                  }
+                )
+              }
+            );
+            "source.jsonSpan" = list(
+              { port = "json.parse"; args = { text = { dollarPrefix = "jsonSourceText" } }; into = "jsonSpanValue" },
+              {
+                fold = { dollarPrefix = "jsonSourcePath" };
+                as = "jsonPointerPart";
+                accumulator = "jsonPointer";
+                initial = { node = { dollarPrefix = "jsonSpanValue" }; path = list("list") };
+                steps = list(
+                  { port = "value.describe"; args = { value = { dollarPrefix = "jsonPointer.node" } }; into = "jsonPointerType" },
+                  { port = "value.string"; args = { value = { dollarPrefix = "jsonPointerPart" } }; into = "jsonCanonicalPart" },
+                  {
+                    when = { dollarPrefix = "jsonPointerType.array" };
+                    then = list({ port = "json.parse"; args = { text = { dollarPrefix = "jsonCanonicalPart" } }; into = "jsonCanonicalPart" })
+                  }
+                );
+                yield = {
+                  node = list("at", { dollarPrefix = "jsonPointer.node" }, { dollarPrefix = "jsonPointerPart" });
+                  path = list("append", { dollarPrefix = "jsonPointer.path" }, list("list", { dollarPrefix = "jsonCanonicalPart" }))
+                };
+                into = "jsonPointer"
+              },
+              { let = "jsonSourcePath"; value = { dollarPrefix = "jsonPointer.path" } },
+              {
+                let = "jsonPointValue";
+                value = list(
+                  "fold",
+                  { dollarPrefix = "jsonSourcePath" },
+                  "jsonPointKey",
+                  "jsonPointNode",
+                  { dollarPrefix = "jsonSpanValue" },
+                  list("at", { dollarPrefix = "jsonPointNode" }, { dollarPrefix = "jsonPointKey" })
+                )
+              },
+              { port = "value.describe"; args = { value = { dollarPrefix = "jsonPointValue" } }; into = "jsonPointType" },
+              {
+                assert = list("not", list("eq", { dollarPrefix = "jsonPointType.type" }, "undefined"));
+                message = "The source path is absent from the visible JSON."
+              },
+              {
+                port = "text.split";
+                args = {
+                  value = { dollarPrefix = "jsonSourceText" };
+                  pattern = "(\"(?:[^\"\\\\]|\\\\.)*\"|[\\[\\]{}:,]|-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?(?:[eE][+-]?[0-9]+)?|true|false|null)"
+                };
+                into = "jsonSpanParts"
+              },
+              {
+                fold = { dollarPrefix = "jsonSpanParts" };
+                as = "jsonToken";
+                accumulator = "jsonScan";
+                initial = { offset = 0; stack = list("list"); span = null; done = false };
+                steps = list(
+                  { let = "jsonSpanStack"; value = { dollarPrefix = "jsonScan.stack" } },
+                  { let = "jsonSpanFound"; value = { dollarPrefix = "jsonScan.span" } },
+                  { let = "jsonSpanDone"; value = { dollarPrefix = "jsonScan.done" } },
+                  {
+                    port = "text.matches";
+                    args = { value = { dollarPrefix = "jsonToken" }; pattern = "^\\s*$" };
+                    into = "jsonSpanWhite"
+                  },
+                  {
+                    when = list("and", list("not", { dollarPrefix = "jsonSpanWhite" }), list("not", { dollarPrefix = "jsonSpanDone" }));
+                    then = list(
+                      {
+                        let = "jsonFrame";
+                        value = list("at", { dollarPrefix = "jsonSpanStack" }, list("add", list("count", { dollarPrefix = "jsonSpanStack" }), -1))
+                      },
+                      { let = "jsonIsClose"; value = list("includes", list("list", "}", "]"), { dollarPrefix = "jsonToken" }) },
+                      { let = "jsonIsOpen"; value = list("includes", list("list", "{", "["), { dollarPrefix = "jsonToken" }) },
+                      {
+                        when = { dollarPrefix = "jsonIsClose" };
+                        then = list(
+                          { when = list("at", { dollarPrefix = "jsonFrame" }, "match"); then = list($part63, $part64) },
+                          { let = "jsonSpanStack"; value = list("map", $part65, "jsonDepth", $part66) }
+                        )
+                      },
+                      {
+                        when = list("eq", { dollarPrefix = "jsonToken" }, ",");
+                        then = list(
+                          {
+                            port = "record.put";
+                            args = { record = { dollarPrefix = "jsonFrame" }; key = "phase"; value = $part67 };
+                            into = "jsonFrame"
+                          },
+                          {
+                            port = "record.put";
+                            args = { record = { dollarPrefix = "jsonFrame" }; key = "index"; value = $part68 };
+                            into = "jsonFrame"
+                          }
+                        )
+                      },
+                      {
+                        when = list("eq", { dollarPrefix = "jsonToken" }, ":");
+                        then = list(
+                          {
+                            port = "record.put";
+                            args = { record = { dollarPrefix = "jsonFrame" }; key = "phase"; value = "value" };
+                            into = "jsonFrame"
+                          }
+                        )
+                      },
+                      {
+                        when = list(
+                          "and",
+                          list("not", { dollarPrefix = "jsonIsClose" }),
+                          list("not", list("includes", $part69, { dollarPrefix = "jsonToken" }))
+                        );
+                        then = list(
+                          { let = "jsonIsKey"; value = list("and", { dollarPrefix = "jsonFrame" }, $part70) },
+                          { when = { dollarPrefix = "jsonIsKey" }; then = list($part71, $part72, $part73) },
+                          { when = list("not", { dollarPrefix = "jsonIsKey" }); then = list($part74, $part75, $part76, $part77) }
+                        )
+                      },
+                      {
+                        when = list("and", { dollarPrefix = "jsonFrame" }, list("not", { dollarPrefix = "jsonIsClose" }));
+                        then = list({ let = "jsonSpanStack"; value = list("map", $part78, "jsonDepth", $part79) })
+                      },
+                      {
+                        when = { dollarPrefix = "jsonIsOpen" };
+                        then = list({ let = "jsonSpanStack"; value = list("append", { dollarPrefix = "jsonSpanStack" }, $part80) })
+                      }
+                    )
+                  }
+                );
+                yield = {
+                  offset = list("add", { dollarPrefix = "jsonScan.offset" }, list("count", { dollarPrefix = "jsonToken" }));
+                  stack = { dollarPrefix = "jsonSpanStack" };
+                  span = { dollarPrefix = "jsonSpanFound" };
+                  done = { dollarPrefix = "jsonSpanDone" }
+                };
+                into = "jsonScan"
+              },
+              { let = "result"; value = { dollarPrefix = "jsonScan.span" } }
+            )
+          }
+        }
+      }
+    }
+  }

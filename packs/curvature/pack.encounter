@@ -1,0 +1,72 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "curvature";
+    title = "Experiential curvature";
+    requires = list("core");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/curvature.encounter";
+        target = "algebra/curvature.process.json"
+      }
+    );
+    sources = list(
+      {
+        source = "source/curvature.encounter";
+        target = "source/curvature.rel"
+      }
+    );
+    assets = list("assets/curvature.css");
+    files = list(
+      {
+        source = "README.md";
+        target = "docs/packs/curvature.md"
+      }
+    );
+    build = "curvature.build";
+    render = "curvature.view";
+    navigation = {
+      label = "A different light";
+      route = "curvature.html"
+    };
+    grants = {
+      build = list("json.parse", "text.matches", "file.write", "runtime.bundle", "text.split");
+      browser = list(
+        "browser.attribute",
+        "browser.environment",
+        "browser.on",
+        "browser.style",
+        "browser.write",
+        "dom.exists",
+        "json.parse",
+        "json.stringify",
+        "state.get",
+        "state.set",
+        "storage.read",
+        "storage.write",
+        "text.matches"
+      )
+    };
+    runtime = {
+      entry = "curvature.boot";
+      queries = list(
+        "curvature.check",
+        "curvature.resolve",
+        "curvature.defaults",
+        "curvature.boot",
+        "curvature.change",
+        "curvature.preset",
+        "curvature.reset",
+        "curvature.commit",
+        "curvature.environment",
+        "curvature.pause"
+      );
+      profile = "curvatureBrowser";
+      allPages = true
+    };
+    outputs = list("curvature.html", "curvature-runtime.js");
+    stylesheets = list("assets/curvature.css")
+  }

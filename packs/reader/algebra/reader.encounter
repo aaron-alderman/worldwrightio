@@ -1,0 +1,100 @@
+process-module "temple/surface-process-module/1"
+
+process reader.validate:
+  assert includes(subjects("isa", "Place"), one("world", "entry"))
+    otherwise "READER-ENTRY: Entry must reference a Place."
+  each subjects("isa", "Place") as place:
+    port text.matches { value = $place; pattern = "^[a-z][a-z0-9-]*$" } → safe
+    assert $safe
+      otherwise "READER-ID: Place identifiers must be safe route names."
+    each list("title", "question", "reading") as field:
+      assert not(eq(one($place, $field), null))
+        otherwise "READER-FIELD: Places need title, question and reading."
+    each objects($place, "choice") as choice:
+      assert includes(subjects("isa", "Choice"), $choice)
+        otherwise "READER-CHOICE: Choice must be declared."
+      assert includes(subjects("isa", "Place"), one($choice, "target"))
+        otherwise "READER-TARGET: Choice target must be a Place."
+    each objects($place, "source") as source:
+      assert includes(subjects("isa", "Source"), $source)
+        otherwise "READER-SOURCE: Source must be declared."
+
+process reader.view:
+  let result = { tag = "section"; attrs = { id = "reader-mount" }; children = list({ tag = "h2"; attrs = {}; children = list("Explore the fieldbook") }, { tag = "label"; attrs = { for = "reader-search" }; children = list("Find a place") }, { tag = "input"; attrs = { id = "reader-search"; type = "search"; placeholder = "Search titles and questions" }; children = list() }, { tag = "div"; attrs = { id = "reader-results"; class = "grid" }; children = map(subjects("isa", "Place"), "place", { tag = "a"; attrs = { href = concat("places/", $place, ".html"); class = "card" }; children = list({ tag = "h3"; attrs = {}; children = list(one($place, "title")) }, { tag = "p"; attrs = {}; children = list(one($place, "question")) }) }) }, { tag = "aside"; attrs = { id = "reader-notebook"; class = "card" }; children = list({ tag = "h2"; attrs = {}; children = list("Your field notes") }, { tag = "label"; attrs = { for = "reader-note" }; children = list("Private note for this page") }, { tag = "textarea"; attrs = { id = "reader-note"; rows = 4; maxlength = 20000 }; children = list() }, { tag = "p"; attrs = { id = "reader-note-status"; "aria-live" = "polite" }; children = list("Saved in this browser when storage is available.") }, { tag = "h3"; attrs = {}; children = list("Your trail") }, { tag = "div"; attrs = { id = "reader-trail" }; children = list() }, { tag = "button"; attrs = { id = "reader-clear"; type = "button" }; children = list("Clear my trail") }) }) }
+
+process reader.boot:
+  port dom.exists { selector = "#reader-mount" } → mounted
+  when $mounted:
+    port dom.on { selector = "#reader-search"; event = "input"; query = "reader.search" } → _
+  call reader.memory.boot
+
+process reader.search:
+  port dom.value { selector = "#reader-search" } → term
+  port text.lowerCase { value = $term } → term
+  fold subjects("isa", "Place") as place; matches starts list():
+    port text.lowerCase { value = concat(one($place, "title"), " ", one($place, "question")) } → haystack
+    yield if(includes($haystack, $term), append($matches, list({ tag = "a"; attrs = { href = concat("places/", $place, ".html"); class = "card" }; children = list({ tag = "h3"; attrs = {}; children = list(one($place, "title")) }, { tag = "p"; attrs = {}; children = list(one($place, "question")) }) })), $matches) → input
+  call html.serialize
+  port dom.content { selector = "#reader-results"; html = $result } → _
+
+process reader.build:
+  call reader.validate
+  let pageTitle = "Fieldbook"
+  let route = "reader.html"
+  call reader.view
+  let body = $result
+  call shell.document
+  each subjects("isa", "Place") as place:
+    let placement = $place
+    call shell.blocks
+    let blocks = $result
+    let route = concat("places/", $place, ".html")
+    let pageTitle = one($place, "title")
+    let body = append(list({ tag = "article"; attrs = { class = "prose"; "data-place-id" = $place; "data-atlas-current" = $place }; children = list({ tag = "p"; attrs = { class = "eyebrow" }; children = list("Fieldbook") }, { tag = "h1"; attrs = {}; children = list(one($place, "title")) }, { tag = "p"; attrs = { class = "lead" }; children = list(one($place, "question")) }, { tag = "p"; attrs = {}; children = list(one($place, "reading")) }, { tag = "nav"; attrs = {}; children = map(objects($place, "choice"), "choice", { tag = "a"; attrs = { href = concat("places/", one($choice, "target"), ".html"); class = "button" }; children = list(one($choice, "label")) }) }, { tag = "p"; attrs = { id = "atlas-visit-note"; hidden = true }; children = list() }) }, { tag = "aside"; attrs = { class = "sources" }; children = map(objects($place, "source"), "source", { tag = "p"; attrs = {}; children = list({ tag = "strong"; attrs = {}; children = list(one($source, "title")) }, " · ", one($source, "attribution"), " · ", one($source, "scope")) }) }, { tag = "aside"; attrs = { id = "reader-notebook"; class = "card" }; children = list({ tag = "h2"; attrs = {}; children = list("Your field notes") }, { tag = "label"; attrs = { for = "reader-note" }; children = list("Private note for this page") }, { tag = "textarea"; attrs = { id = "reader-note"; rows = 4; maxlength = 20000 }; children = list() }, { tag = "p"; attrs = { id = "reader-note-status"; "aria-live" = "polite" }; children = list("Saved in this browser when storage is available.") }, { tag = "h3"; attrs = {}; children = list("Your trail") }, { tag = "div"; attrs = { id = "reader-trail" }; children = list() }, { tag = "button"; attrs = { id = "reader-clear"; type = "button" }; children = list("Clear my trail") }) }), $blocks)
+    call shell.document
+  port runtime.bundle { entry = "reader.boot"; mode = "browser"; queries = list("reader.boot", "reader.search", "reader.memory.boot", "reader.memory.paint", "reader.memory.note", "reader.memory.clear", "reader.memory.focus", "html.escape", "html.serialize", "html.observe", "html.inspect", "html.cssText"); factSubjects = append(subjects("isa", "Place"), list()); data = { ids = subjects("isa", "Place"); memoryKey = concat("worldwright.reader.", one("world", "title")) }; budget = 2000000; grantProfile = "readerBrowser" } → runtime
+  port file.write { path = "reader-runtime.js"; text = $runtime } → _
+
+process reader.memory.boot:
+  port dom.exists { selector = "#reader-notebook" } → notebook
+  when $notebook:
+    port dom.exists { selector = "[data-place-id]" } → atPlace
+    let current = "home"
+    when $atPlace:
+      port dom.attribute { selector = "[data-place-id]"; name = "data-place-id" } → current
+    port state.set { key = "reader.current"; value = $current } → _
+    port storage.read { key = concat($data.memoryKey, ".trail"); maxLength = 4096 } → stored
+    port text.split { value = if($stored.value, $stored.value, ""); pattern = "\\n" } → candidate
+    let visited = distinct(filter(append($candidate, if(includes($data.ids, $current), list($current), list())), "id", includes($data.ids, $id)))
+    port state.set { key = "reader.visited"; value = $visited } → _
+    call reader.memory.paint
+    port storage.read { key = concat($data.memoryKey, ".note.", $current); maxLength = 20000 } → note
+    port dom.setValue { selector = "#reader-note"; value = if($note.value, $note.value, "") } → _
+    port dom.on { selector = "#reader-note"; event = "input"; query = "reader.memory.note" } → _
+    port dom.on { selector = "#reader-clear"; event = "click"; query = "reader.memory.clear" } → _
+    port browser.on { ref = "window"; event = "pageshow"; query = "reader.memory.focus" } → _
+
+process reader.memory.paint:
+  port state.get { key = "reader.visited" } → visited
+  port text.join { values = $visited; separator = "\n" } → trailText
+  port storage.write { key = concat($data.memoryKey, ".trail"); value = $trailText } → saved
+  let input = { tag = "ul"; attrs = {}; children = list() }
+  let input = { tag = "ul"; attrs = {}; children = map($visited, "place", { tag = "li"; attrs = {}; children = list({ tag = "a"; attrs = { href = concat("places/", $place, ".html") }; children = list(one($place, "title")) }) }) }
+  call html.serialize
+  port dom.content { selector = "#reader-trail"; html = $result } → _
+
+process reader.memory.note:
+  port state.get { key = "reader.current" } → current
+  port dom.value { selector = "#reader-note" } → note
+  port storage.write { key = concat($data.memoryKey, ".note.", $current); value = $note } → saved
+  port dom.text { selector = "#reader-note-status"; text = if($saved.ok, "Saved only in this browser.", "Storage is unavailable; this note will be lost when you leave this page.") } → _
+
+process reader.memory.clear:
+  port storage.remove { key = concat($data.memoryKey, ".trail") } → _
+  port state.set { key = "reader.visited"; value = list() } → _
+  call reader.memory.paint
+
+process reader.memory.focus:
+  port dom.exists { selector = "#reader-notebook" } → mounted
+  when $mounted:
+    port dom.focus { selector = "#main" } → _

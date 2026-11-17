@@ -1,0 +1,35 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "sources";
+    title = "Sources";
+    requires = list("core");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/sources.encounter";
+        target = "algebra/sources.process.json"
+      }
+    );
+    sources = list();
+    assets = list();
+    build = "sources.build";
+    navigation = {
+      label = "Sources";
+      route = "sources.html"
+    };
+    grants = {
+      build = list();
+      browser = list()
+    };
+    outputs = list("sources.html", "source/composition.json", "composition-receipt.json");
+    render = "sources.view";
+    files = list(
+      {
+        source = "README.md";
+        target = "docs/packs/sources.md"
+      }
+    )
+  }

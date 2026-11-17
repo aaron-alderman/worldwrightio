@@ -1,0 +1,75 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "activities";
+    title = "Coastal interactions";
+    requires = list("core", "models");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/activities.encounter";
+        target = "algebra/activities.process.json"
+      }
+    );
+    sources = list(
+      {
+        source = "source/activities.encounter";
+        target = "source/activities.rel"
+      }
+    );
+    assets = list("assets/activities.css");
+    build = "activities.build";
+    render = "activities.render";
+    navigation = {
+      label = "Interactions";
+      route = "activities.html"
+    };
+    grants = {
+      build = list("json.parse", "file.write", "runtime.bundle");
+      browser = list(
+        "browser.attribute",
+        "browser.class",
+        "browser.content",
+        "browser.dialog",
+        "browser.environment",
+        "browser.frame",
+        "browser.on",
+        "browser.relative",
+        "browser.select",
+        "browser.style",
+        "browser.write",
+        "clock.read",
+        "dom.exists",
+        "json.parse",
+        "kernel.invoke",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "record.entries",
+        "record.get",
+        "state.get",
+        "state.set",
+        "storage.write",
+        "text.matches",
+        "text.replaceAll",
+        "value.describe",
+        "value.string"
+      )
+    };
+    runtime = {
+      entry = "activities.boot";
+      queries = list("activities.boot");
+      profile = "activitiesBrowser";
+      allPages = true
+    };
+    outputs = list("activities.html", "activities-runtime.js");
+    stylesheets = list("assets/activities.css");
+    files = list(
+      {
+        source = "README.md";
+        target = "docs/packs/activities.md"
+      }
+    )
+  }

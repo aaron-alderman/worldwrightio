@@ -1,0 +1,195 @@
+process-module "temple/surface-process-module/1"
+
+process workshop.boot:
+  port dom.exists { selector = "#workshop-mount" } → mounted
+  when $mounted:
+    let spPolicy = $data.presentation.spPolicy
+    let spGrammar = $data.presentation.spGrammar
+    call sp.style
+    port browser.write { ref = "#workshop-source-style"; name = "textContent"; value = $result } → _
+    port kernel.invoke { query = "ec.prepare"; input = $data.inputs } → candidate
+    port state.set { key = "candidate"; value = $candidate } → _
+    port state.set { key = "notice"; value = "The notebook and index share a title. The field menu keeps its own wording." } → _
+    port state.set { key = "selection"; value = "meaning" } → _
+    port browser.on { ref = "#workshop-apply"; event = "click"; query = "workshop.apply"; input = {} } → _
+    port browser.on { ref = "#workshop-reset"; event = "click"; query = "workshop.reset"; input = {} } → _
+    port browser.on { ref = "#inspect-meaning"; event = "click"; query = "workshop.select"; input = { selection = "meaning" } } → _
+    port browser.on { ref = "#inspect-facts"; event = "click"; query = "workshop.select"; input = { selection = "facts" } } → _
+    port browser.on { ref = "#inspect-contract"; event = "click"; query = "workshop.select"; input = { selection = "contract" } } → _
+    port browser.on { ref = "#inspect-process"; event = "click"; query = "workshop.select"; input = { selection = "process" } } → _
+    port browser.on { ref = "#inspect-inspector"; event = "click"; query = "workshop.select"; input = { selection = "inspector" } } → _
+    port kernel.invoke { query = "workshop.render"; input = {} } → result
+    port browser.write { ref = "#workshop-loading"; name = "hidden"; value = true } → _
+    port kernel.invoke { query = "workshop.labInitial"; input = {} } → result
+    port browser.on { ref = "#lab-apply"; event = "click"; query = "workshop.labApply"; input = {} } → _
+    port browser.on { ref = "#lab-stale"; event = "click"; query = "workshop.labApply"; input = { stale = true } } → _
+
+process workshop.change:
+  port kernel.invoke { query = "ec.run"; input = { candidate = $eventInput.candidate } } → before
+  let pages = filter($before, "item", eq($item.output.type, "Page"))
+  assert eq(count($pages), 1)
+    otherwise "Encounter requires one current Page projection."
+  port kernel.invoke { query = "ec.patch"; input = { candidate = $eventInput.candidate; projection = at($pages, 0); field = "P.title"; value = $eventInput.value } } → result
+
+process workshop.apply:
+  port state.get { key = "candidate" } → candidate
+  port browser.property { ref = "#workshop-title"; name = "value" } → proposed
+  try:
+    port kernel.invoke { query = "workshop.change"; input = { candidate = $candidate; value = $proposed } } → change
+    port state.set { key = "candidate"; value = $change.candidate } → _
+    port state.set { key = "notice"; value = "Accepted for this session. The notebook and the row changed; the web menu kept its own label." } → _
+    port state.set { key = "selection"; value = "facts" } → _
+  catch fault:
+    port state.set { key = "notice"; value = concat("Refused. ", at($fault, "message")) } → _
+  port kernel.invoke { query = "workshop.labInitial"; input = {} } → result
+  port kernel.invoke { query = "workshop.render"; input = {} } → result
+
+process workshop.reset:
+  port kernel.invoke { query = "ec.prepare"; input = $data.inputs } → candidate
+  port state.set { key = "candidate"; value = $candidate } → _
+  port state.set { key = "selection"; value = "meaning" } → _
+  port state.set { key = "notice"; value = "Restored the original example. Reloading also starts a fresh session." } → _
+  port kernel.invoke { query = "workshop.labInitial"; input = {} } → result
+  port kernel.invoke { query = "workshop.render"; input = {} } → result
+
+process workshop.select:
+  port state.set { key = "selection"; value = $eventInput.selection } → _
+  port kernel.invoke { query = "workshop.inspect"; input = {} } → result
+
+process workshop.html:
+  let input = $eventInput.tree
+  call html.serialize
+
+process workshop.render:
+  port state.get { key = "candidate" } → candidate
+  port state.get { key = "notice" } → notice
+  port kernel.invoke { query = "ec.run"; input = { candidate = $candidate } } → projections
+  let page = at(filter($projections, "item", eq($item.output.type, "Page")), 0)
+  let web = at(filter($projections, "item", eq($item.output.type, "WebLink")), 0)
+  let row = at(filter($projections, "item", eq($item.output.type, "NotebookRow")), 0)
+  port kernel.invoke { query = "workshop.html"; input = { tree = $page.output.tree } } → pageHTML
+  port kernel.invoke { query = "workshop.html"; input = { tree = $web.output.tree } } → webHTML
+  port kernel.invoke { query = "workshop.html"; input = { tree = $row.output.tree } } → rowHTML
+  port browser.content { ref = "#workshop-notebook"; html = $pageHTML } → _
+  port browser.content { ref = "#workshop-menu"; html = $webHTML } → _
+  port browser.content { ref = "#workshop-row"; html = $rowHTML } → _
+  port browser.write { ref = "#workshop-title"; name = "value"; value = at($page.values, "P.title") } → _
+  port browser.write { ref = "#workshop-status"; name = "textContent"; value = $notice } → _
+  port browser.attribute { ref = "#workshop-menu a"; name = "href"; value = null } → _
+  port browser.attribute { ref = "#workshop-menu a"; name = "role"; value = "text" } → _
+  port kernel.invoke { query = "workshop.inspect"; input = {} } → result
+  port browser.on { ref = "#workshop-row button"; event = "click"; query = "workshop.activate"; input = {} } → _
+
+process workshop.source:
+  let spPolicy = $data.presentation.spPolicy
+  let spGrammar = $data.presentation.spGrammar
+  let selection = $eventInput.selection
+  let candidate = $eventInput.candidate
+  let text = $candidate.inputs.codeText
+  let language = "encounter"
+  let file = "notebook.encounter"
+  let label = "The meaning and its routes"
+  when eq($selection, "facts"):
+    let text = $candidate.inputs.factText
+    let language = "rel"
+    let file = "notebook.rel"
+    let label = "The current session source"
+  when eq($selection, "contract"):
+    let text = $candidate.inputs.contractText
+    let language = "rel"
+    let file = "contracts.rel"
+    let label = "The closed type contracts"
+  when eq($selection, "process"):
+    port kernel.invoke { query = "sp.listing"; input = { programme = at($data.processes, "workshop.change"); origin = { file = "algebra/workshop.process.json"; query = "workshop.change" } } } → listing
+    let text = concat("process workshop.change:\n", $listing.text)
+    let language = "process"
+    let file = "encounter-demo.process"
+    let label = "How this change is composed"
+  when eq($selection, "inspector"):
+    port kernel.invoke { query = "sp.listing"; input = { programme = at($data.processes, "workshop.inspect"); origin = { file = "algebra/workshop.process.json"; query = "workshop.inspect" } } } → listing
+    let text = concat("process workshop.inspect:\n", $listing.text)
+    let language = "process"
+    let file = "encounter-inspector.process"
+    let label = "The inspector’s own definition"
+  port digest.sha256 { text = $text } → hash
+  let result = { text = $text; language = $language; file = $file; label = $label; hash = $hash }
+
+process workshop.inspect:
+  port state.get { key = "candidate" } → candidate
+  port state.get { key = "selection" } → selection
+  port kernel.invoke { query = "workshop.source"; input = { candidate = $candidate; selection = $selection } } → source
+  let spPolicy = $data.presentation.spPolicy
+  let spGrammar = $data.presentation.spGrammar
+  let lexPolicy = $data.presentation.lexPolicy
+  let lexGrammar = $data.presentation.lexGrammar
+  port kernel.invoke { query = "sp.present"; input = { text = $source.text; file = $source.file; language = $source.language; theme = "dark"; expectedHash = $source.hash; lineNumbers = true; selectedLine = null; origin = { file = $source.file; sha256 = $source.hash; scope = "current-session-definition; not an execution trace" } } } → presentation
+  port kernel.invoke { query = "workshop.html"; input = { tree = $presentation.tree } } → markup
+  port browser.content { ref = "#workshop-source"; html = $markup } → _
+  port browser.write { ref = "#workshop-source-label"; name = "textContent"; value = $source.label } → _
+  port browser.write { ref = "#workshop-hash"; name = "textContent"; value = concat($source.file, " · SHA-256 ", $source.hash) } → _
+  each list("meaning", "facts", "contract", "process", "inspector") as part:
+    port browser.attribute { ref = concat("#inspect-", $part); name = "aria-pressed"; value = concat(eq($part, $selection)) } → _
+
+process workshop.build:
+  let configurationOwner = "workshop"
+  call configuration.read
+  port file.copy { path = "algebra/workshop.process.json" } → _
+  port file.read { path = "algebra/workshop.process.json" } → processJSON
+  port json.parse { text = $processJSON } → process
+  let pageTitle = "Notebook workshop"
+  let route = "workshop.html"
+  call workshop.view
+  let body = $result
+  call shell.document
+  port runtime.bundle { entry = "workshop.boot"; mode = "browser"; grantProfile = "workshopBrowser"; queries = append(append(list("workshop.boot", "workshop.change", "workshop.apply", "workshop.reset", "workshop.select", "workshop.html", "workshop.render", "workshop.source", "workshop.inspect", "ec.schema", "ec.slot", "ec.scalar", "ec.check", "ec.referenceType", "ec.fact", "ec.reference", "ec.argument", "ec.lex", "ec.header", "ec.expression", "ec.fields", "ec.data", "ec.record", "ec.representation", "ec.view", "ec.edits", "ec.show", "ec.emitView", "ec.emitRepresentation", "ec.compile", "ec.attempt", "ec.complete", "ec.verifyShow", "ec.verify", "ec.oneField", "ec.prepare", "ec.resolve", "ec.safeTree", "ec.events", "ec.run", "ec.patch", "ec.findElement", "sp.role", "sp.scan", "sp.observed", "sp.clip", "sp.line", "sp.render"), list("sp.present", "sp.expression", "sp.programme", "sp.statement", "sp.listing", "sp.style", "sp.outline", "sp.metadata", "sp.stylePlan", "source.split", "source.lex", "s01.portable", "source.rel", "source.compile", "source.encode", "source.patch", "source.jsonSpan", "html.escape", "html.serialize", "html.observe", "html.inspect", "html.cssText", "facts.index", "lower.scan", "lower.fresh", "lower.template", "lower.expression", "lower.programme", "lower.model", "lower.start", "admit.binding", "admit.expression", "admit.programme", "admit.model", "admit.effects.programme", "admit.effects", "admit.ownership", "css.render", "css.plan", "css.renderPlan", "language.refuse", "language.line", "language.module", "language.entity", "language.property", "language.compile", "workshop.dispatch", "workshop.activate")), list("session.snapshot", "session.change", "session.diff", "lab.snapshot", "lab.edit", "workshop.labInitial", "workshop.labApply")); factSubjects = list("workshop"); data = { inputs = $configuration.inputs; presentation = $configuration.presentation; processes = $process.queries }; budget = 20000000 } → runtime
+  port file.write { path = "workshop-runtime.js"; text = $runtime } → _
+
+process workshop.view:
+  let configurationOwner = "workshop"
+  call configuration.read
+  let result = { tag = "div"; attrs = { id = "workshop-mount"; class = "feature-workbench" }; children = list({ tag = "section"; attrs = { class = "prose" }; children = list({ tag = "h1"; attrs = {}; children = list("Notebook workshop") }, { tag = "p"; attrs = { class = "lead" }; children = list("One typed field note, three views. Change the source title through its declared inverse route; inspect the exact source and contract.") }, { tag = "p"; attrs = { id = "workshop-loading" }; children = list("Preparing typed notebook…") }, { tag = "style"; attrs = { id = "workshop-source-style" }; children = list() }, { tag = "label"; attrs = { for = "workshop-title" }; children = list("Notebook title") }, { tag = "input"; attrs = { id = "workshop-title"; class = "field" }; children = list() }, { tag = "div"; attrs = { class = "toolbar" }; children = list({ tag = "button"; attrs = { id = "workshop-apply"; class = "button" }; children = list("Apply source edit") }, { tag = "button"; attrs = { id = "workshop-reset"; class = "button" }; children = list("Reset session") }) }, { tag = "p"; attrs = { id = "workshop-status"; "aria-live" = "polite"; class = "status" }; children = list() }, { tag = "div"; attrs = { class = "grid" }; children = list({ tag = "section"; attrs = { class = "card" }; children = list({ tag = "h2"; attrs = {}; children = list("Notebook") }, { tag = "div"; attrs = { id = "workshop-notebook" }; children = list() }) }, { tag = "section"; attrs = { class = "card" }; children = list({ tag = "h2"; attrs = {}; children = list("Field menu") }, { tag = "div"; attrs = { id = "workshop-menu" }; children = list() }) }, { tag = "section"; attrs = { class = "card" }; children = list({ tag = "h2"; attrs = {}; children = list("Notebook index") }, { tag = "div"; attrs = { id = "workshop-row" }; children = list() }) }) }, { tag = "div"; attrs = { class = "toolbar" }; children = list({ tag = "button"; attrs = { id = "inspect-meaning"; type = "button"; class = "button" }; children = list("meaning") }, { tag = "button"; attrs = { id = "inspect-facts"; type = "button"; class = "button" }; children = list("facts") }, { tag = "button"; attrs = { id = "inspect-contract"; type = "button"; class = "button" }; children = list("contract") }, { tag = "button"; attrs = { id = "inspect-process"; type = "button"; class = "button" }; children = list("process") }, { tag = "button"; attrs = { id = "inspect-inspector"; type = "button"; class = "button" }; children = list("inspector") }) }, { tag = "h2"; attrs = { id = "workshop-source-label" }; children = list("Current source") }, { tag = "p"; attrs = { id = "workshop-hash"; class = "muted" }; children = list() }, { tag = "div"; attrs = { id = "workshop-source" }; children = list() }, { tag = "section"; attrs = { class = "card" }; children = list({ tag = "h2"; attrs = {}; children = list("Opened typed notebook") }, { tag = "div"; attrs = { id = "workshop-open" }; children = list() }) }, { tag = "section"; attrs = { class = "card" }; children = list({ tag = "h2"; attrs = {}; children = list("Declared edit owners and revisions") }, { tag = "p"; attrs = {}; children = list("Edit the shared source title or the field-menu overlay independently. A deliberately stale request must preserve the accepted candidate.") }, { tag = "label"; attrs = {}; children = list("Owner", { tag = "select"; attrs = { id = "lab-kind"; class = "field" }; children = list({ tag = "option"; attrs = { value = "title" }; children = list("Shared notebook title") }, { tag = "option"; attrs = { value = "web-label" }; children = list("Local field-menu wording") }) }) }, { tag = "label"; attrs = {}; children = list("New value", { tag = "input"; attrs = { id = "lab-value"; class = "field"; value = "Evening instrument check" }; children = list() }) }, { tag = "button"; attrs = { id = "lab-apply"; class = "button" }; children = list("Apply at current revision") }, { tag = "button"; attrs = { id = "lab-stale"; class = "button" }; children = list("Try stale edit") }, { tag = "pre"; attrs = { id = "lab-receipt"; "aria-live" = "polite" }; children = list() }) }) }) }
+
+process workshop.dispatch:
+  let candidate = $eventInput.candidate
+  let codePlan = $candidate.plan
+  let codeModel = $candidate.model
+  let factIndex = $candidate.factIndex
+  let event = $eventInput.event
+  let representation = at(filter($codePlan.representations, "r", eq($r.id, $event.run)), 0)
+  assert $representation
+    otherwise "WORKSHOP_ACTION: action must name an admitted representation."
+  fold $representation.given as given; arguments starts {}:
+    port kernel.invoke { query = "ec.argument"; input = { type = $given.type; value = at($event.arguments, $given.name) } } → argument
+    port record.put { record = $arguments; key = $given.name; value = $argument } → arguments
+    yield $arguments → arguments
+  port kernel.execute { model = $codeModel; entry = $representation.entry; input = $arguments } → output
+  port kernel.invoke { query = "ec.safeTree"; input = { tree = $output.tree } } → _
+  port kernel.invoke { query = "ec.events"; input = { tree = $output.tree; events = $output.events } } → _
+  let result = $output
+
+process workshop.activate:
+  port state.get { key = "candidate" } → candidate
+  port kernel.invoke { query = "ec.run"; input = { candidate = $candidate } } → projections
+  let row = at(filter($projections, "p", eq($p.output.type, "NotebookRow")), 0)
+  port kernel.invoke { query = "workshop.dispatch"; input = { candidate = $candidate; event = at($row.output.events, 0) } } → output
+  port kernel.invoke { query = "workshop.html"; input = { tree = $output.tree } } → markup
+  port browser.content { ref = "#workshop-open"; html = $markup } → _
+
+process workshop.labInitial:
+  port state.get { key = "candidate" } → candidate
+  port kernel.invoke { query = "session.snapshot"; input = { candidate = $candidate; revision = 0; receipt = null } } → snapshot
+  port state.set { key = "workshop.session"; value = $snapshot } → _
+
+process workshop.labApply:
+  port state.get { key = "workshop.session" } → snapshot
+  port browser.property { ref = "#lab-kind"; name = "value" } → kind
+  port browser.property { ref = "#lab-value"; name = "value" } → value
+  try:
+    port kernel.invoke { query = "session.change"; input = { snapshot = $snapshot; request = { revision = if(at($eventInput, "stale"), -1, $snapshot.revision); kind = $kind; value = $value } } } → changed
+    port state.set { key = "workshop.session"; value = $changed } → _
+    port state.set { key = "candidate"; value = $changed.candidate } → _
+    port json.stringify { value = $changed.receipt; space = 2 } → text
+    port browser.write { ref = "#lab-receipt"; name = "textContent"; value = $text } → _
+  catch error:
+    port browser.write { ref = "#lab-receipt"; name = "textContent"; value = concat("Refused; candidate and revision preserved. ", $error.message) } → _
+  port kernel.invoke { query = "workshop.render"; input = {} } → result

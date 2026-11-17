@@ -1,0 +1,13 @@
+process-module "temple/surface-process-module/1"
+
+process imports.definition:
+  let result = list(
+    {
+      file = "templates/composable/algebra/html.encounter";
+      queries = list("html.escape", "html.serialize", "html.cssText")
+    },
+    {
+      file = "templates/composable/algebra/css.encounter";
+      queries = list("css.renderPlan")
+    }
+  )

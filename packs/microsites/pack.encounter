@@ -1,0 +1,44 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "microsites";
+    title = "Windows";
+    requires = list("core");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/microsites.encounter";
+        target = "algebra/microsites.process.json"
+      },
+      {
+        source = "algebra/microsite-projection.encounter";
+        target = "algebra/microsite-projection.process.json"
+      }
+    );
+    sources = list(
+      {
+        source = "source/microsites.encounter";
+        target = "source/microsites.rel"
+      }
+    );
+    assets = list();
+    build = "microsites.build";
+    navigation = {
+      label = "Windows";
+      route = "microsites.html"
+    };
+    grants = {
+      build = list("json.parse");
+      browser = list()
+    };
+    outputs = list("microsites.html");
+    render = "microsites.view";
+    files = list(
+      {
+        source = "README.md";
+        target = "docs/packs/microsites.md"
+      }
+    )
+  }

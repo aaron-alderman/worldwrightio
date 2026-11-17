@@ -1,0 +1,40 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "authoring";
+    title = "Authoring";
+    requires = list("sources");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/authoring-page.encounter";
+        target = "algebra/authoring-page.process.json"
+      }
+    );
+    sources = list();
+    assets = list();
+    build = "authoring.build";
+    navigation = {
+      label = "Authoring";
+      route = "authoring.html"
+    };
+    grants = {
+      build = list();
+      browser = list()
+    };
+    outputs = list("authoring.html", "source/authoring-contract.rel");
+    render = "authoring.view";
+    files = list(
+      {
+        source = "algebra/authoring.encounter";
+        target = "algebra/authoring.process.json"
+      },
+      "tooling/author.mjs",
+      {
+        source = "README.md";
+        target = "docs/packs/authoring.md"
+      }
+    )
+  }

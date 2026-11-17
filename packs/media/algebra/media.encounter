@@ -1,0 +1,79 @@
+process-module "temple/surface-process-module/1"
+
+process media.boot:
+  port dom.exists { selector = "#media-mount" } → mounted
+  when $mounted:
+    let configuration = $data
+    port browser.on { ref = "#media-play"; event = "click"; query = "media.action"; input = { action = "play" } } → _
+    port browser.on { ref = "#media-pause"; event = "click"; query = "media.action"; input = { action = "pause" } } → _
+    port browser.on { ref = "#media-mute"; event = "click"; query = "media.action"; input = { action = "mute" } } → _
+    port browser.on { ref = "#media-restart"; event = "click"; query = "media.action"; input = { action = "restart" } } → _
+    port browser.on { ref = "#media-seek"; event = "input"; query = "media.seek"; input = {} } → _
+    port browser.on { ref = "#media-element"; event = "timeupdate"; query = "media.paint"; input = {} } → _
+    port browser.on { ref = "#media-element"; event = "loadedmetadata"; query = "media.paint"; input = {} } → _
+    port browser.on { ref = "#media-element"; event = "error"; query = "media.error"; input = {} } → _
+    call media.paint
+  when not($mounted):
+    let result = false
+
+process media.action:
+  port media.read { ref = "#media-element" } → status
+  when eq($eventInput.action, "play"):
+    port media.play { ref = "#media-element" } → played
+    when $played.ok:
+      port browser.write { ref = "#media-status"; name = "textContent"; value = "Playing the schematic." } → _
+    when not($played.ok):
+      port browser.write { ref = "#media-status"; name = "textContent"; value = "Playback was refused. Try the native controls or download the source clip." } → _
+  when eq($eventInput.action, "pause"):
+    port media.pause { ref = "#media-element" } → _
+    port browser.write { ref = "#media-status"; name = "textContent"; value = "Paused." } → _
+  when eq($eventInput.action, "mute"):
+    port media.write { ref = "#media-element"; name = "muted"; value = not($status.muted) } → _
+  when eq($eventInput.action, "restart"):
+    port media.write { ref = "#media-element"; name = "currentTime"; value = 0 } → _
+  call media.paint
+
+process media.seek:
+  let configuration = $data
+  port browser.property { ref = "#media-seek"; name = "value" } → value
+  port number.parse { value = $value } → seconds
+  assert not(eq($seconds, null))
+    otherwise "MEDIA_SEEK: finite time required."
+  port number.calculate { operation = "max"; values = list(0, $seconds) } → seconds
+  port number.calculate { operation = "min"; values = list($configuration.duration, $seconds) } → seconds
+  port media.read { ref = "#media-element" } → status
+  port kernel.invoke { query = "media.stream.seek.contains"; input = { ranges = $status.seekable; time = $seconds } } → seekable
+  port text.matches { value = $status.currentSrc; pattern = "^blob:" } → blob
+  when and(not($seekable), not($blob), $status.currentSrc):
+    port asset.blobURL { url = $status.currentSrc } → url
+    port media.write { ref = "#media-element"; name = "src"; value = $url } → _
+    port browser.once { ref = "#media-element"; event = "loadedmetadata" } → metadata
+  port media.write { ref = "#media-element"; name = "currentTime"; value = $seconds } → _
+  call media.paint
+
+process media.paint:
+  port media.read { ref = "#media-element" } → status
+  port browser.write { ref = "#media-seek"; name = "value"; value = $status.currentTime } → _
+  port number.format { value = $status.currentTime; digits = 1 } → clock
+  port browser.write { ref = "#media-status"; name = "textContent"; value = concat(if($status.paused, "Paused · ", "Playing · "), $clock, " s", if($status.muted, " · muted", "")) } → _
+  let result = $status
+
+process media.error:
+  port browser.write { ref = "#media-status"; name = "textContent"; value = "The clip could not load. The caption and source attribution remain available." } → _
+  let result = false
+
+process media.view:
+  let configurationOwner = "media"
+  call configuration.read
+  let result = { tag = "section"; attrs = { id = "media-mount"; class = "feature-block media-card" }; children = list({ tag = "p"; attrs = { class = "eyebrow" }; children = list("FIELD RECORD / 04") }, { tag = "h2"; attrs = {}; children = list($configuration.title) }, { tag = "video"; attrs = { id = "media-element"; src = $configuration.src; poster = $configuration.poster; preload = "metadata"; controls = true; playsinline = true; "aria-label" = $configuration.title }; children = list() }, { tag = "p"; attrs = {}; children = list($configuration.caption) }, { tag = "div"; attrs = { class = "toolbar" }; children = list({ tag = "button"; attrs = { id = "media-play"; class = "button"; type = "button" }; children = list("Play") }, { tag = "button"; attrs = { id = "media-pause"; class = "button"; type = "button" }; children = list("Pause") }, { tag = "button"; attrs = { id = "media-mute"; class = "button"; type = "button" }; children = list("Mute / unmute") }, { tag = "button"; attrs = { id = "media-restart"; class = "button"; type = "button" }; children = list("Restart") }) }, { tag = "label"; attrs = { for = "media-seek" }; children = list("Playback position") }, { tag = "input"; attrs = { id = "media-seek"; type = "range"; min = "0"; max = $configuration.duration; step = "0.1"; value = "0" }; children = list() }, { tag = "p"; attrs = { id = "media-status"; role = "status"; class = "status" }; children = list("Ready. Native media controls remain available.") }, { tag = "p"; attrs = { class = "muted" }; children = list($configuration.attribution) }) }
+
+process media.build:
+  let configurationOwner = "media"
+  call configuration.read
+  let pageTitle = "Field recording"
+  let route = "media.html"
+  call media.view
+  let body = $result
+  call shell.document
+  port runtime.bundle { entry = "media.boot"; mode = "browser"; grantProfile = "mediaBrowser"; queries = list("media.boot", "media.action", "media.seek", "media.paint", "media.error", "media.stream.screens.init", "media.stream.sound.sync", "media.stream.sound.toggle", "media.stream.screens.intersection", "media.stream.seek.click", "media.stream.seek.loaded", "media.stream.seek.contains", "media.stream.seek.prepare", "media.stream.seek.finish", "media.stream.provenance", "media.stream.provenance.view", "media.stream.html", "html.escape", "html.serialize", "html.observe", "html.inspect", "html.cssText"); factSubjects = list("media"); data = $configuration; budget = 20000000 } → runtime
+  port file.write { path = "media-runtime.js"; text = $runtime } → _

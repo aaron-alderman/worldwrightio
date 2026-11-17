@@ -1,0 +1,471 @@
+process-module "temple/surface-process-module/1"
+
+process ec.lex:
+  port text.replaceAll { value = $text; search = "\r\n"; replacement = "\n" } → ecLexText
+  port text.split { value = $ecLexText; pattern = "\n" } → ecLines
+  fold $ecLines as ecRaw; ecLex starts { nodes = list(); stack = list(); line = 1; offset = 0; literals = {} }:
+    try:
+      port text.trim { value = $ecRaw } → ecLine
+      port text.matches { value = $ecLine; pattern = "^(#.*)?$" } → ecSkip
+      let ecLexNext = $ecLex
+      when not($ecSkip):
+        let ecSpan = { file = $file; line = $ecLex.line; column = 1; offset = $ecLex.offset; endOffset = add($ecLex.offset, count($ecRaw)) }
+        port text.matches { value = $ecRaw; pattern = "\t" } → ecTabs
+        assert not($ecTabs)
+          otherwise "EC-P001: Use spaces for indentation; tabs do not define a second nesting grammar."
+        port text.split { value = $ecRaw; pattern = "^( *)([\\s\\S]*)$" } → ecIndentParts
+        let ecIndent = count(at($ecIndentParts, 1))
+        let ecStack = filter($ecLex.stack, "ecParent", includes(range($ecIndent), add($ecParent.indent, 1)))
+        let ecParent = at($ecStack, add(count($ecStack), -1))
+        assert or(eq($ecIndent, 0), and($ecParent, eq($ecIndent, add(at($ecParent, "indent"), 2))))
+          otherwise "EC-P002: Indent a child exactly two spaces beyond its parent."
+        let ecLexNode = { id = $ecLex.line; line = $ecLex.line; offset = $ecLex.offset; raw = $ecRaw; text = $ecLine; indent = $ecIndent; parent = if($ecParent, at($ecParent, "id"), 0) }
+        port record.put { record = $ecLexNext; key = "nodes"; value = append($ecLex.nodes, list($ecLexNode)) } → ecLexNext
+        port record.put { record = $ecLexNext; key = "stack"; value = append($ecStack, list($ecLexNode)) } → ecLexNext
+        port text.matches { value = $ecLine; pattern = "(?:^|: |^- )(\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")$" } → ecHasLiteral
+        when $ecHasLiteral:
+          port text.split { value = $ecLine; pattern = "(?:^|: |^- )(\"(?:\\\\[\\s\\S]|[^\"\\\\])*\")$" } → ecLiteralParts
+          let ecLiteralToken = at($ecLiteralParts, 1)
+          port json.parse { text = $ecLiteralToken } → ecLiteralValue
+          port record.put { record = $ecLex.literals; key = $ecLiteralToken; value = $ecLiteralValue } → ecLiteralPool
+          port record.put { record = $ecLexNext; key = "literals"; value = $ecLiteralPool } → ecLexNext
+      port record.put { record = $ecLexNext; key = "line"; value = add($ecLex.line, 1) } → ecLexNext
+      port record.put { record = $ecLexNext; key = "offset"; value = add($ecLex.offset, add(count($ecRaw), 1)) } → ecLexNext
+    catch ecLocatedFault:
+      port text.matches { value = $ecLocatedFault.message; pattern = "^EC-DIAGNOSTIC:" } → ecAlreadyLocated
+      when $ecAlreadyLocated:
+        let ecUnreachable = raise($ecLocatedFault.message)
+      port json.stringify { value = { protocol = "encounter/source-diagnostic/1"; span = $ecSpan; message = $ecLocatedFault.message } } → ecDiagnosticWire
+      let ecUnreachable = raise(concat("EC-DIAGNOSTIC:", $ecDiagnosticWire))
+    yield $ecLexNext → ecLex
+  let result = $ecLex
+
+process ec.header:
+  let ecNode = $eventInput.node
+  let ecHeaderResult = null
+  port text.matches { value = $ecNode.text; pattern = "^module [A-Za-z_][A-Za-z0-9_.-]*$" } → ecModuleHeader
+  when $ecModuleHeader:
+    port text.split { value = $ecNode.text; pattern = "^module ([A-Za-z_][A-Za-z0-9_.-]*)$" } → ecTokens
+    let ecHeaderResult = { kind = "module"; name = at($ecTokens, 1); node = $ecNode }
+  port text.matches { value = $ecNode.text; pattern = "^view [A-Za-z_][A-Za-z0-9_.-]* of @[A-Za-z_][A-Za-z0-9_.-]* isa [A-Za-z_][A-Za-z0-9_.-]*:$" } → ecViewHeader
+  when $ecViewHeader:
+    port text.split { value = $ecNode.text; pattern = "^view ([A-Za-z_][A-Za-z0-9_.-]*) of @([A-Za-z_][A-Za-z0-9_.-]*) isa ([A-Za-z_][A-Za-z0-9_.-]*):$" } → ecTokens
+    let ecHeaderResult = { kind = "view"; id = at($ecTokens, 1); source = at($ecTokens, 2); type = at($ecTokens, 3); node = $ecNode }
+  port text.matches { value = $ecNode.text; pattern = "^representation [A-Za-z_][A-Za-z0-9_.-]*:$" } → ecRepresentationHeader
+  when $ecRepresentationHeader:
+    port text.split { value = $ecNode.text; pattern = "^representation ([A-Za-z_][A-Za-z0-9_.-]*):$" } → ecTokens
+    let ecHeaderResult = { kind = "representation"; id = at($ecTokens, 1); node = $ecNode }
+  assert $ecHeaderResult
+    otherwise "EC-P003: Expected a module, typed view or named representation declaration."
+  let result = $ecHeaderResult
+
+process ec.expression:
+  let ecExpr = $eventInput.text
+  let ecExprScope = $eventInput.scope
+  let ecExpression = null
+  let ecExprType = null
+  let ecExprCard = "one"
+  let ecExprExpects = null
+  port text.matches { value = $ecExpr; pattern = "^\"(?:\\\\[\\s\\S]|[^\"\\\\])*\"$" } → ecQuoted
+  when $ecQuoted:
+    port value.describe { value = at($codePlan.literalValues, $ecExpr) } → ecLiteralKind
+    assert eq($ecLiteralKind.type, "string")
+      otherwise "EC-P004: The text literal has no parsed source entry."
+    let ecExpression = list("at", concat(at(" $", 1), "codePlan.literalValues"), $ecExpr)
+    let ecExprType = "string"
+  port text.matches { value = $ecExpr; pattern = "^@[A-Za-z_][A-Za-z0-9_.-]*$" } → ecReference
+  when $ecReference:
+    port text.slice { value = $ecExpr; start = 1 } → ecRefId
+    port kernel.invoke { query = "ec.attempt"; input = { query = "ec.referenceType"; input = { id = $ecRefId }; span = $ecSpan } } → ecRefType
+    let ecExpression = $ecRefId
+    let ecExprType = "ref"
+    let ecExprExpects = $ecRefType
+  port text.matches { value = $ecExpr; pattern = "^[A-Za-z_][A-Za-z0-9_]*(?:\\.[A-Za-z_][A-Za-z0-9_.-]*)?$" } → ecName
+  when and($ecName, not($ecExprType)):
+    port text.split { value = $ecExpr; pattern = "^([A-Za-z_][A-Za-z0-9_]*)(?:\\.([A-Za-z_][A-Za-z0-9_.-]*))?$" } → ecExprParts
+    let ecBindingName = at($ecExprParts, 1)
+    let ecFieldName = or(at($ecExprParts, 2), null)
+    let ecBinding = at(filter($ecExprScope, "ecB", eq($ecB.name, $ecBindingName)), 0)
+    assert $ecBinding
+      otherwise "EC-P005: Unknown input name. Declare it with given, or use the view’s explicit source binding."
+    when $ecFieldName:
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.slot"; input = { type = $ecBinding.type; name = $ecFieldName }; span = $ecSpan } } → ecExprSlot
+      let ecExpression = list("at", list("at", list("at", concat(at(" $", 1), "bindings"), $ecBindingName), "values"), $ecExprSlot.name)
+      let ecExprType = $ecExprSlot.kind
+      let ecExprCard = $ecExprSlot.cardinality
+      let ecExprExpects = $ecExprSlot.expects
+    when not($ecFieldName):
+      when at($ecBinding, "expression"):
+        let ecExpression = at($ecBinding, "expression")
+        let ecExprType = $ecBinding.kind
+        let ecExprExpects = $ecBinding.expects
+      when not(at($ecBinding, "expression")):
+        let ecExpression = list("at", list("at", concat(at(" $", 1), "bindings"), $ecBindingName), if(eq($ecBinding.type, "text"), "value", "id"))
+        let ecExprType = if(eq($ecBinding.type, "text"), "string", "ref")
+        let ecExprExpects = if(eq($ecBinding.type, "text"), null, $ecBinding.type)
+  assert $ecExprType
+    otherwise "EC-P006: Unsupported expression. Use an explicit reference, quoted text or declared input field."
+  let result = { expression = $ecExpression; kind = $ecExprType; cardinality = $ecExprCard; expects = $ecExprExpects }
+
+process ec.fields:
+  let ecFieldsType = $eventInput.type
+  let ecFieldsScope = $eventInput.scope
+  let ecFieldNodes = $eventInput.nodes
+  fold $ecFieldNodes as ecFieldNode; ecFieldState starts { values = {}; fields = list() }:
+    let ecSpan = { file = $file; line = $ecFieldNode.line; column = add($ecFieldNode.indent, 1); offset = $ecFieldNode.offset; endOffset = add($ecFieldNode.offset, count($ecFieldNode.raw)) }
+    port kernel.invoke { query = "ec.attempt"; input = { query = "ec.oneField"; input = {}; span = $ecSpan } } → ecFieldState
+    yield $ecFieldState → ecFieldState
+  let result = $ecFieldState
+
+process ec.data:
+  let ecDataNode = $eventInput.node
+  let ecDataScope = $eventInput.scope
+  let ecDataChildren = filter($ecNodes, "ecChild", eq($ecChild.parent, $ecDataNode.id))
+  let ecDataExpression = null
+  when eq(count($ecDataChildren), 0):
+    port kernel.invoke { query = "ec.attempt"; input = { query = "ec.expression"; input = { text = $eventInput.text; scope = $ecDataScope }; span = $ecSpan } } → ecDataValue
+    let ecDataExpression = $ecDataValue.expression
+  when not(eq(count($ecDataChildren), 0)):
+    port text.matches { value = at(at($ecDataChildren, 0), "text"); pattern = "^- " } → ecDataList
+    when $ecDataList:
+      fold $ecDataChildren as ecDataEntry; ecDataItems starts list("list"):
+        port text.matches { value = $ecDataEntry.text; pattern = "^- each [A-Za-z_][A-Za-z0-9_]* in .+:$" } → ecEachEntry
+        port text.slice { value = $ecDataEntry.text; start = 2 } → ecEntryText
+        port text.matches { value = $ecEntryText; pattern = "^[A-Za-z_][A-Za-z0-9_.-]*:" } → ecEntryRecord
+        when and(not($ecEachEntry), $ecEntryRecord):
+          port kernel.invoke { query = "ec.attempt"; input = { query = "ec.record"; input = { nodes = append(list({ id = concat("inline:", $ecDataEntry.id); parent = $ecDataEntry.parent; line = $ecDataEntry.line; offset = $ecDataEntry.offset; raw = $ecDataEntry.raw; indent = $ecDataEntry.indent; text = $ecEntryText }), filter($ecNodes, "ecChild", eq($ecChild.parent, $ecDataEntry.id))); scope = $ecDataScope }; span = $ecSpan } } → ecDataItem
+        when and(not($ecEachEntry), not($ecEntryRecord)):
+          port kernel.invoke { query = "ec.attempt"; input = { query = "ec.expression"; input = { text = $ecEntryText; scope = $ecDataScope }; span = $ecSpan } } → ecDataAtom
+          let ecDataItem = $ecDataAtom.expression
+        when $ecEachEntry:
+          port text.split { value = $ecDataEntry.text; pattern = "^- each ([A-Za-z_][A-Za-z0-9_]*) in (.+):$" } → ecEachTokens
+          port kernel.invoke { query = "ec.attempt"; input = { query = "ec.expression"; input = { text = at($ecEachTokens, 2); scope = $ecDataScope }; span = $ecSpan } } → ecEachCollection
+          assert eq($ecEachCollection.cardinality, "many")
+            otherwise "EC-P021: Each needs an ordered collection."
+          let ecIteratorName = concat("ecItem", $ecDataEntry.line)
+          let ecIteratorRef = concat(at(" $", 1), $ecIteratorName)
+          port kernel.invoke { query = "ec.attempt"; input = { query = "ec.record"; input = { nodes = filter($ecNodes, "ecChild", eq($ecChild.parent, $ecDataEntry.id)); scope = append($ecDataScope, list({ name = at($ecEachTokens, 1); type = "text"; expression = $ecIteratorRef; kind = $ecEachCollection.kind; expects = $ecEachCollection.expects })) }; span = $ecSpan } } → ecEachBody
+          let ecDataItem = list("map", $ecEachCollection.expression, $ecIteratorName, $ecEachBody)
+        yield list("append", $ecDataItems, if($ecEachEntry, $ecDataItem, list("list", $ecDataItem))) → ecDataItems
+      let ecDataExpression = $ecDataItems
+    when not($ecDataList):
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.record"; input = { nodes = $ecDataChildren; scope = $ecDataScope }; span = $ecSpan } } → ecDataExpression
+  let result = $ecDataExpression
+
+process ec.record:
+  let ecRecordNodes = $eventInput.nodes
+  let ecRecordScope = $eventInput.scope
+  fold $ecRecordNodes as ecRecordNode; ecRecord starts {}:
+    let ecSpan = { file = $file; line = $ecRecordNode.line; column = add($ecRecordNode.indent, 1); offset = $ecRecordNode.offset; endOffset = add($ecRecordNode.offset, count($ecRecordNode.raw)) }
+    port text.split { value = $ecRecordNode.text; pattern = "^([A-Za-z_][A-Za-z0-9_.-]*):(?: (.*))?$" } → ecRecordTokens
+    assert eq(count($ecRecordTokens), 4)
+      otherwise "EC-P009: Expected a named data field."
+    let ecRecordKey = at($ecRecordTokens, 1)
+    assert not(includes(list("__proto__", "prototype", "constructor"), $ecRecordKey))
+      otherwise "EC-P010: This field name is reserved by the execution boundary."
+    port record.entries { value = $ecRecord } → ecExistingRecordFields
+    assert not(some($ecExistingRecordFields, "ecF", eq(at($ecF, 0), $ecRecordKey)))
+      otherwise "EC-P008: A data field appears twice."
+    port kernel.invoke { query = "ec.attempt"; input = { query = "ec.data"; input = { node = $ecRecordNode; text = or(at($ecRecordTokens, 2), ""); scope = $ecRecordScope }; span = $ecSpan } } → ecRecordValue
+    port record.put { record = $ecRecord; key = $ecRecordKey; value = $ecRecordValue } → ecRecord
+    yield $ecRecord → ecRecord
+  let result = $ecRecord
+
+process ec.representation:
+  let ecRep = $eventInput.declaration
+  let ecRepNodes = filter($ecNodes, "ecChild", eq($ecChild.parent, $ecRep.node.id))
+  let ecRepScope = list()
+  fold $ecRepNodes as ecRepNode; ecGiven starts list():
+    port text.matches { value = $ecRepNode.text; pattern = "^given [A-Za-z_][A-Za-z0-9_.-]* as [A-Za-z_][A-Za-z0-9_.-]*$" } → ecGivenLine
+    let ecGivenNext = $ecGiven
+    when $ecGivenLine:
+      port text.split { value = $ecRepNode.text; pattern = "^given ([A-Za-z_][A-Za-z0-9_.-]*) as ([A-Za-z_][A-Za-z0-9_.-]*)$" } → ecGivenTokens
+      let ecGivenName = at($ecGivenTokens, 1)
+      assert not(includes(list("result", "model"), $ecGivenName))
+        otherwise "EC-P023: This input name is reserved by the language boundary."
+      assert not(some($ecGiven, "ecB", eq($ecB.name, $ecGivenName)))
+        otherwise "EC-P011: An input name is declared twice."
+      let ecGivenNext = append($ecGiven, list({ name = $ecGivenName; type = at($ecGivenTokens, 2); node = $ecRepNode }))
+    yield $ecGivenNext → ecGiven
+  let ecReturnNodes = filter($ecRepNodes, "ecN", includes($ecN.text, "return "))
+  assert eq(count($ecReturnNodes), 1)
+    otherwise "EC-P012: A representation requires one typed return block."
+  let ecReturnNode = at($ecReturnNodes, 0)
+  port text.split { value = $ecReturnNode.text; pattern = "^return ([A-Za-z_][A-Za-z0-9_.-]*):$" } → ecReturnTokens
+  let ecReturnType = at($ecReturnTokens, 1)
+  assert $ecReturnType
+    otherwise "EC-P013: Declare the type returned by this representation."
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.fields"; input = { type = $ecReturnType; scope = $ecGiven; nodes = filter($ecNodes, "ecChild", eq($ecChild.parent, $ecReturnNode.id)) }; span = $ecSpan } } → ecReturnFields
+  let ecRepScope = append($ecGiven, list({ name = "result"; type = $ecReturnType }))
+  let ecRenderNodes = filter($ecRepNodes, "ecN", eq($ecN.text, "render:"))
+  assert eq(count($ecRenderNodes), 1)
+    otherwise "EC-P014: A representation requires one explicit render block."
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.record"; input = { nodes = filter($ecNodes, "ecChild", eq($ecChild.parent, at(at($ecRenderNodes, 0), "id"))); scope = $ecRepScope }; span = $ecSpan } } → ecRenderExpression
+  let ecEventNodes = filter($ecRepNodes, "ecN", eq($ecN.text, "events:"))
+  assert includes(list(0, 1), count($ecEventNodes))
+    otherwise "EC-P028: Events has two authors. Declare one event list."
+  let ecEventsExpression = list()
+  when eq(count($ecEventNodes), 1):
+    port kernel.invoke { query = "ec.attempt"; input = { query = "ec.data"; input = { node = at($ecEventNodes, 0); text = ""; scope = $ecRepScope }; span = $ecSpan } } → ecEventsExpression
+  fold $ecRepNodes as ecRequireNode; ecGuards starts list():
+    port text.matches { value = $ecRequireNode.text; pattern = "^require (.+) equals (.+)$" } → ecIsGuard
+    let ecGuardsNext = $ecGuards
+    when $ecIsGuard:
+      port text.split { value = $ecRequireNode.text; pattern = "^require (.+) equals (.+)$" } → ecGuardTokens
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.expression"; input = { text = at($ecGuardTokens, 1); scope = $ecGiven }; span = $ecSpan } } → ecGuardLeft
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.expression"; input = { text = at($ecGuardTokens, 2); scope = $ecGiven }; span = $ecSpan } } → ecGuardRight
+      assert and(eq($ecGuardLeft.kind, $ecGuardRight.kind), eq($ecGuardLeft.cardinality, $ecGuardRight.cardinality))
+        otherwise "EC-T025: Equality operands have incompatible kinds."
+      let ecGuardsNext = append($ecGuards, list({ expression = list("eq", $ecGuardLeft.expression, $ecGuardRight.expression); node = $ecRequireNode }))
+    yield $ecGuardsNext → ecGuards
+  each $ecRepNodes as ecRepNode:
+    port text.matches { value = $ecRepNode.text; pattern = "^(given .+ as .+|require .+ equals .+|return .+:|render:|events:)$" } → ecKnownLine
+    assert $ecKnownLine
+      otherwise "EC-P015: Unsupported representation statement; no host-code escape is available."
+  let result = { id = $ecRep.id; type = $ecReturnType; given = $ecGiven; fields = $ecReturnFields.fields; values = $ecReturnFields.values; render = $ecRenderExpression; events = $ecEventsExpression; guards = $ecGuards; node = $ecRep.node; entry = concat("code.", $ecModule, ".representation.", $ecRep.id) }
+
+process ec.view:
+  let ecView = $eventInput.declaration
+  let ecViewNodes = filter($ecNodes, "ecChild", eq($ecChild.parent, $ecView.node.id))
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.referenceType"; input = { id = $ecView.source }; span = $ecSpan } } → ecSourceType
+  let ecViewScope = list({ name = "source"; type = $ecSourceType })
+  fold $ecViewNodes as ecViewNode; ecBaseFieldNodes starts list():
+    port text.matches { value = $ecViewNode.text; pattern = "^[A-Za-z_][A-Za-z0-9_.-]*: " } → ecIsField
+    yield if($ecIsField, append($ecBaseFieldNodes, list($ecViewNode)), $ecBaseFieldNodes) → ecBaseFieldNodes
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.fields"; input = { type = $ecView.type; scope = $ecViewScope; nodes = $ecBaseFieldNodes }; span = $ecSpan } } → ecBaseFields
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.edits"; input = { nodes = $ecViewNodes; fields = $ecBaseFields.fields; scope = $ecViewScope; type = $ecView.type }; span = $ecSpan } } → ecBaseEdits
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.show"; input = { nodes = $ecViewNodes; scope = $ecViewScope }; span = $ecSpan } } → ecBaseShow
+  fold $ecViewNodes as ecContextNode; ecContexts starts list():
+    port text.matches { value = $ecContextNode.text; pattern = "^in @[A-Za-z_][A-Za-z0-9_.-]*:$" } → ecIsContext
+    let ecContextsNext = $ecContexts
+    when $ecIsContext:
+      port text.split { value = $ecContextNode.text; pattern = "^in @([A-Za-z_][A-Za-z0-9_.-]*):$" } → ecContextTokens
+      let ecContextId = at($ecContextTokens, 1)
+      assert not(some($ecContexts, "ecC", eq($ecC.id, $ecContextId)))
+        otherwise "EC-C001: A context has two contributions for this view. Resolve the conflict explicitly."
+      let ecContextChildren = filter($ecNodes, "ecChild", eq($ecChild.parent, $ecContextNode.id))
+      fold $ecContextChildren as ecContextField; ecContextFields starts list():
+        port text.matches { value = $ecContextField.text; pattern = "^[A-Za-z_][A-Za-z0-9_.-]*: " } → ecIsContextField
+        yield if($ecIsContextField, append($ecContextFields, list($ecContextField)), $ecContextFields) → ecContextFields
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.fields"; input = { type = $ecView.type; scope = $ecViewScope; nodes = $ecContextFields }; span = $ecSpan } } → ecOverlayFields
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.edits"; input = { nodes = $ecContextChildren; fields = $ecOverlayFields.fields; scope = $ecViewScope; type = $ecView.type }; span = $ecSpan } } → ecOverlayEdits
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.show"; input = { nodes = $ecContextChildren; scope = $ecViewScope }; span = $ecSpan } } → ecContextShow
+      assert $ecContextShow
+        otherwise "EC-C002: A contextual appearance requires an explicit named representation."
+      let ecContextsNext = append($ecContexts, list({ id = $ecContextId; fields = $ecOverlayFields; edits = $ecOverlayEdits; show = $ecContextShow; node = $ecContextNode }))
+      each $ecContextChildren as ecContextLine:
+        port text.matches { value = $ecContextLine.text; pattern = "^(?:[A-Za-z_][A-Za-z0-9_.-]*: .+|edit .+ (?:here|through .+)|show as [A-Za-z_][A-Za-z0-9_.-]*:?)$" } → ecContextKnown
+        assert $ecContextKnown
+          otherwise "EC-P022: Unsupported contextual statement. Nothing is silently ignored."
+    yield $ecContextsNext → ecContexts
+  each $ecViewNodes as ecViewNode:
+    port text.matches { value = $ecViewNode.text; pattern = "^(?:[A-Za-z_][A-Za-z0-9_.-]*: .+|edit .+ (?:here|through .+)|in @.+:|show as [A-Za-z_][A-Za-z0-9_.-]*:?)$" } → ecViewKnown
+    assert $ecViewKnown
+      otherwise "EC-P016: Unsupported view statement. Use a typed field, edit route, context or representation."
+  let result = { id = $ecView.id; source = $ecView.source; sourceType = $ecSourceType; type = $ecView.type; fields = $ecBaseFields; edits = $ecBaseEdits; show = $ecBaseShow; contexts = $ecContexts; node = $ecView.node; entry = concat("code.", $ecModule, ".view.", $ecView.id) }
+
+process ec.edits:
+  let ecEditFields = $eventInput.fields
+  let ecEditScope = $eventInput.scope
+  let ecEditType = $eventInput.type
+  fold $eventInput.nodes as ecEditNode; ecEdits starts list():
+    port text.matches { value = $ecEditNode.text; pattern = "^edit (.+) (here|through .+)$" } → ecIsEdit
+    let ecEditsNext = $ecEdits
+    when $ecIsEdit:
+      port text.split { value = $ecEditNode.text; pattern = "^edit (.+) (here|through .+)$" } → ecEditTokens
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.slot"; input = { type = $ecEditType; name = at($ecEditTokens, 1) }; span = $ecSpan } } → ecEditSlot
+      let ecEditedField = at(filter($ecEditFields, "ecF", eq($ecF.name, $ecEditSlot.name)), 0)
+      assert $ecEditedField
+        otherwise "EC-E001: An edit route must accompany a value mapping in the same contribution."
+      assert not(some($ecEdits, "ecE", eq($ecE.field, $ecEditSlot.name)))
+        otherwise "EC-E002: A field has two edit routes."
+      let ecEditMode = at($ecEditTokens, 2)
+      let ecEditDestination = null
+      when eq($ecEditMode, "here"):
+        assert eq($ecEditedField.expression.kind, "string")
+          otherwise "EC-E003: This experiment edits only text mappings."
+        port text.matches { value = $ecEditedField.text; pattern = "^\"" } → ecConstantEdit
+        assert $ecConstantEdit
+          otherwise "EC-E004: Edit here requires an authored text literal."
+        let ecEditDestination = { kind = "literal"; node = $ecEditedField.node; token = $ecEditedField.text }
+      when not(eq($ecEditMode, "here")):
+        port text.slice { value = $ecEditMode; start = 8 } → ecEditPath
+        assert eq($ecEditPath, $ecEditedField.text)
+          otherwise "EC-E005: Only an exact direct field mapping has a reverse route in this slice."
+        port text.split { value = $ecEditPath; pattern = "^source\\.(.+)$" } → ecEditPathParts
+        let ecSourceField = at($ecEditPathParts, 1)
+        assert $ecSourceField
+          otherwise "EC-E006: This reverse route must name an explicit source field."
+        let ecSourceBinding = at(filter($ecEditScope, "ecB", eq($ecB.name, "source")), 0)
+        port kernel.invoke { query = "ec.attempt"; input = { query = "ec.slot"; input = { type = $ecSourceBinding.type; name = $ecSourceField }; span = $ecSpan } } → ecSourceEditSlot
+        assert and(eq($ecSourceEditSlot.kind, "string"), eq($ecSourceEditSlot.cardinality, "one"))
+          otherwise "EC-E007: The source edit route must be one text field."
+        let ecEditDestination = { kind = "source"; field = $ecSourceEditSlot.name; node = $ecEditedField.node }
+      let ecEditsNext = append($ecEdits, list({ field = $ecEditSlot.name; destination = $ecEditDestination; node = $ecEditNode }))
+    yield $ecEditsNext → ecEdits
+  let result = $ecEdits
+
+process ec.show:
+  let ecShowScope = $eventInput.scope
+  fold $eventInput.nodes as ecShowNode; ecShow starts null:
+    port text.matches { value = $ecShowNode.text; pattern = "^show as [A-Za-z_][A-Za-z0-9_.-]*:?$" } → ecIsShow
+    let ecShowNext = $ecShow
+    when $ecIsShow:
+      assert not($ecShow)
+        otherwise "EC-C003: Select one representation per contribution."
+      port text.split { value = $ecShowNode.text; pattern = "^show as ([A-Za-z_][A-Za-z0-9_.-]*):?$" } → ecShowTokens
+      fold filter($ecNodes, "ecChild", eq($ecChild.parent, $ecShowNode.id)) as ecParameter; ecShowParameters starts list():
+        port text.split { value = $ecParameter.text; pattern = "^([A-Za-z_][A-Za-z0-9_.-]*): (.+)$" } → ecParamTokens
+        assert eq(count($ecParamTokens), 4)
+          otherwise "EC-P017: A representation argument needs a name and expression."
+        port kernel.invoke { query = "ec.attempt"; input = { query = "ec.expression"; input = { text = at($ecParamTokens, 2); scope = $ecShowScope }; span = $ecSpan } } → ecParameterExpression
+        yield append($ecShowParameters, list({ name = at($ecParamTokens, 1); expression = $ecParameterExpression; node = $ecParameter })) → ecShowParameters
+      let ecShowNext = { representation = at($ecShowTokens, 1); parameters = $ecShowParameters; node = $ecShowNode }
+    yield $ecShowNext → ecShow
+  let result = $ecShow
+
+process ec.emitView:
+  let ecEmitView = $eventInput.view
+  let result = list({ port = "kernel.invoke"; args = { query = "ec.argument"; input = { type = $ecEmitView.sourceType; value = $ecEmitView.source } }; into = "ecSourceCarrier" }, { let = "bindings"; value = { source = concat(at(" $", 1), "ecSourceCarrier") } }, { let = "ecViewValues"; value = $ecEmitView.fields.values }, { port = "kernel.invoke"; args = { query = "ec.check"; input = { type = $ecEmitView.type; values = concat(at(" $", 1), "ecViewValues") } }; into = "ecChecked" }, { let = "result"; value = { id = $ecEmitView.id; type = $ecEmitView.type; values = concat(at(" $", 1), "ecViewValues") } })
+
+process ec.emitRepresentation:
+  let ecEmitRep = $eventInput.representation
+  fold $ecEmitRep.given as ecEmitGiven; ecStatements starts list({ let = "bindings"; value = {} }):
+    let ecArgSteps = list({ port = "kernel.invoke"; args = { query = "ec.argument"; input = { type = $ecEmitGiven.type; value = list("at", concat(at(" $", 1), "eventInput"), $ecEmitGiven.name) } }; into = "ecGivenValue" }, { port = "record.put"; args = { record = concat(at(" $", 1), "bindings"); key = $ecEmitGiven.name; value = concat(at(" $", 1), "ecGivenValue") }; into = "bindings" })
+    yield append($ecStatements, $ecArgSteps) → ecStatements
+  fold $ecEmitRep.guards as ecEmitGuard; ecStatements starts $ecStatements:
+    yield append($ecStatements, list({ assert = $ecEmitGuard.expression; message = "EC-R001: Representation requirement failed. Check the configured page, target and source mapping." })) → ecStatements
+  let ecStatements = append($ecStatements, list({ let = "ecOutputValues"; value = $ecEmitRep.values }, { port = "kernel.invoke"; args = { query = "ec.check"; input = { type = $ecEmitRep.type; values = concat(at(" $", 1), "ecOutputValues") } }; into = "ecChecked" }, { let = "ecOutputCarrier"; value = { id = "representation"; type = $ecEmitRep.type; values = concat(at(" $", 1), "ecOutputValues") } }, { port = "record.put"; args = { record = concat(at(" $", 1), "bindings"); key = "result"; value = concat(at(" $", 1), "ecOutputCarrier") }; into = "bindings" }, { let = "result"; value = { id = "representation"; type = $ecEmitRep.type; values = concat(at(" $", 1), "ecOutputValues"); tree = $ecEmitRep.render; events = $ecEmitRep.events } }))
+  let result = $ecStatements
+
+process ec.compile:
+  let ecSpan = { file = $file; line = 1; column = 1; offset = 0; endOffset = 0 }
+  try:
+    call ec.lex
+    let ecNodes = $result.nodes
+    let ecLiterals = $result.literals
+    fold filter($ecNodes, "ecChild", eq($ecChild.parent, 0)) as ecRoot; ecDeclarations starts list():
+      let ecSpan = { file = $file; line = $ecRoot.line; column = add($ecRoot.indent, 1); offset = $ecRoot.offset; endOffset = add($ecRoot.offset, count($ecRoot.raw)) }
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.header"; input = { node = $ecRoot }; span = $ecSpan } } → ecDeclaration
+      yield append($ecDeclarations, list($ecDeclaration)) → ecDeclarations
+    let ecModuleDeclarations = filter($ecDeclarations, "ecD", eq($ecD.kind, "module"))
+    assert eq(count($ecModuleDeclarations), 1)
+      otherwise "EC-P018: Declare exactly one module."
+    let ecModule = at(at($ecModuleDeclarations, 0), "name")
+    let ecViewDeclarations = filter($ecDeclarations, "ecD", eq($ecD.kind, "view"))
+    let ecRepDeclarations = filter($ecDeclarations, "ecD", eq($ecD.kind, "representation"))
+    assert and(not(eq(count($ecViewDeclarations), 0)), not(eq(count($ecRepDeclarations), 0)))
+      otherwise "EC-P019: This profile requires typed views and reusable representations."
+    let ecViewNames = map($ecViewDeclarations, "ecD", $ecD.id)
+    let ecRepNames = map($ecRepDeclarations, "ecD", $ecD.id)
+    assert and(eq(count($ecViewNames), count(distinct($ecViewNames))), eq(count($ecRepNames), count(distinct($ecRepNames))))
+      otherwise "EC-P020: A definition name is declared twice."
+    assert eq(count(filter($ecNodes, "ecN", eq($ecN.parent, at(at(at($ecModuleDeclarations, 0), "node"), "id")))), 0)
+      otherwise "EC-P025: The module name has no nested body; declare views and representations alongside it."
+    assert eq(count(distinct(map($ecViewDeclarations, "ecD", $ecD.id))), count($ecViewDeclarations))
+      otherwise "EC-P026: A view identity is declared twice; choose one owner."
+    assert eq(count(distinct(map($ecRepDeclarations, "ecD", $ecD.id))), count($ecRepDeclarations))
+      otherwise "EC-P027: A representation name is declared twice; choose one owner."
+    let codePlan = { module = $ecModule; literalValues = $ecLiterals; views = $ecViewDeclarations; representations = list(); sourceText = $ecLexText; file = $file; protocol = "encounter/typed-projection-plan/1" }
+    fold $ecRepDeclarations as ecD; ecRepresentations starts list():
+      let ecSpan = { file = $file; line = $ecD.node.line; column = add($ecD.node.indent, 1); offset = $ecD.node.offset; endOffset = add($ecD.node.offset, count($ecD.node.raw)) }
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.representation"; input = { declaration = $ecD }; span = $ecSpan } } → ecRepresentation
+      yield append($ecRepresentations, list($ecRepresentation)) → ecRepresentations
+    port record.put { record = $codePlan; key = "representations"; value = $ecRepresentations } → codePlan
+    fold $ecViewDeclarations as ecD; ecViews starts list():
+      let ecSpan = { file = $file; line = $ecD.node.line; column = add($ecD.node.indent, 1); offset = $ecD.node.offset; endOffset = add($ecD.node.offset, count($ecD.node.raw)) }
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.view"; input = { declaration = $ecD }; span = $ecSpan } } → ecView
+      yield append($ecViews, list($ecView)) → ecViews
+    port record.put { record = $codePlan; key = "views"; value = $ecViews } → codePlan
+    call ec.verify
+    fold $ecViews as ecEmit; ecQueries starts {}:
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.emitView"; input = { view = $ecEmit }; span = $ecSpan } } → ecProgramme
+      port record.put { record = $ecQueries; key = $ecEmit.entry; value = $ecProgramme } → ecQueries
+      yield $ecQueries → ecQueries
+    fold $ecRepresentations as ecEmit; ecQueries starts $ecQueries:
+      port kernel.invoke { query = "ec.attempt"; input = { query = "ec.emitRepresentation"; input = { representation = $ecEmit }; span = $ecSpan } } → ecProgramme
+      port record.put { record = $ecQueries; key = $ecEmit.entry; value = $ecProgramme } → ecQueries
+      yield $ecQueries → ecQueries
+    let result = { ok = true; plan = $codePlan; module = { protocol = "temple/surface-process-module/1"; queries = $ecQueries }; diagnostic = null }
+  catch ecCompileFault:
+    port text.matches { value = $ecCompileFault.message; pattern = "^EC-DIAGNOSTIC:" } → ecLocated
+    when $ecLocated:
+      port text.slice { value = $ecCompileFault.message; start = 14 } → ecWire
+      port json.parse { text = $ecWire } → ecLocatedDiagnostic
+      let ecSpan = $ecLocatedDiagnostic.span
+      let ecCompileFault = { message = $ecLocatedDiagnostic.message }
+    let result = { ok = false; plan = null; module = null; diagnostic = { file = $file; span = $ecSpan; message = $ecCompileFault.message; correction = "Correct the named Encounter declaration or its REL contract. No fallback programme was activated." } }
+
+process ec.attempt:
+  let ecSpan = $eventInput.span
+  try:
+    port kernel.invoke { query = $eventInput.query; input = $eventInput.input } → result
+  catch ecLocatedFault:
+    port text.matches { value = $ecLocatedFault.message; pattern = "^EC-DIAGNOSTIC:" } → ecAlreadyLocated
+    when $ecAlreadyLocated:
+      let ecUnreachable = raise($ecLocatedFault.message)
+    port json.stringify { value = { protocol = "encounter/source-diagnostic/1"; span = $ecSpan; message = $ecLocatedFault.message } } → ecDiagnosticWire
+    let ecUnreachable = raise(concat("EC-DIAGNOSTIC:", $ecDiagnosticWire))
+
+process ec.complete:
+  port kernel.invoke { query = "ec.schema"; input = { type = $eventInput.type } } → ecCompleteSchema
+  assert every($ecCompleteSchema.slots, "ecS", or(eq($ecS.cardinality, "optional"), some($eventInput.fields, "ecF", eq($ecF.name, $ecS.name))))
+    otherwise "EC-T026: The definition does not supply every required field of its declared type."
+  let result = true
+
+process ec.verifyShow:
+  let ecShowVerify = $eventInput.show
+  let ecShowType = $eventInput.type
+  let ecReps = filter($codePlan.representations, "ecR", eq($ecR.id, $ecShowVerify.representation))
+  assert eq(count($ecReps), 1)
+    otherwise "EC-C004: Select a representation declared by this Encounter module."
+  let ecRepSignature = at($ecReps, 0)
+  assert and(not(eq(count($ecRepSignature.given), 0)), eq(at(at($ecRepSignature.given, 0), "type"), $ecShowType))
+    otherwise "EC-C005: The representation’s primary input does not match the resolved view type."
+  let ecOtherInputs = filter($ecRepSignature.given, "ecG", not(eq($ecG.name, at(at($ecRepSignature.given, 0), "name"))))
+  assert eq(count($ecOtherInputs), count($ecShowVerify.parameters))
+    otherwise "EC-C006: Supply exactly the representation’s declared configuration inputs."
+  each $ecOtherInputs as ecRequired:
+    let ecSupplied = filter($ecShowVerify.parameters, "ecP", eq($ecP.name, $ecRequired.name))
+    assert eq(count($ecSupplied), 1)
+      otherwise "EC-C007: A required representation input is missing or duplicated."
+    let ecSuppliedExpression = at(at($ecSupplied, 0), "expression")
+    assert if(eq($ecRequired.type, "text"), and(eq($ecSuppliedExpression.kind, "string"), eq($ecSuppliedExpression.cardinality, "one")), and(eq($ecSuppliedExpression.kind, "ref"), eq($ecSuppliedExpression.expects, $ecRequired.type)))
+      otherwise "EC-C008: A representation argument has the wrong value or reference type."
+  let result = true
+
+process ec.verify:
+  each $codePlan.representations as ecR:
+    port kernel.invoke { query = "ec.complete"; input = { type = $ecR.type; fields = $ecR.fields } } → _
+  each $codePlan.views as ecV:
+    port kernel.invoke { query = "ec.complete"; input = { type = $ecV.type; fields = $ecV.fields.fields } } → _
+    assert eq(count(filter($codePlan.views, "ecOther", eq($ecOther.id, $ecV.source))), 0)
+      otherwise "EC-C009: View-to-view source dependencies are not supported by this initial profile; use an explicitly typed fact source."
+    when $ecV.show:
+      port kernel.invoke { query = "ec.verifyShow"; input = { show = $ecV.show; type = $ecV.type } } → _
+    each $ecV.contexts as ecC:
+      port kernel.invoke { query = "ec.fact"; input = { id = $ecC.id; type = "Context" } } → ecContextFact
+      assert eq(at($ecContextFact.values, "C.view"), $ecV.id)
+        otherwise "EC-C010: This context does not explicitly contain the requested view."
+      port kernel.invoke { query = "ec.verifyShow"; input = { show = $ecC.show; type = $ecV.type } } → _
+  let result = true
+
+process ec.oneField:
+  let ecSpan = { file = $file; line = $ecFieldNode.line; column = add($ecFieldNode.indent, 1); offset = $ecFieldNode.offset; endOffset = add($ecFieldNode.offset, count($ecFieldNode.raw)) }
+  assert eq(count(filter($ecNodes, "ecN", eq($ecN.parent, $ecFieldNode.id))), 0)
+    otherwise "EC-P024: A value mapping cannot hide nested statements. Put each statement at its declared level."
+  port text.split { value = $ecFieldNode.text; pattern = "^([A-Za-z_][A-Za-z0-9_.-]*): (.+)$" } → ecFieldTokens
+  assert eq(count($ecFieldTokens), 4)
+    otherwise "EC-P007: Write a field as name: expression."
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.slot"; input = { type = $ecFieldsType; name = at($ecFieldTokens, 1) }; span = $ecSpan } } → ecOutputSlot
+  assert not(some($ecFieldState.fields, "ecF", eq($ecF.name, $ecOutputSlot.name)))
+    otherwise "EC-P008: A field has two authors in the same contribution. Write it once."
+  port kernel.invoke { query = "ec.attempt"; input = { query = "ec.expression"; input = { text = at($ecFieldTokens, 2); scope = $ecFieldsScope }; span = $ecSpan } } → ecFieldExpr
+  assert and(eq($ecFieldExpr.kind, $ecOutputSlot.kind), eq($ecFieldExpr.cardinality, $ecOutputSlot.cardinality))
+    otherwise "EC-T023: The expression’s value kind or collection shape does not match this field."
+  when eq($ecOutputSlot.kind, "ref"):
+    assert eq($ecFieldExpr.expects, $ecOutputSlot.expects)
+      otherwise "EC-T024: This reference expression targets a different type than the field requires."
+  port record.put { record = $ecFieldState.values; key = $ecOutputSlot.name; value = $ecFieldExpr.expression } → ecOutputValues
+  let ecFieldState = { values = $ecOutputValues; fields = append($ecFieldState.fields, list({ name = $ecOutputSlot.name; node = $ecFieldNode; expression = $ecFieldExpr; text = at($ecFieldTokens, 2) })) }
+  let result = $ecFieldState

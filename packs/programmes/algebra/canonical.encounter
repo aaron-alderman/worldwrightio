@@ -1,0 +1,59 @@
+process-module "temple/surface-process-module/1"
+
+process canonical.encode:
+  let value = $eventInput.value
+  port value.describe { value = $value } → kind
+  let result = ""
+  when or($kind.null, eq($kind.type, "string"), eq($kind.type, "boolean"), and(eq($kind.type, "number"), $eventInput.numbers)):
+    port json.stringify { value = $value } → result
+  when $kind.array:
+    fold $value as item; parts starts list():
+      port kernel.invoke { query = "canonical.encode"; input = { value = $item; numbers = $eventInput.numbers } } → part
+      yield append($parts, list($part)) → parts
+    port text.join { values = $parts; separator = "," } → joined
+    let result = concat("[", $joined, "]")
+  when and(eq($kind.type, "object"), not($kind.null), not($kind.array)):
+    port record.entries { value = $value } → entries
+    port value.sort { values = map($entries, "entry", at($entry, 0)); mode = "lexical" } → keys
+    fold $keys as key; parts starts list():
+      port json.stringify { value = $key } → keyJSON
+      port kernel.invoke { query = "canonical.encode"; input = { value = at($value, $key); numbers = $eventInput.numbers } } → part
+      yield append($parts, list(concat($keyJSON, ":", $part))) → parts
+    port text.join { values = $parts; separator = "," } → joined
+    let result = concat("{", $joined, "}")
+  assert not(eq($result, ""))
+    otherwise "Non-canonical value type"
+
+process canonical.identify:
+  port kernel.invoke { query = "canonical.encode"; input = { value = { kind = $eventInput.kind; value = $eventInput.value }; numbers = false } } → bytes
+  port digest.sha256 { text = $bytes } → digest
+  let result = concat($eventInput.kind, ":sha256:", $digest)
+
+process canonical.is:
+  let result = true
+  try:
+    port kernel.invoke { query = "canonical.encode"; input = { value = $eventInput.value; numbers = false } } → _
+  catch error:
+    let result = false
+
+process address.digest:
+  port text.split { value = $eventInput.id; pattern = ":" } → parts
+  let result = at($parts, add(count($parts), -1))
+
+process address.short:
+  port kernel.invoke { query = "address.digest"; input = { id = $eventInput.id } } → digest
+  port text.slice { value = $digest; start = 0; end = $eventInput.head } → first
+  let result = concat($first, "…")
+  port number.calculate { operation = "greater"; values = list($eventInput.tail, 0) } → tailExists
+  when $tailExists:
+    port number.calculate { operation = "multiply"; values = list($eventInput.tail, -1) } → tailStart
+    port text.slice { value = $digest; start = $tailStart } → last
+    let result = concat($first, "…", $last)
+
+process record.remove:
+  port record.entries { value = $eventInput.record } → entries
+  port record.fromEntries { entries = filter($entries, "entry", not(eq(at($entry, 0), $eventInput.key))) } → result
+
+process record.clone:
+  port json.stringify { value = $eventInput.value } → text
+  port json.parse { text = $text } → result

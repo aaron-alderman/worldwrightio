@@ -1,0 +1,472 @@
+process-module "temple/surface-process-module/1"
+
+process activity.motion:
+  port browser.environment {} → environment
+  port state.get { key = "motion" } → motion
+  let motion = and(not($environment.reduced), not($motion))
+  port state.set { key = "motion"; value = $motion } → _
+  port storage.write { key = "worldwright-motion"; value = if($motion, "on", "paused") } → _
+  port browser.attribute { ref = "#activities-mount"; name = "data-motion"; value = if($motion, "on", "paused") } → _
+  port browser.write { ref = "#activities-mount #motion-toggle"; name = "textContent"; value = if($motion, "Motion on", "Motion paused") } → _
+
+process activity.calculations:
+  port browser.select { selector = "#activities-mount .calculation-detail" } → details
+  each $details as detail:
+    port browser.relative { ref = $detail.ref; relation = "query"; selector = "#activities-mount .equation-note" } → equation
+    port browser.write { ref = $detail.ref; name = "hidden"; value = $equation.hidden } → _
+
+process activity.click:
+  let button = $eventInput.matched
+  let action = or(at($button.attributes, "data-world"), at($button.attributes, "data-encounter"), at($button.attributes, "data-demo"))
+  assert includes(list("reply", "door", "quiet", "cabinet", "layer", "revision", "deck", "garden-mode", "gate", "hide-memory", "couple-memory", "origin", "enrich", "attention", "inflate", "reset-pattern", "original-bit", "flip-bit", "rate", "scale", "amplitude", "phase", "loop", "loop-reset"), $action)
+    otherwise "READER-ACTION: Unknown activity action."
+  let value = or(at($button.attributes, "data-value"), at($button.attributes, "data-reply"), at($button.attributes, "data-door"), at($button.attributes, "data-view"), at($button.attributes, "data-layer"))
+  port kernel.invoke { query = concat("activity.action.", $action); input = { button = $button; value = $value } } → result
+  call activity.calculations
+
+process activity.input:
+  let input = $eventInput.matched
+  let value = $input.value
+  when eq(at($input.attributes, "id"), "lens-angle"):
+    port number.parse { value = $value } → angle
+    port kernel.invoke { query = "reader.model.calibration"; input = { angle = $angle } } → reading
+    port number.calculate { operation = "multiply"; values = list(-1, $angle) } → rotation
+    port browser.attribute { ref = "#activities-mount #lens-axis"; name = "transform"; value = concat("rotate(", $rotation, " 200 165)") } → _
+    port browser.write { ref = "#activities-mount #angle-value"; name = "textContent"; value = concat($angle, "°") } → _
+    port number.format { value = $reading; digits = 2 } → reading
+    port browser.write { ref = "#activities-mount #lens-value"; name = "textContent"; value = $reading } → _
+    port browser.write { ref = "#activities-mount #lens-caption"; name = "textContent"; value = if(eq($angle, 0), "At this angle, two different points share one reading.", if(eq($angle, 90), "The line now shows the full difference between the points.", "Turning the line makes part of the difference visible.")) } → _
+  when eq(at($input.attributes, "data-world-input"), "garden"):
+    call activity.garden
+  when eq(at($input.attributes, "data-world-input"), "weights"):
+    port kernel.invoke { query = "reader.model.weights"; input = { percent = $value } } → scores
+    port number.format { value = $scores.a; digits = 2 } → scoreA
+    port number.format { value = $scores.b; digits = 2 } → scoreB
+    port browser.write { ref = "#activities-mount #score-a"; name = "textContent"; value = $scoreA } → _
+    port browser.write { ref = "#activities-mount #score-b"; name = "textContent"; value = $scoreB } → _
+    port browser.write { ref = "#activities-mount #weight-label"; name = "textContent"; value = concat($value, "%") } → _
+    port number.calculate { operation = "greater"; values = list($scores.a, $scores.b) } → preferA
+    port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = if(eq($scores.a, $scores.b), "The two plans have the same score with these priorities.", concat("Option ", if($preferA, "A", "B"), " ranks higher under these declared weights. The plans’ speed and thoroughness scores have not changed.")) } → _
+
+process activity.action.reply:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port number.parse { value = $value } → index
+  let reply = at($data.conversation.replies, $index)
+  port browser.select { selector = "#activities-mount [data-encounter=\"reply\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  let input = list({ tag = "p"; attrs = { class = "conversation-line answer" }; children = list($reply.answer) }, { tag = "p"; attrs = { class = "conversation-reflection" }; children = list($reply.question) })
+  call html.serialize
+  let markup = $result
+  port browser.content { ref = "#activities-mount #conversation-answer"; html = $markup } → _
+
+process activity.action.door:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port browser.select { selector = "#activities-mount [data-encounter=\"door\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port browser.write { ref = "#activities-mount #door-answer"; name = "textContent"; value = at({ can = "Capability: a draft exists. Producing it has not established permission to send it."; may = "Permission: the people and authority involved still need to be identified. Availability of a button is not that authority."; should = "Responsibility: consider timing, consequences and the people affected. Permission alone does not decide whether sending is wise." }, $value) } → _
+
+process activity.action.quiet:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "quiet" } → quiet
+  port state.set { key = "quiet"; value = not($quiet) } → _
+  let quiet = not($quiet)
+  port browser.attribute { ref = $button.ref; name = "aria-pressed"; value = $quiet } → _
+  port browser.class { ref = "#activities-mount .art-panel"; name = "looking-closer"; value = $quiet } → _
+  port state.get { key = "activity" } → activity
+  port browser.write { ref = "#activities-mount #quiet-words"; name = "textContent"; value = if(eq($activity.id, "water"), if($quiet, "Perhaps the water was never the difficult part.", "Even the guide has a reflection."), if($quiet, "Who else needs room in this clearing?", "There is nothing to finish here.")) } → _
+
+process activity.action.cabinet:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  let currents = eq($value, "currents")
+  port browser.select { selector = "#activities-mount [data-encounter=\"cabinet\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port browser.class { ref = "#activities-mount .art-panel"; name = "spectral"; value = $currents } → _
+  port browser.select { selector = "#activities-mount #specimen-values strong" } → specimens
+  fold $specimens as specimen; index starts 0:
+    port browser.write { ref = $specimen.ref; name = "textContent"; value = if($currents, at(list("12", "8", "3"), $index), "≈") } → _
+    yield add($index, 1) → index
+  port browser.write { ref = "#activities-mount #cabinet-caption"; name = "textContent"; value = if($currents, "These fictional quadrat counts distinguish three survey plots.", "The broad presence measure treats all three fictional plots alike.") } → _
+
+process activity.action.layer:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port browser.select { selector = "#activities-mount [data-encounter=\"layer\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port browser.attribute { ref = "#activities-mount .art-panel"; name = "data-layer"; value = $value } → _
+  port browser.write { ref = "#activities-mount #layer-conditions"; name = "hidden"; value = eq($value, "surface") } → _
+  port browser.write { ref = "#activities-mount #layer-limits"; name = "hidden"; value = not(eq($value, "limits")) } → _
+
+process activity.action.revision:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "revisionOpen" } → revisionOpen
+  port state.set { key = "revisionOpen"; value = not($revisionOpen) } → _
+  let revisionOpen = not($revisionOpen)
+  port browser.attribute { ref = $button.ref; name = "aria-expanded"; value = $revisionOpen } → _
+  port browser.write { ref = "#activities-mount #revision-after"; name = "hidden"; value = not($revisionOpen) } → _
+  port browser.write { ref = $button.ref; name = "textContent"; value = if($revisionOpen, "Keep the seam visible", "Open the correction") } → _
+  port browser.class { ref = "#activities-mount .art-panel"; name = "seam-open"; value = $revisionOpen } → _
+
+process activity.action.deck:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "activity" } → activity
+  port number.parse { value = $value } → index
+  let deck = at($data.decks, $activity.type)
+  let item = at($deck.items, $index)
+  port browser.select { selector = "#activities-mount [data-world=\"deck\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = at($item, 1) } → _
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-open"; value = $value } → _
+
+process activity.action.garden-mode:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port browser.select { selector = "#activities-mount [data-world=\"garden-mode\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port state.set { key = "mode"; value = $value } → _
+  let mode = $value
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-mode"; value = $mode } → _
+  port browser.write { ref = "#activities-mount #garden-limit"; name = "max"; value = if(eq($mode, "positive"), "4", "8") } → _
+  let value = if(eq($mode, "positive"), "1", "4")
+  port browser.write { ref = "#activities-mount #garden-limit"; name = "value"; value = $value } → _
+  port browser.write { ref = "#activities-mount #garden-equation"; name = "hidden"; value = not(eq($mode, "positive")) } → _
+  port browser.write { ref = "#activities-mount #garden-rule-copy"; name = "textContent"; value = if(eq($mode, "positive"), "Strength of the link (c) =", "Keep pairs whose two numbers add up to at most") } → _
+  call activity.garden
+
+process activity.garden:
+  port state.get { key = "mode" } → mode
+  let mode = or($mode, "budget")
+  port number.parse { value = $value } → value
+  port kernel.invoke { query = "reader.model.pairs"; input = { value = $value; mode = $mode } } → allowed
+  port browser.select { selector = "#activities-mount .possibility-seed" } → seeds
+  each $seeds as seed:
+    port number.parse { value = at($seed.attributes, "data-x") } → x
+    port number.parse { value = at($seed.attributes, "data-y") } → y
+    port browser.class { ref = $seed.ref; name = "admitted"; value = some($allowed, "pair", eq($pair, list($x, $y))) } → _
+  port browser.write { ref = "#activities-mount #garden-value"; name = "textContent"; value = $value } → _
+  port browser.attribute { ref = "#activities-mount .possibility-grid"; name = "aria-label"; value = concat("Twenty-five nonnegative integer pairs. ", count($allowed), " satisfy ", if(eq($mode, "positive"), "x times y no less than c squared", "x plus y no greater than the budget"), ".") } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = concat(count($allowed), " of 25 represented pairs satisfy ", if(eq($mode, "positive"), "the rule for these two linked quantities", "the shared-limit rule"), ".") } → _
+
+process activity.action.gate:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "gate" } → gate
+  port state.set { key = "gate"; value = not($gate) } → _
+  let gate = not($gate)
+  port browser.attribute { ref = $button.ref; name = "aria-pressed"; value = $gate } → _
+  port browser.class { ref = "#activities-mount .world-encounter"; name = "gate-connected"; value = $gate } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = if($gate, "You can now go from A through B to C.", "There is no route from A to C in this example.") } → _
+
+process activity.action.hide-memory:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "memoryHidden" } → memoryHidden
+  port state.set { key = "memoryHidden"; value = not($memoryHidden) } → _
+  let memoryHidden = not($memoryHidden)
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-hidden"; value = $memoryHidden } → _
+  port browser.attribute { ref = $button.ref; name = "aria-pressed"; value = $memoryHidden } → _
+  port browser.class { ref = "#activities-mount #memory-hidden"; name = "trace-hidden"; value = $memoryHidden } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = if($memoryHidden, "The dashed line is hidden. The calculation and solid line have not changed.", "Both lines are shown. The other button changes whether the two parts affect each other.") } → _
+
+process activity.action.couple-memory:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "coupled" } → coupled
+  port state.set { key = "coupled"; value = if(eq($coupled, null), false, not($coupled)) } → _
+  let coupled = if(eq($coupled, null), false, not($coupled))
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-coupled"; value = $coupled } → _
+  port browser.attribute { ref = $button.ref; name = "aria-pressed"; value = not($coupled) } → _
+  port kernel.invoke { query = "reader.model.memory"; input = { coupled = $coupled } } → trace
+  port kernel.invoke { query = "reader.model.line"; input = { samples = $trace; coordinate = "x" } } → path
+  port browser.attribute { ref = "#activities-mount #memory-visible"; name = "d"; value = $path } → _
+  port kernel.invoke { query = "reader.model.line"; input = { samples = $trace; coordinate = "h" } } → path
+  port browser.attribute { ref = "#activities-mount #memory-hidden"; name = "d"; value = $path } → _
+  port browser.content { ref = "#activities-mount .equation-note"; html = concat("x′ = −x + c·h &nbsp; h′ = −0.8h + c·x<br>x(0) = 1, h(0) = 1.2; c = ", if($coupled, "0.6", "0"), ". Euler step = 0.02.") } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = if($coupled, "The two parts affect each other again. Notice how the solid line changes.", "The two parts no longer affect each other. This changes the calculation; hiding a line only changes the picture.") } → _
+
+process activity.action.origin:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.set { key = "origin"; value = $value } → _
+  let origin = $value
+  port browser.select { selector = "#activities-mount [data-world=\"origin\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  call activity.erasure
+
+process activity.action.enrich:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "enriched" } → enriched
+  port state.set { key = "enriched"; value = not($enriched) } → _
+  let enriched = not($enriched)
+  port browser.attribute { ref = $button.ref; name = "aria-pressed"; value = $enriched } → _
+  call activity.erasure
+
+process activity.erasure:
+  port state.get { key = "origin" } → origin
+  let origin = or($origin, "a")
+  port state.get { key = "enriched" } → enriched
+  let first = if(eq($origin, "a"), 1, 2)
+  port number.calculate { operation = "subtract"; values = list(4, $first) } → second
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-origin"; value = $origin } → _
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-enriched"; value = or($enriched, false) } → _
+  port browser.write { ref = "#activities-mount #extra-record"; name = "hidden"; value = not($enriched) } → _
+  port browser.write { ref = "#activities-mount #extra-record"; name = "textContent"; value = concat("FIRST NUMBER: ", $first) } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = if($enriched, concat("Keeping the first number, ", $first, ", and the sum, 4, tells these two pairs apart: this pair is (", $first, ", ", $second, ")."), "Both pairs add up to 4. The sum alone cannot tell them apart.") } → _
+
+process activity.action.attention:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port browser.select { selector = "#activities-mount [data-world=\"attention\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-view"; value = $value } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = if(eq($value, "focus"), "The leaf is emphasized; other details recede in this illustration. This does not measure your attention.", "The broad view keeps several relationships available.") } → _
+
+process activity.action.inflate:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "step" } → step
+  let step = or($step, 0)
+  port number.calculate { operation = "add"; values = list($step, 1) } → nextStep
+  port number.calculate { operation = "min"; values = list(5, $nextStep) } → nextStep
+  port state.set { key = "step"; value = if(eq("inflate", "reset-pattern"), 0, $nextStep) } → _
+  let step = if(eq("inflate", "reset-pattern"), 0, $nextStep)
+  port kernel.invoke { query = "reader.model.inflate"; input = { step = $step } } → pair
+  port browser.write { ref = "#activities-mount #count-a"; name = "textContent"; value = at($pair, 0) } → _
+  port browser.write { ref = "#activities-mount #count-b"; name = "textContent"; value = at($pair, 1) } → _
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-step"; value = $step } → _
+  port browser.write { ref = "#activities-mount [data-world=\"inflate\"]"; name = "disabled"; value = eq($step, 5) } → _
+  port number.calculate { operation = "multiply"; values = list($step, 18) } → turn
+  port browser.style { ref = "#activities-mount .rosette"; name = "--turn"; value = concat($turn, "deg") } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = concat("Step ", $step, ". The exact count pair is (", at($pair, 0), ", ", at($pair, 1), ").", if(eq($step, 5), " This bounded example ends here; reset to inspect it again.", "")) } → _
+
+process activity.action.reset-pattern:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "step" } → step
+  let step = or($step, 0)
+  port number.calculate { operation = "add"; values = list($step, 1) } → nextStep
+  port number.calculate { operation = "min"; values = list(5, $nextStep) } → nextStep
+  port state.set { key = "step"; value = if(eq("reset-pattern", "reset-pattern"), 0, $nextStep) } → _
+  let step = if(eq("reset-pattern", "reset-pattern"), 0, $nextStep)
+  port kernel.invoke { query = "reader.model.inflate"; input = { step = $step } } → pair
+  port browser.write { ref = "#activities-mount #count-a"; name = "textContent"; value = at($pair, 0) } → _
+  port browser.write { ref = "#activities-mount #count-b"; name = "textContent"; value = at($pair, 1) } → _
+  port browser.attribute { ref = "#activities-mount .world-encounter"; name = "data-step"; value = $step } → _
+  port browser.write { ref = "#activities-mount [data-world=\"inflate\"]"; name = "disabled"; value = eq($step, 5) } → _
+  port number.calculate { operation = "multiply"; values = list($step, 18) } → turn
+  port browser.style { ref = "#activities-mount .rosette"; name = "--turn"; value = concat($turn, "deg") } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = concat("Step ", $step, ". The exact count pair is (", at($pair, 0), ", ", at($pair, 1), ").", if(eq($step, 5), " This bounded example ends here; reset to inspect it again.", "")) } → _
+
+process activity.action.original-bit:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port number.parse { value = $value } → bit
+  port state.set { key = "original"; value = $bit } → _
+  let original = $bit
+  port state.set { key = "bits"; value = list($bit, $bit, $bit) } → _
+  let bits = list($bit, $bit, $bit)
+  port browser.select { selector = "#activities-mount [data-world=\"original-bit\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  call activity.code
+
+process activity.action.flip-bit:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.get { key = "bits" } → bits
+  let bits = or($bits, list(0, 0, 0))
+  port number.parse { value = $value } → index
+  fold $bits as bit; position starts 0:
+    yield add($position, 1) → ignored
+  let bits = map(range(3), "n", if(eq(add($n, -1), $index), if(eq(at($bits, $index), 0), 1, 0), at($bits, add($n, -1))))
+  port state.set { key = "bits"; value = $bits } → _
+  call activity.code
+
+process activity.code:
+  port state.get { key = "bits" } → bits
+  let bits = or($bits, list(0, 0, 0))
+  port state.get { key = "original" } → original
+  let original = or($original, 0)
+  port browser.select { selector = "#activities-mount [data-world=\"flip-bit\"]" } → buttons
+  fold $buttons as bitButton; index starts 0:
+    let bit = at($bits, $index)
+    port browser.write { ref = $bitButton.ref; name = "textContent"; value = $bit } → _
+    port browser.attribute { ref = $bitButton.ref; name = "aria-pressed"; value = eq($bit, 1) } → _
+    port browser.attribute { ref = $bitButton.ref; name = "aria-label"; value = concat("Received bit ", add($index, 1), ": ", if(eq($bit, 1), "one", "zero")) } → _
+    yield add($index, 1) → index
+  port kernel.invoke { query = "reader.model.decode"; input = { bits = $bits } } → decoded
+  let changed = count(filter($bits, "bit", not(eq($bit, $original))))
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = concat("Decoder returns ", $decoded, ". ", $changed, " changed ", if(eq($changed, 1), "bit", "bits"), ". ", if(eq($decoded, $original), "The original bit is recovered.", "This is outside the one-flip correction budget; the original bit is not recovered.")) } → _
+
+process activity.action.rate:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port number.parse { value = $value } → index
+  let rate = at($data.reportedRates, $index)
+  port browser.select { selector = "#activities-mount [data-world=\"rate\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port number.calculate { operation = "multiply"; values = list($rate.overlap, 100) } → overlap
+  port number.calculate { operation = "multiply"; values = list($rate.loss, 100) } → loss
+  port number.format { value = $overlap; digits = 2 } → overlapText
+  port number.format { value = $loss; digits = 2 } → lossText
+  port browser.write { ref = "#activities-mount #rate-overlap"; name = "textContent"; value = concat($overlapText, "%") } → _
+  port browser.write { ref = "#activities-mount #rate-loss"; name = "textContent"; value = concat($lossText, "%") } → _
+  port browser.style { ref = "#activities-mount #overlap-bar"; name = "width"; value = concat($overlap, "%") } → _
+  port browser.style { ref = "#activities-mount #loss-bar"; name = "width"; value = concat($loss, "%") } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = concat("Fictional setting ", $rate.rate, ": retained signal ", $overlapText, "%, loss ", $lossText, "%. These are source-owned training values, not field measurements.") } → _
+
+process activity.action.scale:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port number.parse { value = $value } → block
+  port kernel.invoke { query = "reader.model.coarse"; input = { block = $block } } → cells
+  port browser.select { selector = "#activities-mount [data-world=\"scale\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port number.calculate { operation = "divide"; values = list(4, $block) } → side
+  port browser.style { ref = "#activities-mount #scale-grid"; name = "grid-template-columns"; value = concat("repeat(", $side, ", 1fr)") } → _
+  let input = map($cells, "cell", { tag = "span"; attrs = { style = concat("--cell:", $cell.mean) }; children = list($cell.total) })
+  call html.serialize
+  let markup = $result
+  port browser.content { ref = "#activities-mount #scale-grid"; html = $markup } → _
+  port browser.attribute { ref = "#activities-mount #scale-grid"; name = "aria-label"; value = concat(count($cells), " ", if(eq(count($cells), 1), "block", "blocks"), ", retained total eight. Within-block arrangements are ", if(eq($block, 1), "visible", "not retained by this view"), ".") } → _
+  port browser.write { ref = "#activities-mount .world-result"; name = "textContent"; value = if(eq($block, 1), "The total is 8. The fine view also preserves where the eight filled cells are.", concat(count($cells), " ", if(eq(count($cells), 1), "block retains", "blocks retain"), " total 8. The view no longer identifies the arrangement inside each block. The underlying pattern has not changed.")) } → _
+
+process activity.action.amplitude:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port browser.attribute { ref = "#activities-mount #hidden-phase"; name = "opacity"; value = "0" } → _
+  port browser.select { selector = "#activities-mount [data-demo=\"amplitude\"],[data-demo=\"phase\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port browser.write { ref = "#activities-mount #detector-readout"; name = "textContent"; value = "Same amplitude. Are they the same system?" } → _
+
+process activity.action.phase:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port browser.attribute { ref = "#activities-mount #hidden-phase"; name = "opacity"; value = "1" } → _
+  port browser.select { selector = "#activities-mount [data-demo=\"amplitude\"],[data-demo=\"phase\"]" } → buttons
+  each $buttons as choice:
+    port browser.attribute { ref = $choice.ref; name = "aria-pressed"; value = eq($choice.ref.handle, $button.ref.handle) } → _
+  port browser.write { ref = "#activities-mount #detector-readout"; name = "textContent"; value = "The timing reference lets you tell the signals apart." } → _
+
+process activity.action.loop-reset:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.set { key = "loopRunning"; value = false } → _
+  port browser.attribute { ref = "#activities-mount #return-frame"; name = "transform"; value = "translate(250,65) rotate(0)" } → _
+  port browser.attribute { ref = "#activities-mount [data-demo=\"loop\"]"; name = "aria-pressed"; value = false } → _
+  port browser.write { ref = "#activities-mount #loop-readout"; name = "textContent"; value = "Same starting point. Follow the attached frame." } → _
+
+process activity.action.loop:
+  let button = $eventInput.button
+  let value = $eventInput.value
+  port state.set { key = "loopRunning"; value = true } → _
+  port clock.read {} → clock
+  port state.set { key = "loopStart"; value = $clock.monotonic } → _
+  port browser.write { ref = "#activities-mount [data-demo=\"loop\"]"; name = "disabled"; value = true } → _
+  port browser.write { ref = "#activities-mount [data-demo=\"loop-reset\"]"; name = "disabled"; value = true } → _
+  port browser.attribute { ref = "#activities-mount [data-demo=\"loop\"]"; name = "aria-pressed"; value = true } → _
+  port browser.write { ref = "#activities-mount #loop-readout"; name = "textContent"; value = "Following the frame around the path…" } → _
+  port browser.frame { query = "activity.loop.frame"; input = {} } → _
+
+process activity.loop.frame:
+  port state.get { key = "loopRunning" } → loopRunning
+  when $loopRunning:
+    port state.get { key = "motion" } → motion
+    port state.get { key = "loopStart" } → loopStart
+    port browser.environment {} → environment
+    port number.calculate { operation = "subtract"; values = list($eventInput.time, $loopStart) } → elapsed
+    port number.calculate { operation = "divide"; values = list($elapsed, 1800) } → elapsed
+    port number.calculate { operation = "min"; values = list(1, $elapsed) } → t
+    let t = if(and($motion, not($environment.reduced)), $t, 1)
+    port number.calculate { operation = "multiply"; values = list($t, 6.283185307179586) } → angle
+    port number.calculate { operation = "sin"; values = list($angle) } → sine
+    port number.calculate { operation = "cos"; values = list($angle) } → cosine
+    port number.calculate { operation = "multiply"; values = list(150, $sine) } → x
+    port number.calculate { operation = "add"; values = list(250, $x) } → x
+    port number.calculate { operation = "multiply"; values = list(115, $cosine) } → y
+    port number.calculate { operation = "subtract"; values = list(180, $y) } → y
+    port number.calculate { operation = "multiply"; values = list(90, $t) } → rotation
+    port browser.attribute { ref = "#activities-mount #return-frame"; name = "transform"; value = concat("translate(", $x, ",", $y, ") rotate(", $rotation, ")") } → _
+    when not(eq($t, 1)):
+      port browser.frame { query = "activity.loop.frame"; input = {} } → _
+    when eq($t, 1):
+      port state.set { key = "loopRunning"; value = false } → _
+      port browser.write { ref = "#activities-mount [data-demo=\"loop\"]"; name = "disabled"; value = false } → _
+      port browser.write { ref = "#activities-mount [data-demo=\"loop-reset\"]"; name = "disabled"; value = false } → _
+      port browser.write { ref = "#activities-mount #loop-readout"; name = "textContent"; value = "Back at the start. The arrow now points a quarter-turn away." } → _
+
+process activity.source:
+  let key = concat("note.", at($eventInput.matched.attributes, "data-source"))
+  port record.get { record = $data.notes; key = $key } → note
+  assert $note
+    otherwise "READER-SOURCE: Unknown source note."
+  let input = { tag = "section"; attrs = {}; children = list({ tag = "h2"; attrs = {}; children = list($note.title) }, map($note.paragraphs, "paragraph", { tag = "p"; attrs = {}; children = list($paragraph) }), { tag = "p"; attrs = {}; children = list($note.note) }, { tag = "p"; attrs = {}; children = list($note.kind) }, { tag = "a"; attrs = { href = $note.href; target = "_blank"; rel = "noopener" }; children = list("Read the original source ↗") }) }
+  call html.serialize
+  let markup = $result
+  port browser.content { ref = "#activities-mount #activity-source-content"; html = $markup } → _
+  port browser.dialog { ref = "#activities-mount #activity-source"; open = true } → _
+
+process activity.source.close:
+  port browser.dialog { ref = "#activities-mount #activity-source"; open = false } → _
+
+process activities.boot:
+  port dom.exists { selector = "#activities-mount" } → mounted
+  when $mounted:
+    port state.set { key = "quiet"; value = false } → _
+    port state.set { key = "revisionOpen"; value = false } → _
+    port state.set { key = "gate"; value = false } → _
+    port state.set { key = "memoryHidden"; value = false } → _
+    port state.set { key = "enriched"; value = false } → _
+    port state.set { key = "loopRunning"; value = false } → _
+    port state.set { key = "step"; value = 0 } → _
+    port state.set { key = "bits"; value = list(0, 0, 0) } → _
+    port state.set { key = "original"; value = 0 } → _
+    port state.set { key = "mode"; value = "budget" } → _
+    port state.set { key = "coupled"; value = true } → _
+    port state.set { key = "origin"; value = "a" } → _
+    port state.set { key = "activity"; value = { id = "station"; type = "station" } } → _
+    port browser.environment {} → environment
+    port state.set { key = "motion"; value = not($environment.reduced) } → _
+    port browser.on { ref = "#activities-mount"; event = "click"; query = "activity.click"; input = {}; delegate = "button[data-world],button[data-encounter],button[data-demo]" } → _
+    port browser.on { ref = "#activities-mount"; event = "input"; query = "activity.input"; input = {}; delegate = "input[type=range]" } → _
+    port browser.on { ref = "#activities-mount #motion-toggle"; event = "click"; query = "activity.motion"; input = {} } → _
+
+process activities.render:
+  let configurationOwner = "activities"
+  call configuration.read
+  call activities.panel
+
+process activities.view:
+  let configuration = $data
+  call activities.panel
+
+process activities.panel:
+  let result = { tag = "section"; attrs = { id = "activities-mount"; class = "feature-workbench" }; children = list($configuration.tree) }
+
+process activities.build:
+  let configurationOwner = "activities"
+  call configuration.read
+  let pageTitle = $configuration.title
+  let route = "activities.html"
+  call activities.panel
+  let body = $result
+  call shell.document
+  port runtime.bundle { entry = "activities.boot"; mode = "browser"; queries = list("activity.motion", "activity.calculations", "activity.click", "activity.input", "activity.action.reply", "activity.action.door", "activity.action.quiet", "activity.action.cabinet", "activity.action.layer", "activity.action.revision", "activity.action.deck", "activity.action.garden-mode", "activity.garden", "activity.action.gate", "activity.action.hide-memory", "activity.action.couple-memory", "activity.action.origin", "activity.action.enrich", "activity.erasure", "activity.action.attention", "activity.action.inflate", "activity.action.reset-pattern", "activity.action.original-bit", "activity.action.flip-bit", "activity.code", "activity.action.rate", "activity.action.scale", "activity.action.amplitude", "activity.action.phase", "activity.action.loop-reset", "activity.action.loop", "activity.loop.frame", "activity.source", "activity.source.close", "activities.boot", "activities.view", "activities.panel", "reader.model.calibration", "reader.model.pairs", "reader.model.inflate", "reader.model.decode", "reader.model.weights", "reader.model.memory", "reader.model.line", "reader.model.coarse", "html.escape", "html.serialize", "html.escape", "html.serialize", "html.observe", "html.inspect", "html.cssText"); factSubjects = list("activities"); data = $configuration; budget = 20000000; grantProfile = "activitiesBrowser" } → runtime
+  port file.write { path = "activities-runtime.js"; text = $runtime } → _

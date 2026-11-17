@@ -1,0 +1,24 @@
+process-module "temple/surface-process-module/1"
+
+process configuration.definition:
+  let result = {
+    owner = "models";
+    value = {
+      scope = "Mathematical training scenarios with coastal labels; these are not field measurements or validated environmental models.";
+      cellPattern = list(1, 0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0);
+      scenarios = list(
+        { id = "calibration"; title = "Marker calibration"; input = { angle = 30 } },
+        { id = "pairs"; title = "Survey allocation pairs"; input = { value = 4; mode = "budget" } },
+        { id = "inflate"; title = "Repeated sampling expansion"; input = { step = 4 } },
+        { id = "decode"; title = "Repeated sensor vote"; input = { bits = list(1, 0, 1) } },
+        { id = "weights"; title = "Two-site effort weights"; input = { percent = 35 } },
+        { id = "memory"; title = "Coupled reservoir memory"; input = { coupled = true } },
+        {
+          id = "line";
+          title = "Survey trace geometry";
+          input = { samples = list({ t = 0; x = 0.4 }, { t = 1; x = 0.7 }, { t = 2; x = 0.3 }); coordinate = "x" }
+        },
+        { id = "coarse"; title = "Quadrat aggregation"; input = { block = 2 } }
+      )
+    }
+  }

@@ -1,0 +1,33 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/profile/1";
+    features = list("reader", "sources", "claims");
+    files = list(
+      {
+        owner = "core";
+        kind = "facts";
+        source = "source/world.rel";
+        target = "source/world.rel"
+      },
+      {
+        owner = "core";
+        kind = "facts";
+        source = "source/presentation.encounter";
+        target = "source/presentation.rel"
+      },
+      {
+        owner = "claims";
+        kind = "facts";
+        source = "source/claims.encounter";
+        target = "source/claims.rel"
+      },
+      {
+        owner = "core";
+        kind = "asset";
+        source = "assets/seed-drawer.svg";
+        target = "assets/seed-drawer.svg"
+      }
+    )
+  }

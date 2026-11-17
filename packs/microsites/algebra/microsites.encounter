@@ -1,0 +1,30 @@
+process-module "temple/surface-process-module/1"
+
+process microsites.view:
+  let result = { tag = "section"; attrs = { id = "microsites-mount" }; children = list({ tag = "h2"; attrs = {}; children = list("Other windows into this world") }, { tag = "div"; attrs = { class = "grid" }; children = map(subjects("isa", "Microsite"), "site", { tag = "a"; attrs = { href = one($site, "route"); class = "card" }; children = list({ tag = "h3"; attrs = {}; children = list(one($site, "title")) }, { tag = "p"; attrs = {}; children = list(one($site, "description")) }) }) }) }
+
+process microsites.build:
+  let route = "microsites.html"
+  let pageTitle = "Windows"
+  call microsites.view
+  let body = $result
+  call shell.document
+  each subjects("isa", "Microsite") as site:
+    port text.matches { value = one($site, "route"); pattern = "^[a-z][a-z0-9-]*\\.html$" } → validRoute
+    assert $validRoute
+      otherwise "MICROSITE-ROUTE: Use a safe unique HTML filename."
+    assert not(includes(list("index.html", "microsites.html"), one($site, "route")))
+      otherwise "MICROSITE-OWNER: Route collides with a foundation output."
+    let route = one($site, "route")
+    let pageTitle = one($site, "title")
+    let body = list({ tag = "article"; attrs = { class = "prose" }; children = list({ tag = "p"; attrs = { class = "eyebrow" }; children = list("A window into this world") }, { tag = "h1"; attrs = {}; children = list(one($site, "title")) }, { tag = "p"; attrs = { class = "lead" }; children = list(one($site, "description")) }, { tag = "p"; attrs = {}; children = list(one($site, "reading")) }, { tag = "nav"; attrs = {}; children = map(objects($site, "place"), "place", if(includes(subjects("isa", "PackNavigation"), "pack.reader"), { tag = "a"; attrs = { href = concat("places/", $place, ".html") }; children = list(one($place, "title")) }, { tag = "span"; attrs = {}; children = list(one($place, "title")) })) }) })
+    call shell.document
+    when optional($site, "markup"):
+      let msDocument = $site
+      let input = one($site, "markup")
+      call source.markup
+      port file.write { path = $route; text = $result } → _
+    when optional($site, "stylesheet"):
+      let input = one($site, "stylesheet")
+      call source.css
+      port file.write { path = one($site, "stylesheetRoute"); text = $result } → _

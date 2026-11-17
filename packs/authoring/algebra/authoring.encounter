@@ -1,0 +1,47 @@
+process-module "temple/surface-process-module/1"
+
+process author.prepare:
+  port value.describe { value = $request } → kind
+  assert $kind.plain
+    otherwise "AUTHOR-001: Request must be a record."
+  assert eq($request.protocol, "worldwright/authoring-proposal/1")
+    otherwise "AUTHOR-002: Unknown proposal protocol."
+  port value.describe { value = $request.apply } → kind
+  assert eq($kind.type, "boolean")
+    otherwise "AUTHOR-003: apply must be an explicit boolean."
+  assert isArray($request.changes)
+    otherwise "AUTHOR-004: changes must be a list."
+  assert not(eq(count($request.changes), 0))
+    otherwise "AUTHOR-004: Empty proposals refuse."
+  fold $request.changes as change; seen starts list():
+    port value.describe { value = $change } → kind
+    assert $kind.plain
+      otherwise "AUTHOR-005: Change must be a record."
+    assert includes($contract.editable, $change.file)
+      otherwise "AUTHOR-006: No authoring authority for this file."
+    assert not(includes($seen, $change.file))
+      otherwise "AUTHOR-007: Duplicate target in one proposal."
+    port value.describe { value = $change.text } → kind
+    assert eq($kind.type, "string")
+      otherwise "AUTHOR-008: Replacement must be text."
+    assert not(eq($change.text, ""))
+      otherwise "AUTHOR-008: Empty replacement refuses."
+    port document.observe { file = $change.file } → current
+    assert eq($current.sha256, $change.beforeSha256)
+      otherwise "AUTHOR-009: Stale source; rebase the proposal."
+    assert not(eq($current.text, $change.text))
+      otherwise "AUTHOR-010: No-op replacement refuses."
+    yield append($seen, list($change.file)) → files
+  let result = { changes = $request.changes; files = $files }
+
+process author.run:
+  call author.prepare
+  let proposal = $result
+  port publication.stage { changes = $proposal.changes } → candidate
+  port publication.validate {} → validation
+  assert $validation.ok
+    otherwise "AUTHOR-011: Candidate failed publication checks; inspect candidate validation.json. Sources were not committed."
+  let commit = null
+  when $request.apply:
+    port document.commit { changes = $proposal.changes } → commit
+  port receipt.write { value = { protocol = "worldwright/authoring-receipt/1"; applied = $request.apply; files = $proposal.files; changes = $proposal.changes; validation = $validation; commit = $commit } } → result

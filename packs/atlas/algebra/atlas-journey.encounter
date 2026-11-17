@@ -1,0 +1,106 @@
+process-module "temple/surface-process-module/1"
+
+process atlas.seen.clean:
+  let clean = distinct(filter($candidate, "id", includes($data.ids, $id)))
+
+process atlas.seen.load:
+  port storage.read { key = $data.storageKey; maxLength = 4096 } → stored
+  port state.get { key = "seen" } → previous
+  port text.split { value = if($stored.value, $stored.value, ""); pattern = "\\n" } → items
+  let candidate = if($stored.ok, $items, or($previous, list()))
+  call atlas.seen.clean
+  port state.set { key = "seen"; value = $clean } → _
+  port state.set { key = "saved"; value = $stored.ok } → _
+
+process atlas.seen.save:
+  port state.get { key = "seen" } → seen
+  port text.join { values = $seen; separator = "\n" } → text
+  port storage.write { key = $data.storageKey; value = $text } → saved
+  port state.set { key = "saved"; value = $saved.ok } → _
+
+process atlas.seen.mark:
+  port state.get { key = "seen" } → seen
+  let candidate = append($seen, list($current))
+  call atlas.seen.clean
+  port state.set { key = "seen"; value = $clean } → _
+  call atlas.seen.save
+
+process atlas.seen.paint:
+  port state.get { key = "seen" } → seen
+  port browser.select { selector = "[data-atlas-id]" } → links
+  each $links as link:
+    let id = at($link.attributes, "data-atlas-id")
+    let isSeen = includes($seen, $id)
+    port browser.attribute { ref = $link.ref; name = "data-seen"; value = if($isSeen, "true", "false") } → _
+    port browser.attribute { ref = $link.ref; name = "aria-label"; value = concat(at($data.labels, $id), if($isSeen, " — seen", "")) } → _
+  port dom.exists { selector = "#atlas-memory" } → onAtlas
+  when $onAtlas:
+    port dom.hidden { selector = "#atlas-memory"; value = false } → _
+    port dom.text { selector = "#atlas-progress"; text = concat(count($seen), concat(" of ", count($data.ids), " places seen")) } → _
+    port state.get { key = "saved" } → saved
+    port dom.text { selector = "#atlas-storage-note"; text = if($saved, "Remembered only in this browser. Pale green lights mark places you’ve opened.", "Browser storage is unavailable. Seen places are kept only while this page stays open.") } → _
+
+process atlas.seen.refresh:
+  call atlas.seen.load
+  call atlas.seen.paint
+
+process atlas.seen.reset:
+  port storage.remove { key = $data.storageKey } → removed
+  port state.set { key = "seen"; value = list() } → _
+  port state.set { key = "saved"; value = $removed.ok } → _
+  call atlas.seen.paint
+  port dom.text { selector = "#atlas-progress"; text = concat("Your map is clear. 0 of ", count($data.ids), " places seen.") } → _
+
+process atlas.pin.dismiss:
+  when eq($eventInput.event.key, "Escape"):
+    port browser.class { ref = $eventInput.matched.ref; name = "is-dismissed"; value = true } → _
+
+process atlas.pin.reveal:
+  port browser.class { ref = $eventInput.matched.ref; name = "is-dismissed"; value = false } → _
+  call atlas.pin.preview
+
+process atlas.journey.boot:
+  port state.set { key = "seen"; value = list() } → _
+  call atlas.journey.resume
+  when $onAtlas:
+    port dom.on { selector = "#atlas-reset"; event = "click"; query = "atlas.seen.reset" } → _
+    port browser.on { ref = "document"; event = "keydown"; delegate = ".atlas-pin"; query = "atlas.pin.dismiss" } → _
+    port browser.on { ref = "document"; event = "focusin"; delegate = ".atlas-pin"; query = "atlas.pin.reveal" } → _
+    port browser.on { ref = "document"; event = "pointerover"; delegate = ".atlas-pin"; query = "atlas.pin.reveal" } → _
+    port browser.on { ref = "window"; event = "storage"; query = "atlas.seen.refresh" } → _
+    call atlas.pin.mode
+    port browser.on { ref = { media = "(max-width: 760px)" }; event = "change"; query = "atlas.pin.mode" } → _
+  port browser.on { ref = "window"; event = "pageshow"; query = "atlas.journey.resume" } → _
+
+process atlas.pin.preview:
+  let id = at($eventInput.matched.attributes, "data-atlas-id")
+  when includes($data.ids, $id):
+    let place = at(filter($data.places, "p", eq($p.id, $id)), 0)
+    port dom.text { selector = "#atlas-preview-title"; text = $place.name } → _
+    port dom.text { selector = "#atlas-preview-question"; text = $place.question } → _
+    port browser.attribute { ref = "#atlas-preview-link"; name = "href"; value = concat("places/", $id, ".html") } → _
+    port dom.hidden { selector = "#atlas-preview-link"; value = false } → _
+
+process atlas.pin.mode:
+  port state.get { key = "mobileClick" } → binding
+  when $binding:
+    port browser.cancel { id = $binding } → _
+  port state.set { key = "mobileClick"; value = null } → _
+  port browser.mediaQuery { query = "(max-width: 760px)" } → small
+  when $small:
+    port browser.on { ref = "document"; event = "click"; delegate = ".atlas-pin"; preventDefault = true; query = "atlas.pin.preview" } → binding
+    port state.set { key = "mobileClick"; value = $binding } → _
+
+process atlas.journey.resume:
+  call atlas.seen.load
+  port dom.exists { selector = "[data-atlas-current]" } → isPlace
+  when $isPlace:
+    port dom.attribute { selector = "[data-atlas-current]"; name = "data-atlas-current" } → current
+    when includes($data.ids, $current):
+      call atlas.seen.mark
+      port dom.hidden { selector = "#atlas-visit-note"; value = false } → _
+      port state.get { key = "saved" } → saved
+      port dom.text { selector = "#atlas-visit-note"; text = if($saved, "✓ Seen on your map. Your visit is remembered in this browser.", "Your browser couldn’t save this visit. You can still explore every place.") } → _
+  port dom.exists { selector = "#atlas-memory" } → onAtlas
+  when $onAtlas:
+    call atlas.seen.paint

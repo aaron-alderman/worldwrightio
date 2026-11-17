@@ -1,0 +1,74 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "media";
+    title = "Field recording";
+    requires = list("core");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/media.encounter";
+        target = "algebra/media.process.json"
+      },
+      {
+        source = "algebra/media-stream.encounter";
+        target = "algebra/media-stream.process.json"
+      }
+    );
+    sources = list(
+      {
+        source = "source/media.encounter";
+        target = "source/media.rel"
+      }
+    );
+    assets = list("assets/tide-study.mp4", "assets/coast-chart.svg");
+    build = "media.build";
+    render = "media.view";
+    navigation = {
+      label = "Field recording";
+      route = "media.html"
+    };
+    grants = {
+      build = list("json.parse", "file.write", "runtime.bundle");
+      browser = list(
+        "asset.blobURL",
+        "asset.json",
+        "browser.attribute",
+        "browser.content",
+        "browser.environment",
+        "browser.focus",
+        "browser.intersection",
+        "browser.on",
+        "browser.property",
+        "browser.relative",
+        "browser.select",
+        "browser.write",
+        "dom.exists",
+        "json.parse",
+        "kernel.invoke",
+        "media.load",
+        "media.pause",
+        "media.play",
+        "media.read",
+        "media.write",
+        "number.calculate",
+        "number.format",
+        "number.parse",
+        "state.get",
+        "state.set",
+        "text.matches",
+        "text.replace",
+        "text.slice",
+        "browser.once"
+      )
+    };
+    runtime = {
+      entry = "media.boot";
+      queries = list("media.boot", "media.action", "media.seek", "media.paint", "media.error");
+      profile = "mediaBrowser";
+      allPages = true
+    };
+    outputs = list("media.html", "media-runtime.js")
+  }

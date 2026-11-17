@@ -1,0 +1,48 @@
+process-module "temple/surface-process-module/1"
+
+process models.boot:
+  port dom.exists { selector = "#models-mount" } → mounted
+  when $mounted:
+    port browser.on { ref = "#models-run"; event = "click"; query = "models.change"; input = {} } → _
+    port browser.on { ref = "#models-choice"; event = "change"; query = "models.select"; input = {} } → _
+    port kernel.invoke { query = "models.select"; input = {} } → result
+
+process models.evaluate:
+  let id = $eventInput.id
+  assert includes(list("calibration", "pairs", "inflate", "decode", "weights", "memory", "line", "coarse"), $id)
+    otherwise "MODEL_UNKNOWN: select a declared model."
+  port kernel.invoke { query = concat("reader.model.", $id); input = $eventInput.input } → result
+
+process models.change:
+  port browser.property { ref = "#models-choice"; name = "value" } → id
+  port browser.property { ref = "#models-input"; name = "value" } → text
+  try:
+    port json.parse { text = $text } → input
+    port kernel.invoke { query = "models.evaluate"; input = { id = $id; input = $input } } → answer
+    port json.stringify { value = $answer; space = 2 } → text
+    port browser.write { ref = "#models-result"; name = "textContent"; value = $text } → _
+  catch error:
+    port browser.write { ref = "#models-result"; name = "textContent"; value = concat("Refused: ", $error.message) } → _
+
+process models.build:
+  let configurationOwner = "models"
+  call configuration.read
+  let pageTitle = "Coastal model bench"
+  let route = "models.html"
+  call models.view
+  let body = $result
+  call shell.document
+  port runtime.bundle { entry = "models.boot"; mode = "browser"; grantProfile = "modelsBrowser"; queries = list("models.boot", "models.evaluate", "models.change", "reader.model.calibration", "reader.model.pairs", "reader.model.inflate", "reader.model.decode", "reader.model.weights", "reader.model.memory", "reader.model.line", "reader.model.coarse", "html.escape", "html.serialize", "html.observe", "html.inspect", "html.cssText", "facts.index", "lower.scan", "lower.fresh", "lower.template", "lower.expression", "lower.programme", "lower.model", "lower.start", "admit.binding", "admit.expression", "admit.programme", "admit.model", "admit.effects.programme", "admit.effects", "admit.ownership", "css.render", "css.plan", "css.renderPlan", "language.refuse", "language.line", "language.module", "language.entity", "language.property", "language.compile", "models.select"); factSubjects = list("models"); data = $configuration; budget = 20000000 } → runtime
+  port file.write { path = "models-runtime.js"; text = $runtime } → _
+
+process models.view:
+  let configurationOwner = "models"
+  call configuration.read
+  let result = { tag = "div"; attrs = { id = "models-mount"; class = "feature-workbench" }; children = list({ tag = "section"; attrs = { class = "prose" }; children = list({ tag = "h1"; attrs = {}; children = list("Coastal model bench") }, { tag = "p"; attrs = {}; children = list($configuration.scope) }, { tag = "label"; attrs = { for = "models-choice" }; children = list("Mathematical mechanism") }, { tag = "select"; attrs = { id = "models-choice"; class = "field" }; children = map($configuration.scenarios, "s", { tag = "option"; attrs = { value = $s.id }; children = list($s.title) }) }, { tag = "label"; attrs = { for = "models-input" }; children = list("Model input (JSON)") }, { tag = "textarea"; attrs = { id = "models-input"; rows = "5"; class = "field" }; children = list() }, { tag = "button"; attrs = { id = "models-run"; class = "button" }; children = list("Run model") }, { tag = "pre"; attrs = { id = "models-result"; "aria-live" = "polite" }; children = list() }, { tag = "details"; attrs = {}; children = list({ tag = "summary"; attrs = {}; children = list("Input recipes") }, { tag = "p"; attrs = {}; children = list("Selecting a mechanism fills its input recipe from source. Edit that JSON and run the selected model.") }) }) }) }
+
+process models.select:
+  port browser.property { ref = "#models-choice"; name = "value" } → id
+  let scenario = at(filter($data.scenarios, "s", eq($s.id, $id)), 0)
+  port json.stringify { value = $scenario.input; space = 2 } → text
+  port browser.write { ref = "#models-input"; name = "value"; value = $text } → _
+  port kernel.invoke { query = "models.change"; input = {} } → result

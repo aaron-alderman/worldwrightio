@@ -1,0 +1,12 @@
+process-module "temple/surface-process-module/1"
+
+process authoring.view:
+  let result = { tag = "section"; attrs = { id = "authoring-mount" }; children = list({ tag = "h2"; attrs = {}; children = list("Change source, check the world") }, { tag = "p"; attrs = {}; children = list("Propose replacement text with the expected source hash. Preview runs an isolated build and checks. Apply commits only owned files after validation.") }, { tag = "a"; attrs = { href = "source/authoring-contract.rel" }; children = list("Inspect the editable-source contract") }, { tag = "pre"; attrs = {}; children = list("node tooling/author.mjs proposal.json") }) }
+
+process authoring.build:
+  let route = "authoring.html"
+  let pageTitle = "Authoring"
+  call authoring.view
+  let body = $result
+  call shell.document
+  port file.copy { path = "source/authoring-contract.rel" } → _

@@ -1,0 +1,86 @@
+process-module "temple/surface-process-module/1"
+
+process ui.cells.tree:
+  let levels = at(at($eventInput, "tree"), "levels")
+  let leaves = at($levels, 0)
+  let L = count($levels)
+  let positions = list()
+  fold range($L) as levelNumber; positions starts list():
+    let level = add($levelNumber, -1)
+    let values = at($levels, $level)
+    let last = at($positions, add($level, -1))
+    fold range(count($values)) as itemNumber; row starts list():
+      let index = add($itemNumber, -1)
+      let x = 180
+      when eq($level, 0):
+        when not(eq(count($leaves), 1)):
+          port number.calculate { operation = "multiply"; values = list($index, 292) } → arithmetic2
+          port number.calculate { operation = "subtract"; values = list(count($leaves), 1) } → arithmetic3
+          port number.calculate { operation = "divide"; values = list($arithmetic2, $arithmetic3) } → arithmetic4
+          port number.calculate { operation = "add"; values = list(34, $arithmetic4) } → arithmetic5
+          let x = $arithmetic5
+      when not(eq($level, 0)):
+        port number.calculate { operation = "multiply"; values = list($index, 2) } → arithmetic6
+        let firstIndex = $arithmetic6
+        let a = at($last, $firstIndex)
+        let b = at($last, add($firstIndex, 1))
+        let x = $a
+        when not(or(eq($b, null), eq($b, at({}, "absent")))):
+          port number.calculate { operation = "add"; values = list($a, $b) } → arithmetic7
+          port number.calculate { operation = "divide"; values = list($arithmetic7, 2) } → arithmetic8
+          let x = $arithmetic8
+      yield append($row, list($x)) → row
+    yield append($positions, list($row)) → positions
+  let nodes = list()
+  fold range($L) as levelNumber; nodes starts $nodes:
+    let level = add($levelNumber, -1)
+    let values = at($levels, $level)
+    port kernel.invoke { query = "ui.cells.treeY"; input = { level = $level; count = $L } } → y
+    when not(eq($level, 0)):
+      port kernel.invoke { query = "ui.cells.treeY"; input = { level = add($level, -1); count = $L } } → childY
+      fold range(count($values)) as itemNumber; nodes starts $nodes:
+        let index = add($itemNumber, -1)
+        let d = at($values, $index)
+        port number.calculate { operation = "multiply"; values = list($index, 2) } → arithmetic9
+        let firstIndex = $arithmetic9
+        fold list($firstIndex, add($firstIndex, 1)) as child; nodes starts $nodes:
+          let x = at(at($positions, add($level, -1)), $child)
+          when not(or(eq($x, null), eq($x, at({}, "absent")))):
+            let nodes = append($nodes, list({ tag = "line"; attrs = { class = concat("edge", if(and(and(at($eventInput, "fresh"), not(includes(at($eventInput, "seen"), $d))), and(at($eventInput, "fresh"), not(includes(at($eventInput, "seen"), at(at($levels, add($level, -1)), $child))))), " hot", "")); x1 = $x; y1 = $childY; x2 = at(at($positions, $level), $index); y2 = $y }; children = list() }))
+          yield $nodes → nodes
+        yield $nodes → nodes
+    yield $nodes → nodes
+  port kernel.invoke { query = "address.digest"; input = { id = at($eventInput, "predicateId") } } → predicate
+  port kernel.invoke { query = "address.digest"; input = { id = at($eventInput, "root") } } → root
+  let cellRoot = at(at($levels, add($L, -1)), 0)
+  let nodes = append($nodes, list({ tag = "line"; attrs = { class = concat("edge", if(and(at($eventInput, "fresh"), not(includes(at($eventInput, "seen"), $cellRoot))), " hot", "")); x1 = at(at($positions, add($L, -1)), 0); y1 = 66; x2 = 180; y2 = 30 }; children = list() }, { tag = "line"; attrs = { class = concat("edge", if(and(at($eventInput, "fresh"), not(includes(at($eventInput, "seen"), $predicate))), " hot", "")); x1 = 300; y1 = 66; x2 = 200; y2 = 30 }; children = list() }))
+  fold range($L) as levelNumber; nodes starts $nodes:
+    let level = add($levelNumber, -1)
+    port kernel.invoke { query = "ui.cells.treeY"; input = { level = $level; count = $L } } → y
+    fold range(count(at($levels, $level))) as itemNumber; nodes starts $nodes:
+      let index = add($itemNumber, -1)
+      let d = at(at($levels, $level), $index)
+      let x = at(at($positions, $level), $index)
+      let nodes = append($nodes, list({ tag = "circle"; attrs = { class = concat("node", if(and(at($eventInput, "fresh"), not(includes(at($eventInput, "seen"), $d))), " hot", "")); cx = $x; cy = $y; r = if(eq($level, 0), 5, 4) }; children = list() }))
+      when eq($level, 0):
+        port number.calculate { operation = "remainder"; values = list($index, 2) } → odd
+        port text.slice { value = $d; start = 0; end = 5 } → label
+        let nodes = append($nodes, list({ tag = "text"; attrs = { class = "leaf-label"; x = $x; y = if($odd, 158, 148); "text-anchor" = "middle" }; children = list($label) }))
+      yield $nodes → nodes
+    yield $nodes → nodes
+  port text.slice { value = $root; start = 0; end = 8 } → label
+  let nodes = append($nodes, list({ tag = "rect"; attrs = { class = concat("node", if(and(at($eventInput, "fresh"), not(includes(at($eventInput, "seen"), $predicate))), " hot", "")); x = 295; y = 61; width = 10; height = 10; transform = "rotate(45 300 66)" }; children = list() }, { tag = "text"; attrs = { class = "leaf-label"; x = 312; y = 69 }; children = list("covenant") }, { tag = "path"; attrs = { class = concat("keystone", if(and(at($eventInput, "fresh"), not(includes(at($eventInput, "seen"), $root))), " hot", "")); d = "M138 6 H222 L214 30 H146 Z" }; children = list() }, { tag = "text"; attrs = { class = "root-label"; x = 180; y = 21; "text-anchor" = "middle" }; children = list(concat("root ", $label)) }))
+  let seen = list($root, $predicate)
+  fold $levels as row; seen starts $seen:
+    let seen = append($seen, $row)
+    yield $seen → seen
+  let result = { nodes = $nodes; seen = $seen }
+
+process ui.cells.treeY:
+  let result = 66
+  when not(eq(at($eventInput, "count"), 1)):
+    port number.calculate { operation = "multiply"; values = list(at($eventInput, "level"), 66) } → arithmetic10
+    port number.calculate { operation = "subtract"; values = list(at($eventInput, "count"), 1) } → arithmetic11
+    port number.calculate { operation = "divide"; values = list($arithmetic10, $arithmetic11) } → arithmetic12
+    port number.calculate { operation = "subtract"; values = list(132, $arithmetic12) } → arithmetic13
+    let result = $arithmetic13

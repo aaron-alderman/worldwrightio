@@ -1,0 +1,57 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "reader";
+    title = "Fieldbook";
+    requires = list("core");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/reader.encounter";
+        target = "algebra/reader.process.json"
+      }
+    );
+    sources = list();
+    assets = list();
+    build = "reader.build";
+    navigation = {
+      label = "Fieldbook";
+      route = "reader.html"
+    };
+    grants = {
+      build = list("runtime.bundle");
+      browser = list(
+        "dom.exists",
+        "dom.on",
+        "dom.value",
+        "dom.content",
+        "state.get",
+        "state.set",
+        "storage.read",
+        "storage.write",
+        "storage.remove",
+        "dom.attribute",
+        "dom.setValue",
+        "dom.text",
+        "dom.focus",
+        "browser.on"
+      )
+    };
+    outputs = list("reader.html", "reader-runtime.js");
+    render = "reader.view";
+    runtime = {
+      entry = "reader.boot";
+      queries = list("reader.boot", "reader.search");
+      profile = "readerBrowser";
+      output = "reader-runtime.js";
+      allPages = true
+    };
+    files = list(
+      {
+        source = "README.md";
+        target = "docs/packs/reader.md"
+      }
+    )
+  }

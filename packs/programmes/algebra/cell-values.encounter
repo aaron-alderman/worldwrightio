@@ -1,0 +1,153 @@
+process-module "temple/surface-process-module/1"
+
+process cells.measure:
+  let node = $eventInput.node
+  let children = or(at($node, "args"), list())
+  fold $children as child; metric starts { nodes = 1; depth = 1; closed = includes(list("literal", "read", "eq", "not", "all", "any"), at($node, "op")) }:
+    port kernel.invoke { query = "cells.measure"; input = { node = $child } } → childMetric
+    port number.calculate { operation = "max"; values = list($metric.depth, add($childMetric.depth, 1)) } → depth
+    yield { nodes = add($metric.nodes, $childMetric.nodes); depth = $depth; closed = and($metric.closed, $childMetric.closed) } → result
+
+process cells.readPath:
+  port text.indexOf { value = $eventInput.path; search = "." } → dot
+  port number.calculate { operation = "greaterEqual"; values = list($dot, 0) } → hasNamespace
+  let result = null
+  when not($hasNamespace):
+    port record.get { record = $eventInput.view; key = $eventInput.path } → result
+  when $hasNamespace:
+    port text.slice { value = $eventInput.path; start = 0; end = $dot } → namespace
+    port text.slice { value = $eventInput.path; start = add($dot, 1) } → key
+    port record.get { record = at($eventInput.view, $namespace); key = $key } → result
+
+process cells.evaluateNode:
+  let node = $eventInput.node
+  let remaining = add($eventInput.remaining, -1)
+  port number.calculate { operation = "greaterEqual"; values = list($remaining, 0) } → hasFuel
+  assert $hasFuel
+    otherwise "Evaluation fuel exhausted"
+  let value = null
+  when eq($node.op, "literal"):
+    let value = $node.value
+  when eq($node.op, "read"):
+    port kernel.invoke { query = "cells.readPath"; input = { view = $eventInput.view; path = $node.path } } → value
+  when eq($node.op, "eq"):
+    port kernel.invoke { query = "cells.evaluateNode"; input = { node = at($node.args, 0); view = $eventInput.view; remaining = $remaining } } → left
+    port kernel.invoke { query = "cells.evaluateNode"; input = { node = at($node.args, 1); view = $eventInput.view; remaining = $left.remaining } } → right
+    port kernel.invoke { query = "canonical.encode"; input = { value = $left.value; numbers = false } } → leftJSON
+    port kernel.invoke { query = "canonical.encode"; input = { value = $right.value; numbers = false } } → rightJSON
+    let value = eq($leftJSON, $rightJSON)
+    let remaining = $right.remaining
+  when eq($node.op, "not"):
+    port kernel.invoke { query = "cells.evaluateNode"; input = { node = at($node.args, 0); view = $eventInput.view; remaining = $remaining } } → child
+    let value = not(eq($child.value, true))
+    let remaining = $child.remaining
+  when or(eq($node.op, "all"), eq($node.op, "any")):
+    fold $node.args as childNode; evaluation starts { value = eq($node.op, "all"); remaining = $remaining; done = false }:
+      let next = $evaluation
+      when not($evaluation.done):
+        port kernel.invoke { query = "cells.evaluateNode"; input = { node = $childNode; view = $eventInput.view; remaining = $evaluation.remaining } } → child
+        let truth = eq($child.value, true)
+        let next = { value = $truth; remaining = $child.remaining; done = if(eq($node.op, "all"), not($truth), $truth) }
+      yield $next → evaluation
+    let value = $evaluation.value
+    let remaining = $evaluation.remaining
+  assert includes(list("literal", "read", "eq", "not", "all", "any"), $node.op)
+    otherwise "Operator outside the closed set"
+  let result = { value = $value; remaining = $remaining }
+
+process cells.evaluate:
+  port kernel.invoke { query = "cells.evaluateNode"; input = { node = $eventInput.node; view = $eventInput.view; remaining = $eventInput.fuel } } → evaluation
+  port number.calculate { operation = "subtract"; values = list($eventInput.fuel, $evaluation.remaining) } → used
+  let result = { value = eq($evaluation.value, true); fuelUsed = $used }
+
+process cells.render:
+  let node = $eventInput.node
+  let indent = $eventInput.indent
+  let result = ""
+  when eq($node.op, "literal"):
+    port json.stringify { value = $node.value } → literal
+    let result = concat("literal ", $literal)
+  when eq($node.op, "read"):
+    let result = concat("read ", $node.path)
+  when eq($node.op, "eq"):
+    port kernel.invoke { query = "cells.render"; input = { node = at($node.args, 0); indent = "" } } → left
+    port kernel.invoke { query = "cells.render"; input = { node = at($node.args, 1); indent = "" } } → right
+    let result = concat("eq(", $left, ", ", $right, ")")
+  when eq($node.op, "not"):
+    port kernel.invoke { query = "cells.render"; input = { node = at($node.args, 0); indent = $indent } } → child
+    let result = concat("not(", $child, ")")
+  when or(eq($node.op, "all"), eq($node.op, "any")):
+    let pad = concat($indent, "  ")
+    fold $node.args as childNode; parts starts list():
+      port kernel.invoke { query = "cells.render"; input = { node = $childNode; indent = $pad } } → child
+      yield append($parts, list(concat($pad, $child))) → parts
+    port text.join { values = $parts; separator = ",\n" } → joined
+    let result = concat($node.op, "(\n", $joined, "\n", $indent, ")")
+
+process cells.cellId:
+  port kernel.invoke { query = "canonical.identify"; input = { kind = "cell"; value = { key = $eventInput.cell.key; value = $eventInput.cell.value } } } → result
+
+process cells.merkle:
+  fold $eventInput.ids as id; digests starts list():
+    port kernel.invoke { query = "address.digest"; input = { id = $id } } → digest
+    yield append($digests, list($digest)) → digests
+  port value.sort { values = $digests; mode = "lexical" } → level
+  let result = null
+  when eq(count($level), 0):
+    port digest.sha256 { text = "empty" } → empty
+    let result = { root = $empty; levels = list(list()) }
+  when not(eq(count($level), 0)):
+    port kernel.invoke { query = "cells.merkleLevel"; input = { level = $level; levels = list($level) } } → result
+
+process cells.merkleLevel:
+  let level = $eventInput.level
+  let result = { root = at($level, 0); levels = $eventInput.levels }
+  port number.calculate { operation = "greater"; values = list(count($level), 1) } → more
+  when $more:
+    fold range(count($level)) as position; nextLevel starts list():
+      let index = add($position, -1)
+      port number.calculate { operation = "remainder"; values = list($index, 2) } → parity
+      let next = $nextLevel
+      when eq($parity, 0):
+        let digest = at($level, $index)
+        port number.calculate { operation = "less"; values = list(add($index, 1), count($level)) } → hasRight
+        when $hasRight:
+          port digest.sha256 { text = concat(at($level, $index), at($level, add($index, 1))) } → digest
+        let next = append($nextLevel, list($digest))
+      yield $next → nextLevel
+    port kernel.invoke { query = "cells.merkleLevel"; input = { level = $nextLevel; levels = append($eventInput.levels, list($nextLevel)) } } → result
+
+process cells.stateRoot:
+  port record.entries { value = $eventInput.state.cells } → entries
+  port kernel.invoke { query = "cells.merkle"; input = { ids = map($entries, "entry", at($entry, 0)) } } → tree
+  port kernel.invoke { query = "canonical.identify"; input = { kind = "state"; value = { activePredicateId = $eventInput.state.predicateId; cellSetRoot = $tree.root } } } → root
+  let result = { root = $root; tree = $tree }
+
+process cells.cellsByKey:
+  port record.entries { value = $eventInput.state.cells } → entries
+  let result = map($entries, "entry", { id = at($entry, 0); key = at(at($entry, 1), "key"); value = at(at($entry, 1), "value") })
+
+process cells.findCell:
+  port kernel.invoke { query = "cells.cellsByKey"; input = { state = $eventInput.state } } → cells
+  let matching = filter($cells, "cell", eq($cell.key, $eventInput.key))
+  let result = if(eq(count($matching), 0), null, at($matching, 0))
+
+process cells.createWorld:
+  let configuration = $eventInput.configuration
+  fold $configuration.covenants as covenant; registry starts {}:
+    port kernel.invoke { query = "canonical.identify"; input = { kind = "predicate"; value = $covenant.ast } } → id
+    port record.put { record = $covenant; key = "id"; value = $id } → identified
+    port record.put { record = $registry; key = $id; value = $identified } → registry
+    yield $registry → registry
+  port record.entries { value = $registry } → covenants
+  let original = at($covenants, 0)
+  port kernel.invoke { query = "canonical.identify"; input = { kind = "ark"; value = { name = "Bounded equipment policy v1"; operators = $configuration.operators; bounds = { nodes = concat($configuration.limits.nodes); depth = concat($configuration.limits.depth); fuel = concat($configuration.limits.fuel); contextBytes = concat($configuration.limits.contextBytes) } } } } → arkId
+  fold $configuration.genesisCells as cell; cells starts {}:
+    port kernel.invoke { query = "cells.cellId"; input = { cell = $cell } } → id
+    port record.put { record = $cells; key = $id; value = $cell } → cells
+    yield $cells → cells
+  let state = { cells = $cells; predicateId = at($original, 0) }
+  port kernel.invoke { query = "cells.stateRoot"; input = { state = $state } } → commitment
+  port kernel.invoke { query = "canonical.identify"; input = { kind = "context"; value = { name = "Equipment cell desk"; purpose = "Fictional equipment-cell training programme." } } } → contextId
+  port kernel.invoke { query = "canonical.identify"; input = { kind = "hub"; value = { ark = $arkId; initialStateRoot = $commitment.root; genesisContext = $contextId } } } → id
+  let result = { id = $id; arkId = $arkId; registry = $registry; genesis = { state = $state; root = $commitment.root; tree = $commitment.tree; id = $id; arkId = $arkId }; hub = { id = $id; arkId = $arkId; state = $state; root = $commitment.root; tree = $commitment.tree; predicates = $registry; sequence = 0; tip = null; roots = list($commitment.root) }; journal = list() }

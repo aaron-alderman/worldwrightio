@@ -1,0 +1,45 @@
+process-module "temple/surface-process-module/1"
+
+process inspector.boot:
+  port dom.exists { selector = "#inspector-mount" } → mounted
+  when $mounted:
+    let spPolicy = $data.presentation.spPolicy
+    let spGrammar = $data.presentation.spGrammar
+    call sp.style
+    port browser.write { ref = "#inspector-style"; name = "textContent"; value = $result } → _
+    port browser.write { ref = "#inspector-input"; name = "value"; value = $data.text } → _
+    port browser.on { ref = "#inspector-input"; event = "input"; query = "inspector.change"; input = {} } → _
+    port kernel.invoke { query = "inspector.change"; input = {} } → result
+
+process inspector.change:
+  port browser.property { ref = "#inspector-input"; name = "value" } → text
+  port kernel.invoke { query = "inspector.present"; input = { text = $text; file = $data.file; language = $data.language } } → view
+  let input = $view.tree
+  call html.serialize
+  port browser.content { ref = "#inspector-output"; html = $result } → _
+  port browser.write { ref = "#inspector-hash"; name = "textContent"; value = concat("SHA-256 ", $view.hash) } → _
+
+process inspector.present:
+  let spPolicy = $data.presentation.spPolicy
+  let spGrammar = $data.presentation.spGrammar
+  let lexPolicy = $data.presentation.lexPolicy
+  let lexGrammar = $data.presentation.lexGrammar
+  port digest.sha256 { text = $eventInput.text } → hash
+  port kernel.invoke { query = "sp.present"; input = { text = $eventInput.text; file = $eventInput.file; language = $eventInput.language; theme = "light"; expectedHash = $hash; lineNumbers = true; selectedLine = null; origin = { file = $eventInput.file; sha256 = $hash; scope = "source text; not an execution trace" } } } → view
+  port record.put { record = $view; key = "hash"; value = $hash } → result
+
+process inspector.build:
+  let configurationOwner = "inspector"
+  call configuration.read
+  let pageTitle = "Source inspector"
+  let route = "inspector.html"
+  call inspector.view
+  let body = $result
+  call shell.document
+  port runtime.bundle { entry = "inspector.boot"; mode = "browser"; grantProfile = "inspectorBrowser"; queries = list("inspector.boot", "inspector.change", "inspector.present", "sp.role", "sp.scan", "sp.observed", "sp.clip", "sp.line", "sp.render", "sp.present", "sp.expression", "sp.programme", "sp.statement", "sp.listing", "sp.style", "sp.outline", "sp.metadata", "sp.stylePlan", "source.split", "source.lex", "s01.portable", "source.rel", "source.compile", "source.encode", "source.patch", "source.jsonSpan", "html.escape", "html.serialize", "html.observe", "html.inspect", "html.cssText", "facts.index", "lower.scan", "lower.fresh", "lower.template", "lower.expression", "lower.programme", "lower.model", "lower.start", "admit.binding", "admit.expression", "admit.programme", "admit.model", "admit.effects.programme", "admit.effects", "admit.ownership", "css.render", "css.plan", "css.renderPlan", "language.refuse", "language.line", "language.module", "language.entity", "language.property", "language.compile"); factSubjects = list("inspector"); data = $configuration; budget = 20000000 } → runtime
+  port file.write { path = "inspector-runtime.js"; text = $runtime } → _
+
+process inspector.view:
+  let configurationOwner = "inspector"
+  call configuration.read
+  let result = { tag = "div"; attrs = { id = "inspector-mount"; class = "feature-workbench" }; children = list({ tag = "section"; attrs = { class = "prose" }; children = list({ tag = "h1"; attrs = {}; children = list("Source inspector") }, { tag = "p"; attrs = {}; children = list("Edit source text to inspect its exact highlighted projection and digest. A digest identifies text; it does not validate the claim.") }, { tag = "label"; attrs = { for = "inspector-input" }; children = list("Source text") }, { tag = "textarea"; attrs = { id = "inspector-input"; rows = "8"; class = "field" }; children = list() }, { tag = "p"; attrs = { id = "inspector-hash"; class = "muted"; "aria-live" = "polite" }; children = list() }, { tag = "div"; attrs = { id = "inspector-output" }; children = list() }) }, { tag = "style"; attrs = { id = "inspector-style" }; children = list() }) }

@@ -1,0 +1,102 @@
+process-module "temple/surface-process-module/1"
+
+process reader.model.calibration:
+  port number.parse { value = $eventInput.angle } → angle
+  port number.calculate { operation = "multiply"; values = list($angle, 0.017453292519943295) } → radians
+  port number.calculate { operation = "sin"; values = list($radians) } → sine
+  port number.calculate { operation = "multiply"; values = list($sine, 100) } → scaled
+  port number.calculate { operation = "round"; values = list($scaled) } → rounded
+  port number.calculate { operation = "divide"; values = list($rounded, 100) } → result
+
+process reader.model.pairs:
+  port number.parse { value = $eventInput.value } → value
+  port number.calculate { operation = "multiply"; values = list($value, $value) } → square
+  fold range(25) as n; pairs starts list():
+    port number.calculate { operation = "subtract"; values = list($n, 1) } → index
+    port number.calculate { operation = "remainder"; values = list($index, 5) } → x
+    port number.calculate { operation = "divide"; values = list($index, 5) } → row
+    port number.calculate { operation = "floor"; values = list($row) } → y
+    port number.calculate { operation = "add"; values = list($x, $y) } → sum
+    port number.calculate { operation = "multiply"; values = list($x, $y) } → product
+    port number.calculate { operation = "lessEqual"; values = list($sum, $value) } → budget
+    port number.calculate { operation = "greaterEqual"; values = list($product, $square) } → positive
+    yield if(if(eq($eventInput.mode, "positive"), $positive, $budget), append($pairs, list(list($x, $y))), $pairs) → result
+
+process reader.model.inflate:
+  port number.parse { value = $eventInput.step } → step
+  port number.calculate { operation = "max"; values = list(0, $step) } → step
+  port number.calculate { operation = "min"; values = list(5, $step) } → step
+  port number.calculate { operation = "ceil"; values = list($step) } → step
+  fold range($step) as iteration; pair starts { a = 1; b = 1 }:
+    port number.calculate { operation = "multiply"; values = list(2, $pair.a) } → double
+    port number.calculate { operation = "add"; values = list($double, $pair.b) } → a
+    port number.calculate { operation = "add"; values = list($pair.a, $pair.b) } → b
+    yield { a = $a; b = $b } → pair
+  let result = list($pair.a, $pair.b)
+
+process reader.model.decode:
+  fold $eventInput.bits as bit; sum starts 0:
+    yield add($sum, $bit) → sum
+  port number.calculate { operation = "greaterEqual"; values = list($sum, 2) } → majority
+  let result = if($majority, 1, 0)
+
+process reader.model.weights:
+  port number.parse { value = $eventInput.percent } → percent
+  port number.calculate { operation = "divide"; values = list($percent, 100) } → weight
+  port number.calculate { operation = "multiply"; values = list(6, $weight) } → delta
+  port number.calculate { operation = "add"; values = list(2, $delta) } → a
+  port number.calculate { operation = "subtract"; values = list(8, $delta) } → b
+  let result = { a = $a; b = $b }
+
+process reader.model.memory:
+  let coupling = if($eventInput.coupled, 0.6, 0)
+  fold range(400) as iteration; memory starts { x = 1; h = 1.2; samples = list({ t = 0; x = 1; h = 1.2 }) }:
+    port number.calculate { operation = "multiply"; values = list($coupling, $memory.h) } → cx
+    port number.calculate { operation = "subtract"; values = list($cx, $memory.x) } → dx
+    port number.calculate { operation = "multiply"; values = list(-0.8, $memory.h) } → decay
+    port number.calculate { operation = "multiply"; values = list($coupling, $memory.x) } → ch
+    port number.calculate { operation = "add"; values = list($decay, $ch) } → dh
+    port number.calculate { operation = "multiply"; values = list(0.02, $dx) } → dx
+    port number.calculate { operation = "multiply"; values = list(0.02, $dh) } → dh
+    port number.calculate { operation = "add"; values = list($memory.x, $dx) } → x
+    port number.calculate { operation = "add"; values = list($memory.h, $dh) } → h
+    port number.calculate { operation = "multiply"; values = list($iteration, 0.02) } → time
+    port number.calculate { operation = "remainder"; values = list($iteration, 4) } → remainder
+    yield { x = $x; h = $h; samples = if(eq($remainder, 0), append($memory.samples, list({ t = $time; x = $x; h = $h })), $memory.samples) } → memory
+  let result = $memory.samples
+
+process reader.model.line:
+  fold $eventInput.samples as sample; path starts "":
+    port number.calculate { operation = "multiply"; values = list($sample.t, 39) } → x
+    port number.calculate { operation = "add"; values = list(25, $x) } → x
+    port number.calculate { operation = "multiply"; values = list(at($sample, $eventInput.coordinate), 135) } → y
+    port number.calculate { operation = "subtract"; values = list(215, $y) } → y
+    port number.format { value = $x; digits = 2 } → x
+    port number.format { value = $y; digits = 2 } → y
+    yield concat($path, if(eq($path, ""), "M", " L"), $x, ",", $y) → result
+
+process reader.model.coarse:
+  port number.parse { value = $eventInput.block } → block
+  assert includes(list(1, 2, 4), $block)
+    otherwise "READER-CELL: Choose block size 1, 2 or 4."
+  port number.calculate { operation = "divide"; values = list(4, $block) } → side
+  port number.calculate { operation = "multiply"; values = list($side, $side) } → blocks
+  port number.calculate { operation = "multiply"; values = list($block, $block) } → area
+  fold range($blocks) as blockIndex; cells starts list():
+    port number.calculate { operation = "subtract"; values = list($blockIndex, 1) } → bi
+    port number.calculate { operation = "divide"; values = list($bi, $side) } → row
+    port number.calculate { operation = "floor"; values = list($row) } → row
+    port number.calculate { operation = "multiply"; values = list($row, $block) } → row
+    port number.calculate { operation = "remainder"; values = list($bi, $side) } → col
+    port number.calculate { operation = "multiply"; values = list($col, $block) } → col
+    fold range($area) as pixel; sum starts 0:
+      port number.calculate { operation = "subtract"; values = list($pixel, 1) } → index
+      port number.calculate { operation = "divide"; values = list($index, $block) } → y
+      port number.calculate { operation = "floor"; values = list($y) } → y
+      port number.calculate { operation = "remainder"; values = list($index, $block) } → x
+      port number.calculate { operation = "add"; values = list($row, $y) } → y
+      port number.calculate { operation = "multiply"; values = list($y, 4) } → offset
+      port number.calculate { operation = "add"; values = list($offset, $col, $x) } → offset
+      yield add($sum, at($data.cellPattern, $offset)) → sum
+    port number.calculate { operation = "divide"; values = list($sum, $area) } → mean
+    yield append($cells, list({ mean = $mean; total = $sum })) → result

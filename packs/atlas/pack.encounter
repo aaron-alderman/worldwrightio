@@ -1,0 +1,64 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/pack/1";
+    id = "atlas";
+    title = "Atlas";
+    requires = list("reader");
+    conflicts = list();
+    modules = list(
+      {
+        source = "algebra/atlas.encounter";
+        target = "algebra/atlas.process.json"
+      },
+      {
+        source = "algebra/atlas-journey.encounter";
+        target = "algebra/atlas-journey.process.json"
+      }
+    );
+    sources = list();
+    assets = list();
+    build = "atlas.build";
+    navigation = {
+      label = "Atlas";
+      route = "atlas.html"
+    };
+    grants = {
+      build = list("runtime.bundle");
+      browser = list(
+        "storage.read",
+        "state.get",
+        "text.split",
+        "state.set",
+        "text.join",
+        "storage.write",
+        "browser.select",
+        "browser.attribute",
+        "dom.exists",
+        "dom.hidden",
+        "dom.text",
+        "storage.remove",
+        "browser.class",
+        "dom.on",
+        "browser.on",
+        "browser.cancel",
+        "browser.mediaQuery",
+        "dom.attribute"
+      )
+    };
+    outputs = list("atlas.html", "atlas-runtime.js");
+    render = "atlas.view";
+    runtime = {
+      entry = "atlas.journey.boot";
+      profile = "atlasBrowser";
+      output = "atlas-runtime.js";
+      allPages = true
+    };
+    files = list(
+      {
+        source = "README.md";
+        target = "docs/packs/atlas.md"
+      }
+    )
+  }

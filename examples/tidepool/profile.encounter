@@ -1,0 +1,168 @@
+process-module "temple/surface-process-module/1"
+
+process composition.definition:
+  let result = {
+    protocol = "worldwright/profile/1";
+    features = list(
+      "reader",
+      "sources",
+      "atlas",
+      "microsites",
+      "authoring",
+      "claims",
+      "workshop",
+      "inspector",
+      "programmes",
+      "models",
+      "media",
+      "motion",
+      "activities",
+      "curvature"
+    );
+    files = list(
+      {
+        owner = "core";
+        source = "source/world.rel";
+        target = "source/world.rel";
+        kind = "facts"
+      },
+      {
+        owner = "core";
+        source = "source/presentation.encounter";
+        target = "source/presentation.rel";
+        kind = "facts"
+      },
+      {
+        owner = "core";
+        source = "assets/tidepool-chart.svg";
+        target = "assets/tidepool-chart.svg";
+        kind = "asset"
+      },
+      {
+        owner = "media";
+        source = "source/media.mounts.rel";
+        target = "source/media.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "media";
+        source = "source/media.encounter";
+        target = "source/media.rel";
+        kind = "facts"
+      },
+      {
+        owner = "motion";
+        source = "source/motion.mounts.rel";
+        target = "source/motion.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "motion";
+        source = "source/motion.encounter";
+        target = "source/motion.rel";
+        kind = "facts"
+      },
+      {
+        owner = "models";
+        source = "source/models.mounts.rel";
+        target = "source/models.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "models";
+        source = "source/models.encounter";
+        target = "source/models.rel";
+        kind = "facts"
+      },
+      {
+        owner = "claims";
+        source = "source/claims.mounts.rel";
+        target = "source/claims.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "claims";
+        source = "source/claims.encounter";
+        target = "source/claims.rel";
+        kind = "facts"
+      },
+      {
+        owner = "inspector";
+        source = "source/inspector.mounts.rel";
+        target = "source/inspector.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "inspector";
+        source = "source/inspector.encounter";
+        target = "source/inspector.rel";
+        kind = "facts"
+      },
+      {
+        owner = "workshop";
+        source = "source/workshop.mounts.rel";
+        target = "source/workshop.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "workshop";
+        source = "source/workshop.encounter";
+        target = "source/workshop.rel";
+        kind = "facts"
+      },
+      {
+        owner = "programmes";
+        source = "source/programmes.mounts.rel";
+        target = "source/programmes.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "programmes";
+        source = "source/programmes.encounter";
+        target = "source/programmes.rel";
+        kind = "facts"
+      },
+      {
+        owner = "activities";
+        source = "source/activities.mounts.rel";
+        target = "source/activities.mounts.rel";
+        kind = "facts"
+      },
+      {
+        owner = "activities";
+        source = "source/activities.encounter";
+        target = "source/activities.rel";
+        kind = "facts"
+      },
+      {
+        owner = "curvature";
+        kind = "facts";
+        source = "source/curvature.mounts.rel";
+        target = "source/curvature.mounts.rel"
+      },
+      {
+        owner = "curvature";
+        kind = "facts";
+        source = "source/curvature.encounter";
+        target = "source/curvature.rel"
+      },
+      {
+        owner = "curvature";
+        kind = "asset";
+        source = "assets/tidepool-dawn-v1.webp";
+        target = "assets/tidepool-dawn-v1.webp"
+      },
+      {
+        owner = "curvature";
+        kind = "asset";
+        source = "assets/tidepool-night-v1.webp";
+        target = "assets/tidepool-night-v1.webp"
+      },
+      {
+        owner = "curvature";
+        kind = "asset";
+        source = "artwork-provenance.json";
+        target = "assets/tidepool-artwork-provenance.json"
+      }
+    )
+  }
