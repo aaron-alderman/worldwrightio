@@ -45,12 +45,26 @@ Ask follow-ups such as "What would change this explanation?", "Which connection 
 
 Choose a purpose, an audience and a little material you have permission to use. Two or three places and a source are enough to begin. Reader and sources are the default small selection; maps, editors and other packs can come later when they serve a real purpose.
 
-In a terminal, start from a directory where you want to keep the framework checkout. If you already have it, open that existing directory instead of cloning again.
+### Set up the Encounter compiler
+
+Composing a world requires Node.js 22 or newer and the Encounter compiler. In a POSIX-compatible shell, start from the directory where you want to keep the two checkouts. If you already have either checkout, reuse it rather than cloning it again. Use a separate Encounter checkout if you need to keep an existing one on another revision.
 
 ```sh
 git clone https://github.com/aaron-alderman/worldwrightio.git worldwright
+git clone https://github.com/aaron-alderman/encounter-platform.git encounter-platform
+git -C encounter-platform checkout --detach d0dbabcf375754a1a4920c564ee5face2a2d2e42
 cd worldwright
 node --version
+export WORLDWRIGHT_ENCOUNTER_LIBRARY="$(cd ../encounter-platform && pwd)/applications/encounter-libraries/worldwright-source.cjs"
+```
+
+This is the compiler revision used by Worldwright's Pages build. If you keep the checkouts elsewhere, set the variable to the adapter's absolute path in the pinned Encounter checkout. Keep the full Encounter checkout in place; the adapter uses other compiler files in it. Set the variable again when composing from a new terminal.
+
+### Compose, build and preview
+
+From the Worldwright checkout in the same terminal:
+
+```sh
 node tooling/compose-world.mjs worlds/my-world --features reader,sources
 cd worlds/my-world
 node build.mjs
@@ -60,7 +74,7 @@ node serve.mjs
 
 Use a new destination name if it already exists. Open the local URL printed by the preview server. Stop the server with Ctrl+C when you finish. These build, test and preview commands run inside your generated world. The framework repository has a separate, broader qualification suite.
 
-These commands need Node, without an npm installation or dependency download. If npm is available, the equivalent package scripts are `npm run build`, `npm test` and `npm run dev`.
+The generated world builds, tests and previews with Node alone. It does not need the Encounter checkout, the compiler variable or an npm install. If npm is available, the equivalent commands in the generated world are `npm run build`, `npm test` and `npm run dev`.
 
 Give your coding agent a concrete brief:
 
@@ -113,7 +127,7 @@ Do not publish or incur new charges without my explicit authorization.
 
 ## Add features and update deliberately
 
-Before recomposition, save a complete known-good version, including custom assets and any local code changes. From the framework checkout, an existing composed world can add an atlas with:
+Before recomposition, save a complete known-good version, including custom assets and any local code changes. With the [Encounter compiler configured](#set-up-the-encounter-compiler), an existing composed world can add an atlas from the framework checkout with:
 
 ```sh
 node tooling/compose-world.mjs worlds/my-world --features reader,sources,atlas --replace
