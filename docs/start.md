@@ -4,6 +4,8 @@ New to working with an agent? Start with the free [Bring your own agent guide](b
 
 Tell your agent the purpose, audience, material and the few experiences that will help a reader. Point it at this repository and AGENTS.md. Choose packs from the composition guide.
 
+Before composing, [set up the pinned Encounter compiler](bring-your-own-agent.html#set-up-the-encounter-compiler). Run these commands from the Worldwright checkout in the same terminal.
+
 ```sh
 node tooling/compose-world.mjs worlds/my-world --features reader,sources,atlas
 cd worlds/my-world

@@ -2,6 +2,8 @@
 
 Worldwright packs are independently selected bundles of process algebra, source facts, assets and explicit permissions. A world does not need to copy the historical expedition. Dependencies are resolved before files are written; an unselected pack contributes no modules, assets, runtime or effect grants.
 
+Before composing, [set up the pinned Encounter compiler](bring-your-own-agent.html#set-up-the-encounter-compiler). Run these commands from the Worldwright checkout in the same terminal.
+
 ```sh
 node tooling/compose-world.mjs worlds/my-world --features reader,sources,atlas
 cd worlds/my-world
